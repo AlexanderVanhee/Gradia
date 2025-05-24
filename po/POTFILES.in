@@ -1,8 +1,12 @@
-# List of source files containing translatable strings.
-# Please keep this file sorted alphabetically.
 data/be.alexandervanhee.gradia.desktop.in
 data/be.alexandervanhee.gradia.metainfo.xml.in
 data/be.alexandervanhee.gradia.gschema.xml
+src/clipboard.py
+src/graphics/background.py
+src/graphics/gradient.py
+src/graphics/image_processor.py
+src/graphics/text.py
 src/main.py
-src/window.py
-src/window.ui
+src/ui/misc.py
+src/ui/ui_parts.py
+src/ui/window.py

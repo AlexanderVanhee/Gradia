@@ -16,6 +16,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import gi
+from gettext import gettext as _
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
@@ -124,7 +125,7 @@ def create_image_stack(on_file_dropped, on_open_clicked):
     stack.add_controller(drop_target)
 
     # Status page with button child
-    open_status_btn = Gtk.Button.new_with_label("Open Image...")
+    open_status_btn = Gtk.Button.new_with_label(_("Open Image..."))
     open_status_btn.set_halign(Gtk.Align.CENTER)
     style_context = open_status_btn.get_style_context()
     style_context.add_class("suggested-action")
@@ -134,7 +135,7 @@ def create_image_stack(on_file_dropped, on_open_clicked):
 
     status_page = Adw.StatusPage.new()
     status_page.set_icon_name("image-x-generic-symbolic")
-    status_page.set_title("No Image Loaded")
+    status_page.set_title(_("No Image Loaded"))
     status_page.set_description("Drag and drop one here")
     status_page.set_child(open_status_btn)
 

@@ -234,10 +234,15 @@ class GradientSelector:
                     min-width: 60px;
                     min-height: 40px;
                     background-size: cover;
-                    border-radius: 10px;
-                    border: 1px solid rgba(0,0,0,0.1);
+                    border-radius: 12px;
+                    transition:filter 0.2s ease;
+                }}
+                button#{gradient_name}:hover,
+                button#{gradient_name}:focus-visible {{
+                    filter: brightness(1.15);
                 }}
             """
+
             css_provider = Gtk.CssProvider()
             css_provider.load_from_string(css)
             Gtk.StyleContext.add_provider_for_display(
