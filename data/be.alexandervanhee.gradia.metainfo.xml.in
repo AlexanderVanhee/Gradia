@@ -46,7 +46,7 @@
 
   <releases>
     <release version="1.1.0" date="2025-05-25">
-      <description>
+      <description translate="no">
         <p>Minor post initial release includes:</p>
         <ul>
           <li>Adding optional shadows</li>
@@ -56,7 +56,7 @@
       </description>
     </release>
     <release version="1.0.0" date="2025-05-20">
-      <description>
+      <description translate="no">
         <p>Initial release of Gradia. Includes:</p>
         <ul>
           <li>Background editing for screenshots</li>

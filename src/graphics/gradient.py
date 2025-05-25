@@ -122,10 +122,10 @@ class GradientSelector:
         self.widget = self._build()
 
     def _build(self):
-        group = Adw.PreferencesGroup(title="Gradient Background")
+        group = Adw.PreferencesGroup(title=_("Gradient Background"))
         icon_button = Gtk.Button(
             icon_name="columns-symbolic",
-            tooltip_text="Gradient Presets",
+            tooltip_text=_("Gradient Presets"),
             valign=Gtk.Align.CENTER,
             focusable=False,
             can_focus=False
@@ -134,8 +134,8 @@ class GradientSelector:
         icon_button.get_style_context().add_class("flat")
         group.set_header_suffix(icon_button)
 
-        group.add(self._color_row("Start Color", self.gradient.start_color, self._on_start))
-        group.add(self._color_row("End Color", self.gradient.end_color, self._on_end))
+        group.add(self._color_row(_("Start Color"), self.gradient.start_color, self._on_start))
+        group.add(self._color_row(_("End Color"), self.gradient.end_color, self._on_end))
         group.add(self._angle_row())
 
         return group
@@ -145,9 +145,9 @@ class GradientSelector:
         button = self._color_button(value, handler)
         row.add_suffix(button)
 
-        if label == "Start Color":
+        if label == _("Start Color"):
             self.start_color_button = button
-        elif label == "End Color":
+        elif label == _("End Color"):
             self.end_color_button = button
 
         return row
@@ -166,7 +166,7 @@ class GradientSelector:
     def _angle_row(self):
         adj = Gtk.Adjustment(value=self.gradient.angle, lower=0, upper=360, step_increment=45)
 
-        row = Adw.SpinRow(title="Angle", numeric=True, adjustment=adj)
+        row = Adw.SpinRow(title=_("Angle"), numeric=True, adjustment=adj)
         row.connect("output", self._on_angle)
 
         self.angle_spin_row = row

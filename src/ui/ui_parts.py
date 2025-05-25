@@ -23,26 +23,26 @@ def create_header_bar():
     # Open button
     open_btn = Gtk.Button.new_from_icon_name("document-open-symbolic")
     open_btn.get_style_context().add_class("flat")
-    open_btn.set_tooltip_text("Open Image")
+    open_btn.set_tooltip_text(_("Open Image"))
     open_btn.set_action_name("app.open")
     header_bar.pack_start(open_btn)
 
     # Copy from clipboard button
     copy_btn = Gtk.Button.new_from_icon_name("clipboard-symbolic")
     copy_btn.get_style_context().add_class("flat")
-    copy_btn.set_tooltip_text("Paste from Clipboard")
+    copy_btn.set_tooltip_text(_("Paste from Clipboard"))
     copy_btn.set_action_name("app.paste")
     header_bar.pack_start(copy_btn)
 
     # About menu button with popover menu
     about_menu_btn = Gtk.MenuButton(icon_name="open-menu-symbolic")
     about_menu_btn.get_style_context().add_class("flat")
-    about_menu_btn.set_tooltip_text("Main Menu")
+    about_menu_btn.set_tooltip_text(_("Main Menu"))
     about_menu_btn.set_primary(True)
 
     menu = Gio.Menu()
-    menu.append("Keyboard Shortcuts", "app.shortcuts")
-    menu.append("About Gradia", "app.about")
+    menu.append(_("Keyboard Shortcuts"), "app.shortcuts")
+    menu.append(_("About Gradia"), "app.about")
 
     popover = Gtk.PopoverMenu()
     popover.set_menu_model(menu)
@@ -52,6 +52,7 @@ def create_header_bar():
     # Save button with icon and label inside a box
     button_content = Adw.ButtonContent(
         icon_name="document-save-symbolic",
+        # Translators: The prefixed underscore is used to indicate a mnemonic. Do NOT remove it.
         label=_("_Save Image"),
         use_underline=True
     )
@@ -64,7 +65,7 @@ def create_header_bar():
     # Copy to clipboard button (right)
     copy_right_btn = Gtk.Button.new_from_icon_name("edit-copy-symbolic")
     copy_right_btn.get_style_context().add_class("suggested-action")
-    copy_right_btn.set_tooltip_text("Copy to Clipboard")
+    copy_right_btn.set_tooltip_text(_("Copy to Clipboard"))
     copy_right_btn.set_sensitive(False)
     copy_right_btn.set_action_name("app.copy")
 
@@ -116,7 +117,9 @@ def create_image_stack():
     stack.add_controller(drop_target)
 
     # Status page with button child
-    open_status_btn = Gtk.Button.new_with_label("Open Image…")
+    # Translators: The prefixed underscore is used to indicate a mnemonic. Do NOT remove it.
+    open_status_btn = Gtk.Button.new_with_label(_("_Open Image…"))
+    open_status_btn.set_use_underline(True)
     open_status_btn.set_halign(Gtk.Align.CENTER)
     style_context = open_status_btn.get_style_context()
     style_context.add_class("pill")
@@ -126,8 +129,8 @@ def create_image_stack():
 
     status_page = Adw.StatusPage.new()
     status_page.set_icon_name("image-x-generic-symbolic")
-    status_page.set_title("No Image Loaded")
-    status_page.set_description("Drag and drop one here")
+    status_page.set_title(_("No Image Loaded"))
+    status_page.set_description(_("Drag and drop one here"))
     status_page.set_child(open_status_btn)
 
     stack.add_named(status_page, "empty")
@@ -137,19 +140,19 @@ def create_image_stack():
 
 
 def create_image_options_group( on_padding_changed, on_aspect_ratio_changed, on_corner_radius_changed, on_shadow_strength_changed):
-    padding_group = Adw.PreferencesGroup(title="Image Options")
+    padding_group = Adw.PreferencesGroup(title=_("Image Options"))
 
     padding_adjustment = Gtk.Adjustment(value=5, lower=-25, upper=75, step_increment=5, page_increment=5)
-    padding_row = Adw.SpinRow(title="Padding", numeric=True, adjustment=padding_adjustment)
+    padding_row = Adw.SpinRow(title=_("Padding"), numeric=True, adjustment=padding_adjustment)
     padding_row.connect("output", on_padding_changed)
     padding_group.add(padding_row)
 
     corner_radius_adjustment = Gtk.Adjustment(value=2, lower=0, upper=50, step_increment=1, page_increment=1)
-    corner_radius_row = Adw.SpinRow(title="Corner Radius", numeric=True, adjustment=corner_radius_adjustment)
+    corner_radius_row = Adw.SpinRow(title=_("Corner Radius"), numeric=True, adjustment=corner_radius_adjustment)
     corner_radius_row.connect("output", on_corner_radius_changed)
     padding_group.add(corner_radius_row)
 
-    aspect_ratio_row = Adw.ActionRow(title="Aspect Ratio")
+    aspect_ratio_row = Adw.ActionRow(title=_("Aspect Ratio"))
     aspect_ratio_entry = Gtk.Entry(placeholder_text="16:9", valign=Gtk.Align.CENTER)
     aspect_ratio_entry.connect("changed", on_aspect_ratio_changed)
     aspect_ratio_row.add_suffix(aspect_ratio_entry)
@@ -176,9 +179,9 @@ def create_image_options_group( on_padding_changed, on_aspect_ratio_changed, on_
 def create_file_info_group():
     file_info_group = Adw.PreferencesGroup(title="Current File")
 
-    filename_row = Adw.ActionRow(title="Name", subtitle="No file loaded")
-    location_row = Adw.ActionRow(title="Location", subtitle="No file loaded")
-    processed_size_row = Adw.ActionRow(title="Modified image size", subtitle="N/A")
+    filename_row = Adw.ActionRow(title=_("Name"), subtitle=_("No file loaded"))
+    location_row = Adw.ActionRow(title=_("Location"), subtitle=_("No file loaded"))
+    processed_size_row = Adw.ActionRow(title=_("Modified image size"), subtitle="N/A")
 
     file_info_group.add(filename_row)
     file_info_group.add(location_row)
@@ -221,7 +224,7 @@ def create_about_dialog(version):
     about = Adw.AboutDialog(
         application_name="Gradia",
         version=version,
-        comments="Make your images ready for the world",
+        comments=_("Make your images ready for the world"),
         website="https://github.com/AlexanderVanhee/Gradia",
         developer_name="Alexander Vanhee",
         application_icon="be.alexandervanhee.gradia"
@@ -234,28 +237,28 @@ def create_about_dialog(version):
 def create_shortcuts_dialog(parent=None):
     dialog = Gtk.ShortcutsWindow(transient_for=parent, modal=True)
     section = Gtk.ShortcutsSection(section_name="general",
-                                  title="General",
+                                  title=_("General"),
                                   visible=True)
 
-    group = Gtk.ShortcutsGroup(title="File Actions", visible=True)
+    group = Gtk.ShortcutsGroup(title=_("File Actions"), visible=True)
 
     group.add_shortcut(Gtk.ShortcutsShortcut(
-        title="Open file",
+        title=_("Open file"),
         accelerator="<Ctrl>O",
         visible=True
     ))
     group.add_shortcut(Gtk.ShortcutsShortcut(
-        title="Save to file",
+        title=_("Save to file"),
         accelerator="<Ctrl>S",
         visible=True
     ))
     group.add_shortcut(Gtk.ShortcutsShortcut(
-        title="Copy modified image to clipboard",
+        title=_("Copy modified image to clipboard"),
         accelerator="<Ctrl>C",
         visible=True
     ))
     group.add_shortcut(Gtk.ShortcutsShortcut(
-        title="Paste from clipboard",
+        title=_("Paste from clipboard"),
         accelerator="<Ctrl>V",
         visible=True
     ))

@@ -278,9 +278,9 @@ class GradientWindow:
                 size_str = f"{width}x{height}"
                 self.sidebar_info['processed_size_row'].set_subtitle(size_str)
             else:
-                self.sidebar_info['processed_size_row'].set_subtitle("Unknown")
+                self.sidebar_info['processed_size_row'].set_subtitle(_("Unknown"))
         except Exception as e:
-            self.sidebar_info['processed_size_row'].set_subtitle("Error")
+            self.sidebar_info['processed_size_row'].set_subtitle(_("Error"))
             print(f"Error getting processed image size: {e}")
 
     def _show_notification(self, message):
