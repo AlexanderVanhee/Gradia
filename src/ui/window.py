@@ -39,7 +39,13 @@ class GradientWindow:
     PAGE_LOADING = "loading"
 
     # Image file extensions
-    SUPPORTED_EXTENSIONS = (".png", ".jpg", ".jpeg")
+    SUPPORTED_INPUT_FORMATS = [
+        (".png", "image/png"),
+        (".jpg", "image/jpg"),
+        (".jpeg", "image/jpeg"),
+        (".webp", "image/webp"),
+        (".avif", "image/avif"),
+    ]
 
     # Temp file names
     TEMP_PROCESSED_FILENAME = "processed.png"
@@ -263,9 +269,8 @@ class GradientWindow:
 
         image_filter = Gtk.FileFilter()
         image_filter.set_name(_("Image Files"))
-        image_filter.add_mime_type("image/png")
-        image_filter.add_mime_type("image/jpeg")
-        image_filter.add_mime_type("image/jpg")
+        for _, mime_type in self.SUPPORTED_INPUT_FORMATS:
+            image_filter.add_mime_type(mime_type)
 
         filters = Gio.ListStore.new(Gtk.FileFilter)
         filters.append(image_filter)
@@ -363,13 +368,19 @@ class GradientWindow:
             return False
 
         path = value.get_path()
-        if path and os.path.isfile(path) and path.lower().endswith(self.SUPPORTED_EXTENSIONS):
+        if not path or not os.path.isfile(path):
+            return False
+
+        lower_path = path.lower()
+        supported_extensions = [ext for ext, _mime in self.SUPPORTED_INPUT_FORMATS]
+
+        if any(lower_path.endswith(ext) for ext in supported_extensions):
             self.image_path = path
             self._update_sidebar_from_file(path)
             self._start_processing()
             return True
-        return False
 
+        return False
 
     def on_copy_from_clicked(self, button):
         self._previous_stack_child = self.image_stack.get_visible_child_name()
