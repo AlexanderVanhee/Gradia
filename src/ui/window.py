@@ -259,10 +259,10 @@ class GradientWindow:
 
     def on_open_clicked(self, button):
         file_dialog = Gtk.FileDialog()
-        file_dialog.set_title("Open Image")
+        file_dialog.set_title(_("Open Image"))
 
         image_filter = Gtk.FileFilter()
-        image_filter.set_name("Image Files")
+        image_filter.set_name(_("Image Files"))
         image_filter.add_mime_type("image/png")
         image_filter.add_mime_type("image/jpeg")
         image_filter.add_mime_type("image/jpg")
@@ -319,9 +319,9 @@ class GradientWindow:
                 size_str = f"{width}x{height}"
                 self.sidebar_info['processed_size_row'].set_subtitle(size_str)
             else:
-                self.sidebar_info['processed_size_row'].set_subtitle("Unknown")
+                self.sidebar_info['processed_size_row'].set_subtitle(_("Unknown"))
         except Exception as e:
-            self.sidebar_info['processed_size_row'].set_subtitle("Error")
+            self.sidebar_info['processed_size_row'].set_subtitle(_("Error"))
             print(f"Error getting processed image size: {e}")
 
     def on_save_clicked(self, button):
@@ -336,7 +336,7 @@ class GradientWindow:
             dynamic_name = self.TEMP_PROCESSED_FILENAME
 
         save_dialog.set_initial_name(dynamic_name)
-        png_filter = Gtk.FileFilter(name="PNG Image")
+        png_filter = Gtk.FileFilter(name=_("PNG Image"))
         png_filter.add_mime_type("image/png")
         filters = Gio.ListStore.new(Gtk.FileFilter)
         filters.append(png_filter)
@@ -394,17 +394,17 @@ class GradientWindow:
         except Exception as e:
             print(f"Error: {e}")
             if "No compatible transfer format found" in str(e):
-                self._show_notification("No image found in clipboard.")
+                self._show_notification(_("No image found in clipboard."))
             else:
-                self._show_notification("Failed to copy image to clipboard.")
+                self._show_notification(_("Failed to copy image to clipboard."))
                 print(f"Error processing clipboard image: {e}")
 
         finally:
             self._set_loading_state(False)
 
     def _update_sidebar_for_clipboard(self):
-        self.sidebar_info['filename_row'].set_subtitle("Clipboard Image")
-        self.sidebar_info['location_row'].set_subtitle("From clipboard")
+        self.sidebar_info['filename_row'].set_subtitle(_("Clipboard Image"))
+        self.sidebar_info['location_row'].set_subtitle(_("From clipboard"))
         self.sidebar.set_visible(True)
         self._set_save_and_copy_sensitive(True)
 
@@ -420,9 +420,9 @@ class GradientWindow:
         path = save_pixbuff_to_path(self.temp_dir, self.processed_pixbuf)
         try:
             copy_file_to_clipboard(path)
-            self._show_notification("Image copied to clipboard.")
+            self._show_notification(_("Image copied to clipboard."))
         except Exception as e:
-            self._show_notification("Failed to copy image to clipboard.")
+            self._show_notification(_("Failed to copy image to clipboard."))
             print(f"Error copying processed image to clipboard: {e}")
 
     def _show_notification(self, message):

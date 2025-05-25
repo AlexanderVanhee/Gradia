@@ -138,7 +138,7 @@ class TextSelector:
         self.widget, self.text_entry, self.color_button, self.size_row = self._build_ui()
 
     def _build_ui(self):
-        group = Adw.PreferencesGroup(title="Text Annotation")
+        group = Adw.PreferencesGroup(title=_("Text Annotation"))
         self._build_text_entry(group)
         self._build_color_button(group)
         self._build_size_spin(group)
@@ -146,8 +146,8 @@ class TextSelector:
         return group, self.text_entry, self.color_button, self.size_row
 
     def _build_text_entry(self, parent):
-        row = Adw.ActionRow(title="Text")
-        self.text_entry = Gtk.Entry(placeholder_text="Enter text")
+        row = Adw.ActionRow(title=_("Text"))
+        self.text_entry = Gtk.Entry(placeholder_text=_("Enter text"))
         self.text_entry.set_text(self.text_obj.text)
         self.text_entry.set_valign(Gtk.Align.CENTER)
         self.text_entry.connect("changed", self._on_text_changed)
@@ -155,7 +155,7 @@ class TextSelector:
         parent.add(row)
 
     def _build_color_button(self, parent):
-        row = Adw.ActionRow(title="Color")
+        row = Adw.ActionRow(title=_("Color"))
         self.color_button = Gtk.ColorButton()
         rgba = Gdk.RGBA()
         rgba.parse(self.text_obj.color)
@@ -170,7 +170,7 @@ class TextSelector:
             self.SIZE_SPIN_MIN, self.SIZE_SPIN_MAX, self.SIZE_SPIN_STEP
         )
 
-        row.set_title("Size")
+        row.set_title(_("Size"))
         row.set_value(self.text_obj.size)
         row.connect("output", self._on_size_changed)
 
@@ -178,7 +178,7 @@ class TextSelector:
         parent.add(row)
 
     def _build_gravity_selector(self, parent):
-        action_row = Adw.ActionRow(title="Location")
+        action_row = Adw.ActionRow(title=_("Location"))
         self.gravity_display_button = Gtk.Button()
         self.gravity_display_button.set_valign(Gtk.Align.CENTER)
         self._update_gravity_button_display()

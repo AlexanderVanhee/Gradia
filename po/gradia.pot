@@ -1,0 +1,228 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the gradia package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: gradia\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-25 21:55+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: data/be.alexandervanhee.gradia.desktop.in:2
+#: data/be.alexandervanhee.gradia.metainfo.xml.in:13
+msgid "Gradia"
+msgstr ""
+
+#: data/be.alexandervanhee.gradia.desktop.in:8
+msgid "GTK;Image;Gradient;"
+msgstr ""
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in:14
+msgid "Make your screenshots ready for all"
+msgstr ""
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in:16
+msgid ""
+"On social media, it's often hard to control how your images appear to "
+"others. Transparent or oddly sized images, like screenshots often don't "
+"display well. Fixing these issues can feel like more trouble than it's worth."
+msgstr ""
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in:21
+msgid ""
+"This tool aims to alleviate that problem by allowing you to quickly edit "
+"images to address these issues, while also offering options to enhance their "
+"overall appearance."
+msgstr ""
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in:29
+msgid "Alexander Vanhee"
+msgstr ""
+
+#: src/graphics/gradient.py:125
+msgid "Gradient Background"
+msgstr ""
+
+#: src/graphics/gradient.py:128
+msgid "Gradient Presets"
+msgstr ""
+
+#: src/graphics/gradient.py:137 src/graphics/gradient.py:148
+msgid "Start Color"
+msgstr ""
+
+#: src/graphics/gradient.py:138 src/graphics/gradient.py:150
+msgid "End Color"
+msgstr ""
+
+#: src/graphics/gradient.py:169
+msgid "Angle"
+msgstr ""
+
+#: src/graphics/text.py:141
+msgid "Text Annotation"
+msgstr ""
+
+#: src/graphics/text.py:149
+msgid "Text"
+msgstr ""
+
+#: src/graphics/text.py:150
+msgid "Enter text"
+msgstr ""
+
+#: src/graphics/text.py:158
+msgid "Color"
+msgstr ""
+
+#: src/graphics/text.py:173
+msgid "Size"
+msgstr ""
+
+#: src/graphics/text.py:181 src/ui/ui_parts.py:183
+msgid "Location"
+msgstr ""
+
+#: src/ui/ui_parts.py:26 src/ui/window.py:262
+msgid "Open Image"
+msgstr ""
+
+#: src/ui/ui_parts.py:33
+msgid "Paste from Clipboard"
+msgstr ""
+
+#: src/ui/ui_parts.py:40
+msgid "Main Menu"
+msgstr ""
+
+#: src/ui/ui_parts.py:44
+msgid "Keyboard Shortcuts"
+msgstr ""
+
+#: src/ui/ui_parts.py:45
+msgid "About Gradia"
+msgstr ""
+
+#. Translators: The prefixed underscore is used to indicate a mnemonic. Do NOT remove it.
+#: src/ui/ui_parts.py:57
+msgid "_Save Image"
+msgstr ""
+
+#: src/ui/ui_parts.py:70
+msgid "Copy to Clipboard"
+msgstr ""
+
+#. Status page with button child
+#. Translators: The prefixed underscore is used to indicate a mnemonic. Do NOT remove it.
+#: src/ui/ui_parts.py:122
+msgid "_Open Image…"
+msgstr ""
+
+#: src/ui/ui_parts.py:133
+msgid "No Image Loaded"
+msgstr ""
+
+#: src/ui/ui_parts.py:134
+msgid "Drag and drop one here"
+msgstr ""
+
+#: src/ui/ui_parts.py:143
+msgid "Image Options"
+msgstr ""
+
+#: src/ui/ui_parts.py:146
+msgid "Padding"
+msgstr ""
+
+#: src/ui/ui_parts.py:151
+msgid "Corner Radius"
+msgstr ""
+
+#: src/ui/ui_parts.py:155
+msgid "Aspect Ratio"
+msgstr ""
+
+#: src/ui/ui_parts.py:182
+msgid "Name"
+msgstr ""
+
+#: src/ui/ui_parts.py:182 src/ui/ui_parts.py:183
+msgid "No file loaded"
+msgstr ""
+
+#: src/ui/ui_parts.py:184
+msgid "Modified image size"
+msgstr ""
+
+#: src/ui/ui_parts.py:227
+msgid "Make your images ready for the world"
+msgstr ""
+
+#: src/ui/ui_parts.py:240
+msgid "General"
+msgstr ""
+
+#: src/ui/ui_parts.py:243
+msgid "File Actions"
+msgstr ""
+
+#: src/ui/ui_parts.py:246
+msgid "Open file"
+msgstr ""
+
+#: src/ui/ui_parts.py:251
+msgid "Save to file"
+msgstr ""
+
+#: src/ui/ui_parts.py:256
+msgid "Copy modified image to clipboard"
+msgstr ""
+
+#: src/ui/ui_parts.py:261
+msgid "Paste from clipboard"
+msgstr ""
+
+#: src/ui/window.py:265
+msgid "Image Files"
+msgstr ""
+
+#: src/ui/window.py:322
+msgid "Unknown"
+msgstr ""
+
+#: src/ui/window.py:324
+msgid "Error"
+msgstr ""
+
+#: src/ui/window.py:339
+msgid "PNG Image"
+msgstr ""
+
+#: src/ui/window.py:397
+msgid "No image found in clipboard."
+msgstr ""
+
+#: src/ui/window.py:399 src/ui/window.py:425
+msgid "Failed to copy image to clipboard."
+msgstr ""
+
+#: src/ui/window.py:406
+msgid "Clipboard Image"
+msgstr ""
+
+#: src/ui/window.py:407
+msgid "From clipboard"
+msgstr ""
+
+#: src/ui/window.py:423
+msgid "Image copied to clipboard."
+msgstr ""
