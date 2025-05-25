@@ -18,14 +18,8 @@
 import os
 import io
 from PIL import Image, ImageDraw, ImageChops, ImageFilter
-import gi
-gi.require_version("Gtk", "4.0")
-gi.require_version("Adw", "1")
-from gi.repository import GdkPixbuf
 
-from .gradient import GradientBackground
-from .background import Background
-from .text import Text
+from gi.repository import GdkPixbuf
 
 class ImageProcessor:
     def __init__(self, image_path=None, background=None, padding=5, aspect_ratio=None, text=None, corner_radius=2, shadow_strength=0):

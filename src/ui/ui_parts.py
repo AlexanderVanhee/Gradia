@@ -15,11 +15,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import gi
-gi.require_version("Gtk", "4.0")
-gi.require_version("Adw", "1")
-
-from gi.repository import Gtk, Gio, Adw, Gdk, GLib
+from gi.repository import Gtk, Gio, Adw, Gdk
 
 def create_header_bar(save_btn_ref, on_open_clicked, on_save_clicked, on_copy_from_clicked, on_copy_to_clicked):
     header_bar = Adw.HeaderBar()

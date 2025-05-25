@@ -16,15 +16,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import sys
-import gi
 import tempfile
 import shutil
 
-gi.require_version('Gtk', '4.0')
-gi.require_version('Adw', '1')
-gi.require_version('Gio', '2.0')
-
-from gi.repository import Adw, Gtk, Gio, GLib
+from gi.repository import Adw, Gio
 from .window import GradientWindow
 
 class GradiaApp(Adw.Application):

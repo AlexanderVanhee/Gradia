@@ -15,13 +15,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import os
 import ctypes
 from ctypes import c_int, c_double, c_uint8, POINTER
 from PIL import Image
 from gi.repository import Gtk, Gdk, Adw
-
-from .background import Background
 
 class GradientBackground:
     _gradient_cache = {}
