@@ -31,6 +31,7 @@ localedir = '@localedir@'
 
 sys.path.insert(1, pkgdatadir)
 signal.signal(signal.SIGINT, signal.SIG_DFL)
+
 locale.bindtextdomain('gradia', localedir)
 locale.textdomain('gradia')
 gettext.install('gradia', localedir)
@@ -38,11 +39,17 @@ gettext.install('gradia', localedir)
 if __name__ == '__main__':
     import gi
 
+    gi.require_version('Gtk', '4.0')
+    gi.require_version('Adw', '1')
+
     from gi.repository import Gio
-    resource = Gio.Resource.load(os.path.join(pkgdatadir, 'gradia.gresource'))
+
+    resource = Gio.Resource.load(
+        os.path.join(pkgdatadir, 'gradia.gresource'))
     resource._register()
 
-    resourceData = Gio.Resource.load(os.path.join(pkgdatadir, 'resources.gresource'))
+    resourceData = Gio.Resource.load(
+        os.path.join(pkgdatadir, 'resources.gresource'))
     resourceData._register()
 
     from gradia import main

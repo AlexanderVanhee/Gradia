@@ -17,18 +17,12 @@
 
 import os
 import shutil
-import gi
 import threading
-import subprocess
-import cairo
 
-gi.require_version("Gtk", "4.0")
-gi.require_version("Adw", "1")
-
-from gi.repository import Gtk, Gio, Gsk, Adw, Gdk, GLib, Graphene, GdkPixbuf
+from gi.repository import Gtk, Gio, Adw, Gdk, GLib
 from .image_processor import ImageProcessor
 from .gradient import GradientSelector, GradientBackground
-from .text import Text, TextSelector
+from .text import TextSelector
 from .ui_parts import *
 from .clipboard import *
 from .misc import *

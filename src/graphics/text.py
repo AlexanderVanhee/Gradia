@@ -15,11 +15,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from PIL import Image, ImageDraw, ImageFont
-import gi
+from PIL import ImageDraw, ImageFont
 
-gi.require_version("Gtk", "4.0")
-gi.require_version("Adw", "1")
 from gi.repository import Gtk, Gdk, Adw
 
 
