@@ -398,9 +398,9 @@ class GradientWindow:
             self._start_processing()
 
         except Exception as e:
-            print("Error" + e)
+            print(f"Error: {e}")
             if "No compatible transfer format found" in str(e):
-                self._show_notification("Clipboard does not contain an image.")
+                self._show_notification("No image found in clipboard.")
             else:
                 self._show_notification("Failed to copy image to clipboard.")
                 print(f"Error processing clipboard image: {e}")
@@ -426,7 +426,7 @@ class GradientWindow:
         path = save_pixbuff_to_path(self.temp_dir, self.processed_pixbuf)
         try:
             copy_file_to_clipboard(path)
-            self._show_notification("Modified image copied to clipboard.")
+            self._show_notification("Image copied to clipboard.")
         except Exception as e:
             self._show_notification("Failed to copy image to clipboard.")
             print(f"Error copying processed image to clipboard: {e}")

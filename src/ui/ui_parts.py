@@ -41,7 +41,8 @@ def create_header_bar(save_btn_ref, on_open_clicked, on_save_clicked, on_copy_fr
     # About menu button with popover menu
     about_menu_btn = Gtk.MenuButton(icon_name="open-menu-symbolic")
     about_menu_btn.get_style_context().add_class("flat")
-    about_menu_btn.set_tooltip_text("Main menu")
+    about_menu_btn.set_tooltip_text("Main Menu")
+    about_menu_btn.set_primary(True)
 
     menu = Gio.Menu()
     menu.append("Keyboard Shortcuts", "app.shortcuts")
@@ -120,7 +121,7 @@ def create_image_stack(on_file_dropped, on_open_clicked):
     stack.add_controller(drop_target)
 
     # Status page with button child
-    open_status_btn = Gtk.Button.new_with_label("Open Image...")
+    open_status_btn = Gtk.Button.new_with_label("Open Image…")
     open_status_btn.set_halign(Gtk.Align.CENTER)
     style_context = open_status_btn.get_style_context()
     style_context.add_class("suggested-action")
