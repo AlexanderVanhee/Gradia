@@ -168,6 +168,8 @@ def create_image_options_group( on_padding_changed, on_aspect_ratio_changed, on_
     )
     shadow_strength_scale.set_valign(Gtk.Align.CENTER)
     shadow_strength_scale.set_hexpand(True)
+    shadow_strength_scale.set_draw_value(True)
+    shadow_strength_scale.set_value_pos(Gtk.PositionType.RIGHT)
     shadow_strength_scale.connect("value-changed", on_shadow_strength_changed)
     shadow_strength_row.add_suffix(shadow_strength_scale)
     shadow_strength_row.set_activatable_widget(shadow_strength_scale)
