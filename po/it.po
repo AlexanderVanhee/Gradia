@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-24 16:05+0200\n"
-"PO-Revision-Date: 2025-05-25 18:44+0200\n"
+"PO-Revision-Date: 2025-05-25 18:48+0200\n"
 "Last-Translator: Raffaele Gualtieri <raffaelegual@tutamail.com>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: src/ui/ui_parts.py:128
 msgid "Open Image..."
-msgstr "Aprire l'immagine..."
+msgstr "Inserisci un immagine"
 
 #: src/ui/ui_parts.py:138
 msgid "No Image Loaded"
