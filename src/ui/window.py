@@ -67,7 +67,7 @@ class GradientWindow:
             callback=self._on_text_changed
         )
 
-        self.processor = ImageProcessor(padding=0.05, background=GradientBackground())
+        self.processor = ImageProcessor(padding=5, background=GradientBackground())
 
         # UI elements (populated during build_ui)
         self.win = None
