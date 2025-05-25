@@ -44,8 +44,8 @@ def create_header_bar(save_btn_ref, on_open_clicked, on_save_clicked, on_copy_fr
     about_menu_btn.set_tooltip_text("Main menu")
 
     menu = Gio.Menu()
-    menu.append("About", "app.about")
-    menu.append("Shortcuts", "app.shortcuts")
+    menu.append("Keyboard Shortcuts", "app.shortcuts")
+    menu.append("About Gradia", "app.about")
 
     popover = Gtk.PopoverMenu()
     popover.set_menu_model(menu)
@@ -240,29 +240,29 @@ def create_shortcuts_dialog(parent=None):
 
     group = Gtk.ShortcutsGroup(title="File Actions", visible=True)
 
-    group.add(Gtk.ShortcutsShortcut(
+    group.add_shortcut(Gtk.ShortcutsShortcut(
         title="Open file",
         accelerator="<Ctrl>O",
         visible=True
     ))
-    group.add(Gtk.ShortcutsShortcut(
+    group.add_shortcut(Gtk.ShortcutsShortcut(
         title="Save to file",
         accelerator="<Ctrl>S",
         visible=True
     ))
-    group.add(Gtk.ShortcutsShortcut(
+    group.add_shortcut(Gtk.ShortcutsShortcut(
         title="Copy modified image to clipboard",
         accelerator="<Ctrl>C",
         visible=True
     ))
-    group.add(Gtk.ShortcutsShortcut(
+    group.add_shortcut(Gtk.ShortcutsShortcut(
         title="Paste from clipboard",
         accelerator="<Ctrl>V",
         visible=True
     ))
 
-    section.add(group)
-    dialog.add(section)
+    section.add_group(group)
+    dialog.add_section(section)
     dialog.connect("close-request", lambda dialog: dialog.destroy())
 
     return dialog
