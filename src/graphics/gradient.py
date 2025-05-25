@@ -126,7 +126,13 @@ class GradientSelector:
 
     def _build(self):
         group = Adw.PreferencesGroup(title="Gradient Background")
-        icon_button = Gtk.Button(icon_name="columns-symbolic", valign=Gtk.Align.CENTER, focusable=False, can_focus=False)
+        icon_button = Gtk.Button(
+            icon_name="columns-symbolic",
+            tooltip_text="Gradient Presets",
+            valign=Gtk.Align.CENTER,
+            focusable=False,
+            can_focus=False
+        )
         icon_button.connect("clicked", self._show_popover)
         icon_button.get_style_context().add_class("flat")
         group.set_header_suffix(icon_button)
