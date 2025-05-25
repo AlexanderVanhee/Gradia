@@ -1,0 +1,10 @@
+[project]
+name = "Gradia"
+version = "1.1.0"
+requires-python = ">=3.9"
+
+[tool.pyright]
+venvPath = "."
+venv = "venv"
+reportAttributeAccessIssue = false  # Attributes aren't available for Gtk.TemplateChild objects
+reportMissingModuleSource = false
