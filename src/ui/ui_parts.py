@@ -41,7 +41,9 @@ def create_header_bar():
     # About menu button with popover menu
     about_menu_btn = Gtk.MenuButton(icon_name="open-menu-symbolic")
     about_menu_btn.get_style_context().add_class("flat")
-    about_menu_btn.set_tooltip_text("Main menu")
+    about_menu_btn.set_tooltip_text("Main Menu")
+    about_menu_btn.set_primary(True)
+
     menu = Gio.Menu()
     menu.append("Keyboard Shortcuts", "app.shortcuts")
     menu.append("About Gradia", "app.about")
@@ -117,6 +119,7 @@ def create_image_stack():
     drop_target.connect("drop", on_file_dropped)
     stack.add_controller(drop_target)
 
+    # Status page with button child
     open_status_btn = Gtk.Button.new_with_label("Open Image…")
     open_status_btn.set_halign(Gtk.Align.CENTER)
     style_context = open_status_btn.get_style_context()
