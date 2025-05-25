@@ -84,6 +84,7 @@ class GradientWindow:
         self.main_paned = None
         self._previous_stack_child = self.PAGE_CONTENT
 
+        self.create_action("shortcuts", self._on_shortcuts_activated)
         self.create_action("about", self._on_about_activated)
         self.create_action('quit', lambda *_: self.app.quit(), ['<primary>q'])
 
