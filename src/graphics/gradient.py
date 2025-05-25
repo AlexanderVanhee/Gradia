@@ -121,7 +121,7 @@ class GradientSelector:
         self.popover = None
         self.start_color_button = None
         self.end_color_button = None
-        self.angle_spin_button = None
+        self.angle_spin_row = None
         self.widget = self._build()
 
     def _build(self):
@@ -161,18 +161,13 @@ class GradientSelector:
         return button
 
     def _angle_row(self):
-        row = Adw.ActionRow(title="Angle")
         adj = Gtk.Adjustment(value=self.gradient.angle, lower=0, upper=360, step_increment=45)
-        spin = Gtk.SpinButton(
-            adjustment=adj,
-            numeric=True,
-            valign=Gtk.Align.CENTER,
-            focusable=False,
-            can_focus=False
-        )
-        spin.connect("value-changed", self._on_angle)
-        self.angle_spin_button = spin
-        row.add_suffix(spin)
+
+        row = Adw.SpinRow(title="Angle", numeric=True, adjustment=adj)
+        row.connect("output", self._on_angle)
+
+        self.angle_spin_row = row
+
         return row
 
     def _on_start(self, button):
@@ -183,8 +178,8 @@ class GradientSelector:
         self.gradient.end_color = self._rgba_to_hex(button.get_rgba())
         self._notify()
 
-    def _on_angle(self, spin):
-        self.gradient.angle = int(spin.get_value())
+    def _on_angle(self, row: Adw.SpinRow):
+        self.gradient.angle = int(row.get_value())
         self._notify()
 
     def _notify(self):
@@ -262,8 +257,8 @@ class GradientSelector:
             self.start_color_button.set_rgba(self._hex_to_rgba(start))
         if self.end_color_button:
             self.end_color_button.set_rgba(self._hex_to_rgba(end))
-        if self.angle_spin_button:
-            self.angle_spin_button.set_value(angle)
+        if self.angle_spin_row:
+            self.angle_spin_row.set_value(angle)
 
         self._notify()
 

@@ -146,14 +146,8 @@ class GradientWindow:
     def _setup_sidebar(self):
         self.sidebar_info = create_sidebar_ui(
             gradient_selector_widget=self.gradient_selector.widget,
-            on_padding_changed=lambda w: (
-                setattr(self.processor, "padding", int(w.get_value())),
-                self._trigger_processing()
-            ),
-            on_corner_radius_changed=lambda w: (
-                setattr(self.processor, "corner_radius", int(w.get_value())),
-                self._trigger_processing()
-            ),
+            on_padding_changed=self.on_padding_changed,
+            on_corner_radius_changed=self.on_corner_radius_changed,
             text_selector_widget=self.text_selector.widget,
             on_aspect_ratio_changed=self.on_aspect_ratio_changed,
             on_shadow_strength_changed=self.on_shadow_strength_changed,
@@ -218,6 +212,14 @@ class GradientWindow:
 
     def _on_text_changed(self, updated_text):
         self.processor.text = updated_text
+        self._trigger_processing()
+
+    def on_padding_changed(self, row: Adw.SpinRow):
+        setattr(self.processor, "padding", int(row.get_value()))
+        self._trigger_processing()
+
+    def on_corner_radius_changed(self, row: Adw.SpinRow):
+        setattr(self.processor, "corner_radius", int(row.get_value()))
         self._trigger_processing()
 
     def on_aspect_ratio_changed(self, entry):
