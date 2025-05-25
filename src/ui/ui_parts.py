@@ -143,23 +143,18 @@ def create_image_stack(on_file_dropped, on_open_clicked):
 
     return stack, picture, spinner
 
-def create_image_options_group( on_padding_changed, on_aspect_ratio_changed, on_corner_radius_changed, on_shadow_strength_changed):
+def create_image_options_group(on_padding_changed, on_aspect_ratio_changed, on_corner_radius_changed, on_shadow_strength_changed):
     padding_group = Adw.PreferencesGroup(title="Image Options")
 
-    padding_row = Adw.ActionRow(title="Padding")
     padding_adjustment = Gtk.Adjustment(value=5, lower=-25, upper=75, step_increment=5, page_increment=5)
-    padding_spinner = Gtk.SpinButton(adjustment=padding_adjustment, numeric=True, valign=Gtk.Align.CENTER)
-    padding_spinner.connect("value-changed", on_padding_changed)
-    padding_row.add_suffix(padding_spinner)
+    padding_row = Adw.SpinRow(title="Padding", numeric=True, adjustment=padding_adjustment)
+    padding_row.connect("output", on_padding_changed)
     padding_group.add(padding_row)
 
-    corner_radius_row = Adw.ActionRow(title="Corner Radius")
     corner_radius_adjustment = Gtk.Adjustment(value=2, lower=0, upper=50, step_increment=1, page_increment=1)
-    corner_radius_spinner = Gtk.SpinButton(adjustment=corner_radius_adjustment, numeric=True, valign=Gtk.Align.CENTER)
-    corner_radius_spinner.connect("value-changed", on_corner_radius_changed)
-    corner_radius_row.add_suffix(corner_radius_spinner)
+    corner_radius_row = Adw.SpinRow(title="Corner Radius", numeric=True, adjustment=corner_radius_adjustment)
+    corner_radius_row.connect("output", on_corner_radius_changed)
     padding_group.add(corner_radius_row)
-
 
     aspect_ratio_row = Adw.ActionRow(title="Aspect Ratio")
     aspect_ratio_entry = Gtk.Entry(placeholder_text="16:9", valign=Gtk.Align.CENTER)
@@ -181,7 +176,7 @@ def create_image_options_group( on_padding_changed, on_aspect_ratio_changed, on_
     shadow_strength_row.set_activatable_widget(shadow_strength_scale)
     padding_group.add(shadow_strength_row)
 
-    return padding_group, padding_spinner, aspect_ratio_entry
+    return padding_group, padding_row, aspect_ratio_entry
 
 def create_file_info_group():
     file_info_group = Adw.PreferencesGroup(title="Current File")
@@ -197,7 +192,7 @@ def create_file_info_group():
     return file_info_group, filename_row, location_row, processed_size_row
 
 
-def create_sidebar_ui(gradient_selector_widget, on_padding_changed,on_corner_radius_changed,text_selector_widget, on_aspect_ratio_changed, on_shadow_strength_changed):
+def create_sidebar_ui(gradient_selector_widget, on_padding_changed, on_corner_radius_changed, text_selector_widget, on_aspect_ratio_changed, on_shadow_strength_changed):
 
     sidebar_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
     settings_scroll = Gtk.ScrolledWindow( vexpand=True)
@@ -206,8 +201,8 @@ def create_sidebar_ui(gradient_selector_widget, on_padding_changed,on_corner_rad
 
     controls_box.append(gradient_selector_widget)
     # Add grouped UI elements
-    padding_group, padding_spinner, aspect_ratio_entry = create_image_options_group(
-        on_padding_changed, on_aspect_ratio_changed,on_corner_radius_changed,on_shadow_strength_changed)
+    padding_group, padding_row, aspect_ratio_entry = create_image_options_group(
+        on_padding_changed, on_aspect_ratio_changed, on_corner_radius_changed, on_shadow_strength_changed)
     controls_box.append(padding_group)
 
     controls_box.append(text_selector_widget)
@@ -223,7 +218,7 @@ def create_sidebar_ui(gradient_selector_widget, on_padding_changed,on_corner_rad
         'filename_row': filename_row,
         'location_row': location_row,
         'processed_size_row': processed_size_row,
-        'padding_spinner': padding_spinner,
+        'padding_row': padding_row,
         'aspect_ratio_entry': aspect_ratio_entry,
     }
 
