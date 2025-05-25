@@ -209,12 +209,13 @@ class TextSelector:
         self.gravity_buttons = {}
 
         for gravity, icon_name, col, grid_row in self.GRAVITY_POSITIONS:
-            b = Gtk.Button()
+            b = Gtk.Button.new_from_icon_name(icon_name=icon_name)
             b.set_size_request(self.BUTTON_SIZE, self.BUTTON_SIZE)
             b.add_css_class("flat")
-            b.set_child(Gtk.Image.new_from_icon_name(icon_name))
+
             if gravity == self.text_obj.gravity:
                 b.add_css_class("suggested-action")
+
             b.connect("clicked", self._on_gravity_button_clicked, gravity)
             grid.attach(b, col, grid_row, 1, 1)
             self.gravity_buttons[gravity] = b

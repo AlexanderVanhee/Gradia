@@ -25,24 +25,21 @@ def create_header_bar():
     header_bar = Adw.HeaderBar()
 
     # Open button
-    open_icon = Gtk.Image.new_from_icon_name("document-open-symbolic")
-    open_btn = Gtk.Button(child=open_icon)
+    open_btn = Gtk.Button.new_from_icon_name("document-open-symbolic")
     open_btn.get_style_context().add_class("flat")
     open_btn.set_tooltip_text("Open Image")
     open_btn.set_action_name("app.open")
     header_bar.pack_start(open_btn)
 
     # Copy from clipboard button
-    copy_icon = Gtk.Image.new_from_icon_name("clipboard-symbolic")
-    copy_btn = Gtk.Button(child=copy_icon)
+    copy_btn = Gtk.Button.new_from_icon_name("clipboard-symbolic")
     copy_btn.get_style_context().add_class("flat")
     copy_btn.set_tooltip_text("Paste from Clipboard")
     copy_btn.set_action_name("app.paste")
     header_bar.pack_start(copy_btn)
 
     # About menu button with popover menu
-    about_icon = Gtk.Image.new_from_icon_name("open-menu-symbolic")
-    about_menu_btn = Gtk.MenuButton(child=about_icon)
+    about_menu_btn = Gtk.MenuButton(icon_name="open-menu-symbolic")
     about_menu_btn.get_style_context().add_class("flat")
     about_menu_btn.set_tooltip_text("Main menu")
     menu = Gio.Menu()
@@ -54,19 +51,19 @@ def create_header_bar():
     header_bar.pack_end(about_menu_btn)
 
     # Save button with icon and label inside a box
-    icon = Gtk.Image.new_from_icon_name("document-save-symbolic")
-    label = Gtk.Label(label="Save Image")
-    box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
-    box.append(icon)
-    box.append(label)
-    save_btn = Gtk.Button(child=box)
+    button_content = Adw.ButtonContent(
+        icon_name="document-save-symbolic",
+        label=_("_Save Image"),
+        use_underline=True
+    )
+
+    save_btn = Gtk.Button(child=button_content)
     save_btn.get_style_context().add_class("suggested-action")
     save_btn.set_action_name("app.save")
     save_btn.set_sensitive(False)
 
     # Copy to clipboard button (right)
-    copy_right_icon = Gtk.Image.new_from_icon_name("edit-copy-symbolic")
-    copy_right_btn = Gtk.Button(child=copy_right_icon)
+    copy_right_btn = Gtk.Button.new_from_icon_name("edit-copy-symbolic")
     copy_right_btn.get_style_context().add_class("suggested-action")
     copy_right_btn.set_tooltip_text("Copy to Clipboard")
     copy_right_btn.set_sensitive(False)
@@ -191,7 +188,7 @@ def create_file_info_group():
 def create_sidebar_ui(gradient_selector_widget, on_padding_changed, on_corner_radius_changed, text_selector_widget, on_aspect_ratio_changed, on_shadow_strength_changed):
 
     sidebar_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
-    settings_scroll = Gtk.ScrolledWindow( vexpand=True)
+    settings_scroll = Gtk.ScrolledWindow(vexpand=True)
     controls_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=20,
                            margin_start=16, margin_end=16, margin_top=16, margin_bottom=16)
 
