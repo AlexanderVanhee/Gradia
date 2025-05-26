@@ -4,10 +4,9 @@
 data/be.alexandervanhee.gradia.desktop.in
 data/be.alexandervanhee.gradia.metainfo.xml.in
 data/be.alexandervanhee.gradia.gschema.xml
-src/graphics/gradient.py
-src/graphics/text.py
-src/ui/ui_parts.py
-src/ui/window.py
-src/ui/image_exporters.py
-src/ui/image_loaders.py
-
+gradia/graphics/gradient.py
+gradia/graphics/text.py
+gradia/ui/ui_parts.py
+gradia/ui/window.py
+gradia/ui/image_exporters.py
+gradia/ui/image_loaders.py
