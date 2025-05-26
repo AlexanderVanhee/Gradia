@@ -331,7 +331,7 @@ class GradientWindow:
         if not self.processed_path or not os.path.exists(self.processed_path):
             return
 
-        save_dialog = Gtk.FileDialog(title="Save Edited Image")
+        save_dialog = Gtk.FileDialog(title=_("Save Edited Image"))
         if self.image_path:
             original_name = os.path.splitext(os.path.basename(self.image_path))[0]
             dynamic_name = f"{original_name}_processed.png"
@@ -358,8 +358,10 @@ class GradientWindow:
             elif self.processed_pixbuf:
                 # Save directly from pixbuf if file doesn't exist
                 self.processed_pixbuf.savev(save_path, "png", [], [])
+            self._show_notification(_("Image saved successfully!"))
         except Exception as e:
             print(f"Error saving file: {e}")
+            self._show_notification(_("Failed to save the image."))
 
     def on_file_dropped(self, drop_target, value, x, y):
         if not isinstance(value, Gio.File):
