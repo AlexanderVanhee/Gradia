@@ -18,7 +18,6 @@
 import sys
 import tempfile
 import shutil
-import locale
 
 
 from gi.repository import Adw, Gio
