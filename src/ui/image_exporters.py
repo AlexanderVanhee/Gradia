@@ -19,7 +19,7 @@ import os
 import shutil
 import gi
 from gi.repository import Gtk, Gio
-from .clipboard import copy_file_to_clipboard, save_pixbuff_to_path
+from gradia.clipboard import copy_file_to_clipboard, save_pixbuff_to_path
 
 class BaseImageExporter:
     """Base class for image export handlers"""

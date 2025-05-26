@@ -78,7 +78,6 @@ class GradientWindow:
         self.main_paned = None
         self._previous_stack_child = self.PAGE_CONTENT
 
-        self.create_action("shortcuts", self._on_shortcuts_activated)
         self.create_action("about", self._on_about_activated)
         self.create_action('quit', lambda *_: self.app.quit(), ['<primary>q'])
         self.create_action("shortcuts", self._on_shortcuts_activated,  ['<primary>question'])
@@ -307,3 +306,12 @@ class GradientWindow:
             action = app.lookup_action(action_name)
             if action:
                 action.set_enabled(enabled)
+
+    def _on_shortcuts_activated(self, action, param):
+        shortcuts = create_shortcuts_dialog(self.win)
+        shortcuts.connect("close-request", self._on_shortcuts_closed)
+        shortcuts.present()
+
+    def _on_shortcuts_closed(self, dialog):
+        dialog.hide()
+        return True

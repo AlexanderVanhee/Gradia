@@ -18,7 +18,7 @@
 import os
 import gi
 from gi.repository import Gtk, Gio, Gdk
-from .clipboard import save_texture_to_file
+from gradia.clipboard import save_texture_to_file
 
 class BaseImageLoader:
     """Base class for image loading handlers"""
