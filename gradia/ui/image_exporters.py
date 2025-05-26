@@ -16,8 +16,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
-import shutil
-import gi
 from gi.repository import Gtk, Gio
 from gradia.clipboard import copy_file_to_clipboard, save_pixbuff_to_path
 
@@ -35,7 +33,7 @@ class BaseImageExporter:
         self.window = window
         self.temp_dir = temp_dir
 
-    def _get_dynamic_filename(self, extension=".png"):
+    def _get_dynamic_filename(self, extension=".png") -> str:
         """Generate dynamic filename based on original image"""
         if self.window.image_path:
             original_name = os.path.splitext(os.path.basename(self.window.image_path))[0]
@@ -43,10 +41,11 @@ class BaseImageExporter:
         else:
             return f"processed_image{extension}"
 
-    def _ensure_processed_image_available(self):
+    def _ensure_processed_image_available(self) -> bool:
         """Ensure processed image is available for export"""
         if not self.window.processed_pixbuf:
             raise Exception("No processed image available for export")
+        return False
 
 class FileDialogExporter(BaseImageExporter):
     """Handles exporting images through file dialog"""

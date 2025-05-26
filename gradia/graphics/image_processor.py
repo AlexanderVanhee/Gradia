@@ -156,7 +156,9 @@ class ImageProcessor:
         if isinstance(self.aspect_ratio, str) and ":" in self.aspect_ratio:
             w, h = map(float, self.aspect_ratio.split(":"))
             return w / h
-        return float(self.aspect_ratio)
+        if self.aspect_ratio is not None:
+            return float(self.aspect_ratio)
+        raise ValueError("aspect_ratio is None and cannot be converted to float")
 
     def _apply_rounded_corners(self, image):
         width, height = image.size
