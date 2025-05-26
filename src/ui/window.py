@@ -81,6 +81,7 @@ class GradientWindow:
         self.create_action("shortcuts", self._on_shortcuts_activated)
         self.create_action("about", self._on_about_activated)
         self.create_action('quit', lambda *_: self.app.quit(), ['<primary>q'])
+        self.create_action("shortcuts", self._on_shortcuts_activated,  ['<primary>question'])
 
         self.create_action("open", lambda *_: self.import_manager.open_file_dialog(), ["<Primary>o"])
         self.create_action("load-drop", self.import_manager._on_drop_action)
