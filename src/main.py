@@ -18,9 +18,11 @@
 import sys
 import tempfile
 import shutil
+import locale
+
 
 from gi.repository import Adw, Gio
-from .window import GradientWindow
+from gradia.ui.window import GradientWindow
 
 class GradiaApp(Adw.Application):
     def __init__(self, version=None):

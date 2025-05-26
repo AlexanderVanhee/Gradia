@@ -39,14 +39,10 @@ configure_file(
 gradia_sources = [
   '__init__.py',
   'main.py',
-  'ui/window.py',
-  'graphics/image_processor.py',
-  'graphics/background.py',
-  'graphics/gradient.py',
-  'graphics/text.py',
-  'ui/ui_parts.py',
-  'ui/misc.py',
   'clipboard.py'
 ]
 
 install_data(gradia_sources, install_dir: moduledir)
+
+install_subdir('graphics', install_dir: moduledir)
+install_subdir('ui', install_dir: moduledir)

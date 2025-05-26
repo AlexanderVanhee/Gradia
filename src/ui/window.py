@@ -20,12 +20,12 @@ import shutil
 import threading
 
 from gi.repository import Gtk, Gio, Adw, Gdk, GLib
-from .image_processor import ImageProcessor
-from .gradient import GradientSelector, GradientBackground
-from .text import TextSelector
-from .ui_parts import *
-from .clipboard import *
-from .misc import *
+from gradia.graphics.image_processor import ImageProcessor
+from gradia.graphics.gradient import GradientSelector, GradientBackground
+from gradia.graphics.text import TextSelector
+from gradia.ui.ui_parts import *
+from gradia.clipboard import *
+from gradia.ui.misc import *
 
 class GradientWindow:
     DEFAULT_WINDOW_WIDTH = 900
