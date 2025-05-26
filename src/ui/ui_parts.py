@@ -227,11 +227,18 @@ def create_about_dialog(version):
         version=version,
         comments=_("Make your images ready for the world"),
         website="https://github.com/AlexanderVanhee/Gradia",
+        issue_url="https://github.com/AlexanderVanhee/Gradia/issues",
         developer_name="Alexander Vanhee",
-        application_icon="be.alexandervanhee.gradia"
+        developers=[
+            "Alexander Vanhee https://github.com/AlexanderVanhee",
+            "tfuxu https://github.com/tfuxu",
+        ],
+        application_icon="be.alexandervanhee.gradia",
+        # Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
+        translator_credits=_("translator-credits"),
+        copyright="Copyright © 2025 Alexander Vanhee",
+        license_type=Gtk.License.GPL_3_0
     )
-    about.set_developers(["Alexander Vanhee"])
-    about.set_license_type(Gtk.License.GPL_3_0)
 
     return about
 
