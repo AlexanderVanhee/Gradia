@@ -1,0 +1,11 @@
+# After changing this file, download the flatpak pip generator script:
+# curl -O https://raw.githubusercontent.com/flatpak/flatpak-builder-tools/master/pip/flatpak-pip-generator
+# chmod +x flatpak-pip-generator
+# Install required library:
+# pip install requirements-parser
+# Then run:
+# ./flatpak-pip-generator --requirements-file=requirements.txt --output pypi-dependencies
+# And move output file to build-aux directory:
+# mv pypi-dependencies.json build-aux/flatpak/
+
+Pillow
