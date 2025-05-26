@@ -94,7 +94,8 @@ def create_image_stack(on_file_dropped, on_open_clicked):
     stack.add_named(picture, "image")
 
     # Loading spinner inside centered box with margins
-    spinner = Gtk.Spinner.new()
+    spinner = Adw.Spinner.new()
+    spinner.set_size_request(48, 48)
     spinner.set_vexpand(False)
     spinner.set_hexpand(False)
 

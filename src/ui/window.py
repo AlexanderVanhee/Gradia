@@ -209,10 +209,8 @@ class GradientWindow:
 
     def _show_loading_state(self):
         self.image_stack.set_visible_child_name(self.PAGE_LOADING)
-        self.spinner.start()
 
     def _hide_loading_state(self):
-        self.spinner.stop()
         self.image_stack.set_visible_child_name(self.PAGE_IMAGE)
 
 
@@ -425,7 +423,6 @@ class GradientWindow:
         else:
             child = getattr(self, "_previous_stack_child", self.PAGE_CONTENT)
             self.image_stack.set_visible_child_name(child)
-            self.spinner.stop()
 
     def on_copy_button_clicked(self):
         path = save_pixbuff_to_path(self.temp_dir, self.processed_pixbuf)
