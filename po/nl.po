@@ -1,34 +1,34 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the Gradia package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Gradia Dutch Translation
+# Copyright (C) 2025 Alexander Vanhee
+# This file is distributed under the same license as the gradia package.
+# FIRST AUTHOR Alexander Vanhee, 2025.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-26 13:55+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2025-05-25 21:55+0200\n"
+"PO-Revision-Date: 2025-05-26 13:33+0200\n"
+"Last-Translator: Alexander Vanhee \n"
+"Language-Team: \n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.6\n"
 
 #: data/be.alexandervanhee.gradia.desktop.in:2
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:13
 msgid "Gradia"
-msgstr ""
+msgstr "Gradia"
 
 #: data/be.alexandervanhee.gradia.desktop.in:8
 msgid "GTK;Image;Gradient;"
-msgstr ""
+msgstr "GTK;Afbeelding;Verloop;"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:14
 msgid "Make your screenshots ready for all"
-msgstr ""
+msgstr "Maak je schermafbeeldingen geschikt voor iedereen"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:16
 msgid ""
@@ -36,6 +36,7 @@ msgid ""
 "others. Transparent or oddly sized images, like screenshots often don't "
 "display well. Fixing these issues can feel like more trouble than it's worth."
 msgstr ""
+"Op sociale media is het vaak moeilijk om te controleren hoe je afbeeldingen er voor anderen uitzien. Transparante of vreemd gevormde afbeeldingen, zoals schermafbeeldingen, worden vaak niet goed weergegeven. Het oplossen van deze problemen voelt vaak als meer moeite dan het waard is."
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:21
 msgid ""
@@ -43,194 +44,184 @@ msgid ""
 "images to address these issues, while also offering options to enhance their "
 "overall appearance."
 msgstr ""
+"Deze tool helpt bij het oplossen van dat probleem door je in staat te stellen snel afbeeldingen te bewerken om deze problemen aan te pakken, en biedt ook opties om hun uiterlijk te verbeteren."
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:29
 msgid "Alexander Vanhee"
-msgstr ""
+msgstr "Alexander Vanhee"
 
 #: src/graphics/gradient.py:125
 msgid "Gradient Background"
-msgstr ""
+msgstr "Verloopachtergrond"
 
 #: src/graphics/gradient.py:128
 msgid "Gradient Presets"
-msgstr ""
+msgstr "Voorinstellingen verloop"
 
 #: src/graphics/gradient.py:137 src/graphics/gradient.py:148
 msgid "Start Color"
-msgstr ""
+msgstr "Startkleur"
 
 #: src/graphics/gradient.py:138 src/graphics/gradient.py:150
 msgid "End Color"
-msgstr ""
+msgstr "Eindkleur"
 
 #: src/graphics/gradient.py:169
 msgid "Angle"
-msgstr ""
+msgstr "Hoek"
 
 #: src/graphics/text.py:141
 msgid "Text Annotation"
-msgstr ""
+msgstr "Tekstannotatie"
 
 #: src/graphics/text.py:149
 msgid "Text"
-msgstr ""
+msgstr "Tekst"
 
 #: src/graphics/text.py:150
 msgid "Enter text"
-msgstr ""
+msgstr "Voer tekst in"
 
 #: src/graphics/text.py:158
 msgid "Color"
-msgstr ""
+msgstr "Kleur"
 
 #: src/graphics/text.py:173
 msgid "Size"
-msgstr ""
+msgstr "Grootte"
 
 #: src/graphics/text.py:181 src/ui/ui_parts.py:183
 msgid "Location"
-msgstr ""
+msgstr "Locatie"
 
-#: src/ui/ui_parts.py:26 src/ui/window.py:268
+#: src/ui/ui_parts.py:26 src/ui/window.py:262
 msgid "Open Image"
-msgstr ""
+msgstr "Open afbeelding"
 
 #: src/ui/ui_parts.py:33
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "Plakken vanaf klembord"
 
 #: src/ui/ui_parts.py:40
 msgid "Main Menu"
-msgstr ""
+msgstr "Hoofdmenu"
 
 #: src/ui/ui_parts.py:44
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "Sneltoetsen"
 
 #: src/ui/ui_parts.py:45
 msgid "About Gradia"
-msgstr ""
+msgstr "Over Gradia"
 
-#. Translators: The prefixed underscore is used to indicate a mnemonic. Do NOT remove it.
 #: src/ui/ui_parts.py:57
 msgid "_Save Image"
-msgstr ""
+msgstr "_Afbeelding opslaan"
 
 #: src/ui/ui_parts.py:70
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "Kopiëren naar klembord"
 
-#. Status page with button child
-#. Translators: The prefixed underscore is used to indicate a mnemonic. Do NOT remove it.
 #: src/ui/ui_parts.py:122
 msgid "_Open Image…"
-msgstr ""
+msgstr "_Afbeelding openen…"
 
 #: src/ui/ui_parts.py:133
 msgid "No Image Loaded"
-msgstr ""
+msgstr "Nog geen afbeelding geladen"
 
 #: src/ui/ui_parts.py:134
 msgid "Drag and drop one here"
-msgstr ""
+msgstr "Hier kan ook een bestand worden neergezet"
 
 #: src/ui/ui_parts.py:143
 msgid "Image Options"
-msgstr ""
+msgstr "Afbeeldingsopties"
 
 #: src/ui/ui_parts.py:146
 msgid "Padding"
-msgstr ""
+msgstr "Binnenmarge"
 
 #: src/ui/ui_parts.py:151
 msgid "Corner Radius"
-msgstr ""
+msgstr "Hoekradius"
 
 #: src/ui/ui_parts.py:155
 msgid "Aspect Ratio"
-msgstr ""
-
-#: src/ui/ui_parts.py:161
-msgid "Shadow"
-msgstr ""
+msgstr "Beeldverhouding"
 
 #: src/ui/ui_parts.py:182
 msgid "Name"
-msgstr ""
+msgstr "Naam"
 
 #: src/ui/ui_parts.py:182 src/ui/ui_parts.py:183
 msgid "No file loaded"
-msgstr ""
+msgstr "Geen bestand geladen"
 
 #: src/ui/ui_parts.py:184
 msgid "Modified image size"
-msgstr ""
+msgstr "Aangepaste afbeeldingsgrootte"
 
 #: src/ui/ui_parts.py:227
 msgid "Make your images ready for the world"
-msgstr ""
+msgstr "Maak je afbeeldingen klaar voor de wereld"
 
 #: src/ui/ui_parts.py:240
-msgid "File Actions"
-msgstr ""
-
-#: src/ui/ui_parts.py:242
-msgid "Open file"
-msgstr ""
+msgid "General"
+msgstr "Algemeen"
 
 #: src/ui/ui_parts.py:243
-msgid "Save to file"
-msgstr ""
+msgid "File Actions"
+msgstr "Bestandshandelingen"
 
-#: src/ui/ui_parts.py:244
-msgid "Copy modified image to clipboard"
-msgstr ""
-
-#: src/ui/ui_parts.py:245
-msgid "Paste from clipboard"
-msgstr ""
-
-#: src/ui/ui_parts.py:249
-msgid "General"
-msgstr ""
+#: src/ui/ui_parts.py:246
+msgid "Open file"
+msgstr "Bestand openen"
 
 #: src/ui/ui_parts.py:251
-msgid "Keyboard shortcuts"
-msgstr ""
+msgid "Save to file"
+msgstr "Opslaan naar bestand"
 
-#: src/ui/window.py:271
+#: src/ui/ui_parts.py:256
+msgid "Copy modified image to clipboard"
+msgstr "Aangepaste afbeelding naar klembord kopiëren"
+
+#: src/ui/ui_parts.py:261
+msgid "Paste from clipboard"
+msgstr "Plakken vanaf klembord"
+
+#: src/ui/window.py:265
 msgid "Image Files"
-msgstr ""
+msgstr "Afbeeldingsbestanden"
 
-#: src/ui/window.py:327
+#: src/ui/window.py:322
 msgid "Unknown"
-msgstr ""
+msgstr "Onbekend"
 
-#: src/ui/window.py:329
+#: src/ui/window.py:324
 msgid "Error"
-msgstr ""
+msgstr "Fout"
 
-#: src/ui/window.py:344
+#: src/ui/window.py:339
 msgid "PNG Image"
-msgstr ""
+msgstr "PNG-afbeelding"
 
-#: src/ui/window.py:408
+#: src/ui/window.py:397
 msgid "No image found in clipboard."
-msgstr ""
+msgstr "Geen afbeelding gevonden op het klembord."
 
-#: src/ui/window.py:410 src/ui/window.py:436
+#: src/ui/window.py:399 src/ui/window.py:425
 msgid "Failed to copy image to clipboard."
-msgstr ""
+msgstr "Kopiëren van afbeelding naar klembord mislukt."
 
-#: src/ui/window.py:417
+#: src/ui/window.py:406
 msgid "Clipboard Image"
-msgstr ""
+msgstr "Klembordafbeelding"
 
-#: src/ui/window.py:418
+#: src/ui/window.py:407
 msgid "From clipboard"
-msgstr ""
+msgstr "Van klembord"
 
-#: src/ui/window.py:434
+#: src/ui/window.py:423
 msgid "Image copied to clipboard."
-msgstr ""
+msgstr "Afbeelding gekopieerd naar klembord."

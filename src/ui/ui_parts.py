@@ -158,7 +158,7 @@ def create_image_options_group( on_padding_changed, on_aspect_ratio_changed, on_
     aspect_ratio_row.add_suffix(aspect_ratio_entry)
     padding_group.add(aspect_ratio_row)
 
-    shadow_strength_row = Adw.ActionRow(title="Shadow")
+    shadow_strength_row = Adw.ActionRow(title=_("Shadow"))
     shadow_strength_scale = Gtk.Scale.new_with_range(
         orientation=Gtk.Orientation.HORIZONTAL,
         min=0,
