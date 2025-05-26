@@ -235,35 +235,36 @@ def create_about_dialog(version):
     return about
 
 def create_shortcuts_dialog(parent=None):
+    SHORTCUT_GROUPS = [
+        {
+            "title": _("File Actions"),
+            "shortcuts": [
+                (_("Open file"), "<Ctrl>O"),
+                (_("Save to file"), "<Ctrl>S"),
+                (_("Copy modified image to clipboard"), "<Ctrl>C"),
+                (_("Paste from clipboard"), "<Ctrl>V"),
+            ]
+        },
+        {
+            "title": _("General"),
+            "shortcuts": [
+                (_("Keyboard shortcuts"), "<Ctrl>question"),
+            ]
+        }
+    ]
+
     dialog = Gtk.ShortcutsWindow(transient_for=parent, modal=True)
-    section = Gtk.ShortcutsSection(section_name="general",
-                                  title=_("General"),
-                                  visible=True)
+    section = Gtk.ShortcutsSection()
 
-    group = Gtk.ShortcutsGroup(title=_("File Actions"), visible=True)
+    for group_data in SHORTCUT_GROUPS:
+        group = Gtk.ShortcutsGroup(title=group_data["title"], visible=True)
+        for title, accel in group_data["shortcuts"]:
+            group.add_shortcut(Gtk.ShortcutsShortcut(
+                title=title,
+                accelerator=accel
+            ))
+        section.add_group(group)
 
-    group.add_shortcut(Gtk.ShortcutsShortcut(
-        title=_("Open file"),
-        accelerator="<Ctrl>O",
-        visible=True
-    ))
-    group.add_shortcut(Gtk.ShortcutsShortcut(
-        title=_("Save to file"),
-        accelerator="<Ctrl>S",
-        visible=True
-    ))
-    group.add_shortcut(Gtk.ShortcutsShortcut(
-        title=_("Copy modified image to clipboard"),
-        accelerator="<Ctrl>C",
-        visible=True
-    ))
-    group.add_shortcut(Gtk.ShortcutsShortcut(
-        title=_("Paste from clipboard"),
-        accelerator="<Ctrl>V",
-        visible=True
-    ))
-
-    section.add_group(group)
     dialog.add_section(section)
     dialog.connect("close-request", lambda dialog: dialog.destroy())
 
