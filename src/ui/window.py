@@ -78,6 +78,7 @@ class GradientWindow:
         self.main_paned = None
         self._previous_stack_child = self.PAGE_CONTENT
 
+        self.create_action("shortcuts", self._on_shortcuts_activated)
         self.create_action("about", self._on_about_activated)
         self.create_action('quit', lambda *_: self.app.quit(), ['<primary>q'])
         self.create_action("shortcuts", self._on_shortcuts_activated,  ['<primary>question'])
@@ -189,10 +190,8 @@ class GradientWindow:
 
     def _show_loading_state(self):
         self.image_stack.set_visible_child_name(self.PAGE_LOADING)
-        self.spinner.start()
 
     def _hide_loading_state(self):
-        self.spinner.stop()
         self.image_stack.set_visible_child_name(self.PAGE_IMAGE)
 
     def _update_sidebar_info(self, filename, location):
@@ -294,7 +293,6 @@ class GradientWindow:
         else:
             child = getattr(self, "_previous_stack_child", self.PAGE_CONTENT)
             self.image_stack.set_visible_child_name(child)
-            self.spinner.stop()
 
     def _on_about_activated(self, action, param):
         about = create_about_dialog(version=self.version)
