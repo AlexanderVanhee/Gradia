@@ -269,7 +269,7 @@ class GradientWindow:
 
         image_filter = Gtk.FileFilter()
         image_filter.set_name(_("Image Files"))
-        for _, mime_type in self.SUPPORTED_INPUT_FORMATS:
+        for _unused, mime_type in self.SUPPORTED_INPUT_FORMATS:
             image_filter.add_mime_type(mime_type)
 
         filters = Gio.ListStore.new(Gtk.FileFilter)
