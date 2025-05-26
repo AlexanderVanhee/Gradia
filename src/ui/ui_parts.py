@@ -247,16 +247,16 @@ def create_shortcuts_dialog(parent=None):
         {
             "title": _("File Actions"),
             "shortcuts": [
-                (_("Open file"), "<Ctrl>O"),
-                (_("Save to file"), "<Ctrl>S"),
-                (_("Copy modified image to clipboard"), "<Ctrl>C"),
-                (_("Paste from clipboard"), "<Ctrl>V"),
+                (_("Open File"), "<Ctrl>O"),
+                (_("Save to File"), "<Ctrl>S"),
+                (_("Copy Image to Clipboard"), "<Ctrl>C"),
+                (_("Paste From Clipboard"), "<Ctrl>V"),
             ]
         },
         {
             "title": _("General"),
             "shortcuts": [
-                (_("Keyboard shortcuts"), "<Ctrl>question"),
+                (_("Keyboard Shortcuts"), "<Ctrl>question"),
             ]
         }
     ]
