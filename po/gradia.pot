@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-26 19:07+0200\n"
+"POT-Creation-Date: 2025-05-26 22:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,202 +48,202 @@ msgstr ""
 msgid "Alexander Vanhee"
 msgstr ""
 
-#: src/graphics/gradient.py:125
+#: gradia/graphics/gradient.py:125
 msgid "Gradient Background"
 msgstr ""
 
-#: src/graphics/gradient.py:128
+#: gradia/graphics/gradient.py:128
 msgid "Gradient Presets"
 msgstr ""
 
-#: src/graphics/gradient.py:137 src/graphics/gradient.py:148
+#: gradia/graphics/gradient.py:137 gradia/graphics/gradient.py:148
 msgid "Start Color"
 msgstr ""
 
-#: src/graphics/gradient.py:138 src/graphics/gradient.py:150
+#: gradia/graphics/gradient.py:138 gradia/graphics/gradient.py:150
 msgid "End Color"
 msgstr ""
 
-#: src/graphics/gradient.py:169
+#: gradia/graphics/gradient.py:169
 msgid "Angle"
 msgstr ""
 
-#: src/graphics/text.py:141
+#: gradia/graphics/text.py:141
 msgid "Text Annotation"
 msgstr ""
 
-#: src/graphics/text.py:149
+#: gradia/graphics/text.py:149
 msgid "Text"
 msgstr ""
 
-#: src/graphics/text.py:150
+#: gradia/graphics/text.py:150
 msgid "Enter text"
 msgstr ""
 
-#: src/graphics/text.py:158
+#: gradia/graphics/text.py:158
 msgid "Color"
 msgstr ""
 
-#: src/graphics/text.py:173
+#: gradia/graphics/text.py:173
 msgid "Size"
 msgstr ""
 
-#: src/graphics/text.py:181 src/ui/ui_parts.py:186
+#: gradia/graphics/text.py:181 gradia/ui/ui_parts.py:181
 msgid "Location"
 msgstr ""
 
-#: src/ui/ui_parts.py:26 src/ui/image_loaders.py:59
+#: gradia/ui/ui_parts.py:26 gradia/ui/image_loaders.py:59
 msgid "Open Image"
 msgstr ""
 
-#: src/ui/ui_parts.py:33
+#: gradia/ui/ui_parts.py:33
 msgid "Paste from Clipboard"
 msgstr ""
 
-#: src/ui/ui_parts.py:40
+#: gradia/ui/ui_parts.py:40
 msgid "Main Menu"
 msgstr ""
 
-#: src/ui/ui_parts.py:44 src/ui/ui_parts.py:261
+#: gradia/ui/ui_parts.py:44 gradia/ui/ui_parts.py:256
 msgid "Keyboard Shortcuts"
 msgstr ""
 
-#: src/ui/ui_parts.py:45
+#: gradia/ui/ui_parts.py:45
 msgid "About Gradia"
 msgstr ""
 
 #. Translators: The prefixed underscore is used to indicate a mnemonic. Do NOT remove it.
-#: src/ui/ui_parts.py:56
+#: gradia/ui/ui_parts.py:54
 msgid "_Save Image"
 msgstr ""
 
-#: src/ui/ui_parts.py:68
+#: gradia/ui/ui_parts.py:63
 msgid "Copy to Clipboard"
 msgstr ""
 
 #. Status page with button child
 #. Translators: The prefixed underscore is used to indicate a mnemonic. Do NOT remove it.
-#: src/ui/ui_parts.py:125
+#: gradia/ui/ui_parts.py:120
 msgid "_Open Image…"
 msgstr ""
 
-#: src/ui/ui_parts.py:136
+#: gradia/ui/ui_parts.py:131
 msgid "No Image Loaded"
 msgstr ""
 
-#: src/ui/ui_parts.py:137
+#: gradia/ui/ui_parts.py:132
 msgid "Drag and drop one here"
 msgstr ""
 
-#: src/ui/ui_parts.py:146
+#: gradia/ui/ui_parts.py:141
 msgid "Image Options"
 msgstr ""
 
-#: src/ui/ui_parts.py:149
+#: gradia/ui/ui_parts.py:144
 msgid "Padding"
 msgstr ""
 
-#: src/ui/ui_parts.py:154
+#: gradia/ui/ui_parts.py:149
 msgid "Corner Radius"
 msgstr ""
 
-#: src/ui/ui_parts.py:158
+#: gradia/ui/ui_parts.py:153
 msgid "Aspect Ratio"
 msgstr ""
 
-#: src/ui/ui_parts.py:164
+#: gradia/ui/ui_parts.py:159
 msgid "Shadow"
 msgstr ""
 
-#: src/ui/ui_parts.py:185
+#: gradia/ui/ui_parts.py:180
 msgid "Name"
 msgstr ""
 
-#: src/ui/ui_parts.py:185 src/ui/ui_parts.py:186
+#: gradia/ui/ui_parts.py:180 gradia/ui/ui_parts.py:181
 msgid "No file loaded"
 msgstr ""
 
-#: src/ui/ui_parts.py:187
+#: gradia/ui/ui_parts.py:182
 msgid "Modified image size"
 msgstr ""
 
-#: src/ui/ui_parts.py:230
+#: gradia/ui/ui_parts.py:225
 msgid "Make your images ready for the world"
 msgstr ""
 
 #. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
-#: src/ui/ui_parts.py:240
+#: gradia/ui/ui_parts.py:235
 msgid "translator-credits"
 msgstr ""
 
-#: src/ui/ui_parts.py:250
+#: gradia/ui/ui_parts.py:245
 msgid "File Actions"
 msgstr ""
 
-#: src/ui/ui_parts.py:252
+#: gradia/ui/ui_parts.py:247
 msgid "Open File"
 msgstr ""
 
-#: src/ui/ui_parts.py:253
+#: gradia/ui/ui_parts.py:248
 msgid "Save to File"
 msgstr ""
 
-#: src/ui/ui_parts.py:254
+#: gradia/ui/ui_parts.py:249
 msgid "Copy Image to Clipboard"
 msgstr ""
 
-#: src/ui/ui_parts.py:255
+#: gradia/ui/ui_parts.py:250
 msgid "Paste From Clipboard"
 msgstr ""
 
-#: src/ui/ui_parts.py:259
+#: gradia/ui/ui_parts.py:254
 msgid "General"
 msgstr ""
 
-#: src/ui/window.py:280
+#: gradia/ui/window.py:280
 msgid "Unknown"
 msgstr ""
 
-#: src/ui/window.py:282
+#: gradia/ui/window.py:282
 msgid "Error"
 msgstr ""
 
-#: src/ui/image_exporters.py:63
+#: gradia/ui/image_exporters.py:63
 msgid "Save Processed Image"
 msgstr ""
 
-#: src/ui/image_exporters.py:94
+#: gradia/ui/image_exporters.py:94
 msgid "Image saved"
 msgstr ""
 
-#: src/ui/image_exporters.py:133
+#: gradia/ui/image_exporters.py:133
 msgid "No processed image available to save"
 msgstr ""
 
-#: src/ui/image_exporters.py:157
+#: gradia/ui/image_exporters.py:157
 msgid "Image copied to clipboard"
 msgstr ""
 
-#: src/ui/image_exporters.py:160
+#: gradia/ui/image_exporters.py:160
 msgid "Failed to copy image to clipboard"
 msgstr ""
 
-#: src/ui/image_loaders.py:141
+#: gradia/ui/image_loaders.py:141
 msgid "No image found in clipboard"
 msgstr ""
 
-#: src/ui/image_loaders.py:149
+#: gradia/ui/image_loaders.py:149
 msgid "Clipboard Image"
 msgstr ""
 
-#: src/ui/image_loaders.py:150
+#: gradia/ui/image_loaders.py:150
 msgid "From clipboard"
 msgstr ""
 
-#: src/ui/image_loaders.py:157
+#: gradia/ui/image_loaders.py:157
 msgid "Clipboard does not contain an image."
 msgstr ""
 
-#: src/ui/image_loaders.py:159
+#: gradia/ui/image_loaders.py:159
 msgid "Failed to load image from clipboard."
 msgstr ""
