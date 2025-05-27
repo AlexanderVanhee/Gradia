@@ -22,7 +22,7 @@ from PIL.ImageFont import FreeTypeFont
 
 from gi.repository import Gtk, Gdk, Adw
 
-from typing import Optional, Callable, Union
+from typing import Callable, Union
 
 
 class Text:
@@ -148,7 +148,7 @@ class TextSelector:
     SIZE_SPIN_STEP: int = 1
 
     def __init__(self, text_obj: Text | None = None, callback: TextChangedCallback | None = None) -> None:
-        self.text_obj = text_obj if text_obj is not None else Text("")
+        self.text_obj = text_obj if text_obj else Text("")
         self.callback = callback
         self.gravity_buttons: dict[str, Gtk.Button] = {}
         self.gravity_popover: Gtk.Popover | None = None
@@ -215,7 +215,7 @@ class TextSelector:
         self._create_and_show_popover(button)
 
     def _close_existing_popover(self) -> None:
-        if self.gravity_popover is not None:
+        if self.gravity_popover:
             self.gravity_popover.popdown()
             self.gravity_popover.unparent()
             self.gravity_popover = None
@@ -246,7 +246,7 @@ class TextSelector:
             grid.attach(b, col, grid_row, 1, 1)
             self.gravity_buttons[gravity] = b
 
-        if self.gravity_popover is not None:
+        if self.gravity_popover:
             self.gravity_popover.set_child(grid)
             self.gravity_popover.set_parent(button)
             self.gravity_popover.popup()
@@ -296,5 +296,5 @@ class TextSelector:
         self._notify_change()
 
     def _notify_change(self) -> None:
-        if self.callback is not None:
+        if self.callback:
             self.callback(self.text_obj)
