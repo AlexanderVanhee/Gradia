@@ -15,9 +15,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from typing import Callable, Dict, Optional, Tuple, Union
 from gi.repository import Gtk, Gio, Adw, Gdk
 
-def create_header_bar():
+def create_header_bar() -> Adw.HeaderBar:
     header_bar = Adw.HeaderBar()
 
     # Open button
@@ -49,7 +50,6 @@ def create_header_bar():
     about_menu_btn.set_popover(popover)
     header_bar.pack_end(about_menu_btn)
 
-
     # Translators: The prefixed underscore is used to indicate a mnemonic. Do NOT remove it.
     label = Gtk.Label(label=_("_Save Image"), use_underline=True)
     save_btn = Gtk.Button(child=label)
@@ -73,7 +73,7 @@ def create_header_bar():
 
     return header_bar
 
-def create_image_stack():
+def create_image_stack() -> Tuple[Gtk.Stack, Gtk.Picture, Adw.Spinner]:
     stack = Gtk.Stack.new()
     stack.set_vexpand(True)
     stack.set_hexpand(True)
@@ -106,9 +106,10 @@ def create_image_stack():
     drop_target = Gtk.DropTarget.new(Gio.File, Gdk.DragAction.COPY)
     drop_target.set_preload(True)
 
-    def on_file_dropped(target, value, x, y):
+    # Drop handler callback type:
+    def on_file_dropped(_target: Gtk.DropTarget, _value: Gio.File, _x: int, _y: int) -> None:
         app = Gio.Application.get_default()
-        action = app.lookup_action("load-drop")
+        action = app.lookup_action("load-drop") if app else None
         if action:
             action.activate(None)
 
@@ -137,7 +138,12 @@ def create_image_stack():
 
     return stack, picture, spinner
 
-def create_image_options_group(on_padding_changed, on_aspect_ratio_changed, on_corner_radius_changed, on_shadow_strength_changed):
+def create_image_options_group(
+    on_padding_changed: Callable[[Adw.SpinRow], None],
+    on_aspect_ratio_changed: Callable[[Gtk.Entry], None],
+    on_corner_radius_changed: Callable[[Adw.SpinRow], None],
+    on_shadow_strength_changed: Callable[[Gtk.Scale], None]
+) -> Tuple[Adw.PreferencesGroup, Adw.SpinRow, Gtk.Entry]:
     padding_group = Adw.PreferencesGroup(title=_("Image Options"))
 
     padding_adjustment = Gtk.Adjustment(value=5, lower=-25, upper=75, step_increment=5, page_increment=5)
@@ -174,7 +180,7 @@ def create_image_options_group(on_padding_changed, on_aspect_ratio_changed, on_c
 
     return padding_group, padding_row, aspect_ratio_entry
 
-def create_file_info_group():
+def create_file_info_group() -> Tuple[Adw.PreferencesGroup, Adw.ActionRow, Adw.ActionRow, Adw.ActionRow]:
     file_info_group = Adw.PreferencesGroup(title="Current File")
 
     filename_row = Adw.ActionRow(title=_("Name"), subtitle=_("No file loaded"))
@@ -187,9 +193,14 @@ def create_file_info_group():
 
     return file_info_group, filename_row, location_row, processed_size_row
 
-
-def create_sidebar_ui(gradient_selector_widget, on_padding_changed, on_corner_radius_changed, text_selector_widget, on_aspect_ratio_changed, on_shadow_strength_changed):
-
+def create_sidebar_ui(
+    gradient_selector_widget: Gtk.Widget,
+    on_padding_changed: Callable[[Adw.SpinRow], None],
+    on_corner_radius_changed: Callable[[Adw.SpinRow], None],
+    text_selector_widget: Gtk.Widget,
+    on_aspect_ratio_changed: Callable[[Gtk.Entry], None],
+    on_shadow_strength_changed: Callable[[Gtk.Scale], None],
+) -> Dict[str, Union[Gtk.Widget, Adw.ActionRow, Adw.SpinRow, Gtk.Entry]]:
     sidebar_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
     settings_scroll = Gtk.ScrolledWindow(vexpand=True)
     controls_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=20,
@@ -218,7 +229,7 @@ def create_sidebar_ui(gradient_selector_widget, on_padding_changed, on_corner_ra
         'aspect_ratio_entry': aspect_ratio_entry,
     }
 
-def create_about_dialog(version):
+def create_about_dialog(version: str) -> Adw.AboutDialog:
     about = Adw.AboutDialog(
         application_name="Gradia",
         version=version,
@@ -239,7 +250,7 @@ def create_about_dialog(version):
 
     return about
 
-def create_shortcuts_dialog(parent=None):
+def create_shortcuts_dialog(parent: Optional[Gtk.Window] = None) -> Gtk.ShortcutsWindow:
     SHORTCUT_GROUPS = [
         {
             "title": _("File Actions"),
