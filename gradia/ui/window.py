@@ -83,6 +83,12 @@ class GradientWindow:
 
         self.create_action("quit", lambda *_: self.win.close(), ["<Primary>q"])
 
+        self.create_action("toggle", lambda *_: self.drawing_overlay.toggle_drawing_mode(), ["<Shift>t"])
+        self.create_action("undo", lambda *_: self.drawing_overlay.undo(), ["<Primary>z"])
+        self.create_action("redo", lambda *_: self.drawing_overlay.redo(), ["<Primary><Shift>z"])
+        self.create_action("clear", lambda *_: self.drawing_overlay.clear_drawing())
+
+
     def create_action(self, name: str, callback: Callable[..., None], shortcuts: Optional[list[str]] = None, enabled: bool = True) -> None:
         action: Gio.SimpleAction = Gio.SimpleAction.new(name, None)
         action.connect("activate", callback)
@@ -130,6 +136,7 @@ class GradientWindow:
         self.image_stack: Gtk.Stack = stack_info[0]
         self.picture: Gtk.Picture = stack_info[1]
         self.spinner: Gtk.Widget = stack_info[2]
+        self.drawing_overlay = stack_info[3]
 
     def _setup_sidebar(self) -> None:
         self.sidebar_info = create_sidebar_ui(

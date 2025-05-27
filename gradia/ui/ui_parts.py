@@ -18,6 +18,8 @@
 from typing import Callable, Dict, Optional, Tuple, Union
 from gi.repository import Gtk, Gio, Adw, Gdk
 
+from gradia.ui.drawing_overlay import *
+
 def create_header_bar() -> Adw.HeaderBar:
     header_bar = Adw.HeaderBar()
 
@@ -73,22 +75,83 @@ def create_header_bar() -> Adw.HeaderBar:
 
     return header_bar
 
-def create_image_stack() -> Tuple[Gtk.Stack, Gtk.Picture, Adw.Spinner]:
+
+def create_image_stack() -> Tuple[Gtk.Stack, Gtk.Picture, Adw.Spinner, 'DrawingOverlay']:
     stack = Gtk.Stack.new()
     stack.set_vexpand(True)
     stack.set_hexpand(True)
 
-    # Picture widget
+    picture = create_picture_widget()
+    drawing_overlay = create_drawing_overlay(picture)
+    overlay = create_image_overlay(picture, drawing_overlay)
+
+    stack.add_named(overlay, "image")
+
+    spinner_box, spinner = create_spinner_widget()
+    stack.add_named(spinner_box, "loading")
+
+    status_page = create_status_page()
+    stack.add_named(status_page, "empty")
+
+    stack.set_visible_child_name("empty")
+
+    create_drop_target(stack)
+
+    return stack, picture, spinner, drawing_overlay
+
+def create_image_overlay(picture: Gtk.Picture, drawing_overlay: 'DrawingOverlay') -> Gtk.Overlay:
+    overlay = Gtk.Overlay.new()
+    overlay.set_child(picture)
+    overlay.add_overlay(drawing_overlay)
+
+    controls_overlay = create_controls_overlay()
+    overlay.add_overlay(controls_overlay)
+
+    return overlay
+
+def create_controls_overlay() -> Gtk.Widget:
+    undo_btn = Gtk.Button.new_from_icon_name("edit-undo-symbolic")
+    redo_btn = Gtk.Button.new_from_icon_name("edit-redo-symbolic")
+    reset_btn = Gtk.Button.new_from_icon_name("user-trash-symbolic")
+
+    for btn in (undo_btn, redo_btn, reset_btn):
+        btn.get_style_context().add_class("flat")
+
+    button_box = Gtk.Box(
+        orientation=Gtk.Orientation.HORIZONTAL,
+        spacing=6,
+        halign=Gtk.Align.END,
+        valign=Gtk.Align.END,
+        margin_end=12,
+        margin_bottom=12,
+    )
+
+    undo_btn.set_action_name("app.undo")
+    redo_btn.set_action_name("app.redo")
+    reset_btn.set_action_name("app.clear")
+
+    button_box.append(undo_btn)
+    button_box.append(redo_btn)
+    button_box.append(reset_btn)
+
+    return button_box
+
+
+def create_picture_widget() -> Gtk.Picture:
     picture = Gtk.Picture.new()
     picture.set_content_fit(Gtk.ContentFit.CONTAIN)
     picture.set_can_shrink(True)
-    stack.add_named(picture, "image")
+    return picture
 
-    # Loading spinner inside centered box with margins
+def create_drawing_overlay(picture: Gtk.Picture) -> 'DrawingOverlay':
+    drawing_overlay = DrawingOverlay()
+    drawing_overlay.set_visible(True)
+    drawing_overlay.set_picture_reference(picture)
+    return drawing_overlay
+
+def create_spinner_widget() -> Gtk.Widget:
     spinner = Adw.Spinner.new()
     spinner.set_size_request(48, 48)
-    spinner.set_vexpand(False)
-    spinner.set_hexpand(False)
 
     spinner_box = Gtk.Box(
         orientation=Gtk.Orientation.VERTICAL,
@@ -101,13 +164,33 @@ def create_image_stack() -> Tuple[Gtk.Stack, Gtk.Picture, Adw.Spinner]:
         margin_end=20,
     )
     spinner_box.append(spinner)
-    stack.add_named(spinner_box, "loading")
+    return spinner_box, spinner
 
+def create_status_page() -> Gtk.Widget:
+    open_status_btn = Gtk.Button.new_with_label("_Open Image…")
+    open_status_btn.set_use_underline(True)
+    open_status_btn.set_halign(Gtk.Align.CENTER)
+
+    style_context = open_status_btn.get_style_context()
+    style_context.add_class("pill")
+    style_context.add_class("text-button")
+    style_context.add_class("suggested-action")
+
+    open_status_btn.set_action_name("app.open")
+
+    status_page = Adw.StatusPage.new()
+    status_page.set_icon_name("image-x-generic-symbolic")
+    status_page.set_title("No Image Loaded")
+    status_page.set_description("Drag and drop one here")
+    status_page.set_child(open_status_btn)
+
+    return status_page
+
+def create_drop_target(stack: Gtk.Stack) -> None:
     drop_target = Gtk.DropTarget.new(Gio.File, Gdk.DragAction.COPY)
     drop_target.set_preload(True)
 
-    # Drop handler callback type:
-    def on_file_dropped(_target: Gtk.DropTarget, _value: Gio.File, _x: int, _y: int) -> None:
+    def on_file_dropped(_target: Gtk.DropTarget, *value: Gio.File, _x: int, _y: int) -> None:
         app = Gio.Application.get_default()
         action = app.lookup_action("load-drop") if app else None
         if action:
@@ -116,27 +199,7 @@ def create_image_stack() -> Tuple[Gtk.Stack, Gtk.Picture, Adw.Spinner]:
     drop_target.connect("drop", on_file_dropped)
     stack.add_controller(drop_target)
 
-    # Status page with button child
-    # Translators: The prefixed underscore is used to indicate a mnemonic. Do NOT remove it.
-    open_status_btn = Gtk.Button.new_with_label(_("_Open Image…"))
-    open_status_btn.set_use_underline(True)
-    open_status_btn.set_halign(Gtk.Align.CENTER)
-    style_context = open_status_btn.get_style_context()
-    style_context.add_class("pill")
-    style_context.add_class("text-button")
-    style_context.add_class("suggested-action")
-    open_status_btn.set_action_name("app.open")
 
-    status_page = Adw.StatusPage.new()
-    status_page.set_icon_name("image-x-generic-symbolic")
-    status_page.set_title(_("No Image Loaded"))
-    status_page.set_description(_("Drag and drop one here"))
-    status_page.set_child(open_status_btn)
-
-    stack.add_named(status_page, "empty")
-    stack.set_visible_child_name("empty")
-
-    return stack, picture, spinner
 
 def create_image_options_group(
     on_padding_changed: Callable[[Adw.SpinRow], None],
