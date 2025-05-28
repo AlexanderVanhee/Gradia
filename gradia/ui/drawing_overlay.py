@@ -15,7 +15,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from gi.repository import Gtk, Gdk, Gio, cairo
+from gi.repository import Gtk, Gdk, Gio, cairo, Pango, PangoCairo
 from typing import Tuple, List, Optional, Union
 from enum import Enum
 import math
@@ -51,12 +51,19 @@ class StrokeAction(DrawingAction):
         cr.stroke()
 
 class ArrowAction(DrawingAction):
-    def __init__(self, start, end, color, arrow_head_size):
+    def __init__(self, start, end, color, arrow_head_size, width):
         self.start = start
         self.end = end
         self.color = color
         self.arrow_head_size = arrow_head_size
-
+        self.width = width
+class ArrowAction(DrawingAction):
+    def __init__(self, start, end, color, arrow_head_size, width):
+        self.start = start
+        self.end = end
+        self.color = color
+        self.arrow_head_size = arrow_head_size
+        self.width = width
     def draw(self, cr, image_to_widget_coords, scale):
         start_x, start_y = image_to_widget_coords(*self.start)
         end_x, end_y = image_to_widget_coords(*self.end)
@@ -64,7 +71,7 @@ class ArrowAction(DrawingAction):
         if distance < 2:
             return
         cr.set_source_rgba(*self.color)
-        cr.set_line_width(scale)
+        cr.set_line_width(self.width * scale)
         cr.move_to(start_x, start_y)
         cr.line_to(end_x, end_y)
         cr.stroke()
@@ -80,6 +87,39 @@ class ArrowAction(DrawingAction):
         cr.move_to(end_x, end_y)
         cr.line_to(x2, y2)
         cr.stroke()
+
+
+class TextAction(DrawingAction):
+    def __init__(self, position, text, color, font_size, font_family="Sans"):
+        self.position = position
+        self.text = text
+        self.color = color
+        self.font_size = font_size
+        self.font_family = font_family
+
+    def draw(self, cr, image_to_widget_coords, scale):
+        if not self.text.strip():
+            return
+
+        x, y = image_to_widget_coords(*self.position)
+        cr.set_source_rgba(*self.color)
+
+        layout = PangoCairo.create_layout(cr)
+        font_desc = Pango.FontDescription()
+        font_desc.set_family(self.font_family)
+        font_desc.set_size(int(self.font_size * scale * Pango.SCALE))
+        layout.set_font_description(font_desc)
+        layout.set_text(self.text, -1)
+
+        ink_rect, logical_rect = layout.get_extents()
+        text_width = logical_rect.width / Pango.SCALE
+        text_height = logical_rect.height / Pango.SCALE
+
+        adjusted_x = x - (text_width / 2)
+        adjusted_y = y - text_height
+
+        cr.move_to(adjusted_x, adjusted_y)
+        PangoCairo.show_layout(cr, layout)
 
 class LineAction(DrawingAction):
     def __init__(self, start, end, color, width):
@@ -155,6 +195,31 @@ class CircleAction(DrawingAction):
         cr.set_line_width(self.width * scale)
         cr.stroke()
 
+class TextAction(DrawingAction):
+    def __init__(self, position, text, color, font_size, font_family="Sans"):
+        self.position = position
+        self.text = text
+        self.color = color
+        self.font_size = font_size
+        self.font_family = font_family
+
+    def draw(self, cr, image_to_widget_coords, scale):
+        if not self.text.strip():
+            return
+
+        x, y = image_to_widget_coords(*self.position)
+        cr.set_source_rgba(*self.color)
+
+        layout = PangoCairo.create_layout(cr)
+        font_desc = Pango.FontDescription()
+        font_desc.set_family(self.font_family)
+        font_desc.set_size(int(self.font_size * scale * Pango.SCALE))
+        layout.set_font_description(font_desc)
+        layout.set_text(self.text, -1)
+
+        cr.move_to(x, y)
+        PangoCairo.show_layout(cr, layout)
+
 class DrawingOverlay(Gtk.DrawingArea):
     def __init__(self):
         super().__init__()
@@ -164,14 +229,23 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.drawing_mode = DrawingMode.PEN
         self.pen_size = 3.0
         self.arrow_head_size = 25.0
+        self.font_size = 16.0
+        self.font_family = "Sans"
         self.pen_color = (1.0, 1.0, 1.0, 0.8)
-        self.fill_color = None  # None means no fill, otherwise (r, g, b, a) tuple
+        self.fill_color = None
         self.is_drawing = False
         self.current_stroke = []
         self.start_point = None
         self.end_point = None
         self.actions = []
         self.redo_stack = []
+
+        # Text input state
+        self.text_entry_popup = None
+        self.text_position = None
+        self.is_text_editing = False
+        self.live_text = None
+
         self._setup_gestures()
         self._setup_actions()
 
@@ -222,7 +296,9 @@ class DrawingOverlay(Gtk.DrawingArea):
             if hasattr(root, "add_action"):
                 root.add_action(action)
 
-    def set_drawing_mode(self, mode: DrawingMode):
+    def set_drawing_mode(self, mode):
+        if self.text_entry_popup:
+            self._close_text_entry()
         self.drawing_mode = mode
         self.is_drawing = False
         self.current_stroke.clear()
@@ -231,17 +307,92 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.queue_draw()
 
     def _setup_gestures(self):
+        click = Gtk.GestureClick.new()
+        click.set_button(1)
+        click.connect("pressed", self._on_click)
+        self.add_controller(click)
+
         drag = Gtk.GestureDrag.new()
         drag.set_button(1)
         drag.connect("drag-begin", self._on_drag_begin)
         drag.connect("drag-update", self._on_drag_update)
         drag.connect("drag-end", self._on_drag_end)
         self.add_controller(drag)
+
         motion = Gtk.EventControllerMotion.new()
         motion.connect("motion", self._on_motion)
         self.add_controller(motion)
 
+    def _on_click(self, gesture, n_press, x, y):
+        if self.drawing_mode == DrawingMode.TEXT and self._is_point_in_image(x, y):
+            self.grab_focus()
+            self._show_text_entry(x, y)
+
+    def _show_text_entry(self, x, y):
+        if self.text_entry_popup:
+            self._close_text_entry()
+
+        self.text_position = self._widget_to_image_coords(x, y)
+        self.is_text_editing = True
+        self.live_text = ""
+
+        entry = Gtk.Entry()
+        entry.set_placeholder_text(_("Enter text..."))
+        entry.set_width_chars(20)
+        entry.connect("activate", self._on_text_entry_activate)
+        entry.connect("notify::has-focus", self._on_text_entry_focus_notify)
+        entry.connect("changed", self._on_text_entry_changed)
+
+        allocation = self.get_allocation()
+        rect = Gdk.Rectangle()
+        rect.x = allocation.x + int(x)
+        rect.y = allocation.y + int(y)
+        rect.width = 1
+        rect.height = 1
+
+        self.text_entry_popup = Gtk.Popover()
+        self.text_entry_popup.set_parent(self)
+        self.text_entry_popup.set_pointing_to(rect)
+        self.text_entry_popup.set_position(Gtk.PositionType.BOTTOM)
+        self.text_entry_popup.set_child(entry)
+        self.text_entry_popup.popup()
+        entry.grab_focus()
+
+    def _on_text_entry_changed(self, entry):
+        self.live_text = entry.get_text()
+        self.queue_draw()
+
+    def _on_text_entry_activate(self, entry):
+        text = entry.get_text().strip()
+        if text and self.text_position:
+            action = TextAction(
+                self.text_position,
+                text,
+                self.pen_color,
+                self.font_size,
+                self.font_family
+            )
+            self.actions.append(action)
+            self.redo_stack.clear()
+        self._close_text_entry()
+        self.queue_draw()
+
+    def _on_text_entry_focus_notify(self, entry, param):
+        if not entry.has_focus:
+            self._on_text_entry_activate(entry)
+
+    def _close_text_entry(self):
+        if self.text_entry_popup:
+            self.text_entry_popup.popdown()
+            self.text_entry_popup.unparent()
+            self.text_entry_popup = None
+        self.text_position = None
+        self.live_text = None
+        self.is_text_editing = False
+
     def _on_drag_begin(self, gesture, x, y):
+        if self.drawing_mode == DrawingMode.TEXT or self.text_entry_popup:
+            return
         if not self._is_point_in_image(x, y):
             return
         self.grab_focus()
@@ -254,7 +405,7 @@ class DrawingOverlay(Gtk.DrawingArea):
             self.end_point = rel
 
     def _on_drag_update(self, gesture, dx, dy):
-        if not self.is_drawing:
+        if not self.is_drawing or self.drawing_mode == DrawingMode.TEXT:
             return
         start = gesture.get_start_point()
         cur_x, cur_y = start.x + dx, start.y + dy
@@ -266,7 +417,7 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.queue_draw()
 
     def _on_drag_end(self, gesture, dx, dy):
-        if not self.is_drawing:
+        if not self.is_drawing or self.drawing_mode == DrawingMode.TEXT:
             return
         self.is_drawing = False
         mode = self.drawing_mode
@@ -275,22 +426,25 @@ class DrawingOverlay(Gtk.DrawingArea):
             self.current_stroke.clear()
         elif self.start_point and self.end_point:
             if mode == DrawingMode.ARROW:
-                self.actions.append(ArrowAction(self.start_point, self.end_point, self.pen_color, self.arrow_head_size))
+                self.actions.append(ArrowAction(self.start_point, self.end_point, self.pen_color, self.arrow_head_size, self.pen_size))
             elif mode == DrawingMode.LINE:
                 self.actions.append(LineAction(self.start_point, self.end_point, self.pen_color, self.pen_size))
             elif mode == DrawingMode.SQUARE:
                 self.actions.append(RectAction(self.start_point, self.end_point, self.pen_color, self.pen_size, self.fill_color))
             elif mode == DrawingMode.CIRCLE:
                 self.actions.append(CircleAction(self.start_point, self.end_point, self.pen_color, self.pen_size, self.fill_color))
-            self.start_point = None
-            self.end_point = None
+        self.start_point = None
+        self.end_point = None
         self.redo_stack.clear()
         self.queue_draw()
 
     def _on_motion(self, controller, x, y):
-        name = "crosshair" if self.drawing_mode == DrawingMode.PEN else "cell"
-        if not self._is_point_in_image(x, y):
-            name = "default"
+        if self.drawing_mode == DrawingMode.TEXT:
+            name = "text" if self._is_point_in_image(x, y) else "default"
+        else:
+            name = "crosshair" if self.drawing_mode == DrawingMode.PEN else "cell"
+            if not self._is_point_in_image(x, y):
+                name = "default"
         self.set_cursor(Gdk.Cursor.new_from_name(name, None))
 
     def _on_draw(self, area, cr, width, height):
@@ -300,15 +454,17 @@ class DrawingOverlay(Gtk.DrawingArea):
         ox, oy, dw, dh = self._get_image_bounds()
         cr.rectangle(ox, oy, dw, dh)
         cr.clip()
+
         for action in self.actions:
             action.draw(cr, self._image_to_widget_coords, scale)
-        if self.is_drawing:
+
+        if self.is_drawing and self.drawing_mode != DrawingMode.TEXT:
             cr.set_source_rgba(*self.pen_color)
             if self.drawing_mode == DrawingMode.PEN and len(self.current_stroke) > 1:
                 StrokeAction(self.current_stroke, self.pen_color, self.pen_size).draw(cr, self._image_to_widget_coords, scale)
             elif self.start_point and self.end_point:
                 if self.drawing_mode == DrawingMode.ARROW:
-                    ArrowAction(self.start_point, self.end_point, self.pen_color, self.arrow_head_size).draw(cr, self._image_to_widget_coords, scale)
+                    ArrowAction(self.start_point, self.end_point, self.pen_color, self.arrow_head_size, self.pen_size).draw(cr, self._image_to_widget_coords, scale)
                 elif self.drawing_mode == DrawingMode.LINE:
                     LineAction(self.start_point, self.end_point, self.pen_color, self.pen_size).draw(cr, self._image_to_widget_coords, scale)
                 elif self.drawing_mode == DrawingMode.SQUARE:
@@ -316,51 +472,73 @@ class DrawingOverlay(Gtk.DrawingArea):
                 elif self.drawing_mode == DrawingMode.CIRCLE:
                     CircleAction(self.start_point, self.end_point, self.pen_color, self.pen_size, self.fill_color).draw(cr, self._image_to_widget_coords, scale)
 
+        if self.is_text_editing and self.text_position and self.live_text:
+            preview = TextAction(
+                self.text_position,
+                self.live_text,
+                self.pen_color,
+                self.font_size,
+                self.font_family
+            )
+            preview.draw(cr, self._image_to_widget_coords, scale)
+
     def export_to_pixbuf(self):
-        """Export only the drawn annotations to a pixbuf with transparent background"""
         if not self.picture_widget or not self.picture_widget.get_paintable():
             return None
         img_w = self.picture_widget.get_paintable().get_intrinsic_width()
         img_h = self.picture_widget.get_paintable().get_intrinsic_height()
-
         if img_w <= 0 or img_h <= 0:
             return None
-
         import cairo as cairo_lib
-
         surface = cairo_lib.ImageSurface(cairo_lib.Format.ARGB32, img_w, img_h)
         cr = cairo_lib.Context(surface)
-
         cr.set_operator(cairo_lib.Operator.CLEAR)
         cr.paint()
         cr.set_operator(cairo_lib.Operator.OVER)
-
-        def image_coords_to_self(x, y):
-            return (x * img_w, y * img_h)
+        def image_coords_to_self(x, y): return (x * img_w, y * img_h)
         cr.set_line_cap(cairo_lib.LineCap.ROUND)
         cr.set_line_join(cairo_lib.LineJoin.ROUND)
-
         for action in self.actions:
             action.draw(cr, image_coords_to_self, 1.0)
-
         surface.flush()
         return Gdk.pixbuf_get_from_surface(surface, 0, 0, img_w, img_h)
 
+    def clear_drawing(self):
+        self._close_text_entry()
+        self.actions.clear()
+        self.redo_stack.clear()
+        self.queue_draw()
 
-    def clear_drawing(self): self.actions.clear(); self.redo_stack.clear(); self.queue_draw()
     def undo(self):
-        if self.actions: self.redo_stack.append(self.actions.pop()); self.queue_draw()
+        if self.actions:
+            self.redo_stack.append(self.actions.pop())
+            self.queue_draw()
+
     def redo(self):
-        if self.redo_stack: self.actions.append(self.redo_stack.pop()); self.queue_draw()
+        if self.redo_stack:
+            self.actions.append(self.redo_stack.pop())
+            self.queue_draw()
 
+    def set_pen_color(self, r, g, b, a=1):
+        self.pen_color = (r, g, b, a)
 
-    def set_pen_color(self, r, g, b, a=1): self.pen_color = (r, g, b, a)
-    def set_fill_color(self, r, g, b, a=1): self.fill_color = (r, g, b, a)
+    def set_fill_color(self, r, g, b, a=1):
+        self.fill_color = (r, g, b, a)
 
-    def set_pen_size(self, s): self.pen_size = max(1.0, s)
-    def set_arrow_head_size(self, s): self.arrow_head_size = max(5.0, s)
-    def set_drawing_visible(self, v): self.set_visible(v)
-    def get_drawing_visible(self): return self.get_visible()
+    def set_pen_size(self, s):
+        self.pen_size = max(1.0, s)
 
+    def set_arrow_head_size(self, s):
+        self.arrow_head_size = max(5.0, s)
 
+    def set_font_size(self, size):
+        self.font_size = max(8.0, size)
 
+    def set_font_family(self, family):
+        self.font_family = family if family else "Sans"
+
+    def set_drawing_visible(self, v):
+        self.set_visible(v)
+
+    def get_drawing_visible(self):
+        return self.get_visible()
