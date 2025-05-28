@@ -33,7 +33,6 @@ class ImageProcessor:
         background: Optional[object] = None,
         padding: int = 5,
         aspect_ratio: Optional[Union[str, float]] = None,
-        text: Optional[object] = None,
         corner_radius: int = 2,
         shadow_strength: float = 0.0
     ) -> None:
@@ -41,7 +40,6 @@ class ImageProcessor:
         self.padding = padding
         self.shadow_strength = shadow_strength
         self.aspect_ratio = aspect_ratio
-        self.text = text
         self.corner_radius = corner_radius
         self.source_img: Optional[Image.Image] = None
         self._loaded_image_path: Optional[str] = None
@@ -82,9 +80,6 @@ class ImageProcessor:
         final_img.paste(shadow_img, shadow_pos, shadow_img)
 
         final_img.paste(source_img, paste_position, source_img)
-
-        if self.text:
-            final_img = self.text.apply_to_image(final_img)
 
         return self._pil_to_pixbuf(final_img)
 

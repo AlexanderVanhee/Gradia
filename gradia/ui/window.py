@@ -22,7 +22,6 @@ from typing import Optional, Callable, Any, Union
 from gi.repository import Gtk, Gio, Adw, Gdk, GLib
 from gradia.graphics.image_processor import ImageProcessor
 from gradia.graphics.gradient import GradientSelector, GradientBackground
-from gradia.graphics.text import TextSelector
 from gradia.ui.ui_parts import *
 from gradia.clipboard import *
 from gradia.ui.misc import *
@@ -60,9 +59,6 @@ class GradientWindow:
         self.gradient_selector: GradientSelector = GradientSelector(
             gradient=GradientBackground(),
             callback=self._on_gradient_changed
-        )
-        self.text_selector: TextSelector = TextSelector(
-            callback=self._on_text_changed
         )
 
         self.processor: ImageProcessor = ImageProcessor(padding=5, background=GradientBackground())
@@ -156,7 +152,6 @@ class GradientWindow:
             gradient_selector_widget=self.gradient_selector.widget,
             on_padding_changed=self.on_padding_changed,
             on_corner_radius_changed=self.on_corner_radius_changed,
-            text_selector_widget=self.text_selector.widget,
             on_aspect_ratio_changed=self.on_aspect_ratio_changed,
             on_shadow_strength_changed=self.on_shadow_strength_changed,
         )

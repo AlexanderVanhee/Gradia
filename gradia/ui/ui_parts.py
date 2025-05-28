@@ -383,7 +383,6 @@ def create_sidebar_ui(
     gradient_selector_widget: Gtk.Widget,
     on_padding_changed: Callable[[Adw.SpinRow], None],
     on_corner_radius_changed: Callable[[Adw.SpinRow], None],
-    text_selector_widget: Gtk.Widget,
     on_aspect_ratio_changed: Callable[[Gtk.Entry], None],
     on_shadow_strength_changed: Callable[[Gtk.Scale], None],
 ) -> Dict[str, Union[Gtk.Widget, Adw.ActionRow, Adw.SpinRow, Gtk.Entry]]:
@@ -401,7 +400,6 @@ def create_sidebar_ui(
         on_padding_changed, on_aspect_ratio_changed, on_corner_radius_changed, on_shadow_strength_changed)
     controls_box.append(padding_group)
 
-    controls_box.append(text_selector_widget)
 
     file_info_group, filename_row, location_row, processed_size_row = create_file_info_group()
     controls_box.append(file_info_group)
