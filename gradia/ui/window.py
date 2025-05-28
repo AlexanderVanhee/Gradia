@@ -91,6 +91,7 @@ class GradientWindow:
         self.create_action_with_param("draw-mode", lambda action, param: self.drawing_overlay.set_drawing_mode(DrawingMode(param.get_string())))
 
         self.create_action_with_param("pen-color", lambda action, param: self._set_pen_color_from_string(param.get_string()))
+        self.create_action_with_param("fill-color", lambda action, param: self._set_fill_color_from_string(param.get_string()))
 
 
     def create_action(self, name: str, callback: Callable[..., None], shortcuts: Optional[list[str]] = None, enabled: bool = True) -> None:
@@ -247,10 +248,14 @@ class GradientWindow:
         self.processor.shadow_strength = strength.get_value()
         self._trigger_processing()
 
+    def _parse_rgba(self, color_string):
+        return map(float, color_string.split(','))
+
     def _set_pen_color_from_string(self, color_string):
-        parts = list(map(float, color_string.split(',')))
-        r, g, b, a = parts
-        self.drawing_overlay.set_pen_color(r, g, b, a)
+        self.drawing_overlay.set_pen_color(*self._parse_rgba(color_string))
+
+    def _set_fill_color_from_string(self, color_string):
+        self.drawing_overlay.set_fill_color(*self._parse_rgba(color_string))
 
     def _trigger_processing(self) -> None:
         if self.image_path:

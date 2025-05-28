@@ -1,6 +1,23 @@
+# Copyright (C) 2025 Alexander Vanhee
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 import os
 from typing import Tuple
-from gi.repository import Gtk, Gio
+from gi.repository import Gtk, Gio, GdkPixbuf
 from gradia.clipboard import copy_file_to_clipboard, save_pixbuff_to_path
 
 ExportFormat = Tuple[str, str, str]
@@ -19,8 +36,38 @@ class BaseImageExporter:
         self.window: Gtk.ApplicationWindow = window
         self.temp_dir: str = temp_dir
 
+    def get_processed_pixbuf(self):
+        return self.overlay_pixbuffs(self.window.processed_pixbuf, self.window.drawing_overlay.export_to_pixbuf())
+
+    def overlay_pixbuffs(self, bottom: GdkPixbuf.Pixbuf, top: GdkPixbuf.Pixbuf, alpha: float = 1) -> GdkPixbuf.Pixbuf:
+        if bottom.get_width() != top.get_width() or bottom.get_height() != top.get_height():
+            raise ValueError("Pixbufs must be the same size to overlay")
+
+        width = bottom.get_width()
+        height = bottom.get_height()
+
+        result = GdkPixbuf.Pixbuf.new(GdkPixbuf.Colorspace.RGB, True, 8, width, height)
+        result.fill(0x00000000)
+
+        bottom.composite(
+            result,
+            0, 0, width, height,
+            0, 0, 1.0, 1.0,
+            GdkPixbuf.InterpType.BILINEAR,
+            255
+        )
+
+        top.composite(
+            result,
+            0, 0, width, height,
+            0, 0, 1.0, 1.0,
+            GdkPixbuf.InterpType.BILINEAR,
+            int(255 * alpha)
+        )
+
+        return result
+
     def _get_dynamic_filename(self, extension: str = ".png") -> str:
-        """Generate dynamic filename based on original image"""
         if self.window.image_path:
             original_name = os.path.splitext(os.path.basename(self.window.image_path))[0]
             return f"{original_name}_processed{extension}"
@@ -94,9 +141,9 @@ class FileDialogExporter(BaseImageExporter):
         pixbuf_format = format_map.get(ext, 'png')
 
         if pixbuf_format in ['jpeg', 'webp']:
-            self.window.processed_pixbuf.savev(save_path, pixbuf_format, ['quality'], ['90'])
+            self.get_processed_pixbuf().savev(save_path, pixbuf_format, ['quality'], ['90'])
         else:
-            self.window.processed_pixbuf.savev(save_path, pixbuf_format, [], [])
+            self.get_processed_pixbuf().savev(save_path, pixbuf_format, [], [])
 
     def _ensure_processed_image_available(self) -> bool:
         """Override to return boolean for easier checking"""
@@ -122,7 +169,7 @@ class ClipboardExporter(BaseImageExporter):
         try:
             self._ensure_processed_image_available()
 
-            temp_path = save_pixbuff_to_path(self.temp_dir, self.window.processed_pixbuf)
+            temp_path = save_pixbuff_to_path(self.temp_dir, self.get_processed_pixbuf())
             if not temp_path or not os.path.exists(temp_path):
                 raise Exception("Failed to create temporary file for clipboard")
 
@@ -154,4 +201,5 @@ class ExportManager:
 
     def is_export_available(self) -> bool:
         """Check if export operations are available"""
-        return bool(self.window.processed_pixbuf)
+        return bool(self.file_exporter.processed_pixbuf)
+

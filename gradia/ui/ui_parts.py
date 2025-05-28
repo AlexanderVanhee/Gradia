@@ -259,9 +259,10 @@ def create_file_info_group() -> Tuple[Adw.PreferencesGroup, Adw.ActionRow, Adw.A
 
     return file_info_group, filename_row, location_row, processed_size_row
 
-def create_drawing_tools_group() -> Tuple[Adw.PreferencesGroup, Dict[str, Gtk.ToggleButton], Gtk.ColorButton]:
+def create_drawing_tools_group() -> Adw.PreferencesGroup:
     tools_group = Adw.PreferencesGroup(title=_("Drawing Tools"))
-    # Create tools row (no title, just the icons in a row)
+
+    # Drawing mode buttons
     tools_row = Adw.ActionRow()
     tools_grid = Gtk.Grid(margin_start=6, margin_end=6, margin_top=6, margin_bottom=6)
     tools_grid.set_row_spacing(6)
@@ -278,28 +279,37 @@ def create_drawing_tools_group() -> Tuple[Adw.PreferencesGroup, Dict[str, Gtk.To
         (DrawingMode.LINE, "draw-line-symbolic", 5, 0),
     ]
 
+    fill_sensitive_modes = {DrawingMode.SQUARE, DrawingMode.CIRCLE}
     tool_buttons = {}
 
+    # Fill color row with reset button
+    fill_row = Adw.ActionRow(title=_("Fill Color"))
+    fill_row.set_sensitive(False)
+
+    reset_fill_button = Gtk.Button(icon_name="edit-clear-symbolic")
+    reset_fill_button.get_style_context().add_class("flat")
+    reset_fill_button.set_tooltip_text(_("Reset Fill"))
+    reset_fill_button.set_valign(Gtk.Align.CENTER)
+
+    fill_color_button = Gtk.ColorButton()
+    fill_color_button.set_valign(Gtk.Align.CENTER)
+    fill_color_button.set_rgba(Gdk.RGBA(red=0, green=0, blue=0, alpha=0))
+
+
     def on_button_toggled(button: Gtk.ToggleButton, drawing_mode):
-        """Handle tool button toggle - ensure only one is active at a time"""
         if button.get_active():
-            # Deactivate all other buttons
             for mode_key, btn in tool_buttons.items():
                 if mode_key != drawing_mode and btn.get_active():
                     btn.set_active(False)
 
-            # Trigger single 'draw-mode' action with parameter
+            fill_row.set_sensitive(drawing_mode in fill_sensitive_modes)
             app = Gio.Application.get_default()
             if app:
                 action = app.lookup_action("draw-mode")
                 if action:
-                    mode_str = drawing_mode.value if isinstance(drawing_mode, DrawingMode) else drawing_mode
-                    variant = GLib.Variant('s', mode_str)
+                    variant = GLib.Variant('s', drawing_mode.value)
                     action.activate(variant)
-                else:
-                    print(f"Action 'draw-mode' not found.")
         else:
-            # Prevent deselecting the last active button
             any_active = any(
                 btn.get_active() for mode_key, btn in tool_buttons.items() if mode_key != drawing_mode
             )
@@ -309,13 +319,7 @@ def create_drawing_tools_group() -> Tuple[Adw.PreferencesGroup, Dict[str, Gtk.To
     for drawing_mode, icon_name, col, row in tools_data:
         button = Gtk.ToggleButton()
         button.set_icon_name(icon_name)
-
-        # Set tooltip text based on enum or string
-        if isinstance(drawing_mode, DrawingMode):
-            button.set_tooltip_text(_(drawing_mode.value.capitalize()))
-        else:
-            button.set_tooltip_text(_(drawing_mode.capitalize()))
-
+        button.set_tooltip_text(_(drawing_mode.value.capitalize()))
         button.get_style_context().add_class("flat")
         button.get_style_context().add_class("circular")
         button.set_size_request(35, 35)
@@ -323,25 +327,33 @@ def create_drawing_tools_group() -> Tuple[Adw.PreferencesGroup, Dict[str, Gtk.To
         tools_grid.attach(button, col, row, 1, 1)
         tool_buttons[drawing_mode] = button
 
-    # Set pen as active by default
+    # Default tool is PEN
     if DrawingMode.PEN in tool_buttons:
         tool_buttons[DrawingMode.PEN].set_active(True)
 
     tools_row.set_child(tools_grid)
     tools_group.add(tools_row)
 
-    color_row = Adw.ActionRow(title=_("Color"))
-    color_button = Gtk.ColorButton()
-    color_button.set_valign(Gtk.Align.CENTER)
-    rgba = Gdk.RGBA()
-    rgba.red = 1
-    rgba.green = 1
-    rgba.blue = 1
-    rgba.alpha = 1
-    color_button.set_rgba(rgba)
-    color_row.add_suffix(color_button)
-    tools_group.add(color_row)
+    # Stroke color row
+    stroke_color_row = Adw.ActionRow(title=_("Stroke Color"))
+    stroke_color_button = Gtk.ColorButton()
+    stroke_color_button.set_valign(Gtk.Align.CENTER)
+    stroke_color_button.set_rgba(Gdk.RGBA(red=1, green=1, blue=1, alpha=1))
+    stroke_color_row.add_suffix(stroke_color_button)
+    tools_group.add(stroke_color_row)
 
+
+    def on_reset_fill_clicked(_btn):
+        fill_color_button.set_rgba(Gdk.RGBA(red=0, green=0, blue=0, alpha=0))
+        fill_color_button.emit("color-set")
+
+    reset_fill_button.connect("clicked", on_reset_fill_clicked)
+
+    fill_row.add_suffix(reset_fill_button)
+    fill_row.add_suffix(fill_color_button)
+    tools_group.add(fill_row)
+
+    # Color-set handlers
     def on_color_set(color_btn: Gtk.ColorButton):
         app = Gio.Application.get_default()
         if app:
@@ -351,10 +363,19 @@ def create_drawing_tools_group() -> Tuple[Adw.PreferencesGroup, Dict[str, Gtk.To
                 color_str = f"{rgba.red:.3f},{rgba.green:.3f},{rgba.blue:.3f},{rgba.alpha:.3f}"
                 variant = GLib.Variant('s', color_str)
                 action.activate(variant)
-            else:
-                print("Action 'pen-color' not found.")
 
-    color_button.connect("color-set", on_color_set)
+    def on_fill_color_set(color_btn: Gtk.ColorButton):
+        app = Gio.Application.get_default()
+        if app:
+            action = app.lookup_action("fill-color")
+            if action:
+                rgba = color_btn.get_rgba()
+                color_str = f"{rgba.red:.3f},{rgba.green:.3f},{rgba.blue:.3f},{rgba.alpha:.3f}"
+                variant = GLib.Variant('s', color_str)
+                action.activate(variant)
+
+    stroke_color_button.connect("color-set", on_color_set)
+    fill_color_button.connect("color-set", on_fill_color_set)
 
     return tools_group
 

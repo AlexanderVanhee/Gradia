@@ -19,6 +19,7 @@ from gi.repository import Gtk, Gdk, Gio, cairo
 from typing import Tuple, List, Optional, Union
 from enum import Enum
 import math
+import re
 
 class DrawingMode(Enum):
     PEN = "pen"
@@ -97,30 +98,40 @@ class LineAction(DrawingAction):
         cr.stroke()
 
 class RectAction(DrawingAction):
-    def __init__(self, start, end, color, width):
+    def __init__(self, start, end, color, width, fill_color=None):
         self.start = start
         self.end = end
         self.color = color
         self.width = width
+        self.fill_color = fill_color
 
     def draw(self, cr, image_to_widget_coords, scale):
-        cr.set_source_rgba(*self.color)
-        cr.set_line_width(self.width * scale)
         x1, y1 = image_to_widget_coords(*self.start)
         x2, y2 = image_to_widget_coords(*self.end)
-        cr.rectangle(min(x1, x2), min(y1, y2), abs(x2 - x1), abs(y2 - y1))
+        rect_x = min(x1, x2)
+        rect_y = min(y1, y2)
+        rect_w = abs(x2 - x1)
+        rect_h = abs(y2 - y1)
+
+        if self.fill_color:
+            cr.set_source_rgba(*self.fill_color)
+            cr.rectangle(rect_x, rect_y, rect_w, rect_h)
+            cr.fill()
+
+        cr.set_source_rgba(*self.color)
+        cr.set_line_width(self.width * scale)
+        cr.rectangle(rect_x, rect_y, rect_w, rect_h)
         cr.stroke()
 
 class CircleAction(DrawingAction):
-    def __init__(self, start, end, color, width):
+    def __init__(self, start, end, color, width, fill_color=None):
         self.start = start
         self.end = end
         self.color = color
         self.width = width
+        self.fill_color = fill_color
 
     def draw(self, cr, image_to_widget_coords, scale):
-        cr.set_source_rgba(*self.color)
-        cr.set_line_width(self.width * scale)
         x1, y1 = image_to_widget_coords(*self.start)
         x2, y2 = image_to_widget_coords(*self.end)
         cx = (x1 + x2) / 2
@@ -129,11 +140,19 @@ class CircleAction(DrawingAction):
         ry = abs(y2 - y1) / 2
         if rx < 1e-3 or ry < 1e-3:
             return
+
         cr.save()
         cr.translate(cx, cy)
         cr.scale(rx, ry)
         cr.arc(0, 0, 1, 0, 2 * math.pi)
         cr.restore()
+
+        if self.fill_color:
+            cr.set_source_rgba(*self.fill_color)
+            cr.fill_preserve()
+
+        cr.set_source_rgba(*self.color)
+        cr.set_line_width(self.width * scale)
         cr.stroke()
 
 class DrawingOverlay(Gtk.DrawingArea):
@@ -146,6 +165,7 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.pen_size = 3.0
         self.arrow_head_size = 25.0
         self.pen_color = (1.0, 1.0, 1.0, 0.8)
+        self.fill_color = None  # None means no fill, otherwise (r, g, b, a) tuple
         self.is_drawing = False
         self.current_stroke = []
         self.start_point = None
@@ -254,15 +274,14 @@ class DrawingOverlay(Gtk.DrawingArea):
             self.actions.append(StrokeAction(self.current_stroke.copy(), self.pen_color, self.pen_size))
             self.current_stroke.clear()
         elif self.start_point and self.end_point:
-            action_map = {
-                DrawingMode.ARROW: ArrowAction,
-                DrawingMode.LINE: LineAction,
-                DrawingMode.SQUARE: RectAction,
-                DrawingMode.CIRCLE: CircleAction
-            }
-            ActionCls = action_map.get(mode)
-            if ActionCls:
-                self.actions.append(ActionCls(self.start_point, self.end_point, self.pen_color, self.pen_size))
+            if mode == DrawingMode.ARROW:
+                self.actions.append(ArrowAction(self.start_point, self.end_point, self.pen_color, self.arrow_head_size))
+            elif mode == DrawingMode.LINE:
+                self.actions.append(LineAction(self.start_point, self.end_point, self.pen_color, self.pen_size))
+            elif mode == DrawingMode.SQUARE:
+                self.actions.append(RectAction(self.start_point, self.end_point, self.pen_color, self.pen_size, self.fill_color))
+            elif mode == DrawingMode.CIRCLE:
+                self.actions.append(CircleAction(self.start_point, self.end_point, self.pen_color, self.pen_size, self.fill_color))
             self.start_point = None
             self.end_point = None
         self.redo_stack.clear()
@@ -288,41 +307,60 @@ class DrawingOverlay(Gtk.DrawingArea):
             if self.drawing_mode == DrawingMode.PEN and len(self.current_stroke) > 1:
                 StrokeAction(self.current_stroke, self.pen_color, self.pen_size).draw(cr, self._image_to_widget_coords, scale)
             elif self.start_point and self.end_point:
-                preview_map = {
-                    DrawingMode.ARROW: ArrowAction,
-                    DrawingMode.LINE: LineAction,
-                    DrawingMode.SQUARE: RectAction,
-                    DrawingMode.CIRCLE: CircleAction
-                }
-                PreviewCls = preview_map.get(self.drawing_mode)
-                if PreviewCls:
-                    PreviewCls(self.start_point, self.end_point, self.pen_color, self.pen_size).draw(cr, self._image_to_widget_coords, scale)
+                if self.drawing_mode == DrawingMode.ARROW:
+                    ArrowAction(self.start_point, self.end_point, self.pen_color, self.arrow_head_size).draw(cr, self._image_to_widget_coords, scale)
+                elif self.drawing_mode == DrawingMode.LINE:
+                    LineAction(self.start_point, self.end_point, self.pen_color, self.pen_size).draw(cr, self._image_to_widget_coords, scale)
+                elif self.drawing_mode == DrawingMode.SQUARE:
+                    RectAction(self.start_point, self.end_point, self.pen_color, self.pen_size, self.fill_color).draw(cr, self._image_to_widget_coords, scale)
+                elif self.drawing_mode == DrawingMode.CIRCLE:
+                    CircleAction(self.start_point, self.end_point, self.pen_color, self.pen_size, self.fill_color).draw(cr, self._image_to_widget_coords, scale)
 
     def export_to_pixbuf(self):
+        """Export only the drawn annotations to a pixbuf with transparent background"""
         if not self.picture_widget or not self.picture_widget.get_paintable():
             return None
         img_w = self.picture_widget.get_paintable().get_intrinsic_width()
         img_h = self.picture_widget.get_paintable().get_intrinsic_height()
+
         if img_w <= 0 or img_h <= 0:
             return None
-        surface = cairo.ImageSurface(cairo.Format.ARGB32, img_w, img_h)
-        cr = cairo.Context(surface)
-        def image_coords_to_self(x, y): return (x * img_w, y * img_h)
-        cr.set_line_cap(cairo.LineCap.ROUND)
-        cr.set_line_join(cairo.LineJoin.ROUND)
+
+        import cairo as cairo_lib
+
+        surface = cairo_lib.ImageSurface(cairo_lib.Format.ARGB32, img_w, img_h)
+        cr = cairo_lib.Context(surface)
+
+        cr.set_operator(cairo_lib.Operator.CLEAR)
+        cr.paint()
+        cr.set_operator(cairo_lib.Operator.OVER)
+
+        def image_coords_to_self(x, y):
+            return (x * img_w, y * img_h)
+        cr.set_line_cap(cairo_lib.LineCap.ROUND)
+        cr.set_line_join(cairo_lib.LineJoin.ROUND)
+
         for action in self.actions:
             action.draw(cr, image_coords_to_self, 1.0)
+
         surface.flush()
         return Gdk.pixbuf_get_from_surface(surface, 0, 0, img_w, img_h)
+
 
     def clear_drawing(self): self.actions.clear(); self.redo_stack.clear(); self.queue_draw()
     def undo(self):
         if self.actions: self.redo_stack.append(self.actions.pop()); self.queue_draw()
     def redo(self):
         if self.redo_stack: self.actions.append(self.redo_stack.pop()); self.queue_draw()
+
+
     def set_pen_color(self, r, g, b, a=1): self.pen_color = (r, g, b, a)
+    def set_fill_color(self, r, g, b, a=1): self.fill_color = (r, g, b, a)
+
     def set_pen_size(self, s): self.pen_size = max(1.0, s)
     def set_arrow_head_size(self, s): self.arrow_head_size = max(5.0, s)
     def set_drawing_visible(self, v): self.set_visible(v)
     def get_drawing_visible(self): return self.get_visible()
+
+
 

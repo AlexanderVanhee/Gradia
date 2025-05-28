@@ -46,6 +46,7 @@ class BaseImageLoader:
     def _set_image_and_update_ui(self, image_path: str, filename: str, location: str) -> None:
         """Common method to set image and update UI"""
         self.window.image_path = image_path
+        self.window.drawing_overlay.clear_drawing()
         self.window._update_sidebar_info(filename, location)
         self.window._start_processing()
 
