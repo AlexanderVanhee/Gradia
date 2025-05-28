@@ -62,7 +62,7 @@ class FileDialogImageLoader(BaseImageLoader):
         file_dialog.set_title(_("Open Image"))
 
         image_filter = Gtk.FileFilter()
-        image_filter.set_name("Image Files")
+        image_filter.set_name(_("Image Files"))
         for _ext, mime_type in self.SUPPORTED_INPUT_FORMATS:
             image_filter.add_mime_type(mime_type)
 
@@ -72,7 +72,7 @@ class FileDialogImageLoader(BaseImageLoader):
 
         file_dialog.open(self.window.win, None, self._on_file_selected)
 
-    def _on_file_selected(self, dialog: Gtk.FileDialog, result: Gio.Cancellable) -> None:
+    def _on_file_selected(self, dialog: Gtk.FileDialog, result: Gio.AsyncResult) -> None:
         """Handle file selection from dialog"""
         try:
             file = dialog.open_finish(result)
@@ -138,7 +138,7 @@ class ClipboardImageLoader(BaseImageLoader):
 
     def load_from_clipboard(self) -> None:
         """Load image from system clipboard"""
-        clipboard = Gdk.Display.get_default().get_clipboard()
+        clipboard = self.window.get_clipboard()
         clipboard.read_texture_async(None, self._handle_clipboard_texture)
 
     def _handle_clipboard_texture(

@@ -18,12 +18,18 @@ import sys
 import os
 import tempfile
 import shutil
+
+from typing import Sequence
+
 from gi.repository import Adw, Gio
+
 from gradia.ui.window import GradientWindow
 
 
 class GradiaApp(Adw.Application):
-    def __init__(self, version=None):
+    __gtype_name__ = "GradiaApp"
+
+    def __init__(self, version: str):
         super().__init__(
             application_id="be.alexandervanhee.gradia",
             flags=Gio.ApplicationFlags.HANDLES_OPEN
@@ -37,7 +43,7 @@ class GradiaApp(Adw.Application):
         self.ui.build_ui()
         self.ui.show()
 
-    def do_open(self, files, n_files, hint):
+    def do_open(self, files: Sequence[Gio.File], hint: str):
         self.activate()
 
     def do_shutdown(self):
@@ -50,7 +56,7 @@ class GradiaApp(Adw.Application):
             Gio.Application.do_shutdown(self)
 
 
-def main(version=None):
+def main(version: str):
     try:
         app = GradiaApp(version=version)
         return app.run(sys.argv)

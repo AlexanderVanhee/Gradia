@@ -30,7 +30,9 @@ from gradia.ui.image_loaders import ImportManager
 from gradia.ui.image_exporters import ExportManager
 
 
-class GradientWindow:
+class GradientWindow(Adw.ApplicationWindow):
+    __gtype_name__ = 'GradientWindow'
+
     DEFAULT_WINDOW_WIDTH: int = 900
     DEFAULT_WINDOW_HEIGHT: int = 600
     DEFAULT_PANED_POSITION: int = 650
@@ -44,7 +46,9 @@ class GradientWindow:
     # Temp file names
     TEMP_PROCESSED_FILENAME: str = "processed.png"
 
-    def __init__(self, app: Adw.Application, temp_dir: str, version: str) -> None:
+    def __init__(self, app: Adw.Application, temp_dir: str, version: str, **kwargs) -> None:
+        super().__init__(**kwargs)
+
         self.app: Adw.Application = app
         self.temp_dir: str = temp_dir
         self.version: str = version
@@ -294,9 +298,8 @@ class GradientWindow:
         about.present(self.win)
 
     def _set_save_and_toggle_(self, enabled: bool) -> None:
-        app = self.app
         for action_name in ["save", "copy"]:
-            action: Optional[Gio.SimpleAction] = app.lookup_action(action_name)
+            action: Optional[Gio.SimpleAction] = self.app.lookup_action(action_name)
             if action:
                 action.set_enabled(enabled)
 

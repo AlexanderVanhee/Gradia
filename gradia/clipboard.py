@@ -33,7 +33,12 @@ def copy_file_to_clipboard(local_path: str) -> None:
     with open(local_path, "rb") as f:
         png_data: bytes = f.read()
 
+    display = Gdk.Display.get_default()
+    if not display:
+        print("Warning: Failed to retrieve `Gdk.Display` object.")
+        return
+
     bytes_data: GLib.Bytes = GLib.Bytes.new(png_data)
-    clipboard: Gdk.Clipboard = Gdk.Display.get_default().get_clipboard()
+    clipboard: Gdk.Clipboard = display.get_clipboard()
     content_provider: Gdk.ContentProvider = Gdk.ContentProvider.new_for_bytes("image/png", bytes_data)
     clipboard.set_content(content_provider)
