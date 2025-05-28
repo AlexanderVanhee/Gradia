@@ -275,7 +275,7 @@ def create_drawing_tools_group() -> Adw.PreferencesGroup:
         (DrawingMode.SQUARE, "box-small-outline-symbolic", 1, 0),
         (DrawingMode.CIRCLE, "circle-outline-thick-symbolic", 2, 0),
         (DrawingMode.TEXT, "draw-text-symbolic", 3, 0),
-        (DrawingMode.ARROW, "arrow1-left-symbolic", 4, 0),
+        (DrawingMode.ARROW, "arrow1-top-right-symbolic", 4, 0),
         (DrawingMode.LINE, "draw-line-symbolic", 5, 0),
     ]
 

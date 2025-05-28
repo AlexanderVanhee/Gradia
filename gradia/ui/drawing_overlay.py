@@ -57,13 +57,7 @@ class ArrowAction(DrawingAction):
         self.color = color
         self.arrow_head_size = arrow_head_size
         self.width = width
-class ArrowAction(DrawingAction):
-    def __init__(self, start, end, color, arrow_head_size, width):
-        self.start = start
-        self.end = end
-        self.color = color
-        self.arrow_head_size = arrow_head_size
-        self.width = width
+
     def draw(self, cr, image_to_widget_coords, scale):
         start_x, start_y = image_to_widget_coords(*self.start)
         end_x, end_y = image_to_widget_coords(*self.end)
@@ -87,7 +81,6 @@ class ArrowAction(DrawingAction):
         cr.move_to(end_x, end_y)
         cr.line_to(x2, y2)
         cr.stroke()
-
 
 class TextAction(DrawingAction):
     def __init__(self, position, text, color, font_size, font_family="Sans"):
@@ -195,31 +188,6 @@ class CircleAction(DrawingAction):
         cr.set_line_width(self.width * scale)
         cr.stroke()
 
-class TextAction(DrawingAction):
-    def __init__(self, position, text, color, font_size, font_family="Sans"):
-        self.position = position
-        self.text = text
-        self.color = color
-        self.font_size = font_size
-        self.font_family = font_family
-
-    def draw(self, cr, image_to_widget_coords, scale):
-        if not self.text.strip():
-            return
-
-        x, y = image_to_widget_coords(*self.position)
-        cr.set_source_rgba(*self.color)
-
-        layout = PangoCairo.create_layout(cr)
-        font_desc = Pango.FontDescription()
-        font_desc.set_family(self.font_family)
-        font_desc.set_size(int(self.font_size * scale * Pango.SCALE))
-        layout.set_font_description(font_desc)
-        layout.set_text(self.text, -1)
-
-        cr.move_to(x, y)
-        PangoCairo.show_layout(cr, layout)
-
 class DrawingOverlay(Gtk.DrawingArea):
     def __init__(self):
         super().__init__()
@@ -240,7 +208,6 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.actions = []
         self.redo_stack = []
 
-        # Text input state
         self.text_entry_popup = None
         self.text_position = None
         self.is_text_editing = False
@@ -340,7 +307,6 @@ class DrawingOverlay(Gtk.DrawingArea):
         entry.set_placeholder_text(_("Enter text..."))
         entry.set_width_chars(20)
         entry.connect("activate", self._on_text_entry_activate)
-        entry.connect("notify::has-focus", self._on_text_entry_focus_notify)
         entry.connect("changed", self._on_text_entry_changed)
 
         allocation = self.get_allocation()
@@ -355,8 +321,27 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.text_entry_popup.set_pointing_to(rect)
         self.text_entry_popup.set_position(Gtk.PositionType.BOTTOM)
         self.text_entry_popup.set_child(entry)
+        self.text_entry_popup.connect("closed", self._on_text_entry_popover_closed)
         self.text_entry_popup.popup()
         entry.grab_focus()
+
+    def _on_text_entry_popover_closed(self, popover):
+        if self.text_entry_popup and self.text_position:
+            entry = self.text_entry_popup.get_child()
+            if entry:
+                text = entry.get_text().strip()
+                if text:
+                    action = TextAction(
+                        self.text_position,
+                        text,
+                        self.pen_color,
+                        self.font_size,
+                        self.font_family
+                    )
+                    self.actions.append(action)
+                    self.redo_stack.clear()
+        self._cleanup_text_entry()
+        self.queue_draw()
 
     def _on_text_entry_changed(self, entry):
         self.live_text = entry.get_text()
@@ -377,14 +362,16 @@ class DrawingOverlay(Gtk.DrawingArea):
         self._close_text_entry()
         self.queue_draw()
 
-    def _on_text_entry_focus_notify(self, entry, param):
-        if not entry.has_focus:
-            self._on_text_entry_activate(entry)
+    def _cleanup_text_entry(self):
+        if self.text_entry_popup:
+            self.text_entry_popup = None
+        self.text_position = None
+        self.live_text = None
+        self.is_text_editing = False
 
     def _close_text_entry(self):
         if self.text_entry_popup:
             self.text_entry_popup.popdown()
-            self.text_entry_popup.unparent()
             self.text_entry_popup = None
         self.text_position = None
         self.live_text = None

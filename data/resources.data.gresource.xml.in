@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/be/alexandervanhee/gradia">
-    <file preprocess="xml-stripblanks">icons/scalable/actions/arrow1-top-left-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/arrow1-top-right-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">icons/scalable/actions/arrow1-up-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">icons/scalable/actions/arrow1-left-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">icons/scalable/actions/circle-anchor-center-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">icons/scalable/actions/arrow1-right-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">icons/scalable/actions/arrow1-bottom-left-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">icons/scalable/actions/arrow1-bottom-right-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">icons/scalable/actions/arrow1-down-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/clipboard-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/columns-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/edit-symbolic.svg</file>
