@@ -12,6 +12,11 @@
     <file preprocess="xml-stripblanks">icons/scalable/actions/arrow1-down-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/clipboard-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/columns-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/edit-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/box-small-outline-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/circle-outline-thick-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/draw-line-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/draw-text-symbolic.svg</file>
   </gresource>
 </gresources>
 

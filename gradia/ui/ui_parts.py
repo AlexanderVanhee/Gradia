@@ -16,9 +16,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from typing import Callable, Dict, Optional, Tuple, Union
-from gi.repository import Gtk, Gio, Adw, Gdk
+from gi.repository import Gtk, Gio, Adw, Gdk, GLib
 
 from gradia.ui.drawing_overlay import *
+from gradia.ui.drawing_overlay import DrawingMode
 
 def create_header_bar() -> Adw.HeaderBar:
     header_bar = Adw.HeaderBar()
@@ -115,7 +116,9 @@ def create_controls_overlay() -> Gtk.Widget:
     reset_btn = Gtk.Button.new_from_icon_name("user-trash-symbolic")
 
     for btn in (undo_btn, redo_btn, reset_btn):
-        btn.get_style_context().add_class("flat")
+        btn.get_style_context().add_class("osd")
+        btn.get_style_context().add_class("circular")
+
 
     button_box = Gtk.Box(
         orientation=Gtk.Orientation.HORIZONTAL,
@@ -256,6 +259,105 @@ def create_file_info_group() -> Tuple[Adw.PreferencesGroup, Adw.ActionRow, Adw.A
 
     return file_info_group, filename_row, location_row, processed_size_row
 
+def create_drawing_tools_group() -> Tuple[Adw.PreferencesGroup, Dict[str, Gtk.ToggleButton], Gtk.ColorButton]:
+    tools_group = Adw.PreferencesGroup(title=_("Drawing Tools"))
+    # Create tools row (no title, just the icons in a row)
+    tools_row = Adw.ActionRow()
+    tools_grid = Gtk.Grid(margin_start=6, margin_end=6, margin_top=6, margin_bottom=6)
+    tools_grid.set_row_spacing(6)
+    tools_grid.set_column_spacing(6)
+    tools_grid.set_halign(Gtk.Align.CENTER)
+    tools_grid.set_valign(Gtk.Align.CENTER)
+
+    tools_data = [
+        (DrawingMode.PEN, "edit-symbolic", 0, 0),
+        (DrawingMode.SQUARE, "box-small-outline-symbolic", 1, 0),
+        (DrawingMode.CIRCLE, "circle-outline-thick-symbolic", 2, 0),
+        (DrawingMode.TEXT, "draw-text-symbolic", 3, 0),
+        (DrawingMode.ARROW, "arrow1-left-symbolic", 4, 0),
+        (DrawingMode.LINE, "draw-line-symbolic", 5, 0),
+    ]
+
+    tool_buttons = {}
+
+    def on_button_toggled(button: Gtk.ToggleButton, drawing_mode):
+        """Handle tool button toggle - ensure only one is active at a time"""
+        if button.get_active():
+            # Deactivate all other buttons
+            for mode_key, btn in tool_buttons.items():
+                if mode_key != drawing_mode and btn.get_active():
+                    btn.set_active(False)
+
+            # Trigger single 'draw-mode' action with parameter
+            app = Gio.Application.get_default()
+            if app:
+                action = app.lookup_action("draw-mode")
+                if action:
+                    mode_str = drawing_mode.value if isinstance(drawing_mode, DrawingMode) else drawing_mode
+                    variant = GLib.Variant('s', mode_str)
+                    action.activate(variant)
+                else:
+                    print(f"Action 'draw-mode' not found.")
+        else:
+            # Prevent deselecting the last active button
+            any_active = any(
+                btn.get_active() for mode_key, btn in tool_buttons.items() if mode_key != drawing_mode
+            )
+            if not any_active:
+                button.set_active(True)
+
+    for drawing_mode, icon_name, col, row in tools_data:
+        button = Gtk.ToggleButton()
+        button.set_icon_name(icon_name)
+
+        # Set tooltip text based on enum or string
+        if isinstance(drawing_mode, DrawingMode):
+            button.set_tooltip_text(_(drawing_mode.value.capitalize()))
+        else:
+            button.set_tooltip_text(_(drawing_mode.capitalize()))
+
+        button.get_style_context().add_class("flat")
+        button.get_style_context().add_class("circular")
+        button.set_size_request(35, 35)
+        button.connect("toggled", on_button_toggled, drawing_mode)
+        tools_grid.attach(button, col, row, 1, 1)
+        tool_buttons[drawing_mode] = button
+
+    # Set pen as active by default
+    if DrawingMode.PEN in tool_buttons:
+        tool_buttons[DrawingMode.PEN].set_active(True)
+
+    tools_row.set_child(tools_grid)
+    tools_group.add(tools_row)
+
+    color_row = Adw.ActionRow(title=_("Color"))
+    color_button = Gtk.ColorButton()
+    color_button.set_valign(Gtk.Align.CENTER)
+    rgba = Gdk.RGBA()
+    rgba.red = 1
+    rgba.green = 1
+    rgba.blue = 1
+    rgba.alpha = 1
+    color_button.set_rgba(rgba)
+    color_row.add_suffix(color_button)
+    tools_group.add(color_row)
+
+    def on_color_set(color_btn: Gtk.ColorButton):
+        app = Gio.Application.get_default()
+        if app:
+            action = app.lookup_action("pen-color")
+            if action:
+                rgba = color_btn.get_rgba()
+                color_str = f"{rgba.red:.3f},{rgba.green:.3f},{rgba.blue:.3f},{rgba.alpha:.3f}"
+                variant = GLib.Variant('s', color_str)
+                action.activate(variant)
+            else:
+                print("Action 'pen-color' not found.")
+
+    color_button.connect("color-set", on_color_set)
+
+    return tools_group
+
 def create_sidebar_ui(
     gradient_selector_widget: Gtk.Widget,
     on_padding_changed: Callable[[Adw.SpinRow], None],
@@ -268,6 +370,9 @@ def create_sidebar_ui(
     settings_scroll = Gtk.ScrolledWindow(vexpand=True)
     controls_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=20,
                            margin_start=16, margin_end=16, margin_top=16, margin_bottom=16)
+
+    drawing_tools_group = create_drawing_tools_group()
+    controls_box.append(drawing_tools_group)
 
     controls_box.append(gradient_selector_widget)
     # Add grouped UI elements

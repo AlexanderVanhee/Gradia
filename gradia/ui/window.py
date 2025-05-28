@@ -83,14 +83,26 @@ class GradientWindow:
 
         self.create_action("quit", lambda *_: self.win.close(), ["<Primary>q"])
 
-        self.create_action("toggle", lambda *_: self.drawing_overlay.toggle_drawing_mode(), ["<Shift>t"])
+
         self.create_action("undo", lambda *_: self.drawing_overlay.undo(), ["<Primary>z"])
         self.create_action("redo", lambda *_: self.drawing_overlay.redo(), ["<Primary><Shift>z"])
         self.create_action("clear", lambda *_: self.drawing_overlay.clear_drawing())
+        self.create_action("draw-mode", lambda *_: self.drawing_overlay.set_drawing_mode(mode))
+        self.create_action_with_param("draw-mode", lambda action, param: self.drawing_overlay.set_drawing_mode(DrawingMode(param.get_string())))
+
+        self.create_action_with_param("pen-color", lambda action, param: self._set_pen_color_from_string(param.get_string()))
 
 
     def create_action(self, name: str, callback: Callable[..., None], shortcuts: Optional[list[str]] = None, enabled: bool = True) -> None:
         action: Gio.SimpleAction = Gio.SimpleAction.new(name, None)
+        action.connect("activate", callback)
+        action.set_enabled(enabled)
+        self.app.add_action(action)
+        if shortcuts:
+            self.app.set_accels_for_action(f"app.{name}", shortcuts)
+
+    def create_action_with_param(self, name: str, callback: Callable[..., None], shortcuts: Optional[list[str]] = None, enabled: bool = True) -> None:
+        action: Gio.SimpleAction = Gio.SimpleAction.new(name, GLib.VariantType.new("s"))
         action.connect("activate", callback)
         action.set_enabled(enabled)
         self.app.add_action(action)
@@ -234,6 +246,11 @@ class GradientWindow:
     def on_shadow_strength_changed(self, strength) -> None:
         self.processor.shadow_strength = strength.get_value()
         self._trigger_processing()
+
+    def _set_pen_color_from_string(self, color_string):
+        parts = list(map(float, color_string.split(',')))
+        r, g, b, a = parts
+        self.drawing_overlay.set_pen_color(r, g, b, a)
 
     def _trigger_processing(self) -> None:
         if self.image_path:
