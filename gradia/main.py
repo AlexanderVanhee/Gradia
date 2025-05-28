@@ -39,7 +39,7 @@ class GradiaApp(Adw.Application):
         self.file_to_open = None
 
     def do_activate(self):
-        self.ui = GradientWindow(self, self.temp_dir, version=self.version)
+        self.ui = GradientWindow(self.temp_dir, version=self.version, application=self)
         self.ui.build_ui()
         self.ui.show()
 

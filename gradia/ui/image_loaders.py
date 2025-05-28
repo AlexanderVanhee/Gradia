@@ -70,7 +70,7 @@ class FileDialogImageLoader(BaseImageLoader):
         filters.append(image_filter)
         file_dialog.set_filters(filters)
 
-        file_dialog.open(self.window.win, None, self._on_file_selected)
+        file_dialog.open(self.window, None, self._on_file_selected)
 
     def _on_file_selected(self, dialog: Gtk.FileDialog, result: Gio.AsyncResult) -> None:
         """Handle file selection from dialog"""

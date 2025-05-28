@@ -46,10 +46,10 @@ class GradientWindow(Adw.ApplicationWindow):
     # Temp file names
     TEMP_PROCESSED_FILENAME: str = "processed.png"
 
-    def __init__(self, app: Adw.Application, temp_dir: str, version: str, **kwargs) -> None:
+    def __init__(self, temp_dir: str, version: str, **kwargs) -> None:
         super().__init__(**kwargs)
 
-        self.app: Adw.Application = app
+        self.app: Adw.Application = kwargs['application']
         self.temp_dir: str = temp_dir
         self.version: str = version
         self.image_path: Optional[str] = None
@@ -85,7 +85,7 @@ class GradientWindow(Adw.ApplicationWindow):
         self.create_action("save", lambda *_: self.export_manager.save_to_file(), ["<Primary>s"], enabled=False)
         self.create_action("copy", lambda *_: self.export_manager.copy_to_clipboard(), ["<Primary>c"], enabled=False)
 
-        self.create_action("quit", lambda *_: self.win.close(), ["<Primary>q"])
+        self.create_action("quit", lambda *_: self.close(), ["<Primary>q"])
 
     def create_action(self, name: str, callback: Callable[..., None], shortcuts: Optional[list[str]] = None, enabled: bool = True) -> None:
         action: Gio.SimpleAction = Gio.SimpleAction.new(name, None)
@@ -113,11 +113,10 @@ class GradientWindow(Adw.ApplicationWindow):
         self._setup_main_layout()
 
     def _setup_window(self) -> None:
-        self.win: Adw.ApplicationWindow = Adw.ApplicationWindow(application=self.app)
-        self.win.set_title("Gradia")
-        self.win.set_default_size(self.DEFAULT_WINDOW_WIDTH, self.DEFAULT_WINDOW_HEIGHT)
+        self.set_title("Gradia")
+        self.set_default_size(self.DEFAULT_WINDOW_WIDTH, self.DEFAULT_WINDOW_HEIGHT)
         self.toast_overlay: Adw.ToastOverlay = Adw.ToastOverlay()
-        self.win.set_content(self.toast_overlay)
+        self.set_content(self.toast_overlay)
 
     def _setup_toolbar(self) -> None:
         self.toolbar_view: Adw.ToolbarView = Adw.ToolbarView()
@@ -162,11 +161,11 @@ class GradientWindow(Adw.ApplicationWindow):
         self.toolbar_view.set_content(self.main_box)
         self.toast_overlay.set_child(self.toolbar_view)
 
-        self.win.connect("notify::default-width", self._on_window_resize)
-        self.win.connect("notify::default-height", self._on_window_resize)
+        self.connect("notify::default-width", self._on_window_resize)
+        self.connect("notify::default-height", self._on_window_resize)
 
     def _on_window_resize(self, *args: Any) -> None:
-        width: int = self.win.get_width()
+        width: int = self.get_width()
         if width < 800:
             self.main_box.set_orientation(Gtk.Orientation.VERTICAL)
             self.sidebar.set_size_request(-1, 200)
@@ -175,7 +174,7 @@ class GradientWindow(Adw.ApplicationWindow):
             self.sidebar.set_size_request(300, -1)
 
     def show(self) -> None:
-        self.win.present()
+        self.present()
 
     def _start_processing(self) -> None:
         self.toolbar_view.set_top_bar_style(Adw.ToolbarStyle.RAISED)
@@ -295,7 +294,7 @@ class GradientWindow(Adw.ApplicationWindow):
 
     def _on_about_activated(self, action: Gio.SimpleAction, param) -> None:
         about = create_about_dialog(version=self.version)
-        about.present(self.win)
+        about.present(self)
 
     def _set_save_and_toggle_(self, enabled: bool) -> None:
         for action_name in ["save", "copy"]:
@@ -304,7 +303,7 @@ class GradientWindow(Adw.ApplicationWindow):
                 action.set_enabled(enabled)
 
     def _on_shortcuts_activated(self, action: Gio.SimpleAction, param) -> None:
-        shortcuts = create_shortcuts_dialog(self.win)
+        shortcuts = create_shortcuts_dialog(self)
         shortcuts.connect("close-request", self._on_shortcuts_closed)
         shortcuts.present()
 
