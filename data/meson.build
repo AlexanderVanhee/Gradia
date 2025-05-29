@@ -28,6 +28,13 @@ install_data('be.alexandervanhee.gradia.gschema.xml',
   install_dir: get_option('datadir') / 'glib-2.0' / 'schemas'
 )
 
+install_data([
+  'fonts/Caveat-VariableFont_wght.ttf',
+  'fonts/LICENSE-OFL.txt',
+],
+install_dir: join_paths(get_option('datadir'), 'fonts')
+)
+
 compile_schemas = find_program('glib-compile-schemas', required: false, disabler: true)
 test('Validate schema file',
      compile_schemas,

@@ -197,8 +197,8 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.drawing_mode = DrawingMode.PEN
         self.pen_size = 3.0
         self.arrow_head_size = 25.0
-        self.font_size = 16.0
-        self.font_family = "Sans"
+        self.font_size = 22.0
+        self.font_family = "Caveat"
         self.pen_color = (1.0, 1.0, 1.0, 0.8)
         self.fill_color = None
         self.is_drawing = False
@@ -303,11 +303,30 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.is_text_editing = True
         self.live_text = ""
 
+        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
+        hbox.add_css_class("linked")
+
         entry = Gtk.Entry()
         entry.set_placeholder_text(_("Enter text..."))
-        entry.set_width_chars(20)
+        entry.set_width_chars(12)
         entry.connect("activate", self._on_text_entry_activate)
         entry.connect("changed", self._on_text_entry_changed)
+
+        adjustment = Gtk.Adjustment(
+            value=self.font_size,
+            lower=8.0,
+            upper=72.0,
+            step_increment=4.0,
+            page_increment=4.0
+        )
+        spin = Gtk.SpinButton()
+        spin.set_adjustment(adjustment)
+        spin.set_digits(0)
+        spin.set_size_request(60, -1)
+        spin.connect("value-changed", self._on_font_size_changed)
+
+        hbox.append(entry)
+        hbox.append(spin)
 
         allocation = self.get_allocation()
         rect = Gdk.Rectangle()
@@ -320,26 +339,33 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.text_entry_popup.set_parent(self)
         self.text_entry_popup.set_pointing_to(rect)
         self.text_entry_popup.set_position(Gtk.PositionType.BOTTOM)
-        self.text_entry_popup.set_child(entry)
+        self.text_entry_popup.set_child(hbox)
         self.text_entry_popup.connect("closed", self._on_text_entry_popover_closed)
         self.text_entry_popup.popup()
         entry.grab_focus()
 
+    def _on_font_size_changed(self, spin_button):
+        self.font_size = spin_button.get_value()
+        if self.live_text:
+            self.queue_draw()
+
     def _on_text_entry_popover_closed(self, popover):
         if self.text_entry_popup and self.text_position:
-            entry = self.text_entry_popup.get_child()
-            if entry:
-                text = entry.get_text().strip()
-                if text:
-                    action = TextAction(
-                        self.text_position,
-                        text,
-                        self.pen_color,
-                        self.font_size,
-                        self.font_family
-                    )
-                    self.actions.append(action)
-                    self.redo_stack.clear()
+            vbox = self.text_entry_popup.get_child()
+            if vbox:
+                entry = vbox.get_first_child()
+                if entry and isinstance(entry, Gtk.Entry):
+                    text = entry.get_text().strip()
+                    if text:
+                        action = TextAction(
+                            self.text_position,
+                            text,
+                            self.pen_color,
+                            self.font_size,
+                            self.font_family
+                        )
+                        self.actions.append(action)
+                        self.redo_stack.clear()
         self._cleanup_text_entry()
         self.queue_draw()
 
