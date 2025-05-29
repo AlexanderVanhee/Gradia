@@ -18,8 +18,8 @@
 from typing import Callable, Dict, Optional, Tuple, Union
 from gi.repository import Gtk, Gio, Adw, Gdk, GLib
 
-from gradia.ui.drawing_overlay import *
-from gradia.ui.drawing_overlay import DrawingMode
+from gradia.ui.drawing_actions import DrawingMode
+from gradia.ui.drawing_overlay import DrawingOverlay
 
 def create_header_bar() -> Adw.HeaderBar:
     header_bar = Adw.HeaderBar()
@@ -260,7 +260,7 @@ def create_file_info_group() -> Tuple[Adw.PreferencesGroup, Adw.ActionRow, Adw.A
     return file_info_group, filename_row, location_row, processed_size_row
 
 def create_drawing_tools_group() -> Adw.PreferencesGroup:
-    tools_group = Adw.PreferencesGroup(title=_("Drawing Tools"))
+    tools_group = Adw.PreferencesGroup(title=_("Annotation Tools"))
 
     # Drawing mode buttons
     tools_row = Adw.ActionRow()
@@ -271,12 +271,13 @@ def create_drawing_tools_group() -> Adw.PreferencesGroup:
     tools_grid.set_valign(Gtk.Align.CENTER)
 
     tools_data = [
-        (DrawingMode.PEN, "edit-symbolic", 0, 0),
-        (DrawingMode.SQUARE, "box-small-outline-symbolic", 1, 0),
-        (DrawingMode.CIRCLE, "circle-outline-thick-symbolic", 2, 0),
-        (DrawingMode.TEXT, "text-insert2-symbolic", 3, 0),
+        (DrawingMode.SELECT, "pointer-primary-click-symbolic", 0, 0),
+        (DrawingMode.PEN, "edit-symbolic", 1, 0),
+        (DrawingMode.TEXT, "text-insert2-symbolic", 2, 0),
+        (DrawingMode.LINE, "draw-line-symbolic", 3, 0),
         (DrawingMode.ARROW, "arrow1-top-right-symbolic", 4, 0),
-        (DrawingMode.LINE, "draw-line-symbolic", 5, 0),
+        (DrawingMode.SQUARE, "box-small-outline-symbolic", 0, 1),
+        (DrawingMode.CIRCLE, "circle-outline-thick-symbolic", 1, 1),
     ]
 
     fill_sensitive_modes = {DrawingMode.SQUARE, DrawingMode.CIRCLE}
@@ -322,7 +323,7 @@ def create_drawing_tools_group() -> Adw.PreferencesGroup:
         button.set_tooltip_text(_(drawing_mode.value.capitalize()))
         button.get_style_context().add_class("flat")
         button.get_style_context().add_class("circular")
-        button.set_size_request(35, 35)
+        button.set_size_request(40, 40)
         button.connect("toggled", on_button_toggled, drawing_mode)
         tools_grid.attach(button, col, row, 1, 1)
         tool_buttons[drawing_mode] = button
@@ -446,6 +447,14 @@ def create_shortcuts_dialog(parent: Optional[Gtk.Window] = None) -> Gtk.Shortcut
                 (_("Save to File"), "<Ctrl>S"),
                 (_("Copy Image to Clipboard"), "<Ctrl>C"),
                 (_("Paste From Clipboard"), "<Ctrl>V"),
+            ]
+        },
+        {
+            "title": _("Annotations"),
+            "shortcuts": [
+                (_("Undo"), "<Ctrl>Z"),
+                (_("Redo"), "<Ctrl><Shift>Z"),
+                (_("Remove Selected"), "Delete")
             ]
         },
         {

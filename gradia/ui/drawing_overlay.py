@@ -18,175 +18,17 @@
 from gi.repository import Gtk, Gdk, Gio, cairo, Pango, PangoCairo
 from typing import Tuple, List, Optional, Union
 from enum import Enum
+from gradia.ui.drawing_actions import *
 import math
 import re
 
-class DrawingMode(Enum):
-    PEN = "pen"
-    ARROW = "arrow"
-    LINE = "line"
-    SQUARE = "square"
-    CIRCLE = "circle"
-    TEXT = "text"
-
-class DrawingAction:
-    def draw(self, cr: cairo.Context, image_to_widget_coords, scale: float):
-        raise NotImplementedError
-
-class StrokeAction(DrawingAction):
-    def __init__(self, stroke, color, pen_size):
-        self.stroke = stroke
-        self.color = color
-        self.pen_size = pen_size
-
-    def draw(self, cr, image_to_widget_coords, scale):
-        if len(self.stroke) < 2:
-            return
-        coords = [image_to_widget_coords(x, y) for x, y in self.stroke]
-        cr.set_source_rgba(*self.color)
-        cr.set_line_width(self.pen_size * scale)
-        cr.move_to(*coords[0])
-        for point in coords[1:]:
-            cr.line_to(*point)
-        cr.stroke()
-
-class ArrowAction(DrawingAction):
-    def __init__(self, start, end, color, arrow_head_size, width):
-        self.start = start
-        self.end = end
-        self.color = color
-        self.arrow_head_size = arrow_head_size
-        self.width = width
-
-    def draw(self, cr, image_to_widget_coords, scale):
-        start_x, start_y = image_to_widget_coords(*self.start)
-        end_x, end_y = image_to_widget_coords(*self.end)
-        distance = math.hypot(end_x - start_x, end_y - start_y)
-        if distance < 2:
-            return
-        cr.set_source_rgba(*self.color)
-        cr.set_line_width(self.width * scale)
-        cr.move_to(start_x, start_y)
-        cr.line_to(end_x, end_y)
-        cr.stroke()
-        angle = math.atan2(end_y - start_y, end_x - start_x)
-        head_len = min(self.arrow_head_size * scale, distance * 0.3)
-        head_angle = math.pi / 6
-        x1 = end_x - head_len * math.cos(angle - head_angle)
-        y1 = end_y - head_len * math.sin(angle - head_angle)
-        x2 = end_x - head_len * math.cos(angle + head_angle)
-        y2 = end_y - head_len * math.sin(angle + head_angle)
-        cr.move_to(end_x, end_y)
-        cr.line_to(x1, y1)
-        cr.move_to(end_x, end_y)
-        cr.line_to(x2, y2)
-        cr.stroke()
-
-class TextAction(DrawingAction):
-    def __init__(self, position, text, color, font_size, font_family="Sans"):
-        self.position = position
-        self.text = text
-        self.color = color
-        self.font_size = font_size
-        self.font_family = font_family
-
-    def draw(self, cr, image_to_widget_coords, scale):
-        if not self.text.strip():
-            return
-
-        x, y = image_to_widget_coords(*self.position)
-        cr.set_source_rgba(*self.color)
-
-        layout = PangoCairo.create_layout(cr)
-        font_desc = Pango.FontDescription()
-        font_desc.set_family(self.font_family)
-        font_desc.set_size(int(self.font_size * scale * Pango.SCALE))
-        layout.set_font_description(font_desc)
-        layout.set_text(self.text, -1)
-
-        ink_rect, logical_rect = layout.get_extents()
-        text_width = logical_rect.width / Pango.SCALE
-        text_height = logical_rect.height / Pango.SCALE
-
-        adjusted_x = x - (text_width / 2)
-        adjusted_y = y - text_height
-
-        cr.move_to(adjusted_x, adjusted_y)
-        PangoCairo.show_layout(cr, layout)
-
-class LineAction(DrawingAction):
-    def __init__(self, start, end, color, width):
-        self.start = start
-        self.end = end
-        self.color = color
-        self.width = width
-
-    def draw(self, cr, image_to_widget_coords, scale):
-        cr.set_source_rgba(*self.color)
-        cr.set_line_width(self.width * scale)
-        start_x, start_y = image_to_widget_coords(*self.start)
-        end_x, end_y = image_to_widget_coords(*self.end)
-        cr.move_to(start_x, start_y)
-        cr.line_to(end_x, end_y)
-        cr.stroke()
-
-class RectAction(DrawingAction):
-    def __init__(self, start, end, color, width, fill_color=None):
-        self.start = start
-        self.end = end
-        self.color = color
-        self.width = width
-        self.fill_color = fill_color
-
-    def draw(self, cr, image_to_widget_coords, scale):
-        x1, y1 = image_to_widget_coords(*self.start)
-        x2, y2 = image_to_widget_coords(*self.end)
-        rect_x = min(x1, x2)
-        rect_y = min(y1, y2)
-        rect_w = abs(x2 - x1)
-        rect_h = abs(y2 - y1)
-
-        if self.fill_color:
-            cr.set_source_rgba(*self.fill_color)
-            cr.rectangle(rect_x, rect_y, rect_w, rect_h)
-            cr.fill()
-
-        cr.set_source_rgba(*self.color)
-        cr.set_line_width(self.width * scale)
-        cr.rectangle(rect_x, rect_y, rect_w, rect_h)
-        cr.stroke()
-
-class CircleAction(DrawingAction):
-    def __init__(self, start, end, color, width, fill_color=None):
-        self.start = start
-        self.end = end
-        self.color = color
-        self.width = width
-        self.fill_color = fill_color
-
-    def draw(self, cr, image_to_widget_coords, scale):
-        x1, y1 = image_to_widget_coords(*self.start)
-        x2, y2 = image_to_widget_coords(*self.end)
-        cx = (x1 + x2) / 2
-        cy = (y1 + y2) / 2
-        rx = abs(x2 - x1) / 2
-        ry = abs(y2 - y1) / 2
-        if rx < 1e-3 or ry < 1e-3:
-            return
-
-        cr.save()
-        cr.translate(cx, cy)
-        cr.scale(rx, ry)
-        cr.arc(0, 0, 1, 0, 2 * math.pi)
-        cr.restore()
-
-        if self.fill_color:
-            cr.set_source_rgba(*self.fill_color)
-            cr.fill_preserve()
-
-        cr.set_source_rgba(*self.color)
-        cr.set_line_width(self.width * scale)
-        cr.stroke()
+SELECTION_BOX_COLOR = (0.5, 0.5, 1.0, 0.8)
+SELECTION_BOX_PADDING = 0
+DEFAULT_PEN_SIZE = 3.0
+DEFAULT_ARROW_HEAD_SIZE = 25.0
+DEFAULT_FONT_SIZE = 22.0
+DEFAULT_FONT_FAMILY = "Caveat"
+DEFAULT_PEN_COLOR = (1.0, 1.0, 1.0, 0.8)
 
 class DrawingOverlay(Gtk.DrawingArea):
     def __init__(self):
@@ -195,11 +37,11 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.set_can_focus(True)
         self.picture_widget = None
         self.drawing_mode = DrawingMode.PEN
-        self.pen_size = 3.0
-        self.arrow_head_size = 25.0
-        self.font_size = 22.0
-        self.font_family = "Caveat"
-        self.pen_color = (1.0, 1.0, 1.0, 0.8)
+        self.pen_size = DEFAULT_PEN_SIZE
+        self.arrow_head_size = DEFAULT_ARROW_HEAD_SIZE
+        self.font_size = DEFAULT_FONT_SIZE
+        self.font_family = DEFAULT_FONT_FAMILY
+        self.pen_color = DEFAULT_PEN_COLOR
         self.fill_color = None
         self.is_drawing = False
         self.current_stroke = []
@@ -208,13 +50,17 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.actions = []
         self.redo_stack = []
 
+        self.selected_action = None
+        self.selection_start_pos = None
+        self.is_moving_selection = False
+        self.move_start_point = None
+
         self.text_entry_popup = None
         self.text_position = None
         self.is_text_editing = False
         self.live_text = None
 
         self._setup_gestures()
-        self._setup_actions()
 
     def set_picture_reference(self, picture):
         self.picture_widget = picture
@@ -263,15 +109,65 @@ class DrawingOverlay(Gtk.DrawingArea):
             if hasattr(root, "add_action"):
                 root.add_action(action)
 
+
+    def remove_selected_action(self) -> bool :
+        if self.selected_action and self.selected_action in self.actions:
+            self.actions.remove(self.selected_action)
+            self.selected_action = None
+            self.redo_stack.clear()
+            self.queue_draw()
+            return True
+        return False
+
     def set_drawing_mode(self, mode):
         if self.text_entry_popup:
             self._close_text_entry()
+
+        if mode != DrawingMode.SELECT:
+            self.selected_action = None
+
         self.drawing_mode = mode
         self.is_drawing = False
+        self.is_moving_selection = False
         self.current_stroke.clear()
         self.start_point = None
         self.end_point = None
         self.queue_draw()
+
+    def _find_action_at_point(self, x, y):
+        for action in reversed(self.actions):
+            if action.contains_point(x, y):
+                return action
+        return None
+
+    def _is_point_in_selection_bounds(self, x, y):
+        if not self.selected_action:
+            return False
+
+        min_x, min_y, max_x, max_y = self.selected_action.get_bounds()
+        padding_img = max(self.pen_size, self.arrow_head_size, self.font_size / 2) / 200.0
+        return min_x - padding_img <= x <= max_x + padding_img and min_y - padding_img <= y <= max_y + padding_img
+
+    def _draw_selection_box(self, cr, scale):
+        if not self.selected_action:
+            return
+
+        min_x, min_y, max_x, max_y = self.selected_action.get_bounds()
+
+        x1, y1 = self._image_to_widget_coords(min_x, min_y)
+        x2, y2 = self._image_to_widget_coords(max_x, max_y)
+
+        x1 -= SELECTION_BOX_PADDING
+        y1 -= SELECTION_BOX_PADDING
+        x2 += SELECTION_BOX_PADDING
+        y2 += SELECTION_BOX_PADDING
+
+        cr.set_source_rgba(*SELECTION_BOX_COLOR)
+        cr.set_line_width(1.0)
+        cr.set_dash([5.0, 5.0])
+        cr.rectangle(x1, y1, x2 - x1, y2 - y1)
+        cr.stroke()
+        cr.set_dash([])
 
     def _setup_gestures(self):
         click = Gtk.GestureClick.new()
@@ -294,6 +190,21 @@ class DrawingOverlay(Gtk.DrawingArea):
         if self.drawing_mode == DrawingMode.TEXT and self._is_point_in_image(x, y):
             self.grab_focus()
             self._show_text_entry(x, y)
+        elif self.drawing_mode == DrawingMode.SELECT and self._is_point_in_image(x, y):
+            self.grab_focus()
+            img_x, img_y = self._widget_to_image_coords(x, y)
+
+            if self.selected_action and not self._is_point_in_selection_bounds(img_x, img_y):
+                self.selected_action = None
+                self.queue_draw()
+
+            action = self._find_action_at_point(img_x, img_y)
+            if action and action != self.selected_action:
+                self.selected_action = action
+                self.queue_draw()
+            elif not action and self.selected_action:
+                self.selected_action = None
+                self.queue_draw()
 
     def _show_text_entry(self, x, y):
         if self.text_entry_popup:
@@ -307,7 +218,7 @@ class DrawingOverlay(Gtk.DrawingArea):
         hbox.add_css_class("linked")
 
         entry = Gtk.Entry()
-        entry.set_placeholder_text(_("Enter text..."))
+        entry.set_placeholder_text("Enter text...")
         entry.set_width_chars(12)
         entry.connect("activate", self._on_text_entry_activate)
         entry.connect("changed", self._on_text_entry_changed)
@@ -374,17 +285,6 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.queue_draw()
 
     def _on_text_entry_activate(self, entry):
-        text = entry.get_text().strip()
-        if text and self.text_position:
-            action = TextAction(
-                self.text_position,
-                text,
-                self.pen_color,
-                self.font_size,
-                self.font_family
-            )
-            self.actions.append(action)
-            self.redo_stack.clear()
         self._close_text_entry()
         self.queue_draw()
 
@@ -408,7 +308,22 @@ class DrawingOverlay(Gtk.DrawingArea):
             return
         if not self._is_point_in_image(x, y):
             return
+
         self.grab_focus()
+        rel_x, rel_y = self._widget_to_image_coords(x, y)
+
+        if self.drawing_mode == DrawingMode.SELECT:
+            if self.selected_action and self._is_point_in_selection_bounds(rel_x, rel_y):
+                self.is_moving_selection = True
+                self.move_start_point = (rel_x, rel_y)
+            else:
+                self.selected_action = self._find_action_at_point(rel_x, rel_y)
+                if self.selected_action:
+                    self.is_moving_selection = True
+                    self.move_start_point = (rel_x, rel_y)
+            self.queue_draw()
+            return
+
         self.is_drawing = True
         rel = self._widget_to_image_coords(x, y)
         if self.drawing_mode == DrawingMode.PEN:
@@ -418,20 +333,43 @@ class DrawingOverlay(Gtk.DrawingArea):
             self.end_point = rel
 
     def _on_drag_update(self, gesture, dx, dy):
-        if not self.is_drawing or self.drawing_mode == DrawingMode.TEXT:
+        if self.drawing_mode == DrawingMode.TEXT:
             return
+
         start = gesture.get_start_point()
         cur_x, cur_y = start.x + dx, start.y + dy
-        rel = self._widget_to_image_coords(cur_x, cur_y)
+        rel_x, rel_y = self._widget_to_image_coords(cur_x, cur_y)
+
+        if self.drawing_mode == DrawingMode.SELECT and self.is_moving_selection and self.selected_action and self.move_start_point:
+            old_x, old_y = self.move_start_point
+            delta_x = rel_x - old_x
+            delta_y = rel_y - old_y
+            self.selected_action.translate(delta_x, delta_y)
+            self.move_start_point = (rel_x, rel_y)
+            self.queue_draw()
+            return
+
+        if not self.is_drawing:
+            return
+
         if self.drawing_mode == DrawingMode.PEN:
-            self.current_stroke.append(rel)
+            self.current_stroke.append((rel_x, rel_y))
         else:
-            self.end_point = rel
+            self.end_point = (rel_x, rel_y)
         self.queue_draw()
 
     def _on_drag_end(self, gesture, dx, dy):
-        if not self.is_drawing or self.drawing_mode == DrawingMode.TEXT:
+        if self.drawing_mode == DrawingMode.TEXT:
             return
+
+        if self.drawing_mode == DrawingMode.SELECT:
+            self.is_moving_selection = False
+            self.move_start_point = None
+            return
+
+        if not self.is_drawing:
+            return
+
         self.is_drawing = False
         mode = self.drawing_mode
         if mode == DrawingMode.PEN and len(self.current_stroke) > 1:
@@ -454,6 +392,14 @@ class DrawingOverlay(Gtk.DrawingArea):
     def _on_motion(self, controller, x, y):
         if self.drawing_mode == DrawingMode.TEXT:
             name = "text" if self._is_point_in_image(x, y) else "default"
+        elif self.drawing_mode == DrawingMode.SELECT:
+            img_x, img_y = self._widget_to_image_coords(x, y)
+            if self.selected_action and self._is_point_in_selection_bounds(img_x, img_y):
+                name = "grab"
+            elif self._find_action_at_point(img_x, img_y):
+                name = "pointer"
+            else:
+                name = "default"
         else:
             name = "crosshair" if self.drawing_mode == DrawingMode.PEN else "cell"
             if not self._is_point_in_image(x, y):
@@ -495,6 +441,9 @@ class DrawingOverlay(Gtk.DrawingArea):
             )
             preview.draw(cr, self._image_to_widget_coords, scale)
 
+        if self.selected_action:
+            self._draw_selection_box(cr, scale)
+
     def export_to_pixbuf(self):
         if not self.picture_widget or not self.picture_widget.get_paintable():
             return None
@@ -520,16 +469,19 @@ class DrawingOverlay(Gtk.DrawingArea):
         self._close_text_entry()
         self.actions.clear()
         self.redo_stack.clear()
+        self.selected_action = None
         self.queue_draw()
 
     def undo(self):
         if self.actions:
             self.redo_stack.append(self.actions.pop())
+            self.selected_action = None
             self.queue_draw()
 
     def redo(self):
         if self.redo_stack:
             self.actions.append(self.redo_stack.pop())
+            self.selected_action = None
             self.queue_draw()
 
     def set_pen_color(self, r, g, b, a=1):

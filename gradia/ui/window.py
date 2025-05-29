@@ -88,6 +88,7 @@ class GradientWindow:
 
         self.create_action_with_param("pen-color", lambda action, param: self._set_pen_color_from_string(param.get_string()))
         self.create_action_with_param("fill-color", lambda action, param: self._set_fill_color_from_string(param.get_string()))
+        self.create_action("del-selected", lambda *_: self.drawing_overlay.remove_selected_action(), ["<Primary>x", "Delete"])
 
 
     def create_action(self, name: str, callback: Callable[..., None], shortcuts: Optional[list[str]] = None, enabled: bool = True) -> None:
