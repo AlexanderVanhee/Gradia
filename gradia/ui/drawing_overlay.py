@@ -16,7 +16,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from gi.repository import Gtk, Gdk, Gio, cairo, Pango, PangoCairo
-from typing import Tuple, List, Optional, Union
 from enum import Enum
 from gradia.ui.drawing_actions import *
 import math

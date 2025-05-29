@@ -19,7 +19,7 @@ import os
 import tempfile
 import shutil
 
-from typing import Sequence
+from collections.abc import Sequence
 
 from gi.repository import Adw, Gio
 

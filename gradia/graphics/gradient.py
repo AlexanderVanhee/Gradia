@@ -17,22 +17,23 @@
 
 import ctypes
 from ctypes import c_int, c_double, c_uint8, POINTER, CDLL
-from typing import Dict, Tuple, List, Optional, Callable, Union
+from collections.abc import Callable
+from typing import Optional
 from PIL import Image
 from gi.repository import Gtk, Gdk, Adw
 
 
 HexColor = str
-RGBTuple = Tuple[int, int, int]
-CacheKey = Tuple[str, str, int, int, int]
-GradientPreset = Tuple[str, str, int]
-CacheInfo = Dict[str, Union[int, List[CacheKey], bool]]
+RGBTuple = tuple[int, int, int]
+CacheKey = tuple[str, str, int, int, int]
+GradientPreset = tuple[str, str, int]
+CacheInfo = dict[str, int | list[CacheKey] | bool]
 
 
 class GradientBackground:
     _MAX_CACHE_SIZE: int = 100
-    _gradient_cache: Dict[CacheKey, Image.Image] = {}
-    _c_lib: Optional[Union[CDLL, bool]] = None
+    _gradient_cache: dict[CacheKey, Image.Image] = {}
+    _c_lib: Optional[CDLL | bool] = None
 
     @classmethod
     def _load_c_lib(cls) -> None:
@@ -119,7 +120,7 @@ class GradientBackground:
 
 
 class GradientSelector:
-    PREDEFINED_GRADIENTS: List[GradientPreset] = [
+    PREDEFINED_GRADIENTS: list[GradientPreset] = [
         ("#36d1dc", "#5b86e5", 90),
         ("#ff5f6d", "#ffc371", 45),
         ("#453383", "#5494e8", 0),

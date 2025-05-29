@@ -17,7 +17,7 @@
 
 import os
 import io
-from typing import Optional, Tuple, Union
+from typing import Optional
 from PIL import Image, ImageDraw, ImageChops, ImageFilter, ImageOps
 from gi.repository import GdkPixbuf
 
@@ -32,7 +32,7 @@ class ImageProcessor:
         image_path: Optional[str] = None,
         background: Optional[object] = None,
         padding: int = 5,
-        aspect_ratio: Optional[Union[str, float]] = None,
+        aspect_ratio: Optional[str | float] = None,
         corner_radius: int = 2,
         shadow_strength: float = 0.0
     ) -> None:
@@ -98,7 +98,7 @@ class ImageProcessor:
 
         return source_img
 
-    def _compress_image_with_size(self, image: Image.Image, quality: int) -> Tuple[Image.Image, int]:
+    def _compress_image_with_size(self, image: Image.Image, quality: int) -> tuple[Image.Image, int]:
         buffer = io.BytesIO()
         image.save(buffer, format='PNG', optimize=True, quality=quality)
         size = buffer.tell()
@@ -131,7 +131,7 @@ class ImageProcessor:
         offset_y = (height - crop_h) // 2
         return image.crop((offset_x, offset_y, offset_x + crop_w, offset_y + crop_h))
 
-    def _calculate_final_dimensions(self, width: int, height: int) -> Tuple[int, int]:
+    def _calculate_final_dimensions(self, width: int, height: int) -> tuple[int, int]:
         if self.padding >= 0:
             smaller_dimension = min(width, height)
             padding_percentage = self._get_percentage(self.padding)
@@ -144,7 +144,7 @@ class ImageProcessor:
 
         return width, height
 
-    def _adjust_for_aspect_ratio(self, width: int, height: int) -> Tuple[int, int]:
+    def _adjust_for_aspect_ratio(self, width: int, height: int) -> tuple[int, int]:
         try:
             ratio = self._parse_aspect_ratio()
             current = width / height
@@ -189,7 +189,7 @@ class ImageProcessor:
             return self.background.prepare_image(width, height)
         return Image.new("RGBA", (width, height), (0, 0, 0, 0))
 
-    def _create_shadow(self, image: Image.Image, offset: Tuple[int, int] = (10, 10), shadow_strength: float = 1.0) -> Tuple[Image.Image, Tuple[int, int]]:
+    def _create_shadow(self, image: Image.Image, offset: tuple[int, int] = (10, 10), shadow_strength: float = 1.0) -> tuple[Image.Image, tuple[int, int]]:
         shadow_strength = max(0.0, min(shadow_strength, 1.0))
         blur_radius = int(10 * shadow_strength)
         shadow_alpha = int(150 * shadow_strength)
@@ -211,7 +211,7 @@ class ImageProcessor:
         shadow_canvas = shadow_canvas.filter(ImageFilter.GaussianBlur(blur_radius))
         return shadow_canvas, (shadow_x, shadow_y)
 
-    def _get_paste_position(self, img_w: int, img_h: int, bg_w: int, bg_h: int) -> Tuple[int, int]:
+    def _get_paste_position(self, img_w: int, img_h: int, bg_w: int, bg_h: int) -> tuple[int, int]:
         if self.padding >= 0:
             x = (bg_w - img_w) // 2
             y = (bg_h - img_h) // 2

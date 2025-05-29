@@ -16,11 +16,11 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
-from typing import Tuple
+
 from gi.repository import Gtk, Gio, GdkPixbuf
 from gradia.clipboard import copy_file_to_clipboard, save_pixbuff_to_path
 
-ExportFormat = Tuple[str, str, str]
+ExportFormat = tuple[str, str, str]
 
 class BaseImageExporter:
     """Base class for image export handlers"""

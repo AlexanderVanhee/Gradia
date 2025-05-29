@@ -17,7 +17,8 @@
 
 import os
 import threading
-from typing import Optional, Callable, Any, Union
+from collections.abc import Callable
+from typing import Optional, Any
 
 from gi.repository import Gtk, Gio, Adw, Gdk, GLib
 from gradia.graphics.image_processor import ImageProcessor
