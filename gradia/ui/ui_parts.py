@@ -170,8 +170,8 @@ def create_spinner_widget() -> tuple[Gtk.Box, Adw.Spinner]:
     spinner_box.append(spinner)
     return spinner_box, spinner
 
-def create_status_page() -> Gtk.Widget:
-    open_status_btn = Gtk.Button.new_with_label("_Open Image…")
+def create_status_page() -> Adw.StatusPage:
+    open_status_btn = Gtk.Button.new_with_label(_("_Open Image…"))
     open_status_btn.set_use_underline(True)
     open_status_btn.set_halign(Gtk.Align.CENTER)
 
@@ -184,8 +184,8 @@ def create_status_page() -> Gtk.Widget:
 
     status_page = Adw.StatusPage.new()
     status_page.set_icon_name("image-x-generic-symbolic")
-    status_page.set_title("No Image Loaded")
-    status_page.set_description("Drag and drop one here")
+    status_page.set_title(_("No Image Loaded"))
+    status_page.set_description(_("Drag and drop one here"))
     status_page.set_child(open_status_btn)
 
     return status_page
@@ -246,11 +246,11 @@ def create_image_options_group(
     return padding_group, padding_row, aspect_ratio_entry
 
 def create_file_info_group() -> tuple[Adw.PreferencesGroup, Adw.ActionRow, Adw.ActionRow, Adw.ActionRow]:
-    file_info_group = Adw.PreferencesGroup(title="Current File")
+    file_info_group = Adw.PreferencesGroup(title=_("Current File"))
 
     filename_row = Adw.ActionRow(title=_("Name"), subtitle=_("No file loaded"))
     location_row = Adw.ActionRow(title=_("Location"), subtitle=_("No file loaded"))
-    processed_size_row = Adw.ActionRow(title=_("Modified image size"), subtitle="N/A")
+    processed_size_row = Adw.ActionRow(title=_("Modified image size"), subtitle=_("N/A"))
 
     file_info_group.add(filename_row)
     file_info_group.add(location_row)
