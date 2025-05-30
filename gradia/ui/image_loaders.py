@@ -15,9 +15,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+
 import os
 from typing import Optional, Tuple
-from gi.repository import Gtk, Gio, Gdk
+from gi.repository import Gtk, Gio, Gdk, GLib, Xdp
 from gradia.clipboard import save_texture_to_file
 
 ImportFormat = Tuple[str, str]
@@ -176,6 +177,63 @@ class ClipboardImageLoader(BaseImageLoader):
             self.window._set_loading_state(False)
 
 
+class ScreenshotImageLoader(BaseImageLoader):
+    """Handles loading images through screenshot capture"""
+
+    def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str) -> None:
+        super().__init__(window, temp_dir)
+        self.portal = Xdp.Portal()
+
+    def take_screenshot(self) -> None:
+        """Initiate screenshot capture"""
+        try:
+            self.portal.take_screenshot(
+                None,
+                Xdp.ScreenshotFlags.INTERACTIVE,
+                None,
+                self._on_screenshot_taken,
+                None
+            )
+        except Exception as e:
+            print(f"Failed to initiate screenshot: {e}")
+            self.window._show_notification(_("Failed to take screenshot"))
+
+    def _on_screenshot_taken(self, portal_object, result, user_data) -> None:
+        """Handle screenshot completion"""
+        try:
+            uri = self.portal.take_screenshot_finish(result)
+            self._handle_screenshot_uri(uri)
+        except GLib.Error as e:
+            print(f"Screenshot error: {e}")
+            self.window._show_notification(_("Screenshot cancelled"))
+
+    def _handle_screenshot_uri(self, uri: str) -> None:
+        """Process the screenshot URI and convert to local file"""
+        try:
+            file = Gio.File.new_for_uri(uri)
+            success, contents, _unused = file.load_contents(None)
+            if not success or not contents:
+                raise Exception("Failed to load screenshot data")
+
+            temp_filename = f"screenshot_{os.urandom(6).hex()}.png"
+            temp_path = os.path.join(self.temp_dir, temp_filename)
+
+            with open(temp_path, 'wb') as f:
+                f.write(contents)
+
+            filename = _("Screenshot")
+            location = _("Screenshot")
+
+            self._set_image_and_update_ui(temp_path, filename, location)
+            self.window._show_notification(_("Screenshot captured!"))
+
+        except Exception as e:
+            print(f"Error processing screenshot: {e}")
+            self.window._show_notification(_("Failed to process screenshot"))
+        finally:
+            self.window._set_loading_state(False)
+
+
 class ImportManager:
     def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str) -> None:
         self.window: Gtk.ApplicationWindow = window
@@ -184,6 +242,7 @@ class ImportManager:
         self.file_loader: FileDialogImageLoader = FileDialogImageLoader(window, temp_dir)
         self.drag_drop_loader: DragDropImageLoader = DragDropImageLoader(window, temp_dir)
         self.clipboard_loader: ClipboardImageLoader = ClipboardImageLoader(window, temp_dir)
+        self.screenshot_loader: ScreenshotImageLoader = ScreenshotImageLoader(window, temp_dir)
 
     def open_file_dialog(self) -> None:
         self.file_loader.open_file_dialog()
@@ -197,3 +256,5 @@ class ImportManager:
     def load_from_clipboard(self) -> None:
         self.clipboard_loader.load_from_clipboard()
 
+    def take_screenshot(self) -> None:
+        self.screenshot_loader.take_screenshot()

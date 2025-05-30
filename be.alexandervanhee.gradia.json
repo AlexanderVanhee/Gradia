@@ -37,6 +37,26 @@
       ]
     },
     {
+	 "name":"libportal",
+	 "buildsystem":"meson",
+	 "config-opts":[
+	    "-Ddocs=false",
+	    "-Dbackend-gtk4=enabled"
+	 ],
+	 "sources":[
+	    {
+	       "type":"archive",
+	       "url":"https://github.com/flatpak/libportal/archive/refs/tags/0.9.1.tar.gz",
+	       "sha256":"ea422b789ae487e04194d387bea031fd7485bf88a18aef8c767f7d1c29496a4e",
+	       "x-checker-data":{
+		  "type":"anitya",
+		  "project-id":230124,
+		  "url-template":"https://github.com/flatpak/libportal/archive/refs/tags/$version.tar.gz"
+	       }
+	    }
+	 ]
+    },
+    {
       "name": "gradia",
       "builddir": true,
       "buildsystem": "meson",

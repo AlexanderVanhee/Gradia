@@ -32,14 +32,25 @@ class GradiaApp(Adw.Application):
     def __init__(self, version: str):
         super().__init__(
             application_id="be.alexandervanhee.gradia",
-            flags=Gio.ApplicationFlags.HANDLES_OPEN
+            flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE
         )
         self.temp_dir = tempfile.mkdtemp()
         self.version = version
-        self.file_to_open = None
+        self.init_with_screenshot = False
+
+    def do_command_line(self, command_line: Gio.ApplicationCommandLine) -> int:
+        args = command_line.get_arguments()[1:]
+        self.init_with_screenshot = "--screenshot" in args
+        self.activate()
+        return 0
 
     def do_activate(self):
-        self.ui = GradientWindow(self.temp_dir, version=self.version, application=self)
+        self.ui = GradientWindow(
+            self.temp_dir,
+            version=self.version,
+            application=self,
+            init_with_screenshot=self.init_with_screenshot
+        )
         self.ui.build_ui()
         self.ui.show()
 
@@ -55,7 +66,6 @@ class GradiaApp(Adw.Application):
         finally:
             Gio.Application.do_shutdown(self)
 
-
 def main(version: str):
     try:
         app = GradiaApp(version=version)
@@ -63,3 +73,4 @@ def main(version: str):
     except Exception as e:
         print('Application closed with an exception:', e)
         return 1
+

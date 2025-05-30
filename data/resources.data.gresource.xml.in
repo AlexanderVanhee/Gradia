@@ -10,6 +10,7 @@
     <file preprocess="xml-stripblanks">icons/scalable/actions/draw-line-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/text-insert2-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/pointer-primary-click-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/screenshooter-symbolic.svg</file>
 
   </gresource>
 </gresources>

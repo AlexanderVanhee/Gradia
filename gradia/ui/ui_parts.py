@@ -31,12 +31,12 @@ def create_header_bar() -> Adw.HeaderBar:
     open_btn.set_action_name("app.open")
     header_bar.pack_start(open_btn)
 
-    # Copy from clipboard button
-    copy_btn = Gtk.Button.new_from_icon_name("clipboard-symbolic")
-    copy_btn.get_style_context().add_class("flat")
-    copy_btn.set_tooltip_text(_("Paste from Clipboard"))
-    copy_btn.set_action_name("app.paste")
-    header_bar.pack_start(copy_btn)
+    # Screenshot button
+    screenshot_btn = Gtk.Button.new_from_icon_name("screenshooter-symbolic")
+    screenshot_btn.get_style_context().add_class("flat")
+    screenshot_btn.set_tooltip_text(_("Take a screenshot"))
+    screenshot_btn.set_action_name("app.screenshot")
+    header_bar.pack_start(screenshot_btn)
 
     # About menu button with popover menu
     about_menu_btn = Gtk.MenuButton(icon_name="open-menu-symbolic")
@@ -170,6 +170,17 @@ def create_spinner_widget() -> Gtk.Widget:
     return spinner_box, spinner
 
 def create_status_page() -> Gtk.Widget:
+    screenshot_btn = Gtk.Button.new_with_label("_Take a screenshot…")
+    screenshot_btn.set_use_underline(True)
+    screenshot_btn.set_halign(Gtk.Align.CENTER)
+
+    style_context = screenshot_btn.get_style_context()
+    style_context.add_class("pill")
+    style_context.add_class("text-button")
+    style_context.add_class("suggested-action")
+
+    screenshot_btn.set_action_name("app.screenshot")
+
     open_status_btn = Gtk.Button.new_with_label("_Open Image…")
     open_status_btn.set_use_underline(True)
     open_status_btn.set_halign(Gtk.Align.CENTER)
@@ -177,15 +188,19 @@ def create_status_page() -> Gtk.Widget:
     style_context = open_status_btn.get_style_context()
     style_context.add_class("pill")
     style_context.add_class("text-button")
-    style_context.add_class("suggested-action")
 
     open_status_btn.set_action_name("app.open")
+
+    button_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+    button_box.set_halign(Gtk.Align.CENTER)
+    button_box.append(screenshot_btn)
+    button_box.append(open_status_btn)
 
     status_page = Adw.StatusPage.new()
     status_page.set_icon_name("image-x-generic-symbolic")
     status_page.set_title("No Image Loaded")
     status_page.set_description("Drag and drop one here")
-    status_page.set_child(open_status_btn)
+    status_page.set_child(button_box)
 
     return status_page
 
