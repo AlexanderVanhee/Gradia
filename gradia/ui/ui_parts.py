@@ -32,12 +32,12 @@ def create_header_bar() -> Adw.HeaderBar:
     open_btn.set_action_name("app.open")
     header_bar.pack_start(open_btn)
 
-    # Copy from clipboard button
-    copy_btn = Gtk.Button.new_from_icon_name("clipboard-symbolic")
-    copy_btn.get_style_context().add_class("flat")
-    copy_btn.set_tooltip_text(_("Paste from Clipboard"))
-    copy_btn.set_action_name("app.paste")
-    header_bar.pack_start(copy_btn)
+    # Screenshot button
+    screenshot_btn = Gtk.Button.new_from_icon_name("screenshooter-symbolic")
+    screenshot_btn.get_style_context().add_class("flat")
+    screenshot_btn.set_tooltip_text(_("Take a screenshot"))
+    screenshot_btn.set_action_name("app.screenshot")
+    header_bar.pack_start(screenshot_btn)
 
     # About menu button with popover menu
     about_menu_btn = Gtk.MenuButton(icon_name="open-menu-symbolic")
@@ -113,13 +113,17 @@ def create_image_overlay(picture: Gtk.Picture, drawing_overlay: 'DrawingOverlay'
 
 def create_controls_overlay() -> Gtk.Box:
     undo_btn = Gtk.Button.new_from_icon_name("edit-undo-symbolic")
+    undo_btn.set_tooltip_text(_("Undo the last action"))
+
     redo_btn = Gtk.Button.new_from_icon_name("edit-redo-symbolic")
+    redo_btn.set_tooltip_text(_("Redo the last undone action"))
+
     reset_btn = Gtk.Button.new_from_icon_name("user-trash-symbolic")
+    reset_btn.set_tooltip_text(_("Clear all annotations"))
 
     for btn in (undo_btn, redo_btn, reset_btn):
         btn.get_style_context().add_class("osd")
         btn.get_style_context().add_class("circular")
-
 
     button_box = Gtk.Box(
         orientation=Gtk.Orientation.HORIZONTAL,
@@ -171,6 +175,17 @@ def create_spinner_widget() -> tuple[Gtk.Box, Adw.Spinner]:
     return spinner_box, spinner
 
 def create_status_page() -> Adw.StatusPage:
+    screenshot_btn = Gtk.Button.new_with_label(_("_Take a screenshot…"))
+    screenshot_btn.set_use_underline(True)
+    screenshot_btn.set_halign(Gtk.Align.CENTER)
+
+    style_context = screenshot_btn.get_style_context()
+    style_context.add_class("pill")
+    style_context.add_class("text-button")
+    style_context.add_class("suggested-action")
+
+    screenshot_btn.set_action_name("app.screenshot")
+
     open_status_btn = Gtk.Button.new_with_label(_("_Open Image…"))
     open_status_btn.set_use_underline(True)
     open_status_btn.set_halign(Gtk.Align.CENTER)
@@ -178,15 +193,19 @@ def create_status_page() -> Adw.StatusPage:
     style_context = open_status_btn.get_style_context()
     style_context.add_class("pill")
     style_context.add_class("text-button")
-    style_context.add_class("suggested-action")
 
     open_status_btn.set_action_name("app.open")
+
+    button_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+    button_box.set_halign(Gtk.Align.CENTER)
+    button_box.append(screenshot_btn)
+    button_box.append(open_status_btn)
 
     status_page = Adw.StatusPage.new()
     status_page.set_icon_name("image-x-generic-symbolic")
     status_page.set_title(_("No Image Loaded"))
     status_page.set_description(_("Drag and drop one here"))
-    status_page.set_child(open_status_btn)
+    status_page.set_child(button_box)
 
     return status_page
 
@@ -194,11 +213,13 @@ def create_drop_target(stack: Gtk.Stack) -> None:
     drop_target = Gtk.DropTarget.new(Gio.File, Gdk.DragAction.COPY)
     drop_target.set_preload(True)
 
-    def on_file_dropped(_target: Gtk.DropTarget, *value: Gio.File, _x: int, _y: int) -> None:
-        app = Gio.Application.get_default()
-        action = app.lookup_action("load-drop") if app else None
-        if action:
-            action.activate(None)
+    def on_file_dropped(_target: Gtk.DropTarget, value: Gio.File, _x: int, _y: int) -> None:
+        uri = value.get_uri()
+        if uri:
+            app = Gio.Application.get_default()
+            action = app.lookup_action("load-drop") if app else None
+            if action:
+                action.activate(GLib.Variant('s', uri))
 
     drop_target.connect("drop", on_file_dropped)
     stack.add_controller(drop_target)

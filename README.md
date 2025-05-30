@@ -29,6 +29,19 @@ Gradia allows you to quickly modify screenshots of application windows to put th
 
 > [!IMPORTANT]
 > The [GNOME Code of Conduct](https://conduct.gnome.org) applies to this project, including this repository.
+## Automatically Open the App After Taking a Screenshot
+
+If you'd like Gradia to **open automatically** after taking a screenshot, you can set up a custom keyboard shortcut:
+
+1. Go to **Settings** → **Keyboard** → **View and Customize Shortcuts** → **Custom Shortcuts**.
+2. Click the **+** button to create a new shortcut.
+3. Set the **Name** to something like *Open Gradia with Screenshot*.
+4. For the **Command**, enter:
+
+   ```
+   flatpak run be.alexandervanhee.gradia --screenshot
+   ```
+5. Assign a keyboard shortcut of your choice (`Ctrl + Print` should be free by default).
 
 ## Screenshots
 

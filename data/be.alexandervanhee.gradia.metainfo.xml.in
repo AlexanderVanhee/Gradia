@@ -45,6 +45,16 @@
   </branding>
 
   <releases>
+    <release version="1.2.0" date="2025-05-31">
+      <description translate="no">
+        <p>First major post-release patch adding:</p>
+        <ul>
+          <li>Screenshot capture from within the app and via a custom keyboard shortcut (see GitHub to setup)</li>
+          <li>Annotation tools including pen, arrow, and text</li>
+          <li>Minor visual refinements</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.1.0" date="2025-05-25">
       <description translate="no">
         <p>Minor post initial release includes:</p>
@@ -69,13 +79,13 @@
   </releases>
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/0300bee46f2d0a6b22a80978b47208b8abc0de50/screenshots/showcase.webp</image>
+      <image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/a6cec259c5749161d71d4593e71a3b5f10cf92f5/screenshots/showcase.webp</image>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/0300bee46f2d0a6b22a80978b47208b8abc0de50/screenshots/dark.webp</image>
+      <image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/a6cec259c5749161d71d4593e71a3b5f10cf92f5/screenshots/dark.webp</image>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/0300bee46f2d0a6b22a80978b47208b8abc0de50/screenshots/home.webp</image>
+      <image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/a6cec259c5749161d71d4593e71a3b5f10cf92f5/screenshots/home.webp</image>
     </screenshot>
   </screenshots>
 </component>

@@ -5,8 +5,8 @@ data/be.alexandervanhee.gradia.desktop.in
 data/be.alexandervanhee.gradia.metainfo.xml.in
 data/be.alexandervanhee.gradia.gschema.xml
 gradia/graphics/gradient.py
-gradia/graphics/text.py
 gradia/ui/ui_parts.py
 gradia/ui/window.py
 gradia/ui/image_exporters.py
 gradia/ui/image_loaders.py
+gradia/ui/drawing_overlay.py

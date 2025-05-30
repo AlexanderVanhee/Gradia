@@ -8,13 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-26 22:06+0200\n"
+"POT-Creation-Date: 2025-05-30 14:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: data/be.alexandervanhee.gradia.desktop.in:2
@@ -48,202 +48,242 @@ msgstr ""
 msgid "Alexander Vanhee"
 msgstr ""
 
-#: gradia/graphics/gradient.py:125
+#: gradia/graphics/gradient.py:145
 msgid "Gradient Background"
 msgstr ""
 
-#: gradia/graphics/gradient.py:128
+#: gradia/graphics/gradient.py:149
 msgid "Gradient Presets"
 msgstr ""
 
-#: gradia/graphics/gradient.py:137 gradia/graphics/gradient.py:148
+#: gradia/graphics/gradient.py:158 gradia/graphics/gradient.py:169
 msgid "Start Color"
 msgstr ""
 
-#: gradia/graphics/gradient.py:138 gradia/graphics/gradient.py:150
+#: gradia/graphics/gradient.py:159 gradia/graphics/gradient.py:171
 msgid "End Color"
 msgstr ""
 
-#: gradia/graphics/gradient.py:169
+#: gradia/graphics/gradient.py:195
 msgid "Angle"
 msgstr ""
 
-#: gradia/graphics/text.py:141
-msgid "Text Annotation"
-msgstr ""
-
-#: gradia/graphics/text.py:149
-msgid "Text"
-msgstr ""
-
-#: gradia/graphics/text.py:150
-msgid "Enter text"
-msgstr ""
-
-#: gradia/graphics/text.py:158
-msgid "Color"
-msgstr ""
-
-#: gradia/graphics/text.py:173
-msgid "Size"
-msgstr ""
-
-#: gradia/graphics/text.py:181 gradia/ui/ui_parts.py:181
-msgid "Location"
-msgstr ""
-
-#: gradia/ui/ui_parts.py:26 gradia/ui/image_loaders.py:59
+#: gradia/ui/ui_parts.py:30 gradia/ui/image_loaders.py:64
 msgid "Open Image"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:33
-msgid "Paste from Clipboard"
+#: gradia/ui/ui_parts.py:37
+msgid "Take a screenshot"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:40
+#: gradia/ui/ui_parts.py:44
 msgid "Main Menu"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:44 gradia/ui/ui_parts.py:256
+#: gradia/ui/ui_parts.py:48 gradia/ui/ui_parts.py:485
 msgid "Keyboard Shortcuts"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:45
+#: gradia/ui/ui_parts.py:49
 msgid "About Gradia"
 msgstr ""
 
 #. Translators: The prefixed underscore is used to indicate a mnemonic. Do NOT remove it.
-#: gradia/ui/ui_parts.py:54
+#: gradia/ui/ui_parts.py:57
 msgid "_Save Image"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:63
+#: gradia/ui/ui_parts.py:66
 msgid "Copy to Clipboard"
 msgstr ""
 
-#. Status page with button child
-#. Translators: The prefixed underscore is used to indicate a mnemonic. Do NOT remove it.
-#: gradia/ui/ui_parts.py:120
-msgid "_Open Image…"
+#: gradia/ui/ui_parts.py:115
+msgid "Undo the last action"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:131
-msgid "No Image Loaded"
+#: gradia/ui/ui_parts.py:118
+msgid "Redo the last undone action"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:132
-msgid "Drag and drop one here"
+#: gradia/ui/ui_parts.py:121
+msgid "Clear all annotations"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:141
+#: gradia/ui/ui_parts.py:232
 msgid "Image Options"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:144
+#: gradia/ui/ui_parts.py:235
 msgid "Padding"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:149
+#: gradia/ui/ui_parts.py:240
 msgid "Corner Radius"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:153
+#: gradia/ui/ui_parts.py:244
 msgid "Aspect Ratio"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:159
+#: gradia/ui/ui_parts.py:250
 msgid "Shadow"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:180
+#: gradia/ui/ui_parts.py:271
 msgid "Name"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:180 gradia/ui/ui_parts.py:181
+#: gradia/ui/ui_parts.py:271 gradia/ui/ui_parts.py:272
 msgid "No file loaded"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:182
+#: gradia/ui/ui_parts.py:272
+msgid "Location"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:273
 msgid "Modified image size"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:225
+#: gradia/ui/ui_parts.py:282
+msgid "Annotation Tools"
+msgstr ""
+
+#. Fill color row with reset button
+#: gradia/ui/ui_parts.py:306
+msgid "Fill Color"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:311
+msgid "Reset Fill"
+msgstr ""
+
+#. Stroke color row
+#: gradia/ui/ui_parts.py:358
+msgid "Stroke Color"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:443
 msgid "Make your images ready for the world"
 msgstr ""
 
 #. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
-#: gradia/ui/ui_parts.py:235
+#: gradia/ui/ui_parts.py:456
 msgid "translator-credits"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:245
+#: gradia/ui/ui_parts.py:466
 msgid "File Actions"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:247
+#: gradia/ui/ui_parts.py:468
 msgid "Open File"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:248
+#: gradia/ui/ui_parts.py:469
 msgid "Save to File"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:249
+#: gradia/ui/ui_parts.py:470
 msgid "Copy Image to Clipboard"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:250
+#: gradia/ui/ui_parts.py:471
 msgid "Paste From Clipboard"
 msgstr ""
 
-#: gradia/ui/ui_parts.py:254
+#: gradia/ui/ui_parts.py:475
+msgid "Annotations"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:477
+msgid "Undo"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:478
+msgid "Redo"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:479
+msgid "Remove Selected"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:483
 msgid "General"
 msgstr ""
 
-#: gradia/ui/window.py:280
+#: gradia/ui/window.py:306
 msgid "Unknown"
 msgstr ""
 
-#: gradia/ui/window.py:282
+#: gradia/ui/window.py:308
 msgid "Error"
 msgstr ""
 
-#: gradia/ui/image_exporters.py:63
+#: gradia/ui/image_exporters.py:95
 msgid "Save Processed Image"
 msgstr ""
 
-#: gradia/ui/image_exporters.py:94
+#: gradia/ui/image_exporters.py:124
 msgid "Image saved"
 msgstr ""
 
-#: gradia/ui/image_exporters.py:133
+#: gradia/ui/image_exporters.py:127
+msgid "Failed to save image"
+msgstr ""
+
+#: gradia/ui/image_exporters.py:154
 msgid "No processed image available to save"
 msgstr ""
 
-#: gradia/ui/image_exporters.py:157
+#: gradia/ui/image_exporters.py:177
 msgid "Image copied to clipboard"
 msgstr ""
 
-#: gradia/ui/image_exporters.py:160
+#: gradia/ui/image_exporters.py:180
 msgid "Failed to copy image to clipboard"
 msgstr ""
 
-#: gradia/ui/image_loaders.py:141
+#: gradia/ui/image_loaders.py:67
+msgid "Image Files"
+msgstr ""
+
+#: gradia/ui/image_loaders.py:156
 msgid "No image found in clipboard"
 msgstr ""
 
-#: gradia/ui/image_loaders.py:149
+#: gradia/ui/image_loaders.py:163
 msgid "Clipboard Image"
 msgstr ""
 
-#: gradia/ui/image_loaders.py:150
+#: gradia/ui/image_loaders.py:164
 msgid "From clipboard"
 msgstr ""
 
-#: gradia/ui/image_loaders.py:157
+#: gradia/ui/image_loaders.py:171
 msgid "Clipboard does not contain an image."
 msgstr ""
 
-#: gradia/ui/image_loaders.py:159
+#: gradia/ui/image_loaders.py:173
 msgid "Failed to load image from clipboard."
+msgstr ""
+
+#: gradia/ui/image_loaders.py:199
+msgid "Failed to take screenshot"
+msgstr ""
+
+#: gradia/ui/image_loaders.py:208
+msgid "Screenshot cancelled"
+msgstr ""
+
+#: gradia/ui/image_loaders.py:224 gradia/ui/image_loaders.py:225
+msgid "Screenshot"
+msgstr ""
+
+#: gradia/ui/image_loaders.py:228
+msgid "Screenshot captured!"
+msgstr ""
+
+#: gradia/ui/image_loaders.py:232
+msgid "Failed to process screenshot"
 msgstr ""
