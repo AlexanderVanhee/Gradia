@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-31 09:42+0200\n"
-"PO-Revision-Date: 2025-05-31 21:01+0200\n"
+"PO-Revision-Date: 2025-05-31 23:08+0200\n"
 "Last-Translator: Uwe Senkler\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -101,7 +101,7 @@ msgstr "Info zu Gradia"
 #. Translators: The prefixed underscore is used to indicate a mnemonic. Do NOT remove it.
 #: gradia/ui/ui_parts.py:58
 msgid "_Save Image"
-msgstr "Bild _speichen"
+msgstr "Bild _speichern"
 
 #: gradia/ui/ui_parts.py:67
 msgid "Copy to Clipboard"
@@ -173,7 +173,7 @@ msgstr "Ort"
 
 #: gradia/ui/ui_parts.py:274
 msgid "Modified image size"
-msgstr "Geänderte Bildgröße"
+msgstr "Größe des geänderten Bilds"
 
 #: gradia/ui/ui_parts.py:274
 msgid "N/A"
@@ -352,7 +352,7 @@ msgstr "Text"
 
 #: gradia/ui/drawing_actions.py:29
 msgid "Select"
-msgstr "Wählen"
+msgstr "Auswahlwerkzeug"
 
 #: gradia/ui/drawing_actions.py:30
 msgid "Highlighter"
