@@ -45,6 +45,15 @@
   </branding>
 
   <releases>
+      <release version="1.2.1" date="2025-05-31">
+      <description translate="no">
+        <p>Minor release including:</p>
+        <ul>
+          <li>German translations</li>
+          <li>Fullscreen mode for custom keyboard shortcut</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.2.0" date="2025-05-31">
       <description translate="no">
         <p>First major post-release patch adding:</p>
@@ -79,13 +88,16 @@
   </releases>
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/a6cec259c5749161d71d4593e71a3b5f10cf92f5/screenshots/showcase.webp</image>
+      <image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/4bf1a514c7e8adb2d9eb921e8fccaae08913b4de/screenshots/showcase.webp</image>
+      <caption>Edited screenshot</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/a6cec259c5749161d71d4593e71a3b5f10cf92f5/screenshots/dark.webp</image>
+      <image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/4bf1a514c7e8adb2d9eb921e8fccaae08913b4de/screenshots/dark.webp</image>
+      <caption>Edited picture</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/a6cec259c5749161d71d4593e71a3b5f10cf92f5/screenshots/home.webp</image>
+      <image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/4bf1a514c7e8adb2d9eb921e8fccaae08913b4de/screenshots/home.webp</image>
+      <caption>Startup view</caption>
     </screenshot>
   </screenshots>
 </component>
