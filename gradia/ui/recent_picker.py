@@ -146,9 +146,8 @@ class RecentPicker(Gtk.Box):
 
                 self._apply_gradient_to_button(img_button, index)
 
-                spinner = Adw.Spinner.new()
-                spinner.set_size_request(24, 24)
-                img_button.set_child(spinner)
+                placeholder = Gtk.Box()
+                img_button.set_child(placeholder)
 
                 frame.set_child(img_button)
                 self.image_buttons.append(img_button)
@@ -200,6 +199,19 @@ class RecentPicker(Gtk.Box):
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
 
+    def _fade_in_widget(self, widget):
+        widget.set_opacity(0.0)
+        target = Adw.PropertyAnimationTarget.new(widget, "opacity")
+        animation = Adw.TimedAnimation(
+            widget=widget,
+            value_from=0.0,
+            value_to=1.0,
+            duration=300,
+            easing=Adw.Easing.EASE_OUT,
+            target=target,
+        )
+        animation.play()
+
     def load_images(self):
         def load_in_thread():
             recent_files = self.image_getter.get_recent_screenshot_files()
@@ -234,6 +246,7 @@ class RecentPicker(Gtk.Box):
 
                     image = Gtk.Image.new_from_pixbuf(scaled_pixbuf)
                     self.image_buttons[i].set_child(image)
+                    self._fade_in_widget(image)
 
                     self.name_labels[i].set_text(file_obj.name)
 
@@ -244,6 +257,8 @@ class RecentPicker(Gtk.Box):
 
                     error_label = Gtk.Label(label=filename)
                     self.image_buttons[i].set_child(error_label)
+                    self._fade_in_widget(error_label)
+
                     self.name_labels[i].set_text(file_obj.name)
                     print(f"Error loading image {file_obj.path}: {e}")
             else:
