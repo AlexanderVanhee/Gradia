@@ -17,7 +17,7 @@
 
 
 import os
-from typing import Optional
+from typing import Optional, Callable
 
 from gi.repository import Gtk, Gio, Gdk, GLib, Xdp
 from gradia.clipboard import save_texture_to_file
@@ -26,7 +26,6 @@ ImportFormat = tuple[str, str]
 
 class BaseImageLoader:
     """Base class for image loading handlers"""
-
     SUPPORTED_INPUT_FORMATS: list[ImportFormat] = [
         (".png", "image/png"),
         (".jpg", "image/jpg"),
@@ -56,7 +55,6 @@ class BaseImageLoader:
 
 class FileDialogImageLoader(BaseImageLoader):
     """Handles loading images through file dialog"""
-
     def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str) -> None:
         super().__init__(window, temp_dir)
 
@@ -77,7 +75,6 @@ class FileDialogImageLoader(BaseImageLoader):
         file_dialog.open(self.window, None, self._on_file_selected)
 
     def _on_file_selected(self, dialog: Gtk.FileDialog, result: Gio.AsyncResult) -> None:
-        """Handle file selection from dialog"""
         try:
             file = dialog.open_finish(result)
             if not file:
@@ -102,8 +99,6 @@ class FileDialogImageLoader(BaseImageLoader):
 
 
 class DragDropImageLoader(BaseImageLoader):
-    """Handles loading images through drag and drop"""
-
     def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str) -> None:
         super().__init__(window, temp_dir)
 
@@ -114,7 +109,7 @@ class DragDropImageLoader(BaseImageLoader):
         x: int,
         y: int
     ) -> bool:
-        """Handle file dropped onto the application"""
+
         if not isinstance(value, Gio.File):
             return False
 
@@ -133,15 +128,12 @@ class DragDropImageLoader(BaseImageLoader):
 
 
 class ClipboardImageLoader(BaseImageLoader):
-    """Handles loading images from clipboard"""
-
     TEMP_CLIPBOARD_FILENAME: str = "clipboard_image.png"
 
     def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str) -> None:
         super().__init__(window, temp_dir)
 
     def load_from_clipboard(self) -> None:
-        """Load image from system clipboard"""
         clipboard = self.window.get_clipboard()
         clipboard.read_texture_async(None, self._handle_clipboard_texture)
 
@@ -180,20 +172,25 @@ class ClipboardImageLoader(BaseImageLoader):
 
 class ScreenshotImageLoader(BaseImageLoader):
     """Handles loading images through screenshot capture"""
-
     def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str) -> None:
         super().__init__(window, temp_dir)
         self.portal = Xdp.Portal()
+        self._error_callback: Optional[Callable[[str], None]] = None
 
-    def take_screenshot(self, flags: Xdp.ScreenshotFlags = Xdp.ScreenshotFlags.INTERACTIVE) -> None:
-        """Hide the window, then take screenshot after short delay"""
+    def take_screenshot(
+        self,
+        flags: Xdp.ScreenshotFlags = Xdp.ScreenshotFlags.INTERACTIVE,
+        on_error_or_cancel: Optional[Callable[[str], None]] = None
+    ) -> None:
         try:
+            self._error_callback = on_error_or_cancel
             self.window.hide()
-
             GLib.timeout_add(50, self._do_take_screenshot, flags)
         except Exception as e:
             print(f"Failed to initiate screenshot: {e}")
             self.window._show_notification(_("Failed to take screenshot"))
+            if on_error_or_cancel:
+                on_error_or_cancel(str(e)) # Used for shutting down the app after cancelling a screenshot.
 
     def _do_take_screenshot(self, flags: Xdp.ScreenshotFlags) -> bool:
         try:
@@ -208,6 +205,9 @@ class ScreenshotImageLoader(BaseImageLoader):
             print(f"Failed during screenshot: {e}")
             self.window._show_notification(_("Failed to take screenshot"))
             self.window.show()
+            if self._error_callback:
+                self._error_callback(str(e))
+            self._error_callback = None
         return False
 
     def _on_screenshot_taken(self, portal_object, result, user_data) -> None:
@@ -218,8 +218,11 @@ class ScreenshotImageLoader(BaseImageLoader):
         except GLib.Error as e:
             print(f"Screenshot error: {e}")
             self.window._show_notification(_("Screenshot cancelled"))
+            if self._error_callback:
+                self._error_callback(str(e))
         finally:
             self.window.show()
+            self._error_callback = None
 
     def _handle_screenshot_uri(self, uri: str) -> None:
         """Process the screenshot URI and convert to local file"""
@@ -249,12 +252,10 @@ class ScreenshotImageLoader(BaseImageLoader):
 
 class CommandlineLoader(BaseImageLoader):
     """Handles loading images from command line arguments or programmatic file paths"""
-
     def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str) -> None:
         super().__init__(window, temp_dir)
 
     def load_from_file(self, file_path: str) -> None:
-        """Load image from a given file path"""
         try:
             if not file_path:
                 print("No file path provided")
@@ -301,8 +302,12 @@ class ImportManager:
     def load_from_clipboard(self) -> None:
         self.clipboard_loader.load_from_clipboard()
 
-    def take_screenshot(self, flags: Xdp.ScreenshotFlags = Xdp.ScreenshotFlags.INTERACTIVE) -> None:
-        self.screenshot_loader.take_screenshot(flags)
+    def take_screenshot(
+        self,
+        flags: Xdp.ScreenshotFlags = Xdp.ScreenshotFlags.INTERACTIVE,
+        on_error_or_cancel: Optional[Callable[[str], None]] = None
+    ) -> None:
+        self.screenshot_loader.take_screenshot(flags, on_error_or_cancel)
 
     def load_from_file(self, file_path: str) -> None:
         self.commandline_loader.load_from_file(file_path)

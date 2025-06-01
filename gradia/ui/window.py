@@ -96,8 +96,10 @@ class GradientWindow(Adw.ApplicationWindow):
         self.create_action("del-selected", lambda *_: self.drawing_overlay.remove_selected_action(), ["<Primary>x", "Delete"])
         self.file_path = file_path
 
-        if init_screenshot_mode != None:
-            self.import_manager.take_screenshot(init_screenshot_mode)
+        if init_screenshot_mode is not None:
+            def screenshot_error_callback(error_message: str) -> None:
+                 self.app.quit()
+            self.import_manager.take_screenshot(init_screenshot_mode, screenshot_error_callback)
 
 
     def create_action(self, name: str, callback: Callable[..., None], shortcuts: Optional[list[str]] = None, enabled: bool = True) -> None:
