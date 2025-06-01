@@ -100,9 +100,7 @@ class RecentPicker(Gtk.Box):
     GRID_ROWS = 2
     GRID_COLS = 3
     GRID_ROW_SPACING = 10
-    GRID_COL_SPACING = 10
-    FRAME_WIDTH = 210
-    FRAME_HEIGHT = 110
+    GRID_COL_SPACING = 30
     FRAME_SPACING = 5
     IMAGE_WIDTH = 210
     IMAGE_HEIGHT = 120
@@ -136,12 +134,12 @@ class RecentPicker(Gtk.Box):
                 index = row * self.GRID_COLS + col
 
                 container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=self.FRAME_SPACING)
-                container.set_size_request(self.FRAME_WIDTH, self.FRAME_HEIGHT)
+                container.set_size_request(self.IMAGE_WIDTH, self.IMAGE_HEIGHT)
 
                 frame = Gtk.Frame()
                 frame.set_size_request(self.IMAGE_WIDTH, self.IMAGE_HEIGHT)
 
-                img_button = Gtk.Button()
+                img_button = Gtk.Button(has_frame=False)
                 img_button.set_size_request(self.IMAGE_WIDTH, self.IMAGE_HEIGHT)
                 img_button.add_css_class("card")
                 img_button.connect("clicked", lambda btn, idx=index: self.on_image_click(idx))
@@ -249,9 +247,9 @@ class RecentPicker(Gtk.Box):
                     self.name_labels[i].set_text(file_obj.name)
                     print(f"Error loading image {file_obj.path}: {e}")
             else:
-                empty_label = Gtk.Label(label="No image")
-                empty_label.add_css_class("dim-label")
-                self.image_buttons[i].set_child(empty_label)
+                icon = Gtk.Image.new_from_icon_name("image-missing-symbolic")
+                icon.set_pixel_size(64)
+                self.image_buttons[i].set_child(icon)
                 self.image_buttons[i].set_sensitive(False)
                 self.name_labels[i].set_text("")
 

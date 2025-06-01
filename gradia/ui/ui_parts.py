@@ -200,7 +200,7 @@ def create_status_page() -> Adw.StatusPage:
     open_status_btn.get_style_context().add_class("text-button")
     open_status_btn.set_action_name("app.open")
 
-    button_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+    button_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12 , margin_top=10)
     button_box.set_halign(Gtk.Align.CENTER)
     button_box.append(screenshot_btn)
     button_box.append(open_status_btn)
@@ -211,7 +211,7 @@ def create_status_page() -> Adw.StatusPage:
     main_box.append(button_box)
 
     status_page = Adw.StatusPage.new()
-    status_page.set_title(_("Prepare an Image"))
+    status_page.set_title(_("Enhance an Image"))
     status_page.set_description(_("Drag and drop one here"))
     status_page.set_child(main_box)
 

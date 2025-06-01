@@ -186,18 +186,6 @@ class GradientWindow(Adw.ApplicationWindow):
         self.toolbar_view.set_content(self.main_box)
         self.toast_overlay.set_child(self.toolbar_view)
 
-        self.connect("notify::default-width", self._on_window_resize)
-        self.connect("notify::default-height", self._on_window_resize)
-
-    def _on_window_resize(self, *args: Any) -> None:
-        width: int = self.get_width()
-        if width < 800:
-            self.main_box.set_orientation(Gtk.Orientation.VERTICAL)
-            self.sidebar.set_size_request(-1, 200)
-        else:
-            self.main_box.set_orientation(Gtk.Orientation.HORIZONTAL)
-            self.sidebar.set_size_request(300, -1)
-
     def show(self) -> None:
         self.present()
 
