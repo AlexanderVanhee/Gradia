@@ -79,6 +79,7 @@ class GradientWindow(Adw.ApplicationWindow):
         self.create_action_with_param("load-drop", self.import_manager._on_drop_action)
         self.create_action("paste", lambda *_: self.import_manager.load_from_clipboard(), ["<Primary>v"])
         self.create_action("screenshot", lambda *_: self.import_manager.take_screenshot(), ["<Primary>a"])
+        self.create_action_with_param("open-path", lambda action, param: self.import_manager.load_from_file(param.get_string()))
 
         self.create_action("save", lambda *_: self.export_manager.save_to_file(), ["<Primary>s"], enabled=False)
         self.create_action("copy", lambda *_: self.export_manager.copy_to_clipboard(), ["<Primary>c"], enabled=False)

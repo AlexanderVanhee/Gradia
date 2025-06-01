@@ -39,7 +39,8 @@ configure_file(
 gradia_sources = [
   '__init__.py',
   'main.py',
-  'clipboard.py'
+  'clipboard.py',
+  'constants.py'
 ]
 
 install_data(gradia_sources, install_dir: moduledir)

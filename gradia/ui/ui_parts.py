@@ -21,6 +21,7 @@ from gi.repository import Gtk, Gio, Adw, Gdk, GLib
 
 from gradia.overlay.drawing_actions import DrawingMode
 from gradia.overlay.drawing_overlay import DrawingOverlay
+from gradia.ui.recent_picker import RecentPicker
 
 def create_header_bar() -> Adw.HeaderBar:
     header_bar = Adw.HeaderBar()
@@ -175,25 +176,28 @@ def create_spinner_widget() -> tuple[Gtk.Box, Adw.Spinner]:
     return spinner_box, spinner
 
 def create_status_page() -> Adw.StatusPage:
+    def on_recent_image_click(path: str):
+            app = Gio.Application.get_default()
+            action = app.lookup_action("open-path")
+            if action:
+                param = GLib.Variant("s", path)
+                action.activate(param)
+
+    picker = RecentPicker(callback=on_recent_image_click)
+
     screenshot_btn = Gtk.Button.new_with_label(_("_Take a screenshot…"))
     screenshot_btn.set_use_underline(True)
     screenshot_btn.set_halign(Gtk.Align.CENTER)
-
-    style_context = screenshot_btn.get_style_context()
-    style_context.add_class("pill")
-    style_context.add_class("text-button")
-    style_context.add_class("suggested-action")
-
+    screenshot_btn.get_style_context().add_class("pill")
+    screenshot_btn.get_style_context().add_class("text-button")
+    screenshot_btn.get_style_context().add_class("suggested-action")
     screenshot_btn.set_action_name("app.screenshot")
 
     open_status_btn = Gtk.Button.new_with_label(_("_Open Image…"))
     open_status_btn.set_use_underline(True)
     open_status_btn.set_halign(Gtk.Align.CENTER)
-
-    style_context = open_status_btn.get_style_context()
-    style_context.add_class("pill")
-    style_context.add_class("text-button")
-
+    open_status_btn.get_style_context().add_class("pill")
+    open_status_btn.get_style_context().add_class("text-button")
     open_status_btn.set_action_name("app.open")
 
     button_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
@@ -201,11 +205,15 @@ def create_status_page() -> Adw.StatusPage:
     button_box.append(screenshot_btn)
     button_box.append(open_status_btn)
 
+    main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=24)
+    main_box.set_halign(Gtk.Align.CENTER)
+    main_box.append(picker)
+    main_box.append(button_box)
+
     status_page = Adw.StatusPage.new()
-    status_page.set_icon_name("image-x-generic-symbolic")
-    status_page.set_title(_("No Image Loaded"))
+    status_page.set_title(_("Prepare an Image"))
     status_page.set_description(_("Drag and drop one here"))
-    status_page.set_child(button_box)
+    status_page.set_child(main_box)
 
     return status_page
 

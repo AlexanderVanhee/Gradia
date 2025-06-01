@@ -21,6 +21,7 @@ from collections.abc import Callable
 from typing import Optional
 from PIL import Image
 from gi.repository import Gtk, Gdk, Adw
+from gradia.constants import PREDEFINED_GRADIENTS
 
 
 HexColor = str
@@ -120,14 +121,6 @@ class GradientBackground:
 
 
 class GradientSelector:
-    PREDEFINED_GRADIENTS: list[GradientPreset] = [
-        ("#36d1dc", "#5b86e5", 90),
-        ("#ff5f6d", "#ffc371", 45),
-        ("#453383", "#5494e8", 0),
-        ("#00c6ff", "#0072ff", 180),
-        ("#8ff0a4", "#2ec27e", 135),
-        ("#f6f5f4", "#5e5c64", 135),
-    ]
 
     def __init__(
         self, 
@@ -250,7 +243,7 @@ class GradientSelector:
             homogeneous=True
         )
 
-        for i, (start, end, angle) in enumerate(self.PREDEFINED_GRADIENTS):
+        for i, (start, end, angle) in enumerate(PREDEFINED_GRADIENTS):
             gradient_name = f"gradient-preview-{i}"
 
             css = f"""
