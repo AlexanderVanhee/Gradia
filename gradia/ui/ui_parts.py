@@ -239,7 +239,7 @@ def create_drawing_tools_group() -> Adw.PreferencesGroup:
         (DrawingMode.SQUARE, "box-small-outline-symbolic", 0, 1),
         (DrawingMode.CIRCLE, "circle-outline-thick-symbolic", 1, 1),
         (DrawingMode.HIGHLIGHTER, "marker-symbolic", 2, 1),
-        #(DrawingMode.CENSOR, "checkerboard-big-symbolic", 3, 1),
+        (DrawingMode.CENSOR, "checkerboard-big-symbolic", 3, 1),
         #(DrawingMode.NUMBER, "one-circle-symbolic", 4, 1),
     ]
 

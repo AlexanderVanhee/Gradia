@@ -30,6 +30,7 @@ DEFAULT_FONT_SIZE = 22.0
 DEFAULT_FONT_FAMILY = "Caveat"
 DEFAULT_PEN_COLOR = (1.0, 1.0, 1.0, 0.8)
 DEFAULT_HIGHLIGHTER_SIZE = 12.0
+DEFAULT_PIXELATION_LEVEL = 8
 
 class DrawingOverlay(Gtk.DrawingArea):
     def __init__(self):
@@ -44,6 +45,7 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.font_family = DEFAULT_FONT_FAMILY
         self.pen_color = DEFAULT_PEN_COLOR
         self.highlighter_size = DEFAULT_HIGHLIGHTER_SIZE
+        self.pixelation_level = DEFAULT_PIXELATION_LEVEL
         self.fill_color = None
         self.is_drawing = False
         self.current_stroke = []
@@ -96,6 +98,7 @@ class DrawingOverlay(Gtk.DrawingArea):
         offset_x = (widget_w - disp_w) / 2
         offset_y = (widget_h - disp_h) / 2
         return offset_x, offset_y, disp_w, disp_h
+
     def _get_modified_image_bounds(self):
         return  self.picture_widget.get_paintable().get_intrinsic_width(), self.picture_widget.get_paintable().get_intrinsic_height()
 
@@ -117,6 +120,17 @@ class DrawingOverlay(Gtk.DrawingArea):
     def _is_point_in_image(self, x, y):
         ox, oy, dw, dh = self._get_image_bounds()
         return ox <= x <= ox + dw and oy <= y <= oy + dh
+
+    def _get_background_pixbuf(self):
+        """Get the background image as a pixbuf"""
+        if not self.picture_widget:
+            return None
+
+        paintable = self.picture_widget.get_paintable()
+        if isinstance(paintable, Gdk.Texture):
+            return Gdk.pixbuf_get_from_texture(paintable)
+
+        return None
 
     def _setup_actions(self):
         for mode in DrawingMode:
@@ -426,11 +440,15 @@ class DrawingOverlay(Gtk.DrawingArea):
             if mode == DrawingMode.ARROW:
                 self.actions.append(ArrowAction(self.start_point, self.end_point, self.pen_color, self.arrow_head_size, self.pen_size))
             elif mode == DrawingMode.LINE:
-                self.actions.append(LineAction(self.start_point, self.end_point, self.pen_color, 0,self.pen_size))
+                self.actions.append(LineAction(self.start_point, self.end_point, self.pen_color, 0, self.pen_size))
             elif mode == DrawingMode.SQUARE:
                 self.actions.append(RectAction(self.start_point, self.end_point, self.pen_color, self.pen_size, self.fill_color))
             elif mode == DrawingMode.CIRCLE:
                 self.actions.append(CircleAction(self.start_point, self.end_point, self.pen_color, self.pen_size, self.fill_color))
+            elif mode == DrawingMode.CENSOR:
+                censor_action = CensorAction(self.start_point, self.end_point, self.pixelation_level, self._get_background_pixbuf())
+                self.actions.append(censor_action)
+
         self.start_point = None
         self.end_point = None
         self.redo_stack.clear()
@@ -447,6 +465,8 @@ class DrawingOverlay(Gtk.DrawingArea):
                 name = "pointer"
             else:
                 name = "default"
+        elif self.drawing_mode == DrawingMode.CENSOR:
+            name = "crosshair" if self._is_point_in_image(x, y) else "default"
         else:
             name = "crosshair" if self.drawing_mode == DrawingMode.PEN or self.drawing_mode == DrawingMode.HIGHLIGHTER else "cell"
             if not self._is_point_in_image(x, y):
@@ -482,6 +502,14 @@ class DrawingOverlay(Gtk.DrawingArea):
                     RectAction(self.start_point, self.end_point, self.pen_color, self.pen_size, self.fill_color).draw(cr, self._image_to_widget_coords, scale)
                 elif self.drawing_mode == DrawingMode.CIRCLE:
                     CircleAction(self.start_point, self.end_point, self.pen_color, self.pen_size, self.fill_color).draw(cr, self._image_to_widget_coords, scale)
+                elif self.drawing_mode == DrawingMode.CENSOR:
+                    cr.set_source_rgba(0.5, 0.5, 0.5, 0.5)
+                    x1, y1 = self._image_to_widget_coords(*self.start_point)
+                    x2, y2 = self._image_to_widget_coords(*self.end_point)
+                    x, y = min(x1, x2), min(y1, y2)
+                    w, h = abs(x2 - x1), abs(y2 - y1)
+                    cr.rectangle(x, y, w, h)
+                    cr.fill()
 
         if self.is_text_editing and self.text_position and self.live_text:
             if self.editing_text_action:
@@ -558,6 +586,9 @@ class DrawingOverlay(Gtk.DrawingArea):
 
     def set_highlighter_size(self, s):
         self.highlighter_size = max(1.0, s)
+
+    def set_pixelation_level(self, level):
+        self.pixelation_level = max(2, int(level))
 
     def set_drawing_visible(self, v):
         self.set_visible(v)

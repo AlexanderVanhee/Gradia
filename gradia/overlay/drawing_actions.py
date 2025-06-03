@@ -19,8 +19,12 @@ from gi.repository import Gtk, Gdk, Gio, cairo, Pango, PangoCairo
 from enum import Enum
 import math
 from gradia.backend.logger import Logger
+import time
+import random
 
 logging = Logger()
+
+start_time_seed = int(time.time())
 
 class DrawingMode(Enum):
     PEN = _("Pen")
@@ -278,3 +282,108 @@ class HighlighterAction(StrokeAction):
         cr.set_operator(cairo.Operator.OVER)
         cr.set_line_cap(cairo.LineCap.ROUND)
 
+class CensorAction(RectAction):
+    def __init__(self, start, end, pixelation_level=8, background_pixbuf=None):
+        super().__init__(start, end, (0, 0, 0, 0), 0, None)
+        self.pixelation_level = pixelation_level
+        self.background_pixbuf = background_pixbuf
+
+    def set_background(self, pixbuf):
+        """Set the background image for pixelation"""
+        self.background_pixbuf = pixbuf
+
+    def draw(self, cr, image_to_widget_coords, scale):
+        x1, y1 = image_to_widget_coords(*self.start)
+        x2, y2 = image_to_widget_coords(*self.end)
+        x, y = min(x1, x2), min(y1, y2)
+        w, h = abs(x2 - x1), abs(y2 - y1)
+
+        if w < 1 or h < 1:
+            return
+
+        if self.background_pixbuf:
+            self._draw_pixelated_background(cr, x, y, w, h, scale)
+        else:
+            cr.set_source_rgba(0.5, 0.5, 0.5, 0.8)
+            cr.rectangle(x, y, w, h)
+            cr.fill()
+
+    def _draw_pixelated_background(self, cr, x, y, w, h, scale):
+        """Draw a randomized pixelated version of the background image"""
+        import cairo as cairo_lib
+        from gi.repository import GdkPixbuf, Gdk
+
+        pixel_size = max(2, int(self.pixelation_level / scale)) if scale > 0 else self.pixelation_level
+
+        img_w = self.background_pixbuf.get_width()
+        img_h = self.background_pixbuf.get_height()
+
+        img_x1 = int(self.start[0] * img_w)
+        img_y1 = int(self.start[1] * img_h)
+        img_x2 = int(self.end[0] * img_w)
+        img_y2 = int(self.end[1] * img_h)
+
+        img_x1 = max(0, min(img_x1, img_w))
+        img_x2 = max(0, min(img_x2, img_w))
+        img_y1 = max(0, min(img_y1, img_h))
+        img_y2 = max(0, min(img_y2, img_h))
+
+        crop_x = min(img_x1, img_x2)
+        crop_y = min(img_y1, img_y2)
+        crop_w = abs(img_x2 - img_x1)
+        crop_h = abs(img_y2 - img_y1)
+
+        if crop_w < 1 or crop_h < 1:
+            return
+
+        cropped = GdkPixbuf.Pixbuf.new_subpixbuf(
+            self.background_pixbuf,
+            crop_x, crop_y, crop_w, crop_h
+        )
+
+        small_w = max(1, crop_w // pixel_size)
+        small_h = max(1, crop_h // pixel_size)
+
+        small_pixbuf = cropped.scale_simple(
+            small_w, small_h,
+            GdkPixbuf.InterpType.NEAREST
+        )
+        pixels = small_pixbuf.get_pixels()
+        rowstride = small_pixbuf.get_rowstride()
+        n_channels = small_pixbuf.get_n_channels()
+        block_data = []
+
+        for y_block in range(small_h):
+            for x_block in range(small_w):
+                offset = y_block * rowstride + x_block * n_channels
+                color = pixels[offset:offset + n_channels]
+                block_data.append(bytes(color))
+        random.seed(start_time_seed)
+        random.shuffle(block_data)
+        new_pixels = bytearray(small_h * rowstride)
+        for i, color in enumerate(block_data):
+            x_block = i % small_w
+            y_block = i // small_w
+            offset = y_block * rowstride + x_block * n_channels
+            new_pixels[offset:offset + n_channels] = color
+
+        shuffled_pixbuf = GdkPixbuf.Pixbuf.new_from_data(
+            bytes(new_pixels),
+            GdkPixbuf.Colorspace.RGB,
+            small_pixbuf.get_has_alpha(),
+            8,
+            small_w,
+            small_h,
+            rowstride
+        )
+
+        pixelated = shuffled_pixbuf.scale_simple(
+            crop_w, crop_h,
+            GdkPixbuf.InterpType.NEAREST
+        )
+
+        cr.save()
+        Gdk.cairo_set_source_pixbuf(cr, pixelated, x, y)
+        cr.rectangle(x, y, w, h)
+        cr.fill()
+        cr.restore()
