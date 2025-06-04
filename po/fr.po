@@ -1,0 +1,366 @@
+# French translation file
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the gradia package.
+# Thomas Citharel <dev@tcit.fr>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: gradia\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-31 09:42+0200\n"
+"PO-Revision-Date: 2025-06-04 09:26+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.6\n"
+
+#: data/be.alexandervanhee.gradia.desktop.in:2
+#: data/be.alexandervanhee.gradia.metainfo.xml.in:13
+msgid "Gradia"
+msgstr "Gradia"
+
+#: data/be.alexandervanhee.gradia.desktop.in:8
+msgid "Image;Gradient;Background;Screenshot;Edit;"
+msgstr "Image;Gradient;Arrière-plan;Capture d'écran;Éditer;"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in:14
+msgid "Make your screenshots ready for all"
+msgstr "Rendez vos captures d'écrans accessibles au plus grand nombre"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in:16
+msgid ""
+"On social media, it's often hard to control how your images appear to "
+"others. Transparent or oddly sized images, like screenshots often don't "
+"display well. Fixing these issues can feel like more trouble than it's worth."
+msgstr ""
+"Sur les médias sociaux, il est souvent difficile de contrôler la façon dont "
+"vos images apparaissent aux autres. Les images transparentes ou de taille "
+"irrégulière, comme les captures d'écran, ne s'affichent souvent pas "
+"correctement. La résolution de ces problèmes peut sembler plus compliquée "
+"qu'elle n'en vaut la peine."
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in:21
+msgid ""
+"This tool aims to alleviate that problem by allowing you to quickly edit "
+"images to address these issues, while also offering options to enhance their "
+"overall appearance."
+msgstr ""
+"Cet outil vise à atténuer ce problème en vous permettant de modifier "
+"rapidement les images pour remédier à ces problèmes, tout en offrant des "
+"options pour améliorer leur aspect général."
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in:29
+msgid "Alexander Vanhee"
+msgstr "Alexander Vanhee"
+
+#: gradia/graphics/gradient.py:146
+msgid "Gradient Background"
+msgstr "Fond en dégradé"
+
+#: gradia/graphics/gradient.py:150
+msgid "Gradient Presets"
+msgstr "Préréglages de gradients"
+
+#: gradia/graphics/gradient.py:159 gradia/graphics/gradient.py:170
+msgid "Start Color"
+msgstr "Couleur de départ"
+
+#: gradia/graphics/gradient.py:160 gradia/graphics/gradient.py:172
+msgid "End Color"
+msgstr "Couleur de fin"
+
+#: gradia/graphics/gradient.py:196
+msgid "Angle"
+msgstr "Angle"
+
+#: gradia/ui/ui_parts.py:31 gradia/ui/image_loaders.py:65
+msgid "Open Image"
+msgstr "Ouvrir une image"
+
+#: gradia/ui/ui_parts.py:38
+msgid "Take a screenshot"
+msgstr "Prendre une capture d'écran"
+
+#: gradia/ui/ui_parts.py:45
+msgid "Main Menu"
+msgstr "Menu principal"
+
+#: gradia/ui/ui_parts.py:49 gradia/ui/ui_parts.py:489
+msgid "Keyboard Shortcuts"
+msgstr "Raccourcis clavier"
+
+#: gradia/ui/ui_parts.py:50
+msgid "About Gradia"
+msgstr "À propos de Gradia"
+
+#. Translators: The prefixed underscore is used to indicate a mnemonic. Do NOT remove it.
+#: gradia/ui/ui_parts.py:58
+msgid "_Save Image"
+msgstr "_Enregistrer l'image"
+
+#: gradia/ui/ui_parts.py:67
+msgid "Copy to Clipboard"
+msgstr "Copier dans le presse-papiers"
+
+#: gradia/ui/ui_parts.py:116
+msgid "Undo the last action"
+msgstr "Annuler la dernière action"
+
+#: gradia/ui/ui_parts.py:119
+msgid "Redo the last undone action"
+msgstr "Refaire la dernière action annulée"
+
+#: gradia/ui/ui_parts.py:122
+msgid "Clear all annotations"
+msgstr "Effacer toutes les annotations"
+
+#: gradia/ui/ui_parts.py:178
+msgid "_Take a screenshot…"
+msgstr "_Prendre une capture d'écran…"
+
+#: gradia/ui/ui_parts.py:189
+msgid "_Open Image…"
+msgstr "_Ouvrir l'image"
+
+#: gradia/ui/ui_parts.py:206
+msgid "No Image Loaded"
+msgstr "Aucune image chargée"
+
+#: gradia/ui/ui_parts.py:207
+msgid "Drag and drop one here"
+msgstr "Déposez-en une ici par glisser-déposer"
+
+#: gradia/ui/ui_parts.py:233
+msgid "Image Options"
+msgstr "Options de l'image"
+
+#: gradia/ui/ui_parts.py:236
+msgid "Padding"
+msgstr "Marge intérieure"
+
+#: gradia/ui/ui_parts.py:241
+msgid "Corner Radius"
+msgstr "Rayon de courbure"
+
+#: gradia/ui/ui_parts.py:245
+msgid "Aspect Ratio"
+msgstr "Rapport largeur/hauteur"
+
+#: gradia/ui/ui_parts.py:251
+msgid "Shadow"
+msgstr "Ombre"
+
+#: gradia/ui/ui_parts.py:270
+msgid "Current File"
+msgstr "Fichier courant"
+
+#: gradia/ui/ui_parts.py:272
+msgid "Name"
+msgstr "Nom"
+
+#: gradia/ui/ui_parts.py:272 gradia/ui/ui_parts.py:273
+msgid "No file loaded"
+msgstr "Aucun fichier chargé"
+
+#: gradia/ui/ui_parts.py:273
+msgid "Location"
+msgstr "Emplacement"
+
+#: gradia/ui/ui_parts.py:274
+msgid "Modified image size"
+msgstr "Taille de l'image modifiée"
+
+#: gradia/ui/ui_parts.py:274
+msgid "N/A"
+msgstr "N/A"
+
+#: gradia/ui/ui_parts.py:283
+msgid "Annotation Tools"
+msgstr "Outils d'annotation"
+
+#. Fill color row with reset button
+#: gradia/ui/ui_parts.py:310
+msgid "Fill Color"
+msgstr "Couleur de remplissage"
+
+#: gradia/ui/ui_parts.py:315
+msgid "Reset Fill"
+msgstr "Réinitialiser la couleur de remplissage"
+
+#. Stroke color row
+#: gradia/ui/ui_parts.py:362
+msgid "Stroke Color"
+msgstr "Couleur du trait"
+
+#: gradia/ui/ui_parts.py:447
+msgid "Make your images ready for the world"
+msgstr "Rendez vos images prêtes pour le monde entier"
+
+#. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
+#: gradia/ui/ui_parts.py:460
+msgid "translator-credits"
+msgstr "Thomas Citharel"
+
+#: gradia/ui/ui_parts.py:470
+msgid "File Actions"
+msgstr "Actions de fichier"
+
+#: gradia/ui/ui_parts.py:472
+msgid "Open File"
+msgstr "Ouvrir le fichier"
+
+#: gradia/ui/ui_parts.py:473
+msgid "Save to File"
+msgstr "Enregistrer le fichier"
+
+#: gradia/ui/ui_parts.py:474
+msgid "Copy Image to Clipboard"
+msgstr "Copier l'image dans le presse-papiers"
+
+#: gradia/ui/ui_parts.py:475
+msgid "Paste From Clipboard"
+msgstr "Coller l'image depuis le presse-papiers"
+
+#: gradia/ui/ui_parts.py:479
+msgid "Annotations"
+msgstr "Annotations"
+
+#: gradia/ui/ui_parts.py:481
+msgid "Undo"
+msgstr "Annuler"
+
+#: gradia/ui/ui_parts.py:482
+msgid "Redo"
+msgstr "Refaire"
+
+#: gradia/ui/ui_parts.py:483
+msgid "Remove Selected"
+msgstr "Supprimer la sélection"
+
+#: gradia/ui/ui_parts.py:487
+msgid "General"
+msgstr "Général"
+
+#: gradia/ui/window.py:307
+msgid "Unknown"
+msgstr "Inconnu"
+
+#: gradia/ui/window.py:309
+msgid "Error"
+msgstr "Erreur"
+
+#: gradia/ui/image_exporters.py:95
+msgid "Save Processed Image"
+msgstr "Enregistrer l'image traitée"
+
+#: gradia/ui/image_exporters.py:124
+msgid "Image saved"
+msgstr "Image sauvegardée"
+
+#: gradia/ui/image_exporters.py:127
+msgid "Failed to save image"
+msgstr "Échec de l'enregistrement de l'image"
+
+#: gradia/ui/image_exporters.py:154
+msgid "No processed image available to save"
+msgstr "Aucune image traitée disponible à enregistrer"
+
+#: gradia/ui/image_exporters.py:177
+msgid "Image copied to clipboard"
+msgstr "Image copiée dans le presse-papiers"
+
+#: gradia/ui/image_exporters.py:180
+msgid "Failed to copy image to clipboard"
+msgstr "Échec de la copie de l'image dans le presse-papiers"
+
+#: gradia/ui/image_loaders.py:68
+msgid "Image Files"
+msgstr "Fichiers image"
+
+#: gradia/ui/image_loaders.py:157
+msgid "No image found in clipboard"
+msgstr "Aucune image trouvée dans le presse-papiers"
+
+#: gradia/ui/image_loaders.py:164
+msgid "Clipboard Image"
+msgstr "Image du presse-papiers"
+
+#: gradia/ui/image_loaders.py:165
+msgid "From clipboard"
+msgstr "Depuis le presse-papiers"
+
+#: gradia/ui/image_loaders.py:172
+msgid "Clipboard does not contain an image."
+msgstr "Le presse papiers ne contient pas une image."
+
+#: gradia/ui/image_loaders.py:174
+msgid "Failed to load image from clipboard."
+msgstr "Échec du chargement de l'image depuis le presse-papiers"
+
+#: gradia/ui/image_loaders.py:200
+msgid "Failed to take screenshot"
+msgstr "Échec de la capture d'écran"
+
+#: gradia/ui/image_loaders.py:209
+msgid "Screenshot cancelled"
+msgstr "Capture d'écran annulée"
+
+#: gradia/ui/image_loaders.py:225 gradia/ui/image_loaders.py:226
+msgid "Screenshot"
+msgstr "Capture d'écran"
+
+#: gradia/ui/image_loaders.py:229
+msgid "Screenshot captured!"
+msgstr "Capture d'écran effectuée !"
+
+#: gradia/ui/image_loaders.py:233
+msgid "Failed to process screenshot"
+msgstr "Échec du traitement de la capture d'écran"
+
+#: gradia/ui/drawing_overlay.py:221
+msgid "Enter text…"
+msgstr "Entrer le texte…"
+
+#: gradia/ui/drawing_actions.py:23
+msgid "Pen"
+msgstr "Stylo"
+
+#: gradia/ui/drawing_actions.py:24
+msgid "Arrow"
+msgstr "Flèche"
+
+#: gradia/ui/drawing_actions.py:25
+msgid "Line"
+msgstr "Ligne"
+
+#: gradia/ui/drawing_actions.py:26
+msgid "Square"
+msgstr "Carré"
+
+#: gradia/ui/drawing_actions.py:27
+msgid "Circle"
+msgstr "Cercle"
+
+#: gradia/ui/drawing_actions.py:28
+msgid "Text"
+msgstr "Texte"
+
+#: gradia/ui/drawing_actions.py:29
+msgid "Select"
+msgstr "Sélectionner"
+
+#: gradia/ui/drawing_actions.py:30
+msgid "Highlighter"
+msgstr "Surligneur"
+
+#: gradia/ui/drawing_actions.py:31
+msgid "Censor"
+msgstr "Censeur"
+
+#: gradia/ui/drawing_actions.py:32
+msgid "Number"
+msgstr "Nombre"
