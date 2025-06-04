@@ -15,7 +15,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from gi.repository import Gtk, Gdk, Gio, cairo, Pango, PangoCairo
+from gi.repository import Gtk, Gdk, Gio, cairo, Pango, PangoCairo, GdkPixbuf
 from enum import Enum
 import math
 from gradia.backend.logger import Logger
@@ -289,101 +289,115 @@ class CensorAction(RectAction):
         self.background_pixbuf = background_pixbuf
 
     def set_background(self, pixbuf):
-        """Set the background image for pixelation"""
         self.background_pixbuf = pixbuf
 
     def draw(self, cr, image_to_widget_coords, scale):
-        x1, y1 = image_to_widget_coords(*self.start)
-        x2, y2 = image_to_widget_coords(*self.end)
-        x, y = min(x1, x2), min(y1, y2)
-        w, h = abs(x2 - x1), abs(y2 - y1)
+        rect = self._get_widget_rect(image_to_widget_coords)
+        if not rect or not self.background_pixbuf:
+            return self._draw_fallback(cr, rect)
 
-        if w < 1 or h < 1:
+        crop = self._get_crop_region()
+        if not crop:
             return
 
-        if self.background_pixbuf:
-            self._draw_pixelated_background(cr, x, y, w, h, scale)
-        else:
+        cropped = self._crop_pixbuf(crop)
+        if not cropped:
+            return
+
+        # Scale down for pixelation
+        pixel_size = self.pixelation_level
+        small = cropped.scale_simple(
+            max(1, cropped.get_width() // pixel_size),
+            max(1, cropped.get_height() // pixel_size),
+            GdkPixbuf.InterpType.NEAREST
+        )
+
+        randomized = self._randomize_pixels(small)
+        if not randomized:
+            return
+
+        pixelated = randomized.scale_simple(
+            int(rect['width']),
+            int(rect['height']),
+            GdkPixbuf.InterpType.NEAREST
+        )
+
+        self._draw_pixbuf(cr, pixelated, rect)
+
+    def _get_widget_rect(self, transform):
+        x1, y1 = transform(*self.start)
+        x2, y2 = transform(*self.end)
+        rect = {
+            'x': min(x1, x2),
+            'y': min(y1, y2),
+            'width': abs(x2 - x1),
+            'height': abs(y2 - y1)
+        }
+        return rect if rect['width'] >= 1 and rect['height'] >= 1 else None
+
+    def _draw_fallback(self, cr, rect):
+        if rect:
             cr.set_source_rgba(0.5, 0.5, 0.5, 0.8)
-            cr.rectangle(x, y, w, h)
+            cr.rectangle(rect['x'], rect['y'], rect['width'], rect['height'])
             cr.fill()
 
-    def _draw_pixelated_background(self, cr, x, y, w, h, scale):
-        """Draw a randomized pixelated version of the background image"""
-        import cairo as cairo_lib
-        from gi.repository import GdkPixbuf, Gdk
+    def _get_crop_region(self):
+        w, h = self.background_pixbuf.get_width(), self.background_pixbuf.get_height()
+        x1, y1 = int(self.start[0] * w), int(self.start[1] * h)
+        x2, y2 = int(self.end[0] * w), int(self.end[1] * h)
 
-        pixel_size = max(2, int(self.pixelation_level / scale)) if scale > 0 else self.pixelation_level
+        x1, x2 = sorted((max(0, min(x1, w - 1)), max(0, min(x2, w - 1))))
+        y1, y2 = sorted((max(0, min(y1, h - 1)), max(0, min(y2, h - 1))))
 
-        img_w = self.background_pixbuf.get_width()
-        img_h = self.background_pixbuf.get_height()
+        crop_w, crop_h = x2 - x1 + 1, y2 - y1 + 1
+        if crop_w <= 0 or crop_h <= 0:
+            return None
 
-        img_x1 = int(self.start[0] * img_w)
-        img_y1 = int(self.start[1] * img_h)
-        img_x2 = int(self.end[0] * img_w)
-        img_y2 = int(self.end[1] * img_h)
+        return {'x': x1, 'y': y1, 'width': crop_w, 'height': crop_h}
 
-        img_x1 = max(0, min(img_x1, img_w))
-        img_x2 = max(0, min(img_x2, img_w))
-        img_y1 = max(0, min(img_y1, img_h))
-        img_y2 = max(0, min(img_y2, img_h))
+    def _crop_pixbuf(self, crop):
+        try:
+            return GdkPixbuf.Pixbuf.new_subpixbuf(
+                self.background_pixbuf,
+                crop['x'], crop['y'],
+                crop['width'], crop['height']
+            )
+        except Exception as e:
+            print(f"Crop failed: {e}")
+            return None
 
-        crop_x = min(img_x1, img_x2)
-        crop_y = min(img_y1, img_y2)
-        crop_w = abs(img_x2 - img_x1)
-        crop_h = abs(img_y2 - img_y1)
+    def _randomize_pixels(self, pixbuf):
+        pixels = bytearray(pixbuf.get_pixels())
+        w, h = pixbuf.get_width(), pixbuf.get_height()
+        stride, channels = pixbuf.get_rowstride(), pixbuf.get_n_channels()
+        offsets = [(-1,0),(1,0),(0,-1),(0,1),(-1,-1),(1,-1),(-1,1),(1,1)]
+        random.seed(42)
 
-        if crop_w < 1 or crop_h < 1:
-            return
+        for y in range(h):
+            for x in range(w):
+                if random.random() < 0.3:
+                    neighbors = [(x+dx, y+dy) for dx, dy in offsets if 0 <= x+dx < w and 0 <= y+dy < h]
+                    if neighbors:
+                        nx, ny = random.choice(neighbors)
+                        i1 = y * stride + x * channels
+                        i2 = ny * stride + nx * channels
+                        for c in range(channels):
+                            pixels[i1 + c], pixels[i2 + c] = pixels[i2 + c], pixels[i1 + c]
 
-        cropped = GdkPixbuf.Pixbuf.new_subpixbuf(
-            self.background_pixbuf,
-            crop_x, crop_y, crop_w, crop_h
-        )
+        try:
+            return GdkPixbuf.Pixbuf.new_from_data(
+                bytes(pixels),
+                GdkPixbuf.Colorspace.RGB,
+                pixbuf.get_has_alpha(),
+                8, w, h, stride
+            )
+        except Exception as e:
+            print(f"Randomize failed: {e}")
+            return None
 
-        small_w = max(1, crop_w // pixel_size)
-        small_h = max(1, crop_h // pixel_size)
-
-        small_pixbuf = cropped.scale_simple(
-            small_w, small_h,
-            GdkPixbuf.InterpType.NEAREST
-        )
-        pixels = small_pixbuf.get_pixels()
-        rowstride = small_pixbuf.get_rowstride()
-        n_channels = small_pixbuf.get_n_channels()
-        block_data = []
-
-        for y_block in range(small_h):
-            for x_block in range(small_w):
-                offset = y_block * rowstride + x_block * n_channels
-                color = pixels[offset:offset + n_channels]
-                block_data.append(bytes(color))
-        random.seed(start_time_seed)
-        random.shuffle(block_data)
-        new_pixels = bytearray(small_h * rowstride)
-        for i, color in enumerate(block_data):
-            x_block = i % small_w
-            y_block = i // small_w
-            offset = y_block * rowstride + x_block * n_channels
-            new_pixels[offset:offset + n_channels] = color
-
-        shuffled_pixbuf = GdkPixbuf.Pixbuf.new_from_data(
-            bytes(new_pixels),
-            GdkPixbuf.Colorspace.RGB,
-            small_pixbuf.get_has_alpha(),
-            8,
-            small_w,
-            small_h,
-            rowstride
-        )
-
-        pixelated = shuffled_pixbuf.scale_simple(
-            crop_w, crop_h,
-            GdkPixbuf.InterpType.NEAREST
-        )
-
+    def _draw_pixbuf(self, cr, pixbuf, rect):
         cr.save()
-        Gdk.cairo_set_source_pixbuf(cr, pixelated, x, y)
-        cr.rectangle(x, y, w, h)
+        Gdk.cairo_set_source_pixbuf(cr, pixbuf, rect['x'], rect['y'])
+        cr.rectangle(rect['x'], rect['y'], rect['width'], rect['height'])
         cr.fill()
         cr.restore()
