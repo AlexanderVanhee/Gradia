@@ -9,13 +9,14 @@ msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-04 15:58+0200\n"
-"PO-Revision-Date: 2025-06-04 09:26+0200\n"
+"PO-Revision-Date: 2025-06-04 18:48+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 3.6\n"
 
 #: data/be.alexandervanhee.gradia.desktop.in:2
@@ -62,17 +63,16 @@ msgid "Alexander Vanhee"
 msgstr "Alexander Vanhee"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:94
-#, fuzzy
 msgid "Edited screenshot"
-msgstr "Prendre une capture d'écran"
+msgstr "Capture d'écran éditée"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:98
 msgid "Edited picture"
-msgstr ""
+msgstr "Image éditée"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:102
 msgid "Startup view"
-msgstr ""
+msgstr "Vue au démarrage"
 
 #: gradia/graphics/gradient.py:146
 msgid "Gradient Background"
@@ -100,12 +100,11 @@ msgstr "_Prendre une capture d'écran…"
 
 #: gradia/ui/ui_parts.py:128
 msgid "_Open Image…"
-msgstr "_Ouvrir l'image"
+msgstr "_Ouvrir l'image…"
 
 #: gradia/ui/ui_parts.py:146
-#, fuzzy
 msgid "Enhance an Image"
-msgstr "Ouvrir une image"
+msgstr "Améliorer une image"
 
 #: gradia/ui/ui_parts.py:147
 msgid "Drag and drop one here"
@@ -280,7 +279,7 @@ msgstr "Le presse papiers ne contient pas une image."
 
 #: gradia/ui/image_loaders.py:166
 msgid "Failed to load image from clipboard."
-msgstr "Échec du chargement de l'image depuis le presse-papiers"
+msgstr "Échec du chargement de l'image depuis le presse-papiers."
 
 #: gradia/ui/image_loaders.py:193 gradia/ui/image_loaders.py:208
 msgid "Failed to take screenshot"
@@ -306,29 +305,29 @@ msgstr "Échec du traitement de la capture d'écran"
 #, python-format
 msgid "%d second ago"
 msgid_plural "%d seconds ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "il y a %d seconde"
+msgstr[1] "il y a %d secondes"
 
 #: gradia/ui/recent_picker.py:50
 #, python-format
 msgid "%d minute ago"
 msgid_plural "%d minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "il y a %d minute"
+msgstr[1] "il y a %d minutes"
 
 #: gradia/ui/recent_picker.py:53
 #, python-format
 msgid "%d hour ago"
 msgid_plural "%d hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "il y a %d heure"
+msgstr[1] "il y a %d heures"
 
 #: gradia/ui/recent_picker.py:56
 #, python-format
 msgid "%d day ago"
 msgid_plural "%d days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "il y a %d jour"
+msgstr[1] "il y a %d jours"
 
 #: gradia/overlay/drawing_actions.py:30
 msgid "Pen"
@@ -371,7 +370,6 @@ msgid "Number"
 msgstr "Nombre"
 
 #: data/ui/controls_overlay.blp:24
-#, fuzzy
 msgid "Erase selected"
 msgstr "Supprimer la sélection"
 
@@ -396,9 +394,8 @@ msgid "Main Menu"
 msgstr "Menu principal"
 
 #: data/ui/header_bar.blp:41 data/ui/header_bar.blp:47
-#, fuzzy
 msgid "Save Image"
-msgstr "_Enregistrer l'image"
+msgstr "Enregistrer l'image"
 
 #: data/ui/header_bar.blp:54
 msgid "Copy to Clipboard"
