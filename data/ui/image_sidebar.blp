@@ -1,0 +1,290 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $GradiaImageSidebar : Adw.Bin {
+  child: Adw.ToolbarView {
+    top-bar-style: flat;
+
+    [top]
+    Adw.HeaderBar {
+      centering-policy: strict;
+      show-end-title-buttons: false;
+      show-start-title-buttons: false;
+
+      [start]
+      Gtk.Button open_button {
+        icon-name: "document-open-symbolic";
+        tooltip-text: _("Open Image");
+        action-name: "app.open";
+      }
+
+      [start]
+      Gtk.Button screenshot_button {
+        icon-name: "screenshooter-symbolic";
+        tooltip-text: _("Take a Screenshot");
+        action-name: "app.screenshot";
+      }
+
+      [end]
+      Gtk.MenuButton about_menu_button {
+        icon-name: "open-menu-symbolic";
+        tooltip-text: _("Main Menu");
+        menu-model: app_menu;
+        primary: true;
+      }
+    }
+
+    content: Adw.PreferencesPage {
+      Adw.PreferencesGroup annotation_tools_group {
+        title: _("Annotation Tools");
+
+        Adw.ActionRow tools_row {
+          child: Gtk.Grid tools_grid {
+            row-spacing: 6;
+            column-spacing: 6;
+
+            margin-top: 6;
+            margin-bottom: 6;
+            margin-start: 6;
+            margin-end: 6;
+            halign: center;
+            valign: center;
+          };
+        }
+
+        Adw.ActionRow stroke_row {
+          title: _("Stroke Color");
+          activatable-widget: stroke_color_button;
+
+          // TODO: Replace with ColorDialogButton
+          [suffix]
+          Gtk.ColorButton stroke_color_button {
+            valign: center;
+            color-set => $_on_pen_color_set();
+          }
+        }
+
+        Adw.ActionRow fill_row {
+          title: _("Fill Color");
+          activatable-widget: fill_color_button;
+
+          [suffix]
+          Gtk.Button reset_fill_button {
+            icon-name: "edit-clear-symbolic";
+            tooltip-text: _("Reset Fill");
+            valign: center;
+
+            clicked => $_on_reset_fill_clicked();
+
+            styles [
+              "flat"
+            ]
+          }
+
+          // TODO: Replace with ColorDialogButton
+          [suffix]
+          Gtk.ColorButton fill_color_button {
+            use-alpha: true;
+            valign: center;
+            color-set => $_on_fill_color_set();
+          }
+        }
+      }
+
+      Adw.PreferencesGroup gradient_selector_group {
+        title: _("Gradient Background");
+
+        [header-suffix]
+        Gtk.MenuButton {
+          icon-name: "columns-symbolic";
+          tooltip-text: _("Gradient Presets");
+          popover: gradient_popover;
+          valign: center;
+
+          styles [
+            "flat"
+          ]
+        }
+
+        Adw.ActionRow start_color_row {
+          title: _("Start Color");
+          activatable-widget: start_color_button;
+
+          // TODO: Replace with ColorDialogButton
+          [suffix]
+          Gtk.ColorButton start_color_button {
+            valign: center;
+            color-set => $_on_gradient_start_color_set();
+          }
+        }
+
+        Adw.ActionRow end_color_row {
+          title: _("End Color");
+          activatable-widget: end_color_button;
+
+          // TODO: Replace with ColorDialogButton
+          [suffix]
+          Gtk.ColorButton end_color_button {
+            valign: center;
+            color-set => $_on_gradient_end_color_set();
+          }
+        }
+
+        Adw.SpinRow angle_spin_row {
+          title: _("Angle");
+          numeric: true;
+          adjustment: Gtk.Adjustment angle_adjustment {
+            lower: 0;
+            upper: 360;
+            step-increment: 45;
+          };
+
+          output => $_on_gradient_angle_output();
+        }
+      }
+
+      Adw.PreferencesGroup image_options_group {
+        title: _("Image Options");
+
+        Adw.SpinRow padding_row {
+          title: _("Padding");
+          numeric: true;
+          adjustment: Gtk.Adjustment padding_adjustment {
+            value: 5;
+            lower: -25;
+            upper: 75;
+            step-increment: 5;
+            page-increment: 5;
+          };
+        }
+
+        Adw.SpinRow corner_radius_row {
+          title: _("Corner Radius");
+          numeric: true;
+          adjustment: Gtk.Adjustment corner_radius_adjustment {
+            value: 2;
+            lower: 0;
+            upper: 50;
+            step-increment: 1;
+            page-increment: 1;
+          };
+        }
+
+        Adw.ActionRow aspect_ratio_row {
+          title: _("Aspect Ratio");
+          activatable-widget: aspect_ratio_entry;
+
+          [suffix]
+          Gtk.Entry aspect_ratio_entry {
+            placeholder-text: "16:9";
+            valign: center;
+          }
+        }
+
+        Adw.ActionRow shadow_strength_row {
+          title: _("Shadow");
+          activatable-widget: shadow_strength_scale;
+
+          [suffix]
+          Gtk.Scale shadow_strength_scale {
+            draw-value: true;
+            value-pos: right;
+            orientation: horizontal;
+            valign: center;
+            hexpand: true;
+
+            adjustment: Gtk.Adjustment {
+              lower: 0;
+              upper: 10;
+              step-increment: 1;
+            };
+          }
+        }
+      }
+
+      Adw.PreferencesGroup file_info_group {
+        title: _("Current File");
+
+        Adw.ActionRow filename_row {
+          title: _("Name");
+          subtitle: _("No file loaded");
+        }
+
+        Adw.ActionRow location_row {
+          title: _("Location");
+          subtitle: _("No file loaded");
+        }
+
+        Adw.ActionRow processed_size_row {
+          title: _("Modified image size");
+          subtitle: _("N/A");
+        }
+      }
+    };
+
+    [bottom]
+    Gtk.Box {
+      orientation: horizontal;
+      halign: center;
+      spacing: 15;
+
+      Gtk.Button save_button {
+        icon-name: "document-save-symbolic";
+        tooltip-text: _("Save Image");
+        action-name: "app.save";
+
+        styles [
+          "suggested-action",
+          "pill"
+        ]
+      }
+
+      Gtk.Button copy_button {
+        icon-name: "edit-copy-symbolic";
+        tooltip-text: _("Copy to Clipboard");
+        action-name: "app.copy";
+
+        styles [
+          "suggested-action",
+          "pill"
+        ]
+      }
+
+      styles [
+        "toolbar"
+      ]
+    }
+  };
+}
+
+Gtk.Popover gradient_popover {
+  autohide: true;
+  has-arrow: true;
+
+  child: Gtk.FlowBox popover_flowbox {
+    max-children-per-line: 3;
+    selection-mode: none;
+    row-spacing: 10;
+    column-spacing: 10;
+    homogeneous: true;
+
+    valign: center;
+    margin-top: 10;
+    margin-bottom: 10;
+    margin-start: 10;
+    margin-end: 10;
+  };
+}
+
+menu app_menu {
+  section {
+    item {
+      label: _("Keyboard Shortcuts");
+      action: "app.shortcuts";
+    }
+    item {
+      label: _("About Gradia");
+      action: "app.about";
+    }
+  }
+}

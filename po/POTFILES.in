@@ -12,5 +12,7 @@ gradia/ui/image_loaders.py
 gradia/ui/recent_picker.py
 gradia/overlay/drawing_overlay.py
 gradia/overlay/drawing_actions.py
-data/ui/controls_overlay.blp
-data/ui/header_bar.blp
+data/ui/text_entry_popover.blp
+data/ui/image_sidebar.blp
+data/ui/image_stack.blp
+data/ui/welcome_page.blp

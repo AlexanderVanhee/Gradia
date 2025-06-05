@@ -1,0 +1,29 @@
+using Gtk 4.0;
+
+template $GradiaTextEntryPopover : Gtk.Popover {
+  position: bottom;
+
+  child: Gtk.Box container {
+    orientation: horizontal;
+    spacing: 0;
+
+    Gtk.Entry entry {
+      width-chars: 12;
+      placeholder-text: _("Enter text…");
+    }
+
+    Gtk.SpinButton spin {
+      width-request: 60;
+      height-request: -1;
+      digits: 0;
+      adjustment: Gtk.Adjustment size_adjustment {
+        lower: 8;
+        upper: 72;
+        step-increment: 4;
+        page-increment: 4;
+      };
+
+      value-changed => $on_font_size_changed();
+    }
+  };
+}
