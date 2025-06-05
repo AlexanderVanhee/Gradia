@@ -2,7 +2,11 @@ using Gtk 4.0;
 using Adw 1;
 
 template $HeaderBarContainer : Adw.Bin {
-  child :Adw.HeaderBar header_bar {
+  child: Adw.HeaderBar header_bar {
+      styles ["flat"]
+      show-end-title-buttons: false;
+      show-start-title-buttons: false;
+
       [start]
       Gtk.Button open_btn {
         icon-name: "document-open-symbolic";
@@ -25,40 +29,10 @@ template $HeaderBarContainer : Adw.Bin {
         tooltip-text: _("Main Menu");
         primary: true;
         styles ["flat"]
-
         popover: Gtk.PopoverMenu {
           menu-model: app_menu;
         };
       }
-
-      [end]
-      Gtk.Box right_buttons_box {
-        orientation: horizontal;
-        spacing: 0;
-        styles ["linked"]
-
-        Gtk.Button save_btn {
-          tooltip-text: _("Save Image");
-          action-name: "app.save";
-          sensitive: false;
-          styles ["suggested-action"]
-
-          child: Gtk.Label {
-            label: _("Save Image");
-            use-underline: true;
-          };
-        }
-
-        Gtk.Button copy_right_btn {
-          icon-name: "edit-copy-symbolic";
-          tooltip-text: _("Copy to Clipboard");
-          action-name: "app.copy";
-          sensitive: false;
-          styles ["suggested-action"]
-        }
-      }
-
-
     };
   }
 

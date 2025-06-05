@@ -1,0 +1,14 @@
+headerbar.desktop windowcontrols button image {
+    color: alpha(white, 0.9);
+    background: alpha(black, 0.6);
+}
+
+headerbar.desktop windowcontrols button:hover image {
+    background: alpha(mix(black, white, 0.1), 0.5);
+}
+
+headerbar.desktop windowcontrols button:active image {
+    background: alpha(mix(black, white, 0.2), 0.5);
+}
+
+

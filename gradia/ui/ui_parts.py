@@ -30,6 +30,12 @@ class HeaderBar(Adw.Bin):
         super().__init__()
 
 
+@Gtk.Template(resource_path="/be/alexandervanhee/gradia/ui/home_bar.ui")
+class HomeBar(Adw.Bin):
+    __gtype_name__ = "HomeBar"
+    def __init__(self):
+        super().__init__()
+
 @Gtk.Template(resource_path="/be/alexandervanhee/gradia/ui/controls_overlay.ui")
 class ControlsOverlay(Gtk.Box):
     __gtype_name__ = "ControlsOverlay"
@@ -42,30 +48,40 @@ class ControlsOverlay(Gtk.Box):
     def set_delete_visible(self, show: bool):
         self.delete_revealer.set_reveal_child(show)
 
-def create_image_stack() -> tuple[Gtk.Stack, Gtk.Picture, Adw.Spinner, 'DrawingOverlay', 'ControlsOverlay']:
+def create_image_stack() -> tuple[Gtk.Stack, Gtk.Picture, Adw.Spinner, 'DrawingOverlay', 'ControlsOverlay', Gtk.Overlay]:
     stack = Gtk.Stack.new()
     stack.set_vexpand(True)
     stack.set_hexpand(True)
-
     stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
     stack.set_transition_duration(200)
 
     picture = create_picture_widget()
-
     drawing_overlay = create_drawing_overlay(picture)
     overlay, controls_overlay = create_image_overlay(picture, drawing_overlay)
     drawing_overlay.set_controls_overlay(controls_overlay)
-
     stack.add_named(overlay, "image")
 
     spinner_box, spinner = create_spinner_widget()
     stack.add_named(spinner_box, "loading")
-
     stack.set_visible_child_name("loading")
 
     create_drop_target(stack)
 
-    return stack, picture, spinner, drawing_overlay, controls_overlay
+    main_overlay = Gtk.Overlay()
+    main_overlay.set_child(stack)
+
+    top_bar = Adw.HeaderBar()
+    top_bar.get_style_context().add_class("flat")
+    top_bar.get_style_context().add_class("desktop")
+    top_bar.set_show_start_title_buttons(False)
+    top_bar.set_show_end_title_buttons(True)
+    top_bar.set_title_widget(Gtk.Box())
+
+    top_bar.set_valign(Gtk.Align.START)
+    top_bar.set_halign(Gtk.Align.FILL)
+    main_overlay.add_overlay(top_bar)
+
+    return stack, picture, spinner, drawing_overlay, controls_overlay, main_overlay
 
 def create_image_overlay(picture: Gtk.Picture, drawing_overlay: 'DrawingOverlay') -> Gtk.Overlay:
     overlay = Gtk.Overlay.new()
@@ -107,16 +123,21 @@ def create_spinner_widget() -> tuple[Gtk.Box, Adw.Spinner]:
     spinner_box.append(spinner)
     return spinner_box, spinner
 
-def create_status_page() -> Adw.StatusPage:
+def create_status_page() -> tuple[Gtk.Box, Adw.StatusPage]:
     def on_recent_image_click(path: str, gradient_index: int):
-            app = Gio.Application.get_default()
-            action = app.lookup_action("open-path-with-gradient")
-            if action:
-                param = GLib.Variant('(si)', (path, gradient_index))
-                action.activate(param)
+        app = Gio.Application.get_default()
+        action = app.lookup_action("open-path-with-gradient")
+        if action:
+            param = GLib.Variant('(si)', (path, gradient_index))
+            action.activate(param)
 
+    # Create the home header bar
+    home_bar = HomeBar()
+
+    # Create the recent picker
     picker = RecentPicker(callback=on_recent_image_click)
 
+    # Create action buttons
     screenshot_btn = Gtk.Button.new_with_label(_("_Take a screenshot…"))
     screenshot_btn.set_use_underline(True)
     screenshot_btn.set_halign(Gtk.Align.CENTER)
@@ -132,7 +153,7 @@ def create_status_page() -> Adw.StatusPage:
     open_status_btn.get_style_context().add_class("text-button")
     open_status_btn.set_action_name("app.open")
 
-    button_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12 , margin_top=10)
+    button_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12, margin_top=10)
     button_box.set_halign(Gtk.Align.CENTER)
     button_box.append(screenshot_btn)
     button_box.append(open_status_btn)
@@ -142,12 +163,18 @@ def create_status_page() -> Adw.StatusPage:
     main_box.append(picker)
     main_box.append(button_box)
 
+    # status page
     status_page = Adw.StatusPage.new()
     status_page.set_title(_("Enhance an Image"))
     status_page.set_description(_("Drag and drop one here"))
     status_page.set_child(main_box)
 
-    return status_page
+    main_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+    main_container.append(home_bar)
+    main_container.append(status_page)
+
+    return main_container
+
 
 def create_drop_target(stack: Gtk.Stack) -> None:
     drop_target = Gtk.DropTarget.new(Gio.File, Gdk.DragAction.COPY)
@@ -351,35 +378,73 @@ def create_sidebar_ui(
     on_aspect_ratio_changed: Callable[[Gtk.Entry], None],
     on_shadow_strength_changed: Callable[[Gtk.Scale], None],
 ) -> dict[str, Gtk.Widget | Adw.ActionRow | Adw.SpinRow | Gtk.Entry]:
-    sidebar_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+    toolbar_view = Adw.ToolbarView()
+    header_bar = HeaderBar()
+    toolbar_view.add_top_bar(header_bar)
+
     settings_scroll = Gtk.ScrolledWindow(vexpand=True)
     controls_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=20,
                            margin_start=16, margin_end=16, margin_top=16, margin_bottom=16)
 
     drawing_tools_group = create_drawing_tools_group()
     controls_box.append(drawing_tools_group)
-
     controls_box.append(gradient_selector_widget)
+
     # Add grouped UI elements
     padding_group, padding_row, aspect_ratio_entry = create_image_options_group(
         on_padding_changed, on_aspect_ratio_changed, on_corner_radius_changed, on_shadow_strength_changed)
     controls_box.append(padding_group)
 
-
     file_info_group, filename_row, location_row, processed_size_row = create_file_info_group()
     controls_box.append(file_info_group)
 
     settings_scroll.set_child(controls_box)
-    sidebar_box.append(settings_scroll)
+    toolbar_view.set_content(settings_scroll)
+
+    bottom_bar = create_bottom_bar()
+    toolbar_view.add_bottom_bar(bottom_bar)
 
     return {
-        'sidebar': sidebar_box,
+        'sidebar': toolbar_view,
+        'header_bar': header_bar,
+        'bottom_bar': bottom_bar,
         'filename_row': filename_row,
         'location_row': location_row,
         'processed_size_row': processed_size_row,
         'padding_row': padding_row,
         'aspect_ratio_entry': aspect_ratio_entry,
     }
+
+def create_bottom_bar() -> Adw.HeaderBar:
+    bottom_bar = Adw.HeaderBar()
+    bottom_bar.add_css_class("flat")
+    bottom_bar.set_show_start_title_buttons(False)
+    bottom_bar.set_show_end_title_buttons(False)
+
+    action_buttons_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=15)
+
+    save_btn = Gtk.Button()
+    save_btn.set_icon_name("document-save-symbolic")
+    save_btn.set_tooltip_text(_("Save Image"))
+    save_btn.set_action_name("app.save")
+    save_btn.set_sensitive(False)
+    save_btn.add_css_class("suggested-action")
+    save_btn.add_css_class("pill")
+
+    copy_btn = Gtk.Button()
+    copy_btn.set_icon_name("edit-copy-symbolic")
+    copy_btn.set_tooltip_text(_("Copy to Clipboard"))
+    copy_btn.set_action_name("app.copy")
+    copy_btn.set_sensitive(False)
+    copy_btn.add_css_class("suggested-action")
+    copy_btn.add_css_class("pill")
+
+    action_buttons_box.append(save_btn)
+    action_buttons_box.append(copy_btn)
+    bottom_bar.set_title_widget(action_buttons_box)
+
+    return bottom_bar
+
 
 def create_about_dialog(version: str) -> Adw.AboutDialog:
     about = Adw.AboutDialog(

@@ -133,7 +133,6 @@ class GradientWindow(Adw.ApplicationWindow):
     def build_ui(self) -> None:
         self._setup_window()
         self._setup_toolbar()
-        self._setup_header_bar()
         self._setup_image_stack()
         self._setup_sidebar()
         self._setup_main_layout()
@@ -151,9 +150,6 @@ class GradientWindow(Adw.ApplicationWindow):
         self.toolbar_view: Adw.ToolbarView = Adw.ToolbarView()
         self.toolbar_view.set_top_bar_style(Adw.ToolbarStyle.FLAT)
 
-    def _setup_header_bar(self) -> None:
-        header_bar = HeaderBar()
-        self.toolbar_view.add_top_bar(header_bar)
 
     def _setup_image_stack(self) -> None:
         stack_info = create_image_stack()
@@ -162,6 +158,7 @@ class GradientWindow(Adw.ApplicationWindow):
         self.spinner: Gtk.Widget = stack_info[2]
         self.drawing_overlay = stack_info[3]
         self.controls_overlay = stack_info[4]
+        self.stack_box = stack_info[5]
 
     def _setup_sidebar(self) -> None:
         self.sidebar_info = create_sidebar_ui(
@@ -189,7 +186,7 @@ class GradientWindow(Adw.ApplicationWindow):
         self.main_box.set_vexpand(True)
 
         self.main_box.append(self.sidebar)
-        self.main_box.append(self.image_stack)
+        self.main_box.append(self.stack_box)
 
         self.image_stack.set_hexpand(True)
         self.sidebar.set_hexpand(False)
