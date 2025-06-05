@@ -171,11 +171,19 @@ class ClipboardImageLoader(BaseImageLoader):
 
 class ScreenshotImageLoader(BaseImageLoader):
     """Handles loading images through screenshot capture"""
-    def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str) -> None:
+
+    def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str, app: Gtk.Application) -> None:
         super().__init__(window, temp_dir)
         self.portal = Xdp.Portal()
         self._error_callback: Optional[Callable[[str], None]] = None
         self._success_callback: Optional[Callable[[], None]] = None
+        self._screenshot_uris: list[str] = []  # Store URIs of taken screenshots
+        self.app = app
+
+    def _update_delete_action_state(self) -> None:
+        action = self.app.lookup_action("delete-screenshots")
+        if action:
+            action.set_enabled(bool(self._screenshot_uris))
 
     def take_screenshot(
         self,
@@ -216,7 +224,9 @@ class ScreenshotImageLoader(BaseImageLoader):
         """Handle screenshot completion and restore window"""
         try:
             uri = self.portal.take_screenshot_finish(result)
+            self._screenshot_uris.append(uri)  # Save URI
             self._handle_screenshot_uri(uri)
+            self._update_delete_action_state()
         except GLib.Error as e:
             print(f"Screenshot error: {e}")
             self.window._show_notification(_("Screenshot cancelled"))
@@ -255,6 +265,23 @@ class ScreenshotImageLoader(BaseImageLoader):
         finally:
             self.window._set_loading_state(False)
 
+    def get_screenshot_uris(self) -> list[str]:
+        return self._screenshot_uris.copy()
+
+    def delete_screenshots(self) -> None:
+        for uri in self._screenshot_uris:
+            try:
+                file = Gio.File.new_for_uri(uri)
+                file_path = file.get_path()
+                if file_path and os.path.isfile(file_path):
+                    os.remove(file_path)
+            except Exception as e:
+                print(f"Failed to delete screenshot {uri}: {e}")
+
+        self._screenshot_uris.clear()
+        self._update_delete_action_state()
+
+
 class CommandlineLoader(BaseImageLoader):
     """Handles loading images from command line arguments or programmatic file paths"""
     def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str) -> None:
@@ -283,14 +310,14 @@ class CommandlineLoader(BaseImageLoader):
             print(f"Error loading file from command line: {e}")
 
 class ImportManager:
-    def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str) -> None:
+    def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str, app: Gtk.Application) -> None:
         self.window: Gtk.ApplicationWindow = window
         self.temp_dir: str = temp_dir
 
         self.file_loader: FileDialogImageLoader = FileDialogImageLoader(window, temp_dir)
         self.drag_drop_loader: DragDropImageLoader = DragDropImageLoader(window, temp_dir)
         self.clipboard_loader: ClipboardImageLoader = ClipboardImageLoader(window, temp_dir)
-        self.screenshot_loader: ScreenshotImageLoader = ScreenshotImageLoader(window, temp_dir)
+        self.screenshot_loader: ScreenshotImageLoader = ScreenshotImageLoader(window, temp_dir, app)
         self.commandline_loader: CommandlineLoader = CommandlineLoader(window, temp_dir)
 
     def open_file_dialog(self) -> None:
@@ -314,6 +341,12 @@ class ImportManager:
         on_success: Optional[Callable[[], None]] = None
     ) -> None:
         self.screenshot_loader.take_screenshot(flags, on_error_or_cancel, on_success)
+
+    def get_screenshot_uris(self) -> list[str]:
+        return self.screenshot_loader.get_screenshot_uris()
+
+    def delete_screenshots(self) -> None:
+        return self.screenshot_loader.delete_screenshots()
 
     def load_from_file(self, file_path: str) -> None:
         self.commandline_loader.load_from_file(file_path)

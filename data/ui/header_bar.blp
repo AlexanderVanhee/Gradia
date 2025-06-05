@@ -39,6 +39,10 @@ template $HeaderBarContainer : Adw.Bin {
 menu app_menu {
   section {
     item {
+      label: _("Delete taken screenshot(s)");
+      action: "app.delete-screenshots";
+    }
+    item {
       label: _("Keyboard Shortcuts");
       action: "app.shortcuts";
     }

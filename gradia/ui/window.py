@@ -56,7 +56,7 @@ class GradientWindow(Adw.ApplicationWindow):
 
         # Initialize import and export managers
         self.export_manager: ExportManager = ExportManager(self, temp_dir)
-        self.import_manager: ImportManager = ImportManager(self, temp_dir)
+        self.import_manager: ImportManager = ImportManager(self, temp_dir, self.app)
 
         # Initialize gradient selector with callback
         self.gradient_selector: GradientSelector = GradientSelector(
@@ -100,6 +100,9 @@ class GradientWindow(Adw.ApplicationWindow):
         self.create_action("pen-color", lambda action, param: self._set_pen_color_from_string(param.get_string()), vt="s")
         self.create_action("fill-color", lambda action, param: self._set_fill_color_from_string(param.get_string()), vt="s")
         self.create_action("del-selected", lambda *_: self.drawing_overlay.remove_selected_action(), ["<Primary>x", "Delete"])
+
+        self.create_action("delete-screenshots", lambda *_: self._create_delete_screenshots_dialog(), enabled=False)
+
         self.file_path = file_path
 
         if init_screenshot_mode is not None:
@@ -348,3 +351,41 @@ class GradientWindow(Adw.ApplicationWindow):
         dialog.hide()
         return True
 
+    def _create_delete_screenshots_dialog(self):
+        screenshot_uris = self.import_manager.get_screenshot_uris()
+        if not screenshot_uris:
+            self._show_notification(_("No screenshots to delete."))
+            return
+
+        filenames = [
+            GLib.filename_display_basename(GLib.uri_parse(uri, GLib.UriFlags.NONE).get_path())
+            for uri in screenshot_uris
+        ]
+
+        filenames_display = "\n".join(filenames)
+
+        count = len(screenshot_uris)
+        if count == 1:
+            heading = _("Delete Screenshot?")
+            body = _("Are you sure you want to delete the following file?\n\n%s") % filenames_display
+        else:
+            heading = _("Delete Screenshots?")
+            body = _("Are you sure you want to delete the following files?\n\n%s") % filenames_display
+
+        # Create the dialog
+        dialog = Adw.MessageDialog.new(self, heading=heading, body=body)
+        dialog.add_response("cancel", _("Cancel"))
+        dialog.add_response("delete", _("Delete"))
+        dialog.set_response_appearance("delete", Adw.ResponseAppearance.DESTRUCTIVE)
+
+        def on_response(dialog_obj, response_name):
+            if response_name == "delete":
+                self.import_manager.delete_screenshots()
+                if count == 1:
+                    self._show_notification(_("Screenshot deleted."))
+                else:
+                    self._show_notification(_("Screenshots deleted."))
+            dialog_obj.destroy()
+
+        dialog.connect("response", on_response)
+        dialog.present()
