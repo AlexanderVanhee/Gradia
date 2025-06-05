@@ -470,46 +470,10 @@ def create_about_dialog(version: str) -> Adw.AboutDialog:
 
     return about
 
-def create_shortcuts_dialog(parent: Optional[Gtk.Window] = None) -> Gtk.ShortcutsWindow:
-    SHORTCUT_GROUPS = [
-        {
-            "title": _("File Actions"),
-            "shortcuts": [
-                (_("Open File"), "<Ctrl>O"),
-                (_("Save to File"), "<Ctrl>S"),
-                (_("Copy Image to Clipboard"), "<Ctrl>C"),
-                (_("Paste From Clipboard"), "<Ctrl>V"),
-            ]
-        },
-        {
-            "title": _("Annotations"),
-            "shortcuts": [
-                (_("Undo"), "<Ctrl>Z"),
-                (_("Redo"), "<Ctrl><Shift>Z"),
-                (_("Remove Selected"), "Delete")
-            ]
-        },
-        {
-            "title": _("General"),
-            "shortcuts": [
-                (_("Keyboard Shortcuts"), "<Ctrl>question"),
-            ]
-        }
-    ]
 
-    dialog = Gtk.ShortcutsWindow(transient_for=parent, modal=True)
-    section = Gtk.ShortcutsSection()
+@Gtk.Template(resource_path='/be/alexandervanhee/gradia/ui/shortcuts_dialog.ui')
+class ShortcutsDialog(Gtk.ShortcutsWindow):
+    __gtype_name__ = 'ShortcutsDialog'
 
-    for group_data in SHORTCUT_GROUPS:
-        group = Gtk.ShortcutsGroup(title=group_data["title"], visible=True)
-        for title, accel in group_data["shortcuts"]:
-            group.add_shortcut(Gtk.ShortcutsShortcut(
-                title=title,
-                accelerator=accel
-            ))
-        section.add_group(group)
-
-    dialog.add_section(section)
-    dialog.connect("close-request", lambda dialog: dialog.destroy())
-
-    return dialog
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

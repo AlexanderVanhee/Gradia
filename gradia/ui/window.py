@@ -339,10 +339,12 @@ class GradientWindow(Adw.ApplicationWindow):
                 action.set_enabled(enabled)
 
     def _on_shortcuts_activated(self, action: Gio.SimpleAction, param) -> None:
-        shortcuts = create_shortcuts_dialog(self)
+        shortcuts = ShortcutsDialog(transient_for=self)
         shortcuts.connect("close-request", self._on_shortcuts_closed)
         shortcuts.present()
+
 
     def _on_shortcuts_closed(self, dialog: Adw.Window) -> bool:
         dialog.hide()
         return True
+

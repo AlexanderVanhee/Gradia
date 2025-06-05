@@ -1,0 +1,59 @@
+using Gtk 4.0;
+
+template $ShortcutsDialog : Gtk.ShortcutsWindow {
+  modal: true;
+
+  Gtk.ShortcutsSection {
+    Gtk.ShortcutsGroup {
+      title: _("File Actions");
+
+      Gtk.ShortcutsShortcut {
+        title: _("Open File");
+        accelerator: "<Ctrl>O";
+      }
+
+      Gtk.ShortcutsShortcut {
+        title: _("Save to File");
+        accelerator: "<Ctrl>S";
+      }
+
+      Gtk.ShortcutsShortcut {
+        title: _("Copy Image to Clipboard");
+        accelerator: "<Ctrl>C";
+      }
+
+      Gtk.ShortcutsShortcut {
+        title: _("Paste From Clipboard");
+        accelerator: "<Ctrl>V";
+      }
+    }
+
+    Gtk.ShortcutsGroup {
+      title: _("Annotations");
+
+      Gtk.ShortcutsShortcut {
+        title: _("Undo");
+        accelerator: "<Ctrl>Z";
+      }
+
+      Gtk.ShortcutsShortcut {
+        title: _("Redo");
+        accelerator: "<Ctrl><Shift>Z";
+      }
+
+      Gtk.ShortcutsShortcut {
+        title: _("Remove Selected");
+        accelerator: "Delete";
+      }
+    }
+
+    Gtk.ShortcutsGroup {
+      title: _("General");
+
+      Gtk.ShortcutsShortcut {
+        title: _("Keyboard Shortcuts");
+        accelerator: "<Ctrl>question";
+      }
+    }
+  }
+}
