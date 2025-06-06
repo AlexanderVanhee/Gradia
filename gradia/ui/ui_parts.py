@@ -372,7 +372,7 @@ def create_drawing_tools_group() -> Adw.PreferencesGroup:
     return tools_group
 
 def create_sidebar_ui(
-    gradient_selector_widget: Gtk.Widget,
+    background_selector_widget: Gtk.Widget,
     on_padding_changed: Callable[[Adw.SpinRow], None],
     on_corner_radius_changed: Callable[[Adw.SpinRow], None],
     on_aspect_ratio_changed: Callable[[Gtk.Entry], None],
@@ -388,7 +388,7 @@ def create_sidebar_ui(
 
     drawing_tools_group = create_drawing_tools_group()
     controls_box.append(drawing_tools_group)
-    controls_box.append(gradient_selector_widget)
+    controls_box.append(background_selector_widget)
 
     # Add grouped UI elements
     padding_group, padding_row, aspect_ratio_entry = create_image_options_group(

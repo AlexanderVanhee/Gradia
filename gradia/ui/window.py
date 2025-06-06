@@ -22,7 +22,10 @@ from typing import Optional, Any
 
 from gi.repository import Gtk, Gio, Adw, Gdk, GLib, Xdp
 from gradia.graphics.image_processor import ImageProcessor
-from gradia.graphics.gradient import GradientSelector, GradientBackground
+from gradia.graphics.gradient import GradientBackground
+from gradia.graphics.solid import SolidBackground
+from gradia.graphics.image import ImageBackground
+from gradia.ui.background_selector import BackgroundSelector
 from gradia.ui.ui_parts import *
 from gradia.clipboard import *
 from gradia.ui.misc import *
@@ -41,7 +44,6 @@ class GradientWindow(Adw.ApplicationWindow):
     PAGE_IMAGE: str = "image"
     PAGE_LOADING: str = "loading"
 
-    # Temp file names
     TEMP_PROCESSED_FILENAME: str = "processed.png"
 
     def __init__(self, temp_dir: str, version: str, init_screenshot_mode: Xdp.ScreenshotFlags , file_path: str = None, **kwargs) -> None:
@@ -54,17 +56,18 @@ class GradientWindow(Adw.ApplicationWindow):
         self.processed_path: Optional[str] = None
         self.processed_pixbuf: Optional[Gdk.Pixbuf] = None
 
-        # Initialize import and export managers
         self.export_manager: ExportManager = ExportManager(self, temp_dir)
         self.import_manager: ImportManager = ImportManager(self, temp_dir, self.app)
 
-        # Initialize gradient selector with callback
-        self.gradient_selector: GradientSelector = GradientSelector(
+        self.background_selector: BackgroundSelector = BackgroundSelector(
             gradient=GradientBackground(),
-            callback=self._on_gradient_changed
+            solid=SolidBackground(),
+            image=ImageBackground(),
+            callback=self._on_background_changed,
+            window=self
         )
 
-        self.processor: ImageProcessor = ImageProcessor(padding=5, background=GradientBackground())
+        self.processor: ImageProcessor = ImageProcessor(padding=5, background=self.background_selector.get_current_background())
 
         self.create_action("shortcuts", self._on_shortcuts_activated)
         self.create_action("about", self._on_about_activated)
@@ -91,7 +94,6 @@ class GradientWindow(Adw.ApplicationWindow):
 
         self.create_action("quit", lambda *_: self.close(), ["<Primary>q"])
 
-
         self.create_action("undo", lambda *_: self.drawing_overlay.undo(), ["<Primary>z"])
         self.create_action("redo", lambda *_: self.drawing_overlay.redo(), ["<Primary><Shift>z"])
         self.create_action("clear", lambda *_: self.drawing_overlay.clear_drawing())
@@ -113,7 +115,6 @@ class GradientWindow(Adw.ApplicationWindow):
                 self.show()
 
             self.import_manager.take_screenshot(init_screenshot_mode, screenshot_error_callback, screenshot_success_callback)
-
 
     def create_action(self, name: str, callback: Callable[..., None], shortcuts: Optional[list[str]] = None, enabled: bool = True, vt: str = None) -> None:
         variant_type = GLib.VariantType.new(vt) if vt is not None else None
@@ -153,7 +154,6 @@ class GradientWindow(Adw.ApplicationWindow):
         self.toolbar_view: Adw.ToolbarView = Adw.ToolbarView()
         self.toolbar_view.set_top_bar_style(Adw.ToolbarStyle.FLAT)
 
-
     def _setup_image_stack(self) -> None:
         stack_info = create_image_stack()
         self.image_stack: Gtk.Stack = stack_info[0]
@@ -165,7 +165,7 @@ class GradientWindow(Adw.ApplicationWindow):
 
     def _setup_sidebar(self) -> None:
         self.sidebar_info = create_sidebar_ui(
-            gradient_selector_widget=self.gradient_selector.widget,
+            background_selector_widget=self.background_selector.widget,
             on_padding_changed=self.on_padding_changed,
             on_corner_radius_changed=self.on_corner_radius_changed,
             on_aspect_ratio_changed=self.on_aspect_ratio_changed,
@@ -180,11 +180,9 @@ class GradientWindow(Adw.ApplicationWindow):
         self.top_stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
         self.top_stack.set_transition_duration(200)
 
-        # Status page
         status_page = create_status_page()
         self.top_stack.add_named(status_page, "empty")
 
-        # Actual content
         self.main_box: Gtk.Box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
         self.main_box.set_vexpand(True)
 
@@ -196,7 +194,6 @@ class GradientWindow(Adw.ApplicationWindow):
         self.sidebar.set_size_request(300, -1)
 
         self.top_stack.add_named(self.main_box, "main")
-
 
         self.toolbar_view.set_content(self.top_stack)
         self.toast_overlay.set_child(self.toolbar_view)
@@ -220,13 +217,12 @@ class GradientWindow(Adw.ApplicationWindow):
         self.image_stack.set_visible_child_name(self.PAGE_IMAGE)
 
     def _update_sidebar_info(self, filename: str, location: str) -> None:
-        """Update sidebar with file information"""
         self.sidebar_info['filename_row'].set_subtitle(filename)
         self.sidebar_info['location_row'].set_subtitle(location)
         self.sidebar.set_visible(True)
 
-    def _on_gradient_changed(self, updated_gradient: GradientBackground) -> None:
-        self.processor.background = updated_gradient
+    def _on_background_changed(self, updated_background) -> None:
+        self.processor.background = updated_background
         self._trigger_processing()
 
     def _on_text_changed(self, updated_text: Any) -> None:
@@ -278,7 +274,6 @@ class GradientWindow(Adw.ApplicationWindow):
         if not self.image_path:
             return
 
-        # Run processing in background
         threading.Thread(target=self._process_in_background, daemon=True).start()
 
     def _process_in_background(self) -> None:
@@ -292,14 +287,12 @@ class GradientWindow(Adw.ApplicationWindow):
             else:
                 print("No image path set for processing.")
 
-            # Schedule UI update on the main thread
             GLib.idle_add(self._update_image_preview, priority=GLib.PRIORITY_DEFAULT)
         except Exception as e:
             print(f"Error processing image: {e}")
 
     def _update_image_preview(self) -> bool:
         if self.processed_pixbuf:
-            # Create a Paintable from the pixbuf
             paintable: Gdk.Paintable = Gdk.Texture.new_for_pixbuf(self.processed_pixbuf)
             self.picture.set_paintable(paintable)
             self._update_processed_image_size()
@@ -371,7 +364,6 @@ class GradientWindow(Adw.ApplicationWindow):
             heading = _("Delete Screenshots?")
             body = _("Are you sure you want to delete the following files?\n\n%s") % filenames_display
 
-        # Create the dialog
         dialog = Adw.MessageDialog.new(self, heading=heading, body=body)
         dialog.add_response("cancel", _("Cancel"))
         dialog.add_response("delete", _("Delete"))
