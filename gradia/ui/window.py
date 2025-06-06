@@ -44,7 +44,14 @@ class GradientWindow(Adw.ApplicationWindow):
     # Temp file names
     TEMP_PROCESSED_FILENAME: str = "processed.png"
 
-    def __init__(self, temp_dir: str, version: str, init_screenshot_mode: Xdp.ScreenshotFlags , file_path: str = None, **kwargs) -> None:
+    def __init__(
+        self,
+        temp_dir: str,
+        version: str,
+        init_screenshot_mode: Xdp.ScreenshotFlags,
+        file_path: Optional[str] = None,
+        **kwargs
+    ) -> None:
         super().__init__(**kwargs)
 
         self.app: Adw.Application = kwargs['application']
@@ -165,7 +172,7 @@ class GradientWindow(Adw.ApplicationWindow):
 
     def _setup_sidebar(self) -> None:
         self.sidebar_info = create_sidebar_ui(
-            gradient_selector_widget=self.gradient_selector.widget,
+            gradient_selector_widget=self.gradient_selector,
             on_padding_changed=self.on_padding_changed,
             on_corner_radius_changed=self.on_corner_radius_changed,
             on_aspect_ratio_changed=self.on_aspect_ratio_changed,
