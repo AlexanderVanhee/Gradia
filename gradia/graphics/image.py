@@ -16,7 +16,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from typing import Optional, Callable
-from gi.repository import Gtk, Gdk, Adw, GdkPixbuf, GLib
+from gi.repository import Gtk, Gdk, Adw, GdkPixbuf, GLib, Gio
 from PIL import Image
 from gradia.graphics.background import Background
 import threading
@@ -77,6 +77,8 @@ class ImageSelector:
         self.image_background = image_background
         self.callback = callback
         self.preview_picture = Gtk.Picture()
+        self._setup_drag_and_drop()
+        self._setup_gesture()
         self.widget = self._build()
         self._update_preview()
         self.parent_window = parent_window
@@ -84,7 +86,10 @@ class ImageSelector:
     def _build(self) -> Adw.PreferencesGroup:
         group = Adw.PreferencesGroup(title=_("Image Background"))
         button_row = Adw.ActionRow()
-        file_button = Gtk.Button(label=_("Select Image"), margin_start=8, margin_end=8, margin_top=8, margin_bottom=8)
+        file_button = Gtk.Button(
+            label=_("Select Image"),
+            margin_start=8, margin_end=8, margin_top=8, margin_bottom=8
+        )
         file_button.connect("clicked", self._on_select_clicked)
         button_row.set_child(file_button)
         button_row.set_activatable(False)
@@ -103,46 +108,57 @@ class ImageSelector:
 
         return group
 
-    def _on_select_clicked(self, _button: Gtk.Button) -> None:
-        dialog = Gtk.FileChooserDialog(
-            title=_("Select Background Image"),
-            action=Gtk.FileChooserAction.OPEN,
-            transient_for=self.parent_window,
-            modal=True
-        )
-        dialog.add_buttons(
-            "_Cancel", Gtk.ResponseType.CANCEL,
-            "_Open", Gtk.ResponseType.ACCEPT
-        )
+    def _setup_drag_and_drop(self) -> None:
+        drop_target = Gtk.DropTarget.new(Gio.File, Gdk.DragAction.COPY)
+        drop_target.connect("drop", self._on_image_drop)
+        self.preview_picture.add_controller(drop_target)
 
-        filter_image = Gtk.FileFilter()
-        filter_image.set_name("Image files")
-        filter_image.add_mime_type("image/png")
-        filter_image.add_mime_type("image/jpeg")
-        filter_image.add_mime_type("image/webp")
-        filter_image.add_mime_type("image/avif")
-        dialog.add_filter(filter_image)
+    def _setup_gesture(self) -> None:
+        gesture = Gtk.GestureClick.new()
+        gesture.connect("pressed", self._on_preview_clicked)
+        self.preview_picture.add_controller(gesture)
 
-        dialog.connect("response", self._on_file_dialog_response)
-        dialog.show()
+    def _on_preview_clicked(self, gesture: Gtk.GestureClick, n_press: int, x: float, y: float) -> None:
+        self._on_select_clicked(None)
 
-    def _on_file_dialog_response(self, dialog: Gtk.FileChooserDialog, response: int) -> None:
-        if response == Gtk.ResponseType.ACCEPT:
-            file_path = dialog.get_file().get_path()
+    def _on_image_drop(self, drop_target: Gtk.DropTarget, file: Gio.File, x: int, y: int) -> bool:
+        file_path = file.get_path()
+        if file_path:
+            self._load_image_async(file_path)
+            return True
+        return False
+
+    def _on_select_clicked(self, _button: Optional[Gtk.Button]) -> None:
+        file_dialog = Gtk.FileDialog()
+        file_filter = Gtk.FileFilter()
+        file_filter.set_name(_("Image files"))
+        file_filter.add_mime_type("image/png")
+        file_filter.add_mime_type("image/jpg")
+        file_filter.add_mime_type("image/jpeg")
+        file_filter.add_mime_type("image/webp")
+        file_filter.add_mime_type("image/avif")
+        filter_list = Gio.ListStore.new(Gtk.FileFilter)
+        filter_list.append(file_filter)
+        file_dialog.set_filters(filter_list)
+
+        file_dialog.open(self.parent_window, None, self._on_file_dialog_ready)
+
+    def _on_file_dialog_ready(self, file_dialog: Gtk.FileDialog, result: Gio.AsyncResult) -> None:
+        try:
+            file = file_dialog.open_finish(result)
+            file_path = file.get_path()
             if file_path:
                 self._load_image_async(file_path)
-        dialog.destroy()
+        except GLib.Error as e:
+            print(f"FileDialog cancelled or failed: {e.message}")
 
     def _load_image_async(self, file_path: str) -> None:
         def load_in_background():
             try:
                 self.image_background.load_image(file_path)
                 GLib.idle_add(self._on_image_loaded)
-
             except Exception as e:
                 print(f"Error loading image: {e}")
-                GLib.idle_add(self._on_image_load_error)
-
         thread = threading.Thread(target=load_in_background, daemon=True)
         thread.start()
 
@@ -151,15 +167,10 @@ class ImageSelector:
         if self.callback:
             self.callback(self.image_background)
 
-    def _on_image_load_error(self) -> None:
-        pass
-
     def _update_preview(self) -> None:
         if self.image_background.image:
-
             def save_and_update():
                 try:
-                    from PIL import Image
                     image = self.image_background.image.copy()
 
                     max_width = 400
@@ -173,7 +184,6 @@ class ImageSelector:
                         image.save(temp_path, 'PNG')
 
                     GLib.idle_add(self._set_preview_image, temp_path)
-
                 except Exception as e:
                     print(f"Error saving preview: {e}")
 
@@ -186,11 +196,11 @@ class ImageSelector:
         self.preview_picture.set_filename(temp_path)
         def cleanup_temp_file():
             try:
-                import os
                 os.unlink(temp_path)
-            except:
+            except Exception:
                 pass
             return False
 
         GLib.timeout_add(100, cleanup_temp_file)
-        return False  
+        return False
+
