@@ -1,39 +1,43 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the gradia package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
+# David Sultaniiazov <x1z53@alt-gnome.ru>, 2025.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-06 20:17+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2025-06-06 20:15+0300\n"
+"Last-Translator: David Sultaniiazov <x1z53@alt-gnome.ru>\n"
+"Language-Team: Russian\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Gtranslator 48.0\n"
 
 #: data/be.alexandervanhee.gradia.desktop.in:3
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:11
 msgid "Gradia"
-msgstr ""
+msgstr "Gradia"
 
 #: data/be.alexandervanhee.gradia.desktop.in:4 gradia/ui/ui_parts.py:453
 msgid "Make your images ready for the world"
-msgstr ""
+msgstr "Подготовьте свои изображения для всего мира"
 
 #: data/be.alexandervanhee.gradia.desktop.in:10
 msgid "Image;Gradient;Background;Screenshot;Edit;"
 msgstr ""
+"Image;Gradient;Background;Screenshot;Edit;Изображение;Градиент;Фон;Скриншот;"
+"Редактировать"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:12
 msgid "Make your screenshots ready for all"
-msgstr ""
+msgstr "Сделайте свои снимки экрана готовыми для всех"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:14
 msgid ""
@@ -41,6 +45,10 @@ msgid ""
 "others. Transparent or oddly sized images, like screenshots often don't "
 "display well. Fixing these issues can feel like more trouble than it's worth."
 msgstr ""
+"В социальных сетях часто бывает трудно контролировать, как ваши изображения "
+"выглядят для других пользователей. Прозрачные изображения или изображения "
+"необычного размера, такие как снимки экрана, часто отображаются плохо. "
+"Устранение этих проблем может принести больше хлопот, чем пользы."
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:19
 msgid ""
@@ -48,194 +56,197 @@ msgid ""
 "images to address these issues, while also offering options to enhance their "
 "overall appearance."
 msgstr ""
+"Этот инструмент призван решить эту проблему, позволяя вам быстро "
+"редактировать изображения для решения этих проблем, а также предлагая "
+"варианты улучшения их общего внешнего вида."
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:25
 msgid "Alexander Vanhee"
-msgstr ""
+msgstr "Alexander Vanhee"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:94
 msgid "Edited screenshot"
-msgstr ""
+msgstr "Отредактированный снимок экрана"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:98
 msgid "Edited picture"
-msgstr ""
+msgstr "Отредактированное изобаржение"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:102
 msgid "Startup view"
-msgstr ""
+msgstr "Начальный вид"
 
 #: gradia/graphics/gradient.py:146
 msgid "Gradient Background"
-msgstr ""
+msgstr "Градиент фона"
 
 #: gradia/graphics/gradient.py:150
 msgid "Gradient Presets"
-msgstr ""
+msgstr "Заготовленные градиенты"
 
 #: gradia/graphics/gradient.py:159 gradia/graphics/gradient.py:170
 msgid "Start Color"
-msgstr ""
+msgstr "Начальный цвет"
 
 #: gradia/graphics/gradient.py:160 gradia/graphics/gradient.py:172
 msgid "End Color"
-msgstr ""
+msgstr "Конечный цвет"
 
 #: gradia/graphics/gradient.py:196
 msgid "Angle"
-msgstr ""
+msgstr "Угол"
 
 #. Create action buttons
 #: gradia/ui/ui_parts.py:141
 msgid "_Take a screenshot…"
-msgstr ""
+msgstr "_Сделать снимок экрана…"
 
 #: gradia/ui/ui_parts.py:149
 msgid "_Open Image…"
-msgstr ""
+msgstr "_Открыть изображение…"
 
 #: gradia/ui/ui_parts.py:168
 msgid "Enhance an Image"
-msgstr ""
+msgstr "Улучшить изображение"
 
 #: gradia/ui/ui_parts.py:169
 msgid "Drag and drop one here"
-msgstr ""
+msgstr "Перетащите сюда"
 
 #: gradia/ui/ui_parts.py:200
 msgid "Image Options"
-msgstr ""
+msgstr "Параметры изображения"
 
 #: gradia/ui/ui_parts.py:203
 msgid "Padding"
-msgstr ""
+msgstr "Отступ"
 
 #: gradia/ui/ui_parts.py:208
 msgid "Corner Radius"
-msgstr ""
+msgstr "Радиус угла"
 
 #: gradia/ui/ui_parts.py:212
 msgid "Aspect Ratio"
-msgstr ""
+msgstr "Соотношение сторон"
 
 #: gradia/ui/ui_parts.py:218
 msgid "Shadow"
-msgstr ""
+msgstr "Тень"
 
 #: gradia/ui/ui_parts.py:237
 msgid "Current File"
-msgstr ""
+msgstr "Текущий файл"
 
 #: gradia/ui/ui_parts.py:239
 msgid "Name"
-msgstr ""
+msgstr "Имя"
 
 #: gradia/ui/ui_parts.py:239 gradia/ui/ui_parts.py:240
 msgid "No file loaded"
-msgstr ""
+msgstr "Никакой файл не загружен"
 
 #: gradia/ui/ui_parts.py:240
 msgid "Location"
-msgstr ""
+msgstr "Место"
 
 #: gradia/ui/ui_parts.py:241
 msgid "Modified image size"
-msgstr ""
+msgstr "Изменённый размер изображения"
 
 #: gradia/ui/ui_parts.py:241
 msgid "N/A"
-msgstr ""
+msgstr "Н/Д"
 
 #: gradia/ui/ui_parts.py:250
 msgid "Annotation Tools"
-msgstr ""
+msgstr "Инструменты аннотаций"
 
 #. Fill color row with reset button
 #: gradia/ui/ui_parts.py:277
 msgid "Fill Color"
-msgstr ""
+msgstr "Цвет заполнения"
 
 #: gradia/ui/ui_parts.py:282
 msgid "Reset Fill"
-msgstr ""
+msgstr "Сбросить заполнение"
 
 #. Stroke color row
 #: gradia/ui/ui_parts.py:330
 msgid "Stroke Color"
-msgstr ""
+msgstr "Цвет обводки"
 
 #: gradia/ui/ui_parts.py:428
 msgid "Save Image"
-msgstr ""
+msgstr "Сохранить изображение"
 
 #: gradia/ui/ui_parts.py:436
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "Копировать в буфер обмена"
 
 #. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
 #: gradia/ui/ui_parts.py:466
 msgid "translator-credits"
-msgstr ""
+msgstr "David Sultaniiazov <x1z53@alt-gnome.ru>"
 
 #: gradia/ui/ui_parts.py:476
 msgid "File Actions"
-msgstr ""
+msgstr "Действия над файлом"
 
 #: gradia/ui/ui_parts.py:478
 msgid "Open File"
-msgstr ""
+msgstr "Открыть файл"
 
 #: gradia/ui/ui_parts.py:479
 msgid "Save to File"
-msgstr ""
+msgstr "Сохранить в файл"
 
 #: gradia/ui/ui_parts.py:480
 msgid "Copy Image to Clipboard"
-msgstr ""
+msgstr "Скопировать изображение в буфер обмена"
 
 #: gradia/ui/ui_parts.py:481
 msgid "Paste From Clipboard"
-msgstr ""
+msgstr "Вставить из буфера обмена"
 
 #: gradia/ui/ui_parts.py:485
 msgid "Annotations"
-msgstr ""
+msgstr "Аннотации"
 
 #: gradia/ui/ui_parts.py:487
 msgid "Undo"
-msgstr ""
+msgstr "Отменить"
 
 #: gradia/ui/ui_parts.py:488
 msgid "Redo"
-msgstr ""
+msgstr "Повторить"
 
 #: gradia/ui/ui_parts.py:489
 msgid "Remove Selected"
-msgstr ""
+msgstr "Удалить выделенное"
 
 #: gradia/ui/ui_parts.py:493
 msgid "General"
-msgstr ""
+msgstr "Общее"
 
 #: gradia/ui/ui_parts.py:495 data/ui/header_bar.blp:46
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "Комбинации клавиш"
 
 #: gradia/ui/window.py:317
 msgid "Unknown"
-msgstr ""
+msgstr "Неизвестно"
 
 #: gradia/ui/window.py:319
 msgid "Error"
-msgstr ""
+msgstr "Ошибка"
 
 #: gradia/ui/window.py:356
 msgid "No screenshots to delete."
-msgstr ""
+msgstr "Нет снимков экрана для удаления."
 
 #: gradia/ui/window.py:368
 msgid "Delete Screenshot?"
-msgstr ""
+msgstr "Удалить снимок экрана?"
 
 #: gradia/ui/window.py:369
 #, python-format
@@ -244,10 +255,13 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Вы уверены, что хотите удалить данный файл?\n"
+"\n"
+"%s"
 
 #: gradia/ui/window.py:371
 msgid "Delete Screenshots?"
-msgstr ""
+msgstr "Удалить снимки экрана?"
 
 #: gradia/ui/window.py:372
 #, python-format
@@ -256,187 +270,194 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Вы уверены, что хотите удалить данные файлы?\n"
+"\n"
+"%s"
 
 #: gradia/ui/window.py:376
 msgid "Cancel"
-msgstr ""
+msgstr "Отмена"
 
 #: gradia/ui/window.py:377
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 #: gradia/ui/window.py:384
 msgid "Screenshot deleted."
-msgstr ""
+msgstr "Снимок экрана удалён."
 
 #: gradia/ui/window.py:386
 msgid "Screenshots deleted."
-msgstr ""
+msgstr "Снимки экрана удалены."
 
 #: gradia/ui/image_exporters.py:95
 msgid "Save Processed Image"
-msgstr ""
+msgstr "Сохранить обработанное изображение"
 
 #: gradia/ui/image_exporters.py:124
 msgid "Image saved"
-msgstr ""
+msgstr "Изображение сохранено"
 
 #: gradia/ui/image_exporters.py:154
 msgid "No processed image available to save"
-msgstr ""
+msgstr "Нет обработанных изображений для сохранения"
 
 #: gradia/ui/image_exporters.py:177
 msgid "Image copied to clipboard"
-msgstr ""
+msgstr "Изображение скопировано в буфер обмена"
 
 #: gradia/ui/image_exporters.py:180
 msgid "Failed to copy image to clipboard"
-msgstr ""
+msgstr "Не удалось скопировать изображение в буфер обмена"
 
 #: gradia/ui/image_loaders.py:63 data/ui/header_bar.blp:13
 msgid "Open Image"
-msgstr ""
+msgstr "Открыть изображение"
 
 #: gradia/ui/image_loaders.py:66
 msgid "Image Files"
-msgstr ""
+msgstr "Файлы изображений"
 
 #: gradia/ui/image_loaders.py:149
 msgid "No image found in clipboard"
-msgstr ""
+msgstr "Изображение в буфере обмена не найдено"
 
 #: gradia/ui/image_loaders.py:156
 msgid "Clipboard Image"
-msgstr ""
+msgstr "Изображение буфера обмена"
 
 #: gradia/ui/image_loaders.py:157
 msgid "From clipboard"
-msgstr ""
+msgstr "Из буфера обмена"
 
 #: gradia/ui/image_loaders.py:164
 msgid "Clipboard does not contain an image."
-msgstr ""
+msgstr "Буфер обмена не содержит изображений"
 
 #: gradia/ui/image_loaders.py:166
 msgid "Failed to load image from clipboard."
-msgstr ""
+msgstr "Не удалось загрузить изображение из буфера обмена"
 
 #: gradia/ui/image_loaders.py:201 gradia/ui/image_loaders.py:216
 msgid "Failed to take screenshot"
-msgstr ""
+msgstr "Не удалось создать снимок экрана"
 
 #: gradia/ui/image_loaders.py:232
 msgid "Screenshot cancelled"
-msgstr ""
+msgstr "Снимок экрана отменён"
 
 #: gradia/ui/image_loaders.py:253 gradia/ui/image_loaders.py:254
 msgid "Screenshot"
-msgstr ""
+msgstr "Снимок экрана"
 
 #: gradia/ui/image_loaders.py:257
 msgid "Screenshot captured!"
-msgstr ""
+msgstr "Снимок экрана сделан!"
 
 #: gradia/ui/image_loaders.py:264
 msgid "Failed to process screenshot"
-msgstr ""
+msgstr "Не удалось обработать снимок экрана"
 
 #: gradia/ui/recent_picker.py:47
 #, python-format
 msgid "%d second ago"
 msgid_plural "%d seconds ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d секунду назад"
+msgstr[1] "%d секунды назад"
+msgstr[2] "%d секунд назад"
 
 #: gradia/ui/recent_picker.py:50
 #, python-format
 msgid "%d minute ago"
 msgid_plural "%d minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d минуту назад"
+msgstr[1] "%d минуты назад"
+msgstr[2] "%d минут назад"
 
 #: gradia/ui/recent_picker.py:53
 #, python-format
 msgid "%d hour ago"
 msgid_plural "%d hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d час назад"
+msgstr[1] "%d часа назад"
+msgstr[2] "%d часов назад"
 
 #: gradia/ui/recent_picker.py:56
 #, python-format
 msgid "%d day ago"
 msgid_plural "%d days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d день назад"
+msgstr[1] "%d дня назад"
+msgstr[2] "%d дней назад"
 
 #: gradia/overlay/drawing_actions.py:30
 msgid "Pen"
-msgstr ""
+msgstr "Ручка"
 
 #: gradia/overlay/drawing_actions.py:31
 msgid "Arrow"
-msgstr ""
+msgstr "Стрелка"
 
 #: gradia/overlay/drawing_actions.py:32
 msgid "Line"
-msgstr ""
+msgstr "Линия"
 
 #: gradia/overlay/drawing_actions.py:33
 msgid "Square"
-msgstr ""
+msgstr "Квадрат"
 
 #: gradia/overlay/drawing_actions.py:34
 msgid "Circle"
-msgstr ""
+msgstr "Круг"
 
 #: gradia/overlay/drawing_actions.py:35
 msgid "Text"
-msgstr ""
+msgstr "Текст"
 
 #: gradia/overlay/drawing_actions.py:36
 msgid "Select"
-msgstr ""
+msgstr "Выбор"
 
 #: gradia/overlay/drawing_actions.py:37
 msgid "Highlighter"
-msgstr ""
+msgstr "Выделитель"
 
 #: gradia/overlay/drawing_actions.py:38
 msgid "Censor"
-msgstr ""
+msgstr "Цензура"
 
 #: gradia/overlay/drawing_actions.py:39
 msgid "Number"
-msgstr ""
+msgstr "Число"
 
 #: data/ui/controls_overlay.blp:24
 msgid "Erase selected"
-msgstr ""
+msgstr "Стереть выбранное"
 
 #: data/ui/controls_overlay.blp:42
 msgid "Undo the last action"
-msgstr ""
+msgstr "Отменить последнее действие"
 
 #: data/ui/controls_overlay.blp:53
 msgid "Redo the last undone action"
-msgstr ""
+msgstr "Вернуть последнее отменённое действие"
 
 #: data/ui/controls_overlay.blp:64
 msgid "Clear all annotations"
-msgstr ""
+msgstr "Очистить все аннотации"
 
 #: data/ui/header_bar.blp:21
 msgid "Take a screenshot"
-msgstr ""
+msgstr "Создать снимок экрана"
 
 #: data/ui/header_bar.blp:29
 msgid "Main Menu"
-msgstr ""
+msgstr "Главное меню"
 
 #: data/ui/header_bar.blp:42
 msgid "Delete taken screenshot(s)"
-msgstr ""
+msgstr "Удалить сделанный(ые) снимок(ки) экрана"
 
 #: data/ui/header_bar.blp:50
 msgid "About Gradia"
-msgstr ""
+msgstr "О Gradia"
