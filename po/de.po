@@ -3,23 +3,23 @@
 # This file is distributed under the same license as the gradia package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-07 19:28+0200\n"
-"PO-Revision-Date: 2025-05-31 23:08+0200\n"
+"PO-Revision-Date: 2025-06-07 20:19+0200\n"
 "Last-Translator: Uwe Senkler\n"
 "Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.6\n"
 
-#: data/be.alexandervanhee.gradia.desktop.in:2
-#: data/be.alexandervanhee.gradia.metainfo.xml.in:11
+#: data/be.alexandervanhee.gradia.desktop.in:2 data/be.alexandervanhee.gradia.metainfo.xml.in:11
 msgid "Gradia"
 msgstr "Gradia"
 
@@ -37,26 +37,23 @@ msgstr "Bildschirmfotos aufbereiten"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:14
 msgid ""
-"On social media, it's often hard to control how your images appear to "
-"others. Transparent or oddly sized images, like screenshots often don't "
-"display well. Fixing these issues can feel like more trouble than it's worth."
+"On social media, it's often hard to control how your images appear to others. Transparent or oddly "
+"sized images, like screenshots often don't display well. Fixing these issues can feel like more "
+"trouble than it's worth."
 msgstr ""
-"In Social Media ist es oft schwierig, die Kontrolle darüber zu behalten, wie "
-"Ihre Bilder bei anderen dargestellt werden. Durchsichtige oder Bilder in "
-"ungewöhnlichen Abmessungen wie Bildschirmfotos werden häufig unschön "
-"dargestellt. Der Aufwand zur Behebung solche Probleme fühlt sich manchmal "
-"unnötig hoch an."
+"In Social Media ist es oft schwierig, die Kontrolle darüber zu behalten, wie Ihre Bilder bei "
+"anderen dargestellt werden. Durchsichtige oder Bilder in ungewöhnlichen Abmessungen wie "
+"Bildschirmfotos werden häufig unschön dargestellt. Der Aufwand zur Behebung solche Probleme fühlt "
+"sich manchmal unnötig hoch an."
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:19
 msgid ""
-"This tool aims to alleviate that problem by allowing you to quickly edit "
-"images to address these issues, while also offering options to enhance their "
-"overall appearance."
+"This tool aims to alleviate that problem by allowing you to quickly edit images to address these "
+"issues, while also offering options to enhance their overall appearance."
 msgstr ""
-"Der Zweck dieses Werkzeugs ist, die Behebung dieser Probleme zu erleichtern, "
-"indem es Ihnen ermöglicht, Bilder im Handumdrehen entsprechend zu "
-"bearbeiten. Darüber hinaus bietet es Optionen zur Optimierung der "
-"Gesamterscheinung."
+"Der Zweck dieses Werkzeugs ist, die Behebung dieser Probleme zu erleichtern, indem es Ihnen "
+"ermöglicht, Bilder im Handumdrehen entsprechend zu bearbeiten. Darüber hinaus bietet es Optionen "
+"zur Optimierung der Gesamterscheinung."
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:25
 msgid "Alexander Vanhee"
@@ -64,7 +61,7 @@ msgstr "Alexander Vanhee"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:106
 msgid "Edited screenshot"
-msgstr "Bildschirmfoto erstellen"
+msgstr "Bearbeitetes Bildschirmfoto"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:110
 msgid "Edited picture"
@@ -96,25 +93,23 @@ msgstr "Winkel"
 
 #: gradia/graphics/solid.py:71
 msgid "Solid Color Background"
-msgstr ""
+msgstr "Einfarbiger Hintergrund"
 
 #: gradia/graphics/solid.py:77
-
 msgid "Color"
-msgstr "Endfarbe"
+msgstr "Farbe"
 
 #: gradia/graphics/image.py:87
-
 msgid "Image Background"
-msgstr "Verlaufender Hintergrund"
+msgstr "Bild als Hintergrund"
 
 #: gradia/graphics/image.py:90
-
 msgid "Select Image"
-msgstr "Bild _speichern"
+msgstr "Bild wählen"
 
 #: gradia/graphics/image.py:134
-
+#, fuzzy
+#| msgid "Image Files"
 msgid "Image files"
 msgstr "Bilddateien"
 
@@ -129,7 +124,7 @@ msgstr "Bild öffnen …"
 
 #: gradia/ui/ui_parts.py:183
 msgid "Enhance an Image"
-msgstr "Bild verbessern"
+msgstr "Bild optimieren"
 
 #: gradia/ui/ui_parts.py:184
 msgid "Drag and drop one here"
@@ -199,7 +194,7 @@ msgstr "Linienfarbe"
 
 #: gradia/ui/ui_parts.py:444
 msgid "Save Image"
-msgstr "Bild _speichern"
+msgstr "Bild speichern"
 
 #: gradia/ui/ui_parts.py:452
 msgid "Copy to Clipboard"
@@ -240,7 +235,7 @@ msgstr "Rückgängig"
 
 #: gradia/ui/ui_parts.py:504
 msgid "Redo"
-msgstr "Wiederholen"
+msgstr "Erneut"
 
 #: gradia/ui/ui_parts.py:505
 msgid "Remove Selected"
@@ -264,12 +259,11 @@ msgstr "Fehler"
 
 #: gradia/ui/window.py:349
 msgid "No screenshots to delete."
-msgstr ""
+msgstr "Keine zu löschenden Bildschirmfoto vorhanden"
 
 #: gradia/ui/window.py:361
-
 msgid "Delete Screenshot?"
-msgstr "Bildschirmfoto"
+msgstr "Bildschirmfoto löschen?"
 
 #: gradia/ui/window.py:362
 #, python-format
@@ -278,11 +272,13 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Folgende Datei wirklich löschen?\n"
+"\n"
+"%s"
 
 #: gradia/ui/window.py:364
-
 msgid "Delete Screenshots?"
-msgstr "Bildschirmfoto"
+msgstr "Bildschirmfotos löschen?"
 
 #: gradia/ui/window.py:365
 #, python-format
@@ -291,24 +287,25 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Folgende Dateien wirklich löschen?\n"
+"\n"
+"%s"
 
 #: gradia/ui/window.py:368
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: gradia/ui/window.py:369
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 #: gradia/ui/window.py:376
-
 msgid "Screenshot deleted."
-msgstr "Bildschirmfoto verworfen"
+msgstr "Bildschirmfoto gelöscht."
 
 #: gradia/ui/window.py:378
-
 msgid "Screenshots deleted."
-msgstr "Bildschirmfoto verworfen"
+msgstr "Bildschirmfotos gelöscht."
 
 #: gradia/ui/image_exporters.py:95
 msgid "Save Processed Image"
@@ -372,7 +369,7 @@ msgstr "Bildschirmfoto verworfen"
 
 #: gradia/ui/image_loaders.py:253 gradia/ui/image_loaders.py:254
 msgid "Screenshot"
-msgstr "Bildschirmfoto"
+msgstr "Blldschirmfoto"
 
 #: gradia/ui/image_loaders.py:257
 msgid "Screenshot captured!"
@@ -386,29 +383,29 @@ msgstr "Bearbeiten des Bildschirmfotos fehlgeschlagen"
 #, python-format
 msgid "%d second ago"
 msgid_plural "%d seconds ago"
-msgstr[0] "Vor %d Sekunde"
-msgstr[1] "Vor %d Sekunden"
+msgstr[0] "vor %d Sekunden"
+msgstr[1] "vor %d Sekunden"
 
 #: gradia/ui/recent_picker.py:50
 #, python-format
 msgid "%d minute ago"
 msgid_plural "%d minutes ago"
-msgstr[0] "Vor %d Minute"
-msgstr[1] "Vor %d Minuten"
+msgstr[0] "vor %d Minute"
+msgstr[1] "vor %d Minuten"
 
 #: gradia/ui/recent_picker.py:53
 #, python-format
 msgid "%d hour ago"
 msgid_plural "%d hours ago"
-msgstr[0] "Vor %d Stunde"
-msgstr[1] "Vor %d Stunden"
+msgstr[0] "vor %d Stunde"
+msgstr[1] "vor %d Stunden"
 
 #: gradia/ui/recent_picker.py:56
 #, python-format
 msgid "%d day ago"
 msgid_plural "%d days ago"
-msgstr[0] "Vor %d Tag"
-msgstr[1] "Vor %d Tagen"
+msgstr[0] "vor %d Tag"
+msgstr[1] "vor %d Tagen"
 
 #. Explicitly mark each string for translation
 #: gradia/ui/background_selector.py:62
@@ -416,12 +413,10 @@ msgid "Solid"
 msgstr "Einfarbig"
 
 #: gradia/ui/background_selector.py:63
-
 msgid "Gradient"
 msgstr "Verlauf"
 
 #: gradia/ui/background_selector.py:64
-
 msgid "Image"
 msgstr "Bild"
 
@@ -459,11 +454,11 @@ msgstr "Markierer"
 
 #: gradia/overlay/drawing_actions.py:38
 msgid "Censor"
-msgstr "Zensieren"
+msgstr "Zensor"
 
 #: gradia/overlay/drawing_actions.py:39
 msgid "Number"
-msgstr "Nummer"
+msgstr "Zahl"
 
 #: data/ui/controls_overlay.blp:24
 msgid "Erase selected"
@@ -471,11 +466,11 @@ msgstr "Gewähltes löschen"
 
 #: data/ui/controls_overlay.blp:42
 msgid "Undo the last action"
-msgstr "Letzte Aktion rückgängig machen"
+msgstr "Letzten Schritt rückgängig machen"
 
 #: data/ui/controls_overlay.blp:53
 msgid "Redo the last undone action"
-msgstr "Letzte rückgängig gemachte Aktion wiederholen"
+msgstr "Letzten rückgängig gemachten Schritt erneut vornehmen"
 
 #: data/ui/controls_overlay.blp:64
 msgid "Clear all annotations"
@@ -491,11 +486,11 @@ msgstr "Hauptmenü"
 
 #: data/ui/header_bar.blp:42
 msgid "Delete taken screenshot(s)"
-msgstr "Erstellen eines Bildschirmfotos fehlgeschlagen"
+msgstr "Erstellte(s) Bildschirmfoto(s) löschen"
 
 #: data/ui/header_bar.blp:50
 msgid "About Gradia"
-msgstr "Über Gradia"
+msgstr "Info zu Gradia"
 
 #~ msgid "No Image Loaded"
 #~ msgstr "Kein Bild geladen"
