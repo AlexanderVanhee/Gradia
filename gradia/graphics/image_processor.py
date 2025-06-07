@@ -77,11 +77,22 @@ class ImageProcessor:
 
         shadow_img, shadow_offset = self._create_shadow(source_img, offset=(10, 10), shadow_strength=self.shadow_strength)
         shadow_pos = (paste_position[0] - shadow_offset[0], paste_position[1] - shadow_offset[1])
-        final_img.paste(shadow_img, shadow_pos, shadow_img)
+        final_img = self._alpha_composite_at_position(final_img, shadow_img, shadow_pos)
 
-        final_img.paste(source_img, paste_position, source_img)
+        final_img = self._alpha_composite_at_position(final_img, source_img, paste_position)
 
         return self._pil_to_pixbuf(final_img)
+
+    def _alpha_composite_at_position(self, background: Image.Image, foreground: Image.Image, position: tuple[int, int]) -> Image.Image:
+        if background.mode != 'RGBA':
+            background = background.convert('RGBA')
+        if foreground.mode != 'RGBA':
+            foreground = foreground.convert('RGBA')
+        temp_canvas = Image.new('RGBA', background.size, (0, 0, 0, 0))
+        temp_canvas.paste(foreground, position, foreground)
+        result = Image.alpha_composite(background, temp_canvas)
+
+        return result
 
     def _load_and_downscale_image(self, image_path: str) -> Image.Image:
         source_img = Image.open(image_path).convert("RGBA")
@@ -219,20 +230,20 @@ class ImageProcessor:
         return 0, 0
 
     def _pil_to_pixbuf(self, image: Image.Image) -> GdkPixbuf.Pixbuf:
-        if image.mode == 'RGBA':
-            background = Image.new('RGB', image.size, (255, 255, 255))
-            background.paste(image, mask=image.split()[3])
-            image = background
+        if image.mode != 'RGBA':
+            image = image.convert('RGBA')
 
-        if image.mode != 'RGB':
-            image = image.convert('RGB')
+        width, height = image.size
+        pixels = image.tobytes()
 
-        buffer = io.BytesIO()
-        image.save(buffer, format='PNG')
-        buffer.seek(0)
+        pixbuf = GdkPixbuf.Pixbuf.new_from_data(
+            pixels,
+            GdkPixbuf.Colorspace.RGB,
+            True,  # has_alpha=True
+            8,
+            width,
+            height,
+            width * 4
+        )
 
-        loader = GdkPixbuf.PixbufLoader.new_with_type('png')
-        loader.write(buffer.read())
-        loader.close()
-
-        return loader.get_pixbuf()
+        return pixbuf

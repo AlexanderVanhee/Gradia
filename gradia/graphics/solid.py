@@ -43,15 +43,18 @@ class SolidBackground(Background):
 
 class SolidSelector:
 
+    CHECKER_LIGHT = "#a8a8a8"
+    CHECKER_DARK = "#545454"
+
     COMMON_COLORS = [
-        "#ffffff",
-        "#000000",
-        "#f66151",
-        "#33d17a",
-        "#3584e4",
-        "#f6d32d",
-        "#c061cb",
-        "#33c7de"
+        "#ffffffff",
+        "#ff000000",
+        "#fff66151",
+        "#ff33d17a",
+        "#ff3584e4",
+        "#fff6d32d",
+        "#ffc061cb",
+        "#00000000"
     ]
 
     def __init__(
@@ -86,31 +89,47 @@ class SolidSelector:
         row = Adw.ActionRow()
         row.set_activatable(False)
         row.set_selectable(False)
-
         grid = Gtk.Grid()
         grid.set_valign(Gtk.Align.CENTER)
         grid.set_halign(Gtk.Align.CENTER)
         grid.set_row_spacing(6)
         grid.set_column_spacing(6)
-
         columns = 4
-
         for index, color in enumerate(self.COMMON_COLORS):
             button = Gtk.Button()
             button.set_valign(Gtk.Align.CENTER)
             button.set_size_request(32, 32)
             button.set_margin_top(7)
             button.set_margin_bottom(6.95)
-
-            rgba = self._hex_alpha_to_rgba(color, 1.0)
-            css = f"""
-            button {{
-                background-color: {rgba.to_string()};
-                border-radius: 50%;
-                border: 1px solid @borders;
-            }}
-            """
-
+            hex_color = color.lstrip('#')
+            if len(hex_color) == 8:
+                alpha_from_hex = int(hex_color[:2], 16) / 255.0
+                rgb_hex = hex_color[2:]
+            else:
+                alpha_from_hex = 1.0
+                rgb_hex = hex_color
+            if alpha_from_hex == 0.0:
+                css = f"""
+                button {{
+                    background: linear-gradient(45deg, {self.CHECKER_DARK} 25%, transparent 25%),
+                                linear-gradient(-45deg, {self.CHECKER_DARK} 25%, transparent 25%),
+                                linear-gradient(45deg, transparent 75%, {self.CHECKER_DARK} 75%),
+                                linear-gradient(-45deg, transparent 75%, {self.CHECKER_DARK} 75%);
+                    background-size: 20px 20px;
+                    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+                    border-radius: 50%;
+                    border: 1px solid @borders;
+                }}
+                """
+            else:
+                rgba = self._hex_alpha_to_rgba(f"#{rgb_hex}", alpha_from_hex)
+                css = f"""
+                button {{
+                    background-color: {rgba.to_string()};
+                    border-radius: 50%;
+                    border: 1px solid @borders;
+                }}
+                """
             style_provider = Gtk.CssProvider()
             style_provider.load_from_data(css.encode())
             Gtk.StyleContext.add_provider(
@@ -118,20 +137,18 @@ class SolidSelector:
                 style_provider,
                 Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
             )
-            button.connect("clicked", self._on_common_color_clicked, color)
-
+            button.connect("clicked", self._on_common_color_clicked, f"#{rgb_hex}", alpha_from_hex)
             row_pos = index // columns
             col_pos = index % columns
             grid.attach(button, col_pos, row_pos, 1, 1)
-
         row.set_child(grid)
         return row
 
-    def _on_common_color_clicked(self, button: Gtk.Button, color: str) -> None:
+    def _on_common_color_clicked(self, button: Gtk.Button, color: str, alpha: float) -> None:
         self.solid.color = color
-        self.solid.alpha = 1.0
+        self.solid.alpha = alpha
         if self.color_button:
-            self.color_button.set_rgba(self._hex_alpha_to_rgba(color, 1.0))
+            self.color_button.set_rgba(self._hex_alpha_to_rgba(color, alpha))
         if self.callback:
             self.callback(self.solid)
 

@@ -21,6 +21,7 @@ from gi.repository import Gtk, Gio, Adw, Gdk, GLib
 
 from gradia.overlay.drawing_actions import DrawingMode
 from gradia.overlay.drawing_overlay import DrawingOverlay
+from gradia.overlay.transparency_overlay import TransparencyBackground
 from gradia.ui.recent_picker import RecentPicker
 
 @Gtk.Template(resource_path="/be/alexandervanhee/gradia/ui/header_bar.ui")
@@ -56,9 +57,22 @@ def create_image_stack() -> tuple[Gtk.Stack, Gtk.Picture, Adw.Spinner, 'DrawingO
     stack.set_transition_duration(200)
 
     picture = create_picture_widget()
+
+    transparency_background = TransparencyBackground()
+    transparency_background.set_hexpand(True)
+    transparency_background.set_vexpand(True)
+    transparency_background.set_picture_reference(picture)
+
+    image_overlay = Gtk.Overlay()
+    image_overlay.set_child(transparency_background)
+    image_overlay.add_overlay(picture)
+
     drawing_overlay = create_drawing_overlay(picture)
-    overlay, controls_overlay = create_image_overlay(picture, drawing_overlay)
+
+    overlay, controls_overlay = create_image_overlay(image_overlay, drawing_overlay)
+
     drawing_overlay.set_controls_overlay(controls_overlay)
+
     stack.add_named(overlay, "image")
 
     spinner_box, spinner = create_spinner_widget()
@@ -76,12 +90,13 @@ def create_image_stack() -> tuple[Gtk.Stack, Gtk.Picture, Adw.Spinner, 'DrawingO
     top_bar.set_show_start_title_buttons(False)
     top_bar.set_show_end_title_buttons(True)
     top_bar.set_title_widget(Gtk.Box())
-
     top_bar.set_valign(Gtk.Align.START)
     top_bar.set_halign(Gtk.Align.FILL)
+
     main_overlay.add_overlay(top_bar)
 
     return stack, picture, spinner, drawing_overlay, controls_overlay, main_overlay
+
 
 def create_image_overlay(picture: Gtk.Picture, drawing_overlay: 'DrawingOverlay') -> Gtk.Overlay:
     overlay = Gtk.Overlay.new()
