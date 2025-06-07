@@ -3,19 +3,19 @@
 # This file is distributed under the same license as the gradia package.
 # Quentin PAGÈS, 2025
 #
-
 msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-07 19:28+0200\n"
-"PO-Revision-Date: 2025-06-01 09:51+1000\n"
+"PO-Revision-Date: 2025-06-08 09:51+1000\n"
 "Last-Translator: Quentin PAGÈS\n"
 "Language-Team: \n"
 "Language: oc\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.6\n"
 
 #: data/be.alexandervanhee.gradia.desktop.in:2
@@ -102,7 +102,7 @@ msgstr "Color"
 
 #: gradia/graphics/image.py:87
 msgid "Image Background"
-msgstr "Fons d'imatge"
+msgstr "Imatge de fons"
 
 #: gradia/graphics/image.py:90
 msgid "Select Image"
@@ -271,7 +271,7 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Sètz segur de voler suprimir lo fichièr seguent ?\n"
+"Volètz vertadièrament suprimir lo fichièr seguent ?\n"
 "\n"
 "%s"
 
@@ -286,7 +286,7 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Sètz segur de voler suprimir los fichièrs seguents ?\n"
+"Volètz vertadièrament suprimir los fichièrs seguents ?\n"
 "\n"
 "%s"
 
@@ -409,7 +409,7 @@ msgstr[1] "fa %d jorns"
 #. Explicitly mark each string for translation
 #: gradia/ui/background_selector.py:62
 msgid "Solid"
-msgstr "Solid"
+msgstr "Unit"
 
 #: gradia/ui/background_selector.py:63
 msgid "Gradient"
