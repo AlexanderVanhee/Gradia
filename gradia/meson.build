@@ -47,5 +47,6 @@ install_data(gradia_sources, install_dir: moduledir)
 
 install_subdir('graphics', install_dir: moduledir)
 install_subdir('ui', install_dir: moduledir)
+install_subdir('utils', install_dir: moduledir)
 install_subdir('backend', install_dir: moduledir)
 install_subdir('overlay', install_dir: moduledir)

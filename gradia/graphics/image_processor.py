@@ -18,15 +18,13 @@
 import os
 import io
 from typing import Optional
-from PIL import Image, ImageDraw, ImageChops, ImageFilter, ImageOps
+from PIL import Image, ImageDraw, ImageChops, ImageFilter
 from gi.repository import GdkPixbuf
 
 class ImageProcessor:
-
     MAX_DIMESION = 1440
     MAX_FILE_SIZE = 1000 * 1024
 
-    
     def __init__(
         self,
         image_path: Optional[str] = None,
