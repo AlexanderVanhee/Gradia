@@ -15,7 +15,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from gi.repository import Gtk, Adw, GdkPixbuf, GLib, Gdk
+import gi
+gi.require_version('Gtk', '4.0')
+gi.require_version('Adw', '1')
+from gi.repository import Gtk, Adw, GdkPixbuf, Gio, GLib, Gdk
 from gradia.constants import PREDEFINED_GRADIENTS
 from pathlib import Path
 import time
@@ -92,12 +95,11 @@ class RecentImageGetter:
                     return Path(path)
         return None
 
-@Gtk.Template(resource_path="/be/alexandervanhee/gradia/ui/recent_picker.ui")
 class RecentPicker(Gtk.Box):
-    __gtype_name__ = "GradiaRecentPicker"
-
     GRID_ROWS = 2
     GRID_COLS = 3
+    GRID_ROW_SPACING = 10
+    GRID_COL_SPACING = 30
     FRAME_SPACING = 5
     IMAGE_WIDTH = 210
     IMAGE_HEIGHT = 120
@@ -105,10 +107,8 @@ class RecentPicker(Gtk.Box):
     MAX_FILENAME_LENGTH = 30
     FILENAME_TRUNCATE_LENGTH = 27
 
-    item_grid: Gtk.Grid = Gtk.Template.Child()
-
-    def __init__(self, callback=None, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self, callback=None):
+        super().__init__(orientation=Gtk.Orientation.VERTICAL)
         self.image_getter = RecentImageGetter()
         self.callback = callback
         self.image_buttons = []
@@ -127,6 +127,11 @@ class RecentPicker(Gtk.Box):
         self.load_images()
 
     def create_widgets(self):
+        grid = Gtk.Grid()
+        grid.set_row_spacing(self.GRID_ROW_SPACING)
+        grid.set_column_spacing(self.GRID_COL_SPACING)
+        grid.set_halign(Gtk.Align.CENTER)
+
         for row in range(self.GRID_ROWS):
             for col in range(self.GRID_COLS):
                 index = row * self.GRID_COLS + col
@@ -159,7 +164,9 @@ class RecentPicker(Gtk.Box):
                 self.name_labels.append(name_label)
                 container.append(name_label)
 
-                self.item_grid.attach(container, col, row, 1, 1)
+                grid.attach(container, col, row, 1, 1)
+
+        self.append(grid)
 
     def _apply_gradient_to_button(self, button, index):
         gradient_name = f"gradient-button-{index}"

@@ -15,10 +15,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from gi.repository import Gtk, Gdk, Gio, cairo, Adw
+from gi.repository import Gtk, Gdk, Gio, cairo, Pango, PangoCairo, Adw
+from enum import Enum
 from gradia.overlay.drawing_actions import *
 from gradia.overlay.text_entry_popover import TextEntryPopover
 import cairo as cairo_lib
+import math
+import re
 
 SELECTION_BOX_PADDING = 0
 DEFAULT_PEN_SIZE = 3.0
@@ -30,11 +33,8 @@ DEFAULT_HIGHLIGHTER_SIZE = 12.0
 DEFAULT_PIXELATION_LEVEL = 8
 
 class DrawingOverlay(Gtk.DrawingArea):
-    __gtype_name__ = "GradiaDrawingOverlay"
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
+    def __init__(self):
+        super().__init__()
         self.set_draw_func(self._on_draw)
         self.set_can_focus(True)
         self.picture_widget = None
@@ -67,12 +67,12 @@ class DrawingOverlay(Gtk.DrawingArea):
 
         self._setup_gestures()
 
-    def set_picture_reference(self, picture: Gtk.Picture) -> None:
+    def set_picture_reference(self, picture):
         self.picture_widget = picture
         picture.connect("notify::paintable", lambda *args: self.queue_draw())
 
-    def set_erase_selected_revealer(self, erase_selected_revealer: Gtk.Revealer):
-        self.erase_selected_revealer = erase_selected_revealer
+    def set_controls_overlay(self, controls_overlay):
+        self.controls_overlay = controls_overlay
 
     @property
     def selected_action(self):
@@ -81,7 +81,7 @@ class DrawingOverlay(Gtk.DrawingArea):
     @selected_action.setter
     def selected_action(self, action):
         self._selected_action = action
-        self.erase_selected_revealer.set_reveal_child(action is not None)
+        self.controls_overlay.set_delete_visible(action is not None)
 
     def _get_image_bounds(self):
         if not self.picture_widget or not self.picture_widget.get_paintable():

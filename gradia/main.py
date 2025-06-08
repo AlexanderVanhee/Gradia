@@ -23,9 +23,9 @@ import shutil
 from collections.abc import Sequence
 from typing import Optional
 
-from gi.repository import Adw, Gio, Xdp
+from gi.repository import Adw, Gio, Xdp, Gdk, Gtk
 
-from gradia.ui.window import GradiaMainWindow
+from gradia.ui.window import GradientWindow
 from gradia.backend.logger import Logger
 
 logging = Logger()
@@ -41,6 +41,8 @@ class GradiaApp(Adw.Application):
         self.version = version
         self.screenshot_flags: Optional[Xdp.ScreenshotFlags] = None
         self.temp_dirs: list[str] = []
+
+        self.load_css()
 
         # Connect to shutdown signal for cleanup
         self.connect("shutdown", self.on_shutdown)
@@ -73,6 +75,17 @@ class GradiaApp(Adw.Application):
             self._open_window(None)
 
         return 0
+
+    def load_css(self):
+        css_provider = Gtk.CssProvider()
+        css_provider.load_from_resource("/be/alexandervanhee/gradia/style.css")
+
+        display = Gdk.Display.get_default()
+        Gtk.StyleContext.add_provider_for_display(
+            display,
+            css_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
 
     def _parse_screenshot_flag(self, args: list[str]) -> Optional[Xdp.ScreenshotFlags]:
         for arg in args:
@@ -108,13 +121,14 @@ class GradiaApp(Adw.Application):
         logging.debug(f"Created temp directory: {temp_dir}")
         self.temp_dirs.append(temp_dir)
 
-        window = GradiaMainWindow(
+        window = GradientWindow(
             temp_dir=temp_dir,
             version=self.version,
             application=self,
             init_screenshot_mode=self.screenshot_flags,
             file_path=file_path
         )
+        window.build_ui()
         if not self.screenshot_flags:
             # Do not yet show the window if triggered from the shortcut.
             window.show()

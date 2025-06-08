@@ -10,3 +10,5 @@ headerbar.desktop windowcontrols button:hover image {
 headerbar.desktop windowcontrols button:active image {
     background: alpha(mix(black, white, 0.2), 0.5);
 }
+
+

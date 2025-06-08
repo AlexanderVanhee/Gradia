@@ -48,7 +48,7 @@ class BaseImageLoader:
         self.window.image_path = image_path
         if hasattr(self.window, 'drawing_overlay') and self.window.drawing_overlay:
             self.window.drawing_overlay.clear_drawing()
-        self.window._update_sidebar_file_info(filename, location)
+        self.window._update_sidebar_info(filename, location)
         self.window._start_processing()
 
 
