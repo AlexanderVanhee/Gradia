@@ -189,7 +189,7 @@ msgstr "Redefinir preenchimento"
 #. Stroke color row
 #: gradia/ui/ui_parts.py:345
 msgid "Stroke Color"
-msgstr "Cor do linha"
+msgstr "Cor do traço"
 
 #: gradia/ui/ui_parts.py:444
 msgid "Save Image"
