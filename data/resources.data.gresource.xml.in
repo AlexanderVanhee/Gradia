@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-    <gresource prefix="/be/alexandervanhee/gradia">
+  <gresource prefix="/be/alexandervanhee/gradia">
     <file preprocess="xml-stripblanks">ui/header_bar.ui</file>
     <file preprocess="xml-stripblanks">ui/controls_overlay.ui</file>
     <file preprocess="xml-stripblanks">ui/home_bar.ui</file>
     <file>style.css</file>
+  </gresource>
+  <gresource prefix="/be/alexandervanhee/gradia">
+    <file>images/preset1.avif</file>
+    <file>images/preset2.avif</file>
+    <file>images/preset3.avif</file>
+    <file>images/preset4.avif</file>
+    <file>images/preset5.avif</file>
+    <file>images/preset6.avif</file>
   </gresource>
   <gresource prefix="/be/alexandervanhee/gradia">
     <file preprocess="xml-stripblanks">icons/scalable/actions/arrow1-top-right-symbolic.svg</file>

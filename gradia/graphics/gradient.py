@@ -126,17 +126,15 @@ class GradientBackground:
             'c_lib_loaded': cls._c_lib is not None and cls._c_lib is not False
         }
 
-
 class GradientSelector:
-
     def __init__(
-        self, 
-        gradient: GradientBackground, 
+        self,
+        gradient: GradientBackground,
         callback: Optional[Callable[[GradientBackground], None]] = None
     ) -> None:
         self.gradient: GradientBackground = gradient
         self.callback: Optional[Callable[[GradientBackground], None]] = callback
-        self.popover: Optional[Gtk.Popover] = None
+        self.popover: Optional[GradientPopover] = None
         self.start_color_button: Optional[Gtk.ColorButton] = None
         self.end_color_button: Optional[Gtk.ColorButton] = None
         self.angle_spin_row: Optional[Adw.SpinRow] = None
@@ -144,7 +142,7 @@ class GradientSelector:
 
     def _build(self) -> Adw.PreferencesGroup:
         group = Adw.PreferencesGroup(title=_("Gradient Background"))
-        
+
         icon_button = Gtk.Button(
             icon_name="columns-symbolic",
             tooltip_text=_("Gradient Presets"),
@@ -187,9 +185,9 @@ class GradientSelector:
 
     def _angle_row(self) -> Adw.SpinRow:
         adj = Gtk.Adjustment(
-            value=self.gradient.angle, 
-            lower=0, 
-            upper=360, 
+            value=self.gradient.angle,
+            lower=0,
+            upper=360,
             step_increment=45
         )
 
@@ -212,7 +210,7 @@ class GradientSelector:
         self._notify()
 
     def _notify(self) -> None:
-        if self.callback :
+        if self.callback:
             self.callback(self.gradient)
 
     def _hex_to_rgba(self, hex_color: HexColor) -> Gdk.RGBA:
@@ -227,16 +225,41 @@ class GradientSelector:
         return f"#{r:02x}{g:02x}{b:02x}"
 
     def _show_popover(self, button: Gtk.Button) -> None:
-        if self.popover :
+        if self.popover:
             self.popover.popdown()
             self.popover = None
 
-        self.popover = Gtk.Popover()
-        if self.popover :
-            self.popover.set_parent(button)
-            self.popover.set_autohide(True)
-            self.popover.set_has_arrow(True)
+        self.popover = GradientPopover(button, self._on_gradient_selected)
+        self.popover.popup()
 
+    def _on_gradient_selected(self, start: HexColor, end: HexColor, angle: int) -> None:
+        self.gradient.start_color = start
+        self.gradient.end_color = end
+        self.gradient.angle = angle
+
+        if self.start_color_button:
+            self.start_color_button.set_rgba(self._hex_to_rgba(start))
+        if self.end_color_button:
+            self.end_color_button.set_rgba(self._hex_to_rgba(end))
+        if self.angle_spin_row:
+            self.angle_spin_row.set_value(angle)
+
+        self._notify()
+
+class GradientPopover(Gtk.Popover):
+    def __init__(
+        self,
+        parent: Gtk.Widget,
+        on_select: Callable[[HexColor, HexColor, int], None]
+    ) -> None:
+        super().__init__()
+        self.set_parent(parent)
+        self.set_autohide(True)
+        self.set_has_arrow(True)
+        self._on_select = on_select
+        self._build()
+
+    def _build(self) -> None:
         flowbox = Gtk.FlowBox(
             max_children_per_line=3,
             selection_mode=Gtk.SelectionMode.NONE,
@@ -275,28 +298,13 @@ class GradientSelector:
                 Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
             )
 
-            button_widget = Gtk.Button(name=gradient_name, focusable=False, can_focus=False)
-            button_widget.connect("clicked", self._on_gradient_selected, start, end, angle)
-            flowbox.append(button_widget)
+            button = Gtk.Button(name=gradient_name, focusable=False, can_focus=False)
+            button.connect("clicked", self._on_button_clicked, start, end, angle)
+            flowbox.append(button)
 
-        if self.popover :
-            self.popover.set_child(flowbox)
-            self.popover.popup()
+        self.set_child(flowbox)
 
-    def _on_gradient_selected(self, button: Gtk.Button, start: HexColor, end: HexColor, angle: int) -> None:
-        self.gradient.start_color = start
-        self.gradient.end_color = end
-        self.gradient.angle = angle
+    def _on_button_clicked(self, button: Gtk.Button, start: HexColor, end: HexColor, angle: int) -> None:
+        self._on_select(start, end, angle)
+        self.popdown()
 
-        if self.start_color_button:
-            self.start_color_button.set_rgba(self._hex_to_rgba(start))
-        if self.end_color_button:
-            self.end_color_button.set_rgba(self._hex_to_rgba(end))
-        if self.angle_spin_row:
-            self.angle_spin_row.set_value(angle)
-
-        self._notify()
-
-        if self.popover:
-            self.popover.popdown()
-            self.popover = None
