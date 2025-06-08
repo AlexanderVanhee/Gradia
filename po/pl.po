@@ -1,0 +1,497 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the gradia package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gradia\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-08 16:35+0200\n"
+"PO-Revision-Date: 2025-06-08 17:03+0200\n"
+"Last-Translator: Adam Lewicki <a.lewicki95@gmail.com>\n"
+"Language-Team: \n"
+"Language: pl_PL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 "
+"|| n%100>14) ? 1 : 2);\n"
+"X-Generator: Poedit 3.6\n"
+
+#: data/be.alexandervanhee.gradia.desktop.in:2
+#: data/be.alexandervanhee.gradia.metainfo.xml.in:11
+msgid "Gradia"
+msgstr "Zaawansowany zrzut ekranu"
+
+#: data/be.alexandervanhee.gradia.desktop.in:3 gradia/ui/ui_parts.py:469
+msgid "Make your images ready for the world"
+msgstr "Twórz obrazy gotowe do publikacji"
+
+#: data/be.alexandervanhee.gradia.desktop.in:9
+msgid "Image;Gradient;Background;Screenshot;Edit;"
+msgstr "Obraz;Gradient;Tło;Zrzut ekranu;Edycja;Gradia;"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in:12
+msgid "Make your screenshots ready for all"
+msgstr "Twórz obrazy gotowe do udostępnienia"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in:14
+msgid ""
+"On social media, it's often hard to control how your images appear to "
+"others. Transparent or oddly sized images, like screenshots often don't "
+"display well. Fixing these issues can feel like more trouble than it's worth."
+msgstr ""
+"W mediach społecznościowych często trudno jest kontrolować to, jak Twoje "
+"obrazy wyświetlają się innym. Przezroczyste lub te o nietypowych rozmiarach, "
+"takie jak zrzuty ekranu, często nie wyświetlają się dobrze. Rozwiązywanie "
+"tych problemów może wydawać się grą niewartą świeczki."
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in:19
+msgid ""
+"This tool aims to alleviate that problem by allowing you to quickly edit "
+"images to address these issues, while also offering options to enhance their "
+"overall appearance."
+msgstr ""
+"Ten program ma na celu złagodzenie tego problemu, umożliwiając szybką edycję "
+"obrazów w celu rozwiązania tych kwestii, jednocześnie oferując opcje poprawy "
+"ich ogólnego wyglądu."
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in:25
+msgid "Alexander Vanhee"
+msgstr "Alexander Vanhee"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in:106
+msgid "Edited screenshot"
+msgstr "Edytowany zrzut ekranu"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in:110
+msgid "Edited picture"
+msgstr "Edytowane zdjęcie"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in:114
+msgid "Startup view"
+msgstr "Widok początkowy"
+
+#: gradia/graphics/gradient.py:146
+msgid "Gradient Background"
+msgstr "Gradient tła"
+
+#: gradia/graphics/gradient.py:150
+msgid "Gradient Presets"
+msgstr "Wstępne ustawienia gradientu"
+
+#: gradia/graphics/gradient.py:159 gradia/graphics/gradient.py:170
+msgid "Start Color"
+msgstr "Kolor początkowy"
+
+#: gradia/graphics/gradient.py:160 gradia/graphics/gradient.py:172
+msgid "End Color"
+msgstr "Kolor końcowy"
+
+#: gradia/graphics/gradient.py:196
+msgid "Angle"
+msgstr "Kąt"
+
+#: gradia/graphics/solid.py:71
+msgid "Solid Color Background"
+msgstr "Pełny kolor tła"
+
+#: gradia/graphics/solid.py:77
+msgid "Color"
+msgstr "Kolor"
+
+#: gradia/graphics/image.py:87
+msgid "Image Background"
+msgstr "Obraz tła"
+
+#: gradia/graphics/image.py:90
+msgid "Select Image"
+msgstr "Wybierz zdjęcie"
+
+#: gradia/graphics/image.py:134
+msgid "Image files"
+msgstr "Pliki obrazów"
+
+#. Create action buttons
+#: gradia/ui/ui_parts.py:156
+msgid "_Take a screenshot…"
+msgstr "_Wykonaj zrzut ekranu…"
+
+#: gradia/ui/ui_parts.py:164
+msgid "_Open Image…"
+msgstr "_Otwórz obraz…"
+
+#: gradia/ui/ui_parts.py:183
+msgid "Enhance an Image"
+msgstr "Ulepsz obraz"
+
+#: gradia/ui/ui_parts.py:184
+msgid "Drag and drop one here"
+msgstr "Przeciągnij i upuść tutaj"
+
+#: gradia/ui/ui_parts.py:215
+msgid "Image Options"
+msgstr "Opcje obrazu"
+
+#: gradia/ui/ui_parts.py:218
+msgid "Padding"
+msgstr "Wypełnienie"
+
+#: gradia/ui/ui_parts.py:223
+msgid "Corner Radius"
+msgstr "Promień narożnika"
+
+#: gradia/ui/ui_parts.py:227
+msgid "Aspect Ratio"
+msgstr "Proporcje"
+
+#: gradia/ui/ui_parts.py:233
+msgid "Shadow"
+msgstr "Cień"
+
+#: gradia/ui/ui_parts.py:252
+msgid "Current File"
+msgstr "Aktualny plik"
+
+#: gradia/ui/ui_parts.py:254
+msgid "Name"
+msgstr "Nazwa"
+
+#: gradia/ui/ui_parts.py:254 gradia/ui/ui_parts.py:255
+msgid "No file loaded"
+msgstr "Nie załadowano pliku"
+
+#: gradia/ui/ui_parts.py:255
+msgid "Location"
+msgstr "Lokalizacja"
+
+#: gradia/ui/ui_parts.py:256
+msgid "Modified image size"
+msgstr "Zmodyfikowany rozmiar obrazu"
+
+#: gradia/ui/ui_parts.py:256
+msgid "N/A"
+msgstr "Brak"
+
+#: gradia/ui/ui_parts.py:265
+msgid "Annotation Tools"
+msgstr "Narzędzia adnotacji"
+
+#. Fill color row with reset button
+#: gradia/ui/ui_parts.py:292
+msgid "Fill Color"
+msgstr "Kolor wypełnienia"
+
+#: gradia/ui/ui_parts.py:297
+msgid "Reset Fill"
+msgstr "Zresetuj wypełnienie"
+
+#. Stroke color row
+#: gradia/ui/ui_parts.py:345
+msgid "Stroke Color"
+msgstr "Kolor obramowania"
+
+#: gradia/ui/ui_parts.py:444
+msgid "Save Image"
+msgstr "Zapisz obraz"
+
+#: gradia/ui/ui_parts.py:452
+msgid "Copy to Clipboard"
+msgstr "Skopiuj do schowka"
+
+#. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
+#: gradia/ui/ui_parts.py:482
+msgid "translator-credits"
+msgstr "tłumacze"
+
+#: gradia/ui/ui_parts.py:492
+msgid "File Actions"
+msgstr "Akcje na plikach"
+
+#: gradia/ui/ui_parts.py:494
+msgid "Open File"
+msgstr "Otwórz plik"
+
+#: gradia/ui/ui_parts.py:495
+msgid "Save to File"
+msgstr "Zapisz do pliku"
+
+#: gradia/ui/ui_parts.py:496
+msgid "Copy Image to Clipboard"
+msgstr "Skopiuj obraz do schowka"
+
+#: gradia/ui/ui_parts.py:497
+msgid "Paste From Clipboard"
+msgstr "Wklej ze schowka"
+
+#: gradia/ui/ui_parts.py:501
+msgid "Annotations"
+msgstr "Adnotacje"
+
+#: gradia/ui/ui_parts.py:503
+msgid "Undo"
+msgstr "Cofnij"
+
+#: gradia/ui/ui_parts.py:504
+msgid "Redo"
+msgstr "Ponów"
+
+#: gradia/ui/ui_parts.py:505
+msgid "Remove Selected"
+msgstr "Usuń wybrane"
+
+#: gradia/ui/ui_parts.py:509
+msgid "General"
+msgstr "Ogólne"
+
+#: gradia/ui/ui_parts.py:511 data/ui/header_bar.blp:46
+msgid "Keyboard Shortcuts"
+msgstr "Skróty klawiszowe"
+
+#: gradia/ui/window.py:310
+msgid "Unknown"
+msgstr "Nieznane"
+
+#: gradia/ui/window.py:312
+msgid "Error"
+msgstr "Błąd"
+
+#: gradia/ui/window.py:349
+msgid "No screenshots to delete."
+msgstr "Brak zrzutów ekranu do usunięcia."
+
+#: gradia/ui/window.py:361
+msgid "Delete Screenshot?"
+msgstr "Usunąć zrzut ekranu?"
+
+#: gradia/ui/window.py:362
+#, python-format
+msgid ""
+"Are you sure you want to delete the following file?\n"
+"\n"
+"%s"
+msgstr ""
+"Czy na pewno chcesz usunąć ten plik?\n"
+"\n"
+"%s"
+
+#: gradia/ui/window.py:364
+msgid "Delete Screenshots?"
+msgstr "Usunąć zrzut ekranu?"
+
+#: gradia/ui/window.py:365
+#, python-format
+msgid ""
+"Are you sure you want to delete the following files?\n"
+"\n"
+"%s"
+msgstr ""
+"Czy na pewno chcesz usunąć te pliki?\n"
+"\n"
+"%s"
+
+#: gradia/ui/window.py:368
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: gradia/ui/window.py:369
+msgid "Delete"
+msgstr "Usuń"
+
+#: gradia/ui/window.py:376
+msgid "Screenshot deleted."
+msgstr "Usunięto zrzut ekranu."
+
+#: gradia/ui/window.py:378
+msgid "Screenshots deleted."
+msgstr "Usunięto zrzuty ekranu."
+
+#: gradia/ui/image_exporters.py:95
+msgid "Save Processed Image"
+msgstr "Zapisz przetworzony obraz"
+
+#: gradia/ui/image_exporters.py:124
+msgid "Image saved"
+msgstr "Obraz zapisany"
+
+#: gradia/ui/image_exporters.py:127
+msgid "Failed to save image"
+msgstr "Błąd podczas zapisywania obrazu"
+
+#: gradia/ui/image_exporters.py:154
+msgid "No processed image available to save"
+msgstr "Brak przetworzonych obrazów do zapisania"
+
+#: gradia/ui/image_exporters.py:177
+msgid "Image copied to clipboard"
+msgstr "Obraz skopiowany do schowka"
+
+#: gradia/ui/image_exporters.py:180
+msgid "Failed to copy image to clipboard"
+msgstr "Błąd podczas kopiowania obrazu do schowka"
+
+#: gradia/ui/image_loaders.py:63 data/ui/header_bar.blp:13
+msgid "Open Image"
+msgstr "Otwórz obraz"
+
+#: gradia/ui/image_loaders.py:66
+msgid "Image Files"
+msgstr "Pliki obrazów"
+
+#: gradia/ui/image_loaders.py:149
+msgid "No image found in clipboard"
+msgstr "Nie znaleziono żadnego obrazu w schowku"
+
+#: gradia/ui/image_loaders.py:156
+msgid "Clipboard Image"
+msgstr "Obraz ze schowka"
+
+#: gradia/ui/image_loaders.py:157
+msgid "From clipboard"
+msgstr "Ze schowka"
+
+#: gradia/ui/image_loaders.py:164
+msgid "Clipboard does not contain an image."
+msgstr "Schowek nie zawiera żadnego obrazu."
+
+#: gradia/ui/image_loaders.py:166
+msgid "Failed to load image from clipboard."
+msgstr "Błąd podczas ładowania obrazu ze schowka."
+
+#: gradia/ui/image_loaders.py:201 gradia/ui/image_loaders.py:216
+msgid "Failed to take screenshot"
+msgstr "Błąd wykonywania zrzutu ekranu"
+
+#: gradia/ui/image_loaders.py:232
+msgid "Screenshot cancelled"
+msgstr "Anulowano wykonywanie zrzutu ekranu"
+
+#: gradia/ui/image_loaders.py:253 gradia/ui/image_loaders.py:254
+msgid "Screenshot"
+msgstr "Zrzut ekranu"
+
+#: gradia/ui/image_loaders.py:257
+msgid "Screenshot captured!"
+msgstr "Przechwycono zrzut ekranu!"
+
+#: gradia/ui/image_loaders.py:264
+msgid "Failed to process screenshot"
+msgstr "Błąd przetwarzania zrzutu ekranu"
+
+#: gradia/ui/recent_picker.py:47
+#, python-format
+msgid "%d second ago"
+msgid_plural "%d seconds ago"
+msgstr[0] "%d sekunda temu"
+msgstr[1] "%d sekundy temu"
+msgstr[2] "%d sekund temu"
+
+#: gradia/ui/recent_picker.py:50
+#, python-format
+msgid "%d minute ago"
+msgid_plural "%d minutes ago"
+msgstr[0] "%d minuta temu"
+msgstr[1] "%d minuty temu"
+msgstr[2] "%d minut temu"
+
+#: gradia/ui/recent_picker.py:53
+#, python-format
+msgid "%d hour ago"
+msgid_plural "%d hours ago"
+msgstr[0] "%d godzina temu"
+msgstr[1] "%d godziny temu"
+msgstr[2] "%d godzin temu"
+
+#: gradia/ui/recent_picker.py:56
+#, python-format
+msgid "%d day ago"
+msgid_plural "%d days ago"
+msgstr[0] "%d dzień temu"
+msgstr[1] "%d dni temu"
+msgstr[2] "%d dni temu"
+
+#. Explicitly mark each string for translation
+#: gradia/ui/background_selector.py:62
+msgid "Solid"
+msgstr "Pełny"
+
+#: gradia/ui/background_selector.py:63
+msgid "Gradient"
+msgstr "Gradient"
+
+#: gradia/ui/background_selector.py:64
+msgid "Image"
+msgstr "Obraz"
+
+#: gradia/overlay/drawing_actions.py:30
+msgid "Pen"
+msgstr "Pióro"
+
+#: gradia/overlay/drawing_actions.py:31
+msgid "Arrow"
+msgstr "Strzałka"
+
+#: gradia/overlay/drawing_actions.py:32
+msgid "Line"
+msgstr "Linia"
+
+#: gradia/overlay/drawing_actions.py:33
+msgid "Square"
+msgstr "Kwadrat"
+
+#: gradia/overlay/drawing_actions.py:34
+msgid "Circle"
+msgstr "Koło"
+
+#: gradia/overlay/drawing_actions.py:35
+msgid "Text"
+msgstr "Tekst"
+
+#: gradia/overlay/drawing_actions.py:36
+msgid "Select"
+msgstr "Wybierz"
+
+#: gradia/overlay/drawing_actions.py:37
+msgid "Highlighter"
+msgstr "Zakreślacz"
+
+#: gradia/overlay/drawing_actions.py:38
+msgid "Censor"
+msgstr "Cenzura"
+
+#: gradia/overlay/drawing_actions.py:39
+msgid "Number"
+msgstr "Numer"
+
+#: data/ui/controls_overlay.blp:24
+msgid "Erase selected"
+msgstr "Wyczyść wybrane"
+
+#: data/ui/controls_overlay.blp:42
+msgid "Undo the last action"
+msgstr "Cofnij ostatnią akcję"
+
+#: data/ui/controls_overlay.blp:53
+msgid "Redo the last undone action"
+msgstr "Przywróć ostatnią akcję"
+
+#: data/ui/controls_overlay.blp:64
+msgid "Clear all annotations"
+msgstr "Wyczyść wszystkie adnotacje"
+
+#: data/ui/header_bar.blp:21
+msgid "Take a screenshot"
+msgstr "Wykonaj zrzut ekranu"
+
+#: data/ui/header_bar.blp:29
+msgid "Main Menu"
+msgstr "Menu główne"
+
+#: data/ui/header_bar.blp:42
+msgid "Delete taken screenshot(s)"
+msgstr "Usuń wykonany(e) zrzut(y) ekranu"
+
+#: data/ui/header_bar.blp:50
+msgid "About Gradia"
+msgstr "O programie"
