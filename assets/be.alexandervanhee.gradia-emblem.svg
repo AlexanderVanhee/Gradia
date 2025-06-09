@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256" height="256" version="1.1"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="Gradient" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" style="stop-color:#42B4AA;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5493E0;stop-opacity:1" />
+    </linearGradient>
+    <filter id="alpha-to-white">
+      <feColorMatrix in="SourceGraphic" type="matrix"
+                     values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0"/>
+    </filter>
+    <g id="child-svg"><svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 0 16 16" width="16px">
+    <path d="m 2 0 c -1.109375 0 -2 0.890625 -2 2 v 12 c 0 1.109375 0.890625 2 2 2 h 12 c 1.109375 0 2 -0.890625 2 -2 v -12 c 0 -1.109375 -0.890625 -2 -2 -2 z m 1 4 h 10 c 0.554688 0 1 0.445312 1 1 v 6 c 0 0.554688 -0.445312 1 -1 1 h -10 c -0.554688 0 -1 -0.445312 -1 -1 v -6 c 0 -0.554688 0.445312 -1 1 -1 z m 0 0" fill-rule="evenodd" />
+</svg></g>
+  </defs>
+  <rect
+      width="256"
+      height="256"
+      fill="url(#Gradient)"
+      ry="0"
+      x="0"
+      y="0" />
+  <use xlink:href="#child-svg" filter="url(#alpha-to-white)"
+       transform="matrix(8,0,0,8,64,64)" />
+</svg>
