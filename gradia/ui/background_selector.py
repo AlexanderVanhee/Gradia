@@ -17,11 +17,14 @@
 
 from collections.abc import Callable
 from typing import Optional
+
 from gi.repository import GObject, Gtk, Adw
+
 from gradia.graphics.gradient import GradientSelector, GradientBackground
 from gradia.graphics.solid import SolidSelector, SolidBackground
 from gradia.graphics.image import ImageSelector, ImageBackground
 from gradia.graphics.background import Background
+
 
 MODES = ["solid", "gradient", "image"]
 
@@ -65,9 +68,9 @@ class BackgroundSelector(Adw.Bin):
         # Set initial active name for toggle group
         self.toggle_group.set_active_name(self.current_mode)
 
-        self.stack.add_named(self.solid_selector.widget, "solid")
-        self.stack.add_named(self.gradient_selector.widget, "gradient")
-        self.stack.add_named(self.image_selector.widget, "image")
+        self.stack.add_named(self.solid_selector, "solid")
+        self.stack.add_named(self.gradient_selector, "gradient")
+        self.stack.add_named(self.image_selector, "image")
         self.stack.set_visible_child_name(self.current_mode)
 
     """
@@ -98,18 +101,17 @@ class BackgroundSelector(Adw.Bin):
     Internal Methods
     """
 
+    # TODO: Fix callback type error
     def _notify_current(self) -> None:
         if self.callback:
-            current_background = {
-                "gradient": self.gradient,
-                "solid": self.solid,
-                "image": self.image
-            }.get(self.current_mode)
+            current_background = self.get_current_background()
             self.callback(current_background)
 
-    def get_current_background(self) -> Background:
-        return {
+    def get_current_background(self) -> GradientBackground | SolidBackground | ImageBackground | None:
+        backgrounds: dict[str, GradientBackground | SolidBackground | ImageBackground] = {
             "gradient": self.gradient,
             "solid": self.solid,
             "image": self.image
-        }.get(self.current_mode)
+        }
+
+        return backgrounds.get(self.current_mode)

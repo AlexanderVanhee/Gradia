@@ -1,4 +1,4 @@
-# Copyright (C) 2025 Alexander Vanhee
+# Copyright (C) 2025 Alexander Vanhee, tfuxu
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,13 +15,16 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from typing import Optional, Callable
-from gi.repository import Gtk, Gdk, Adw, GdkPixbuf, GLib, Gio
-from PIL import Image
-from gradia.graphics.background import Background
-import threading
-import tempfile
 import os
+import tempfile
+import threading
+from typing import Callable, Optional
+
+from PIL import Image
+from gi.repository import Adw, GLib, Gdk, Gio, Gtk
+
+from gradia.graphics.background import Background
+
 
 class ImageBackground(Background):
     def __init__(self, file_path: Optional[str] = None) -> None:
@@ -39,6 +42,7 @@ class ImageBackground(Background):
             self.image = None
             print(f"Error loading image: {e}")
 
+    # TODO: Make it that return value can't be None
     def prepare_image(self, width: int, height: int) -> Optional[Image.Image]:
         if not self.image:
             return None
@@ -67,46 +71,38 @@ class ImageBackground(Background):
         return f"image-{self.file_path or 'none'}"
 
 
-class ImageSelector:
+@Gtk.Template(resource_path="/be/alexandervanhee/gradia/ui/selectors/image_selector.ui")
+class ImageSelector(Adw.PreferencesGroup):
+    __gtype_name__ = "GradiaImageSelector"
+
+    preview_picture: Gtk.Picture = Gtk.Template.Child()
+
+    open_image_dialog: Gtk.FileDialog = Gtk.Template.Child()
+    image_filter: Gtk.FileFilter = Gtk.Template.Child()
+
     def __init__(
         self,
         image_background: ImageBackground,
         callback: Optional[Callable[[ImageBackground], None]] = None,
-        parent_window: Optional[Gtk.Window] = None
+        parent_window: Optional[Gtk.Window] = None,
+        **kwargs
     ) -> None:
+        super().__init__(**kwargs)
+
         self.image_background = image_background
         self.callback = callback
-        self.preview_picture = Gtk.Picture()
-        self._setup_drag_and_drop()
-        self._setup_gesture()
-        self.widget = self._build()
-        self._update_preview()
         self.parent_window = parent_window
 
-    def _build(self) -> Adw.PreferencesGroup:
-        group = Adw.PreferencesGroup(title=_("Image Background"))
-        button_row = Adw.ActionRow()
-        file_button = Gtk.Button(
-            label=_("Select Image"),
-            margin_start=8, margin_end=8, margin_top=8, margin_bottom=8
-        )
-        file_button.connect("clicked", self._on_select_clicked)
-        button_row.set_child(file_button)
-        button_row.set_activatable(False)
-        group.add(button_row)
+        self._setup_file_dialog()
+        self._setup_drag_and_drop()
+        self._setup_gesture()
 
-        preview_row = Adw.ActionRow()
-        preview_row.set_activatable(False)
-        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, hexpand=True, halign=Gtk.Align.CENTER)
-        self.preview_picture.set_size_request(250, 88)
-        self.preview_picture.set_content_fit(Gtk.ContentFit.COVER)
-        frame = Gtk.Frame(margin_top=8, margin_bottom=8)
-        frame.set_child(self.preview_picture)
-        box.append(frame)
-        preview_row.set_child(box)
-        group.add(preview_row)
+        self._update_preview()
 
-        return group
+    def _setup_file_dialog(self) -> None:
+        filter_list = Gio.ListStore.new(Gtk.FileFilter)
+        filter_list.append(self.image_filter)
+        self.open_image_dialog.set_filters(filter_list)
 
     def _setup_drag_and_drop(self) -> None:
         drop_target = Gtk.DropTarget.new(Gio.File, Gdk.DragAction.COPY)
@@ -118,30 +114,19 @@ class ImageSelector:
         gesture.connect("pressed", self._on_preview_clicked)
         self.preview_picture.add_controller(gesture)
 
-    def _on_preview_clicked(self, gesture: Gtk.GestureClick, n_press: int, x: float, y: float) -> None:
-        self._on_select_clicked(None)
+    def _on_preview_clicked(self, _gesture: Gtk.GestureClick, _n_press: int, _x: float, _y: float) -> None:
+        self.open_image_dialog.open(self.parent_window, None, self._on_file_dialog_ready)
 
-    def _on_image_drop(self, drop_target: Gtk.DropTarget, file: Gio.File, x: int, y: int) -> bool:
+    def _on_image_drop(self, _drop_target: Gtk.DropTarget, file: Gio.File, _x: int, _y: int) -> bool:
         file_path = file.get_path()
         if file_path:
             self._load_image_async(file_path)
             return True
         return False
 
-    def _on_select_clicked(self, _button: Optional[Gtk.Button]) -> None:
-        file_dialog = Gtk.FileDialog()
-        file_filter = Gtk.FileFilter()
-        file_filter.set_name(_("Image files"))
-        file_filter.add_mime_type("image/png")
-        file_filter.add_mime_type("image/jpg")
-        file_filter.add_mime_type("image/jpeg")
-        file_filter.add_mime_type("image/webp")
-        file_filter.add_mime_type("image/avif")
-        filter_list = Gio.ListStore.new(Gtk.FileFilter)
-        filter_list.append(file_filter)
-        file_dialog.set_filters(filter_list)
-
-        file_dialog.open(self.parent_window, None, self._on_file_dialog_ready)
+    @Gtk.Template.Callback()
+    def _on_select_clicked(self, _button: Gtk.Button, *args) -> None:
+        self.open_image_dialog.open(self.parent_window, None, self._on_file_dialog_ready)
 
     def _on_file_dialog_ready(self, file_dialog: Gtk.FileDialog, result: Gio.AsyncResult) -> None:
         try:
@@ -169,8 +154,11 @@ class ImageSelector:
 
     def _update_preview(self) -> None:
         if self.image_background.image:
-            def save_and_update():
+            def save_and_update() -> None:
                 try:
+                    if not self.image_background.image:
+                        return
+
                     image = self.image_background.image.copy()
 
                     max_width = 400
@@ -192,7 +180,7 @@ class ImageSelector:
         else:
             self.preview_picture.set_paintable(None)
 
-    def _set_preview_image(self, temp_path: str) -> None:
+    def _set_preview_image(self, temp_path: str) -> bool:
         self.preview_picture.set_filename(temp_path)
         def cleanup_temp_file():
             try:

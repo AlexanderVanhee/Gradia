@@ -1,4 +1,4 @@
-# Copyright (C) 2025 Alexander Vanhee
+# Copyright (C) 2025 Alexander Vanhee, tfuxu
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,13 +17,15 @@
 
 from collections.abc import Callable
 from typing import Optional
+
 from PIL import Image
-from gi.repository import Gtk, Gdk, Adw
+from gi.repository import Adw, Gtk
+
 from gradia.graphics.background import Background
+from gradia.utils.colors import hex_to_rgb, hex_to_rgba, rgba_to_hex
 
 
 class SolidBackground(Background):
-
     def __init__(self, color: str = "#4A90E2", alpha: float = 1.0) -> None:
         self.color = color
         self.alpha = alpha
@@ -31,17 +33,15 @@ class SolidBackground(Background):
     def get_name(self) -> str:
         return f"solid-{self.color}-{self.alpha}"
 
-    def _hex_to_rgb(self, hex_color: str) -> tuple[int, int, int]:
-        hex_color = hex_color.lstrip('#')
-        return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
-
     def prepare_image(self, width: int, height: int) -> Image.Image:
-        rgb = self._hex_to_rgb(self.color)
+        rgb = hex_to_rgb(self.color)
         alpha_value = int(self.alpha * 255)
         return Image.new('RGBA', (width, height), (*rgb, alpha_value))
 
 
-class SolidSelector:
+@Gtk.Template(resource_path="/be/alexandervanhee/gradia/ui/selectors/solid_selector.ui")
+class SolidSelector(Adw.PreferencesGroup):
+    __gtype_name__ = "GradiaSolidSelector"
 
     CHECKER_LIGHT = "#a8a8a8"
     CHECKER_DARK = "#545454"
@@ -57,57 +57,51 @@ class SolidSelector:
         "#00000000"
     ]
 
+    color_button: Gtk.ColorButton = Gtk.Template.Child()
+
+    color_presets_grid: Gtk.Grid = Gtk.Template.Child()
+
     def __init__(
         self,
         solid: SolidBackground,
-        callback: Optional[Callable[[SolidBackground], None]] = None
+        callback: Optional[Callable[[SolidBackground], None]] = None,
+        **kwargs
     ) -> None:
+        super().__init__(**kwargs)
+
         self.solid = solid
         self.callback = callback
-        self.color_button: Optional[Gtk.ColorButton] = None
-        self.widget = self._build()
 
-    def _build(self) -> Adw.PreferencesGroup:
-        group = Adw.PreferencesGroup(title=_("Solid Color Background"))
-        group.add(self._color_row())
-        group.add(self._common_colors_row())
-        return group
+        self._setup_color_row()
+        self._setup_color_presets_row()
 
-    def _color_row(self) -> Adw.ActionRow:
-        row = Adw.ActionRow(title=_("Color"))
-        rgba = self._hex_alpha_to_rgba(self.solid.color, self.solid.alpha)
-        self.color_button = Gtk.ColorButton(
-            rgba=rgba,
-            use_alpha=True,
-            valign=Gtk.Align.CENTER
-        )
-        self.color_button.connect("color-set", self._on_color_changed)
-        row.add_suffix(self.color_button)
-        return row
+    """
+    Setup Methods
+    """
 
-    def _common_colors_row(self) -> Adw.ActionRow:
-        row = Adw.ActionRow()
-        row.set_activatable(False)
-        row.set_selectable(False)
-        grid = Gtk.Grid()
-        grid.set_valign(Gtk.Align.CENTER)
-        grid.set_halign(Gtk.Align.CENTER)
-        grid.set_row_spacing(6)
-        grid.set_column_spacing(6)
+    def _setup_color_row(self) -> None:
+        self.color_button.set_rgba(hex_to_rgba(self.solid.color, self.solid.alpha))
+
+    def _setup_color_presets_row(self) -> None:
         columns = 4
         for index, color in enumerate(self.COMMON_COLORS):
-            button = Gtk.Button()
-            button.set_valign(Gtk.Align.CENTER)
-            button.set_size_request(32, 32)
-            button.set_margin_top(7)
-            button.set_margin_bottom(6.95)
+            button = Gtk.Button(
+                valign=Gtk.Align.CENTER,
+                width_request=32,
+                height_request=32,
+                margin_top=7,
+                margin_bottom=7
+            )
+
             hex_color = color.lstrip('#')
+
             if len(hex_color) == 8:
                 alpha_from_hex = int(hex_color[:2], 16) / 255.0
                 rgb_hex = hex_color[2:]
             else:
                 alpha_from_hex = 1.0
                 rgb_hex = hex_color
+
             if alpha_from_hex == 0.0:
                 css = f"""
                 button {{
@@ -122,7 +116,7 @@ class SolidSelector:
                 }}
                 """
             else:
-                rgba = self._hex_alpha_to_rgba(f"#{rgb_hex}", alpha_from_hex)
+                rgba = hex_to_rgba(f"#{rgb_hex}", alpha_from_hex)
                 css = f"""
                 button {{
                     background-color: {rgba.to_string()};
@@ -130,43 +124,43 @@ class SolidSelector:
                     border: 1px solid @borders;
                 }}
                 """
+
             style_provider = Gtk.CssProvider()
-            style_provider.load_from_data(css.encode())
-            Gtk.StyleContext.add_provider(
-                button.get_style_context(),
+            style_provider.load_from_string(css)
+            button.get_style_context().add_provider(
                 style_provider,
                 Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
             )
+
             button.connect("clicked", self._on_common_color_clicked, f"#{rgb_hex}", alpha_from_hex)
+
             row_pos = index // columns
             col_pos = index % columns
-            grid.attach(button, col_pos, row_pos, 1, 1)
-        row.set_child(grid)
-        return row
+            self.color_presets_grid.attach(button, col_pos, row_pos, 1, 1)
 
-    def _on_common_color_clicked(self, button: Gtk.Button, color: str, alpha: float) -> None:
+    """
+    Callbacks
+    """
+
+    @Gtk.Template.Callback()
+    def _on_color_changed(self, button: Gtk.ColorButton, *args) -> None:
+        rgba = button.get_rgba()
+
+        self.solid.color = rgba_to_hex(rgba)
+        self.solid.alpha = rgba.alpha
+
+        if self.callback:
+            self.callback(self.solid)
+
+    def _on_common_color_clicked(self, _button: Gtk.Button, color: str, alpha: float) -> None:
         self.solid.color = color
         self.solid.alpha = alpha
-        if self.color_button:
-            self.color_button.set_rgba(self._hex_alpha_to_rgba(color, alpha))
+
+        self.color_button.set_rgba(hex_to_rgba(color, alpha))
+
         if self.callback:
             self.callback(self.solid)
 
-    def _on_color_changed(self, button: Gtk.ColorButton) -> None:
-        rgba = button.get_rgba()
-        self.solid.color = self._rgba_to_hex(rgba)
-        self.solid.alpha = rgba.alpha
-        if self.callback:
-            self.callback(self.solid)
-
-    def _hex_alpha_to_rgba(self, hex_color: str, alpha: float) -> Gdk.RGBA:
-        rgba = Gdk.RGBA()
-        rgba.parse(hex_color)
-        rgba.alpha = alpha
-        return rgba
-
-    def _rgba_to_hex(self, rgba: Gdk.RGBA) -> str:
-        r = int(rgba.red * 255)
-        g = int(rgba.green * 255)
-        b = int(rgba.blue * 255)
-        return f"#{r:02x}{g:02x}{b:02x}"
+    """
+    Internal Methods
+    """

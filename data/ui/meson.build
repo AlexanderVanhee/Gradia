@@ -1,5 +1,8 @@
 blueprints = custom_target('blueprints',
   input: files(
+    'selectors/gradient_selector.blp',
+    'selectors/image_selector.blp',
+    'selectors/solid_selector.blp',
     'background_selector.blp',
     'controls_overlay.blp',
     'drawing_tools_group.blp',
