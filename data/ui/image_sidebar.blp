@@ -1,0 +1,195 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $GradiaImageSidebar : Adw.Bin {
+  child: Adw.ToolbarView {
+    top-bar-style: flat;
+
+    [top]
+    Adw.HeaderBar {
+      centering-policy: strict;
+      show-end-title-buttons: false;
+      show-start-title-buttons: false;
+
+      [start]
+      Gtk.Button open_image_button {
+        icon-name: "document-open-symbolic";
+        tooltip-text: _("Open Image");
+        action-name: "app.open";
+      }
+
+      [start]
+      Gtk.Button screenshot_button {
+        icon-name: "screenshooter-symbolic";
+        tooltip-text: _("Take a Screenshot");
+        action-name: "app.screenshot";
+      }
+
+      [end]
+      Gtk.MenuButton about_menu_button {
+        icon-name: "open-menu-symbolic";
+        tooltip-text: _("Main Menu");
+        menu-model: app_menu;
+        primary: true;
+      }
+    }
+
+    content: Adw.PreferencesPage {
+      $GradiaDrawingToolsGroup annotation_tools_group {}
+
+      Adw.PreferencesGroup background_selector_group {}
+
+      Adw.PreferencesGroup image_options_group {
+        title: _("Image Options");
+
+        Adw.SpinRow padding_row {
+          title: _("Padding");
+          numeric: true;
+          adjustment: Gtk.Adjustment padding_adjustment {
+            value: 5;
+            lower: -25;
+            upper: 75;
+            step-increment: 5;
+            page-increment: 5;
+          };
+        }
+
+        Adw.SpinRow corner_radius_row {
+          title: _("Corner Radius");
+          numeric: true;
+          adjustment: Gtk.Adjustment corner_radius_adjustment {
+            value: 2;
+            lower: 0;
+            upper: 50;
+            step-increment: 1;
+            page-increment: 1;
+          };
+        }
+
+        Adw.ActionRow aspect_ratio_row {
+          title: _("Aspect Ratio");
+          activatable-widget: aspect_ratio_entry;
+
+          [suffix]
+          Gtk.Entry aspect_ratio_entry {
+            placeholder-text: "16:9";
+            valign: center;
+          }
+        }
+
+        Adw.ActionRow shadow_strength_row {
+          title: _("Shadow");
+          activatable-widget: shadow_strength_scale;
+
+          [suffix]
+          Gtk.Scale shadow_strength_scale {
+            digits: 0;
+            draw-value: true;
+            value-pos: right;
+            orientation: horizontal;
+            valign: center;
+            hexpand: true;
+
+            adjustment: Gtk.Adjustment {
+              lower: 0;
+              upper: 10;
+              step-increment: 1;
+            };
+          }
+        }
+      }
+
+      Adw.PreferencesGroup file_info_group {
+        title: _("Current File");
+
+        Adw.ActionRow filename_row {
+          title: _("Name");
+          subtitle: _("No file loaded");
+        }
+
+        Adw.ActionRow location_row {
+          title: _("Location");
+          subtitle: _("No file loaded");
+        }
+
+        Adw.ActionRow processed_size_row {
+          title: _("Modified image size");
+          subtitle: _("N/A");
+        }
+      }
+    };
+
+    [bottom]
+    Gtk.Box {
+      orientation: horizontal;
+      halign: center;
+      spacing: 15;
+      margin-top: 5;
+      margin-bottom: 5;
+
+      Gtk.Button save_button {
+        icon-name: "document-save-symbolic";
+        tooltip-text: _("Save Image");
+        action-name: "app.save";
+
+        styles [
+          "suggested-action",
+          "pill"
+        ]
+      }
+
+      Gtk.Button copy_button {
+        icon-name: "edit-copy-symbolic";
+        tooltip-text: _("Copy to Clipboard");
+        action-name: "app.copy";
+
+        styles [
+          "raised",
+          "pill"
+        ]
+      }
+
+      styles [
+        "toolbar"
+      ]
+    }
+  };
+}
+
+Gtk.Popover gradient_popover {
+  autohide: true;
+  has-arrow: true;
+
+  child: Gtk.FlowBox popover_flowbox {
+    max-children-per-line: 3;
+    selection-mode: none;
+    row-spacing: 10;
+    column-spacing: 10;
+    homogeneous: true;
+
+    valign: center;
+    margin-top: 10;
+    margin-bottom: 10;
+    margin-start: 10;
+    margin-end: 10;
+  };
+}
+
+menu app_menu {
+  section {
+    item {
+      label: _("Delete Taken Screenshot(s)");
+      action: "app.delete-screenshots";
+    }
+  }
+  section {
+    item {
+      label: _("Keyboard Shortcuts");
+      action: "app.shortcuts";
+    }
+    item {
+      label: _("About Gradia");
+      action: "app.about";
+    }
+  }
+}

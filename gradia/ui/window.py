@@ -32,6 +32,7 @@ from gradia.ui.misc import *
 from gradia.ui.image_loaders import ImportManager
 from gradia.ui.image_exporters import ExportManager
 from gradia.overlay.drawing_actions import DrawingMode
+from gradia.ui.image_sidebar import ImageSidebar
 
 
 class GradientWindow(Adw.ApplicationWindow):
@@ -40,7 +41,7 @@ class GradientWindow(Adw.ApplicationWindow):
     DEFAULT_WINDOW_WIDTH: int = 900
     DEFAULT_WINDOW_HEIGHT: int = 600
     DEFAULT_PANED_POSITION: int = 650
-    SIDEBAR_WIDTH: int = 200
+    SIDEBAR_WIDTH: int = 300
 
     PAGE_IMAGE: str = "image"
     PAGE_LOADING: str = "loading"
@@ -167,14 +168,14 @@ class GradientWindow(Adw.ApplicationWindow):
         self.stack_box = stack_info[5]
 
     def _setup_sidebar(self) -> None:
-        self.sidebar_info = create_sidebar_ui(
-            background_selector_widget=self.background_selector.widget,
+        self.sidebar = ImageSidebar(
+            background_selector_widget=self.background_selector,
             on_padding_changed=self.on_padding_changed,
             on_corner_radius_changed=self.on_corner_radius_changed,
             on_aspect_ratio_changed=self.on_aspect_ratio_changed,
-            on_shadow_strength_changed=self.on_shadow_strength_changed,
+            on_shadow_strength_changed=self.on_shadow_strength_changed
         )
-        self.sidebar: Gtk.Widget = self.sidebar_info['sidebar']
+
         self.sidebar.set_size_request(self.SIDEBAR_WIDTH, -1)
         self.sidebar.set_visible(False)
 
@@ -194,7 +195,6 @@ class GradientWindow(Adw.ApplicationWindow):
 
         self.image_stack.set_hexpand(True)
         self.sidebar.set_hexpand(False)
-        self.sidebar.set_size_request(300, -1)
 
         self.top_stack.add_named(self.main_box, "main")
 
@@ -219,9 +219,9 @@ class GradientWindow(Adw.ApplicationWindow):
     def _hide_loading_state(self) -> None:
         self.image_stack.set_visible_child_name(self.PAGE_IMAGE)
 
-    def _update_sidebar_info(self, filename: str, location: str) -> None:
-        self.sidebar_info['filename_row'].set_subtitle(filename)
-        self.sidebar_info['location_row'].set_subtitle(location)
+    def _update_sidebar_file_info(self, filename: str, location: str) -> None:
+        self.sidebar.filename_row.set_subtitle(filename)
+        self.sidebar.location_row.set_subtitle(location)
         self.sidebar.set_visible(True)
 
     def _on_background_changed(self, updated_background) -> None:
@@ -308,11 +308,11 @@ class GradientWindow(Adw.ApplicationWindow):
                 width: int = self.processed_pixbuf.get_width()
                 height: int = self.processed_pixbuf.get_height()
                 size_str: str = f"{width}×{height}"
-                self.sidebar_info['processed_size_row'].set_subtitle(size_str)
+                self.sidebar.processed_size_row.set_subtitle(size_str)
             else:
-                self.sidebar_info['processed_size_row'].set_subtitle(_("Unknown"))
+                self.sidebar.processed_size_row.set_subtitle(_("Unknown"))
         except Exception as e:
-            self.sidebar_info['processed_size_row'].set_subtitle(_("Error"))
+            self.sidebar.processed_size_row.set_subtitle(_("Error"))
             print(f"Error getting processed image size: {e}")
 
     def _show_notification(self, message: str) -> None:

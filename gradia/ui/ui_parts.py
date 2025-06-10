@@ -15,20 +15,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from collections.abc import Callable
 from typing import Optional
 from gi.repository import Gtk, Gio, Adw, Gdk, GLib
 
 from gradia.overlay.drawing_overlay import DrawingOverlay
 from gradia.overlay.transparency_overlay import TransparencyBackground
 from gradia.ui.recent_picker import RecentPicker
-from gradia.ui.drawing_tools_group import DrawingToolsGroup
-
-@Gtk.Template(resource_path="/be/alexandervanhee/gradia/ui/header_bar.ui")
-class HeaderBar(Adw.Bin):
-    __gtype_name__ = "HeaderBarContainer"
-    def __init__(self):
-        super().__init__()
 
 
 @Gtk.Template(resource_path="/be/alexandervanhee/gradia/ui/home_bar.ui")
@@ -36,6 +28,7 @@ class HomeBar(Adw.Bin):
     __gtype_name__ = "HomeBar"
     def __init__(self):
         super().__init__()
+
 
 @Gtk.Template(resource_path="/be/alexandervanhee/gradia/ui/controls_overlay.ui")
 class ControlsOverlay(Gtk.Box):
@@ -48,6 +41,7 @@ class ControlsOverlay(Gtk.Box):
 
     def set_delete_visible(self, show: bool):
         self.delete_revealer.set_reveal_child(show)
+
 
 def create_image_stack() -> tuple[Gtk.Stack, Gtk.Picture, Adw.Spinner, 'DrawingOverlay', 'ControlsOverlay', Gtk.Overlay]:
     stack = Gtk.Stack.new()
@@ -205,138 +199,6 @@ def create_drop_target(stack: Gtk.Stack) -> None:
 
     drop_target.connect("drop", on_file_dropped)
     stack.add_controller(drop_target)
-
-def create_image_options_group(
-    on_padding_changed: Callable[[Adw.SpinRow], None],
-    on_aspect_ratio_changed: Callable[[Gtk.Entry], None],
-    on_corner_radius_changed: Callable[[Adw.SpinRow], None],
-    on_shadow_strength_changed: Callable[[Gtk.Scale], None]
-) -> tuple[Adw.PreferencesGroup, Adw.SpinRow, Gtk.Entry]:
-    padding_group = Adw.PreferencesGroup(title=_("Image Options"))
-
-    padding_adjustment = Gtk.Adjustment(value=5, lower=-25, upper=75, step_increment=5, page_increment=5)
-    padding_row = Adw.SpinRow(title=_("Padding"), numeric=True, adjustment=padding_adjustment)
-    padding_row.connect("output", on_padding_changed)
-    padding_group.add(padding_row)
-
-    corner_radius_adjustment = Gtk.Adjustment(value=2, lower=0, upper=50, step_increment=1, page_increment=1)
-    corner_radius_row = Adw.SpinRow(title=_("Corner Radius"), numeric=True, adjustment=corner_radius_adjustment)
-    corner_radius_row.connect("output", on_corner_radius_changed)
-    padding_group.add(corner_radius_row)
-
-    aspect_ratio_row = Adw.ActionRow(title=_("Aspect Ratio"))
-    aspect_ratio_entry = Gtk.Entry(placeholder_text="16:9", valign=Gtk.Align.CENTER)
-    aspect_ratio_entry.connect("changed", on_aspect_ratio_changed)
-    aspect_ratio_row.add_suffix(aspect_ratio_entry)
-    padding_group.add(aspect_ratio_row)
-
-    shadow_strength_row = Adw.ActionRow(title=_("Shadow"))
-    shadow_strength_scale = Gtk.Scale.new_with_range(
-        orientation=Gtk.Orientation.HORIZONTAL,
-        min=0,
-        max=10,
-        step=1
-    )
-    shadow_strength_scale.set_valign(Gtk.Align.CENTER)
-    shadow_strength_scale.set_hexpand(True)
-    shadow_strength_scale.set_draw_value(True)
-    shadow_strength_scale.set_value_pos(Gtk.PositionType.RIGHT)
-    shadow_strength_scale.connect("value-changed", on_shadow_strength_changed)
-    shadow_strength_row.add_suffix(shadow_strength_scale)
-    shadow_strength_row.set_activatable_widget(shadow_strength_scale)
-    padding_group.add(shadow_strength_row)
-
-    return padding_group, padding_row, aspect_ratio_entry
-
-def create_file_info_group() -> tuple[Adw.PreferencesGroup, Adw.ActionRow, Adw.ActionRow, Adw.ActionRow]:
-    file_info_group = Adw.PreferencesGroup(title=_("Current File"))
-
-    filename_row = Adw.ActionRow(title=_("Name"), subtitle=_("No file loaded"))
-    location_row = Adw.ActionRow(title=_("Location"), subtitle=_("No file loaded"))
-    processed_size_row = Adw.ActionRow(title=_("Modified image size"), subtitle=_("N/A"))
-
-    file_info_group.add(filename_row)
-    file_info_group.add(location_row)
-    file_info_group.add(processed_size_row)
-
-    return file_info_group, filename_row, location_row, processed_size_row
-
-
-
-def create_sidebar_ui(
-    background_selector_widget: Gtk.Widget,
-    on_padding_changed: Callable[[Adw.SpinRow], None],
-    on_corner_radius_changed: Callable[[Adw.SpinRow], None],
-    on_aspect_ratio_changed: Callable[[Gtk.Entry], None],
-    on_shadow_strength_changed: Callable[[Gtk.Scale], None],
-) -> dict[str, Gtk.Widget | Adw.ActionRow | Adw.SpinRow | Gtk.Entry]:
-    toolbar_view = Adw.ToolbarView()
-    header_bar = HeaderBar()
-    toolbar_view.add_top_bar(header_bar)
-
-    settings_scroll = Gtk.ScrolledWindow(vexpand=True)
-    controls_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=20,
-                           margin_start=16, margin_end=16, margin_top=16, margin_bottom=16)
-
-    controls_box.append(DrawingToolsGroup())
-    controls_box.append(background_selector_widget)
-
-    # Add grouped UI elements
-    padding_group, padding_row, aspect_ratio_entry = create_image_options_group(
-        on_padding_changed, on_aspect_ratio_changed, on_corner_radius_changed, on_shadow_strength_changed)
-    controls_box.append(padding_group)
-
-    file_info_group, filename_row, location_row, processed_size_row = create_file_info_group()
-    controls_box.append(file_info_group)
-
-    settings_scroll.set_child(controls_box)
-    toolbar_view.set_content(settings_scroll)
-
-    bottom_bar = create_bottom_bar()
-    toolbar_view.add_bottom_bar(bottom_bar)
-
-    return {
-        'sidebar': toolbar_view,
-        'header_bar': header_bar,
-        'bottom_bar': bottom_bar,
-        'filename_row': filename_row,
-        'location_row': location_row,
-        'processed_size_row': processed_size_row,
-        'padding_row': padding_row,
-        'aspect_ratio_entry': aspect_ratio_entry,
-    }
-
-def create_bottom_bar() -> Adw.HeaderBar:
-    bottom_bar = Adw.HeaderBar()
-    bottom_bar.add_css_class("flat")
-    bottom_bar.set_show_start_title_buttons(False)
-    bottom_bar.set_show_end_title_buttons(False)
-
-    action_buttons_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL,
-    spacing=15, margin_top=5, margin_bottom=5)
-
-    save_btn = Gtk.Button()
-    save_btn.set_icon_name("document-save-symbolic")
-    save_btn.set_tooltip_text(_("Save Image"))
-    save_btn.set_action_name("app.save")
-    save_btn.set_sensitive(False)
-    save_btn.add_css_class("suggested-action")
-    save_btn.add_css_class("pill")
-
-    copy_btn = Gtk.Button()
-    copy_btn.set_icon_name("edit-copy-symbolic")
-    copy_btn.set_tooltip_text(_("Copy to Clipboard"))
-    copy_btn.set_action_name("app.copy")
-    copy_btn.set_sensitive(False)
-    copy_btn.add_css_class("raised")
-    copy_btn.add_css_class("pill")
-
-    action_buttons_box.append(save_btn)
-    action_buttons_box.append(copy_btn)
-    bottom_bar.set_title_widget(action_buttons_box)
-
-    return bottom_bar
-
 
 def create_about_dialog(version: str) -> Adw.AboutDialog:
     about = Adw.AboutDialog(

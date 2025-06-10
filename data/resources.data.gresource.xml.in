@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
     <gresource prefix="/be/alexandervanhee/gradia">
-    <file preprocess="xml-stripblanks">ui/header_bar.ui</file>
+    <file preprocess="xml-stripblanks">ui/background_selector.ui</file>
     <file preprocess="xml-stripblanks">ui/controls_overlay.ui</file>
+    <file preprocess="xml-stripblanks">ui/drawing_tools_group.ui</file>
     <file preprocess="xml-stripblanks">ui/home_bar.ui</file>
+    <file preprocess="xml-stripblanks">ui/image_sidebar.ui</file>
     <file>style.css</file>
     <file>help.txt</file>
   </gresource>

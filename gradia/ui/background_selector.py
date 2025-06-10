@@ -1,4 +1,4 @@
-# Copyright (C) 2025 Alexander Vanhee
+# Copyright (C) 2025 Alexander Vanhee, tfuxu
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 
 from collections.abc import Callable
 from typing import Optional
-from gi.repository import Gtk, Adw
+from gi.repository import GObject, Gtk, Adw
 from gradia.graphics.gradient import GradientSelector, GradientBackground
 from gradia.graphics.solid import SolidSelector, SolidBackground
 from gradia.graphics.image import ImageSelector, ImageBackground
@@ -25,7 +25,12 @@ from gradia.graphics.background import Background
 
 MODES = ["solid", "gradient", "image"]
 
-class BackgroundSelector:
+@Gtk.Template(resource_path="/be/alexandervanhee/gradia/ui/background_selector.ui")
+class BackgroundSelector(Adw.Bin):
+    __gtype_name__ = "GradiaBackgroundSelector"
+
+    toggle_group: Adw.ToggleGroup = Gtk.Template.Child()
+    stack: Gtk.Stack = Gtk.Template.Child()
 
     def __init__(
         self,
@@ -34,8 +39,11 @@ class BackgroundSelector:
         image: ImageBackground,
         callback: Optional[Callable[[Background], None]] = None,
         initial_mode: str = "gradient",
-        window: Optional[Gtk.Window] = None
+        window: Optional[Gtk.Window] = None,
+        **kwargs
     ) -> None:
+        super().__init__(**kwargs)
+
         self.gradient = gradient
         self.solid = solid
         self.image = image
@@ -47,70 +55,48 @@ class BackgroundSelector:
         self.solid_selector = SolidSelector(solid, self._on_solid_changed)
         self.image_selector = ImageSelector(image, self._on_image_changed, window)
 
-        self.widget = self._build()
+        self._setup()
 
-    def _build(self) -> Gtk.Box:
-        main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+    """
+    Setup Methods
+    """
 
-        self.toggle_group = Adw.ToggleGroup()
-        self.toggle_group.add_css_class("round")
-        self.toggle_group.set_homogeneous(True)
-
-        self.toggle_buttons = {}
-
-        solid_label = _("Solid")
-        gradient_label = _("Gradient")
-        image_label = _("Image")
-
-        mode_labels = {
-            "solid": solid_label,
-            "gradient": gradient_label,
-            "image": image_label,
-        }
-
-        for mode in MODES:
-            toggle = Adw.Toggle(name=mode)
-            toggle.set_child(Gtk.Label(label=mode_labels[mode]))
-            self.toggle_group.add(toggle)
-            self.toggle_buttons[mode] = toggle
-
+    def _setup(self) -> None:
+        # Set initial active name for toggle group
         self.toggle_group.set_active_name(self.current_mode)
-        self.toggle_group.connect("notify::active-name", self._on_group_changed)
-        main_box.append(self.toggle_group)
-
-        self.stack = Gtk.Stack()
-        self.stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
-        self.stack.set_transition_duration(250)
-        self.stack.set_hexpand(True)
-        self.stack.set_valign(Gtk.Align.START)
 
         self.stack.add_named(self.solid_selector.widget, "solid")
         self.stack.add_named(self.gradient_selector.widget, "gradient")
         self.stack.add_named(self.image_selector.widget, "image")
         self.stack.set_visible_child_name(self.current_mode)
 
-        main_box.append(self.stack)
+    """
+    Callbacks
+    """
 
-        return main_box
-
-    def _on_group_changed(self, group: Adw.ToggleGroup, _param) -> None:
+    @Gtk.Template.Callback()
+    def _on_group_changed(self, group: Adw.ToggleGroup, _param: GObject.ParamSpec, *args) -> None:
         active_name = group.get_active_name()
         if active_name in MODES and active_name != self.current_mode:
             self.current_mode = active_name
             self.stack.set_visible_child_name(active_name)
             self._notify_current()
 
-    def _on_gradient_changed(self, gradient: GradientBackground) -> None:
+    def _on_gradient_changed(self, _gradient: GradientBackground) -> None:
         if self.current_mode == "gradient":
             self._notify_current()
 
-    def _on_solid_changed(self, solid: SolidBackground) -> None:
+    def _on_solid_changed(self, _solid: SolidBackground) -> None:
         if self.current_mode == "solid":
             self._notify_current()
 
-    def _on_image_changed(self, image: ImageBackground) -> None:
+    def _on_image_changed(self, _image: ImageBackground) -> None:
         if self.current_mode == "image":
             self._notify_current()
+
+    """
+    Internal Methods
+    """
 
     def _notify_current(self) -> None:
         if self.callback:

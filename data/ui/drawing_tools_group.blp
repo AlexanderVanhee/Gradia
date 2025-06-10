@@ -1,0 +1,116 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
+  title: _("Annotation Tools");
+
+  Adw.ActionRow tools_row {
+    child: Gtk.Grid tools_grid {
+      row-spacing: 6;
+      column-spacing: 6;
+
+      margin-top: 6;
+      margin-bottom: 6;
+      margin-start: 6;
+      margin-end: 6;
+      halign: center;
+      valign: center;
+    };
+  }
+
+  Adw.ActionRow stroke_row {
+    title: _("Stroke Color");
+    activatable-widget: stroke_color_button;
+
+    // TODO: Replace with ColorDialogButton
+    [suffix]
+    Gtk.ColorButton stroke_color_button {
+      valign: center;
+      color-set => $_on_pen_color_set();
+    }
+  }
+
+  Adw.ActionRow stack_row {
+    child: Gtk.Stack fill_font_stack {
+      transition-type: crossfade;
+      transition-duration: 300;
+      margin-top: 8;
+      margin-bottom: 8;
+      margin-start: 12;
+      margin-end: 12;
+      valign: center;
+
+      Gtk.StackPage fill_color_page {
+        name: "fill";
+
+        child: Gtk.Box fill_color_container {
+          orientation: horizontal;
+          spacing: 6;
+
+          Gtk.Label fill_color_label {
+            label: _("Fill Color");
+            halign: start;
+            hexpand: true;
+          }
+
+          Gtk.Box fill_color_suffix_box {
+            orientation: horizontal;
+            spacing: 6;
+            valign: center;
+
+            Gtk.Button reset_button {
+              icon-name: "edit-clear-symbolic";
+              tooltip-text: _("Reset Fill");
+
+              clicked => $_on_reset_fill_clicked();
+
+              styles [
+                "flat"
+              ]
+            }
+
+            // TODO: Replace with ColorDialogButton
+            Gtk.ColorButton fill_color_button {
+              use-alpha: true;
+
+              color-set => $_on_fill_color_set();
+            }
+          }
+        };
+      }
+
+      Gtk.StackPage font_page {
+        name: "font";
+
+        child: Gtk.Box font_container {
+          orientation: horizontal;
+          spacing: 6;
+
+          Gtk.Label font_label {
+            label: _("Font");
+            halign: start;
+            hexpand: true;
+          }
+
+          Gtk.Box font_suffix_box {
+            orientation: horizontal;
+            spacing: 6;
+            valign: center;
+
+            Gtk.DropDown font_dropdown {
+              selected: 0;
+              width-request: 150;
+              model: Gtk.StringList font_string_list {};
+              factory: Gtk.SignalListItemFactory font_factory {
+                setup => $_font_factory_setup();
+                bind => $_font_factory_bind();
+              };
+
+              notify::selected => $_on_font_selected();
+            }
+          }
+        };
+      }
+    };
+  }
+}
