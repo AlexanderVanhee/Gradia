@@ -68,10 +68,10 @@ class BaseImageExporter:
         return result
 
     def _get_dynamic_filename(self, extension: str = ".png") -> str:
-        if self.window.image_path:
-            original_name = os.path.splitext(os.path.basename(self.window.image_path))[0]
-            return f"{original_name}_processed{extension}"
-        return f"processed_image{extension}"
+       if self.window.image_path:
+           original_name = os.path.splitext(os.path.basename(self.window.image_path))[0]
+           return f"{original_name} ({_('Edit')}){extension}"
+       return f"{_('Enhanced Screenshot')}{extension}"
 
     def _ensure_processed_image_available(self) -> bool:
         """Ensure processed image is available for export"""
@@ -82,79 +82,115 @@ class BaseImageExporter:
 
 class FileDialogExporter(BaseImageExporter):
     """Handles exporting images through file dialog"""
+    SUPPORTED_FORMATS = {
+        'png': {
+            'name': _('PNG Image (*.png)'),
+            'mime_type': 'image/png',
+            'extensions': ['.png'],
+            'save_options': {'keys': [], 'values': []}
+        },
+        'jpeg': {
+            'name': _('JPEG Image (*.jpg)'),
+            'mime_type': 'image/jpeg',
+            'extensions': ['.jpg', '.jpeg'],
+            'save_options': {'keys': ['quality'], 'values': ['90']}
+        },
+        'webp': {
+            'name': _('WebP Image (*.webp)'),
+            'mime_type': 'image/webp',
+            'extensions': ['.webp'],
+            'save_options': {'keys': ['quality'], 'values': ['90']}
+        }
+    }
+
+    DEFAULT_FORMAT = 'png'
 
     def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str) -> None:
         super().__init__(window, temp_dir)
 
     def save_to_file(self) -> None:
-        """Open save dialog to export processed image"""
         if not self._ensure_processed_image_available():
             return
 
-        save_dialog = Gtk.FileDialog()
-        save_dialog.set_title(_("Save Processed Image"))
+        dialog = Gtk.FileChooserNative.new(
+            _("Save Image As"),
+            self.window,
+            Gtk.FileChooserAction.SAVE,
+            _("Save"),
+            _("Cancel")
+        )
 
-        dynamic_name = self._get_dynamic_filename()
-        save_dialog.set_initial_name(dynamic_name)
+        dialog.set_current_name(os.path.splitext(self._get_dynamic_filename())[0])
 
-        filters = Gio.ListStore.new(Gtk.FileFilter)
-
-        for ext, mime_type, display_name in self.SUPPORTED_OUTPUT_FORMATS:
+        filters = {}
+        for format_key, format_info in self.SUPPORTED_FORMATS.items():
             file_filter = Gtk.FileFilter()
-            file_filter.set_name(display_name)
-            file_filter.add_mime_type(mime_type)
-            file_filter.add_suffix(ext.lstrip('.'))
-            filters.append(file_filter)
+            file_filter.set_name(format_info['name'])
+            file_filter.add_mime_type(format_info['mime_type'])
 
-        save_dialog.set_filters(filters)
-        save_dialog.save(self.window, None, self._on_save_finished)
+            for ext in format_info['extensions']:
+                file_filter.add_pattern(f"*{ext}")
 
-    def _on_save_finished(self, dialog: Gtk.FileDialog, result: Gio.AsyncResult) -> None:
-        """Handle save dialog completion"""
-        try:
-            file = dialog.save_finish(result)
-            if not file:
-                return
+            dialog.add_filter(file_filter)
+            filters[format_key] = file_filter
 
-            save_path = file.get_path()
-            if not save_path:
-                raise Exception("Invalid save path")
+        if self.DEFAULT_FORMAT in filters:
+            dialog.set_filter(filters[self.DEFAULT_FORMAT])
 
-            self._save_processed_image(save_path)
-            self.window._show_notification(_("Image saved"))
+        dialog.connect("response", self._on_dialog_response)
+        dialog.show()
 
-        except Exception as e:
-            self.window._show_notification(f"{_('Failed to save image')}: {str(e)}")
-            print(f"Error saving file: {e}")
+    def _on_dialog_response(self, dialog, response_id):
+        if response_id == Gtk.ResponseType.ACCEPT:
+            file = dialog.get_file()
+            if file:
+                save_path = file.get_path()
+                selected_filter = dialog.get_filter()
 
-    def _save_processed_image(self, save_path: str) -> None:
-        """Save the processed image to the specified path"""
-        _unused, ext = os.path.splitext(save_path.lower())
+                format_type = self._get_format_from_filter(selected_filter)
+                if format_type:
+                    save_path = self._ensure_correct_extension(save_path, format_type)
+                    self._save_image(save_path, format_type)
+                    self.window._show_notification(_("Image saved successfully"))
 
-        format_map = {
-            '.png': 'png',
-            '.jpg': 'jpeg',
-            '.jpeg': 'jpeg',
-            '.webp': 'webp'
-        }
+        dialog.destroy()
 
-        pixbuf_format = format_map.get(ext, 'png')
+    def _get_format_from_filter(self, selected_filter) -> str:
+        filter_name = selected_filter.get_name()
+        for format_key, format_info in self.SUPPORTED_FORMATS.items():
+            if filter_name == format_info['name']:
+                return format_key
+        return None
 
-        if pixbuf_format in ['jpeg', 'webp']:
-            self.get_processed_pixbuf().savev(save_path, pixbuf_format, ['quality'], ['90'])
+    def _ensure_correct_extension(self, save_path: str, format_type: str) -> str:
+        format_info = self.SUPPORTED_FORMATS.get(format_type)
+        if not format_info:
+            return save_path
+
+        path_lower = save_path.lower()
+        for ext in format_info['extensions']:
+            if path_lower.endswith(ext.lower()):
+                return save_path
+
+        return save_path + format_info['extensions'][0]
+
+    def _save_image(self, save_path: str, format_type: str) -> None:
+        pixbuf = self.get_processed_pixbuf()
+        format_info = self.SUPPORTED_FORMATS.get(format_type)
+
+        if format_info:
+            save_options = format_info['save_options']
+            pixbuf.savev(save_path, format_type, save_options['keys'], save_options['values'])
         else:
-            self.get_processed_pixbuf().savev(save_path, pixbuf_format, [], [])
+            raise Exception("Unsupported format")
 
     def _ensure_processed_image_available(self) -> bool:
-        """Override to return boolean for easier checking"""
         try:
             super()._ensure_processed_image_available()
             return True
         except Exception as e:
-            self.window._show_notification(_("No processed image available to save"))
-            print(f"Export check failed: {e}")
+            self.window._show_notification(_("No processed image available"))
             return False
-
 
 class ClipboardExporter(BaseImageExporter):
     """Handles exporting images to clipboard"""

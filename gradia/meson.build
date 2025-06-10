@@ -1,8 +1,9 @@
 pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
-moduledir = pkgdatadir / 'gradia'
+python = import('python')
+py_installation = python.find_installation('python3')
+moduledir = get_option('prefix') / get_option('libdir') / 'python3.12' / 'site-packages' / 'gradia'
 
 gnome = import('gnome')
-
 gnome.compile_resources('gradia',
   'gradia.gresource.xml',
   gresource_bundle: true,
@@ -19,10 +20,8 @@ gradient_lib = shared_library(
   link_args: ['-lm'],
 )
 
-python = import('python')
-
 conf = configuration_data()
-conf.set('PYTHON', python.find_installation('python3').full_path())
+conf.set('PYTHON', py_installation.full_path())
 conf.set('VERSION', meson.project_version())
 conf.set('localedir', get_option('prefix') / get_option('localedir'))
 conf.set('pkgdatadir', pkgdatadir)
@@ -44,7 +43,6 @@ gradia_sources = [
 ]
 
 install_data(gradia_sources, install_dir: moduledir)
-
 install_subdir('graphics', install_dir: moduledir)
 install_subdir('ui', install_dir: moduledir)
 install_subdir('backend', install_dir: moduledir)

@@ -52,6 +52,10 @@ class GradiaApp(Adw.Application):
 
         logging.debug(f"Command line arguments: {args}")
 
+        if "--help" in args or "-h" in args:
+            self._print_help()
+            return 0
+
         self.screenshot_flags = self._parse_screenshot_flag(args)
         files_to_open = []
 
@@ -75,6 +79,12 @@ class GradiaApp(Adw.Application):
             self._open_window(None)
 
         return 0
+
+    def _print_help(self):
+        file = Gio.File.new_for_uri("resource:///be/alexandervanhee/gradia/help.txt")
+        stream = file.read(None)
+        contents = stream.read_bytes(4096, None).get_data().decode("utf-8")
+        print(contents)
 
     def load_css(self):
         css_provider = Gtk.CssProvider()
@@ -154,4 +164,3 @@ def main(version: str):
     except Exception as e:
         logging.critical("Application closed with an exception.", exception=e, show_exception=True)
         return 1
-

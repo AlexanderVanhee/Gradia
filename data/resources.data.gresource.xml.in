@@ -5,6 +5,7 @@
     <file preprocess="xml-stripblanks">ui/controls_overlay.ui</file>
     <file preprocess="xml-stripblanks">ui/home_bar.ui</file>
     <file>style.css</file>
+    <file>help.txt</file>
   </gresource>
   <gresource prefix="/be/alexandervanhee/gradia">
     <file preprocess="xml-stripblanks">icons/scalable/actions/arrow1-top-right-symbolic.svg</file>
