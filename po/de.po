@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the gradia package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-10 17:24+0200\n"
-"PO-Revision-Date: 2025-06-07 20:19+0200\n"
+"PO-Revision-Date: 2025-06-10 18:11+0200\n"
 "Last-Translator: Uwe Senkler\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -19,8 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.6\n"
 
-#: data/be.alexandervanhee.gradia.desktop.in:2
-#: data/be.alexandervanhee.gradia.metainfo.xml.in:11
+#: data/be.alexandervanhee.gradia.desktop.in:2 data/be.alexandervanhee.gradia.metainfo.xml.in:11
 msgid "Gradia"
 msgstr "Gradia"
 
@@ -38,40 +37,48 @@ msgstr "Bildschirmfotos aufbereiten"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:14
 msgid ""
-"Gradia helps you quickly prepare your screenshots for sharing by fixing "
-"common issues like transparency and awkward sizing. With simple tools to add "
-"backgrounds, adjust aspect ratios, and annotate images, you can enhance your "
-"screenshots to look professional and consistent across social media, blogs, "
-"and other platforms on the internet."
+"Gradia helps you quickly prepare your screenshots for sharing by fixing common issues like "
+"transparency and awkward sizing. With simple tools to add backgrounds, adjust aspect ratios, and "
+"annotate images, you can enhance your screenshots to look professional and consistent across social "
+"media, blogs, and other platforms on the internet."
 msgstr ""
+"Gradia hilft Ihnen, Bildschirmfotos umstandslos für die Veröffentlichung vorzubereiten, indem "
+"übliche Probleme wie Transparenz oder ungewöhnliche Formate behoben werden können. Mit "
+"unkomplizierten Werkzeugen zum Hinzufügen eines Hintergrunds, Ändern des Seitenverhältnisses oder "
+"Hinzufügen von Anmerkungen können Sie Bildschirmfotos aufbereiten, um eine professionelle "
+"Erscheinung auf Social Media, Blogs und anderen Internet-Plattformen zu gewährleisten."
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:15
 msgid "Key features:"
-msgstr ""
+msgstr "Kernfunktionen:"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:17
 msgid "Add optional image and gradient backgrounds to your images"
-msgstr ""
+msgstr "Sie können unter Ihre Bilder optional Hintergrundbilder oder Farbverläufe legen"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:18
 msgid "Adjust aspect ratios and padding to fit different platforms"
 msgstr ""
+"Zur Anpassung an die verschiedenen Plattformen lassen sich Seitenverhältnis und Abstände festlegen"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:19
 msgid "Ten annotation modes, including text, arrow, and censor"
-msgstr ""
+msgstr "Es gibt zehn Werkzeuge für Anmerkungen, unter anderem für Text, Pfeile und Zensur"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:20
 msgid "Multiple ways to import and export screenshots"
-msgstr ""
+msgstr "Es gibt mehrere Wege, Bildschirmfotos zu importieren und exportieren"
 
 #. Package maintainers, please replace with correct command
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:23
 msgid ""
-"Want a keyboard shortcut on GNOME? Simply go to Settings → Keyboard → View "
-"and Customize Shortcuts → Custom Shortcuts. Then create a shortcut that runs "
-"<code>flatpak run be.alexandervanhee.gradia --screenshot=INTERACTIVE</code>."
+"Want a keyboard shortcut on GNOME? Simply go to Settings → Keyboard → View and Customize Shortcuts "
+"→ Custom Shortcuts. Then create a shortcut that runs <code>flatpak run be.alexandervanhee.gradia --"
+"screenshot=INTERACTIVE</code>."
 msgstr ""
+"Tastenkürzel unter GNOME gewünscht? Gehen Sie einfach zu Einstellungen → Tastatur → Tastenkürzel "
+"anzeigen und anpassen → Eigene Tastenkürzel. Erstellen Sie ein Tastenkürzel, das <code>flatpak run "
+"be.alexandervanhee.gradia --screenshot=INTERACTIVE</code> ausführt."
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:29
 msgid "Alexander Vanhee"
@@ -126,7 +133,6 @@ msgid "Select Image"
 msgstr "Bild wählen"
 
 #: gradia/graphics/image.py:134
-
 msgid "Image files"
 msgstr "Bilddateien"
 
@@ -137,7 +143,7 @@ msgstr "Bildschirmfoto _erstellen …"
 
 #: gradia/ui/ui_parts.py:164
 msgid "_Open Image…"
-msgstr "Bild öffnen …"
+msgstr "_Bild öffnen …"
 
 #: gradia/ui/ui_parts.py:183
 msgid "Enhance an Image"
@@ -258,7 +264,7 @@ msgstr "Fehler"
 
 #: gradia/ui/window.py:352
 msgid "No screenshots to delete."
-msgstr "Keine zu löschenden Bildschirmfoto vorhanden"
+msgstr "Keine zu löschenden Bildschirmfoto vorhanden."
 
 #: gradia/ui/window.py:364
 msgid "Delete Screenshot?"
@@ -308,43 +314,39 @@ msgstr "Bildschirmfotos gelöscht."
 
 #: gradia/ui/image_exporters.py:73
 msgid "Edit"
-msgstr ""
+msgstr "Bearbeiten"
 
 #: gradia/ui/image_exporters.py:74
-
 msgid "Enhanced Screenshot"
 msgstr "Bearbeitetes Bildschirmfoto"
 
 #: gradia/ui/image_exporters.py:87
 msgid "PNG Image (*.png)"
-msgstr ""
+msgstr "PNG-Bild (*.png)"
 
 #: gradia/ui/image_exporters.py:93
 msgid "JPEG Image (*.jpg)"
-msgstr ""
+msgstr "JPEG-Bild (*.jpg)"
 
 #: gradia/ui/image_exporters.py:99
 msgid "WebP Image (*.webp)"
-msgstr ""
+msgstr "WebP-Bild (*.webp)"
 
 #: gradia/ui/image_exporters.py:116
-
 msgid "Save Image As"
-msgstr "Bild speichern"
+msgstr "Bild speichern als"
 
 #: gradia/ui/image_exporters.py:119
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
 #: gradia/ui/image_exporters.py:154
-
 msgid "Image saved successfully"
-msgstr "Bild gespeichert"
+msgstr "Bild erfolgreich gespeichert"
 
 #: gradia/ui/image_exporters.py:192
-
 msgid "No processed image available"
-msgstr "Kein bearbeitetes Bild zum Speichern vorhanden"
+msgstr "Kein bearbeitetes Bild vorhanden"
 
 #: gradia/ui/image_exporters.py:213
 msgid "Image copied to clipboard"
@@ -392,7 +394,7 @@ msgstr "Bildschirmfoto verworfen"
 
 #: gradia/ui/image_loaders.py:253 gradia/ui/image_loaders.py:254
 msgid "Screenshot"
-msgstr "Blldschirmfoto"
+msgstr "Bildschirmfoto"
 
 #: gradia/ui/image_loaders.py:257
 msgid "Screenshot captured!"
@@ -428,11 +430,11 @@ msgstr "Füllung zurücksetzen"
 
 #: gradia/ui/drawing_tools_group.py:123
 msgid "Fill"
-msgstr ""
+msgstr "Füllen"
 
 #: gradia/ui/drawing_tools_group.py:150
 msgid "Font"
-msgstr ""
+msgstr "Schrift"
 
 #: gradia/overlay/drawing_actions.py:30
 msgid "Pen"
@@ -507,26 +509,22 @@ msgid "About Gradia"
 msgstr "Info zu Gradia"
 
 #~ msgid ""
-#~ "On social media, it's often hard to control how your images appear to "
-#~ "others. Transparent or oddly sized images, like screenshots often don't "
-#~ "display well. Fixing these issues can feel like more trouble than it's "
-#~ "worth."
+#~ "On social media, it's often hard to control how your images appear to others. Transparent or "
+#~ "oddly sized images, like screenshots often don't display well. Fixing these issues can feel like "
+#~ "more trouble than it's worth."
 #~ msgstr ""
-#~ "In Social Media ist es oft schwierig, die Kontrolle darüber zu behalten, "
-#~ "wie Ihre Bilder bei anderen dargestellt werden. Durchsichtige oder Bilder "
-#~ "in ungewöhnlichen Abmessungen wie Bildschirmfotos werden häufig unschön "
-#~ "dargestellt. Der Aufwand zur Behebung solche Probleme fühlt sich manchmal "
-#~ "unnötig hoch an."
+#~ "In Social Media ist es oft schwierig, die Kontrolle darüber zu behalten, wie Ihre Bilder bei "
+#~ "anderen dargestellt werden. Durchsichtige oder Bilder in ungewöhnlichen Abmessungen wie "
+#~ "Bildschirmfotos werden häufig unschön dargestellt. Der Aufwand zur Behebung solche Probleme "
+#~ "fühlt sich manchmal unnötig hoch an."
 
 #~ msgid ""
-#~ "This tool aims to alleviate that problem by allowing you to quickly edit "
-#~ "images to address these issues, while also offering options to enhance "
-#~ "their overall appearance."
+#~ "This tool aims to alleviate that problem by allowing you to quickly edit images to address these "
+#~ "issues, while also offering options to enhance their overall appearance."
 #~ msgstr ""
-#~ "Der Zweck dieses Werkzeugs ist, die Behebung dieser Probleme zu "
-#~ "erleichtern, indem es Ihnen ermöglicht, Bilder im Handumdrehen "
-#~ "entsprechend zu bearbeiten. Darüber hinaus bietet es Optionen zur "
-#~ "Optimierung der Gesamterscheinung."
+#~ "Der Zweck dieses Werkzeugs ist, die Behebung dieser Probleme zu erleichtern, indem es Ihnen "
+#~ "ermöglicht, Bilder im Handumdrehen entsprechend zu bearbeiten. Darüber hinaus bietet es Optionen "
+#~ "zur Optimierung der Gesamterscheinung."
 
 #~ msgid "Fill Color"
 #~ msgstr "Füllfarbe"
