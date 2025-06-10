@@ -2,11 +2,10 @@
 Name=Gradia
 Comment=Make your images ready for the world
 Exec=gradia
-Icon=be.alexandervanhee.gradia
+Icon=@APP_ID@
 Terminal=false
 Type=Application
 Categories=Graphics;
 Keywords=Image;Gradient;Background;Screenshot;Edit;
 StartupNotify=true
-DBusActivatable=true
 MimeType=image/png;image/jpeg;image/webp;

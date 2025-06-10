@@ -21,7 +21,7 @@ from collections.abc import Callable
 from typing import Optional
 from PIL import Image
 from gi.repository import Gtk, Gdk, Adw
-from gradia.constants import PREDEFINED_GRADIENTS
+from gradia.app_constants import PREDEFINED_GRADIENTS
 
 
 HexColor = str
