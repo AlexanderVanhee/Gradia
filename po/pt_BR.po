@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-10 17:24+0200\n"
-"PO-Revision-Date: 2025-06-08 19:14-0300\n"
+"PO-Revision-Date: 2025-06-10 18:57-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -43,26 +43,34 @@ msgid ""
 "screenshots to look professional and consistent across social media, blogs, "
 "and other platforms on the internet."
 msgstr ""
+"O Gradia ajuda você a preparar rapidamente suas capturas de tela para "
+"compartilhamento, corrigindo problemas comuns como transparência e "
+"dimensionamento inadequado. Com ferramentas simples para adicionar fundos, "
+"ajustar proporções e anotar imagens, você pode aprimorar suas capturas de "
+"tela para que tenham uma aparência profissional e consistente em mídias "
+"sociais, blogs e outras plataformas na Internet."
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:15
 msgid "Key features:"
-msgstr ""
+msgstr "Principais recursos:"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:17
 msgid "Add optional image and gradient backgrounds to your images"
-msgstr ""
+msgstr "Adicione fundos de imagem e gradiente opcionais às suas imagens"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:18
 msgid "Adjust aspect ratios and padding to fit different platforms"
 msgstr ""
+"Ajuste as proporções e o preenchimento para se adequar a diferentes "
+"plataformas"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:19
 msgid "Ten annotation modes, including text, arrow, and censor"
-msgstr ""
+msgstr "Dez modos de anotação, incluindo texto, seta e censura"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:20
 msgid "Multiple ways to import and export screenshots"
-msgstr ""
+msgstr "Várias maneiras de importar e exportar capturas de tela"
 
 #. Package maintainers, please replace with correct command
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:23
@@ -71,6 +79,10 @@ msgid ""
 "and Customize Shortcuts → Custom Shortcuts. Then create a shortcut that runs "
 "<code>flatpak run be.alexandervanhee.gradia --screenshot=INTERACTIVE</code>."
 msgstr ""
+"Quer um atalho de teclado no GNOME? Basta acessar Configurações → Teclado → "
+"Veja e personalize atalhos → Atalhos personalizados → Em seguida, crie um "
+"atalho que execute <code>flatpak run be.alexandervanhee.gradia --"
+"screenshot=INTERACTIVE</code>."
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:29
 msgid "Alexander Vanhee"
@@ -139,7 +151,7 @@ msgstr "_Abrir imagem…"
 
 #: gradia/ui/ui_parts.py:183
 msgid "Enhance an Image"
-msgstr "Enhance an Image"
+msgstr "Aprimorar uma imagem"
 
 #: gradia/ui/ui_parts.py:184
 msgid "Drag and drop one here"
@@ -294,7 +306,7 @@ msgstr "Cancelar"
 
 #: gradia/ui/window.py:372
 msgid "Delete"
-msgstr "Cancelar"
+msgstr "Excluir"
 
 #: gradia/ui/window.py:379
 msgid "Screenshot deleted."
@@ -306,10 +318,9 @@ msgstr "Capturas de tela excluídas."
 
 #: gradia/ui/image_exporters.py:73
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: gradia/ui/image_exporters.py:74
-
 msgid "Enhanced Screenshot"
 msgstr "Captura de tela editada"
 
@@ -326,21 +337,18 @@ msgid "WebP Image (*.webp)"
 msgstr ""
 
 #: gradia/ui/image_exporters.py:116
-
 msgid "Save Image As"
-msgstr "Salvar imagem"
+msgstr "Salvar imagem como"
 
 #: gradia/ui/image_exporters.py:119
 msgid "Save"
-msgstr ""
+msgstr "Salvar"
 
 #: gradia/ui/image_exporters.py:154
-
 msgid "Image saved successfully"
 msgstr "Imagem salva"
 
 #: gradia/ui/image_exporters.py:192
-
 msgid "No processed image available"
 msgstr "Nenhuma imagem processada disponível para salvar"
 
@@ -426,11 +434,11 @@ msgstr "Redefinir preenchimento"
 
 #: gradia/ui/drawing_tools_group.py:123
 msgid "Fill"
-msgstr ""
+msgstr "Preencher"
 
 #: gradia/ui/drawing_tools_group.py:150
 msgid "Font"
-msgstr ""
+msgstr "Fonte"
 
 #: gradia/overlay/drawing_actions.py:30
 msgid "Pen"
@@ -466,7 +474,7 @@ msgstr "Marcador"
 
 #: gradia/overlay/drawing_actions.py:38
 msgid "Censor"
-msgstr "Censurar"
+msgstr "Censura"
 
 #: gradia/overlay/drawing_actions.py:39
 msgid "Number"
