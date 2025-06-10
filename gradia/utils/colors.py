@@ -20,7 +20,7 @@ from gi.repository import Gdk
 HexColor = str
 RGBTuple = tuple[int, int, int]
 
-def hex_to_rgba(hex_color: HexColor) -> Gdk.RGBA:
+def hex_to_rgba(hex_color: HexColor, alpha: float | None = None) -> Gdk.RGBA:
     """
     Converts hexadecimal color code to `Gdk.RGBA` object.
 
@@ -30,6 +30,10 @@ def hex_to_rgba(hex_color: HexColor) -> Gdk.RGBA:
 
     rgba = Gdk.RGBA()
     rgba.parse(hex_color)
+
+    if alpha:
+        rgba.alpha = alpha
+
     return rgba
 
 def rgba_to_hex(rgba: Gdk.RGBA) -> HexColor:
