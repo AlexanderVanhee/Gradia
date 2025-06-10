@@ -42,8 +42,6 @@ class GradiaApp(Adw.Application):
         self.screenshot_flags: Optional[Xdp.ScreenshotFlags] = None
         self.temp_dirs: list[str] = []
 
-        self.load_css()
-
         # Connect to shutdown signal for cleanup
         self.connect("shutdown", self.on_shutdown)
 
@@ -85,17 +83,6 @@ class GradiaApp(Adw.Application):
         stream = file.read(None)
         contents = stream.read_bytes(4096, None).get_data().decode("utf-8")
         print(contents)
-
-    def load_css(self):
-        css_provider = Gtk.CssProvider()
-        css_provider.load_from_resource("/be/alexandervanhee/gradia/style.css")
-
-        display = Gdk.Display.get_default()
-        Gtk.StyleContext.add_provider_for_display(
-            display,
-            css_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-        )
 
     def _parse_screenshot_flag(self, args: list[str]) -> Optional[Xdp.ScreenshotFlags]:
         for arg in args:

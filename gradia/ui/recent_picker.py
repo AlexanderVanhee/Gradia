@@ -162,7 +162,7 @@ class RecentPicker(Gtk.Box):
 
         self.append(grid)
 
-    def _apply_gradient_to_button(self, button, index):
+    def _apply_gradient_to_button(self, button: Gtk.Button, index: int) -> None:
         gradient_name = f"gradient-button-{index}"
         button.set_name(gradient_name)
 
@@ -190,8 +190,7 @@ class RecentPicker(Gtk.Box):
 
         css_provider = Gtk.CssProvider()
         css_provider.load_from_string(css)
-        Gtk.StyleContext.add_provider_for_display(
-            Gdk.Display.get_default(),
+        button.get_style_context().add_provider(
             css_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
@@ -244,7 +243,6 @@ class RecentPicker(Gtk.Box):
                     image = Gtk.Image.new_from_pixbuf(scaled_pixbuf)
                     self.image_buttons[i].set_child(image)
                     self._fade_in_widget(image)
-
 
                 except Exception as e:
                     filename = file_obj.path.name
