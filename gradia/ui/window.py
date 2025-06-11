@@ -25,6 +25,7 @@ from gradia.graphics.image_processor import ImageProcessor
 from gradia.graphics.gradient import GradientBackground
 from gradia.graphics.solid import SolidBackground
 from gradia.graphics.image import ImageBackground
+from gradia.ui.welcome_page import WelcomePage
 from gradia.ui.background_selector import BackgroundSelector
 from gradia.ui.ui_parts import *
 from gradia.clipboard import *
@@ -184,8 +185,8 @@ class GradientWindow(Adw.ApplicationWindow):
         self.top_stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
         self.top_stack.set_transition_duration(200)
 
-        status_page = create_status_page()
-        self.top_stack.add_named(status_page, "empty")
+        welcome_page = WelcomePage()
+        self.top_stack.add_named(welcome_page, "empty")
 
         self.main_box: Gtk.Box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
         self.main_box.set_vexpand(True)
