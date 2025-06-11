@@ -6,7 +6,7 @@ blueprints = custom_target('blueprints',
     'background_selector.blp',
     'controls_overlay.blp',
     'drawing_tools_group.blp',
-    'image_sidebar.blp'
+    'image_sidebar.blp',
     'recent_picker.blp',
     'welcome_page.blp'
   ),
