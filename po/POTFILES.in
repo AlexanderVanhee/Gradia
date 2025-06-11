@@ -13,6 +13,7 @@ gradia/ui/image_exporters.py
 gradia/ui/image_loaders.py
 gradia/ui/recent_picker.py
 gradia/ui/background_selector.py
+gradia/ui/drawing_tools_group.py
 gradia/overlay/drawing_overlay.py
 gradia/overlay/drawing_actions.py
 data/ui/controls_overlay.blp

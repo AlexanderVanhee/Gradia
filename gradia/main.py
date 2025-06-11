@@ -24,6 +24,7 @@ from collections.abc import Sequence
 from typing import Optional
 
 from gi.repository import Adw, Gio, Xdp, Gdk, Gtk
+from gradia.constants import app_id
 
 from gradia.ui.window import GradientWindow
 from gradia.backend.logger import Logger
@@ -35,7 +36,7 @@ class GradiaApp(Adw.Application):
 
     def __init__(self, version: str):
         super().__init__(
-            application_id="be.alexandervanhee.gradia",
+            application_id=app_id,
             flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE | Gio.ApplicationFlags.HANDLES_OPEN
         )
         self.version = version

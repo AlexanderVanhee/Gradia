@@ -79,15 +79,45 @@ class StrokeAction(DrawingAction):
         self.pen_size = pen_size
 
     def draw(self, cr, image_to_widget_coords, scale):
+        """Drawing function using bezier curves."""
         if len(self.stroke) < 2:
             return
+
         coords = [image_to_widget_coords(x, y) for x, y in self.stroke]
         cr.set_source_rgba(*self.color)
         cr.set_line_width(self.pen_size * scale)
-        cr.move_to(*coords[0])
-        for point in coords[1:]:
-            cr.line_to(*point)
+        cr.set_line_cap(cairo.LineCap.ROUND)
+        cr.set_line_join(cairo.LineJoin.ROUND)
+
+        if len(coords) == 2:
+            cr.move_to(*coords[0])
+            cr.line_to(*coords[1])
+        else:
+            cr.move_to(*coords[0])
+
+            if len(coords) > 2:
+                mid_x = (coords[0][0] + coords[1][0]) / 2
+                mid_y = (coords[0][1] + coords[1][1]) / 2
+                cr.line_to(mid_x, mid_y)
+
+            for i in range(1, len(coords) - 1):
+                x0, y0 = coords[i - 1]
+                x1, y1 = coords[i]
+                x2, y2 = coords[i + 1]
+
+                cp1_x = x0 + (x1 - x0) * 0.5
+                cp1_y = y0 + (y1 - y0) * 0.5
+                cp2_x = x1 + (x2 - x1) * 0.5
+                cp2_y = y1 + (y2 - y1) * 0.5
+
+                mid_x = (x1 + x2) / 2
+                mid_y = (y1 + y2) / 2
+
+                cr.curve_to(cp1_x, cp1_y, x1, y1, mid_x, mid_y)
+            cr.line_to(*coords[-1])
+
         cr.stroke()
+
 
     def get_bounds(self):
         if not self.stroke:
