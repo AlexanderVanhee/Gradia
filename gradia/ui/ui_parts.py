@@ -30,13 +30,6 @@ class HeaderBar(Adw.Bin):
     def __init__(self):
         super().__init__()
 
-
-@Gtk.Template(resource_path="/be/alexandervanhee/gradia/ui/home_bar.ui")
-class HomeBar(Adw.Bin):
-    __gtype_name__ = "HomeBar"
-    def __init__(self):
-        super().__init__()
-
 @Gtk.Template(resource_path="/be/alexandervanhee/gradia/ui/controls_overlay.ui")
 class ControlsOverlay(Gtk.Box):
     __gtype_name__ = "ControlsOverlay"
@@ -137,59 +130,6 @@ def create_spinner_widget() -> tuple[Gtk.Box, Adw.Spinner]:
     )
     spinner_box.append(spinner)
     return spinner_box, spinner
-
-def create_status_page() -> tuple[Gtk.Box, Adw.StatusPage]:
-    def on_recent_image_click(path: str, gradient_index: int):
-        app = Gio.Application.get_default()
-        action = app.lookup_action("open-path-with-gradient")
-        if action:
-            param = GLib.Variant('(si)', (path, gradient_index))
-            action.activate(param)
-
-    # Create the home header bar
-    home_bar = HomeBar()
-
-    # Create the recent picker
-    picker = RecentPicker(callback=on_recent_image_click)
-
-    # Create action buttons
-    screenshot_btn = Gtk.Button.new_with_label(_("_Take a screenshot…"))
-    screenshot_btn.set_use_underline(True)
-    screenshot_btn.set_halign(Gtk.Align.CENTER)
-    screenshot_btn.get_style_context().add_class("pill")
-    screenshot_btn.get_style_context().add_class("text-button")
-    screenshot_btn.get_style_context().add_class("suggested-action")
-    screenshot_btn.set_action_name("app.screenshot")
-
-    open_status_btn = Gtk.Button.new_with_label(_("_Open Image…"))
-    open_status_btn.set_use_underline(True)
-    open_status_btn.set_halign(Gtk.Align.CENTER)
-    open_status_btn.get_style_context().add_class("pill")
-    open_status_btn.get_style_context().add_class("text-button")
-    open_status_btn.set_action_name("app.open")
-
-    button_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12, margin_top=10)
-    button_box.set_halign(Gtk.Align.CENTER)
-    button_box.append(screenshot_btn)
-    button_box.append(open_status_btn)
-
-    main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=24)
-    main_box.set_halign(Gtk.Align.CENTER)
-    main_box.append(picker)
-    main_box.append(button_box)
-
-    # status page
-    status_page = Adw.StatusPage.new()
-    status_page.set_title(_("Enhance an Image"))
-    status_page.set_description(_("Drag and drop one here"))
-    status_page.set_child(main_box)
-
-    main_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
-    main_container.append(home_bar)
-    main_container.append(status_page)
-
-    return main_container
-
 
 def create_drop_target(stack: Gtk.Stack) -> None:
     drop_target = Gtk.DropTarget.new(Gio.File, Gdk.DragAction.COPY)
