@@ -18,3 +18,4 @@ gradia/overlay/drawing_overlay.py
 gradia/overlay/drawing_actions.py
 data/ui/controls_overlay.blp
 data/ui/header_bar.blp
+data/ui/recent_picker.blp

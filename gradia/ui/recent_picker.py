@@ -15,35 +15,18 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import gi
-gi.require_version('Gtk', '4.0')
-gi.require_version('Adw', '1')
-from gi.repository import Gtk, Adw, GdkPixbuf, Gio, GLib, Gdk
-from gradia.app_constants import PREDEFINED_GRADIENTS
 from pathlib import Path
-import time
+import random
 import re
 import threading
-import random
-import gettext
-import locale
 
-DOMAIN = 'gradia'
-LOCALE_DIR = Path(__file__).parent.parent.parent / 'locale'
+from gi.repository import Adw, GLib, Gdk, GdkPixbuf, Gtk
 
-try:
-    locale.setlocale(locale.LC_ALL, '')
-except locale.Error as e:
-    print(f"Warning: Could not set locale - {e}")
+from gradia.app_constants import PREDEFINED_GRADIENTS
 
-gettext.bindtextdomain(DOMAIN, str(LOCALE_DIR))
-gettext.textdomain(DOMAIN)
-
-_ = gettext.gettext
-ngettext = gettext.ngettext
 
 class RecentFile:
-    def __init__(self, path: Path):
+    def __init__(self, path: Path) -> None:
         self.path = path
         self.folder = str(path.parent)
         self.name = str(path.parent)
@@ -55,10 +38,10 @@ class RecentImageGetter:
     FALLBACK_PICTURES_PATH = Path.home() / "Pictures"
     SCREENSHOTS_SUBDIR_NAME = "Screenshots"
 
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
-    def get_recent_screenshot_files(self) -> list:
+    def get_recent_screenshot_files(self) -> list[RecentFile]:
         screenshots_dir = self._get_screenshots_directory()
         if not screenshots_dir.exists():
             print("Screenshots directory does not exist.")
@@ -89,11 +72,13 @@ class RecentImageGetter:
                     return Path(path)
         return None
 
-class RecentPicker(Gtk.Box):
+
+@Gtk.Template(resource_path="/be/alexandervanhee/gradia/ui/recent_picker.ui")
+class RecentPicker(Adw.Bin):
+    __gtype_name__ = "GradiaRecentPicker"
+
     GRID_ROWS = 2
     GRID_COLS = 3
-    GRID_ROW_SPACING = 10
-    GRID_COL_SPACING = 30
     FRAME_SPACING = 5
     IMAGE_WIDTH = 210
     IMAGE_HEIGHT = 120
@@ -101,8 +86,11 @@ class RecentPicker(Gtk.Box):
     MAX_FILENAME_LENGTH = 30
     FILENAME_TRUNCATE_LENGTH = 27
 
-    def __init__(self, callback=None):
-        super().__init__(orientation=Gtk.Orientation.VERTICAL)
+    item_grid: Gtk.Grid = Gtk.Template.Child()
+
+    def __init__(self, callback=None, **kwargs) -> None:
+        super().__init__(**kwargs)
+
         self.image_getter = RecentImageGetter()
         self.callback = callback
         self.image_buttons = []
@@ -117,15 +105,10 @@ class RecentPicker(Gtk.Box):
         self.gradient_colors = list(self.gradient_colors)
         self.original_gradient_indexes = list(self.original_gradient_indexes)
 
-        self.create_widgets()
-        self.load_images()
+        self._setup_cards()
+        self._load_images()
 
-    def create_widgets(self):
-        grid = Gtk.Grid()
-        grid.set_row_spacing(self.GRID_ROW_SPACING)
-        grid.set_column_spacing(self.GRID_COL_SPACING)
-        grid.set_halign(Gtk.Align.CENTER)
-
+    def _setup_cards(self) -> None:
         for row in range(self.GRID_ROWS):
             for col in range(self.GRID_COLS):
                 index = row * self.GRID_COLS + col
@@ -139,7 +122,7 @@ class RecentPicker(Gtk.Box):
                 img_button = Gtk.Button(has_frame=False)
                 img_button.set_size_request(self.IMAGE_WIDTH, self.IMAGE_HEIGHT)
                 img_button.add_css_class("card")
-                img_button.connect("clicked", lambda btn, idx=index: self.on_image_click(idx))
+                img_button.connect("clicked", lambda _btn, idx=index: self.on_image_click(idx))
 
                 self._apply_gradient_to_button(img_button, index)
 
@@ -158,11 +141,9 @@ class RecentPicker(Gtk.Box):
                 self.name_labels.append(name_label)
                 container.append(name_label)
 
-                grid.attach(container, col, row, 1, 1)
+                self.item_grid.attach(container, col, row, 1, 1)
 
-        self.append(grid)
-
-    def _apply_gradient_to_button(self, button, index):
+    def _apply_gradient_to_button(self, button: Gtk.Button, index: int) -> None:
         gradient_name = f"gradient-button-{index}"
         button.set_name(gradient_name)
 
@@ -196,7 +177,7 @@ class RecentPicker(Gtk.Box):
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
 
-    def _fade_in_widget(self, widget):
+    def _fade_in_widget(self, widget: Gtk.Widget) -> None:
         widget.set_opacity(0.0)
         target = Adw.PropertyAnimationTarget.new(widget, "opacity")
         animation = Adw.TimedAnimation(
@@ -209,15 +190,15 @@ class RecentPicker(Gtk.Box):
         )
         animation.play()
 
-    def load_images(self):
-        def load_in_thread():
+    def _load_images(self) -> None:
+        def load_in_thread() -> None:
             recent_files = self.image_getter.get_recent_screenshot_files()
             GLib.idle_add(self._update_display, recent_files)
 
         thread = threading.Thread(target=load_in_thread, daemon=True)
         thread.start()
 
-    def _update_display(self, recent_files):
+    def _update_display(self, recent_files: list[RecentFile]) -> None:
         self.recent_files = recent_files
 
         for i in range(self.GRID_ROWS * self.GRID_COLS):
@@ -244,8 +225,6 @@ class RecentPicker(Gtk.Box):
                     image = Gtk.Image.new_from_pixbuf(scaled_pixbuf)
                     self.image_buttons[i].set_child(image)
                     self._fade_in_widget(image)
-
-
                 except Exception as e:
                     filename = file_obj.path.name
                     if len(filename) > self.MAX_FILENAME_LENGTH:
@@ -263,12 +242,13 @@ class RecentPicker(Gtk.Box):
                 self.image_buttons[i].set_sensitive(False)
                 self.name_labels[i].set_text("")
 
-    def on_image_click(self, index):
+    def on_image_click(self, index: int, *args) -> None:
         if index < len(self.recent_files):
             file_path = self.recent_files[index].path
             original_gradient_index = self.original_gradient_indexes[index % len(self.original_gradient_indexes)]
+
             if self.callback:
                 self.callback(str(file_path), original_gradient_index)
 
-    def refresh(self):
-        self.load_images()
+    def refresh(self) -> None:
+        self._load_images()
