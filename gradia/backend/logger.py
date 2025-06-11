@@ -20,6 +20,7 @@
 import sys
 import logging
 import traceback
+from gradia.constants import build_type
 
 class Logger(logging.getLoggerClass()):
     """
@@ -95,7 +96,10 @@ class Logger(logging.getLoggerClass()):
         if fmt:
             formatter = logging.Formatter(fmt)
 
-        self.root.setLevel(logging.DEBUG)
+        if build_type == "debug":
+            self.root.setLevel(logging.DEBUG)
+        else:
+            self.root.setLevel(logging.INFO)
 
         self.root.handlers = []
 

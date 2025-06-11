@@ -23,7 +23,7 @@ from typing import Optional
 from PIL import Image
 from gi.repository import Adw, Gtk
 
-from gradia.constants import PREDEFINED_GRADIENTS
+from gradia.app_constants import PREDEFINED_GRADIENTS
 from gradia.utils.colors import HexColor, hex_to_rgb, hex_to_rgba, rgba_to_hex
 
 
