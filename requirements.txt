@@ -8,4 +8,4 @@
 # And move output file to build-aux directory:
 # mv pypi-dependencies.json build-aux/flatpak/
 
-Pillow
+Pillow # Make sure to use a version that has webp, avif support included.

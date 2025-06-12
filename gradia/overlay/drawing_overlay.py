@@ -25,11 +25,8 @@ import re
 import time
 
 SELECTION_BOX_PADDING = 0
-DEFAULT_PEN_SIZE = 3.0
 DEFAULT_ARROW_HEAD_SIZE = 25.0
 DEFAULT_FONT_SIZE = 22.0
-DEFAULT_FONT_FAMILY = "Caveat"
-DEFAULT_PEN_COLOR = (1.0, 1.0, 1.0, 0.8)
 DEFAULT_HIGHLIGHTER_SIZE = 12.0
 DEFAULT_PIXELATION_LEVEL = 8
 
@@ -40,11 +37,11 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.set_can_focus(True)
         self.picture_widget = None
         self.drawing_mode = DrawingMode.PEN
-        self.pen_size = DEFAULT_PEN_SIZE
+        self.pen_size = None # Initialized via drawing_tools_group
+        self.pen_color = None # Initialized via drawing_tools_group
         self.arrow_head_size = DEFAULT_ARROW_HEAD_SIZE
         self.font_size = DEFAULT_FONT_SIZE
-        self.font_family = DEFAULT_FONT_FAMILY
-        self.pen_color = DEFAULT_PEN_COLOR
+        self.font_family = None # Initialized via drawing_tools_group
         self.highlighter_size = DEFAULT_HIGHLIGHTER_SIZE
         self.pixelation_level = DEFAULT_PIXELATION_LEVEL
         self.fill_color = None
@@ -54,9 +51,8 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.end_point = None
         self.actions = []
         self.redo_stack = []
-
-        self.number_radius = 15
         self._next_number = 1
+        self.number_radius = None # Initialized via drawing_tools_group
 
         self._selected_action = None
         self.selection_start_pos = None
@@ -460,8 +456,7 @@ class DrawingOverlay(Gtk.DrawingArea):
             if mode == DrawingMode.PEN:
                 self.actions.append(StrokeAction(self.current_stroke.copy(), self.pen_color, self.pen_size))
             else:
-                highlighter_color = (self.pen_color[0], self.pen_color[1], self.pen_color[2], 0.3)
-                self.actions.append(HighlighterAction(self.current_stroke.copy(), highlighter_color, self.highlighter_size))
+                self.actions.append(HighlighterAction(self.current_stroke.copy(), self.highlighter_color, self.highlighter_size))
             self.current_stroke.clear()
         elif self.start_point and self.end_point:
             if mode == DrawingMode.ARROW:
@@ -520,8 +515,7 @@ class DrawingOverlay(Gtk.DrawingArea):
             if self.drawing_mode == DrawingMode.PEN and len(self.current_stroke) > 1:
                 StrokeAction(self.current_stroke, self.pen_color, self.pen_size).draw(cr, self._image_to_widget_coords, scale)
             elif self.drawing_mode == DrawingMode.HIGHLIGHTER and len(self.current_stroke) > 1:
-                highlighter_color = (self.pen_color[0], self.pen_color[1], self.pen_color[2], 0.3)
-                HighlighterAction(self.current_stroke, highlighter_color, self.highlighter_size).draw(cr, self._image_to_widget_coords, scale)
+                HighlighterAction(self.current_stroke, self.highlighter_color, self.highlighter_size).draw(cr, self._image_to_widget_coords, scale)
             elif self.start_point and self.end_point:
                 if self.drawing_mode == DrawingMode.ARROW:
                     ArrowAction(self.start_point, self.end_point, self.pen_color, self.arrow_head_size, self.pen_size).draw(cr, self._image_to_widget_coords, scale)
@@ -610,8 +604,11 @@ class DrawingOverlay(Gtk.DrawingArea):
     def set_fill_color(self, r, g, b, a=1):
         self.fill_color = (r, g, b, a)
 
+    def set_highlighter_color(self, r, g, b, a=1):
+        self.highlighter_color = (r, g, b, a)
+
     def set_pen_size(self, s):
-        self.pen_size = max(1.0, s)
+        self.pen_size = max(1, s)
 
     def set_arrow_head_size(self, s):
         self.arrow_head_size = max(5.0, s)
@@ -633,6 +630,10 @@ class DrawingOverlay(Gtk.DrawingArea):
 
     def get_drawing_visible(self):
         return self.get_visible()
+
+    def set_number_radius(self, s):
+        self.number_radius = s
+
 
 
 def render_actions_to_pixbuf(actions, img_w, img_h):

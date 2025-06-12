@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
   <schema id="be.alexandervanhee.gradia" path="/be/alexandervanhee/gradia/">
+     <key name="draw-mode" type="s">
+      <default>'Select'</default>
+      <summary>Current drawing mode</summary>
+    </key>
+    <key name="pen-color" type="s">
+      <default>'1.000,1.000,1.000,1.000'</default>
+      <summary>Pen color in rgba</summary>
+    </key>
+    <key name="highlighter-color" type="s">
+      <default>'1.000,1.000,0.000,0.500'</default>
+      <summary>Highlighter color in rgba</summary>
+    </key>
+    <key name="fill-color" type="s">
+      <default>'0.000,0.000,0.000,0.000'</default>
+      <summary>Fill color in rgba</summary>
+    </key>
+    <key name="pen-size" type="d">
+      <default>3.0</default>
+      <summary>Pen size</summary>
+    </key>
+    <key name="number-radius" type="d">
+      <default>10.0</default>
+      <summary>Number radius size</summary>
+    </key>
+    <key name="font" type="s">
+      <default>'Adwaita Sans'</default>
+      <summary>Selected font name</summary>
+    </key>
+
+   <key name="screenshot-subfolder" type="s">
+      <default>'Screenshots'</default>
+      <summary>Screenshot subdirectory</summary>
+    </key>
   </schema>
 </schemalist>
 

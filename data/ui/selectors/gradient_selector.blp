@@ -1,0 +1,73 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $GradiaGradientSelector : Adw.PreferencesGroup {
+  title: _("Gradient Background");
+
+  [header-suffix]
+  Gtk.MenuButton {
+    icon-name: "columns-symbolic";
+    tooltip-text: _("Gradient Presets");
+    popover: gradient_popover;
+    valign: center;
+
+    styles [
+      "flat"
+    ]
+  }
+
+  Adw.ActionRow start_color_row {
+    title: _("Start Color");
+    activatable-widget: start_color_button;
+
+    // TODO: Replace with ColorDialogButton
+    [suffix]
+    Gtk.ColorButton start_color_button {
+      valign: center;
+      color-set => $_on_start_color_set();
+    }
+  }
+
+  Adw.ActionRow end_color_row {
+    title: _("End Color");
+    activatable-widget: end_color_button;
+
+    // TODO: Replace with ColorDialogButton
+    [suffix]
+    Gtk.ColorButton end_color_button {
+      valign: center;
+      color-set => $_on_end_color_set();
+    }
+  }
+
+  Adw.SpinRow angle_spin_row {
+    title: _("Angle");
+    numeric: true;
+    adjustment: Gtk.Adjustment angle_adjustment {
+      lower: 0;
+      upper: 360;
+      step-increment: 45;
+    };
+
+    output => $_on_angle_output();
+  }
+}
+
+Gtk.Popover gradient_popover {
+  autohide: true;
+  has-arrow: true;
+
+  child: Gtk.FlowBox popover_flowbox {
+    max-children-per-line: 3;
+    selection-mode: none;
+    row-spacing: 10;
+    column-spacing: 10;
+    homogeneous: true;
+
+    valign: center;
+    margin-top: 10;
+    margin-bottom: 10;
+    margin-start: 10;
+    margin-end: 10;
+  };
+}

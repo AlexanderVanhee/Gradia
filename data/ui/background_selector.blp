@@ -1,0 +1,41 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $GradiaBackgroundSelector : Adw.Bin {
+  child: Gtk.Box container {
+    orientation: vertical;
+    spacing: 12;
+
+    Adw.ToggleGroup toggle_group {
+      homogeneous: true;
+
+      notify::active-name => $_on_group_changed();
+
+      Adw.Toggle solid_toggle {
+        name: "solid";
+        label: _("Solid");
+      }
+
+      Adw.Toggle gradient_toggle {
+        name: "gradient";
+        label: _("Gradient");
+      }
+
+      Adw.Toggle image_toggle {
+        name: "image";
+        label: _("Image");
+      }
+      
+      styles [
+        "round"
+      ]
+    }
+    
+    Gtk.Stack stack {
+      transition-type: crossfade;
+      transition-duration: 250;
+      hexpand: true;
+      valign: start;
+    }
+  };
+}

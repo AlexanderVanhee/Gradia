@@ -19,7 +19,7 @@ import os
 from gi.repository import Gdk, GLib, GdkPixbuf
 
 def save_texture_to_file(texture, temp_dir: str) -> str:
-    temp_path: str = os.path.join(temp_dir, "clipboard_image.png")
+    temp_path: str = os.path.join(temp_dir, f"clipboard_image_{os.urandom(6).hex()}.png")
     texture.save_to_png(temp_path)
     return temp_path
 

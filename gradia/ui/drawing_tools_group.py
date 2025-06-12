@@ -1,4 +1,4 @@
-# Copyright (C) 2025 Alexander Vanhee
+# Copyright (C) 2025 Alexander Vanhee, tfuxu
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,227 +15,285 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from gi.repository import Gtk, Adw, Gdk, Gio, GLib, Pango
+from gi.repository import GObject, Gtk, Adw, Gdk, Gio, GLib, Pango
 from gradia.overlay.drawing_actions import DrawingMode
-from gradia.overlay.drawing_overlay import DrawingOverlay
+from gradia.constants import rootdir  # pyright: ignore
+from gradia.backend.settings import Settings
 
+class ToolConfig:
+    def __init__(self, mode: DrawingMode, icon: str, column: int, row: int, stack_page: str = None, color_stack_page: str = None):
+        self.mode = mode
+        self.icon = icon
+        self.column = column
+        self.row = row
+        self.stack_page = stack_page
+        self.color_stack_page = color_stack_page
+
+    @staticmethod
+    def get_all_tools():
+        """Return all tool configurations."""
+        return [
+            ToolConfig(DrawingMode.SELECT, "pointer-primary-click-symbolic", 0, 0, None, None),
+            ToolConfig(DrawingMode.PEN, "edit-symbolic", 1, 0, "size", "stroke"),
+            ToolConfig(DrawingMode.TEXT, "text-insert2-symbolic", 2, 0, "font", "stroke"),
+            ToolConfig(DrawingMode.LINE, "draw-line-symbolic", 3, 0, "size", "stroke"),
+            ToolConfig(DrawingMode.ARROW, "arrow1-top-right-symbolic", 4, 0, "size", "stroke"),
+            ToolConfig(DrawingMode.SQUARE, "box-small-outline-symbolic", 0, 1, "fill", "stroke"),
+            ToolConfig(DrawingMode.CIRCLE, "circle-outline-thick-symbolic", 1, 1, "fill", "stroke"),
+            ToolConfig(DrawingMode.HIGHLIGHTER, "marker-symbolic", 2, 1, None, "highlighter"),
+            ToolConfig(DrawingMode.CENSOR, "checkerboard-big-symbolic", 3, 1, None, None),
+            ToolConfig(DrawingMode.NUMBER, "one-circle-symbolic", 4, 1, "number_radius", "stroke"),
+        ]
+
+
+@Gtk.Template(resource_path=f"{rootdir}/ui/drawing_tools_group.ui")
 class DrawingToolsGroup(Adw.PreferencesGroup):
-    def __init__(self):
-        super().__init__(title=_("Annotation Tools"))
+    __gtype_name__ = "GradiaDrawingToolsGroup"
 
-        self.fill_sensitive_modes = {DrawingMode.SQUARE, DrawingMode.CIRCLE}
-        self.font_sensitive_modes = {DrawingMode.TEXT}
-        self.tool_buttons = {}
+    tools_grid: Gtk.Grid = Gtk.Template.Child()
+
+    color_stack_row: Adw.ActionRow = Gtk.Template.Child()
+    color_stack: Gtk.Stack = Gtk.Template.Child()
+    stroke_color_button: Gtk.ColorButton = Gtk.Template.Child()
+    highlighter_color_button: Gtk.ColorButton = Gtk.Template.Child()
+    size_scale: Gtk.Scale = Gtk.Template.Child()
+    number_radius_scale: Gtk.Scale = Gtk.Template.Child()
+
+    stack_row: Adw.ActionRow = Gtk.Template.Child()
+    fill_font_stack: Gtk.Stack = Gtk.Template.Child()
+
+    fill_color_button: Gtk.ColorButton = Gtk.Template.Child()
+    font_string_list: Gtk.StringList = Gtk.Template.Child()
+
+    tools_config = ToolConfig.get_all_tools()
+
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
+
+        self.settings = Settings()
+
+        self.tool_buttons: dict[DrawingMode, Gtk.ToggleButton] = {}
+        self.current_stack_page = None
+        self.current_color_stack_page = None
 
         self.fonts = ["Caveat", "Adwaita Sans", "Adwaita Mono", "Noto Sans"]
 
-        self._build_ui()
+        self._setup_annotation_tools_group()
+        self._setup_font_dropdown()
+        self._restore_settings()
 
-    def _build_ui(self):
-        self._create_tools_row()
-        self._create_stroke_color_row()
-        self._create_fill_or_font_stack_row()
-        self.tool_buttons[DrawingMode.PEN].set_active(True)
+        saved_mode = DrawingMode(self.settings.draw_mode)
+        if saved_mode in self.tool_buttons:
+            self.tool_buttons[saved_mode].set_active(True)
+        else:
+            self.tool_buttons[DrawingMode.PEN].set_active(True)
 
-    def _create_tools_row(self):
-        tools_row = Adw.ActionRow()
-        tools_grid = Gtk.Grid(
-            margin_start=6,
-            margin_end=6,
-            margin_top=6,
-            margin_bottom=6,
-            row_spacing=6,
-            column_spacing=6,
-            halign=Gtk.Align.CENTER,
-            valign=Gtk.Align.CENTER
-        )
+        self._initialize_all_actions()
 
-        tools_data = [
-            (DrawingMode.SELECT, "pointer-primary-click-symbolic", 0, 0),
-            (DrawingMode.PEN, "edit-symbolic", 1, 0),
-            (DrawingMode.TEXT, "text-insert2-symbolic", 2, 0),
-            (DrawingMode.LINE, "draw-line-symbolic", 3, 0),
-            (DrawingMode.ARROW, "arrow1-top-right-symbolic", 4, 0),
-            (DrawingMode.SQUARE, "box-small-outline-symbolic", 0, 1),
-            (DrawingMode.CIRCLE, "circle-outline-thick-symbolic", 1, 1),
-            (DrawingMode.HIGHLIGHTER, "marker-symbolic", 2, 1),
-            (DrawingMode.CENSOR, "checkerboard-big-symbolic", 3, 1),
-            (DrawingMode.NUMBER, "one-circle-symbolic", 4, 1),
-        ]
+    """
+    Setup Methods
+    """
 
-        for drawing_mode, icon_name, col, row in tools_data:
-            button = Gtk.ToggleButton(icon_name=icon_name)
-            button.set_tooltip_text(drawing_mode.value)
-            button.set_size_request(40, 40)
-            button.get_style_context().add_class("flat")
-            button.get_style_context().add_class("circular")
-            button.connect("toggled", self._on_button_toggled, drawing_mode)
+    def _setup_annotation_tools_group(self) -> None:
+        self.stroke_color_button.set_rgba(Gdk.RGBA(red=1, green=1, blue=1, alpha=1))
+        self.highlighter_color_button.set_rgba(Gdk.RGBA(red=1, green=1, blue=0, alpha=0.5))
+        self.fill_color_button.set_rgba(Gdk.RGBA(red=0, green=0, blue=0, alpha=0))
 
-            tools_grid.attach(button, col, row, 1, 1)
-            self.tool_buttons[drawing_mode] = button
+        for tool_config in self.tools_config:
+            button = Gtk.ToggleButton(
+                icon_name=tool_config.icon,
+                tooltip_text=tool_config.mode.value,
+                width_request=40,
+                height_request=40,
+                css_classes=["flat", "circular"]
+            )
+            button.connect("toggled", self._on_button_toggled, tool_config.mode)
+            self.tools_grid.attach(button, tool_config.column, tool_config.row, 1, 1)
+            self.tool_buttons[tool_config.mode] = button
 
-        tools_row.set_child(tools_grid)
-        self.add(tools_row)
+    def _setup_font_dropdown(self) -> None:
+        for font in self.fonts:
+            self.font_string_list.append(font)
 
-    def _create_stroke_color_row(self):
-        row = Adw.ActionRow(title=_("Stroke Color"))
-        self.stroke_color_button = Gtk.ColorButton(valign=Gtk.Align.CENTER)
-        self.stroke_color_button.set_rgba(Gdk.RGBA(1, 1, 1, 1))
-        self.stroke_color_button.connect("color-set", self._on_color_set)
+    def _restore_settings(self) -> None:
+        """Restore all settings from persistent storage."""
+        self.stroke_color_button.set_rgba(self.settings.pen_color)
+        self.highlighter_color_button.set_rgba(self.settings.highlighter_color)
+        self.fill_color_button.set_rgba(self.settings.fill_color)
 
-        row.add_suffix(self.stroke_color_button)
-        self.add(row)
+        self.size_scale.set_value(self.settings.pen_size)
+        self.number_radius_scale.set_value(self.settings.number_radius)
 
-    def _create_fill_or_font_stack_row(self):
-        self.stack_row = Adw.ActionRow()
-        self.stack = Gtk.Stack(
-            transition_type=Gtk.StackTransitionType.CROSSFADE,
-            transition_duration=300,
-            valign=Gtk.Align.CENTER,
-            margin_top=8,
-            margin_bottom=8,
-            margin_start=12,
-            margin_end=12
-        )
+        saved_font = self.settings.font
+        if saved_font in self.fonts:
+            font_index = self.fonts.index(saved_font)
+            GLib.idle_add(self._set_font_selection, font_index)
 
-        self._create_fill_color_ui()
-        self._create_font_dropdown_ui()
+    def _set_font_selection(self, index: int) -> bool:
+        font_dropdown = self.get_template_child(Gtk.DropDown, "font_dropdown")
+        if font_dropdown:
+            font_dropdown.set_selected(index)
+        return False
 
-        self.stack_row.set_child(self.stack)
-        self.add(self.stack_row)
+    def _initialize_all_actions(self) -> None:
+        self._activate_color_action("pen-color", self.settings.pen_color)
+        self._activate_color_action("highlighter-color", self.settings.highlighter_color)
+        self._activate_color_action("fill-color", self.settings.fill_color)
 
-    def _create_fill_color_ui(self):
-        fill_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6, valign=Gtk.Align.CENTER)
+        self._activate_double_action("pen-size", self.settings.pen_size)
+        self._activate_double_action("number-radius", self.settings.number_radius)
 
-        reset_button = Gtk.Button(icon_name="edit-clear-symbolic")
-        reset_button.get_style_context().add_class("flat")
-        reset_button.set_tooltip_text(_("Reset Fill"))
-        reset_button.connect("clicked", self._on_reset_fill_clicked)
+        app = Gio.Application.get_default()
+        if app:
+            action = app.lookup_action("font")
+            if action:
+                action.activate(GLib.Variant('s', self.settings.font))
 
-        self.fill_color_button = Gtk.ColorButton(use_alpha=True)
-        self.fill_color_button.set_rgba(Gdk.RGBA(0, 0, 0, 0))
-        self.fill_color_button.connect("color-set", self._on_fill_color_set)
+        self._activate_draw_mode_action(DrawingMode(self.settings.draw_mode))
 
-        fill_box.append(reset_button)
-        fill_box.append(self.fill_color_button)
+    """
+    Callbacks
+    """
 
-        fill_container = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-        fill_label = Gtk.Label(label=_("Fill"), halign=Gtk.Align.START)
-        fill_label.set_hexpand(True)
-
-        fill_container.append(fill_label)
-        fill_container.append(fill_box)
-        fill_container.set_spacing(6)
-
-        self.stack.add_named(fill_container, "fill")
-
-    def _create_font_dropdown_ui(self):
-        font_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6, valign=Gtk.Align.CENTER)
-
-        string_list = Gtk.StringList.new(self.fonts)
-        factory = Gtk.SignalListItemFactory()
-        factory.connect("setup", self._font_factory_setup)
-        factory.connect("bind", self._font_factory_bind)
-
-        self.font_dropdown = Gtk.DropDown()
-        self.font_dropdown.set_model(string_list)
-        self.font_dropdown.set_factory(factory)
-        self.font_dropdown.set_selected(0)
-        self.font_dropdown.set_property("width-request", 150)
-        self.font_dropdown.connect("notify::selected", self._on_font_selected)
-
-        font_box.append(self.font_dropdown)
-
-        font_container = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-        font_label = Gtk.Label(label=_("Font"), halign=Gtk.Align.START)
-        font_label.set_hexpand(True)
-
-        font_container.append(font_label)
-        font_container.append(font_box)
-        font_container.set_spacing(6)
-
-        self.stack.add_named(font_container, "font")
-
-    def _font_factory_setup(self, factory, list_item):
-        label = Gtk.Label()
-        label.set_halign(Gtk.Align.START)
+    # TODO: Define type for `list_item` parameter
+    @Gtk.Template.Callback()
+    def _font_factory_setup(self, _factory: Gtk.SignalListItemFactory, list_item, *args) -> None:
+        label = Gtk.Label(halign=Gtk.Align.START)
         list_item.set_child(label)
 
-    def _font_factory_bind(self, factory, list_item):
+    # TODO: Define type for `list_item` parameter
+    @Gtk.Template.Callback()
+    def _font_factory_bind(self, _factory: Gtk.SignalListItemFactory, list_item, *args) -> None:
         label = list_item.get_child()
         string_object = list_item.get_item()
         font_name = string_object.get_string()
         label.set_text(font_name)
 
         attr_list = Pango.AttrList()
-        font_desc = Pango.FontDescription(f"{font_name} 12")
+        font_desc = Pango.FontDescription.from_string(f"{font_name} 12")
         attr_font = Pango.attr_font_desc_new(font_desc)
         attr_list.insert(attr_font)
         label.set_attributes(attr_list)
 
-    def _on_button_toggled(self, button: Gtk.ToggleButton, drawing_mode):
-        if button.get_active():
-            self._deactivate_other_tools(drawing_mode)
-            self._update_stack_for_mode(drawing_mode)
-            self._activate_draw_mode_action(drawing_mode)
-        else:
-            self._ensure_one_tool_active(button, drawing_mode)
-
-    def _deactivate_other_tools(self, current_mode):
-        for mode, btn in self.tool_buttons.items():
-            if mode != current_mode and btn.get_active():
-                btn.set_active(False)
-
-    def _update_stack_for_mode(self, drawing_mode):
-        if drawing_mode in self.fill_sensitive_modes:
-            self.stack_row.set_sensitive(True)
-            self.stack.set_visible_child_name("fill")
-        elif drawing_mode in self.font_sensitive_modes:
-            self.stack_row.set_sensitive(True)
-            self.stack.set_visible_child_name("font")
-        else:
-            self.stack_row.set_sensitive(False)
-
-    def _activate_draw_mode_action(self, drawing_mode):
-        app = Gio.Application.get_default()
-        if app:
-            action = app.lookup_action("draw-mode")
-            if action:
-                action.activate(GLib.Variant('s', drawing_mode.value))
-
-    def _ensure_one_tool_active(self, button, drawing_mode):
-        any_active = any(
-            btn.get_active() for mode, btn in self.tool_buttons.items() if mode != drawing_mode
-        )
-        if not any_active:
-            button.set_active(True)
-
-    def _on_reset_fill_clicked(self, _btn):
+    @Gtk.Template.Callback()
+    def _on_reset_fill_clicked(self, _button: Gtk.Button, *args) -> None:
         self.fill_color_button.set_rgba(Gdk.RGBA(0, 0, 0, 0))
         self.fill_color_button.emit("color-set")
 
-    def _on_color_set(self, color_btn: Gtk.ColorButton):
-        rgba = color_btn.get_rgba()
+    @Gtk.Template.Callback()
+    def _on_pen_color_set(self, button: Gtk.ColorButton, *args) -> None:
+        rgba = button.get_rgba()
+        self.settings.pen_color = rgba
         self._activate_color_action("pen-color", rgba)
 
-    def _on_fill_color_set(self, color_btn: Gtk.ColorButton):
-        rgba = color_btn.get_rgba()
+    @Gtk.Template.Callback()
+    def _on_highlighter_color_set(self, button: Gtk.ColorButton, *args) -> None:
+        rgba = button.get_rgba()
+        self.settings.highlighter_color = rgba
+        self._activate_color_action("highlighter-color", rgba)
+
+    @Gtk.Template.Callback()
+    def _on_fill_color_set(self, button: Gtk.ColorButton, *args) -> None:
+        rgba = button.get_rgba()
+        self.settings.fill_color = rgba
         self._activate_color_action("fill-color", rgba)
 
-    def _on_font_selected(self, dropdown: Gtk.DropDown, _param):
+    @Gtk.Template.Callback()
+    def _on_size_changed(self, scale: Gtk.Scale, *args) -> None:
+        size_value = scale.get_value()
+        self.settings.pen_size = size_value
+        self._activate_double_action("pen-size", size_value)
+
+    @Gtk.Template.Callback()
+    def _on_number_radius_changed(self, scale: Gtk.Scale, *args) -> None:
+        size_value = scale.get_value()
+        self.settings.number_radius = size_value
+        self._activate_double_action("number-radius", size_value)
+
+    @Gtk.Template.Callback()
+    def _on_font_selected(self, dropdown: Gtk.DropDown, _param: GObject.ParamSpec, *args) -> None:
         selected_index = dropdown.get_selected()
         if 0 <= selected_index < len(self.fonts):
             font_name = self.fonts[selected_index]
+            self.settings.font = font_name
             app = Gio.Application.get_default()
             if app:
                 action = app.lookup_action("font")
                 if action:
                     action.activate(GLib.Variant('s', font_name))
 
-    def _activate_color_action(self, action_name: str, rgba: Gdk.RGBA):
+    def _on_button_toggled(self, button: Gtk.ToggleButton, drawing_mode: DrawingMode) -> None:
+        if button.get_active():
+            self._deactivate_other_tools(drawing_mode)
+            self._update_stack_for_mode(drawing_mode)
+            self._update_color_stack_for_mode(drawing_mode)
+            self.settings.draw_mode = drawing_mode.value
+            self._activate_draw_mode_action(drawing_mode)
+        else:
+            self._ensure_one_tool_active(button, drawing_mode)
+
+    """
+    Internal Methods
+    """
+
+    def _deactivate_other_tools(self, current_mode: DrawingMode) -> None:
+        for mode, button in self.tool_buttons.items():
+            if mode != current_mode and button.get_active():
+                button.set_active(False)
+
+    def _update_stack_for_mode(self, drawing_mode: DrawingMode) -> None:
+        required_page = None
+        for tool_config in self.tools_config:
+            if tool_config.mode == drawing_mode:
+                required_page = tool_config.stack_page
+                break
+
+        if required_page is None:
+            self.stack_row.set_sensitive(False)
+        else:
+            self.stack_row.set_sensitive(True)
+            self.fill_font_stack.set_visible_child_name(required_page)
+            self.current_stack_page = required_page
+
+    def _update_color_stack_for_mode(self, drawing_mode: DrawingMode) -> None:
+        required_page = None
+        for tool_config in self.tools_config:
+            if tool_config.mode == drawing_mode:
+                required_page = tool_config.color_stack_page
+                break
+
+        if required_page is None:
+            self.color_stack_row.set_sensitive(False)
+        else:
+            self.color_stack_row.set_sensitive(True)
+            self.color_stack.set_visible_child_name(required_page)
+            self.current_color_stack_page = required_page
+
+    def _activate_draw_mode_action(self, drawing_mode: DrawingMode) -> None:
+        app = Gio.Application.get_default()
+        if app:
+            action = app.lookup_action("draw-mode")
+            if action:
+                action.activate(GLib.Variant('s', drawing_mode.value))
+
+    def _ensure_one_tool_active(self, button, drawing_mode: DrawingMode) -> None:
+        any_active = any(
+            btn.get_active() for mode, btn in self.tool_buttons.items() if mode != drawing_mode
+        )
+        if not any_active:
+            button.set_active(True)
+
+    def _activate_color_action(self, action_name: str, rgba: Gdk.RGBA) -> None:
         app = Gio.Application.get_default()
         if app:
             action = app.lookup_action(action_name)
             if action:
                 color_str = f"{rgba.red:.3f},{rgba.green:.3f},{rgba.blue:.3f},{rgba.alpha:.3f}"
                 action.activate(GLib.Variant('s', color_str))
+
+    def _activate_double_action(self, action_name: str, size_value: float) -> None:
+        app = Gio.Application.get_default()
+        if app:
+            action = app.lookup_action(action_name)
+            if action:
+                action.activate(GLib.Variant('d', size_value))

@@ -11,4 +11,19 @@ headerbar.desktop windowcontrols button:active image {
     background: alpha(mix(black, white, 0.2), 0.5);
 }
 
+.image-preset-button {
+    min-width: 80px;
+    min-height: 60px;
+    padding: 0;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.1);
+    transition: filter 0.3s ease;
+}
 
+.image-preset-button:hover {
+    filter: brightness(1.1);
+}
+
+.image-preset-button picture {
+    border-radius: 9px;
+}

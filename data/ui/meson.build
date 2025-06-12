@@ -1,8 +1,14 @@
 blueprints = custom_target('blueprints',
   input: files(
-    'header_bar.blp',
+    'selectors/gradient_selector.blp',
+    'selectors/image_selector.blp',
+    'selectors/solid_selector.blp',
+    'background_selector.blp',
     'controls_overlay.blp',
-    'home_bar.blp'
+    'drawing_tools_group.blp',
+    'image_sidebar.blp',
+    'recent_picker.blp',
+    'welcome_page.blp'
   ),
   output: '.',
   command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@']

@@ -25,6 +25,7 @@ from gradia.graphics.image_processor import ImageProcessor
 from gradia.graphics.gradient import GradientBackground
 from gradia.graphics.solid import SolidBackground
 from gradia.graphics.image import ImageBackground
+from gradia.ui.welcome_page import WelcomePage
 from gradia.ui.background_selector import BackgroundSelector
 from gradia.ui.ui_parts import *
 from gradia.clipboard import *
@@ -32,15 +33,16 @@ from gradia.ui.misc import *
 from gradia.ui.image_loaders import ImportManager
 from gradia.ui.image_exporters import ExportManager
 from gradia.overlay.drawing_actions import DrawingMode
+from gradia.ui.image_sidebar import ImageSidebar
 
 
 class GradientWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'GradientWindow'
 
-    DEFAULT_WINDOW_WIDTH: int = 900
-    DEFAULT_WINDOW_HEIGHT: int = 600
+    DEFAULT_WINDOW_WIDTH: int = 975
+    DEFAULT_WINDOW_HEIGHT: int = 675
     DEFAULT_PANED_POSITION: int = 650
-    SIDEBAR_WIDTH: int = 200
+    SIDEBAR_WIDTH: int = 300
 
     PAGE_IMAGE: str = "image"
     PAGE_LOADING: str = "loading"
@@ -102,9 +104,11 @@ class GradientWindow(Adw.ApplicationWindow):
 
         self.create_action("pen-color", lambda action, param: self._set_pen_color_from_string(param.get_string()), vt="s")
         self.create_action("fill-color", lambda action, param: self._set_fill_color_from_string(param.get_string()), vt="s")
+        self.create_action("highlighter-color", lambda action, param: self._set_highlighter_color_from_string(param.get_string()), vt="s")
         self.create_action("del-selected", lambda *_: self.drawing_overlay.remove_selected_action(), ["<Primary>x", "Delete"])
         self.create_action("font", lambda action, param: self.drawing_overlay.set_font_family(param.get_string()), vt="s")
-
+        self.create_action("pen-size", lambda action, param: self.drawing_overlay.set_pen_size(param.get_double()), vt="d")
+        self.create_action("number-radius", lambda action, param: self.drawing_overlay.set_number_radius(param.get_double()), vt="d")
 
         self.create_action("delete-screenshots", lambda *_: self._create_delete_screenshots_dialog(), enabled=False)
 
@@ -167,14 +171,14 @@ class GradientWindow(Adw.ApplicationWindow):
         self.stack_box = stack_info[5]
 
     def _setup_sidebar(self) -> None:
-        self.sidebar_info = create_sidebar_ui(
-            background_selector_widget=self.background_selector.widget,
+        self.sidebar = ImageSidebar(
+            background_selector_widget=self.background_selector,
             on_padding_changed=self.on_padding_changed,
             on_corner_radius_changed=self.on_corner_radius_changed,
             on_aspect_ratio_changed=self.on_aspect_ratio_changed,
-            on_shadow_strength_changed=self.on_shadow_strength_changed,
+            on_shadow_strength_changed=self.on_shadow_strength_changed
         )
-        self.sidebar: Gtk.Widget = self.sidebar_info['sidebar']
+
         self.sidebar.set_size_request(self.SIDEBAR_WIDTH, -1)
         self.sidebar.set_visible(False)
 
@@ -183,8 +187,8 @@ class GradientWindow(Adw.ApplicationWindow):
         self.top_stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
         self.top_stack.set_transition_duration(200)
 
-        status_page = create_status_page()
-        self.top_stack.add_named(status_page, "empty")
+        welcome_page = WelcomePage()
+        self.top_stack.add_named(welcome_page, "empty")
 
         self.main_box: Gtk.Box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
         self.main_box.set_vexpand(True)
@@ -194,7 +198,6 @@ class GradientWindow(Adw.ApplicationWindow):
 
         self.image_stack.set_hexpand(True)
         self.sidebar.set_hexpand(False)
-        self.sidebar.set_size_request(300, -1)
 
         self.top_stack.add_named(self.main_box, "main")
 
@@ -219,9 +222,9 @@ class GradientWindow(Adw.ApplicationWindow):
     def _hide_loading_state(self) -> None:
         self.image_stack.set_visible_child_name(self.PAGE_IMAGE)
 
-    def _update_sidebar_info(self, filename: str, location: str) -> None:
-        self.sidebar_info['filename_row'].set_subtitle(filename)
-        self.sidebar_info['location_row'].set_subtitle(location)
+    def _update_sidebar_file_info(self, filename: str, location: str) -> None:
+        self.sidebar.filename_row.set_subtitle(filename)
+        self.sidebar.location_row.set_subtitle(location)
         self.sidebar.set_visible(True)
 
     def _on_background_changed(self, updated_background) -> None:
@@ -268,6 +271,8 @@ class GradientWindow(Adw.ApplicationWindow):
 
     def _set_fill_color_from_string(self, color_string):
         self.drawing_overlay.set_fill_color(*self._parse_rgba(color_string))
+    def _set_highlighter_color_from_string(self, color_string):
+        self.drawing_overlay.set_highlighter_color(*self._parse_rgba(color_string))
 
     def _trigger_processing(self) -> None:
         if self.image_path:
@@ -308,11 +313,11 @@ class GradientWindow(Adw.ApplicationWindow):
                 width: int = self.processed_pixbuf.get_width()
                 height: int = self.processed_pixbuf.get_height()
                 size_str: str = f"{width}×{height}"
-                self.sidebar_info['processed_size_row'].set_subtitle(size_str)
+                self.sidebar.processed_size_row.set_subtitle(size_str)
             else:
-                self.sidebar_info['processed_size_row'].set_subtitle(_("Unknown"))
+                self.sidebar.processed_size_row.set_subtitle(_("Unknown"))
         except Exception as e:
-            self.sidebar_info['processed_size_row'].set_subtitle(_("Error"))
+            self.sidebar.processed_size_row.set_subtitle(_("Error"))
             print(f"Error getting processed image size: {e}")
 
     def _show_notification(self, message: str) -> None:

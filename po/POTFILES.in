@@ -16,5 +16,12 @@ gradia/ui/background_selector.py
 gradia/ui/drawing_tools_group.py
 gradia/overlay/drawing_overlay.py
 gradia/overlay/drawing_actions.py
+data/ui/selectors/gradient_selector.blp
+data/ui/selectors/image_selector.blp
+data/ui/selectors/solid_selector.blp
+data/ui/background_selector.blp
 data/ui/controls_overlay.blp
-data/ui/header_bar.blp
+data/ui/drawing_tools_group.blp
+data/ui/image_sidebar.blp
+data/ui/recent_picker.blp
+data/ui/welcome_page.blp

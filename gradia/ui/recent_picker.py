@@ -7,43 +7,26 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import gi
-gi.require_version('Gtk', '4.0')
-gi.require_version('Adw', '1')
-from gi.repository import Gtk, Adw, GdkPixbuf, Gio, GLib, Gdk
-from gradia.app_constants import PREDEFINED_GRADIENTS
 from pathlib import Path
-import time
-import re
-import threading
 import random
-import gettext
-import locale
+import re
 
-DOMAIN = 'gradia'
-LOCALE_DIR = Path(__file__).parent.parent.parent / 'locale'
+from gi.repository import Adw, GdkPixbuf, Gtk
 
-try:
-    locale.setlocale(locale.LC_ALL, '')
-except locale.Error as e:
-    print(f"Warning: Could not set locale - {e}")
-
-gettext.bindtextdomain(DOMAIN, str(LOCALE_DIR))
-gettext.textdomain(DOMAIN)
-
-_ = gettext.gettext
-ngettext = gettext.ngettext
+from gradia.app_constants import PREDEFINED_GRADIENTS
+from gradia.constants import rootdir  # pyright: ignore
+from gradia.backend.settings import Settings
 
 class RecentFile:
-    def __init__(self, path: Path):
+    def __init__(self, path: Path) -> None:
         self.path = path
         self.folder = str(path.parent)
         self.name = str(path.parent)
@@ -53,12 +36,11 @@ class RecentImageGetter:
     MAX_RESULTS = 6
     XDG_USER_DIRS_FILE = Path.home() / ".config" / "user-dirs.dirs"
     FALLBACK_PICTURES_PATH = Path.home() / "Pictures"
-    SCREENSHOTS_SUBDIR_NAME = "Screenshots"
 
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
-    def get_recent_screenshot_files(self) -> list:
+    def get_recent_screenshot_files(self) -> list[RecentFile]:
         screenshots_dir = self._get_screenshots_directory()
         if not screenshots_dir.exists():
             print("Screenshots directory does not exist.")
@@ -74,7 +56,7 @@ class RecentImageGetter:
 
     def _get_screenshots_directory(self) -> Path:
         pictures_dir = self._get_xdg_user_dir("XDG_PICTURES_DIR") or self.FALLBACK_PICTURES_PATH
-        return pictures_dir / self.SCREENSHOTS_SUBDIR_NAME
+        return pictures_dir / Settings().screenshot_subfolder
 
     def _get_xdg_user_dir(self, key: str) -> Path | None:
         if not self.XDG_USER_DIRS_FILE.exists():
@@ -89,20 +71,25 @@ class RecentImageGetter:
                     return Path(path)
         return None
 
-class RecentPicker(Gtk.Box):
+
+@Gtk.Template(resource_path=f"{rootdir}/ui/recent_picker.ui")
+class RecentPicker(Adw.Bin):
+    __gtype_name__ = "GradiaRecentPicker"
+
     GRID_ROWS = 2
     GRID_COLS = 3
-    GRID_ROW_SPACING = 10
-    GRID_COL_SPACING = 30
     FRAME_SPACING = 5
-    IMAGE_WIDTH = 210
-    IMAGE_HEIGHT = 120
+    IMAGE_WIDTH = 260
+    IMAGE_HEIGHT = 160
     MAX_WIDTH_CHARS = 20
     MAX_FILENAME_LENGTH = 30
     FILENAME_TRUNCATE_LENGTH = 27
 
-    def __init__(self, callback=None):
-        super().__init__(orientation=Gtk.Orientation.VERTICAL)
+    item_grid: Gtk.Grid = Gtk.Template.Child()
+
+    def __init__(self, callback=None, **kwargs) -> None:
+        super().__init__(**kwargs)
+
         self.image_getter = RecentImageGetter()
         self.callback = callback
         self.image_buttons = []
@@ -117,15 +104,10 @@ class RecentPicker(Gtk.Box):
         self.gradient_colors = list(self.gradient_colors)
         self.original_gradient_indexes = list(self.original_gradient_indexes)
 
-        self.create_widgets()
-        self.load_images()
+        self._setup_cards()
+        self._load_images()
 
-    def create_widgets(self):
-        grid = Gtk.Grid()
-        grid.set_row_spacing(self.GRID_ROW_SPACING)
-        grid.set_column_spacing(self.GRID_COL_SPACING)
-        grid.set_halign(Gtk.Align.CENTER)
-
+    def _setup_cards(self) -> None:
         for row in range(self.GRID_ROWS):
             for col in range(self.GRID_COLS):
                 index = row * self.GRID_COLS + col
@@ -133,13 +115,13 @@ class RecentPicker(Gtk.Box):
                 container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=self.FRAME_SPACING)
                 container.set_size_request(self.IMAGE_WIDTH, self.IMAGE_HEIGHT)
 
-                frame = Gtk.Frame()
+                frame = Gtk.Frame(vexpand=True)
                 frame.set_size_request(self.IMAGE_WIDTH, self.IMAGE_HEIGHT)
 
                 img_button = Gtk.Button(has_frame=False)
                 img_button.set_size_request(self.IMAGE_WIDTH, self.IMAGE_HEIGHT)
                 img_button.add_css_class("card")
-                img_button.connect("clicked", lambda btn, idx=index: self.on_image_click(idx))
+                img_button.connect("clicked", lambda _btn, idx=index: self.on_image_click(idx))
 
                 self._apply_gradient_to_button(img_button, index)
 
@@ -158,11 +140,9 @@ class RecentPicker(Gtk.Box):
                 self.name_labels.append(name_label)
                 container.append(name_label)
 
-                grid.attach(container, col, row, 1, 1)
+                self.item_grid.attach(container, col, row, 1, 1)
 
-        self.append(grid)
-
-    def _apply_gradient_to_button(self, button, index):
+    def _apply_gradient_to_button(self, button: Gtk.Button, index: int) -> None:
         gradient_name = f"gradient-button-{index}"
         button.set_name(gradient_name)
 
@@ -190,34 +170,16 @@ class RecentPicker(Gtk.Box):
 
         css_provider = Gtk.CssProvider()
         css_provider.load_from_string(css)
-        Gtk.StyleContext.add_provider_for_display(
-            Gdk.Display.get_default(),
+        button.get_style_context().add_provider(
             css_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
 
-    def _fade_in_widget(self, widget):
-        widget.set_opacity(0.0)
-        target = Adw.PropertyAnimationTarget.new(widget, "opacity")
-        animation = Adw.TimedAnimation(
-            widget=widget,
-            value_from=0.0,
-            value_to=1.0,
-            duration=300,
-            easing=Adw.Easing.EASE_OUT,
-            target=target,
-        )
-        animation.play()
+    def _load_images(self) -> None:
+        recent_files = self.image_getter.get_recent_screenshot_files()
+        self._update_display(recent_files)
 
-    def load_images(self):
-        def load_in_thread():
-            recent_files = self.image_getter.get_recent_screenshot_files()
-            GLib.idle_add(self._update_display, recent_files)
-
-        thread = threading.Thread(target=load_in_thread, daemon=True)
-        thread.start()
-
-    def _update_display(self, recent_files):
+    def _update_display(self, recent_files: list[RecentFile]) -> None:
         self.recent_files = recent_files
 
         for i in range(self.GRID_ROWS * self.GRID_COLS):
@@ -225,26 +187,12 @@ class RecentPicker(Gtk.Box):
                 file_obj = recent_files[i]
 
                 try:
-                    pixbuf = GdkPixbuf.Pixbuf.new_from_file(str(file_obj.path))
-
-                    width = pixbuf.get_width()
-                    height = pixbuf.get_height()
-
-                    scale_x = self.IMAGE_WIDTH / width
-                    scale_y = self.IMAGE_HEIGHT / height
-                    scale = min(scale_x, scale_y)
-
-                    new_width = int(width * scale)
-                    new_height = int(height * scale)
-
-                    scaled_pixbuf = pixbuf.scale_simple(
-                        new_width, new_height, GdkPixbuf.InterpType.BILINEAR
-                    )
-
-                    image = Gtk.Image.new_from_pixbuf(scaled_pixbuf)
-                    self.image_buttons[i].set_child(image)
-                    self._fade_in_widget(image)
-
+                    picture = Gtk.Picture.new_for_filename(str(file_obj.path))
+                    picture.set_margin_top(10)
+                    picture.set_margin_bottom(10)
+                    picture.set_margin_start(10)
+                    picture.set_margin_end(10)
+                    self.image_buttons[i].set_child(picture)
 
                 except Exception as e:
                     filename = file_obj.path.name
@@ -253,22 +201,21 @@ class RecentPicker(Gtk.Box):
 
                     error_label = Gtk.Label(label=filename)
                     self.image_buttons[i].set_child(error_label)
-                    self._fade_in_widget(error_label)
-
                     print(f"Error loading image {file_obj.path}: {e}")
             else:
                 icon = Gtk.Image.new_from_icon_name("image-missing-symbolic")
-                icon.set_pixel_size(64)
                 self.image_buttons[i].set_child(icon)
                 self.image_buttons[i].set_sensitive(False)
                 self.name_labels[i].set_text("")
 
-    def on_image_click(self, index):
+    def on_image_click(self, index: int, *args) -> None:
         if index < len(self.recent_files):
             file_path = self.recent_files[index].path
             original_gradient_index = self.original_gradient_indexes[index % len(self.original_gradient_indexes)]
+
             if self.callback:
                 self.callback(str(file_path), original_gradient_index)
 
-    def refresh(self):
-        self.load_images()
+    def refresh(self) -> None:
+        self._load_images()
+

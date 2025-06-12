@@ -1,0 +1,31 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $GradiaSolidSelector : Adw.PreferencesGroup {
+  title: _("Solid Color Background");
+
+  Adw.ActionRow color_row {
+    title: _("Color");
+
+    // TODO: Replace with ColorDialogButton
+    [suffix]
+    Gtk.ColorButton color_button {
+      use-alpha: true;
+      valign: center;
+
+      color-set => $_on_color_changed();
+    }
+  }
+
+  Adw.ActionRow color_presets_row {
+    activatable: false;
+    selectable: false;
+
+    child: Gtk.Grid color_presets_grid {
+      row-spacing: 6;
+      column-spacing: 6;
+      valign: center;
+      halign: center;
+    };
+  }
+}
