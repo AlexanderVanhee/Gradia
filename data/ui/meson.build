@@ -8,6 +8,7 @@ blueprints = custom_target('blueprints',
     'drawing_tools_group.blp',
     'image_sidebar.blp',
     'recent_picker.blp',
+    'text_entry_popover.blp',
     'welcome_page.blp'
   ),
   output: '.',

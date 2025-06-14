@@ -17,10 +17,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import sys
 import logging
+import sys
 import traceback
-from gradia.constants import build_type
+
+from gradia.constants import build_type  # pyright: ignore
 
 class Logger(logging.getLoggerClass()):
     """
@@ -82,7 +83,7 @@ class Logger(logging.getLoggerClass()):
 
         return f"[\033[1;{color_id}m{level.upper()}\033[0m] {message}"
 
-    def __init__(self, issue_footer_levels: list | None = None, fmt: str | None = None):
+    def __init__(self, issue_footer_levels: list | None = None, fmt: str | None = None) -> None:
         """
         The constructor for Logger class.
         """

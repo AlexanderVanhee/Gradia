@@ -29,7 +29,7 @@ from gradia.ui.welcome_page import WelcomePage
 from gradia.ui.background_selector import BackgroundSelector
 from gradia.ui.ui_parts import *
 from gradia.clipboard import *
-from gradia.ui.misc import *
+from gradia.utils.aspect_ratio import *
 from gradia.ui.image_loaders import ImportManager
 from gradia.ui.image_exporters import ExportManager
 from gradia.overlay.drawing_actions import DrawingMode
