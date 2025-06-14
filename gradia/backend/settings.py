@@ -15,7 +15,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from gi.repository import Gio, Gdk
+from gi.repository import Gio, Gdk, Gtk
 
 class Settings:
     def __init__(self) -> None:
@@ -119,3 +119,30 @@ class Settings:
 
     def _rgba_to_string(self, rgba: Gdk.RGBA) -> str:
         return f"{rgba.red:.3f},{rgba.green:.3f},{rgba.blue:.3f},{rgba.alpha:.3f}"
+
+    @property
+    def export_format(self) -> str:
+        return self._settings.get_string("export-format")
+
+    @export_format.setter
+    def export_format(self, value: str) -> None:
+        self._settings.set_string("export-format", value)
+
+    @property
+    def export_compress(self) -> bool:
+        return self._settings.get_boolean("export-compress")
+
+    @property
+    def delete_screenshots_on_close(self) -> bool:
+        return self._settings.get_boolean("trash-screenshots-on-close")
+
+    def bind_switch(self, switch: Gtk.Switch, key: str) -> None:
+        if key in self._settings.list_keys():
+            self._settings.bind(
+                key,
+                switch,
+                "active",
+                Gio.SettingsBindFlags.DEFAULT
+            )
+        else:
+            print(f"Warning: GSettings key '{key}' not found in schema.")

@@ -273,11 +273,9 @@ class ScreenshotImageLoader(BaseImageLoader):
         for uri in self._screenshot_uris:
             try:
                 file = Gio.File.new_for_uri(uri)
-                file_path = file.get_path()
-                if file_path and os.path.isfile(file_path):
-                    os.remove(file_path)
+                file.trash(None)
             except Exception as e:
-                print(f"Failed to delete screenshot {uri}: {e}")
+                print(f"Failed to trash screenshot {uri}: {e}")
 
         self._screenshot_uris.clear()
         self._update_delete_action_state()

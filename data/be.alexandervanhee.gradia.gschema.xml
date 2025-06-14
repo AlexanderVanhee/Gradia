@@ -29,10 +29,21 @@
       <default>'Adwaita Sans'</default>
       <summary>Selected font name</summary>
     </key>
-
    <key name="screenshot-subfolder" type="s">
       <default>'Screenshots'</default>
       <summary>Screenshot subdirectory</summary>
+    </key>
+    <key name="export-format" type="s">
+      <default>'png'</default>
+      <summary>The export format for the Save button</summary>
+    </key>
+    <key name="export-compress" type="b">
+      <default>true</default>
+      <summary>Whether to compress the exported file (if supported)</summary>
+    </key>
+    <key name="trash-screenshots-on-close" type="b">
+      <default>false</default>
+      <summary>Whether to trash all taken screenshots from the current session on close.</summary>
     </key>
   </schema>
 </schemalist>
