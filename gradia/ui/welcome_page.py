@@ -65,6 +65,12 @@ class WelcomePage(Adw.Bin):
     def _on_drag_leave(self, _drop_target: Gtk.DropTarget) -> None:
         self.remove_css_class("drag-hover")
 
+    def refresh_recent_picker(self) -> None:
+        self.recent_picker.refresh()
+
+    """
+    Callbacks
+    """
     def _on_recent_image_click(self, path: str, gradient_index: int) -> None:
         app = Gio.Application.get_default()
         if app:

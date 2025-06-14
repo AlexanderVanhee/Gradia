@@ -36,6 +36,9 @@ from gradia.ui.image_sidebar import ImageSidebar
 from gradia.ui.ui_parts import *
 from gradia.ui.welcome_page import WelcomePage
 from gradia.utils.aspect_ratio import *
+from gradia.ui.settings_window import SettingsWindow
+from gradia.backend.settings import Settings
+
 
 
 class GradientWindow(Adw.ApplicationWindow):
@@ -123,6 +126,9 @@ class GradientWindow(Adw.ApplicationWindow):
         self.create_action("number-radius", lambda action, param: self.drawing_overlay.set_number_radius(param.get_double()), vt="d")
 
         self.create_action("delete-screenshots", lambda *_: self._create_delete_screenshots_dialog(), enabled=False)
+        self.create_action("settings", self._on_settings_activated, ['<primary>comma'])
+
+        self.create_action("set-screenshot-folder",  lambda action, param: self.set_screenshot_subfolder(param.get_string()), vt="s")
 
         self.file_path = file_path
 
@@ -138,6 +144,12 @@ class GradientWindow(Adw.ApplicationWindow):
                 screenshot_error_callback,
                 screenshot_success_callback
             )
+        self.app.connect("shutdown", self._on_app_shutdown)
+
+
+    def _on_app_shutdown(self, app: Adw.Application) -> None:
+        if (Settings().delete_screenshots_on_close):
+            self.import_manager.delete_screenshots()
 
     def create_action(
         self,
@@ -221,8 +233,8 @@ class GradientWindow(Adw.ApplicationWindow):
         self.top_stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
         self.top_stack.set_transition_duration(200)
 
-        welcome_page = WelcomePage()
-        self.top_stack.add_named(welcome_page, "empty")
+        self.welcome_page = WelcomePage()
+        self.top_stack.add_named(self.welcome_page, "empty")
 
         self.main_box: Gtk.Box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
         self.main_box.set_vexpand(True)
@@ -400,24 +412,32 @@ class GradientWindow(Adw.ApplicationWindow):
         count = len(screenshot_uris)
         if count == 1:
             heading = _("Delete Screenshot?")
-            body = _("Are you sure you want to delete the following file?\n\n%s") % filenames_display
+            body = _("Are you sure you want to trash the following file?\n\n%s") % filenames_display
         else:
             heading = _("Delete Screenshots?")
-            body = _("Are you sure you want to delete the following files?\n\n%s") % filenames_display
+            body = _("Are you sure you want to trash the following files?\n\n%s") % filenames_display
 
         dialog = Adw.MessageDialog.new(self, heading=heading, body=body)
         dialog.add_response("cancel", _("Cancel"))
-        dialog.add_response("delete", _("Delete"))
+        dialog.add_response("delete", _("Trash"))
         dialog.set_response_appearance("delete", Adw.ResponseAppearance.DESTRUCTIVE)
 
         def on_response(dialog: Adw.MessageDialog, response_name: str) -> None:
             if response_name == "delete":
                 self.import_manager.delete_screenshots()
                 if count == 1:
-                    self._show_notification(_("Screenshot deleted"))
+                    self._show_notification(_("Screenshot moved to trash"))
                 else:
-                    self._show_notification(_("Screenshots deleted"))
+                    self._show_notification(_("Screenshots moved to trash"))
             dialog.destroy()
 
         dialog.connect("response", on_response)
         dialog.present()
+
+    def _on_settings_activated(self, action: Gio.SimpleAction, param) -> None:
+        settings_window = SettingsWindow(self)
+        settings_window.present()
+
+    def set_screenshot_subfolder(self, subfolder) -> None:
+        Settings().screenshot_subfolder = subfolder
+        self.welcome_page.refresh_recent_picker()

@@ -1,0 +1,128 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $GradiaSettingsWindow : Adw.PreferencesWindow {
+  default-width: 600;
+  default-height: 500;
+  title: _("Options");
+  modal: true;
+
+  Adw.PreferencesPage screenshots_page {
+    title: _("Options");
+    icon-name: "settings-symbolic";
+
+    Adw.PreferencesGroup location_group {
+      title: _("Recent Screenshots");
+      description: _("Configure which subfolder of Pictures to use to display recent screenshots from on the home page");
+
+      Adw.ExpanderRow folder_expander {
+        title: _("Select Folder");
+        subtitle: _("Click to change folder");
+        show-enable-switch: false;
+      }
+    }
+
+    Adw.PreferencesGroup save_format_group {
+      title: _("Save Settings");
+
+      Adw.ComboRow save_format_combo {
+        title: _("Image Format");
+        subtitle: _("Default format for saved screenshots");
+      }
+
+      Adw.ComboRow save_compress_combo {
+        title: _("Compress image");
+        subtitle: _("On supported formats");
+        [suffix]
+        Gtk.Switch compress_switch {
+          tooltip-text: _("Compress images to reduce file size");
+          valign: center;
+        }
+      }
+    }
+
+  Adw.PreferencesGroup {
+    title: _("Screenshot Management");
+    Adw.ComboRow {
+      title: _("Trash screenshots on close");
+      subtitle: _("Automatically move screenshots taken from whitin the app to trash.");
+      [suffix]
+      Gtk.Switch delete_screenshot_switch {
+        tooltip-text: _("Trash screenshots on app close");
+        valign: center;
+      }
+    }
+  }
+  }
+
+  Adw.PreferencesPage setup_page {
+    title: _("Shortcut");
+    icon-name: "help-about-symbolic";
+
+    Adw.PreferencesGroup instructions_group {
+      title: _("Shortcut setup Instructions");
+
+      Gtk.Box content_box {
+        orientation: vertical;
+        spacing: 12;
+
+        Gtk.Label instruction_label {
+          label: _("If you'd like the app to <b>open automatically</b> after taking a screenshot, you can set up a custom keyboard shortcut:\n\n<b>Steps:</b>\n1. Go to <b>Settings</b> → <b>Keyboard</b> → <b>View and Customize Shortcuts</b> → <b>Custom Shortcuts</b>.\n2. Click the <b>+</b> button to create a new shortcut.\n3. Set the <b>Name</b> to something like <i>Open Gradia with Screenshot</i>.\n4. For the <b>Command</b>, copy one of the commands below:");
+          use-markup: true;
+          wrap: true;
+          halign: start;
+        }
+
+        Adw.PreferencesGroup interactive_group {
+          title: _("Interactive Screenshot");
+          description: _("Allows you to select an area to screenshot");
+
+          Gtk.Box interactive_row {
+            spacing: 12;
+
+            Gtk.Entry interactive_entry {
+              editable: false;
+              hexpand: true;
+              styles ["monospace"]
+            }
+
+            Gtk.Button interactive_copy_btn {
+              icon-name: "edit-copy-symbolic";
+              tooltip-text: _("Copy to clipboard");
+              valign: center;
+            }
+          }
+        }
+
+        Adw.PreferencesGroup fullscreen_group {
+          title: _("Full Screen Screenshot");
+          description: _("Takes a screenshot of all screens instantly");
+
+          Gtk.Box fullscreen_row {
+            spacing: 12;
+
+            Gtk.Entry fullscreen_entry {
+              editable: false;
+              hexpand: true;
+              styles ["monospace"]
+            }
+
+            Gtk.Button fullscreen_copy_btn {
+              icon-name: "edit-copy-symbolic";
+              tooltip-text: _("Copy to clipboard");
+              valign: center;
+            }
+          }
+        }
+
+        Gtk.Label final_label {
+          label: _("5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should be free by default).");
+          use-markup: true;
+          wrap: true;
+          selectable: true;
+          halign: start;
+        }
+      }
+    }
+  }
+}

@@ -222,6 +222,8 @@ class RecentPicker(Adw.Bin):
                     picture.set_margin_start(10)
                     picture.set_margin_end(10)
                     self.image_buttons[i].set_child(picture)
+                    self.image_buttons[i].set_sensitive(True)
+
 
                 except Exception as e:
                     filename = file.path.name
@@ -230,7 +232,9 @@ class RecentPicker(Adw.Bin):
 
                     error_label = Gtk.Label(label=filename)
                     self.image_buttons[i].set_child(error_label)
-                    print(f"Error loading image {file.path}: {e}")
+                    self.image_buttons[i].set_sensitive(False)
+                    self.name_labels[i].set_text("")
+                    print(f"Error loading image {file_obj.path}: {e}")
             else:
                 icon = Gtk.Image.new_from_icon_name("image-missing-symbolic")
                 self.image_buttons[i].set_child(icon)
