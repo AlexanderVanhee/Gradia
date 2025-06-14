@@ -8,7 +8,8 @@ blueprints = custom_target('blueprints',
     'drawing_tools_group.blp',
     'image_sidebar.blp',
     'recent_picker.blp',
-    'welcome_page.blp'
+    'welcome_page.blp',
+    'settings_window.blp',
   ),
   output: '.',
   command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@']

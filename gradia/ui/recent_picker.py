@@ -193,14 +193,14 @@ class RecentPicker(Adw.Bin):
                     picture.set_margin_start(10)
                     picture.set_margin_end(10)
                     self.image_buttons[i].set_child(picture)
+                    self.image_buttons[i].set_sensitive(True)
+
 
                 except Exception as e:
-                    filename = file_obj.path.name
-                    if len(filename) > self.MAX_FILENAME_LENGTH:
-                        filename = filename[:self.FILENAME_TRUNCATE_LENGTH] + "..."
-
                     error_label = Gtk.Label(label=filename)
                     self.image_buttons[i].set_child(error_label)
+                    self.image_buttons[i].set_sensitive(False)
+                    self.name_labels[i].set_text("")
                     print(f"Error loading image {file_obj.path}: {e}")
             else:
                 icon = Gtk.Image.new_from_icon_name("image-missing-symbolic")

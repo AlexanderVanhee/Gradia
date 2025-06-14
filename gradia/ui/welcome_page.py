@@ -59,6 +59,9 @@ class WelcomePage(Adw.Bin):
     def _on_drag_leave(self, drop_target) -> None:
         self.remove_css_class("drag-hover")
 
+    def refresh_recent_picker(self) -> None:
+        self.recent_picker.refresh()
+
     """
     Callbacks
     """
