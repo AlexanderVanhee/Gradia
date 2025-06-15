@@ -23,10 +23,10 @@ import shutil
 from collections.abc import Sequence
 from typing import Optional
 
-from gi.repository import Adw, Gio, Xdp, Gdk, Gtk
-from gradia.constants import app_id
+from gi.repository import Adw, Gio, Xdp
+from gradia.constants import app_id  # pyright: ignore
 
-from gradia.ui.window import GradientWindow
+from gradia.ui.window import GradiaMainWindow
 from gradia.backend.logger import Logger
 
 logging = Logger()
@@ -119,20 +119,20 @@ class GradiaApp(Adw.Application):
         logging.debug(f"Created temp directory: {temp_dir}")
         self.temp_dirs.append(temp_dir)
 
-        window = GradientWindow(
+        window = GradiaMainWindow(
             temp_dir=temp_dir,
             version=self.version,
             application=self,
             init_screenshot_mode=self.screenshot_flags,
             file_path=file_path
         )
-        window.build_ui()
         if not self.screenshot_flags:
             # Do not yet show the window if triggered from the shortcut.
             window.show()
 
     def on_shutdown(self, application):
         logging.info("Application shutdown started, cleaning temp directories...")
+
         for temp_dir in self.temp_dirs:
             try:
                 if os.path.exists(temp_dir):
@@ -140,10 +140,11 @@ class GradiaApp(Adw.Application):
                     logging.debug(f"Deleted temp dir: {temp_dir}")
             except Exception as e:
                 logging.warning(f"Failed to clean up temp dir {temp_dir}.", exception=e, show_exception=True)
+
         logging.info("Cleanup complete.")
 
 
-def main(version: str):
+def main(version: str) -> int:
     try:
         logging.info("Application starting...")
 

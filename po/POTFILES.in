@@ -23,6 +23,7 @@ data/ui/background_selector.blp
 data/ui/controls_overlay.blp
 data/ui/drawing_tools_group.blp
 data/ui/image_sidebar.blp
+data/ui/main_window.blp
 data/ui/recent_picker.blp
 data/ui/text_entry_popover.blp
 data/ui/welcome_page.blp

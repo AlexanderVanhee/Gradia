@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-    <gresource prefix="/be/alexandervanhee/gradia">
+  <gresource prefix="/be/alexandervanhee/gradia">
     <file preprocess="xml-stripblanks">ui/selectors/gradient_selector.ui</file>
     <file preprocess="xml-stripblanks">ui/selectors/image_selector.ui</file>
     <file preprocess="xml-stripblanks">ui/selectors/solid_selector.ui</file>
@@ -8,6 +8,7 @@
     <file preprocess="xml-stripblanks">ui/controls_overlay.ui</file>
     <file preprocess="xml-stripblanks">ui/drawing_tools_group.ui</file>
     <file preprocess="xml-stripblanks">ui/image_sidebar.ui</file>
+    <file preprocess="xml-stripblanks">ui/main_window.ui</file>
     <file preprocess="xml-stripblanks">ui/recent_picker.ui</file>
     <file preprocess="xml-stripblanks">ui/text_entry_popover.ui</file>
     <file preprocess="xml-stripblanks">ui/welcome_page.ui</file>

@@ -1,0 +1,36 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $GradiaMainWindow : Adw.ApplicationWindow {
+  title: "Gradia";
+  default-width: 975;
+  default-height: 675;
+
+  content: Adw.ToastOverlay toast_overlay {
+    Adw.ToolbarView toolbar_view {
+      top-bar-style: flat;
+
+      content: Gtk.Stack main_stack {
+        transition-type: crossfade;
+        transition-duration: 200;
+
+        Gtk.StackPage welcome_page {
+          name: "welcome";
+
+          child: $GradiaWelcomePage welcome_content {};
+        }
+
+        Gtk.StackPage main_page {
+          name: "main";
+
+          child: Gtk.Box main_box {
+            orientation: horizontal;
+            vexpand: true;
+          };
+        }
+
+        visible-child-name: "welcome";
+      };
+    }
+  };
+}
