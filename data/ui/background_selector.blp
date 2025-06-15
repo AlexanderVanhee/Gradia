@@ -7,7 +7,7 @@ template $GradiaBackgroundSelector : Adw.Bin {
     spacing: 12;
 
     Adw.ToggleGroup toggle_group {
-      homogeneous: true;
+      homogeneous: false;
 
       notify::active-name => $_on_group_changed();
 

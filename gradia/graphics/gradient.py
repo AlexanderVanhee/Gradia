@@ -24,6 +24,7 @@ from PIL import Image
 from gi.repository import Adw, Gtk
 
 from gradia.app_constants import PREDEFINED_GRADIENTS
+from gradia.graphics.background import Background
 from gradia.utils.colors import HexColor, hex_to_rgb, rgba_to_hex, hex_to_rgba
 from gradia.constants import rootdir  # pyright: ignore
 
@@ -33,7 +34,7 @@ GradientPreset = tuple[str, str, int]
 CacheInfo = dict[str, int | list[CacheKey] | bool]
 
 
-class GradientBackground:
+class GradientBackground(Background):
     _MAX_CACHE_SIZE: int = 100
     _gradient_cache: dict[CacheKey, Image.Image] = {}
     _c_lib: Optional[CDLL | bool] = None
@@ -58,7 +59,12 @@ class GradientBackground:
         except Exception:
             cls._c_lib = False
 
-    def __init__(self, start_color: HexColor = "#4A90E2", end_color: HexColor = "#50E3C2", angle: int = 0) -> None:
+    def __init__(
+        self,
+        start_color: HexColor = "#4A90E2",
+        end_color: HexColor = "#50E3C2",
+        angle: int = 0
+    ) -> None:
         self.start_color: HexColor = start_color
         self.end_color: HexColor = end_color
         self.angle: int = angle

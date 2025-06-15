@@ -15,13 +15,25 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from gi.repository import GObject, Gtk, Adw, Gdk, Gio, GLib, Pango
-from gradia.overlay.drawing_actions import DrawingMode
-from gradia.constants import rootdir  # pyright: ignore
+from typing import Optional
+
+from gi.repository import Adw, GLib, GObject, Gdk, Gio, Gtk, Pango
+
 from gradia.backend.settings import Settings
+from gradia.constants import rootdir  # pyright: ignore
+from gradia.overlay.drawing_actions import DrawingMode
+
 
 class ToolConfig:
-    def __init__(self, mode: DrawingMode, icon: str, column: int, row: int, stack_page: str = None, color_stack_page: str = None):
+    def __init__(
+        self,
+        mode: DrawingMode,
+        icon: str,
+        column: int,
+        row: int,
+        stack_page: Optional[str] = None,
+        color_stack_page: Optional[str] = None
+    ) -> None:
         self.mode = mode
         self.icon = icon
         self.column = column
@@ -30,8 +42,9 @@ class ToolConfig:
         self.color_stack_page = color_stack_page
 
     @staticmethod
-    def get_all_tools():
+    def get_all_tools() -> list['ToolConfig']:
         """Return all tool configurations."""
+
         return [
             ToolConfig(DrawingMode.SELECT, "pointer-primary-click-symbolic", 0, 0, None, None),
             ToolConfig(DrawingMode.PEN, "edit-symbolic", 1, 0, "size", "stroke"),
@@ -73,8 +86,8 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
         self.settings = Settings()
 
         self.tool_buttons: dict[DrawingMode, Gtk.ToggleButton] = {}
-        self.current_stack_page = None
-        self.current_color_stack_page = None
+        self.current_stack_page_name: str = None
+        self.current_color_stack_page_name: str = None
 
         self.fonts = ["Caveat", "Adwaita Sans", "Adwaita Mono", "Noto Sans"]
 
@@ -82,7 +95,12 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
         self._setup_font_dropdown()
         self._restore_settings()
 
-        saved_mode = DrawingMode(self.settings.draw_mode)
+        try:
+            saved_mode = DrawingMode(self.settings.draw_mode)
+        except ValueError:
+            saved_mode = DrawingMode.PEN
+
+
         if saved_mode in self.tool_buttons:
             self.tool_buttons[saved_mode].set_active(True)
         else:
@@ -95,6 +113,7 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
     """
 
     def _setup_annotation_tools_group(self) -> None:
+        # Sets default color values for color buttons
         self.stroke_color_button.set_rgba(Gdk.RGBA(red=1, green=1, blue=1, alpha=1))
         self.highlighter_color_button.set_rgba(Gdk.RGBA(red=1, green=1, blue=0, alpha=0.5))
         self.fill_color_button.set_rgba(Gdk.RGBA(red=0, green=0, blue=0, alpha=0))
@@ -102,7 +121,7 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
         for tool_config in self.tools_config:
             button = Gtk.ToggleButton(
                 icon_name=tool_config.icon,
-                tooltip_text=tool_config.mode.value,
+                tooltip_text=tool_config.mode.label(),
                 width_request=40,
                 height_request=40,
                 css_classes=["flat", "circular"]
@@ -114,26 +133,6 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
     def _setup_font_dropdown(self) -> None:
         for font in self.fonts:
             self.font_string_list.append(font)
-
-    def _restore_settings(self) -> None:
-        """Restore all settings from persistent storage."""
-        self.stroke_color_button.set_rgba(self.settings.pen_color)
-        self.highlighter_color_button.set_rgba(self.settings.highlighter_color)
-        self.fill_color_button.set_rgba(self.settings.fill_color)
-
-        self.size_scale.set_value(self.settings.pen_size)
-        self.number_radius_scale.set_value(self.settings.number_radius)
-
-        saved_font = self.settings.font
-        if saved_font in self.fonts:
-            font_index = self.fonts.index(saved_font)
-            GLib.idle_add(self._set_font_selection, font_index)
-
-    def _set_font_selection(self, index: int) -> bool:
-        font_dropdown = self.get_template_child(Gtk.DropDown, "font_dropdown")
-        if font_dropdown:
-            font_dropdown.set_selected(index)
-        return False
 
     def _initialize_all_actions(self) -> None:
         self._activate_color_action("pen-color", self.settings.pen_color)
@@ -253,7 +252,7 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
         else:
             self.stack_row.set_sensitive(True)
             self.fill_font_stack.set_visible_child_name(required_page)
-            self.current_stack_page = required_page
+            self.current_stack_page_name = required_page
 
     def _update_color_stack_for_mode(self, drawing_mode: DrawingMode) -> None:
         required_page = None
@@ -267,7 +266,7 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
         else:
             self.color_stack_row.set_sensitive(True)
             self.color_stack.set_visible_child_name(required_page)
-            self.current_color_stack_page = required_page
+            self.current_color_stack_page_name = required_page
 
     def _activate_draw_mode_action(self, drawing_mode: DrawingMode) -> None:
         app = Gio.Application.get_default()
@@ -276,7 +275,7 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
             if action:
                 action.activate(GLib.Variant('s', drawing_mode.value))
 
-    def _ensure_one_tool_active(self, button, drawing_mode: DrawingMode) -> None:
+    def _ensure_one_tool_active(self, button: Gtk.ToggleButton, drawing_mode: DrawingMode) -> None:
         any_active = any(
             btn.get_active() for mode, btn in self.tool_buttons.items() if mode != drawing_mode
         )
@@ -297,3 +296,24 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
             action = app.lookup_action(action_name)
             if action:
                 action.activate(GLib.Variant('d', size_value))
+
+    def _restore_settings(self) -> None:
+        """Restore all settings from persistent storage."""
+
+        self.stroke_color_button.set_rgba(self.settings.pen_color)
+        self.highlighter_color_button.set_rgba(self.settings.highlighter_color)
+        self.fill_color_button.set_rgba(self.settings.fill_color)
+
+        self.size_scale.set_value(self.settings.pen_size)
+        self.number_radius_scale.set_value(self.settings.number_radius)
+
+        saved_font = self.settings.font
+        if saved_font in self.fonts:
+            font_index = self.fonts.index(saved_font)
+            GLib.idle_add(self._set_font_selection, font_index)
+
+    def _set_font_selection(self, index: int) -> bool:
+        font_dropdown = self.get_template_child(Gtk.DropDown, "font_dropdown")
+        if font_dropdown:
+            font_dropdown.set_selected(index)
+        return False

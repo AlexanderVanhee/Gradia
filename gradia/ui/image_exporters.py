@@ -19,9 +19,11 @@ import os
 
 from gi.repository import Gtk, Gio, GdkPixbuf
 from gradia.clipboard import copy_file_to_clipboard, save_pixbuff_to_path
+from gradia.backend.logger import Logger
 
 ExportFormat = tuple[str, str, str]
 
+logger = Logger()
 class BaseImageExporter:
     """Base class for image export handlers"""
 
@@ -79,9 +81,7 @@ class BaseImageExporter:
             raise Exception("No processed image available for export")
         return False 
 
-
 class FileDialogExporter(BaseImageExporter):
-    """Handles exporting images through file dialog"""
     SUPPORTED_FORMATS = {
         'png': {
             'name': _('PNG Image (*.png)'),
@@ -108,7 +108,7 @@ class FileDialogExporter(BaseImageExporter):
     def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str) -> None:
         super().__init__(window, temp_dir)
 
-    def save_to_file(self) -> None:
+    def save_to_file(self, filetype: str = None) -> None:
         if not self._ensure_processed_image_available():
             return
 
@@ -120,46 +120,41 @@ class FileDialogExporter(BaseImageExporter):
             _("Cancel")
         )
 
-        dialog.set_current_name(os.path.splitext(self._get_dynamic_filename())[0])
+        target_format = filetype if filetype and filetype in self.SUPPORTED_FORMATS else self.DEFAULT_FORMAT
 
-        filters = {}
-        for format_key, format_info in self.SUPPORTED_FORMATS.items():
-            file_filter = Gtk.FileFilter()
-            file_filter.set_name(format_info['name'])
-            file_filter.add_mime_type(format_info['mime_type'])
+        base_name = os.path.splitext(self._get_dynamic_filename())[0]
+        default_ext = self.SUPPORTED_FORMATS[target_format]['extensions'][0]
+        dialog.set_current_name(base_name + default_ext)
 
-            for ext in format_info['extensions']:
-                file_filter.add_pattern(f"*{ext}")
-
-            dialog.add_filter(file_filter)
-            filters[format_key] = file_filter
-
-        if self.DEFAULT_FORMAT in filters:
-            dialog.set_filter(filters[self.DEFAULT_FORMAT])
-
-        dialog.connect("response", self._on_dialog_response)
+        dialog.connect("response", lambda d, r: self._on_dialog_response(d, r, target_format))
         dialog.show()
 
-    def _on_dialog_response(self, dialog, response_id):
+    def _on_dialog_response(self, dialog, response_id, suggested_format):
         if response_id == Gtk.ResponseType.ACCEPT:
             file = dialog.get_file()
             if file:
                 save_path = file.get_path()
-                selected_filter = dialog.get_filter()
 
-                format_type = self._get_format_from_filter(selected_filter)
-                if format_type:
-                    save_path = self._ensure_correct_extension(save_path, format_type)
-                    self._save_image(save_path, format_type)
-                    self.window._show_notification(_("Image saved successfully"))
+                format_type = self._get_format_from_extension(save_path)
+
+                if format_type not in self.SUPPORTED_FORMATS:
+                    self.window._show_notification(_("Unsupported image file extension."))
+                    dialog.destroy()
+                    return
+
+                save_path = self._ensure_correct_extension(save_path, format_type)
+                logger.debug(f"Saving to: {save_path} as {format_type}")
+                self._save_image(save_path, format_type)
+                self.window._show_notification(_("Image saved successfully"))
 
         dialog.destroy()
 
-    def _get_format_from_filter(self, selected_filter) -> str:
-        filter_name = selected_filter.get_name()
+    def _get_format_from_extension(self, file_path: str) -> str:
+        path_lower = file_path.lower()
         for format_key, format_info in self.SUPPORTED_FORMATS.items():
-            if filter_name == format_info['name']:
-                return format_key
+            for ext in format_info['extensions']:
+                if path_lower.endswith(ext.lower()):
+                    return format_key
         return None
 
     def _ensure_correct_extension(self, save_path: str, format_type: str) -> str:
@@ -173,6 +168,13 @@ class FileDialogExporter(BaseImageExporter):
                 return save_path
 
         return save_path + format_info['extensions'][0]
+
+    def _get_format_from_filter(self, selected_filter) -> str:
+        filter_name = selected_filter.get_name()
+        for format_key, format_info in self.SUPPORTED_FORMATS.items():
+            if filter_name == format_info['name']:
+                return format_key
+        return None
 
     def _save_image(self, save_path: str, format_type: str) -> None:
         pixbuf = self.get_processed_pixbuf()

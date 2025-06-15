@@ -2,8 +2,13 @@ using Gtk 4.0;
 using Adw 1;
 
 template $GradiaWelcomePage : Adw.Bin {
-  child: Adw.ToolbarView {
+  child: Adw.ToolbarView toolbar_view {
     top-bar-style: flat;
+
+    Gtk.DropTarget drop_target {
+      actions: copy;
+      preload: true;
+    }
 
     [top]
     Adw.HeaderBar headerbar {
@@ -38,7 +43,6 @@ template $GradiaWelcomePage : Adw.Bin {
             use-underline: true;
             halign: center;
             action-name: "app.screenshot";
-
             styles [
               "pill",
               "text-button",
@@ -51,7 +55,6 @@ template $GradiaWelcomePage : Adw.Bin {
             use-underline: true;
             halign: center;
             action-name: "app.open";
-
             styles [
               "pill",
               "text-button"

@@ -1,7 +1,9 @@
 using Gtk 4.0;
 using Adw 1;
+
 template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
   title: _("Annotation Tools");
+
   Adw.ActionRow tools_row {
     child: Gtk.Grid tools_grid {
       row-spacing: 6;
@@ -14,6 +16,7 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
       valign: center;
     };
   }
+
   Adw.ActionRow color_stack_row {
     child: Gtk.Stack color_stack {
       transition-type: crossfade;
@@ -23,20 +26,25 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
       margin-start: 12;
       margin-end: 12;
       valign: center;
+
       Gtk.StackPage stroke_color_page {
         name: "stroke";
+
         child: Gtk.Box stroke_color_container {
           orientation: horizontal;
           spacing: 6;
+
           Gtk.Label stroke_color_label {
             label: _("Color");
             halign: start;
             hexpand: true;
           }
+
           Gtk.Box stroke_color_suffix_box {
             orientation: horizontal;
             spacing: 6;
             valign: center;
+
             // TODO: Replace with ColorDialogButton
             Gtk.ColorButton stroke_color_button {
               valign: center;
@@ -45,20 +53,25 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
           }
         };
       }
+
       Gtk.StackPage highlighter_color_page {
         name: "highlighter";
+
         child: Gtk.Box highlighter_color_container {
           orientation: horizontal;
           spacing: 6;
+
           Gtk.Label highlighter_color_label {
             label: _("Highlighter Color");
             halign: start;
             hexpand: true;
           }
+
           Gtk.Box highlighter_color_suffix_box {
             orientation: horizontal;
             spacing: 6;
             valign: center;
+
             // TODO: Replace with ColorDialogButton
             Gtk.ColorButton highlighter_color_button {
               valign: center;
@@ -70,6 +83,7 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
       }
     };
   }
+
   Adw.ActionRow stack_row {
     child: Gtk.Stack fill_font_stack {
       transition-type: crossfade;
@@ -79,28 +93,36 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
       margin-start: 12;
       margin-end: 12;
       valign: center;
+
       Gtk.StackPage fill_color_page {
         name: "fill";
+
         child: Gtk.Box fill_color_container {
           orientation: horizontal;
           spacing: 6;
+
           Gtk.Label fill_color_label {
             label: _("Fill Color");
             halign: start;
             hexpand: true;
           }
+
           Gtk.Box fill_color_suffix_box {
             orientation: horizontal;
             spacing: 6;
             valign: center;
+
             Gtk.Button reset_button {
               icon-name: "edit-clear-symbolic";
               tooltip-text: _("Reset Fill");
+
               clicked => $_on_reset_fill_clicked();
+
               styles [
                 "flat"
               ]
             }
+
             // TODO: Replace with ColorDialogButton
             Gtk.ColorButton fill_color_button {
               use-alpha: true;
@@ -109,47 +131,59 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
           }
         };
       }
+
       Gtk.StackPage font_page {
         name: "font";
+
         child: Gtk.Box font_container {
           orientation: horizontal;
           spacing: 6;
+
           Gtk.Label font_label {
             label: _("Font");
             halign: start;
             hexpand: true;
           }
+
           Gtk.Box font_suffix_box {
             orientation: horizontal;
             spacing: 6;
             valign: center;
+
             Gtk.DropDown font_dropdown {
               selected: 0;
               width-request: 150;
               model: Gtk.StringList font_string_list {};
+
               factory: Gtk.SignalListItemFactory font_factory {
                 setup => $_font_factory_setup();
                 bind => $_font_factory_bind();
               };
+
               notify::selected => $_on_font_selected();
             }
           }
         };
       }
+
       Gtk.StackPage size_page {
         name: "size";
+
         child: Gtk.Box size_container {
           orientation: horizontal;
           spacing: 6;
+
           Gtk.Label size_label {
             label: _("Size");
             halign: start;
             hexpand: true;
           }
+
           Gtk.Box size_suffix_box {
             orientation: horizontal;
             spacing: 6;
             valign: center;
+
             Gtk.Scale size_scale {
               orientation: horizontal;
               width-request: 50;
@@ -157,6 +191,7 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
               draw-value: true;
               value-pos: right;
               digits: 0;
+
               adjustment: Gtk.Adjustment size_adjustment {
                 lower: 1;
                 upper: 10;
@@ -164,25 +199,31 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
                 step-increment: 1;
                 page-increment: 5;
               };
+
               value-changed => $_on_size_changed();
             }
           }
         };
       }
+
       Gtk.StackPage number_radius_page {
         name: "number_radius";
+
         child: Gtk.Box number_radius_container {
           orientation: horizontal;
           spacing: 6;
+
           Gtk.Label number_radius_label {
             label: _("Radius");
             halign: start;
             hexpand: true;
           }
+
           Gtk.Box number_radius_suffix_box {
             orientation: horizontal;
             spacing: 6;
             valign: center;
+
             Gtk.Scale number_radius_scale {
               orientation: horizontal;
               width-request: 50;
@@ -190,6 +231,7 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
               draw-value: true;
               value-pos: right;
               digits: 0;
+
               adjustment: Gtk.Adjustment number_radius_adjustment {
                 lower: 10;
                 upper: 40;
@@ -197,6 +239,7 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
                 step-increment: 5;
                 page-increment: 5;
               };
+
               value-changed => $_on_number_radius_changed();
             }
           }

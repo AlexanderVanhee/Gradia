@@ -117,6 +117,7 @@ class DragDropImageLoader(BaseImageLoader):
             return False
 
         if not self._is_supported_format(file_path):
+            self.window._show_notification(_("Not a supported image format."))
             return False
 
         filename = os.path.basename(file_path)

@@ -2,7 +2,7 @@
 <schemalist>
   <schema id="be.alexandervanhee.gradia" path="/be/alexandervanhee/gradia/">
      <key name="draw-mode" type="s">
-      <default>'Select'</default>
+      <default>'SELECT'</default>
       <summary>Current drawing mode</summary>
     </key>
     <key name="pen-color" type="s">

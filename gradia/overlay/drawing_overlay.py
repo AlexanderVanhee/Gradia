@@ -1,4 +1,4 @@
-# Copyright (C) 2025 Alexander Vanhee
+# Copyright (C) 2025 Alexander Vanhee, tfuxu
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,14 +15,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from gi.repository import Gtk, Gdk, Gio, cairo, Pango, PangoCairo, Adw
-from enum import Enum
+import cairo
+from gi.repository import Adw, Gdk, Gio, Gtk
+
 from gradia.overlay.drawing_actions import *
 from gradia.overlay.text_entry_popover import TextEntryPopover
-import cairo as cairo_lib
-import math
-import re
-import time
 
 SELECTION_BOX_PADDING = 0
 DEFAULT_ARROW_HEAD_SIZE = 25.0
@@ -31,10 +28,13 @@ DEFAULT_HIGHLIGHTER_SIZE = 12.0
 DEFAULT_PIXELATION_LEVEL = 8
 
 class DrawingOverlay(Gtk.DrawingArea):
-    def __init__(self):
-        super().__init__()
+    __gtype_name__ = "GradiaDrawingOverlay"
+
+    def __init__(self, **kwargs):
+        super().__init__(can_focus=True, **kwargs)
+
         self.set_draw_func(self._on_draw)
-        self.set_can_focus(True)
+
         self.picture_widget = None
         self.drawing_mode = DrawingMode.PEN
         self.pen_size = None # Initialized via drawing_tools_group
@@ -49,12 +49,12 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.current_stroke = []
         self.start_point = None
         self.end_point = None
-        self.actions = []
+        self.actions: list[DrawingAction] = []
         self.redo_stack = []
         self._next_number = 1
         self.number_radius = None # Initialized via drawing_tools_group
 
-        self._selected_action = None
+        self._selected_action: DrawingAction | None = None
         self.selection_start_pos = None
         self.is_moving_selection = False
         self.move_start_point = None
@@ -67,19 +67,19 @@ class DrawingOverlay(Gtk.DrawingArea):
 
         self._setup_gestures()
 
-    def set_picture_reference(self, picture):
+    def set_picture_reference(self, picture: Gtk.Picture) -> None:
         self.picture_widget = picture
         picture.connect("notify::paintable", lambda *args: self.queue_draw())
 
-    def set_controls_overlay(self, controls_overlay):
+    def set_controls_overlay(self, controls_overlay) -> None:
         self.controls_overlay = controls_overlay
 
     @property
-    def selected_action(self):
+    def selected_action(self) -> DrawingAction | None:
         return self._selected_action
 
     @selected_action.setter
-    def selected_action(self, action):
+    def selected_action(self, action: DrawingAction | None) -> None:
         self._selected_action = action
         self.controls_overlay.set_delete_visible(action is not None)
 
@@ -166,7 +166,7 @@ class DrawingOverlay(Gtk.DrawingArea):
             return True
         return False
 
-    def set_drawing_mode(self, mode):
+    def set_drawing_mode(self, mode: DrawingMode) -> None:
         if self.text_entry_popup:
             self._close_text_entry()
 
@@ -510,6 +510,7 @@ class DrawingOverlay(Gtk.DrawingArea):
                 continue
             action.draw(cr, self._image_to_widget_coords, scale)
 
+        # TODO: Convert to switch...case statements, cuz this looks horrible
         if self.is_drawing and self.drawing_mode != DrawingMode.TEXT and self.drawing_mode != DrawingMode.NUMBER:
             cr.set_source_rgba(*self.pen_color)
             if self.drawing_mode == DrawingMode.PEN and len(self.current_stroke) > 1:
@@ -558,7 +559,7 @@ class DrawingOverlay(Gtk.DrawingArea):
         if self.selected_action:
             self._draw_selection_box(cr, scale)
 
-    def export_to_pixbuf(self):
+    def export_to_pixbuf(self) -> GdkPixbuf.Pixbuf | None:
         if not self.picture_widget or not self.picture_widget.get_paintable():
             return None
 
@@ -568,7 +569,7 @@ class DrawingOverlay(Gtk.DrawingArea):
 
         return render_actions_to_pixbuf(self.actions, img_w, img_h)
 
-    def clear_drawing(self):
+    def clear_drawing(self) -> None:
         self._close_text_entry()
         self.actions.clear()
         self.redo_stack.clear()
@@ -576,7 +577,7 @@ class DrawingOverlay(Gtk.DrawingArea):
         self._next_number = 1
         self.queue_draw()
 
-    def undo(self):
+    def undo(self) -> None:
         if self.actions:
             undone_action = self.actions.pop()
             self.redo_stack.append(undone_action)
@@ -587,7 +588,7 @@ class DrawingOverlay(Gtk.DrawingArea):
 
             self.queue_draw()
 
-    def redo(self):
+    def redo(self) -> None:
         if self.redo_stack:
             redone_action = self.redo_stack.pop()
             self.actions.append(redone_action)
@@ -598,63 +599,62 @@ class DrawingOverlay(Gtk.DrawingArea):
 
             self.queue_draw()
 
-    def set_pen_color(self, r, g, b, a=1):
+    def set_pen_color(self, r: float, g: float, b: float, a: float=1.0) -> None:
         self.pen_color = (r, g, b, a)
 
-    def set_fill_color(self, r, g, b, a=1):
+    def set_fill_color(self, r: float, g: float, b: float, a: float=1) -> None:
         self.fill_color = (r, g, b, a)
 
-    def set_highlighter_color(self, r, g, b, a=1):
+    def set_highlighter_color(self, r: float, g: float, b: float, a: float=1) -> None:
         self.highlighter_color = (r, g, b, a)
 
-    def set_pen_size(self, s):
-        self.pen_size = max(1, s)
+    def set_pen_size(self, size: float) -> None:
+        self.pen_size = max(1.0, size)
 
-    def set_arrow_head_size(self, s):
-        self.arrow_head_size = max(5.0, s)
+    def set_arrow_head_size(self, size: float) -> None:
+        self.arrow_head_size = max(5.0, size)
 
-    def set_font_size(self, size):
+    def set_font_size(self, size: float) -> None:
         self.font_size = max(8.0, size)
 
-    def set_font_family(self, family):
+    def set_font_family(self, family: str) -> None:
         self.font_family = family if family else "Sans"
 
-    def set_highlighter_size(self, s):
-        self.highlighter_size = max(1.0, s)
+    def set_highlighter_size(self, size: float) -> None:
+        self.highlighter_size = max(1.0, size)
 
-    def set_pixelation_level(self, level):
+    def set_pixelation_level(self, level: int) -> None:
         self.pixelation_level = max(2, int(level))
 
-    def set_drawing_visible(self, v):
-        self.set_visible(v)
+    def set_drawing_visible(self, is_visible: bool) -> None:
+        self.set_visible(is_visible)
 
-    def get_drawing_visible(self):
+    def get_drawing_visible(self) -> bool:
         return self.get_visible()
 
-    def set_number_radius(self, s):
-        self.number_radius = s
+    def set_number_radius(self, radius: float) -> None:
+        self.number_radius = radius
 
-
-
-def render_actions_to_pixbuf(actions, img_w, img_h):
-    if img_w <= 0 or img_h <= 0:
+def render_actions_to_pixbuf(actions: list[DrawingAction], width: int, height: int) -> GdkPixbuf.Pixbuf | None:
+    if width <= 0 or height <= 0:
         return None
 
-    surface = cairo_lib.ImageSurface(cairo_lib.Format.ARGB32, img_w, img_h)
-    cr = cairo_lib.Context(surface)
+    surface = cairo.ImageSurface(cairo.Format.ARGB32, width, height)
+    cr = cairo.Context(surface)
 
-    cr.set_operator(cairo_lib.Operator.CLEAR)
+    cr.set_operator(cairo.Operator.CLEAR)
     cr.paint()
-    cr.set_operator(cairo_lib.Operator.OVER)
+    cr.set_operator(cairo.Operator.OVER)
 
     def image_coords_to_self(x, y):
-        return (x * img_w, y * img_h)
+        return (x * width, y * height)
 
-    cr.set_line_cap(cairo_lib.LineCap.ROUND)
-    cr.set_line_join(cairo_lib.LineJoin.ROUND)
+    cr.set_line_cap(cairo.LineCap.ROUND)
+    cr.set_line_join(cairo.LineJoin.ROUND)
 
     for action in actions:
         action.draw(cr, image_coords_to_self, 1.0)
 
     surface.flush()
-    return Gdk.pixbuf_get_from_surface(surface, 0, 0, img_w, img_h)
+
+    return Gdk.pixbuf_get_from_surface(surface, 0, 0, width, height)

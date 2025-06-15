@@ -15,16 +15,17 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import io
 import os
 import tempfile
 import threading
 from typing import Callable, Optional
 
 from PIL import Image
-from gi.repository import Adw, GLib, Gdk, Gio, Gtk, GdkPixbuf
+from gi.repository import Adw, GLib, Gdk, GdkPixbuf, Gio, Gtk
+
+from gradia.constants import rootdir  # pyright: ignore
 from gradia.graphics.background import Background
-from gradia.constants import rootdir # pyright: ignore
-import io
 
 
 PRESET_IMAGES = [
@@ -50,9 +51,14 @@ class ImageBackground(Background):
 
     def load_image(self, path: str) -> None:
         self.file_path = path
+
         if path.startswith(rootdir):
             resource_data = Gio.resources_lookup_data(path, Gio.ResourceLookupFlags.NONE)
             bytes_data = resource_data.get_data()
+
+            if bytes_data is None:
+                raise RuntimeError("Failed to get data from resource lookup")
+
             byte_stream = io.BytesIO(bytes_data)
             self.image = Image.open(byte_stream).convert("RGBA")
         else:
@@ -116,6 +122,10 @@ class ImageSelector(Adw.PreferencesGroup):
 
         self._update_preview()
 
+    """
+    Setup Methods
+    """
+
     def _setup_file_dialog(self) -> None:
         filter_list = Gio.ListStore.new(Gtk.FileFilter)
         filter_list.append(self.image_filter)
@@ -133,75 +143,57 @@ class ImageSelector(Adw.PreferencesGroup):
 
     def _setup_preset_popover(self) -> None:
         """Setup the preset popover with preset images"""
+
         for path in PRESET_IMAGES:
-            button_widget = self._create_preset_button(path)
-            self.popover_flowbox.append(button_widget)
+            button = Gtk.Button(
+                focusable=False,
+                can_focus=False,
+                width_request=80,
+                height_request=60,
+                css_classes=["image-preset-button", "flat"]
+            )
 
-    def _create_preset_button(self, path: str) -> Gtk.Button:
-        button_widget = Gtk.Button(focusable=False, can_focus=False)
-        button_widget.set_size_request(80, 60)
+            stack = Gtk.Stack()
+            stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
+            stack.set_transition_duration(200)
+            stack.set_hexpand(True)
+            stack.set_vexpand(True)
 
-        # Add the CSS class instead of set_name and inline css
-        button_widget.get_style_context().add_class("flat")
-        button_widget.get_style_context().add_class("image-preset-button")
+            spinner = Adw.Spinner.new()
+            spinner.set_size_request(32, 32)
+            spinner.set_hexpand(False)
+            spinner.set_vexpand(False)
+            spinner.set_halign(Gtk.Align.CENTER)
+            spinner.set_valign(Gtk.Align.CENTER)
+            stack.add_named(spinner, "loading")
 
-        stack = Gtk.Stack()
-        stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
-        stack.set_transition_duration(200)
-        stack.set_hexpand(True)
-        stack.set_vexpand(True)
+            picture = Gtk.Picture()
+            picture.set_content_fit(Gtk.ContentFit.COVER)
+            picture.set_halign(Gtk.Align.FILL)
+            picture.set_valign(Gtk.Align.FILL)
+            picture.set_hexpand(True)
+            picture.set_vexpand(True)
+            stack.add_named(picture, "image")
 
-        spinner = Adw.Spinner.new()
-        spinner.set_size_request(32, 32)
-        spinner.set_hexpand(False)
-        spinner.set_vexpand(False)
-        spinner.set_halign(Gtk.Align.CENTER)
-        spinner.set_valign(Gtk.Align.CENTER)
-        stack.add_named(spinner, "loading")
+            error_icon = Gtk.Image.new_from_icon_name("image-missing-symbolic")
+            error_icon.set_pixel_size(24)
+            error_icon.set_halign(Gtk.Align.CENTER)
+            error_icon.set_valign(Gtk.Align.CENTER)
+            stack.add_named(error_icon, "error")
 
-        picture = Gtk.Picture()
-        picture.set_content_fit(Gtk.ContentFit.COVER)
-        picture.set_halign(Gtk.Align.FILL)
-        picture.set_valign(Gtk.Align.FILL)
-        picture.set_hexpand(True)
-        picture.set_vexpand(True)
-        stack.add_named(picture, "image")
+            button.set_child(stack)
+            button.connect("clicked", lambda b, p=path: self._on_preset_selected(p))
 
-        error_icon = Gtk.Image.new_from_icon_name("image-missing-symbolic")
-        error_icon.set_pixel_size(24)
-        error_icon.set_halign(Gtk.Align.CENTER)
-        error_icon.set_valign(Gtk.Align.CENTER)
-        stack.add_named(error_icon, "error")
+            self._load_preset_image_async(path, picture, stack)
+            self.popover_flowbox.append(button)
 
-        button_widget.set_child(stack)
-        button_widget.connect("clicked", lambda b, p=path: self._on_preset_selected(p))
+    """
+    Callbacks
+    """
 
-        self._load_preset_image_async(path, picture, stack)
-
-        return button_widget
-
-    def _load_preset_image_async(self, resource_path: str, picture: Gtk.Picture, stack: Gtk.Stack) -> None:
-        def load_in_background():
-            try:
-                resource = Gio.resources_lookup_data(resource_path, Gio.ResourceLookupFlags.NONE)
-                data = resource.get_data()
-
-                loader = GdkPixbuf.PixbufLoader.new()
-                loader.write(data)
-                loader.close()
-                pixbuf = loader.get_pixbuf()
-
-                if pixbuf is None:
-                    raise RuntimeError("Failed to load pixbuf from resource data")
-
-                GLib.idle_add(self._on_preset_image_loaded, picture, stack, pixbuf)
-
-            except Exception as e:
-                print(f"Error loading preset image {resource_path}: {e}")
-                GLib.idle_add(self._on_preset_image_error, stack)
-
-        thread = threading.Thread(target=load_in_background, daemon=True)
-        thread.start()
+    @Gtk.Template.Callback()
+    def _on_select_clicked(self, _button: Gtk.Button, *args) -> None:
+        self.open_image_dialog.open(self.parent_window, None, self._on_file_dialog_ready)
 
     def _on_preset_image_loaded(self, picture: Gtk.Picture, stack: Gtk.Stack, pixbuf: GdkPixbuf.Pixbuf) -> bool:
         try:
@@ -249,10 +241,6 @@ class ImageSelector(Adw.PreferencesGroup):
             return True
         return False
 
-    @Gtk.Template.Callback()
-    def _on_select_clicked(self, _button: Gtk.Button, *args) -> None:
-        self.open_image_dialog.open(self.parent_window, None, self._on_file_dialog_ready)
-
     def _on_file_dialog_ready(self, file_dialog: Gtk.FileDialog, result: Gio.AsyncResult) -> None:
         try:
             file = file_dialog.open_finish(result)
@@ -262,20 +250,14 @@ class ImageSelector(Adw.PreferencesGroup):
         except GLib.Error as e:
             print(f"FileDialog cancelled or failed: {e.message}")
 
-    def _load_image_async(self, file_path: str) -> None:
-        def load_in_background():
-            try:
-                self.image_background.load_image(file_path)
-                GLib.idle_add(self._on_image_loaded)
-            except Exception as e:
-                print(f"Error loading image: {e}")
-        thread = threading.Thread(target=load_in_background, daemon=True)
-        thread.start()
-
     def _on_image_loaded(self) -> None:
         self._update_preview()
         if self.callback:
             self.callback(self.image_background)
+
+    """
+    Internal Methods
+    """
 
     def _update_preview(self) -> None:
         if self.image_background.image:
@@ -316,3 +298,40 @@ class ImageSelector(Adw.PreferencesGroup):
 
         GLib.timeout_add(100, cleanup_temp_file)
         return False
+
+    def _load_image_async(self, file_path: str) -> None:
+        def load_in_background():
+            try:
+                self.image_background.load_image(file_path)
+                GLib.idle_add(self._on_image_loaded)
+            except Exception as e:
+                print(f"Error loading image: {e}")
+        thread = threading.Thread(target=load_in_background, daemon=True)
+        thread.start()
+
+    def _load_preset_image_async(self, resource_path: str, picture: Gtk.Picture, stack: Gtk.Stack) -> None:
+        def load_in_background():
+            try:
+                resource = Gio.resources_lookup_data(resource_path, Gio.ResourceLookupFlags.NONE)
+                data = resource.get_data()
+
+                if data is None:
+                    raise RuntimeError("Failed to get data from resource lookup")
+
+                loader = GdkPixbuf.PixbufLoader.new()
+                loader.write(data)
+                loader.close()
+
+                pixbuf = loader.get_pixbuf()
+
+                if pixbuf is None:
+                    raise RuntimeError("Failed to load pixbuf from resource data")
+
+                GLib.idle_add(self._on_preset_image_loaded, picture, stack, pixbuf)
+
+            except Exception as e:
+                print(f"Error loading preset image {resource_path}: {e}")
+                GLib.idle_add(self._on_preset_image_error, stack)
+
+        thread = threading.Thread(target=load_in_background, daemon=True)
+        thread.start()

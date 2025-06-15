@@ -15,7 +15,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from gi.repository import Gtk, Gdk, Gio, cairo, Pango, PangoCairo, GdkPixbuf
+import cairo
+
+from typing import Callable
+from gi.repository import Gtk, Gdk, Gio, Pango, PangoCairo, GdkPixbuf
 from enum import Enum
 import math
 from gradia.backend.logger import Logger
@@ -27,16 +30,31 @@ logging = Logger()
 start_time_seed = int(time.time())
 
 class DrawingMode(Enum):
-    PEN = _("Pen")
-    ARROW = _("Arrow")
-    LINE = _("Line")
-    SQUARE = _("Square")
-    CIRCLE = _("Circle")
-    TEXT = _("Text")
-    SELECT = _("Select")
-    HIGHLIGHTER = _("Highlighter")
-    CENSOR = _("Censor")
-    NUMBER = _("Number")
+    PEN = "PEN"
+    ARROW = "ARROW"
+    LINE = "LINE"
+    SQUARE = "SQUARE"
+    CIRCLE = "CIRCLE"
+    TEXT = "TEXT"
+    SELECT = "SELECT"
+    HIGHLIGHTER = "HIGHLIGHTER"
+    CENSOR = "CENSOR"
+    NUMBER = "NUMBER"
+
+    def label(self):
+        return {
+            "PEN": _("Pen"),
+            "ARROW": _("Arrow"),
+            "LINE": _("Line"),
+            "SQUARE": _("Square"),
+            "CIRCLE": _("Circle"),
+            "TEXT": _("Text"),
+            "SELECT": _("Select"),
+            "HIGHLIGHTER": _("Highlighter"),
+            "CENSOR": _("Censor"),
+            "NUMBER": _("Number"),
+        }[self.value]
+
 
 class DrawingAction:
     DEFAULT_PADDING = 0.02
@@ -203,7 +221,6 @@ class TextAction(DrawingAction):
             return (x, y, x, y)
 
         # Create a temporary surface and context to measure text
-        import cairo
         temp_surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1)
         temp_cr = cairo.Context(temp_surface)
 
@@ -233,7 +250,6 @@ class TextAction(DrawingAction):
 
     def translate(self, dx, dy):
         self.position = (self.position[0] + dx, self.position[1] + dy)
-
 
 class LineAction(ArrowAction):
     def draw(self, cr, image_to_widget_coords, scale):
