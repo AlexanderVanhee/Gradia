@@ -1,5 +1,6 @@
 # After changing this file, download the flatpak pip generator script:
-# curl -O https://raw.githubusercontent.com/flatpak/flatpak-builder-tools/master/pip/flatpak-pip-generator
+# curl -O https://raw.githubusercontent.com/flatpak/flatpak-builder-tools/refs/heads/master/pip/flatpak-pip-generator.py
+# mv flatpak-pip-generator.py flatpak-pip-generator
 # chmod +x flatpak-pip-generator
 # Install required library:
 # pip install requirements-parser

@@ -2,7 +2,7 @@
 
 # gradia.in
 #
-# Copyright 2025 Xander
+# Copyright (C) 2025 Alexander Vanhee
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -47,13 +47,10 @@ if __name__ == '__main__':
     gi.require_version('Xdp', '1.0')
 
     from gi.repository import Gio
+
     resource = Gio.Resource.load(
         os.path.join(pkgdatadir, 'gradia.gresource'))
     resource._register()
-
-    resourceData = Gio.Resource.load(
-        os.path.join(pkgdatadir, 'resources.gresource'))
-    resourceData._register()
 
     from gradia import main
     sys.exit(main.main(VERSION))

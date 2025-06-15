@@ -21,5 +21,5 @@ jobs:
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: gradia.flatpak
-          manifest-path: be.alexandervanhee.gradia.json
+          manifest-path: build-aux/flatpak/be.alexandervanhee.gradia.json
           cache-key: flatpak-builder-${{ github.sha }}

@@ -44,7 +44,7 @@ run_step "[1/3] Building Flatpak with flatpak-builder..." "$LOG" \
     --mirror-screenshots-url=https://dl.flathub.org/media/ \
     --repo=repo \
     builddir \
-    be.alexandervanhee.gradia.json
+    build-aux/flatpak/be.alexandervanhee.gradia.json
 
 echo -n "[2/3] Setting up Meson builddir..."
 if meson setup builddir >"$LOG" 2>&1; then
