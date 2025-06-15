@@ -1,4 +1,4 @@
-# Ukranian translation for Gradia program
+# Ukrainian translation for Gradia program
 # Copyright (C) 2025 AlexanderVanhee
 # This file is distributed under the same license as the gradia package.
 # Oleksii "Grinka" <grinka@tuta.io>, 2025.
@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-10 17:24+0200\n"
-"PO-Revision-Date: 2025-06-13 21:05+0300\n"
+"PO-Revision-Date: 2025-06-15 16:49+0300\n"
 "Last-Translator: Oleksii \"Grinka\" <grinka@tuta.io>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
 "X-Generator: Gtranslator 48.0\n"
 
 #: data/be.alexandervanhee.gradia.desktop.in:2
@@ -26,17 +26,15 @@ msgstr "Gradia"
 
 #: data/be.alexandervanhee.gradia.desktop.in:3 gradia/ui/ui_parts.py:345
 msgid "Make your images ready for the world"
-msgstr "Зробіть ваші зображення готовими до світу"
+msgstr "Підготуйте ваші зображення до світу"
 
 #: data/be.alexandervanhee.gradia.desktop.in:9
 msgid "Image;Gradient;Background;Screenshot;Edit;"
-msgstr ""
-"Image;Gradient;Background;Screenshot;Edit;Картинка;Картинки;Зображення;"
-"Градієнт;Знімок екрану;Скріншот;Редагувати"
+msgstr "Image;Gradient;Background;Screenshot;Edit;Картинка;Картинки;Зображення;Градієнт;Знімок екрану;Скріншот;Редагувати"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:12
 msgid "Make your screenshots ready for all"
-msgstr "Зробіть ваші знімки екрану готовими для всіх"
+msgstr "Підготуйте ваші зображення для всіх"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:14
 msgid ""
@@ -46,12 +44,12 @@ msgid ""
 "screenshots to look professional and consistent across social media, blogs, "
 "and other platforms on the internet."
 msgstr ""
-"Gradia допомагає вам швидко приготувати ваші знімки екрану до поширення "
-"виправляючі поширені проблеми, наприклад прозорість та незграбний розмір. За "
-"допомогою простих інструментів ви можете додавати непрозоре тло, змінювати "
-"співвідношення сторін та аннотувати зображення, ви можете покращувати ваші "
-"знімки екрану щоб вони виглядали профессійно та послідовно в усіх соціальних "
-"мережах, блогах та інших платформах в інтернеті"
+"Gradia допомагає вам швидко підготувати ваші знімки екрану до поширення "
+"виправляючи поширені проблеми, наприклад прозоре тло та незграбний розмір. "
+"За допомогою простих інструментів які додають непрозоре тло, змінюють "
+"співвідношення сторін та анотують зображення, ви можете покращити ваші "
+"знімки екрану щоб вони виглядали професійно та послідовно серед усіх "
+"соціальних мереж, блогів та інших платформ у інтернеті."
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:15
 msgid "Key features:"
@@ -60,17 +58,15 @@ msgstr "Ключовий функціонал:"
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:17
 msgid "Add optional image and gradient backgrounds to your images"
 msgstr ""
-"Додаванння зображення або градієнту на прозоре тло ваших знімків екрану"
+"Додавання зображення або градієнту замість прозорого тла на ваших зображеннях"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:18
 msgid "Adjust aspect ratios and padding to fit different platforms"
-msgstr ""
-"Налаштування співвідношення сторін та відступів щоб відповідати різним "
-"платформам"
+msgstr "Регулювання співвідношення сторін та відступів"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:19
 msgid "Ten annotation modes, including text, arrow, and censor"
-msgstr "10 режимів аннотування, включаючи текст, стрілки та цензурування"
+msgstr "10 режимів анотування, включаючи текст, стрілки та пікселізація"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:20
 msgid "Multiple ways to import and export screenshots"
@@ -83,10 +79,10 @@ msgid ""
 "and Customize Shortcuts → Custom Shortcuts. Then create a shortcut that runs "
 "<code>flatpak run be.alexandervanhee.gradia --screenshot=INTERACTIVE</code>."
 msgstr ""
-"Хочете клавіатурне скорочення на GNOME? Просто перейдіть по Параметри → "
-"Клавіатура → Перегляд і налаштовування скорочень → Власне скорочення. Після "
-"створіть скорочення яке запускає <code>flatpak run be.alexandervanhee.gradia "
-"--screenshot=INTERACTIVE</code>."
+"Хочете клавіатурне скорочення у GNOME? Просто перейдіть по Параметри → "
+"Клавіатура → Перегляд і налаштовування скорочень → Власне скорочення."
+"Після створіть скорочення яке запускає"
+"<code>flatpak run be.alexandervanhee.gradia --screenshot=INTERACTIVE</code>."
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in:29
 msgid "Alexander Vanhee"
@@ -110,7 +106,7 @@ msgstr "Градієнт"
 
 #: gradia/graphics/gradient.py:150
 msgid "Gradient Presets"
-msgstr "Пресети Градієнтів"
+msgstr "Підготовлені Градієнти"
 
 #: gradia/graphics/gradient.py:159 gradia/graphics/gradient.py:170
 msgid "Start Color"
@@ -122,7 +118,7 @@ msgstr "Кінцевий Колір"
 
 #: gradia/graphics/gradient.py:196
 msgid "Angle"
-msgstr "Кут"
+msgstr "Нахил"
 
 #: gradia/graphics/solid.py:71
 msgid "Solid Color Background"
@@ -142,16 +138,16 @@ msgstr "Вибрати Зображення"
 
 #: gradia/graphics/image.py:134
 msgid "Image files"
-msgstr "Файли Картинок"
+msgstr "Файли Зображень"
 
 #. Create action buttons
 #: gradia/ui/ui_parts.py:156
 msgid "_Take a screenshot…"
-msgstr "_Зробити знімок екрану..."
+msgstr "_Зробити знімок екрану…"
 
 #: gradia/ui/ui_parts.py:164
 msgid "_Open Image…"
-msgstr "_Відкрити Зображення..."
+msgstr "_Відкрити Зображення…"
 
 #: gradia/ui/ui_parts.py:183
 msgid "Enhance an Image"
@@ -187,7 +183,7 @@ msgstr "Поточний Файл"
 
 #: gradia/ui/ui_parts.py:254
 msgid "Name"
-msgstr "Ім'я"
+msgstr "Назва"
 
 #: gradia/ui/ui_parts.py:254 gradia/ui/ui_parts.py:255
 msgid "No file loaded"
@@ -199,11 +195,11 @@ msgstr "Розташування"
 
 #: gradia/ui/ui_parts.py:256
 msgid "Modified image size"
-msgstr "Розмір модифікованного зображення"
+msgstr "Розмір модифікованого зображення"
 
 #: gradia/ui/ui_parts.py:256
 msgid "N/A"
-msgstr "Немає даних"
+msgstr "Н/Д"
 
 #: gradia/ui/ui_parts.py:320
 msgid "Save Image"
@@ -232,15 +228,15 @@ msgstr "Зберегти до Файлу"
 
 #: gradia/ui/ui_parts.py:372
 msgid "Copy Image to Clipboard"
-msgstr "Копіювати Зображення до Буферу Обміну"
+msgstr "Копіювати Зображення"
 
 #: gradia/ui/ui_parts.py:373
 msgid "Paste From Clipboard"
-msgstr "Вставити Зображення з Буферу Обміну"
+msgstr "Вставити Зображення"
 
 #: gradia/ui/ui_parts.py:377
 msgid "Annotations"
-msgstr "Аннотації"
+msgstr "Анотації"
 
 #: gradia/ui/ui_parts.py:379
 msgid "Undo"
@@ -426,7 +422,7 @@ msgstr "Зображення"
 
 #: gradia/ui/drawing_tools_group.py:24
 msgid "Annotation Tools"
-msgstr "Аннотація"
+msgstr "Анотація"
 
 #: gradia/ui/drawing_tools_group.py:81
 msgid "Stroke Color"
@@ -478,7 +474,7 @@ msgstr "Підсвітка"
 
 #: gradia/overlay/drawing_actions.py:38
 msgid "Censor"
-msgstr "Цензурування"
+msgstr "Пікселізація"
 
 #: gradia/overlay/drawing_actions.py:39
 msgid "Number"
@@ -486,7 +482,7 @@ msgstr "Число"
 
 #: data/ui/controls_overlay.blp:24
 msgid "Erase selected"
-msgstr "Вилучити вибране"
+msgstr "Стерти вибране"
 
 #: data/ui/controls_overlay.blp:42
 msgid "Undo the last action"
@@ -498,7 +494,7 @@ msgstr "Повторити останню дію"
 
 #: data/ui/controls_overlay.blp:64
 msgid "Clear all annotations"
-msgstr "Очистити всі аннотації"
+msgstr "Очистити всі анотації"
 
 #: data/ui/header_bar.blp:21
 msgid "Take a screenshot"
