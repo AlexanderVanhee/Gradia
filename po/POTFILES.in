@@ -1,8 +1,8 @@
 # List of source files containing translatable strings.
 # Please keep this file sorted alphabetically.
 
-data/be.alexandervanhee.gradia.desktop.in
-data/be.alexandervanhee.gradia.metainfo.xml.in
+data/be.alexandervanhee.gradia.desktop.in.in
+data/be.alexandervanhee.gradia.metainfo.xml.in.in
 data/be.alexandervanhee.gradia.gschema.xml
 gradia/graphics/gradient.py
 gradia/graphics/solid.py
