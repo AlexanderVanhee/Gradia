@@ -127,6 +127,7 @@ class GradientWindow(Adw.ApplicationWindow):
 
         self.create_action("delete-screenshots", lambda *_: self._create_delete_screenshots_dialog(), enabled=False)
         self.create_action("settings", self._on_settings_activated, ['<primary>comma'])
+        self.create_action("toggle-utility-pane", self._on_toggle_utility_pane_activated, ['F9'])
 
         self.create_action("set-screenshot-folder",  lambda action, param: self.set_screenshot_subfolder(param.get_string()), vt="s")
 
@@ -236,16 +237,16 @@ class GradientWindow(Adw.ApplicationWindow):
         self.welcome_page = WelcomePage()
         self.top_stack.add_named(self.welcome_page, "empty")
 
-        self.main_box: Gtk.Box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
-        self.main_box.set_vexpand(True)
+        self.split_view: Gtk.Box = Adw.OverlaySplitView()
+        self.split_view.set_vexpand(True)
 
-        self.main_box.append(self.sidebar)
-        self.main_box.append(self.stack_box)
+        self.split_view.set_sidebar(self.sidebar)
+        self.split_view.set_content(self.stack_box)
 
         self.image_stack.set_hexpand(True)
         self.sidebar.set_hexpand(False)
 
-        self.top_stack.add_named(self.main_box, "main")
+        self.top_stack.add_named(self.split_view, "main")
 
         self.toolbar_view.set_content(self.top_stack)
         self.toast_overlay.set_child(self.toolbar_view)
@@ -463,3 +464,6 @@ class GradientWindow(Adw.ApplicationWindow):
     def set_screenshot_subfolder(self, subfolder) -> None:
         Settings().screenshot_subfolder = subfolder
         self.welcome_page.refresh_recent_picker()
+
+    def _on_toggle_utility_pane_activated(self, action: Gio.SimpleAction, param) -> None:
+        self.split_view.set_show_sidebar(not self.split_view.get_show_sidebar())
