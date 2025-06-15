@@ -428,10 +428,10 @@ class GradientWindow(Adw.ApplicationWindow):
 
         count = len(screenshot_uris)
         if count == 1:
-            heading = _("Delete Screenshot?")
+            heading = _("Trash Screenshot?")
             body = _("Are you sure you want to trash the following file?")
         else:
-            heading = _("Delete Screenshots?")
+            heading = _("Trash Screenshots?")
             body = _("Are you sure you want to trash the following files?")
 
         dialog = Adw.AlertDialog(
