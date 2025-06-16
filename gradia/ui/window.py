@@ -38,7 +38,6 @@ from gradia.ui.welcome_page import WelcomePage
 from gradia.utils.aspect_ratio import *
 from gradia.ui.settings_window import SettingsWindow
 from gradia.backend.settings import Settings
-
 from gradia.constants import rootdir  # pyright: ignore
 
 
@@ -156,10 +155,13 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.create_action("number-radius", lambda action, param: self.drawing_overlay.set_number_radius(param.get_double()), vt="d")
 
         self.create_action("delete-screenshots", lambda *_: self._create_delete_screenshots_dialog(), enabled=False)
+
         self.create_action("settings", self._on_settings_activated, ['<primary>comma'])
         self.create_action("toggle-utility-pane", self._on_toggle_utility_pane_activated, ['F9'])
 
         self.create_action("set-screenshot-folder",  lambda action, param: self.set_screenshot_subfolder(param.get_string()), vt="s")
+
+        self.app.connect("shutdown", self._on_app_shutdown)
 
     """
     Setup Methods
@@ -186,50 +188,23 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.sidebar.set_size_request(self.SIDEBAR_WIDTH, -1)
         self.sidebar.set_visible(False)
 
-    def _setup_main_layout(self) -> None:
-        self.top_stack: Gtk.Stack = Gtk.Stack.new()
-        self.top_stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
-        self.top_stack.set_transition_duration(200)
-
-        self.welcome_page = WelcomePage()
-        self.top_stack.add_named(self.welcome_page, "empty")
-
-        self.split_view: Gtk.Box = Adw.OverlaySplitView()
-        self.split_view.set_vexpand(True)
-
-        self.split_view.set_sidebar(self.sidebar)
-        self.split_view.set_content(self.stack_box)
+    def _setup(self) -> None:
+        self.main_box.append(self.sidebar)
+        self.main_box.append(self.stack_box)
 
         self.image_stack.set_hexpand(True)
         self.sidebar.set_hexpand(False)
 
-        self.top_stack.add_named(self.split_view, "main")
+    """
+    Shutdown
+    """
+    def _on_app_shutdown(self, app: Adw.Application) -> None:
+        if (Settings().delete_screenshots_on_close):
+            self.import_manager.delete_screenshots()
 
-        self.toolbar_view.set_content(self.top_stack)
-        self.toast_overlay.set_child(self.toolbar_view)
-
-    def show(self) -> None:
-        self.present()
-
-    def _start_processing(self) -> None:
-        self.toolbar_view.set_top_bar_style(Adw.ToolbarStyle.RAISED)
-
-        self.image_stack.get_style_context().add_class("view")
-        self._show_loading_state()
-        self.process_image()
-        self._set_save_and_toggle(True)
-
-    def _show_loading_state(self) -> None:
-        self.top_stack.set_visible_child_name("main")
-        self.image_stack.set_visible_child_name(self.PAGE_LOADING)
-
-    def _hide_loading_state(self) -> None:
-        self.image_stack.set_visible_child_name(self.PAGE_IMAGE)
-
-    def _update_sidebar_file_info(self, filename: str, location: str) -> None:
-        self.sidebar.filename_row.set_subtitle(filename)
-        self.sidebar.location_row.set_subtitle(location)
-        self.sidebar.set_visible(True)
+    """
+    Callbacks
+    """
 
     def _on_background_changed(self, updated_background: Background) -> None:
         self.processor.background = updated_background
@@ -479,13 +454,14 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
         dialog.choose(self, None, on_response)
 
+
     def _on_settings_activated(self, action: Gio.SimpleAction, param) -> None:
         settings_window = SettingsWindow(self)
         settings_window.present()
 
     def set_screenshot_subfolder(self, subfolder) -> None:
         Settings().screenshot_subfolder = subfolder
-        self.welcome_page.refresh_recent_picker()
+        self.welcome_content.refresh_recent_picker()
 
     def _on_toggle_utility_pane_activated(self, action: Gio.SimpleAction, param) -> None:
         self.split_view.set_show_sidebar(not self.split_view.get_show_sidebar())
