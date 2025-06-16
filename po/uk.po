@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-16 00:21+0200\n"
-"PO-Revision-Date: 2025-06-15 16:49+0300\n"
+"PO-Revision-Date: 2025-06-16 10:59+0300\n"
 "Last-Translator: Oleksii \"Grinka\" <grinka@tuta.io>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -31,8 +31,8 @@ msgstr "Підготуйте ваші зображення до світу"
 #: data/be.alexandervanhee.gradia.desktop.in.in:9
 msgid "Image;Gradient;Background;Screenshot;Edit;"
 msgstr ""
-"Image;Gradient;Background;Screenshot;Edit;Картинка;Картинки;Зображення;Градієнт;Знімок "
-"екрану;Скріншот;Редагувати"
+"Image;Gradient;Background;Screenshot;Edit;Картинка;Картинки;Зображення;"
+"Градієнт;Знімок екрану;Скріншот;Редагувати"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:12
 msgid "Make your screenshots ready for all"
@@ -103,45 +103,41 @@ msgid "Startup view"
 msgstr "Початковий огляд"
 
 #: data/be.alexandervanhee.gradia.gschema.xml:6
-#, fuzzy
 msgid "Current drawing mode"
-msgstr "Поточний Файл"
+msgstr "Поточний режим малювання"
 
 #: data/be.alexandervanhee.gradia.gschema.xml:10
 msgid "Pen color in rgba"
-msgstr ""
+msgstr "Колір олівця у rgba"
 
 #: data/be.alexandervanhee.gradia.gschema.xml:14
-#, fuzzy
 msgid "Highlighter color in rgba"
-msgstr "Підсвітка"
+msgstr "Колір підсвітки у rgba"
 
 #: data/be.alexandervanhee.gradia.gschema.xml:18
 msgid "Fill color in rgba"
-msgstr ""
+msgstr "Колір заливки у rgba"
 
 #: data/be.alexandervanhee.gradia.gschema.xml:22
 msgid "Pen size"
-msgstr ""
+msgstr "Розмір олівця"
 
 #: data/be.alexandervanhee.gradia.gschema.xml:26
 msgid "Number radius size"
-msgstr ""
+msgstr "Розмір радіусу цифри"
 
 #: data/be.alexandervanhee.gradia.gschema.xml:30
-#, fuzzy
 msgid "Selected font name"
-msgstr "Вибрати Зображення"
+msgstr "Обраний шрифт"
 
 #: data/be.alexandervanhee.gradia.gschema.xml:35
-#, fuzzy
 msgid "Screenshot subdirectory"
-msgstr "Знімок екрану вилучено."
+msgstr "Тека знімків екрану"
 
 #. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
 #: gradia/ui/ui_parts.py:160
 msgid "translator-credits"
-msgstr "Oleksii \"Grinka\" <grinka@tuta.io>"
+msgstr "Олексій \"Грінка\" <grinka@tuta.io>"
 
 #: gradia/ui/ui_parts.py:170
 msgid "File Actions"
@@ -197,7 +193,6 @@ msgid "Error"
 msgstr "Помилка"
 
 #: gradia/ui/window.py:390
-#, fuzzy
 msgid "No screenshots to delete"
 msgstr "Немає знімків екрану для вилучення."
 
@@ -206,24 +201,16 @@ msgid "Delete Screenshot?"
 msgstr "Вилучити Знімок Екрану?"
 
 #: gradia/ui/window.py:420
-#, fuzzy
 msgid "Are you sure you want to delete the following file?"
-msgstr ""
-"Ви впевнені що хочете вилучити наступний файл?\n"
-"\n"
-"%s"
+msgstr "Ви впевнені що хочете вилучити наступний файл?"
 
 #: gradia/ui/window.py:422
 msgid "Delete Screenshots?"
 msgstr "Вилучити Знімки Екрану?"
 
 #: gradia/ui/window.py:423
-#, fuzzy
 msgid "Are you sure you want to delete the following files?"
-msgstr ""
-"Ви впевнені що хочете вилучити наступні файли?\n"
-"\n"
-"%s"
+msgstr "Ви впевнені що хочете вилучити наступні файли?"
 
 #: gradia/ui/window.py:432 gradia/ui/image_exporters.py:120
 msgid "Cancel"
@@ -234,12 +221,10 @@ msgid "Delete"
 msgstr "Вилучити"
 
 #: gradia/ui/window.py:441
-#, fuzzy
 msgid "Screenshot deleted"
 msgstr "Знімок екрану вилучено."
 
 #: gradia/ui/window.py:443
-#, fuzzy
 msgid "Screenshots deleted"
 msgstr "Знімки екрану вилучено."
 
@@ -273,7 +258,7 @@ msgstr "Зберегти"
 
 #: gradia/ui/image_exporters.py:142
 msgid "Unsupported image file extension."
-msgstr ""
+msgstr "Непідтримуване розширення файлу зображення."
 
 #: gradia/ui/image_exporters.py:149
 msgid "Image saved successfully"
@@ -301,7 +286,7 @@ msgstr "Файли Зображень"
 
 #: gradia/ui/image_loaders.py:120
 msgid "Not a supported image format."
-msgstr ""
+msgstr "Непідтримуваний формат зображення."
 
 #: gradia/ui/image_loaders.py:150
 msgid "No image found in clipboard"
@@ -408,7 +393,6 @@ msgid "Image Background"
 msgstr "Зображення"
 
 #: data/ui/selectors/image_selector.blp:10
-#, fuzzy
 msgid "Image Presets"
 msgstr "Підготовлені Градієнти"
 
@@ -417,13 +401,12 @@ msgid "Select Image"
 msgstr "Вибрати Зображення"
 
 #: data/ui/selectors/image_selector.blp:51
-#, fuzzy
 msgid "Select an Image"
 msgstr "Вибрати Зображення"
 
 #: data/ui/selectors/image_selector.blp:56
 msgid "Supported Image Formats"
-msgstr ""
+msgstr "Підтримувані Формати Зображення"
 
 #: data/ui/selectors/solid_selector.blp:5
 msgid "Solid Color Background"
@@ -466,12 +449,10 @@ msgid "Annotation Tools"
 msgstr "Анотація"
 
 #: data/ui/drawing_tools_group.blp:65
-#, fuzzy
 msgid "Highlighter Color"
-msgstr "Підсвітка"
+msgstr "Колір Підсвітки"
 
 #: data/ui/drawing_tools_group.blp:105
-#, fuzzy
 msgid "Fill Color"
 msgstr "Колір"
 
@@ -485,15 +466,13 @@ msgstr "Шрифт"
 
 #: data/ui/drawing_tools_group.blp:177
 msgid "Size"
-msgstr ""
+msgstr "Розмір"
 
 #: data/ui/drawing_tools_group.blp:217
-#, fuzzy
 msgid "Radius"
-msgstr "Радіус Кутів"
+msgstr "Радіус"
 
 #: data/ui/image_sidebar.blp:24
-#, fuzzy
 msgid "Take a Screenshot"
 msgstr "Зробити знімок"
 
@@ -554,7 +533,6 @@ msgid "Copy to Clipboard"
 msgstr "Копіювати до Буферу Обміну"
 
 #: data/ui/image_sidebar.blp:181
-#, fuzzy
 msgid "Delete Taken Screenshot(s)"
 msgstr "Видалити зроблені знімки екрану"
 
@@ -564,7 +542,7 @@ msgstr "Про Gradia"
 
 #: data/ui/text_entry_popover.blp:12
 msgid "Enter text…"
-msgstr ""
+msgstr "Введіть текст…"
 
 #: data/ui/welcome_page.blp:25
 msgid "Enhance an Image"
@@ -575,7 +553,6 @@ msgid "Drag and drop one here"
 msgstr "Перетягніть ваше зображення сюди"
 
 #: data/ui/welcome_page.blp:42
-#, fuzzy
 msgid "_Take a Screenshot…"
 msgstr "_Зробити знімок екрану…"
 
