@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:foaf="http://xmlns.com/foaf/0.1/"
+         xmlns:gnome="http://api.gnome.org/doap-extensions#"
+         xmlns="http://usefulinc.com/ns/doap#">
+
+  <name>Gradia</name>
+  <shortdesc xml:lang="en">Make your screenshots ready for all</shortdesc>
+  <description xml:lang="en">
+    Gradia is a GTK 4 app for enhancing and preparing screenshots for blogs, social media, and documentation.
+    It supports background customization, annotation tools (pen, arrow, text, highlight, stamp), padding, cropping,
+    and various export formats.
+  </description>
+
+  <homepage rdf:resource="https://github.com/AlexanderVanhee/Gradia" />
+  <download-page rdf:resource="https://github.com/AlexanderVanhee/Gradia/releases" />
+  <bug-database rdf:resource="https://github.com/AlexanderVanhee/Gradia/issues" />
+
+  <programming-language>Python</programming-language>
+
+  <platform>GTK 4</platform>
+  <platform>Libadwaita</platform>
+
+  <license rdf:resource="https://www.gnu.org/licenses/gpl-3.0.html" />
+  <created>2023-11-11</created>
+
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Alexander Vanhee</foaf:name>
+      <foaf:account>
+        <foaf:OnlineAccount>
+          <foaf:accountServiceHomepage rdf:resource="https://github.com" />
+          <foaf:accountName>AlexanderVanhee</foaf:accountName>
+        </foaf:OnlineAccount>
+      </foaf:account>
+    </foaf:Person>
+  </maintainer>
+</Project>
+
