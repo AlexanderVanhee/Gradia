@@ -389,9 +389,6 @@ msgstr "Негізгі мәзір"
 #: data/ui/header_bar.blp:42
 msgid "Delete taken screenshot(s)"
 msgstr "Жасалған скриншот(тар)ды жою"
-#: data/ui/header_bar.blp:46
-msgid "Keyboard Shortcuts"
-msgstr "Пернетақта тіркесімдері"
 #: data/ui/header_bar.blp:50
 msgid "About Gradia"
 msgstr "Gradia туралы"
