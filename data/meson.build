@@ -2,6 +2,7 @@ gnome = import('gnome')
 
 subdir('ui')
 
+# Translate and install desktop file
 desktop_file = i18n.merge_file(
   input: configure_file(
     input: '@0@.desktop.in.in'.format(PROJECT_RDNN_NAME),
@@ -15,6 +16,7 @@ desktop_file = i18n.merge_file(
   install_dir: join_paths(get_option('datadir'), 'applications')
 )
 
+# .desktop validation
 desktop_utils = find_program('desktop-file-validate', required: false)
 if desktop_utils.found()
   test('Validate desktop file', desktop_utils,
@@ -23,6 +25,16 @@ if desktop_utils.found()
   )
 endif
 
+# Compile resources
+gnome.compile_resources(
+  'gradia',
+  'gradia.gresource.xml.in',
+  gresource_bundle: true,
+  dependencies: blueprints,
+  source_dir: meson.current_build_dir(),
+  install: true,
+  install_dir: PKGDATA_DIR
+)
 
 # Translate and install Appstream file
 metainfo_file = i18n.merge_file(
@@ -51,21 +63,13 @@ if appstream_cli.found()
   )
 endif
 
-
-
-install_data([
-  'fonts/Caveat-VariableFont_wght.ttf',
-  'fonts/LICENSE-OFL.txt',
-],
-install_dir: join_paths(get_option('datadir'), 'fonts')
+# Install fonts
+install_data(
+  [ 'fonts/Caveat-VariableFont_wght.ttf', 'fonts/LICENSE-OFL.txt' ],
+  install_dir: join_paths(get_option('datadir'), 'fonts')
 )
 
-compile_schemas = find_program('glib-compile-schemas', required: false, disabler: true)
-test('Validate schema file',
-     compile_schemas,
-     args: ['--strict', '--dry-run', meson.current_source_dir()])
-
-
+# Install GSettings schema
 configure_file(
   input: '@0@.gschema.xml'.format(PROJECT_RDNN_NAME),
   output: '@0@.gschema.xml'.format(APPLICATION_ID),
@@ -74,14 +78,12 @@ configure_file(
   install_dir: join_paths(get_option('datadir'), 'glib-2.0/schemas')
 )
 
-resources = gnome.compile_resources(
-  'resources',
-  'resources.data.gresource.xml.in',
-  gresource_bundle: true,
-  dependencies: blueprints,
-  source_dir: meson.current_build_dir(),
-  install: true,
-  install_dir: PKGDATA_DIR,
-)
+# GSettings schema validation
+compile_schemas = find_program('glib-compile-schemas', required: false, disabler: true)
+if compile_schemas.found()
+  test('Validate schema file', compile_schemas,
+    args: ['--strict', '--dry-run', meson.current_source_dir()]
+  )
+endif
 
 subdir('icons')
