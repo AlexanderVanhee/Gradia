@@ -49,6 +49,10 @@
       <default>false</default>
       <summary>Whether to trash all taken screenshots from the current session on close.</summary>
     </key>
+    <key name="show-close-confirm-dialog" type="b">
+      <default>true</default>
+      <summary>Whether to ask before closing the app with content open.</summary>
+    </key>
   </schema>
 </schemalist>
 

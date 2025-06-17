@@ -105,6 +105,7 @@ class SettingsWindow(Adw.PreferencesWindow):
     save_format_combo: Adw.ComboRow = Gtk.Template.Child()
     compress_switch: Adw.SwitchRow = Gtk.Template.Child()
     delete_screenshot_switch: Adw.SwitchRow = Gtk.Template.Child()
+    confirm_close_switch: Adw.SwitchRow = Gtk.Template.Child()
 
     def __init__(self, parent_window: Adw.ApplicationWindow, **kwargs):
         super().__init__(**kwargs)
@@ -242,3 +243,4 @@ class SettingsWindow(Adw.PreferencesWindow):
     def _bind_settings(self):
         self.settings.bind_switch(self.compress_switch,"export-compress")
         self.settings.bind_switch(self.delete_screenshot_switch,"trash-screenshots-on-close")
+        self.settings.bind_switch(self.confirm_close_switch,"show-close-confirm-dialog")

@@ -1,0 +1,24 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $GradiaConfirmCloseDialog : Adw.AlertDialog {
+  heading: _("Close Application?");
+  body: _("Are you sure you want to close the application? All unsaved changes will be lost.");
+  close-response: "cancel";
+
+  responses [
+    cancel: _("Cancel"),
+    close: _("Close") destructive,
+  ]
+
+  extra-child: Adw.PreferencesGroup {
+    Adw.ActionRow {
+      title: _("Don't ask again");
+
+      [suffix]
+      CheckButton dont_ask_switch {
+        valign: center;
+      }
+    }
+  };
+}

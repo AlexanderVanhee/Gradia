@@ -136,6 +136,10 @@ class Settings:
     def delete_screenshots_on_close(self) -> bool:
         return self._settings.get_boolean("trash-screenshots-on-close")
 
+    @property
+    def show_close_confirm_dialog(self) -> bool:
+        return self._settings.get_boolean("show-close-confirm-dialog")
+
     def bind_switch(self, switch: Gtk.Switch, key: str) -> None:
         if key in self._settings.list_keys():
             self._settings.bind(

@@ -39,6 +39,17 @@ template $GradiaSettingsWindow : Adw.PreferencesWindow {
           valign: center;
         }
       }
+
+      Adw.ComboRow confirm_close_combo {
+        title: _("Confirm on close");
+        subtitle: _("Ask for confirmation before closing the app");
+        [suffix]
+        Gtk.Switch confirm_close_switch {
+          tooltip-text: _("Ask for confirmation before closing the app");
+          valign: center;
+        }
+      }
+
     }
 
   Adw.PreferencesGroup {

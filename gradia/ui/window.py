@@ -39,7 +39,8 @@ from gradia.utils.aspect_ratio import *
 from gradia.ui.settings_window import SettingsWindow
 from gradia.backend.settings import Settings
 from gradia.constants import rootdir  # pyright: ignore
-
+from gradia.ui.dialog.delete_screenshots_dialog import DeleteScreenshotsDialog
+from gradia.ui.dialog.confirm_close_dialog import ConfirmCloseDialog
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/main_window.ui")
 class GradiaMainWindow(Adw.ApplicationWindow):
@@ -112,6 +113,8 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self._setup_sidebar()
         self._setup()
 
+        self.connect("close-request", self._on_close_request)
+
         if self.file_path:
             self.import_manager.load_from_file(self.file_path)
 
@@ -161,7 +164,6 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
         self.create_action("set-screenshot-folder",  lambda action, param: self.set_screenshot_subfolder(param.get_string()), vt="s")
 
-        self.app.connect("shutdown", self._on_app_shutdown)
 
     """
     Setup Methods
@@ -197,9 +199,19 @@ class GradiaMainWindow(Adw.ApplicationWindow):
     """
     Shutdown
     """
-    def _on_app_shutdown(self, app: Adw.Application) -> None:
-        if (Settings().delete_screenshots_on_close):
+    def _on_close_request(self, window) -> bool:
+        if Settings().show_close_confirm_dialog and self.image_path:
+            confirm_dialog = ConfirmCloseDialog(self)
+            confirm_dialog.show_dialog(self._on_confirm_close_ok)
+            return True
+        else:
+            self._on_confirm_close_ok()
+            return True
+
+    def _on_confirm_close_ok(self) -> None:
+        if Settings().delete_screenshots_on_close:
             self.import_manager.delete_screenshots()
+        self.destroy()
 
     """
     Callbacks
@@ -395,63 +407,12 @@ class GradiaMainWindow(Adw.ApplicationWindow):
                 action.set_enabled(enabled)
 
     def _create_delete_screenshots_dialog(self) -> None:
-        screenshot_uris = self.import_manager.get_screenshot_uris()
-        if not screenshot_uris:
-            self._show_notification(_("No screenshots to delete"))
-            return
-
-        filenames = [
-            GLib.filename_display_basename(
-                GLib.uri_parse(uri, GLib.UriFlags.NONE).get_path()
-            )
-            for uri in screenshot_uris
-        ]
-
-        file_list = Gtk.ListBox()
-        file_list.set_selection_mode(Gtk.SelectionMode.NONE)
-        file_list.add_css_class("boxed-list")
-
-        for filename in filenames:
-            row = Adw.ActionRow()
-            label = Gtk.Label(label=filename, xalign=0)
-            label.set_wrap(True)
-            label.set_margin_top(6)
-            label.set_margin_bottom(6)
-            label.set_margin_start(12)
-            label.set_margin_end(12)
-            row.set_child(label)
-            file_list.append(row)
-
-        count = len(screenshot_uris)
-        if count == 1:
-            heading = _("Trash Screenshot?")
-            body = _("Are you sure you want to trash the following file?")
-        else:
-            heading = _("Trash Screenshots?")
-            body = _("Are you sure you want to trash the following files?")
-
-        dialog = Adw.AlertDialog(
-            heading=heading,
-            body=body,
-            close_response="cancel"
+        dialog = DeleteScreenshotsDialog(self)
+        dialog.show(
+            self.import_manager.get_screenshot_uris(),
+            self.import_manager.delete_screenshots,
+            self._show_notification
         )
-
-        dialog.set_extra_child(file_list)
-        dialog.add_response("cancel", _("Cancel"))
-        dialog.add_response("delete", _("Trash"))
-        dialog.set_response_appearance("delete", Adw.ResponseAppearance.DESTRUCTIVE)
-
-        def on_response(dialog: Adw.AlertDialog, task: Gio.Task) -> None:
-            response = dialog.choose_finish(task)
-            if response == "delete":
-                self.import_manager.delete_screenshots()
-                if count == 1:
-                    self._show_notification(_("Screenshot moved to trash"))
-                else:
-                    self._show_notification(_("Screenshots moved to trash"))
-
-        dialog.choose(self, None, on_response)
-
 
     def _on_settings_activated(self, action: Gio.SimpleAction, param) -> None:
         settings_window = SettingsWindow(self)
