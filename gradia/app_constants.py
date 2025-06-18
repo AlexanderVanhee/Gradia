@@ -24,3 +24,27 @@ PREDEFINED_GRADIENTS: list[GradientPreset] = [
     ("#8ff0a4", "#2ec27e", 135),
     ("#f6f5f4", "#5e5c64", 135),
 ]
+
+
+SUPPORTED_EXPORT_FORMATS = {
+    'png': {
+        'name': _('PNG Image (*.png)'),
+        'mime_type': 'image/png',
+        'extensions': ['.png'],
+        'save_options': {'keys': [], 'values': []}
+    },
+    'jpeg': {
+        'name': _('JPEG Image (*.jpg)'),
+        'mime_type': 'image/jpeg',
+        'extensions': ['.jpg', '.jpeg'],
+        'save_options': {'keys': ['quality'], 'values': ['90']}
+    },
+    'webp': {
+        'name': _('WebP Image (*.webp)'),
+        'mime_type': 'image/webp',
+        'extensions': ['.webp'],
+        'save_options': {'keys': ['quality'], 'values': ['90']}
+    }
+}
+
+DEFAULT_EXPORT_FORMAT = 'jpeg'

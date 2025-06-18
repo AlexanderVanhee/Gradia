@@ -1,45 +1,17 @@
 using Gtk 4.0;
 using Adw 1;
-
 template $GradiaGradientSelector : Adw.PreferencesGroup {
   title: _("Gradient Background");
-
   [header-suffix]
   Gtk.MenuButton {
     icon-name: "columns-symbolic";
     tooltip-text: _("Gradient Presets");
     popover: gradient_popover;
     valign: center;
-
     styles [
       "flat"
     ]
   }
-
-  Adw.ActionRow start_color_row {
-    title: _("Start Color");
-    activatable-widget: start_color_button;
-
-    // TODO: Replace with ColorDialogButton
-    [suffix]
-    Gtk.ColorButton start_color_button {
-      valign: center;
-      color-set => $_on_start_color_set();
-    }
-  }
-
-  Adw.ActionRow end_color_row {
-    title: _("End Color");
-    activatable-widget: end_color_button;
-
-    // TODO: Replace with ColorDialogButton
-    [suffix]
-    Gtk.ColorButton end_color_button {
-      valign: center;
-      color-set => $_on_end_color_set();
-    }
-  }
-
   Adw.SpinRow angle_spin_row {
     title: _("Angle");
     numeric: true;
@@ -48,22 +20,77 @@ template $GradiaGradientSelector : Adw.PreferencesGroup {
       upper: 360;
       step-increment: 45;
     };
-
     output => $_on_angle_output();
   }
+  Adw.ActionRow gradient_preview_row {
+    child: Gtk.Box {
+      orientation: vertical;
+      valign: center;
+      halign: center;
+      Gtk.Frame gradient_preview_frame {
+        margin-top: 8;
+        margin-bottom: 8;
+        styles [
+          "view"
+        ]
+        Gtk.Box gradient_preview_box {
+          orientation: horizontal;
+          width-request: 250;
+          height-request: 88;
+          styles [
+            "gradient-preview"
+          ]
+          Gtk.Overlay {
+            Gtk.Box {
+            }
+            [overlay]
+            Gtk.Box button_container {
+              orientation: horizontal;
+              halign: fill;
+              valign: center;
+              homogeneous: true;
+              margin-start: 25;
+              margin-end: 25;
+              Gtk.Button start_color_button {
+                margin-end: 62;
+                tooltip-text: _("Start Color");
+                child: Gtk.Image {
+                  icon-name: "edit-symbolic";
+                };
+                styles [
+                  "gradient-color-picker",
+                  "circular"
+                ]
+                clicked => $_on_start_color_button_clicked();
+              }
+              Gtk.Button end_color_button {
+                margin-start: 62;
+                tooltip-text: _("End Color");
+                child: Gtk.Image {
+                  icon-name: "edit-symbolic";
+                };
+                styles [
+                  "gradient-color-picker",
+                  "circular"
+                ]
+                clicked => $_on_end_color_button_clicked();
+              }
+            }
+          }
+        }
+      }
+    };
+  }
 }
-
 Gtk.Popover gradient_popover {
   autohide: true;
   has-arrow: true;
-
   child: Gtk.FlowBox popover_flowbox {
     max-children-per-line: 3;
     selection-mode: none;
     row-spacing: 10;
     column-spacing: 10;
     homogeneous: true;
-
     valign: center;
     margin-top: 10;
     margin-bottom: 10;

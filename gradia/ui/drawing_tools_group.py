@@ -31,31 +31,29 @@ class ToolConfig:
         icon: str,
         column: int,
         row: int,
-        stack_page: Optional[str] = None,
-        color_stack_page: Optional[str] = None
+        shown_entries: Optional[list[str]] = None
     ) -> None:
         self.mode = mode
         self.icon = icon
         self.column = column
         self.row = row
-        self.stack_page = stack_page
-        self.color_stack_page = color_stack_page
+        self.shown_entries = shown_entries or []
 
     @staticmethod
     def get_all_tools() -> list['ToolConfig']:
         """Return all tool configurations."""
 
         return [
-            ToolConfig(DrawingMode.SELECT, "pointer-primary-click-symbolic", 0, 0, None, None),
-            ToolConfig(DrawingMode.PEN, "edit-symbolic", 1, 0, "size", "stroke"),
-            ToolConfig(DrawingMode.TEXT, "text-insert2-symbolic", 2, 0, "font", "stroke"),
-            ToolConfig(DrawingMode.LINE, "draw-line-symbolic", 3, 0, "size", "stroke"),
-            ToolConfig(DrawingMode.ARROW, "arrow1-top-right-symbolic", 4, 0, "size", "stroke"),
-            ToolConfig(DrawingMode.SQUARE, "box-small-outline-symbolic", 0, 1, "fill", "stroke"),
-            ToolConfig(DrawingMode.CIRCLE, "circle-outline-thick-symbolic", 1, 1, "fill", "stroke"),
-            ToolConfig(DrawingMode.HIGHLIGHTER, "marker-symbolic", 2, 1, None, "highlighter"),
-            ToolConfig(DrawingMode.CENSOR, "checkerboard-big-symbolic", 3, 1, None, None),
-            ToolConfig(DrawingMode.NUMBER, "one-circle-symbolic", 4, 1, "number_radius", "stroke"),
+            ToolConfig(DrawingMode.SELECT, "pointer-primary-click-symbolic", 0, 0, []),
+            ToolConfig(DrawingMode.PEN, "edit-symbolic", 1, 0, ["stroke_color", "size"]),
+            ToolConfig(DrawingMode.TEXT, "text-insert2-symbolic", 2, 0, ["stroke_color", "font"]),
+            ToolConfig(DrawingMode.LINE, "draw-line-symbolic", 3, 0, ["stroke_color", "size"]),
+            ToolConfig(DrawingMode.ARROW, "arrow1-top-right-symbolic", 4, 0, ["stroke_color", "size"]),
+            ToolConfig(DrawingMode.SQUARE, "box-small-outline-symbolic", 0, 1, ["stroke_color", "fill_color", "size"]),
+            ToolConfig(DrawingMode.CIRCLE, "circle-outline-thick-symbolic", 1, 1, ["stroke_color", "fill_color", "size"]),
+            ToolConfig(DrawingMode.HIGHLIGHTER, "marker-symbolic", 2, 1, ["highlighter_color"]),
+            ToolConfig(DrawingMode.CENSOR, "checkerboard-big-symbolic", 3, 1, []),
+            ToolConfig(DrawingMode.NUMBER, "one-circle-symbolic", 4, 1, ["stroke_color", "number_radius"]),
         ]
 
 
@@ -64,18 +62,21 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
     __gtype_name__ = "GradiaDrawingToolsGroup"
 
     tools_grid: Gtk.Grid = Gtk.Template.Child()
+    options_row: Adw.ActionRow = Gtk.Template.Child()
 
-    color_stack_row: Adw.ActionRow = Gtk.Template.Child()
-    color_stack: Gtk.Stack = Gtk.Template.Child()
+    stroke_color_revealer: Gtk.Revealer = Gtk.Template.Child()
+    highlighter_color_revealer: Gtk.Revealer = Gtk.Template.Child()
+    fill_color_revealer: Gtk.Revealer = Gtk.Template.Child()
+    font_revealer: Gtk.Revealer = Gtk.Template.Child()
+    size_revealer: Gtk.Revealer = Gtk.Template.Child()
+    number_radius_revealer: Gtk.Revealer = Gtk.Template.Child()
+
     stroke_color_button: Gtk.ColorButton = Gtk.Template.Child()
     highlighter_color_button: Gtk.ColorButton = Gtk.Template.Child()
+    fill_color_button: Gtk.ColorButton = Gtk.Template.Child()
+
     size_scale: Gtk.Scale = Gtk.Template.Child()
     number_radius_scale: Gtk.Scale = Gtk.Template.Child()
-
-    stack_row: Adw.ActionRow = Gtk.Template.Child()
-    fill_font_stack: Gtk.Stack = Gtk.Template.Child()
-
-    fill_color_button: Gtk.ColorButton = Gtk.Template.Child()
     font_string_list: Gtk.StringList = Gtk.Template.Child()
 
     tools_config = ToolConfig.get_all_tools()
@@ -86,8 +87,18 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
         self.settings = Settings()
 
         self.tool_buttons: dict[DrawingMode, Gtk.ToggleButton] = {}
-        self.current_stack_page_name: str = None
-        self.current_color_stack_page_name: str = None
+        self.revealers = {
+            "stroke_color": self.stroke_color_revealer,
+            "highlighter_color": self.highlighter_color_revealer,
+            "fill_color": self.fill_color_revealer,
+            "font": self.font_revealer,
+            "size": self.size_revealer,
+            "number_radius": self.number_radius_revealer,
+        }
+
+        self._pending_hide_options = False
+        self._visible_revealers_count = 0
+        self.options_row.set_visible(False)
 
         self.fonts = ["Caveat", "Adwaita Sans", "Adwaita Mono", "Noto Sans"]
 
@@ -99,7 +110,6 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
             saved_mode = DrawingMode(self.settings.draw_mode)
         except ValueError:
             saved_mode = DrawingMode.PEN
-
 
         if saved_mode in self.tool_buttons:
             self.tool_buttons[saved_mode].set_active(True)
@@ -113,7 +123,6 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
     """
 
     def _setup_annotation_tools_group(self) -> None:
-        # Sets default color values for color buttons
         self.stroke_color_button.set_rgba(Gdk.RGBA(red=1, green=1, blue=1, alpha=1))
         self.highlighter_color_button.set_rgba(Gdk.RGBA(red=1, green=1, blue=0, alpha=0.5))
         self.fill_color_button.set_rgba(Gdk.RGBA(red=0, green=0, blue=0, alpha=0))
@@ -129,6 +138,9 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
             button.connect("toggled", self._on_button_toggled, tool_config.mode)
             self.tools_grid.attach(button, tool_config.column, tool_config.row, 1, 1)
             self.tool_buttons[tool_config.mode] = button
+
+        for revealer in self.revealers.values():
+            revealer.connect("notify::child-revealed", self._on_revealer_child_revealed)
 
     def _setup_font_dropdown(self) -> None:
         for font in self.fonts:
@@ -153,6 +165,13 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
     """
     Callbacks
     """
+
+    def _on_revealer_child_revealed(self, revealer: Gtk.Revealer, _param: GObject.ParamSpec) -> None:
+        visible_count = sum(1 for r in self.revealers.values() if r.get_child_revealed())
+
+        if self._pending_hide_options and visible_count == 0:
+            self.options_row.set_visible(False)
+            self._pending_hide_options = False
 
     # TODO: Define type for `list_item` parameter
     @Gtk.Template.Callback()
@@ -224,8 +243,7 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
     def _on_button_toggled(self, button: Gtk.ToggleButton, drawing_mode: DrawingMode) -> None:
         if button.get_active():
             self._deactivate_other_tools(drawing_mode)
-            self._update_stack_for_mode(drawing_mode)
-            self._update_color_stack_for_mode(drawing_mode)
+            self._update_revealers_for_mode(drawing_mode)
             self.settings.draw_mode = drawing_mode.value
             self._activate_draw_mode_action(drawing_mode)
         else:
@@ -240,33 +258,26 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
             if mode != current_mode and button.get_active():
                 button.set_active(False)
 
-    def _update_stack_for_mode(self, drawing_mode: DrawingMode) -> None:
-        required_page = None
+    def _update_revealers_for_mode(self, drawing_mode: DrawingMode) -> None:
+        shown_entries = []
+
         for tool_config in self.tools_config:
             if tool_config.mode == drawing_mode:
-                required_page = tool_config.stack_page
+                shown_entries = tool_config.shown_entries
                 break
 
-        if required_page is None:
-            self.stack_row.set_sensitive(False)
+        if shown_entries:
+            self.options_row.set_visible(True)
+            self._pending_hide_options = False
         else:
-            self.stack_row.set_sensitive(True)
-            self.fill_font_stack.set_visible_child_name(required_page)
-            self.current_stack_page_name = required_page
+            self._pending_hide_options = True
 
-    def _update_color_stack_for_mode(self, drawing_mode: DrawingMode) -> None:
-        required_page = None
-        for tool_config in self.tools_config:
-            if tool_config.mode == drawing_mode:
-                required_page = tool_config.color_stack_page
-                break
-
-        if required_page is None:
-            self.color_stack_row.set_sensitive(False)
-        else:
-            self.color_stack_row.set_sensitive(True)
-            self.color_stack.set_visible_child_name(required_page)
-            self.current_color_stack_page_name = required_page
+        for entry, revealer in self.revealers.items():
+            if entry not in shown_entries:
+                revealer.set_reveal_child(False)
+        for entry in shown_entries:
+            if entry in self.revealers:
+                self.revealers[entry].set_reveal_child(True)
 
     def _activate_draw_mode_action(self, drawing_mode: DrawingMode) -> None:
         app = Gio.Application.get_default()

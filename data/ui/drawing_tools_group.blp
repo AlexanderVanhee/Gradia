@@ -17,201 +17,264 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
     };
   }
 
-  Adw.ActionRow color_stack_row {
-    child: Gtk.Stack color_stack {
-      transition-type: crossfade;
-      transition-duration: 300;
-      margin-top: 8;
-      margin-bottom: 8;
-      margin-start: 12;
-      margin-end: 12;
-      valign: center;
+  Adw.ActionRow options_row {
+    child: Gtk.Box options_container {
+      orientation: vertical;
+      spacing: 0;
 
-      Gtk.StackPage stroke_color_page {
-        name: "stroke";
+      Gtk.Revealer stroke_color_revealer {
+        reveal-child: false;
+        transition-type: swing_down;
+        transition-duration: 300;
 
-        child: Gtk.Box stroke_color_container {
-          orientation: horizontal;
-          spacing: 6;
+        child: Gtk.Box {
+          orientation: vertical;
+          spacing: 0;
 
-          Gtk.Label stroke_color_label {
-            label: _("Color");
-            halign: start;
-            hexpand: true;
-          }
+          styles [
+            "drawing_tool_entry_box"
+          ]
 
-          Gtk.Box stroke_color_suffix_box {
+          Gtk.Box stroke_color_container {
             orientation: horizontal;
             spacing: 6;
-            valign: center;
+            margin-top: 8;
+            margin-bottom: 8;
+            margin-start: 12;
+            margin-end: 12;
 
-            // TODO: Replace with ColorDialogButton
-            Gtk.ColorButton stroke_color_button {
-              valign: center;
-              color-set => $_on_pen_color_set();
-            }
-          }
-        };
-      }
-
-      Gtk.StackPage highlighter_color_page {
-        name: "highlighter";
-
-        child: Gtk.Box highlighter_color_container {
-          orientation: horizontal;
-          spacing: 6;
-
-          Gtk.Label highlighter_color_label {
-            label: _("Highlighter Color");
-            halign: start;
-            hexpand: true;
-          }
-
-          Gtk.Box highlighter_color_suffix_box {
-            orientation: horizontal;
-            spacing: 6;
-            valign: center;
-
-            // TODO: Replace with ColorDialogButton
-            Gtk.ColorButton highlighter_color_button {
-              valign: center;
-              use-alpha: true;
-              color-set => $_on_highlighter_color_set();
-            }
-          }
-        };
-      }
-    };
-  }
-
-  Adw.ActionRow stack_row {
-    child: Gtk.Stack fill_font_stack {
-      transition-type: crossfade;
-      transition-duration: 300;
-      margin-top: 8;
-      margin-bottom: 8;
-      margin-start: 12;
-      margin-end: 12;
-      valign: center;
-
-      Gtk.StackPage fill_color_page {
-        name: "fill";
-
-        child: Gtk.Box fill_color_container {
-          orientation: horizontal;
-          spacing: 6;
-
-          Gtk.Label fill_color_label {
-            label: _("Fill Color");
-            halign: start;
-            hexpand: true;
-          }
-
-          Gtk.Box fill_color_suffix_box {
-            orientation: horizontal;
-            spacing: 6;
-            valign: center;
-
-            Gtk.Button reset_button {
-              icon-name: "edit-clear-symbolic";
-              tooltip-text: _("Reset Fill");
-
-              clicked => $_on_reset_fill_clicked();
-
-              styles [
-                "flat"
-              ]
-            }
-
-            // TODO: Replace with ColorDialogButton
-            Gtk.ColorButton fill_color_button {
-              use-alpha: true;
-              color-set => $_on_fill_color_set();
-            }
-          }
-        };
-      }
-
-      Gtk.StackPage font_page {
-        name: "font";
-
-        child: Gtk.Box font_container {
-          orientation: horizontal;
-          spacing: 6;
-
-          Gtk.Label font_label {
-            label: _("Font");
-            halign: start;
-            hexpand: true;
-          }
-
-          Gtk.Box font_suffix_box {
-            orientation: horizontal;
-            spacing: 6;
-            valign: center;
-
-            Gtk.DropDown font_dropdown {
-              selected: 0;
-              width-request: 150;
-              model: Gtk.StringList font_string_list {};
-
-              factory: Gtk.SignalListItemFactory font_factory {
-                setup => $_font_factory_setup();
-                bind => $_font_factory_bind();
-              };
-
-              notify::selected => $_on_font_selected();
-            }
-          }
-        };
-      }
-
-      Gtk.StackPage size_page {
-        name: "size";
-
-        child: Gtk.Box size_container {
-          orientation: horizontal;
-          spacing: 6;
-
-          Gtk.Label size_label {
-            label: _("Size");
-            halign: start;
-            hexpand: true;
-          }
-
-          Gtk.Box size_suffix_box {
-            orientation: horizontal;
-            spacing: 6;
-            valign: center;
-
-            Gtk.Scale size_scale {
-              orientation: horizontal;
-              width-request: 50;
+            Gtk.Label stroke_color_label {
+              label: _("Color");
+              halign: start;
               hexpand: true;
-              draw-value: true;
-              value-pos: right;
-              digits: 0;
+            }
 
-              adjustment: Gtk.Adjustment size_adjustment {
-                lower: 1;
-                upper: 10;
-                value: 3;
-                step-increment: 1;
-                page-increment: 5;
-              };
+            Gtk.Box stroke_color_suffix_box {
+              orientation: horizontal;
+              spacing: 6;
+              valign: center;
 
-              value-changed => $_on_size_changed();
+              // TODO: Replace with ColorDialogButton
+              Gtk.ColorButton stroke_color_button {
+                valign: center;
+                color-set => $_on_pen_color_set();
+              }
             }
           }
         };
       }
 
-      Gtk.StackPage number_radius_page {
-        name: "number_radius";
+      Gtk.Revealer highlighter_color_revealer {
+        reveal-child: false;
+        transition-type: swing_down;
+        transition-duration: 300;
+
+        child: Gtk.Box {
+          orientation: vertical;
+          spacing: 0;
+
+          Gtk.Box highlighter_color_container {
+            orientation: horizontal;
+            spacing: 6;
+            margin-top: 8;
+            margin-bottom: 8;
+            margin-start: 12;
+            margin-end: 12;
+
+            Gtk.Label highlighter_color_label {
+              label: _("Highlighter Color");
+              halign: start;
+              hexpand: true;
+            }
+
+            Gtk.Box highlighter_color_suffix_box {
+              orientation: horizontal;
+              spacing: 6;
+              valign: center;
+
+              // TODO: Replace with ColorDialogButton
+              Gtk.ColorButton highlighter_color_button {
+                valign: center;
+                use-alpha: true;
+                color-set => $_on_highlighter_color_set();
+              }
+            }
+          }
+        };
+      }
+
+      Gtk.Revealer fill_color_revealer {
+        reveal-child: false;
+        transition-type: swing_down;
+        transition-duration: 300;
+
+        child: Gtk.Box {
+          orientation: vertical;
+          spacing: 0;
+
+          styles [
+            "drawing_tool_entry_box"
+          ]
+
+          Gtk.Box fill_color_container {
+            orientation: horizontal;
+            spacing: 6;
+            margin-top: 8;
+            margin-bottom: 8;
+            margin-start: 12;
+            margin-end: 12;
+
+            Gtk.Label fill_color_label {
+              label: _("Fill Color");
+              halign: start;
+              hexpand: true;
+            }
+
+            Gtk.Box fill_color_suffix_box {
+              orientation: horizontal;
+              spacing: 6;
+              valign: center;
+
+              Gtk.Button reset_button {
+                icon-name: "edit-clear-symbolic";
+                tooltip-text: _("Reset Fill");
+
+                clicked => $_on_reset_fill_clicked();
+
+                styles [
+                  "flat"
+                ]
+              }
+
+              // TODO: Replace with ColorDialogButton
+              Gtk.ColorButton fill_color_button {
+                use-alpha: true;
+                color-set => $_on_fill_color_set();
+              }
+            }
+          }
+
+        };
+      }
+
+      Gtk.Revealer font_revealer {
+        reveal-child: false;
+        transition-type: swing_down;
+        transition-duration: 300;
+
+        child: Gtk.Box {
+          orientation: vertical;
+          spacing: 0;
+
+          Gtk.Box font_container {
+            orientation: horizontal;
+            spacing: 6;
+            margin-top: 8;
+            margin-bottom: 8;
+            margin-start: 12;
+            margin-end: 12;
+
+            Gtk.Label font_label {
+              label: _("Font");
+              halign: start;
+              hexpand: true;
+            }
+
+            Gtk.Box font_suffix_box {
+              orientation: horizontal;
+              spacing: 6;
+              valign: center;
+
+              Gtk.DropDown font_dropdown {
+                selected: 0;
+                width-request: 150;
+                model: Gtk.StringList font_string_list {};
+
+                factory: Gtk.SignalListItemFactory font_factory {
+                  setup => $_font_factory_setup();
+                  bind => $_font_factory_bind();
+                };
+
+                notify::selected => $_on_font_selected();
+              }
+            }
+          }
+
+        };
+      }
+
+      Gtk.Revealer size_revealer {
+        reveal-child: false;
+        transition-type: swing_down;
+        transition-duration: 300;
+
+        styles [
+          "drawing_revealer"
+        ]
+
+        child: Gtk.Box {
+          orientation: vertical;
+          spacing: 0;
+
+          Gtk.Box size_container {
+            orientation: horizontal;
+            spacing: 6;
+            margin-top: 8;
+            margin-bottom: 8;
+            margin-start: 12;
+            margin-end: 12;
+
+            Gtk.Label size_label {
+              label: _("Size");
+              halign: start;
+              hexpand: true;
+            }
+
+            Gtk.Box size_suffix_box {
+              orientation: horizontal;
+              spacing: 6;
+              valign: center;
+
+              Gtk.Scale size_scale {
+                orientation: horizontal;
+                width-request: 50;
+                hexpand: true;
+                draw-value: true;
+                value-pos: right;
+                digits: 0;
+
+                adjustment: Gtk.Adjustment size_adjustment {
+                  lower: 1;
+                  upper: 10;
+                  value: 3;
+                  step-increment: 1;
+                  page-increment: 5;
+                };
+
+                value-changed => $_on_size_changed();
+              }
+            }
+          }
+
+        };
+      }
+
+      Gtk.Revealer number_radius_revealer {
+        reveal-child: false;
+        transition-type: swing_down;
+        transition-duration: 300;
+
+        styles [
+          "drawing_revealer"
+        ]
 
         child: Gtk.Box number_radius_container {
           orientation: horizontal;
           spacing: 6;
+          margin-top: 8;
+          margin-bottom: 8;
+          margin-start: 12;
+          margin-end: 12;
 
           Gtk.Label number_radius_label {
             label: _("Radius");

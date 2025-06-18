@@ -41,7 +41,7 @@ class GradientBackground(Background):
 
     @classmethod
     def _load_c_lib(cls) -> None:
-        if cls._c_lib :
+        if cls._c_lib:
             return
 
         try:
@@ -129,13 +129,13 @@ class GradientBackground(Background):
             'c_lib_loaded': cls._c_lib is not None and cls._c_lib is not False
         }
 
-
 @Gtk.Template(resource_path=f"{rootdir}/ui/selectors/gradient_selector.ui")
 class GradientSelector(Adw.PreferencesGroup):
     __gtype_name__ = "GradiaGradientSelector"
 
-    start_color_button: Gtk.ColorDialogButton = Gtk.Template.Child()
-    end_color_button: Gtk.ColorDialogButton = Gtk.Template.Child()
+    start_color_button: Gtk.Button = Gtk.Template.Child()
+    end_color_button: Gtk.Button = Gtk.Template.Child()
+    gradient_preview_box: Gtk.Box = Gtk.Template.Child()
 
     angle_spin_row: Adw.SpinRow = Gtk.Template.Child()
     angle_adjustment: Gtk.Adjustment = Gtk.Template.Child()
@@ -154,13 +154,15 @@ class GradientSelector(Adw.PreferencesGroup):
         self.gradient: GradientBackground = gradient
         self.callback: Optional[Callable[[GradientBackground], None]] = callback
 
+        self.start_color_dialog = Gtk.ColorDialog()
+        self.end_color_dialog = Gtk.ColorDialog()
+
         self._setup_popover()
         self._setup()
 
     """
     Setup Methods
     """
-
     def _setup_popover(self) -> None:
         for i, (start, end, angle) in enumerate(PREDEFINED_GRADIENTS):
             gradient_name = f"gradient-preview-{i}"
@@ -168,57 +170,129 @@ class GradientSelector(Adw.PreferencesGroup):
             button = Gtk.Button(
                 name=gradient_name,
                 focusable=False,
-                can_focus=False
+                can_focus=False,
+                width_request=60,
+                height_request=40
             )
+            button.add_css_class("gradient-preset")
 
-            css = f"""
-                button#{gradient_name} {{
-                    background-image: linear-gradient({angle}deg, {start}, {end});
-                    min-width: 60px;
-                    min-height: 40px;
-                    background-size: cover;
-                    border-radius: 10px;
-                    border: 1px solid rgba(0,0,0,0.1);
-                    transition: filter 0.3s ease;
-                }}
-                button#{gradient_name}:hover {{
-                    filter: brightness(1.2);
-                }}
-            """
-            css_provider = Gtk.CssProvider()
-            css_provider.load_from_string(css)
-            button.get_style_context().add_provider(
-                css_provider,
-                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-            )
+            self._apply_gradient_to_preset_button(button, start, end, angle)
 
             button.connect("clicked", self._on_gradient_selected, start, end, angle)
             self.popover_flowbox.append(button)
 
-    def _setup(self) -> None:
-        # Set default values for angle adjustment and color buttons
-        self.angle_adjustment.set_value(self.gradient.angle)
+    def _apply_gradient_to_preset_button(self, button: Gtk.Button, start: str, end: str, angle: int) -> None:
+        css = f"""
+            button.gradient-preset {{
+                background-image: linear-gradient({angle}deg, {start}, {end});
+            }}
+        """
 
-        self.start_color_button.set_rgba(hex_to_rgba(self.gradient.start_color))
-        self.end_color_button.set_rgba(hex_to_rgba(self.gradient.end_color))
+        css_provider = Gtk.CssProvider()
+        css_provider.load_from_string(css)
+        button.get_style_context().add_provider(
+            css_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 3
+        )
+
+    def _setup(self) -> None:
+        self.angle_adjustment.set_value(self.gradient.angle)
+        self._update_gradient_preview()
+        self._update_color_button_styles()
+
+    def _update_gradient_preview(self) -> None:
+        css = f"""
+            .gradient-preview {{
+                background-image: linear-gradient({self.gradient.angle}deg, {self.gradient.start_color}, {self.gradient.end_color});
+            }}
+        """
+        css_provider = Gtk.CssProvider()
+        css_provider.load_from_string(css)
+        self.gradient_preview_box.get_style_context().add_provider(
+            css_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1
+        )
+
+    def _update_color_button_styles(self) -> None:
+        start_css = f"""
+            button.gradient-color-picker:nth-child(1) {{
+                background-color: {self.gradient.start_color};
+            }}
+        """
+        start_css_provider = Gtk.CssProvider()
+        start_css_provider.load_from_string(start_css)
+        start_context = self.start_color_button.get_style_context()
+        start_context.add_provider(start_css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 2)
+
+        if self.is_light_color(self.gradient.start_color):
+            start_context.add_class("dark")
+        else:
+            start_context.remove_class("dark")
+
+        end_css = f"""
+            button.gradient-color-picker:nth-child(2) {{
+                background-color: {self.gradient.end_color};
+            }}
+        """
+        end_css_provider = Gtk.CssProvider()
+        end_css_provider.load_from_string(end_css)
+        end_context = self.end_color_button.get_style_context()
+        end_context.add_provider(end_css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 2)
+
+        if self.is_light_color(self.gradient.end_color):
+            end_context.add_class("dark")
+        else:
+            end_context.remove_class("dark")
 
     """
     Callbacks
     """
+    @Gtk.Template.Callback()
+    def _on_start_color_button_clicked(self, button: Gtk.Button) -> None:
+        self.start_color_dialog.choose_rgba(
+            parent=self.get_root(),
+            initial_color=hex_to_rgba(self.gradient.start_color),
+            callback=self._on_start_color_selected
+        )
 
     @Gtk.Template.Callback()
-    def _on_start_color_set(self, button: Gtk.ColorButton, *args) -> None:
-        self.gradient.start_color = rgba_to_hex(button.get_rgba())
-        self._notify()
+    def _on_end_color_button_clicked(self, button: Gtk.Button) -> None:
+        self.end_color_dialog.choose_rgba(
+            parent=self.get_root(),
+            initial_color=hex_to_rgba(self.gradient.end_color),
+            callback=self._on_end_color_selected
+        )
 
-    @Gtk.Template.Callback()
-    def _on_end_color_set(self, button: Gtk.ColorButton, *args) -> None:
-        self.gradient.end_color = rgba_to_hex(button.get_rgba())
-        self._notify()
+    def _on_start_color_selected(self, dialog: Gtk.ColorDialog, result) -> None:
+        try:
+            rgba = dialog.choose_rgba_finish(result)
+            self.gradient.start_color = rgba_to_hex(rgba)
+            self._update_gradient_preview()
+            self._update_color_button_styles()
+            self._notify()
+        except Exception:
+            pass
+
+    def _on_end_color_selected(self, dialog: Gtk.ColorDialog, result) -> None:
+        try:
+            rgba = dialog.choose_rgba_finish(result)
+            self.gradient.end_color = rgba_to_hex(rgba)
+            self._update_gradient_preview()
+            self._update_color_button_styles()
+            self._notify()
+        except Exception:
+            pass
+
+    def is_light_color(self, hex_color: str) -> bool:
+        hex_color = hex_color.lstrip("#")
+        r, g, b = [int(hex_color[i:i + 2], 16) for i in (0, 2, 4)]
+        luminance = 0.299 * r + 0.587 * g + 0.114 * b
+        return luminance > 200
 
     @Gtk.Template.Callback()
     def _on_angle_output(self, row: Adw.SpinRow, *args) -> None:
         self.gradient.angle = int(row.get_value())
+        self._update_gradient_preview()
         self._notify()
 
     def _on_gradient_selected(self, _button: Gtk.Button, start: HexColor, end: HexColor, angle: int) -> None:
@@ -226,13 +300,14 @@ class GradientSelector(Adw.PreferencesGroup):
         self.gradient.end_color = end
         self.gradient.angle = angle
 
-        self.start_color_button.set_rgba(hex_to_rgba(start))
-        self.end_color_button.set_rgba(hex_to_rgba(end))
         self.angle_spin_row.set_value(angle)
 
+        self._update_gradient_preview()
+        self._update_color_button_styles()
         self._notify()
 
         self.gradient_popover.popdown()
+
 
     """
     Internal Methods

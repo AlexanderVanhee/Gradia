@@ -20,19 +20,14 @@ import os
 from gi.repository import Gtk, Gio, GdkPixbuf
 from gradia.clipboard import copy_file_to_clipboard, save_pixbuff_to_path
 from gradia.backend.logger import Logger
+from gradia.app_constants import SUPPORTED_EXPORT_FORMATS, DEFAULT_EXPORT_FORMAT
+from gradia.backend.settings import Settings
 
 ExportFormat = tuple[str, str, str]
 
 logger = Logger()
 class BaseImageExporter:
     """Base class for image export handlers"""
-
-    SUPPORTED_OUTPUT_FORMATS: list[ExportFormat] = [
-        (".png", "image/png", "PNG Image"),
-        (".jpg", "image/jpeg", "JPEG Image"),
-        (".jpeg", "image/jpeg", "JPEG Image"),
-        (".webp", "image/webp", "WebP Image"),
-    ]
 
     def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str) -> None:
         self.window: Gtk.ApplicationWindow = window
@@ -81,32 +76,11 @@ class BaseImageExporter:
             raise Exception("No processed image available for export")
         return False 
 
+
 class FileDialogExporter(BaseImageExporter):
-    SUPPORTED_FORMATS = {
-        'png': {
-            'name': _('PNG Image (*.png)'),
-            'mime_type': 'image/png',
-            'extensions': ['.png'],
-            'save_options': {'keys': [], 'values': []}
-        },
-        'jpeg': {
-            'name': _('JPEG Image (*.jpg)'),
-            'mime_type': 'image/jpeg',
-            'extensions': ['.jpg', '.jpeg'],
-            'save_options': {'keys': ['quality'], 'values': ['90']}
-        },
-        'webp': {
-            'name': _('WebP Image (*.webp)'),
-            'mime_type': 'image/webp',
-            'extensions': ['.webp'],
-            'save_options': {'keys': ['quality'], 'values': ['90']}
-        }
-    }
-
-    DEFAULT_FORMAT = 'png'
-
     def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str) -> None:
         super().__init__(window, temp_dir)
+        self.settings = Settings()
 
     def save_to_file(self, filetype: str = None) -> None:
         if not self._ensure_processed_image_available():
@@ -120,10 +94,13 @@ class FileDialogExporter(BaseImageExporter):
             _("Cancel")
         )
 
-        target_format = filetype if filetype and filetype in self.SUPPORTED_FORMATS else self.DEFAULT_FORMAT
-
+        target_format = (
+            filetype if filetype and filetype in SUPPORTED_EXPORT_FORMATS
+            else self.settings.export_format if self.settings.export_format in SUPPORTED_EXPORT_FORMATS
+            else DEFAULT_EXPORT_FORMAT
+        )
         base_name = os.path.splitext(self._get_dynamic_filename())[0]
-        default_ext = self.SUPPORTED_FORMATS[target_format]['extensions'][0]
+        default_ext = SUPPORTED_EXPORT_FORMATS[target_format]['extensions'][0]
         dialog.set_current_name(base_name + default_ext)
 
         dialog.connect("response", lambda d, r: self._on_dialog_response(d, r, target_format))
@@ -137,7 +114,7 @@ class FileDialogExporter(BaseImageExporter):
 
                 format_type = self._get_format_from_extension(save_path)
 
-                if format_type not in self.SUPPORTED_FORMATS:
+                if format_type not in SUPPORTED_EXPORT_FORMATS:
                     self.window._show_notification(_("Unsupported image file extension."))
                     dialog.destroy()
                     return
@@ -151,14 +128,14 @@ class FileDialogExporter(BaseImageExporter):
 
     def _get_format_from_extension(self, file_path: str) -> str:
         path_lower = file_path.lower()
-        for format_key, format_info in self.SUPPORTED_FORMATS.items():
+        for format_key, format_info in SUPPORTED_EXPORT_FORMATS.items():
             for ext in format_info['extensions']:
                 if path_lower.endswith(ext.lower()):
                     return format_key
         return None
 
     def _ensure_correct_extension(self, save_path: str, format_type: str) -> str:
-        format_info = self.SUPPORTED_FORMATS.get(format_type)
+        format_info = SUPPORTED_EXPORT_FORMATS.get(format_type)
         if not format_info:
             return save_path
 
@@ -171,26 +148,36 @@ class FileDialogExporter(BaseImageExporter):
 
     def _get_format_from_filter(self, selected_filter) -> str:
         filter_name = selected_filter.get_name()
-        for format_key, format_info in self.SUPPORTED_FORMATS.items():
+        for format_key, format_info in SUPPORTED_EXPORT_FORMATS.items():
             if filter_name == format_info['name']:
                 return format_key
         return None
 
     def _save_image(self, save_path: str, format_type: str) -> None:
         pixbuf = self.get_processed_pixbuf()
-        format_info = self.SUPPORTED_FORMATS.get(format_type)
+        format_info = SUPPORTED_EXPORT_FORMATS.get(format_type)
 
-        if format_info:
-            save_options = format_info['save_options']
-            pixbuf.savev(save_path, format_type, save_options['keys'], save_options['values'])
-        else:
+        if not format_info:
             raise Exception("Unsupported format")
+
+        save_options = format_info['save_options']
+        save_keys = save_options['keys'][:]
+        save_values = save_options['values'][:]
+
+        if not self.settings.export_compress:
+            for i in reversed(range(len(save_keys))):
+                key_lower = save_keys[i].lower()
+                if "compression" in key_lower or "quality" in key_lower:
+                    del save_keys[i]
+                    del save_values[i]
+
+        pixbuf.savev(save_path, format_type, save_keys, save_values)
 
     def _ensure_processed_image_available(self) -> bool:
         try:
             super()._ensure_processed_image_available()
             return True
-        except Exception as e:
+        except Exception:
             self.window._show_notification(_("No processed image available"))
             return False
 
