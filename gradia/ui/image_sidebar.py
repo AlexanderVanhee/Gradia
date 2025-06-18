@@ -26,13 +26,8 @@ from gradia.backend.settings import Settings
 class ImageSidebar(Adw.Bin):
     __gtype_name__ = "GradiaImageSidebar"
 
-    # `annotation_tools_group` template children
     annotation_tools_group: DrawingToolsGroup = Gtk.Template.Child()
-
-    # `background_selector_group` template children
     background_selector_group: Adw.PreferencesGroup = Gtk.Template.Child()
-
-    # `image_options_group` template children
     image_options_group = Gtk.Template.Child()
     disable_button: Gtk.Switch = Gtk.Template.Child()
     padding_row: Adw.SpinRow = Gtk.Template.Child()
@@ -43,18 +38,9 @@ class ImageSidebar(Adw.Bin):
     shadow_strength_scale: Gtk.Scale = Gtk.Template.Child()
     auto_balance_row: Adw.ComboRow = Gtk.Template.Child()
     auto_balance_toggle: Gtk.Switch = Gtk.Template.Child()
-
-    # `file_info_group` template children
     filename_row: Adw.ActionRow = Gtk.Template.Child()
     location_row: Adw.ActionRow = Gtk.Template.Child()
     processed_size_row: Adw.ActionRow = Gtk.Template.Child()
-
-    # Default values
-    DEFAULT_PADDING = 0
-    DEFAULT_CORNER_RADIUS = 0
-    DEFAULT_ASPECT_RATIO = ""
-    DEFAULT_SHADOW_STRENGTH = 0
-    DEFAULT_AUTO_BALANCE = False
 
     def __init__(
         self,
@@ -68,112 +54,65 @@ class ImageSidebar(Adw.Bin):
     ) -> None:
         super().__init__(**kwargs)
 
-        self._on_padding_changed = on_padding_changed
-        self._on_corner_radius_changed = on_corner_radius_changed
-        self._on_aspect_ratio_changed = on_aspect_ratio_changed
-        self._on_shadow_strength_changed = on_shadow_strength_changed
-        self._on_auto_balance_changed = on_auto_balance_changed
+        self._callbacks = {
+            'padding': on_padding_changed,
+            'corner_radius': on_corner_radius_changed,
+            'aspect_ratio': on_aspect_ratio_changed,
+            'shadow_strength': on_shadow_strength_changed,
+            'auto_balance': on_auto_balance_changed
+        }
+
+        self._saved_values = {
+            'padding': 5,
+            'corner_radius': 2,
+            'aspect_ratio': "",
+            'shadow_strength': 5,
+            'auto_balance': False
+        }
 
         self.image_options_group_content = self.image_options_group.get_first_child().get_first_child().get_next_sibling()
 
-        self._actual_padding = 5
-        self._actual_corner_radius = 2
-        self._actual_aspect_ratio = ""
-        self._actual_shadow_strength = 5
-        self._actual_auto_balance = False
-
         self.background_selector_group.add(background_selector_widget)
-        self._setup_image_options_group()
+        self._setup_widgets()
+        self._connect_signals()
 
-        self.disable_button.connect("toggled", self._on_disable_switch_clicked)
+    def _setup_widgets(self) -> None:
+        self.padding_adjustment.set_value(self._saved_values['padding'])
+        self.corner_radius_adjustment.set_value(self._saved_values['corner_radius'])
+        self.shadow_strength_scale.set_value(self._saved_values['shadow_strength'])
+
+    def _connect_signals(self) -> None:
+        self.padding_row.connect("output", lambda w: self._handle_change('padding', int(w.get_value())))
+        self.corner_radius_row.connect("output", lambda w: self._handle_change('corner_radius', int(w.get_value())))
+        self.aspect_ratio_entry.connect("changed", lambda w: self._handle_change('aspect_ratio', w.get_text()))
+        self.shadow_strength_scale.connect("value-changed", lambda w: self._handle_change('shadow_strength', int(w.get_value())))
+        self.auto_balance_toggle.connect("notify::active", lambda w, _: self._handle_change('auto_balance', w.get_active()))
+
+        self.disable_button.connect("toggled", self._on_disable_toggled)
         Settings().bind_switch(self.disable_button, "image-options-lock")
-        self._on_disable_switch_clicked(self.disable_button)
+        self._on_disable_toggled(self.disable_button)  # Initialize state
 
-    """
-    Setup Methods
-    """
-
-    def _setup_image_options_group(self) -> None:
-        self.padding_adjustment.set_value(5)
-        self.corner_radius_adjustment.set_value(2)
-        self.shadow_strength_scale.set_value(5)
-
-        self.padding_row.connect("output", self._on_padding_widget_changed)
-        self.corner_radius_row.connect("output", self._on_corner_radius_widget_changed)
-        self.aspect_ratio_entry.connect("changed", self._on_aspect_ratio_widget_changed)
-        self.shadow_strength_scale.connect("value-changed", self._on_shadow_strength_widget_changed)
-        self.auto_balance_toggle.connect("notify::active", self._on_auto_balance_widget_changed)
-
-        self.padding_adjustment.connect("value-changed", self._on_actual_padding_changed)
-        self.corner_radius_adjustment.connect("value-changed", self._on_actual_corner_radius_changed)
-        self.aspect_ratio_entry.connect("changed", self._on_actual_aspect_ratio_changed)
-        self.shadow_strength_scale.connect("value-changed", self._on_actual_shadow_strength_changed)
-        self.auto_balance_toggle.connect("notify::active", self._on_actual_auto_balance_changed)
-
-    """
-    Callbacks for tracking actual values
-    """
-
-    def _on_actual_padding_changed(self, adjustment: Gtk.Adjustment) -> None:
-        if not self.disable_button.get_active():
-            self._actual_padding = int(adjustment.get_value())
-
-    def _on_actual_corner_radius_changed(self, adjustment: Gtk.Adjustment) -> None:
-        if not self.disable_button.get_active():
-            self._actual_corner_radius = int(adjustment.get_value())
-
-    def _on_actual_aspect_ratio_changed(self, entry: Gtk.Entry) -> None:
-        if not self.disable_button.get_active():
-            self._actual_aspect_ratio = entry.get_text()
-
-    def _on_actual_shadow_strength_changed(self, scale: Gtk.Scale) -> None:
-        if not self.disable_button.get_active():
-            self._actual_shadow_strength = int(scale.get_value())
-
-    def _on_actual_auto_balance_changed(self, switch: Gtk.Switch, _param=None) -> None:
-        if not self.disable_button.get_active():
-            self._actual_auto_balance = switch.get_active()
-
-    def _on_padding_widget_changed(self, spin_row: Adw.SpinRow) -> None:
-        self._on_padding_changed(self.DEFAULT_PADDING if self.disable_button.get_active()
-                                 else int(spin_row.get_value()))
-
-    def _on_corner_radius_widget_changed(self, spin_row: Adw.SpinRow) -> None:
-        self._on_corner_radius_changed(self.DEFAULT_CORNER_RADIUS if self.disable_button.get_active()
-                                       else int(spin_row.get_value()))
-
-    def _on_aspect_ratio_widget_changed(self, entry: Gtk.Entry) -> None:
-        self._on_aspect_ratio_changed(self.DEFAULT_ASPECT_RATIO if self.disable_button.get_active()
-                                      else entry.get_text())
-
-    def _on_shadow_strength_widget_changed(self, scale: Gtk.Scale) -> None:
-        self._on_shadow_strength_changed(self.DEFAULT_SHADOW_STRENGTH if self.disable_button.get_active()
-                                         else int(scale.get_value()))
-
-    def _on_auto_balance_widget_changed(self, switch: Gtk.Switch, _param=None) -> None:
-        self._on_auto_balance_changed(self.DEFAULT_AUTO_BALANCE if self.disable_button.get_active()
-                                      else switch.get_active())
-
-    """
-    Callbacks
-    """
-    def _on_disable_switch_clicked(self, switch: Gtk.Switch) -> None:
-        state = switch.get_active()
-        self.image_options_group_content.set_sensitive(not state)
-        if state:
-            # Reset to defaults
-            self._on_padding_changed(self.DEFAULT_PADDING)
-            self._on_corner_radius_changed(self.DEFAULT_CORNER_RADIUS)
-            self._on_aspect_ratio_changed(self.DEFAULT_ASPECT_RATIO)
-            self._on_shadow_strength_changed(self.DEFAULT_SHADOW_STRENGTH)
-            self._on_auto_balance_changed(self.DEFAULT_AUTO_BALANCE)
+    def _handle_change(self, setting: str, value) -> None:
+        if self.disable_button.get_active():
+            defaults = {'padding': 0, 'corner_radius': 0, 'aspect_ratio': "", 'shadow_strength': 0, 'auto_balance': False}
+            self._callbacks[setting](defaults[setting])
         else:
-            # Restore actual values
-            self._on_padding_changed(self._actual_padding)
-            self._on_corner_radius_changed(self._actual_corner_radius)
-            self._on_aspect_ratio_changed(self._actual_aspect_ratio)
-            self._on_shadow_strength_changed(self._actual_shadow_strength)
-            self._on_auto_balance_changed(self._actual_auto_balance)
-    """
-    Internal Methods
-    """
+            self._saved_values[setting] = value
+            self._callbacks[setting](value)
+
+    def _on_disable_toggled(self, switch: Gtk.Switch) -> None:
+        is_disabled = switch.get_active()
+        self.image_options_group_content.set_sensitive(not is_disabled)
+
+        if is_disabled:
+            self._callbacks['padding'](0)
+            self._callbacks['corner_radius'](0)
+            self._callbacks['aspect_ratio']("")
+            self._callbacks['shadow_strength'](0)
+            self._callbacks['auto_balance'](False)
+        else:
+            self._callbacks['padding'](self._saved_values['padding'])
+            self._callbacks['corner_radius'](self._saved_values['corner_radius'])
+            self._callbacks['aspect_ratio'](self._saved_values['aspect_ratio'])
+            self._callbacks['shadow_strength'](self._saved_values['shadow_strength'])
+            self._callbacks['auto_balance'](self._saved_values['auto_balance'])

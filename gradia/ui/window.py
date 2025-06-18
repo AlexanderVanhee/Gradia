@@ -219,8 +219,9 @@ class GradiaMainWindow(Adw.ApplicationWindow):
     """
 
     def _on_background_changed(self, updated_background: Background) -> None:
-        self.processor.background = updated_background
-        self._trigger_processing()
+        if (getattr(self, "processor", None)):
+            self.processor.background = updated_background
+            self._trigger_processing()
 
     def on_padding_changed(self, value: int) -> None:
         setattr(self.processor, "padding", value)

@@ -31,3 +31,54 @@ headerbar.desktop windowcontrols button:active image {
 .drawing_tool_entry_box {
   border-bottom: 1px solid var(--secondary-sidebar-border-color);
 }
+
+/* Gradient Preview Box */
+.gradient-preview {
+    border-radius: 8px;
+    min-width: 120px;
+    min-height: 40px;
+}
+
+/* Circular color picker*/
+.gradient-color-picker {
+    border-radius: 50%;
+    min-width: 35px;
+    min-height: 35px;
+    border: 1px solid rgba(255, 255, 255, 1);
+    transition: all 0.2s ease;
+}
+
+.gradient-color-picker:hover {
+    filter: brightness(1.1);
+    border-color: white;
+}
+
+.gradient-color-picker.dark {
+    border: 1px solid black;
+}
+
+.gradient-color-picker.dark:hover {
+    border-color: black;
+}
+
+.gradient-color-picker image {
+    color: white;
+}
+
+.gradient-color-picker.dark image {
+    color: black;
+}
+
+
+.gradient-preset {
+    min-width: 60px;
+    min-height: 40px;
+    background-size: cover;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    transition: filter 0.3s ease;
+}
+
+.gradient-preset:hover {
+    filter: brightness(1.2);
+}

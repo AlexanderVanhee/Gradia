@@ -2,23 +2,28 @@ using Gtk 4.0;
 using Adw 1;
 
 template $GradiaConfirmCloseDialog : Adw.AlertDialog {
-  heading: _("Close Application?");
-  body: _("Are you sure you want to close the application? All unsaved changes will be lost.");
+  heading: _("Close Gradia?");
+  body: _("Are you sure you want to exit? All unsaved changes will be lost.");
   close-response: "cancel";
-
   responses [
     cancel: _("Cancel"),
     close: _("Close") destructive,
   ]
+  extra-child: Box {
+    orientation: horizontal;
+    spacing: 12;
+    margin-top: 12;
+    margin-bottom: 6;
+    margin-start: 6;
+    margin-end: 6;
 
-  extra-child: Adw.PreferencesGroup {
-    Adw.ActionRow {
-      title: _("Don't ask again");
+    CheckButton dont_ask_switch {
+      valign: center;
+    }
 
-      [suffix]
-      CheckButton dont_ask_switch {
-        valign: center;
-      }
+    Label {
+      label: _("Don't ask again");
+      valign: center;
     }
   };
 }
