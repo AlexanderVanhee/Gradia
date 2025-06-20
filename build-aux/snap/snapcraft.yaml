@@ -1,0 +1,87 @@
+name: gradia
+version: '1.4.3'
+summary: Make your screenshots ready for all
+description: |
+    Gradia helps you quickly prepare your screenshots for sharing by fixing common issues   like transparency and awkward sizing. With simple tools to add backgrounds, adjust aspect ratios, and annotate images, you can enhance your screenshots to look professional and consistent across social media, blogs, and other platforms on the internet.
+
+base: core24
+adopt-info: gradia
+compression: lzo
+grade: stable
+confinement: strict
+
+parts:
+  gradia:
+    plugin: meson
+    source: https://github.com/AlexanderVanhee/Gradia.git
+    source-tag: 'v1.4.3'
+    source-depth: 1
+    meson-parameters:
+      - --prefix=/snap/gradia/current/usr
+      - -Dbuildtype=release
+    build-snaps:
+      - blueprint-compiler/latest/edge
+    override-build: |
+      craftctl default
+      sed -i '1c#!/usr/bin/env python3' $CRAFT_PART_INSTALL/snap/gradia/current/usr/bin/gradia
+    parse-info: [usr/share/appdata/be.alexandervanhee.gradia.appdata.xml]
+    organize:
+      snap/gradia/current: .
+    prime:
+      - -snap/gradia
+
+  deps:
+    plugin: nil
+    override-build: |
+      python3 -m pip install --target=$CRAFT_PART_INSTALL/usr/lib/python3/dist-packages Wand==0.6.13 Pillow
+      snapcraftctl build
+    stage-packages:
+      - liblqr-1-0
+      - libraw23t64
+      - libopenexr-3-1-30
+      - libheif1
+      - libjpeg62
+      - libwmf0.2-7
+      - libzip4t64
+      - libzstd1
+      - libraqm0
+    prime:
+      - -bin
+      - -pyvenv.cfg
+      - -include
+      - -lib64
+      - -lib
+      - -usr/lib/*/*/pip*
+      - -usr/lib/*/*/setup*
+      - -usr/share
+
+  cleanup:
+    after:
+      - deps
+    plugin: nil
+    build-snaps:
+      - core24
+      - gnome-46-2404
+    override-prime: |
+      set -eux
+      for snap in "core24" "gnome-46-2404"; do
+          cd "/snap/$snap/current" && find . -type f,l -exec rm -rf "$CRAFT_PRIME/{}" \;
+      done
+
+slots:
+  gradia:
+    interface: dbus
+    bus: session
+    name: be.alexandervanhee.gradia
+
+apps:
+  gradia:
+    command: usr/bin/gradia
+    common-id: be.alexandervanhee.gradia
+    extensions: [gnome]
+    environment:
+      PYTHONPATH: $SNAP/usr/lib/python3/dist-packages:$PYTHONPATH
+      GDK_DEBUG: portals
+    plugs:
+      - home
+
