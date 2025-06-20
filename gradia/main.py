@@ -24,12 +24,13 @@ from collections.abc import Sequence
 from typing import Optional
 
 from gi.repository import Adw, Gio, Xdp
-from gradia.constants import app_id  # pyright: ignore
 
+from gradia.constants import app_id  # pyright: ignore
 from gradia.ui.window import GradiaMainWindow
 from gradia.backend.logger import Logger
-
+from gradia.utils.std_image_loader import StdinImageLoader
 logging = Logger()
+
 
 class GradiaApp(Adw.Application):
     __gtype_name__ = "GradiaApp"
@@ -42,13 +43,12 @@ class GradiaApp(Adw.Application):
         self.version = version
         self.screenshot_flags: Optional[Xdp.ScreenshotFlags] = None
         self.temp_dirs: list[str] = []
+        self._stdin_image_path: Optional[str] = None
 
-        # Connect to shutdown signal for cleanup
         self.connect("shutdown", self.on_shutdown)
 
     def do_command_line(self, command_line: Gio.ApplicationCommandLine) -> int:
         args = command_line.get_arguments()[1:]
-
         logging.debug(f"Command line arguments: {args}")
 
         if "--help" in args or "-h" in args:
@@ -75,7 +75,7 @@ class GradiaApp(Adw.Application):
             for path in files_to_open:
                 self._open_window(path)
         else:
-            self._open_window(None)
+            self.activate()
 
         return 0
 
@@ -88,17 +88,11 @@ class GradiaApp(Adw.Application):
     def _parse_screenshot_flag(self, args: list[str]) -> Optional[Xdp.ScreenshotFlags]:
         for arg in args:
             if arg.startswith("--screenshot"):
-                if "=" in arg:
-                    mode = arg.split("=", 1)[1].strip().upper()
-                else:
-                    mode = "INTERACTIVE"
-                if mode == "INTERACTIVE":
-                    return Xdp.ScreenshotFlags.INTERACTIVE
-                elif mode == "FULL":
-                    return Xdp.ScreenshotFlags.NONE
-                else:
-                    logging.warning(f"Unknown screenshot mode: {mode}. Defaulting to INTERACTIVE.")
-                    return Xdp.ScreenshotFlags.INTERACTIVE
+                mode = arg.split("=", 1)[1].strip().upper() if "=" in arg else "INTERACTIVE"
+                return {
+                    "INTERACTIVE": Xdp.ScreenshotFlags.INTERACTIVE,
+                    "FULL": Xdp.ScreenshotFlags.NONE
+                }.get(mode, Xdp.ScreenshotFlags.INTERACTIVE)
         return None
 
     def do_open(self, files: Sequence[Gio.File], hint: str):
@@ -106,15 +100,20 @@ class GradiaApp(Adw.Application):
         for file in files:
             path = file.get_path()
             if path:
-                logging.debug(f"Opening file from do_open: {path}")
                 self._open_window(path)
 
     def do_activate(self):
         logging.debug("do_activate called")
-        self._open_window(None)
+
+        if self._stdin_image_path:
+            logging.debug(f"Opening window with stdin image path: {self._stdin_image_path}")
+            self._open_window(self._stdin_image_path)
+            self._stdin_image_path = None
+        else:
+            self._open_window(None)
 
     def _open_window(self, file_path: Optional[str]):
-        logging.debug(f"Opening window with file_path={file_path}, screenshot_flags={self.screenshot_flags}")
+        logging.info(f"Opening window with file_path={file_path}, screenshot_flags={self.screenshot_flags}")
         temp_dir = tempfile.mkdtemp()
         logging.debug(f"Created temp directory: {temp_dir}")
         self.temp_dirs.append(temp_dir)
@@ -127,12 +126,10 @@ class GradiaApp(Adw.Application):
             file_path=file_path
         )
         if not self.screenshot_flags:
-            # Do not yet show the window if triggered from the shortcut.
             window.show()
 
     def on_shutdown(self, application):
         logging.info("Application shutdown started, cleaning temp directories...")
-
         for temp_dir in self.temp_dirs:
             try:
                 if os.path.exists(temp_dir):
@@ -140,16 +137,20 @@ class GradiaApp(Adw.Application):
                     logging.debug(f"Deleted temp dir: {temp_dir}")
             except Exception as e:
                 logging.warning(f"Failed to clean up temp dir {temp_dir}.", exception=e, show_exception=True)
-
         logging.info("Cleanup complete.")
-
 
 def main(version: str) -> int:
     try:
         logging.info("Application starting...")
+        loader = StdinImageLoader()
+        image_path = loader.read_from_stdin()
 
         app = GradiaApp(version=version)
+        app._stdin_image_path = image_path
+
         return app.run(sys.argv)
+
     except Exception as e:
         logging.critical("Application closed with an exception.", exception=e, show_exception=True)
         return 1
+
