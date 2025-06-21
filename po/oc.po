@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-16 00:21+0200\n"
+"POT-Creation-Date: 2025-06-21 15:02+0200\n"
 "PO-Revision-Date: 2025-06-20 21:22+1000\n"
 "Last-Translator: Quentin PAGÈS\n"
 "Language-Team: \n"
@@ -88,49 +88,21 @@ msgstr ""
 msgid "Alexander Vanhee"
 msgstr "Alexander Vanhee"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:142
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:153
 msgid "Edited screenshot"
 msgstr "Captura d'ecran modificada"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:146
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:157
 msgid "Edited picture"
 msgstr "Imatge modificat"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:150
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:161
 msgid "Startup view"
 msgstr "Vista d'aviada"
 
-#: data/be.alexandervanhee.gradia.gschema.xml:6
-msgid "Current drawing mode"
-msgstr "Mòde de dessenh actual"
-
-#: data/be.alexandervanhee.gradia.gschema.xml:10
-msgid "Pen color in rgba"
-msgstr "Color de l’estilo en rgba"
-
-#: data/be.alexandervanhee.gradia.gschema.xml:14
-msgid "Highlighter color in rgba"
-msgstr "Color del suslinhador en rgba"
-
-#: data/be.alexandervanhee.gradia.gschema.xml:18
-msgid "Fill color in rgba"
-msgstr "Color d'emplenatge en rgba"
-
-#: data/be.alexandervanhee.gradia.gschema.xml:22
-msgid "Pen size"
-msgstr "Talha estilo"
-
-#: data/be.alexandervanhee.gradia.gschema.xml:26
-msgid "Number radius size"
-msgstr "Talha rai"
-
-#: data/be.alexandervanhee.gradia.gschema.xml:30
-msgid "Selected font name"
-msgstr "Nom de la polissa seleccionada"
-
-#: data/be.alexandervanhee.gradia.gschema.xml:35
-msgid "Screenshot subdirectory"
-msgstr "Sosdossièr de captura d’ecran"
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:165
+msgid "UI element showcase"
+msgstr ""
 
 #. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
 #: gradia/ui/ui_parts.py:160
@@ -177,100 +149,67 @@ msgstr "Suprimir la seleccion"
 msgid "General"
 msgstr "General"
 
-#: gradia/ui/ui_parts.py:189 data/ui/image_sidebar.blp:187
-#: data/ui/welcome_page.blp:72
+#: gradia/ui/ui_parts.py:189 data/ui/image_sidebar.blp:211
+#: data/ui/welcome_page.blp:76
 msgid "Keyboard Shortcuts"
 msgstr "Acorchis de clavièr"
 
-#: gradia/ui/window.py:351
+#: gradia/ui/ui_parts.py:190 data/ui/image_sidebar.blp:207
+#: data/ui/welcome_page.blp:72
+msgid "Settings"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:191
+msgid "Toggle Utility Pane"
+msgstr ""
+
+#: gradia/ui/window.py:393
 msgid "Unknown"
 msgstr "Desconegut"
 
-#: gradia/ui/window.py:353
+#: gradia/ui/window.py:395
 msgid "Error"
 msgstr "Error"
 
-#: gradia/ui/window.py:390
-msgid "No screenshots to delete"
-msgstr "Cap de captura d'ecran de suprimir"
-
-#: gradia/ui/window.py:419
-msgid "Delete Screenshot?"
-msgstr "Suprimir la captura d'ecran ?"
-
-#: gradia/ui/window.py:420
-msgid "Are you sure you want to delete the following file?"
-msgstr "Volètz vertadièrament suprimir lo fichièr seguent ?"
-
-#: gradia/ui/window.py:422
-msgid "Delete Screenshots?"
-msgstr "Suprimir las capturas d'ecran ?"
-
-#: gradia/ui/window.py:423
-msgid "Are you sure you want to delete the following files?"
-msgstr "Volètz vertadièrament suprimir los fichièrs seguents ?"
-
-#: gradia/ui/window.py:432 gradia/ui/image_exporters.py:120
-msgid "Cancel"
-msgstr "Anullar"
-
-#: gradia/ui/window.py:433
-msgid "Delete"
-msgstr "Suprimir"
-
-#: gradia/ui/window.py:441
-msgid "Screenshot deleted"
-msgstr "Captura d’ecran suprimida"
-
-#: gradia/ui/window.py:443
-msgid "Screenshots deleted"
-msgstr "Capturas d’ecran suprimidas"
-
-#: gradia/ui/image_exporters.py:75
+#: gradia/ui/image_exporters.py:70
 msgid "Edit"
 msgstr "Editar"
 
-#: gradia/ui/image_exporters.py:76
+#: gradia/ui/image_exporters.py:71
 msgid "Enhanced Screenshot"
 msgstr "Captura d'ecran modificada"
 
-#: gradia/ui/image_exporters.py:87
-msgid "PNG Image (*.png)"
-msgstr "Imatge PNG (*.png)"
-
-#: gradia/ui/image_exporters.py:93
-msgid "JPEG Image (*.jpg)"
-msgstr "Imatge JPEG (*.jpg)"
-
-#: gradia/ui/image_exporters.py:99
-msgid "WebP Image (*.webp)"
-msgstr "Imatge WebP (*.webp)"
-
-#: gradia/ui/image_exporters.py:116
+#: gradia/ui/image_exporters.py:90
 msgid "Save Image As"
 msgstr "Enregistrar l'imatge"
 
-#: gradia/ui/image_exporters.py:119
+#: gradia/ui/image_exporters.py:93
 msgid "Save"
 msgstr "Enregistrar"
 
-#: gradia/ui/image_exporters.py:142
+#: gradia/ui/image_exporters.py:94
+#: gradia/ui/dialog/delete_screenshots_dialog.py:54
+#: data/ui/confirm_close_dialog.blp:9
+msgid "Cancel"
+msgstr "Anullar"
+
+#: gradia/ui/image_exporters.py:118
 msgid "Unsupported image file extension."
 msgstr "L'extension del fichièr imatge es pas presa en carga."
 
-#: gradia/ui/image_exporters.py:149
+#: gradia/ui/image_exporters.py:125
 msgid "Image saved successfully"
 msgstr "Imatge enregistrat"
 
-#: gradia/ui/image_exporters.py:195
+#: gradia/ui/image_exporters.py:181
 msgid "No processed image available"
 msgstr "Cap d’imatge pas tractat a enregistrar"
 
-#: gradia/ui/image_exporters.py:216
+#: gradia/ui/image_exporters.py:202
 msgid "Image copied to clipboard"
 msgstr "Imatge copiat al quichapapièrs"
 
-#: gradia/ui/image_exporters.py:219
+#: gradia/ui/image_exporters.py:205
 msgid "Failed to copy image to clipboard"
 msgstr "Impossible de copiar l'imatge al quichapapièrs"
 
@@ -306,85 +245,147 @@ msgstr "Lo quichapapièrs conten pas cap d’imatge."
 msgid "Failed to load image from clipboard."
 msgstr "Cargament impossible d’un imatge a partir del quichapapièrs."
 
-#: gradia/ui/image_loaders.py:203 gradia/ui/image_loaders.py:218
+#: gradia/ui/image_loaders.py:202 gradia/ui/image_loaders.py:217
 msgid "Failed to take screenshot"
 msgstr "Captura d’ecran impossibla"
 
-#: gradia/ui/image_loaders.py:234
+#: gradia/ui/image_loaders.py:233
 msgid "Screenshot cancelled"
 msgstr "Captura d’ecran anullada"
 
-#: gradia/ui/image_loaders.py:255 gradia/ui/image_loaders.py:256
+#: gradia/ui/image_loaders.py:254 gradia/ui/image_loaders.py:255
 msgid "Screenshot"
 msgstr "Captura d'ecran"
 
-#: gradia/ui/image_loaders.py:259
+#: gradia/ui/image_loaders.py:258
 msgid "Screenshot captured!"
 msgstr "Captura d'ecran efectuada !"
 
-#: gradia/ui/image_loaders.py:266
+#: gradia/ui/image_loaders.py:265
 msgid "Failed to process screenshot"
 msgstr "Fracàs del tractament de la captura d’ecran"
 
-#: gradia/overlay/drawing_actions.py:45
+#: gradia/overlay/drawing_actions.py:46
 msgid "Pen"
 msgstr "Estilo"
 
-#: gradia/overlay/drawing_actions.py:46
+#: gradia/overlay/drawing_actions.py:47
 msgid "Arrow"
 msgstr "Sageta"
 
-#: gradia/overlay/drawing_actions.py:47
+#: gradia/overlay/drawing_actions.py:48
 msgid "Line"
 msgstr "Linha"
 
-#: gradia/overlay/drawing_actions.py:48
+#: gradia/overlay/drawing_actions.py:49
 msgid "Square"
 msgstr "Carrat"
 
-#: gradia/overlay/drawing_actions.py:49
+#: gradia/overlay/drawing_actions.py:50
 msgid "Circle"
 msgstr "Cercle"
 
-#: gradia/overlay/drawing_actions.py:50
+#: gradia/overlay/drawing_actions.py:51
 msgid "Text"
 msgstr "Tèxte"
 
-#: gradia/overlay/drawing_actions.py:51
+#: gradia/overlay/drawing_actions.py:52
 msgid "Select"
 msgstr "Seleccionar"
 
-#: gradia/overlay/drawing_actions.py:52
+#: gradia/overlay/drawing_actions.py:53
 msgid "Highlighter"
 msgstr "Suslinhador"
 
-#: gradia/overlay/drawing_actions.py:53
+#: gradia/overlay/drawing_actions.py:54
 msgid "Censor"
 msgstr "Censor"
 
-#: gradia/overlay/drawing_actions.py:54
+#: gradia/overlay/drawing_actions.py:55
 msgid "Number"
 msgstr "Nombre"
 
-#: data/ui/selectors/gradient_selector.blp:5
+#: gradia/ui/settings_window.py:53 gradia/ui/settings_window.py:148
+msgid "Root"
+msgstr ""
+
+#: gradia/ui/settings_window.py:145 gradia/ui/settings_window.py:148
+#, fuzzy, python-brace-format
+msgid "Selected: {folder}"
+msgstr "Nom de la polissa seleccionada"
+
+#: gradia/ui/settings_window.py:146 gradia/ui/settings_window.py:149
+#: data/ui/settings_window.blp:20
+msgid "Click to change folder"
+msgstr ""
+
+#: gradia/ui/settings_window.py:233
+msgid "Copied!"
+msgstr ""
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:33
+msgid "No screenshots to delete"
+msgstr "Cap de captura d'ecran de suprimir"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:55
+msgid "Trash"
+msgstr ""
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:87
+msgid "Trash Screenshot?"
+msgstr "Prendre una captura d'ecran"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:88
+msgid "Are you sure you want to trash the following file?"
+msgstr "Volètz vertadièrament suprimir lo fichièr seguent ?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:90
+msgid "Trash Screenshots?"
+msgstr "Prendre una captura d'ecran"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:91
+msgid "Are you sure you want to trash the following files?"
+msgstr "Volètz vertadièrament suprimir los fichièrs seguents ?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:101
+msgid "Screenshot moved to trash"
+msgstr "Sosdossièr de captura d’ecran"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:103
+msgid "Screenshots moved to trash"
+msgstr "Capturas d’ecran suprimidas"
+
+#: gradia/app_constants.py:31
+msgid "PNG Image (*.png)"
+msgstr "Imatge PNG (*.png)"
+
+#: gradia/app_constants.py:37
+msgid "JPEG Image (*.jpg)"
+msgstr "Imatge JPEG (*.jpg)"
+
+#: gradia/app_constants.py:43
+msgid "WebP Image (*.webp)"
+msgstr "Imatge WebP (*.webp)"
+
+#: data/ui/selectors/gradient_selector.blp:4
 msgid "Gradient Background"
 msgstr "Fons degradat"
 
-#: data/ui/selectors/gradient_selector.blp:10
+#: data/ui/selectors/gradient_selector.blp:8
 msgid "Gradient Presets"
 msgstr "Prereglatges del degradat"
 
-#: data/ui/selectors/gradient_selector.blp:20
+#: data/ui/selectors/gradient_selector.blp:16
+msgid "Angle"
+msgstr "Angle"
+
+#: data/ui/selectors/gradient_selector.blp:56
 msgid "Start Color"
 msgstr "Color de despart"
 
-#: data/ui/selectors/gradient_selector.blp:32
+#: data/ui/selectors/gradient_selector.blp:68
 msgid "End Color"
 msgstr "Color finala"
-
-#: data/ui/selectors/gradient_selector.blp:44
-msgid "Angle"
-msgstr "Angle"
 
 #: data/ui/selectors/image_selector.blp:5
 msgid "Image Background"
@@ -410,7 +411,7 @@ msgstr "Format d'imatge suportats"
 msgid "Solid Color Background"
 msgstr "Fons de color unida"
 
-#: data/ui/selectors/solid_selector.blp:8 data/ui/drawing_tools_group.blp:38
+#: data/ui/selectors/solid_selector.blp:8 data/ui/drawing_tools_group.blp:47
 msgid "Color"
 msgstr "Color"
 
@@ -446,27 +447,27 @@ msgstr "Escafar totas las anotacions"
 msgid "Annotation Tools"
 msgstr "Aisinas d’anotacion"
 
-#: data/ui/drawing_tools_group.blp:65
+#: data/ui/drawing_tools_group.blp:85
 msgid "Highlighter Color"
 msgstr "Color del suslinhador"
 
-#: data/ui/drawing_tools_group.blp:105
+#: data/ui/drawing_tools_group.blp:128
 msgid "Fill Color"
 msgstr "Color d'emplenatge"
 
-#: data/ui/drawing_tools_group.blp:117
+#: data/ui/drawing_tools_group.blp:140
 msgid "Reset Fill"
 msgstr "Reïnicializar emplenatge"
 
-#: data/ui/drawing_tools_group.blp:143
+#: data/ui/drawing_tools_group.blp:178
 msgid "Font"
 msgstr "Polissa"
 
-#: data/ui/drawing_tools_group.blp:177
+#: data/ui/drawing_tools_group.blp:228
 msgid "Size"
 msgstr "Talha"
 
-#: data/ui/drawing_tools_group.blp:217
+#: data/ui/drawing_tools_group.blp:280
 msgid "Radius"
 msgstr "Rai"
 
@@ -482,59 +483,67 @@ msgstr "Menú principal"
 msgid "Image Options"
 msgstr "Opcions de l'imatge"
 
-#: data/ui/image_sidebar.blp:46
+#: data/ui/image_sidebar.blp:48
+msgid "Disable all options"
+msgstr "Escafar totas las anotacions"
+
+#: data/ui/image_sidebar.blp:57
 msgid "Padding"
 msgstr "Espaçament"
 
-#: data/ui/image_sidebar.blp:58
+#: data/ui/image_sidebar.blp:69
 msgid "Corner Radius"
 msgstr "Rai d'angle"
 
-#: data/ui/image_sidebar.blp:70
+#: data/ui/image_sidebar.blp:81
 msgid "Aspect Ratio"
 msgstr "Proporcions"
 
-#: data/ui/image_sidebar.blp:81
+#: data/ui/image_sidebar.blp:92
 msgid "Shadow"
 msgstr "Ombra"
 
-#: data/ui/image_sidebar.blp:103
+#: data/ui/image_sidebar.blp:112
+msgid "Auto Balance"
+msgstr ""
+
+#: data/ui/image_sidebar.blp:123
 msgid "Current File"
 msgstr "Fichièr actual"
 
-#: data/ui/image_sidebar.blp:106
+#: data/ui/image_sidebar.blp:126
 msgid "Name"
 msgstr "Nom"
 
-#: data/ui/image_sidebar.blp:107 data/ui/image_sidebar.blp:112
+#: data/ui/image_sidebar.blp:127 data/ui/image_sidebar.blp:132
 msgid "No file loaded"
 msgstr "Cap de fichièr pas cargat"
 
-#: data/ui/image_sidebar.blp:111
+#: data/ui/image_sidebar.blp:131
 msgid "Location"
 msgstr "Emplaçament"
 
-#: data/ui/image_sidebar.blp:116
+#: data/ui/image_sidebar.blp:136
 msgid "Modified image size"
 msgstr "Talha de l’imatge modificat"
 
-#: data/ui/image_sidebar.blp:117
+#: data/ui/image_sidebar.blp:137
 msgid "N/A"
 msgstr "N/D"
 
-#: data/ui/image_sidebar.blp:132
+#: data/ui/image_sidebar.blp:152
 msgid "Save Image"
 msgstr "Enregistrar l'imatge"
 
-#: data/ui/image_sidebar.blp:143
+#: data/ui/image_sidebar.blp:163
 msgid "Copy to Clipboard"
 msgstr "Copiar al quichapapièrs"
 
-#: data/ui/image_sidebar.blp:181
+#: data/ui/image_sidebar.blp:201
 msgid "Delete Taken Screenshot(s)"
 msgstr "Suprimir las capturas d'ecran presas"
 
-#: data/ui/image_sidebar.blp:191 data/ui/welcome_page.blp:76
+#: data/ui/image_sidebar.blp:215 data/ui/welcome_page.blp:80
 msgid "About Gradia"
 msgstr "A prepaus de Gradia"
 
@@ -557,6 +566,160 @@ msgstr "_Prendre una captura…"
 #: data/ui/welcome_page.blp:54
 msgid "_Open Image…"
 msgstr "_Dobrir un imatge…"
+
+#: data/ui/settings_window.blp:7 data/ui/settings_window.blp:11
+msgid "Options"
+msgstr "Opcions de l'imatge"
+
+#: data/ui/settings_window.blp:15
+msgid "Recent Screenshots"
+msgstr "Suprimir las capturas d'ecran ?"
+
+#: data/ui/settings_window.blp:16
+msgid ""
+"Configure which subfolder of Pictures to use to display recent screenshots "
+"from on the home page"
+msgstr ""
+
+#: data/ui/settings_window.blp:19
+msgid "Select Folder"
+msgstr "Seleccionar l'imatge"
+
+#: data/ui/settings_window.blp:26
+msgid "Save Settings"
+msgstr ""
+
+#: data/ui/settings_window.blp:29
+msgid "Image Format"
+msgstr "Format d'imatge suportats"
+
+#: data/ui/settings_window.blp:30
+msgid "Default format for saved screenshots"
+msgstr "Captura d’ecran impossibla"
+
+#: data/ui/settings_window.blp:34
+msgid "Compress image"
+msgstr ""
+
+#: data/ui/settings_window.blp:35
+msgid "On supported formats"
+msgstr "Format d'imatge suportats"
+
+#: data/ui/settings_window.blp:38
+msgid "Compress images to reduce file size"
+msgstr ""
+
+#: data/ui/settings_window.blp:44
+msgid "Confirm on close"
+msgstr ""
+
+#: data/ui/settings_window.blp:45 data/ui/settings_window.blp:48
+msgid "Ask for confirmation before closing the app"
+msgstr ""
+
+#: data/ui/settings_window.blp:56
+msgid "Screenshot Management"
+msgstr "Captura d’ecran anullada"
+
+#: data/ui/settings_window.blp:58
+msgid "Trash screenshots on close"
+msgstr "Cap de captura d'ecran de suprimir"
+
+#: data/ui/settings_window.blp:59
+msgid "Automatically move screenshots taken from whitin the app to trash."
+msgstr ""
+
+#: data/ui/settings_window.blp:62
+msgid "Trash screenshots on app close"
+msgstr "Cap de captura d'ecran de suprimir"
+
+#: data/ui/settings_window.blp:70
+msgid "Shortcut"
+msgstr "Acorchis de clavièr"
+
+#: data/ui/settings_window.blp:74
+msgid "Shortcut setup Instructions"
+msgstr ""
+
+#: data/ui/settings_window.blp:81
+msgid ""
+"If you'd like the app to <b>open automatically</b> after taking a "
+"screenshot, you can set up a custom keyboard shortcut:\n"
+"\n"
+"<b>Steps:</b>\n"
+"1. Go to <b>Settings</b> → <b>Keyboard</b> → <b>View and Customize "
+"Shortcuts</b> → <b>Custom Shortcuts</b>.\n"
+"2. Click the <b>+</b> button to create a new shortcut.\n"
+"3. Set the <b>Name</b> to something like <i>Open Gradia with Screenshot</"
+"i>.\n"
+"4. For the <b>Command</b>, copy one of the commands below:"
+msgstr ""
+
+#: data/ui/settings_window.blp:88
+msgid "Interactive Screenshot"
+msgstr "Captura d'ecran modificada"
+
+#: data/ui/settings_window.blp:89
+msgid "Allows you to select an area to screenshot"
+msgstr ""
+
+#: data/ui/settings_window.blp:102 data/ui/settings_window.blp:123
+msgid "Copy to clipboard"
+msgstr "Copiar al quichapapièrs"
+
+#: data/ui/settings_window.blp:109
+msgid "Full Screen Screenshot"
+msgstr "Suprimir la captura d'ecran ?"
+
+#: data/ui/settings_window.blp:110
+msgid "Takes a screenshot of all screens instantly"
+msgstr ""
+
+#: data/ui/settings_window.blp:130
+msgid ""
+"5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should "
+"be free by default)."
+msgstr ""
+
+#: data/ui/confirm_close_dialog.blp:5
+msgid "Close Gradia?"
+msgstr "A prepaus de Gradia"
+
+#: data/ui/confirm_close_dialog.blp:6
+msgid "Are you sure you want to exit? All unsaved changes will be lost."
+msgstr "Volètz vertadièrament suprimir los fichièrs seguents ?"
+
+#: data/ui/confirm_close_dialog.blp:10
+msgid "Close"
+msgstr ""
+
+#: data/ui/confirm_close_dialog.blp:25
+msgid "Don't ask again"
+msgstr ""
+
+#~ msgid "Current drawing mode"
+#~ msgstr "Mòde de dessenh actual"
+
+#~ msgid "Pen color in rgba"
+#~ msgstr "Color de l’estilo en rgba"
+
+#~ msgid "Highlighter color in rgba"
+#~ msgstr "Color del suslinhador en rgba"
+
+#~ msgid "Fill color in rgba"
+#~ msgstr "Color d'emplenatge en rgba"
+
+#~ msgid "Pen size"
+#~ msgstr "Talha estilo"
+
+#~ msgid "Number radius size"
+#~ msgstr "Talha rai"
+
+#~ msgid "Delete"
+#~ msgstr "Suprimir"
+
+#~ msgid "Screenshot deleted"
+#~ msgstr "Captura d’ecran suprimida"
 
 #~ msgid "Image files"
 #~ msgstr "Fichièrs imatge"

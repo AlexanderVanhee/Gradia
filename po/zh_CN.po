@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-16 00:21+0200\n"
+"POT-Creation-Date: 2025-06-21 15:02+0200\n"
 "PO-Revision-Date: 2025-06-18 18:32+0800\n"
 "Last-Translator: G-Src <gsrc@fsfans.club>\n"
 "Language-Team: Chinese (China)\n"
@@ -84,49 +84,21 @@ msgstr ""
 msgid "Alexander Vanhee"
 msgstr "Alexander Vanhee"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:142
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:153
 msgid "Edited screenshot"
 msgstr "编辑后的截图"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:146
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:157
 msgid "Edited picture"
 msgstr "编辑后的图片"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:150
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:161
 msgid "Startup view"
 msgstr "启动视图"
 
-#: data/be.alexandervanhee.gradia.gschema.xml:6
-msgid "Current drawing mode"
-msgstr "当前绘图模式"
-
-#: data/be.alexandervanhee.gradia.gschema.xml:10
-msgid "Pen color in rgba"
-msgstr "画笔颜色（rgba）"
-
-#: data/be.alexandervanhee.gradia.gschema.xml:14
-msgid "Highlighter color in rgba"
-msgstr "荧光笔颜色（rgba）"
-
-#: data/be.alexandervanhee.gradia.gschema.xml:18
-msgid "Fill color in rgba"
-msgstr "填充颜色（rgba）"
-
-#: data/be.alexandervanhee.gradia.gschema.xml:22
-msgid "Pen size"
-msgstr "画笔大小"
-
-#: data/be.alexandervanhee.gradia.gschema.xml:26
-msgid "Number radius size"
-msgstr "数字半径大小"
-
-#: data/be.alexandervanhee.gradia.gschema.xml:30
-msgid "Selected font name"
-msgstr "所选字体名称"
-
-#: data/be.alexandervanhee.gradia.gschema.xml:35
-msgid "Screenshot subdirectory"
-msgstr "截图子目录"
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:165
+msgid "UI element showcase"
+msgstr ""
 
 #. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
 #: gradia/ui/ui_parts.py:160
@@ -173,100 +145,67 @@ msgstr "删除所选"
 msgid "General"
 msgstr "常规"
 
-#: gradia/ui/ui_parts.py:189 data/ui/image_sidebar.blp:187
-#: data/ui/welcome_page.blp:72
+#: gradia/ui/ui_parts.py:189 data/ui/image_sidebar.blp:211
+#: data/ui/welcome_page.blp:76
 msgid "Keyboard Shortcuts"
 msgstr "键盘快捷键"
 
-#: gradia/ui/window.py:351
+#: gradia/ui/ui_parts.py:190 data/ui/image_sidebar.blp:207
+#: data/ui/welcome_page.blp:72
+msgid "Settings"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:191
+msgid "Toggle Utility Pane"
+msgstr ""
+
+#: gradia/ui/window.py:393
 msgid "Unknown"
 msgstr "未知"
 
-#: gradia/ui/window.py:353
+#: gradia/ui/window.py:395
 msgid "Error"
 msgstr "错误"
 
-#: gradia/ui/window.py:390
-msgid "No screenshots to delete"
-msgstr "没有可删除的截图"
-
-#: gradia/ui/window.py:419
-msgid "Delete Screenshot?"
-msgstr "删除截图？"
-
-#: gradia/ui/window.py:420
-msgid "Are you sure you want to delete the following file?"
-msgstr "您确定要删除以下文件吗？"
-
-#: gradia/ui/window.py:422
-msgid "Delete Screenshots?"
-msgstr "删除截图？"
-
-#: gradia/ui/window.py:423
-msgid "Are you sure you want to delete the following files?"
-msgstr "您确定要删除以下文件吗？"
-
-#: gradia/ui/window.py:432 gradia/ui/image_exporters.py:120
-msgid "Cancel"
-msgstr "取消"
-
-#: gradia/ui/window.py:433
-msgid "Delete"
-msgstr "删除"
-
-#: gradia/ui/window.py:441
-msgid "Screenshot deleted"
-msgstr "截图已删除"
-
-#: gradia/ui/window.py:443
-msgid "Screenshots deleted"
-msgstr "截图已删除"
-
-#: gradia/ui/image_exporters.py:75
+#: gradia/ui/image_exporters.py:70
 msgid "Edit"
 msgstr "编辑"
 
-#: gradia/ui/image_exporters.py:76
+#: gradia/ui/image_exporters.py:71
 msgid "Enhanced Screenshot"
 msgstr "增强后的截图"
 
-#: gradia/ui/image_exporters.py:87
-msgid "PNG Image (*.png)"
-msgstr "PNG 图片 (*.png)"
-
-#: gradia/ui/image_exporters.py:93
-msgid "JPEG Image (*.jpg)"
-msgstr "JPEG 图片 (*.jpg)"
-
-#: gradia/ui/image_exporters.py:99
-msgid "WebP Image (*.webp)"
-msgstr "WebP 图片 (*.webp)"
-
-#: gradia/ui/image_exporters.py:116
+#: gradia/ui/image_exporters.py:90
 msgid "Save Image As"
 msgstr "另存图片为"
 
-#: gradia/ui/image_exporters.py:119
+#: gradia/ui/image_exporters.py:93
 msgid "Save"
 msgstr "保存"
 
-#: gradia/ui/image_exporters.py:142
+#: gradia/ui/image_exporters.py:94
+#: gradia/ui/dialog/delete_screenshots_dialog.py:54
+#: data/ui/confirm_close_dialog.blp:9
+msgid "Cancel"
+msgstr "取消"
+
+#: gradia/ui/image_exporters.py:118
 msgid "Unsupported image file extension."
 msgstr "不支持的图片文件扩展名。"
 
-#: gradia/ui/image_exporters.py:149
+#: gradia/ui/image_exporters.py:125
 msgid "Image saved successfully"
 msgstr "图片保存成功"
 
-#: gradia/ui/image_exporters.py:195
+#: gradia/ui/image_exporters.py:181
 msgid "No processed image available"
 msgstr "没有可用的经处理图片"
 
-#: gradia/ui/image_exporters.py:216
+#: gradia/ui/image_exporters.py:202
 msgid "Image copied to clipboard"
 msgstr "图片已复制到剪贴板"
 
-#: gradia/ui/image_exporters.py:219
+#: gradia/ui/image_exporters.py:205
 msgid "Failed to copy image to clipboard"
 msgstr "复制图片到剪贴板失败"
 
@@ -302,85 +241,147 @@ msgstr "剪贴板不包含图片。"
 msgid "Failed to load image from clipboard."
 msgstr "从剪贴板加载图片失败。"
 
-#: gradia/ui/image_loaders.py:203 gradia/ui/image_loaders.py:218
+#: gradia/ui/image_loaders.py:202 gradia/ui/image_loaders.py:217
 msgid "Failed to take screenshot"
 msgstr "截图失败"
 
-#: gradia/ui/image_loaders.py:234
+#: gradia/ui/image_loaders.py:233
 msgid "Screenshot cancelled"
 msgstr "截图已取消"
 
-#: gradia/ui/image_loaders.py:255 gradia/ui/image_loaders.py:256
+#: gradia/ui/image_loaders.py:254 gradia/ui/image_loaders.py:255
 msgid "Screenshot"
 msgstr "截图"
 
-#: gradia/ui/image_loaders.py:259
+#: gradia/ui/image_loaders.py:258
 msgid "Screenshot captured!"
 msgstr "截图已捕获！"
 
-#: gradia/ui/image_loaders.py:266
+#: gradia/ui/image_loaders.py:265
 msgid "Failed to process screenshot"
 msgstr "处理截图失败"
 
-#: gradia/overlay/drawing_actions.py:45
+#: gradia/overlay/drawing_actions.py:46
 msgid "Pen"
 msgstr "笔"
 
-#: gradia/overlay/drawing_actions.py:46
+#: gradia/overlay/drawing_actions.py:47
 msgid "Arrow"
 msgstr "箭头"
 
-#: gradia/overlay/drawing_actions.py:47
+#: gradia/overlay/drawing_actions.py:48
 msgid "Line"
 msgstr "线条"
 
-#: gradia/overlay/drawing_actions.py:48
+#: gradia/overlay/drawing_actions.py:49
 msgid "Square"
 msgstr "方形"
 
-#: gradia/overlay/drawing_actions.py:49
+#: gradia/overlay/drawing_actions.py:50
 msgid "Circle"
 msgstr "圆形"
 
-#: gradia/overlay/drawing_actions.py:50
+#: gradia/overlay/drawing_actions.py:51
 msgid "Text"
 msgstr "文本"
 
-#: gradia/overlay/drawing_actions.py:51
+#: gradia/overlay/drawing_actions.py:52
 msgid "Select"
 msgstr "选择"
 
-#: gradia/overlay/drawing_actions.py:52
+#: gradia/overlay/drawing_actions.py:53
 msgid "Highlighter"
 msgstr "荧光笔"
 
-#: gradia/overlay/drawing_actions.py:53
+#: gradia/overlay/drawing_actions.py:54
 msgid "Censor"
 msgstr "打码"
 
-#: gradia/overlay/drawing_actions.py:54
+#: gradia/overlay/drawing_actions.py:55
 msgid "Number"
 msgstr "数字"
 
-#: data/ui/selectors/gradient_selector.blp:5
+#: gradia/ui/settings_window.py:53 gradia/ui/settings_window.py:148
+msgid "Root"
+msgstr ""
+
+#: gradia/ui/settings_window.py:145 gradia/ui/settings_window.py:148
+#, fuzzy, python-brace-format
+msgid "Selected: {folder}"
+msgstr "所选字体名称"
+
+#: gradia/ui/settings_window.py:146 gradia/ui/settings_window.py:149
+#: data/ui/settings_window.blp:20
+msgid "Click to change folder"
+msgstr ""
+
+#: gradia/ui/settings_window.py:233
+msgid "Copied!"
+msgstr ""
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:33
+msgid "No screenshots to delete"
+msgstr "没有可删除的截图"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:55
+msgid "Trash"
+msgstr ""
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:87
+msgid "Trash Screenshot?"
+msgstr "截图"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:88
+msgid "Are you sure you want to trash the following file?"
+msgstr "您确定要删除以下文件吗？"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:90
+msgid "Trash Screenshots?"
+msgstr "截图"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:91
+msgid "Are you sure you want to trash the following files?"
+msgstr "您确定要删除以下文件吗？"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:101
+msgid "Screenshot moved to trash"
+msgstr "截图子目录"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:103
+msgid "Screenshots moved to trash"
+msgstr "截图已删除"
+
+#: gradia/app_constants.py:31
+msgid "PNG Image (*.png)"
+msgstr "PNG 图片 (*.png)"
+
+#: gradia/app_constants.py:37
+msgid "JPEG Image (*.jpg)"
+msgstr "JPEG 图片 (*.jpg)"
+
+#: gradia/app_constants.py:43
+msgid "WebP Image (*.webp)"
+msgstr "WebP 图片 (*.webp)"
+
+#: data/ui/selectors/gradient_selector.blp:4
 msgid "Gradient Background"
 msgstr "渐变背景"
 
-#: data/ui/selectors/gradient_selector.blp:10
+#: data/ui/selectors/gradient_selector.blp:8
 msgid "Gradient Presets"
 msgstr "渐变预设"
 
-#: data/ui/selectors/gradient_selector.blp:20
+#: data/ui/selectors/gradient_selector.blp:16
+msgid "Angle"
+msgstr "角度"
+
+#: data/ui/selectors/gradient_selector.blp:56
 msgid "Start Color"
 msgstr "起始颜色"
 
-#: data/ui/selectors/gradient_selector.blp:32
+#: data/ui/selectors/gradient_selector.blp:68
 msgid "End Color"
 msgstr "结束颜色"
-
-#: data/ui/selectors/gradient_selector.blp:44
-msgid "Angle"
-msgstr "角度"
 
 #: data/ui/selectors/image_selector.blp:5
 msgid "Image Background"
@@ -406,7 +407,7 @@ msgstr "支持的图片格式"
 msgid "Solid Color Background"
 msgstr "纯色背景"
 
-#: data/ui/selectors/solid_selector.blp:8 data/ui/drawing_tools_group.blp:38
+#: data/ui/selectors/solid_selector.blp:8 data/ui/drawing_tools_group.blp:47
 msgid "Color"
 msgstr "颜色"
 
@@ -442,27 +443,27 @@ msgstr "清除所有标注"
 msgid "Annotation Tools"
 msgstr "标注工具"
 
-#: data/ui/drawing_tools_group.blp:65
+#: data/ui/drawing_tools_group.blp:85
 msgid "Highlighter Color"
 msgstr "荧光笔颜色"
 
-#: data/ui/drawing_tools_group.blp:105
+#: data/ui/drawing_tools_group.blp:128
 msgid "Fill Color"
 msgstr "填充颜色"
 
-#: data/ui/drawing_tools_group.blp:117
+#: data/ui/drawing_tools_group.blp:140
 msgid "Reset Fill"
 msgstr "重置填充"
 
-#: data/ui/drawing_tools_group.blp:143
+#: data/ui/drawing_tools_group.blp:178
 msgid "Font"
 msgstr "字体"
 
-#: data/ui/drawing_tools_group.blp:177
+#: data/ui/drawing_tools_group.blp:228
 msgid "Size"
 msgstr "大小"
 
-#: data/ui/drawing_tools_group.blp:217
+#: data/ui/drawing_tools_group.blp:280
 msgid "Radius"
 msgstr "半径"
 
@@ -478,59 +479,67 @@ msgstr "主菜单"
 msgid "Image Options"
 msgstr "图片选项"
 
-#: data/ui/image_sidebar.blp:46
+#: data/ui/image_sidebar.blp:48
+msgid "Disable all options"
+msgstr "清除所有标注"
+
+#: data/ui/image_sidebar.blp:57
 msgid "Padding"
 msgstr "填充大小"
 
-#: data/ui/image_sidebar.blp:58
+#: data/ui/image_sidebar.blp:69
 msgid "Corner Radius"
 msgstr "圆角半径"
 
-#: data/ui/image_sidebar.blp:70
+#: data/ui/image_sidebar.blp:81
 msgid "Aspect Ratio"
 msgstr "宽高比"
 
-#: data/ui/image_sidebar.blp:81
+#: data/ui/image_sidebar.blp:92
 msgid "Shadow"
 msgstr "阴影"
 
-#: data/ui/image_sidebar.blp:103
+#: data/ui/image_sidebar.blp:112
+msgid "Auto Balance"
+msgstr ""
+
+#: data/ui/image_sidebar.blp:123
 msgid "Current File"
 msgstr "当前文件"
 
-#: data/ui/image_sidebar.blp:106
+#: data/ui/image_sidebar.blp:126
 msgid "Name"
 msgstr "名称"
 
-#: data/ui/image_sidebar.blp:107 data/ui/image_sidebar.blp:112
+#: data/ui/image_sidebar.blp:127 data/ui/image_sidebar.blp:132
 msgid "No file loaded"
 msgstr "未加载文件"
 
-#: data/ui/image_sidebar.blp:111
+#: data/ui/image_sidebar.blp:131
 msgid "Location"
 msgstr "位置"
 
-#: data/ui/image_sidebar.blp:116
+#: data/ui/image_sidebar.blp:136
 msgid "Modified image size"
 msgstr "修改后的图片尺寸"
 
-#: data/ui/image_sidebar.blp:117
+#: data/ui/image_sidebar.blp:137
 msgid "N/A"
 msgstr "N/A"
 
-#: data/ui/image_sidebar.blp:132
+#: data/ui/image_sidebar.blp:152
 msgid "Save Image"
 msgstr "保存图片"
 
-#: data/ui/image_sidebar.blp:143
+#: data/ui/image_sidebar.blp:163
 msgid "Copy to Clipboard"
 msgstr "复制到剪贴板"
 
-#: data/ui/image_sidebar.blp:181
+#: data/ui/image_sidebar.blp:201
 msgid "Delete Taken Screenshot(s)"
 msgstr "删除已截图片"
 
-#: data/ui/image_sidebar.blp:191 data/ui/welcome_page.blp:76
+#: data/ui/image_sidebar.blp:215 data/ui/welcome_page.blp:80
 msgid "About Gradia"
 msgstr "关于 Gradia"
 
@@ -553,3 +562,157 @@ msgstr "截图(_T)..."
 #: data/ui/welcome_page.blp:54
 msgid "_Open Image…"
 msgstr "打开图片(_O)..."
+
+#: data/ui/settings_window.blp:7 data/ui/settings_window.blp:11
+msgid "Options"
+msgstr "图片选项"
+
+#: data/ui/settings_window.blp:15
+msgid "Recent Screenshots"
+msgstr "删除截图？"
+
+#: data/ui/settings_window.blp:16
+msgid ""
+"Configure which subfolder of Pictures to use to display recent screenshots "
+"from on the home page"
+msgstr ""
+
+#: data/ui/settings_window.blp:19
+msgid "Select Folder"
+msgstr "选择图片"
+
+#: data/ui/settings_window.blp:26
+msgid "Save Settings"
+msgstr ""
+
+#: data/ui/settings_window.blp:29
+msgid "Image Format"
+msgstr "支持的图片格式"
+
+#: data/ui/settings_window.blp:30
+msgid "Default format for saved screenshots"
+msgstr "截图失败"
+
+#: data/ui/settings_window.blp:34
+msgid "Compress image"
+msgstr ""
+
+#: data/ui/settings_window.blp:35
+msgid "On supported formats"
+msgstr "支持的图片格式"
+
+#: data/ui/settings_window.blp:38
+msgid "Compress images to reduce file size"
+msgstr ""
+
+#: data/ui/settings_window.blp:44
+msgid "Confirm on close"
+msgstr ""
+
+#: data/ui/settings_window.blp:45 data/ui/settings_window.blp:48
+msgid "Ask for confirmation before closing the app"
+msgstr ""
+
+#: data/ui/settings_window.blp:56
+msgid "Screenshot Management"
+msgstr "截图已取消"
+
+#: data/ui/settings_window.blp:58
+msgid "Trash screenshots on close"
+msgstr "没有可删除的截图"
+
+#: data/ui/settings_window.blp:59
+msgid "Automatically move screenshots taken from whitin the app to trash."
+msgstr ""
+
+#: data/ui/settings_window.blp:62
+msgid "Trash screenshots on app close"
+msgstr "没有可删除的截图"
+
+#: data/ui/settings_window.blp:70
+msgid "Shortcut"
+msgstr "键盘快捷键"
+
+#: data/ui/settings_window.blp:74
+msgid "Shortcut setup Instructions"
+msgstr ""
+
+#: data/ui/settings_window.blp:81
+msgid ""
+"If you'd like the app to <b>open automatically</b> after taking a "
+"screenshot, you can set up a custom keyboard shortcut:\n"
+"\n"
+"<b>Steps:</b>\n"
+"1. Go to <b>Settings</b> → <b>Keyboard</b> → <b>View and Customize "
+"Shortcuts</b> → <b>Custom Shortcuts</b>.\n"
+"2. Click the <b>+</b> button to create a new shortcut.\n"
+"3. Set the <b>Name</b> to something like <i>Open Gradia with Screenshot</"
+"i>.\n"
+"4. For the <b>Command</b>, copy one of the commands below:"
+msgstr ""
+
+#: data/ui/settings_window.blp:88
+msgid "Interactive Screenshot"
+msgstr "增强后的截图"
+
+#: data/ui/settings_window.blp:89
+msgid "Allows you to select an area to screenshot"
+msgstr ""
+
+#: data/ui/settings_window.blp:102 data/ui/settings_window.blp:123
+msgid "Copy to clipboard"
+msgstr "复制到剪贴板"
+
+#: data/ui/settings_window.blp:109
+msgid "Full Screen Screenshot"
+msgstr "删除截图？"
+
+#: data/ui/settings_window.blp:110
+msgid "Takes a screenshot of all screens instantly"
+msgstr ""
+
+#: data/ui/settings_window.blp:130
+msgid ""
+"5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should "
+"be free by default)."
+msgstr ""
+
+#: data/ui/confirm_close_dialog.blp:5
+msgid "Close Gradia?"
+msgstr "关于 Gradia"
+
+#: data/ui/confirm_close_dialog.blp:6
+msgid "Are you sure you want to exit? All unsaved changes will be lost."
+msgstr "您确定要删除以下文件吗？"
+
+#: data/ui/confirm_close_dialog.blp:10
+msgid "Close"
+msgstr ""
+
+#: data/ui/confirm_close_dialog.blp:25
+msgid "Don't ask again"
+msgstr ""
+
+#~ msgid "Current drawing mode"
+#~ msgstr "当前绘图模式"
+
+#~ msgid "Pen color in rgba"
+#~ msgstr "画笔颜色（rgba）"
+
+#~ msgid "Highlighter color in rgba"
+#~ msgstr "荧光笔颜色（rgba）"
+
+#~ msgid "Fill color in rgba"
+#~ msgstr "填充颜色（rgba）"
+
+#~ msgid "Pen size"
+#~ msgstr "画笔大小"
+
+#~ msgid "Number radius size"
+#~ msgstr "数字半径大小"
+
+#~ msgid "Delete"
+#~ msgstr "删除"
+
+#~ msgid "Screenshot deleted"
+#~ msgstr "截图已删除"

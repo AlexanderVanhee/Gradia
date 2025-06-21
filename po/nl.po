@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-16 00:21+0200\n"
+"POT-Creation-Date: 2025-06-21 15:02+0200\n"
 "PO-Revision-Date: 2025-06-04 20:32+0200\n"
 "Last-Translator: Alexander Vanhee\n"
 "Language-Team: \n"
@@ -29,7 +29,7 @@ msgstr "Maak je afbeeldingen klaar voor de wereld"
 
 #: data/be.alexandervanhee.gradia.desktop.in.in:9
 msgid "Image;Gradient;Background;Screenshot;Edit;"
-msgstr "Afbeelding;Gradient;Achtergrond;Schermafbeelding;Screenshot;Bewerken;"
+msgstr "Afbeelding;Verloop;Achtergrond;Schermafbeelding;Bewerken;"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:12
 msgid "Make your screenshots ready for all"
@@ -89,53 +89,21 @@ msgstr ""
 msgid "Alexander Vanhee"
 msgstr "Alexander Vanhee"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:142
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:153
 msgid "Edited screenshot"
 msgstr "Bewerkte schermafbeelding"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:146
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:157
 msgid "Edited picture"
 msgstr "Bewerkte afbeelding"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:150
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:161
 msgid "Startup view"
 msgstr "Opstartweergave"
 
-#: data/be.alexandervanhee.gradia.gschema.xml:6
-#, fuzzy
-msgid "Current drawing mode"
-msgstr "Huidig bestand"
-
-#: data/be.alexandervanhee.gradia.gschema.xml:10
-msgid "Pen color in rgba"
-msgstr ""
-
-#: data/be.alexandervanhee.gradia.gschema.xml:14
-#, fuzzy
-msgid "Highlighter color in rgba"
-msgstr "Markeerstift"
-
-#: data/be.alexandervanhee.gradia.gschema.xml:18
-msgid "Fill color in rgba"
-msgstr ""
-
-#: data/be.alexandervanhee.gradia.gschema.xml:22
-msgid "Pen size"
-msgstr ""
-
-#: data/be.alexandervanhee.gradia.gschema.xml:26
-msgid "Number radius size"
-msgstr ""
-
-#: data/be.alexandervanhee.gradia.gschema.xml:30
-#, fuzzy
-msgid "Selected font name"
-msgstr "Afbeelding selecteren"
-
-#: data/be.alexandervanhee.gradia.gschema.xml:35
-#, fuzzy
-msgid "Screenshot subdirectory"
-msgstr "Schermafbeelding verwijderd."
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:165
+msgid "UI element showcase"
+msgstr "Presentatie van UI-elementen"
 
 #. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
 #: gradia/ui/ui_parts.py:160
@@ -182,111 +150,67 @@ msgstr "Geselecteerde verwijderen"
 msgid "General"
 msgstr "Algemeen"
 
-#: gradia/ui/ui_parts.py:189 data/ui/image_sidebar.blp:187
-#: data/ui/welcome_page.blp:72
+#: gradia/ui/ui_parts.py:189 data/ui/image_sidebar.blp:211
+#: data/ui/welcome_page.blp:76
 msgid "Keyboard Shortcuts"
 msgstr "Sneltoetsen"
 
-#: gradia/ui/window.py:351
+#: gradia/ui/ui_parts.py:190 data/ui/image_sidebar.blp:207
+#: data/ui/welcome_page.blp:72
+msgid "Settings"
+msgstr "Instellingen"
+
+#: gradia/ui/ui_parts.py:191
+msgid "Toggle Utility Pane"
+msgstr "Hulppaneel wisselen"
+
+#: gradia/ui/window.py:393
 msgid "Unknown"
 msgstr "Onbekend"
 
-#: gradia/ui/window.py:353
+#: gradia/ui/window.py:395
 msgid "Error"
 msgstr "Fout"
 
-#: gradia/ui/window.py:390
-#, fuzzy
-msgid "No screenshots to delete"
-msgstr "Geen schermafbeeldingen om te verwijderen."
-
-#: gradia/ui/window.py:419
-msgid "Delete Screenshot?"
-msgstr "Schermafbeelding verwijderen?"
-
-#: gradia/ui/window.py:420
-#, fuzzy
-msgid "Are you sure you want to delete the following file?"
-msgstr ""
-"Weet je zeker dat je het volgende bestand wilt verwijderen?\n"
-"\n"
-"%s"
-
-#: gradia/ui/window.py:422
-msgid "Delete Screenshots?"
-msgstr "Schermafbeeldingen verwijderen?"
-
-#: gradia/ui/window.py:423
-#, fuzzy
-msgid "Are you sure you want to delete the following files?"
-msgstr ""
-"Weet je zeker dat je de volgende bestanden wilt verwijderen?\n"
-"\n"
-"%s"
-
-#: gradia/ui/window.py:432 gradia/ui/image_exporters.py:120
-msgid "Cancel"
-msgstr "Annuleren"
-
-#: gradia/ui/window.py:433
-msgid "Delete"
-msgstr "Verwijderen"
-
-#: gradia/ui/window.py:441
-#, fuzzy
-msgid "Screenshot deleted"
-msgstr "Schermafbeelding verwijderd."
-
-#: gradia/ui/window.py:443
-#, fuzzy
-msgid "Screenshots deleted"
-msgstr "Schermafbeeldingen verwijderd."
-
-#: gradia/ui/image_exporters.py:75
+#: gradia/ui/image_exporters.py:70
 msgid "Edit"
 msgstr "Bewerkt"
 
-#: gradia/ui/image_exporters.py:76
+#: gradia/ui/image_exporters.py:71
 msgid "Enhanced Screenshot"
 msgstr "Verbeterde schermafbeelding"
 
-#: gradia/ui/image_exporters.py:87
-msgid "PNG Image (*.png)"
-msgstr "PNG-afbeelding (*.png)"
-
-#: gradia/ui/image_exporters.py:93
-msgid "JPEG Image (*.jpg)"
-msgstr "JPEG-afbeelding (*.jpg)"
-
-#: gradia/ui/image_exporters.py:99
-msgid "WebP Image (*.webp)"
-msgstr "WebP-afbeelding (*.webp)"
-
-#: gradia/ui/image_exporters.py:116
+#: gradia/ui/image_exporters.py:90
 msgid "Save Image As"
 msgstr "Afbeelding opslaan als"
 
-#: gradia/ui/image_exporters.py:119
+#: gradia/ui/image_exporters.py:93
 msgid "Save"
 msgstr "Opslaan"
 
-#: gradia/ui/image_exporters.py:142
-msgid "Unsupported image file extension."
-msgstr ""
+#: gradia/ui/image_exporters.py:94
+#: gradia/ui/dialog/delete_screenshots_dialog.py:54
+#: data/ui/confirm_close_dialog.blp:9
+msgid "Cancel"
+msgstr "Annuleren"
 
-#: gradia/ui/image_exporters.py:149
+#: gradia/ui/image_exporters.py:118
+msgid "Unsupported image file extension."
+msgstr "Niet-ondersteunde bestandsextensie voor afbeelding."
+
+#: gradia/ui/image_exporters.py:125
 msgid "Image saved successfully"
 msgstr "Afbeelding succesvol opgeslagen"
 
-#: gradia/ui/image_exporters.py:195
+#: gradia/ui/image_exporters.py:181
 msgid "No processed image available"
 msgstr "Geen bewerkte afbeelding beschikbaar"
 
-#: gradia/ui/image_exporters.py:216
+#: gradia/ui/image_exporters.py:202
 msgid "Image copied to clipboard"
 msgstr "Afbeelding gekopieerd naar klembord"
 
-#: gradia/ui/image_exporters.py:219
+#: gradia/ui/image_exporters.py:205
 msgid "Failed to copy image to clipboard"
 msgstr "Kopiëren van afbeelding naar klembord mislukt"
 
@@ -300,7 +224,7 @@ msgstr "Afbeeldingsbestanden"
 
 #: gradia/ui/image_loaders.py:120
 msgid "Not a supported image format."
-msgstr ""
+msgstr "Geen ondersteund afbeeldingsformaat."
 
 #: gradia/ui/image_loaders.py:150
 msgid "No image found in clipboard"
@@ -322,113 +246,179 @@ msgstr "Klembord bevat geen afbeelding."
 msgid "Failed to load image from clipboard."
 msgstr "Laden van afbeelding van klembord mislukt."
 
-#: gradia/ui/image_loaders.py:203 gradia/ui/image_loaders.py:218
+#: gradia/ui/image_loaders.py:202 gradia/ui/image_loaders.py:217
 msgid "Failed to take screenshot"
 msgstr "Schermafbeelding maken mislukt"
 
-#: gradia/ui/image_loaders.py:234
+#: gradia/ui/image_loaders.py:233
 msgid "Screenshot cancelled"
 msgstr "Schermafbeelding geannuleerd"
 
-#: gradia/ui/image_loaders.py:255 gradia/ui/image_loaders.py:256
+#: gradia/ui/image_loaders.py:254 gradia/ui/image_loaders.py:255
 msgid "Screenshot"
 msgstr "Schermafbeelding"
 
-#: gradia/ui/image_loaders.py:259
+#: gradia/ui/image_loaders.py:258
 msgid "Screenshot captured!"
 msgstr "Schermafbeelding vastgelegd!"
 
-#: gradia/ui/image_loaders.py:266
+#: gradia/ui/image_loaders.py:265
 msgid "Failed to process screenshot"
 msgstr "Verwerken van schermafbeelding mislukt"
 
-#: gradia/overlay/drawing_actions.py:45
+#: gradia/overlay/drawing_actions.py:46
 msgid "Pen"
 msgstr "Pen"
 
-#: gradia/overlay/drawing_actions.py:46
+#: gradia/overlay/drawing_actions.py:47
 msgid "Arrow"
 msgstr "Pijl"
 
-#: gradia/overlay/drawing_actions.py:47
+#: gradia/overlay/drawing_actions.py:48
 msgid "Line"
 msgstr "Lijn"
 
-#: gradia/overlay/drawing_actions.py:48
+#: gradia/overlay/drawing_actions.py:49
 msgid "Square"
 msgstr "Vierkant"
 
-#: gradia/overlay/drawing_actions.py:49
+#: gradia/overlay/drawing_actions.py:50
 msgid "Circle"
 msgstr "Cirkel"
 
-#: gradia/overlay/drawing_actions.py:50
+#: gradia/overlay/drawing_actions.py:51
 msgid "Text"
 msgstr "Tekst"
 
-#: gradia/overlay/drawing_actions.py:51
+#: gradia/overlay/drawing_actions.py:52
 msgid "Select"
 msgstr "Selecteren"
 
-#: gradia/overlay/drawing_actions.py:52
+#: gradia/overlay/drawing_actions.py:53
 msgid "Highlighter"
 msgstr "Markeerstift"
 
-#: gradia/overlay/drawing_actions.py:53
+#: gradia/overlay/drawing_actions.py:54
 msgid "Censor"
 msgstr "Censuur"
 
-#: gradia/overlay/drawing_actions.py:54
+#: gradia/overlay/drawing_actions.py:55
 msgid "Number"
 msgstr "Nummer"
 
-#: data/ui/selectors/gradient_selector.blp:5
+#: gradia/ui/settings_window.py:53 gradia/ui/settings_window.py:148
+msgid "Root"
+msgstr "Hoofdmap"
+
+#: gradia/ui/settings_window.py:145 gradia/ui/settings_window.py:148
+#, python-brace-format
+msgid "Selected: {folder}"
+msgstr "Geselecteerd: {folder}"
+
+#: gradia/ui/settings_window.py:146 gradia/ui/settings_window.py:149
+#: data/ui/settings_window.blp:20
+msgid "Click to change folder"
+msgstr "Klik om map te wijzigen"
+
+#: gradia/ui/settings_window.py:233
+msgid "Copied!"
+msgstr "Gekopieerd!"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:33
+msgid "No screenshots to delete"
+msgstr "Geen schermafbeeldingen om te verwijderen."
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:55
+msgid "Trash"
+msgstr "Verplaatsen naar prullenbak"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:87
+msgid "Trash Screenshot?"
+msgstr "Schermafbeelding verwijderen?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:88
+msgid "Are you sure you want to trash the following file?"
+msgstr ""
+"Weet je zeker dat je het volgende bestand wilt verwijderen?\n"
+"\n"
+"%s"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:90
+msgid "Trash Screenshots?"
+msgstr "Schermafbeeldingen verwijderen?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:91
+msgid "Are you sure you want to trash the following files?"
+msgstr ""
+"Weet je zeker dat je de volgende bestanden wilt verwijderen?\n"
+"\n"
+"%s"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:101
+msgid "Screenshot moved to trash"
+msgstr "Schermafbeelding verplaatst naar prullenbak"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:103
+msgid "Screenshots moved to trash"
+msgstr "Schermafbeeldingen verplaatst naar prullenbak"
+
+#: gradia/app_constants.py:31
+msgid "PNG Image (*.png)"
+msgstr "PNG Afbeelding (*.png)"
+
+#: gradia/app_constants.py:37
+msgid "JPEG Image (*.jpg)"
+msgstr "JPEG Afbeelding (*.jpg)"
+
+#: gradia/app_constants.py:43
+msgid "WebP Image (*.webp)"
+msgstr "WebP Afbeelding (*.webp)"
+
+#: data/ui/selectors/gradient_selector.blp:4
 msgid "Gradient Background"
 msgstr "Verloopachtergrond"
 
-#: data/ui/selectors/gradient_selector.blp:10
+#: data/ui/selectors/gradient_selector.blp:8
 msgid "Gradient Presets"
-msgstr "Voorinstellingen verloop"
+msgstr "Verloopvoorinstellingen"
 
-#: data/ui/selectors/gradient_selector.blp:20
+#: data/ui/selectors/gradient_selector.blp:16
+msgid "Angle"
+msgstr "Hoek"
+
+#: data/ui/selectors/gradient_selector.blp:56
 msgid "Start Color"
 msgstr "Startkleur"
 
-#: data/ui/selectors/gradient_selector.blp:32
+#: data/ui/selectors/gradient_selector.blp:68
 msgid "End Color"
 msgstr "Eindkleur"
-
-#: data/ui/selectors/gradient_selector.blp:44
-msgid "Angle"
-msgstr "Hoek"
 
 #: data/ui/selectors/image_selector.blp:5
 msgid "Image Background"
 msgstr "Afbeelding als achtergrond"
 
 #: data/ui/selectors/image_selector.blp:10
-#, fuzzy
 msgid "Image Presets"
-msgstr "Voorinstellingen verloop"
+msgstr "Afbeeldingsvoorinstellingen"
 
 #: data/ui/selectors/image_selector.blp:22
 msgid "Select Image"
 msgstr "Afbeelding selecteren"
 
 #: data/ui/selectors/image_selector.blp:51
-#, fuzzy
 msgid "Select an Image"
-msgstr "Afbeelding selecteren"
+msgstr "Selecteer een afbeelding"
 
 #: data/ui/selectors/image_selector.blp:56
 msgid "Supported Image Formats"
-msgstr ""
+msgstr "Ondersteunde afbeeldingsformaten"
 
 #: data/ui/selectors/solid_selector.blp:5
 msgid "Solid Color Background"
 msgstr "Achtergrond met effen kleur"
 
-#: data/ui/selectors/solid_selector.blp:8 data/ui/drawing_tools_group.blp:38
+#: data/ui/selectors/solid_selector.blp:8 data/ui/drawing_tools_group.blp:47
 msgid "Color"
 msgstr "Kleur"
 
@@ -464,35 +454,31 @@ msgstr "Alle annotaties wissen"
 msgid "Annotation Tools"
 msgstr "Annotatietools"
 
-#: data/ui/drawing_tools_group.blp:65
-#, fuzzy
+#: data/ui/drawing_tools_group.blp:85
 msgid "Highlighter Color"
-msgstr "Markeerstift"
+msgstr "Kleur markeerstift"
 
-#: data/ui/drawing_tools_group.blp:105
-#, fuzzy
+#: data/ui/drawing_tools_group.blp:128
 msgid "Fill Color"
-msgstr "Kleur"
+msgstr "Vulkleur"
 
-#: data/ui/drawing_tools_group.blp:117
+#: data/ui/drawing_tools_group.blp:140
 msgid "Reset Fill"
 msgstr "Vulling herstellen"
 
-#: data/ui/drawing_tools_group.blp:143
+#: data/ui/drawing_tools_group.blp:178
 msgid "Font"
 msgstr "Lettertype"
 
-#: data/ui/drawing_tools_group.blp:177
+#: data/ui/drawing_tools_group.blp:228
 msgid "Size"
-msgstr ""
+msgstr "Grootte"
 
-#: data/ui/drawing_tools_group.blp:217
-#, fuzzy
+#: data/ui/drawing_tools_group.blp:280
 msgid "Radius"
-msgstr "Hoekradius"
+msgstr "Radius"
 
 #: data/ui/image_sidebar.blp:24
-#, fuzzy
 msgid "Take a Screenshot"
 msgstr "Maak een schermafbeelding"
 
@@ -504,66 +490,73 @@ msgstr "Hoofdmenu"
 msgid "Image Options"
 msgstr "Afbeeldingsopties"
 
-#: data/ui/image_sidebar.blp:46
-msgid "Padding"
-msgstr "Binnenmarge"
+#: data/ui/image_sidebar.blp:48
+msgid "Disable all options"
+msgstr "Alle opties uitschakelen"
 
-#: data/ui/image_sidebar.blp:58
+#: data/ui/image_sidebar.blp:57
+msgid "Padding"
+msgstr "Opvulling"
+
+#: data/ui/image_sidebar.blp:69
 msgid "Corner Radius"
 msgstr "Hoekradius"
 
-#: data/ui/image_sidebar.blp:70
+#: data/ui/image_sidebar.blp:81
 msgid "Aspect Ratio"
 msgstr "Beeldverhouding"
 
-#: data/ui/image_sidebar.blp:81
+#: data/ui/image_sidebar.blp:92
 msgid "Shadow"
 msgstr "Schaduw"
 
-#: data/ui/image_sidebar.blp:103
+#: data/ui/image_sidebar.blp:112
+msgid "Auto Balance"
+msgstr "Automatisch balanceren"
+
+#: data/ui/image_sidebar.blp:123
 msgid "Current File"
 msgstr "Huidig bestand"
 
-#: data/ui/image_sidebar.blp:106
+#: data/ui/image_sidebar.blp:126
 msgid "Name"
 msgstr "Naam"
 
-#: data/ui/image_sidebar.blp:107 data/ui/image_sidebar.blp:112
+#: data/ui/image_sidebar.blp:127 data/ui/image_sidebar.blp:132
 msgid "No file loaded"
 msgstr "Geen bestand geladen"
 
-#: data/ui/image_sidebar.blp:111
+#: data/ui/image_sidebar.blp:131
 msgid "Location"
 msgstr "Locatie"
 
-#: data/ui/image_sidebar.blp:116
+#: data/ui/image_sidebar.blp:136
 msgid "Modified image size"
 msgstr "Aangepaste afbeeldingsgrootte"
 
-#: data/ui/image_sidebar.blp:117
+#: data/ui/image_sidebar.blp:137
 msgid "N/A"
 msgstr "N.v.t."
 
-#: data/ui/image_sidebar.blp:132
+#: data/ui/image_sidebar.blp:152
 msgid "Save Image"
 msgstr "Afbeelding opslaan"
 
-#: data/ui/image_sidebar.blp:143
+#: data/ui/image_sidebar.blp:163
 msgid "Copy to Clipboard"
 msgstr "Kopiëren naar klembord"
 
-#: data/ui/image_sidebar.blp:181
-#, fuzzy
+#: data/ui/image_sidebar.blp:201
 msgid "Delete Taken Screenshot(s)"
 msgstr "Gemaakte schermafbeelding(en) verwijderen"
 
-#: data/ui/image_sidebar.blp:191 data/ui/welcome_page.blp:76
+#: data/ui/image_sidebar.blp:215 data/ui/welcome_page.blp:80
 msgid "About Gradia"
 msgstr "Over Gradia"
 
 #: data/ui/text_entry_popover.blp:12
 msgid "Enter text…"
-msgstr ""
+msgstr "Voer tekst in…"
 
 #: data/ui/welcome_page.blp:25
 msgid "Enhance an Image"
@@ -574,7 +567,6 @@ msgid "Drag and drop one here"
 msgstr "Sleep er hier een naartoe"
 
 #: data/ui/welcome_page.blp:42
-#, fuzzy
 msgid "_Take a Screenshot…"
 msgstr "_Maak een schermafbeelding…"
 
@@ -582,11 +574,151 @@ msgstr "_Maak een schermafbeelding…"
 msgid "_Open Image…"
 msgstr "_Afbeelding openen…"
 
-#~ msgid "Image files"
-#~ msgstr "Afbeeldingsbestanden"
+#: data/ui/settings_window.blp:7 data/ui/settings_window.blp:11
+msgid "Options"
+msgstr "Opties"
 
-#~ msgid "Stroke Color"
-#~ msgstr "Lijnkleur"
+#: data/ui/settings_window.blp:15
+msgid "Recent Screenshots"
+msgstr "Recente schermafbeeldingen"
 
-#~ msgid "Fill"
-#~ msgstr "Vulling"
+#: data/ui/settings_window.blp:16
+msgid ""
+"Configure which subfolder of Pictures to use to display recent screenshots "
+"from on the home page"
+msgstr ""
+"Configureer welke submap van Afbeeldingen moet worden gebruikt om recente "
+"schermafbeeldingen op de startpagina weer te geven"
+
+#: data/ui/settings_window.blp:19
+msgid "Select Folder"
+msgstr "Selecteer map"
+
+#: data/ui/settings_window.blp:26
+msgid "Save Settings"
+msgstr "Instellingen opslaan"
+
+#: data/ui/settings_window.blp:29
+msgid "Image Format"
+msgstr "Afbeeldingsformaat"
+
+#: data/ui/settings_window.blp:30
+msgid "Default format for saved screenshots"
+msgstr "Standaardformaat voor opgeslagen schermafbeeldingen"
+
+#: data/ui/settings_window.blp:34
+msgid "Compress image"
+msgstr "Afbeelding comprimeren"
+
+#: data/ui/settings_window.blp:35
+msgid "On supported formats"
+msgstr "Voor ondersteunde formaten"
+
+#: data/ui/settings_window.blp:38
+msgid "Compress images to reduce file size"
+msgstr "Comprimeer afbeeldingen om de bestandsgrootte te verkleinen"
+
+#: data/ui/settings_window.blp:44
+msgid "Confirm on close"
+msgstr "Bevestigen bij sluiten"
+
+#: data/ui/settings_window.blp:45 data/ui/settings_window.blp:48
+msgid "Ask for confirmation before closing the app"
+msgstr "Vraag om bevestiging voordat de app wordt gesloten"
+
+#: data/ui/settings_window.blp:56
+msgid "Screenshot Management"
+msgstr "Schermafbeeldingbeheer"
+
+#: data/ui/settings_window.blp:58
+msgid "Trash screenshots on close"
+msgstr "Schermafbeeldingen bij sluiten naar prullenbak verplaatsen"
+
+#: data/ui/settings_window.blp:59
+msgid "Automatically move screenshots taken from whitin the app to trash."
+msgstr ""
+"Verplaats schermafbeeldingen die vanuit de app zijn gemaakt automatisch naar "
+"de prullenbak."
+
+#: data/ui/settings_window.blp:62
+msgid "Trash screenshots on app close"
+msgstr "Schermafbeeldingen bij afsluiten van app naar prullenbak verplaatsen"
+
+#: data/ui/settings_window.blp:70
+msgid "Shortcut"
+msgstr "Sneltoets"
+
+#: data/ui/settings_window.blp:74
+msgid "Shortcut setup Instructions"
+msgstr "Instructies voor sneltoetsinstelling"
+
+#: data/ui/settings_window.blp:81
+msgid ""
+"If you'd like the app to <b>open automatically</b> after taking a "
+"screenshot, you can set up a custom keyboard shortcut:\n"
+"\n"
+"<b>Steps:</b>\n"
+"1. Go to <b>Settings</b> → <b>Keyboard</b> → <b>View and Customize "
+"Shortcuts</b> → <b>Custom Shortcuts</b>.\n"
+"2. Click the <b>+</b> button to create a new shortcut.\n"
+"3. Set the <b>Name</b> to something like <i>Open Gradia with Screenshot</"
+"i>.\n"
+"4. For the <b>Command</b>, copy one of the commands below:"
+msgstr ""
+"Als je wilt dat de app <b>automatisch opent</b> na het maken van een "
+"schermafbeelding, kun je een aangepaste sneltoets instellen:\n"
+"\n"
+"<b>Stappen:</b>\n"
+"1. Ga naar <b>Instellingen</b> → <b>Toetsenbord</b> → <b>Sneltoetsen "
+"bekijken en aanpassen</b> → <b>Aangepaste sneltoetsen</b>.\n"
+"2. Klik op de <b>+</b> knop om een nieuwe sneltoets te maken.\n"
+"3. Stel de <b>Naam</b> in op iets als <i>Gradia openen met schermafbeelding</"
+"i>.\n"
+"4. Kopieer voor de <b>Opdracht</b> een van de onderstaande commando's:"
+
+#: data/ui/settings_window.blp:88
+msgid "Interactive Screenshot"
+msgstr "Interactieve schermafbeelding"
+
+#: data/ui/settings_window.blp:89
+msgid "Allows you to select an area to screenshot"
+msgstr ""
+"Hiermee kun je een gebied selecteren om een schermafbeelding van te maken"
+
+#: data/ui/settings_window.blp:102 data/ui/settings_window.blp:123
+msgid "Copy to clipboard"
+msgstr "Kopiëren naar klembord"
+
+#: data/ui/settings_window.blp:109
+msgid "Full Screen Screenshot"
+msgstr "Volledige schermafbeelding"
+
+#: data/ui/settings_window.blp:110
+msgid "Takes a screenshot of all screens instantly"
+msgstr "Maakt direct een schermafbeelding van alle schermen"
+
+#: data/ui/settings_window.blp:130
+msgid ""
+"5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should "
+"be free by default)."
+msgstr ""
+"5. Wijs een sneltoets naar keuze toe (<tt>Ctrl + Print</tt> zou standaard "
+"vrij moeten zijn)."
+
+#: data/ui/confirm_close_dialog.blp:5
+msgid "Close Gradia?"
+msgstr "Gradia sluiten?"
+
+#: data/ui/confirm_close_dialog.blp:6
+msgid "Are you sure you want to exit? All unsaved changes will be lost."
+msgstr ""
+"Weet je zeker dat je wilt afsluiten? Alle niet-opgeslagen wijzigingen gaan "
+"verloren."
+
+#: data/ui/confirm_close_dialog.blp:10
+msgid "Close"
+msgstr "Sluiten"
+
+#: data/ui/confirm_close_dialog.blp:25
+msgid "Don't ask again"
+msgstr "Niet opnieuw vragen"

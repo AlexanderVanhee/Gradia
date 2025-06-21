@@ -41,6 +41,17 @@
 		<color type="primary" scheme_preference="dark">#073c6f</color>
 	</branding>
 	<releases>
+    <release version="1.5.0" date="2025-06-21">
+      <description translate="no">
+        <p>This feature release includes:</p>
+        <ul>
+          <li>A settings menu with options for the recent screenshots folder, image format, and more.</li>
+          <li>A refreshed design for the gradient picker.</li>
+          <li>An option to automatically balance the borders of certain images.</li>
+          <li>Support for launching with image input from stdin.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.4.3" date="2025-06-15">
 	    <description translate="no">
 		    <p>Minor update fixing the following issues:</p>
@@ -138,16 +149,20 @@
 	</releases>
 	<screenshots>
 		<screenshot type="default">
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/d6db8d60a35cd1d79915a4b45483ee1c5a5301db/screenshots/showcase.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/07f353f1730129209372c56c6842770f6a060ee5/screenshots/showcase.webp</image>
 			<caption>Edited screenshot</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/d6db8d60a35cd1d79915a4b45483ee1c5a5301db/screenshots/dark.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/07f353f1730129209372c56c6842770f6a060ee5/screenshots/dark.webp</image>
 			<caption>Edited picture</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/d6db8d60a35cd1d79915a4b45483ee1c5a5301db/screenshots/home.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/07f353f1730129209372c56c6842770f6a060ee5/screenshots/home.webp</image>
 			<caption>Startup view</caption>
+		</screenshot>
+		<screenshot>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/07f353f1730129209372c56c6842770f6a060ee5/screenshots/element.webp</image>
+			<caption>UI element showcase</caption>
 		</screenshot>
 	</screenshots>
 </component>

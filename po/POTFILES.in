@@ -3,7 +3,6 @@
 
 data/be.alexandervanhee.gradia.desktop.in.in
 data/be.alexandervanhee.gradia.metainfo.xml.in.in
-data/be.alexandervanhee.gradia.gschema.xml
 
 gradia/graphics/gradient.py
 gradia/graphics/solid.py
@@ -20,6 +19,7 @@ gradia/overlay/drawing_actions.py
 gradia/ui/settings_window.py
 gradia/ui/dialog/confirm_close_dialog.py
 gradia/ui/dialog/delete_screenshots_dialog.py
+gradia/app_constants.py
 
 data/ui/selectors/gradient_selector.blp
 data/ui/selectors/image_selector.blp
