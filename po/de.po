@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the gradia package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-21 15:02+0200\n"
+"POT-Creation-Date: 2025-06-16 00:21+0200\n"
 "PO-Revision-Date: 2025-06-10 18:11+0200\n"
 "Last-Translator: Uwe Senkler\n"
 "Language-Team: \n"
@@ -93,21 +94,54 @@ msgstr ""
 msgid "Alexander Vanhee"
 msgstr "Alexander Vanhee"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:153
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:142
 msgid "Edited screenshot"
 msgstr "Bearbeitetes Bildschirmfoto"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:157
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:146
 msgid "Edited picture"
 msgstr "Bearbeitetes Bild"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:161
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:150
 msgid "Startup view"
 msgstr "Startansicht"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:165
-msgid "UI element showcase"
+#: data/be.alexandervanhee.gradia.gschema.xml:6
+#, fuzzy
+msgid "Current drawing mode"
+msgstr "Aktuelle Datei"
+
+#: data/be.alexandervanhee.gradia.gschema.xml:10
+msgid "Pen color in rgba"
 msgstr ""
+
+#: data/be.alexandervanhee.gradia.gschema.xml:14
+#, fuzzy
+msgid "Highlighter color in rgba"
+msgstr "Markierer"
+
+#: data/be.alexandervanhee.gradia.gschema.xml:18
+#, fuzzy
+msgid "Fill color in rgba"
+msgstr "Füllfarbe"
+
+#: data/be.alexandervanhee.gradia.gschema.xml:22
+msgid "Pen size"
+msgstr ""
+
+#: data/be.alexandervanhee.gradia.gschema.xml:26
+msgid "Number radius size"
+msgstr ""
+
+#: data/be.alexandervanhee.gradia.gschema.xml:30
+#, fuzzy
+msgid "Selected font name"
+msgstr "Bild wählen"
+
+#: data/be.alexandervanhee.gradia.gschema.xml:35
+#, fuzzy
+msgid "Screenshot subdirectory"
+msgstr "Bildschirmfoto gelöscht."
 
 #. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
 #: gradia/ui/ui_parts.py:160
@@ -154,67 +188,111 @@ msgstr "Gewähltes entfernen"
 msgid "General"
 msgstr "Allgemein"
 
-#: gradia/ui/ui_parts.py:189 data/ui/image_sidebar.blp:211
-#: data/ui/welcome_page.blp:76
+#: gradia/ui/ui_parts.py:189 data/ui/image_sidebar.blp:187
+#: data/ui/welcome_page.blp:72
 msgid "Keyboard Shortcuts"
 msgstr "Tastenkürzel"
 
-#: gradia/ui/ui_parts.py:190 data/ui/image_sidebar.blp:207
-#: data/ui/welcome_page.blp:72
-msgid "Settings"
-msgstr ""
-
-#: gradia/ui/ui_parts.py:191
-msgid "Toggle Utility Pane"
-msgstr ""
-
-#: gradia/ui/window.py:393
+#: gradia/ui/window.py:351
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: gradia/ui/window.py:395
+#: gradia/ui/window.py:353
 msgid "Error"
 msgstr "Fehler"
 
-#: gradia/ui/image_exporters.py:70
-msgid "Edit"
-msgstr "Bearbeiten"
+#: gradia/ui/window.py:390
+#, fuzzy
+msgid "No screenshots to delete"
+msgstr "Keine zu löschenden Bildschirmfoto vorhanden."
 
-#: gradia/ui/image_exporters.py:71
-msgid "Enhanced Screenshot"
-msgstr "Bearbeitetes Bildschirmfoto"
+#: gradia/ui/window.py:419
+msgid "Delete Screenshot?"
+msgstr "Bildschirmfoto löschen?"
 
-#: gradia/ui/image_exporters.py:90
-msgid "Save Image As"
-msgstr "Bild speichern als"
+#: gradia/ui/window.py:420
+#, fuzzy
+msgid "Are you sure you want to delete the following file?"
+msgstr ""
+"Folgende Datei wirklich löschen?\n"
+"\n"
+"%s"
 
-#: gradia/ui/image_exporters.py:93
-msgid "Save"
-msgstr "Speichern"
+#: gradia/ui/window.py:422
+msgid "Delete Screenshots?"
+msgstr "Bildschirmfotos löschen?"
 
-#: gradia/ui/image_exporters.py:94
-#: gradia/ui/dialog/delete_screenshots_dialog.py:54
-#: data/ui/confirm_close_dialog.blp:9
+#: gradia/ui/window.py:423
+#, fuzzy
+msgid "Are you sure you want to delete the following files?"
+msgstr ""
+"Folgende Dateien wirklich löschen?\n"
+"\n"
+"%s"
+
+#: gradia/ui/window.py:432 gradia/ui/image_exporters.py:120
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: gradia/ui/image_exporters.py:118
+#: gradia/ui/window.py:433
+msgid "Delete"
+msgstr "Löschen"
+
+#: gradia/ui/window.py:441
+#, fuzzy
+msgid "Screenshot deleted"
+msgstr "Bildschirmfoto gelöscht."
+
+#: gradia/ui/window.py:443
+#, fuzzy
+msgid "Screenshots deleted"
+msgstr "Bildschirmfotos gelöscht."
+
+#: gradia/ui/image_exporters.py:75
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: gradia/ui/image_exporters.py:76
+msgid "Enhanced Screenshot"
+msgstr "Bearbeitetes Bildschirmfoto"
+
+#: gradia/ui/image_exporters.py:87
+msgid "PNG Image (*.png)"
+msgstr "PNG-Bild (*.png)"
+
+#: gradia/ui/image_exporters.py:93
+msgid "JPEG Image (*.jpg)"
+msgstr "JPEG-Bild (*.jpg)"
+
+#: gradia/ui/image_exporters.py:99
+msgid "WebP Image (*.webp)"
+msgstr "WebP-Bild (*.webp)"
+
+#: gradia/ui/image_exporters.py:116
+msgid "Save Image As"
+msgstr "Bild speichern als"
+
+#: gradia/ui/image_exporters.py:119
+msgid "Save"
+msgstr "Speichern"
+
+#: gradia/ui/image_exporters.py:142
 msgid "Unsupported image file extension."
 msgstr ""
 
-#: gradia/ui/image_exporters.py:125
+#: gradia/ui/image_exporters.py:149
 msgid "Image saved successfully"
 msgstr "Bild erfolgreich gespeichert"
 
-#: gradia/ui/image_exporters.py:181
+#: gradia/ui/image_exporters.py:195
 msgid "No processed image available"
 msgstr "Kein bearbeitetes Bild vorhanden"
 
-#: gradia/ui/image_exporters.py:202
+#: gradia/ui/image_exporters.py:216
 msgid "Image copied to clipboard"
 msgstr "Bild in Zwischenablage kopiert"
 
-#: gradia/ui/image_exporters.py:205
+#: gradia/ui/image_exporters.py:219
 msgid "Failed to copy image to clipboard"
 msgstr "Kopieren des Bilds in die Zwischenablage fehlgeschlagen"
 
@@ -250,159 +328,92 @@ msgstr "Die Zwischenablage enthält kein Bild."
 msgid "Failed to load image from clipboard."
 msgstr "Laden eines Bilds aus der Zwischenablage fehlgeschlagen."
 
-#: gradia/ui/image_loaders.py:202 gradia/ui/image_loaders.py:217
+#: gradia/ui/image_loaders.py:203 gradia/ui/image_loaders.py:218
 msgid "Failed to take screenshot"
 msgstr "Erstellen eines Bildschirmfotos fehlgeschlagen"
 
-#: gradia/ui/image_loaders.py:233
+#: gradia/ui/image_loaders.py:234
 msgid "Screenshot cancelled"
 msgstr "Bildschirmfoto verworfen"
 
-#: gradia/ui/image_loaders.py:254 gradia/ui/image_loaders.py:255
+#: gradia/ui/image_loaders.py:255 gradia/ui/image_loaders.py:256
 msgid "Screenshot"
 msgstr "Bildschirmfoto"
 
-#: gradia/ui/image_loaders.py:258
+#: gradia/ui/image_loaders.py:259
 msgid "Screenshot captured!"
 msgstr "Bildschirmfoto erstellt!"
 
-#: gradia/ui/image_loaders.py:265
+#: gradia/ui/image_loaders.py:266
 msgid "Failed to process screenshot"
 msgstr "Bearbeiten des Bildschirmfotos fehlgeschlagen"
 
-#: gradia/overlay/drawing_actions.py:46
+#: gradia/overlay/drawing_actions.py:45
 msgid "Pen"
 msgstr "Stift"
 
-#: gradia/overlay/drawing_actions.py:47
+#: gradia/overlay/drawing_actions.py:46
 msgid "Arrow"
 msgstr "Pfeil"
 
-#: gradia/overlay/drawing_actions.py:48
+#: gradia/overlay/drawing_actions.py:47
 msgid "Line"
 msgstr "Linie"
 
-#: gradia/overlay/drawing_actions.py:49
+#: gradia/overlay/drawing_actions.py:48
 msgid "Square"
 msgstr "Quadrat"
 
-#: gradia/overlay/drawing_actions.py:50
+#: gradia/overlay/drawing_actions.py:49
 msgid "Circle"
 msgstr "Kreis"
 
-#: gradia/overlay/drawing_actions.py:51
+#: gradia/overlay/drawing_actions.py:50
 msgid "Text"
 msgstr "Text"
 
-#: gradia/overlay/drawing_actions.py:52
+#: gradia/overlay/drawing_actions.py:51
 msgid "Select"
 msgstr "Auswahlwerkzeug"
 
-#: gradia/overlay/drawing_actions.py:53
+#: gradia/overlay/drawing_actions.py:52
 msgid "Highlighter"
 msgstr "Markierer"
 
-#: gradia/overlay/drawing_actions.py:54
+#: gradia/overlay/drawing_actions.py:53
 msgid "Censor"
 msgstr "Zensor"
 
-#: gradia/overlay/drawing_actions.py:55
+#: gradia/overlay/drawing_actions.py:54
 msgid "Number"
 msgstr "Zahl"
 
-#: gradia/ui/settings_window.py:53 gradia/ui/settings_window.py:148
-msgid "Root"
-msgstr ""
-
-#: gradia/ui/settings_window.py:145 gradia/ui/settings_window.py:148
-#, fuzzy, python-brace-format
-msgid "Selected: {folder}"
-msgstr "Bild wählen"
-
-#: gradia/ui/settings_window.py:146 gradia/ui/settings_window.py:149
-#: data/ui/settings_window.blp:20
-msgid "Click to change folder"
-msgstr ""
-
-#: gradia/ui/settings_window.py:233
-msgid "Copied!"
-msgstr ""
-
-#: gradia/ui/dialog/delete_screenshots_dialog.py:33
-msgid "No screenshots to delete"
-msgstr "Keine zu löschenden Bildschirmfoto vorhanden."
-
-#: gradia/ui/dialog/delete_screenshots_dialog.py:55
-msgid "Trash"
-msgstr ""
-
-#: gradia/ui/dialog/delete_screenshots_dialog.py:87
-msgid "Trash Screenshot?"
-msgstr "Bildschirmfoto erstellen"
-
-#: gradia/ui/dialog/delete_screenshots_dialog.py:88
-msgid "Are you sure you want to trash the following file?"
-msgstr ""
-"Folgende Datei wirklich löschen?\n"
-"\n"
-"%s"
-
-#: gradia/ui/dialog/delete_screenshots_dialog.py:90
-msgid "Trash Screenshots?"
-msgstr "Bildschirmfoto erstellen"
-
-#: gradia/ui/dialog/delete_screenshots_dialog.py:91
-msgid "Are you sure you want to trash the following files?"
-msgstr ""
-"Folgende Dateien wirklich löschen?\n"
-"\n"
-"%s"
-
-#: gradia/ui/dialog/delete_screenshots_dialog.py:101
-msgid "Screenshot moved to trash"
-msgstr "Bildschirmfoto gelöscht."
-
-#: gradia/ui/dialog/delete_screenshots_dialog.py:103
-msgid "Screenshots moved to trash"
-msgstr "Bildschirmfotos gelöscht."
-
-#: gradia/app_constants.py:31
-msgid "PNG Image (*.png)"
-msgstr "PNG-Bild (*.png)"
-
-#: gradia/app_constants.py:37
-msgid "JPEG Image (*.jpg)"
-msgstr "JPEG-Bild (*.jpg)"
-
-#: gradia/app_constants.py:43
-msgid "WebP Image (*.webp)"
-msgstr "WebP-Bild (*.webp)"
-
-#: data/ui/selectors/gradient_selector.blp:4
+#: data/ui/selectors/gradient_selector.blp:5
 msgid "Gradient Background"
 msgstr "Verlaufender Hintergrund"
 
-#: data/ui/selectors/gradient_selector.blp:8
+#: data/ui/selectors/gradient_selector.blp:10
 msgid "Gradient Presets"
 msgstr "Verlaufseinstellungen"
 
-#: data/ui/selectors/gradient_selector.blp:16
-msgid "Angle"
-msgstr "Winkel"
-
-#: data/ui/selectors/gradient_selector.blp:56
+#: data/ui/selectors/gradient_selector.blp:20
 msgid "Start Color"
 msgstr "Startfarbe"
 
-#: data/ui/selectors/gradient_selector.blp:68
+#: data/ui/selectors/gradient_selector.blp:32
 msgid "End Color"
 msgstr "Endfarbe"
+
+#: data/ui/selectors/gradient_selector.blp:44
+msgid "Angle"
+msgstr "Winkel"
 
 #: data/ui/selectors/image_selector.blp:5
 msgid "Image Background"
 msgstr "Bild als Hintergrund"
 
 #: data/ui/selectors/image_selector.blp:10
+#, fuzzy
 msgid "Image Presets"
 msgstr "Verlaufseinstellungen"
 
@@ -411,6 +422,7 @@ msgid "Select Image"
 msgstr "Bild wählen"
 
 #: data/ui/selectors/image_selector.blp:51
+#, fuzzy
 msgid "Select an Image"
 msgstr "Bild wählen"
 
@@ -422,7 +434,7 @@ msgstr ""
 msgid "Solid Color Background"
 msgstr "Einfarbiger Hintergrund"
 
-#: data/ui/selectors/solid_selector.blp:8 data/ui/drawing_tools_group.blp:47
+#: data/ui/selectors/solid_selector.blp:8 data/ui/drawing_tools_group.blp:38
 msgid "Color"
 msgstr "Farbe"
 
@@ -458,31 +470,34 @@ msgstr "Alle Anmerkungen löschen"
 msgid "Annotation Tools"
 msgstr "Anmerkungswerkzeuge"
 
-#: data/ui/drawing_tools_group.blp:85
+#: data/ui/drawing_tools_group.blp:65
+#, fuzzy
 msgid "Highlighter Color"
 msgstr "Markierer"
 
-#: data/ui/drawing_tools_group.blp:128
+#: data/ui/drawing_tools_group.blp:105
 msgid "Fill Color"
 msgstr "Füllfarbe"
 
-#: data/ui/drawing_tools_group.blp:140
+#: data/ui/drawing_tools_group.blp:117
 msgid "Reset Fill"
 msgstr "Füllung zurücksetzen"
 
-#: data/ui/drawing_tools_group.blp:178
+#: data/ui/drawing_tools_group.blp:143
 msgid "Font"
 msgstr "Schrift"
 
-#: data/ui/drawing_tools_group.blp:228
+#: data/ui/drawing_tools_group.blp:177
 msgid "Size"
 msgstr ""
 
-#: data/ui/drawing_tools_group.blp:280
+#: data/ui/drawing_tools_group.blp:217
+#, fuzzy
 msgid "Radius"
 msgstr "Eckenradius"
 
 #: data/ui/image_sidebar.blp:24
+#, fuzzy
 msgid "Take a Screenshot"
 msgstr "Bildschirmfoto erstellen"
 
@@ -494,67 +509,60 @@ msgstr "Hauptmenü"
 msgid "Image Options"
 msgstr "Bildoptionen"
 
-#: data/ui/image_sidebar.blp:48
-msgid "Disable all options"
-msgstr "Alle Anmerkungen löschen"
-
-#: data/ui/image_sidebar.blp:57
+#: data/ui/image_sidebar.blp:46
 msgid "Padding"
 msgstr "Abstände"
 
-#: data/ui/image_sidebar.blp:69
+#: data/ui/image_sidebar.blp:58
 msgid "Corner Radius"
 msgstr "Eckenradius"
 
-#: data/ui/image_sidebar.blp:81
+#: data/ui/image_sidebar.blp:70
 msgid "Aspect Ratio"
 msgstr "Seitenverhältnis"
 
-#: data/ui/image_sidebar.blp:92
+#: data/ui/image_sidebar.blp:81
 msgid "Shadow"
 msgstr "Schatten"
 
-#: data/ui/image_sidebar.blp:112
-msgid "Auto Balance"
-msgstr ""
-
-#: data/ui/image_sidebar.blp:123
+#: data/ui/image_sidebar.blp:103
 msgid "Current File"
 msgstr "Aktuelle Datei"
 
-#: data/ui/image_sidebar.blp:126
+#: data/ui/image_sidebar.blp:106
 msgid "Name"
 msgstr "Name"
 
-#: data/ui/image_sidebar.blp:127 data/ui/image_sidebar.blp:132
+#: data/ui/image_sidebar.blp:107 data/ui/image_sidebar.blp:112
 msgid "No file loaded"
 msgstr "Keine Datei geladen"
 
-#: data/ui/image_sidebar.blp:131
+#: data/ui/image_sidebar.blp:111
 msgid "Location"
 msgstr "Ort"
 
-#: data/ui/image_sidebar.blp:136
+#: data/ui/image_sidebar.blp:116
 msgid "Modified image size"
 msgstr "Größe des geänderten Bilds"
 
-#: data/ui/image_sidebar.blp:137
+#: data/ui/image_sidebar.blp:117
 msgid "N/A"
 msgstr "n. v."
 
-#: data/ui/image_sidebar.blp:152
+#: data/ui/image_sidebar.blp:132
 msgid "Save Image"
 msgstr "Bild speichern"
 
-#: data/ui/image_sidebar.blp:163
+#: data/ui/image_sidebar.blp:143
 msgid "Copy to Clipboard"
 msgstr "In Zwischenablage kopieren"
 
-#: data/ui/image_sidebar.blp:201
+#: data/ui/image_sidebar.blp:181
+#, fuzzy
 msgid "Delete Taken Screenshot(s)"
 msgstr "Erstellte(s) Bildschirmfoto(s) löschen"
 
-#: data/ui/image_sidebar.blp:215 data/ui/welcome_page.blp:80
+#: data/ui/image_sidebar.blp:191 data/ui/welcome_page.blp:76
 msgid "About Gradia"
 msgstr "Info zu Gradia"
 
@@ -571,160 +579,13 @@ msgid "Drag and drop one here"
 msgstr "Bild hierher ziehen und ablegen"
 
 #: data/ui/welcome_page.blp:42
+#, fuzzy
 msgid "_Take a Screenshot…"
 msgstr "Bildschirmfoto _erstellen …"
 
 #: data/ui/welcome_page.blp:54
 msgid "_Open Image…"
 msgstr "_Bild öffnen …"
-
-#: data/ui/settings_window.blp:7 data/ui/settings_window.blp:11
-msgid "Options"
-msgstr "Bildoptionen"
-
-#: data/ui/settings_window.blp:15
-msgid "Recent Screenshots"
-msgstr "Bildschirmfotos löschen?"
-
-#: data/ui/settings_window.blp:16
-msgid ""
-"Configure which subfolder of Pictures to use to display recent screenshots "
-"from on the home page"
-msgstr ""
-
-#: data/ui/settings_window.blp:19
-msgid "Select Folder"
-msgstr "Bild wählen"
-
-#: data/ui/settings_window.blp:26
-msgid "Save Settings"
-msgstr ""
-
-#: data/ui/settings_window.blp:29
-msgid "Image Format"
-msgstr "Verlaufseinstellungen"
-
-#: data/ui/settings_window.blp:30
-msgid "Default format for saved screenshots"
-msgstr "Erstellen eines Bildschirmfotos fehlgeschlagen"
-
-#: data/ui/settings_window.blp:34
-msgid "Compress image"
-msgstr ""
-
-#: data/ui/settings_window.blp:35
-msgid "On supported formats"
-msgstr ""
-
-#: data/ui/settings_window.blp:38
-msgid "Compress images to reduce file size"
-msgstr ""
-
-#: data/ui/settings_window.blp:44
-msgid "Confirm on close"
-msgstr ""
-
-#: data/ui/settings_window.blp:45 data/ui/settings_window.blp:48
-msgid "Ask for confirmation before closing the app"
-msgstr ""
-
-#: data/ui/settings_window.blp:56
-msgid "Screenshot Management"
-msgstr "Bildschirmfoto verworfen"
-
-#: data/ui/settings_window.blp:58
-msgid "Trash screenshots on close"
-msgstr "Keine zu löschenden Bildschirmfoto vorhanden."
-
-#: data/ui/settings_window.blp:59
-msgid "Automatically move screenshots taken from whitin the app to trash."
-msgstr ""
-
-#: data/ui/settings_window.blp:62
-msgid "Trash screenshots on app close"
-msgstr "Keine zu löschenden Bildschirmfoto vorhanden."
-
-#: data/ui/settings_window.blp:70
-msgid "Shortcut"
-msgstr "Tastenkürzel"
-
-#: data/ui/settings_window.blp:74
-msgid "Shortcut setup Instructions"
-msgstr ""
-
-#: data/ui/settings_window.blp:81
-msgid ""
-"If you'd like the app to <b>open automatically</b> after taking a "
-"screenshot, you can set up a custom keyboard shortcut:\n"
-"\n"
-"<b>Steps:</b>\n"
-"1. Go to <b>Settings</b> → <b>Keyboard</b> → <b>View and Customize "
-"Shortcuts</b> → <b>Custom Shortcuts</b>.\n"
-"2. Click the <b>+</b> button to create a new shortcut.\n"
-"3. Set the <b>Name</b> to something like <i>Open Gradia with Screenshot</"
-"i>.\n"
-"4. For the <b>Command</b>, copy one of the commands below:"
-msgstr ""
-
-#: data/ui/settings_window.blp:88
-msgid "Interactive Screenshot"
-msgstr "Bearbeitetes Bildschirmfoto"
-
-#: data/ui/settings_window.blp:89
-msgid "Allows you to select an area to screenshot"
-msgstr ""
-
-#: data/ui/settings_window.blp:102 data/ui/settings_window.blp:123
-msgid "Copy to clipboard"
-msgstr "In Zwischenablage kopieren"
-
-#: data/ui/settings_window.blp:109
-msgid "Full Screen Screenshot"
-msgstr "Bildschirmfoto löschen?"
-
-#: data/ui/settings_window.blp:110
-msgid "Takes a screenshot of all screens instantly"
-msgstr ""
-
-#: data/ui/settings_window.blp:130
-msgid ""
-"5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should "
-"be free by default)."
-msgstr ""
-
-#: data/ui/confirm_close_dialog.blp:5
-msgid "Close Gradia?"
-msgstr "Info zu Gradia"
-
-#: data/ui/confirm_close_dialog.blp:6
-msgid "Are you sure you want to exit? All unsaved changes will be lost."
-msgstr ""
-"Folgende Dateien wirklich löschen?\n"
-"\n"
-"%s"
-
-#: data/ui/confirm_close_dialog.blp:10
-msgid "Close"
-msgstr ""
-
-#: data/ui/confirm_close_dialog.blp:25
-msgid "Don't ask again"
-msgstr ""
-
-#~ msgid "Current drawing mode"
-#~ msgstr "Aktuelle Datei"
-
-#~ msgid "Highlighter color in rgba"
-#~ msgstr "Markierer"
-
-#~ msgid "Fill color in rgba"
-#~ msgstr "Füllfarbe"
-
-#~ msgid "Delete"
-#~ msgstr "Löschen"
-
-#~ msgid "Screenshot deleted"
-#~ msgstr "Bildschirmfoto gelöscht."
 
 #~ msgid "Image files"
 #~ msgstr "Bilddateien"
