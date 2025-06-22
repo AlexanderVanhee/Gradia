@@ -1,5 +1,5 @@
 # Chinese (China) translation for Gradia.
-# Copyright (C) 2025 G-Src.
+# SPDX-FileCopyrightText: 2025 G-Src
 # This file is distributed under the same license as the gradia package.
 # G-Src <gsrc@fsfans.club>, 2025.
 #
@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-21 15:02+0200\n"
-"PO-Revision-Date: 2025-06-18 18:32+0800\n"
+"PO-Revision-Date: 2025-06-22 20:17+0800\n"
 "Last-Translator: G-Src <gsrc@fsfans.club>\n"
-"Language-Team: Chinese (China)\n"
+"Language-Team: Chinese <>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 48.0\n"
+"X-Generator: Lokalize 25.04.2\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/be.alexandervanhee.gradia.desktop.in.in:2
@@ -98,7 +98,7 @@ msgstr "启动视图"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:165
 msgid "UI element showcase"
-msgstr ""
+msgstr "UI 元素展示"
 
 #. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
 #: gradia/ui/ui_parts.py:160
@@ -153,11 +153,11 @@ msgstr "键盘快捷键"
 #: gradia/ui/ui_parts.py:190 data/ui/image_sidebar.blp:207
 #: data/ui/welcome_page.blp:72
 msgid "Settings"
-msgstr ""
+msgstr "设置"
 
 #: gradia/ui/ui_parts.py:191
 msgid "Toggle Utility Pane"
-msgstr ""
+msgstr "切换工具栏"
 
 #: gradia/ui/window.py:393
 msgid "Unknown"
@@ -255,7 +255,7 @@ msgstr "截图"
 
 #: gradia/ui/image_loaders.py:258
 msgid "Screenshot captured!"
-msgstr "截图已捕获！"
+msgstr "已捕获截图！"
 
 #: gradia/ui/image_loaders.py:265
 msgid "Failed to process screenshot"
@@ -303,21 +303,21 @@ msgstr "数字"
 
 #: gradia/ui/settings_window.py:53 gradia/ui/settings_window.py:148
 msgid "Root"
-msgstr ""
+msgstr "根目录"
 
 #: gradia/ui/settings_window.py:145 gradia/ui/settings_window.py:148
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Selected: {folder}"
-msgstr "所选字体名称"
+msgstr "已选择：{folder}"
 
 #: gradia/ui/settings_window.py:146 gradia/ui/settings_window.py:149
 #: data/ui/settings_window.blp:20
 msgid "Click to change folder"
-msgstr ""
+msgstr "点击来改变文件夹"
 
 #: gradia/ui/settings_window.py:233
 msgid "Copied!"
-msgstr ""
+msgstr "已复制！"
 
 #: gradia/ui/dialog/delete_screenshots_dialog.py:33
 msgid "No screenshots to delete"
@@ -325,31 +325,31 @@ msgstr "没有可删除的截图"
 
 #: gradia/ui/dialog/delete_screenshots_dialog.py:55
 msgid "Trash"
-msgstr ""
+msgstr "回收站"
 
 #: gradia/ui/dialog/delete_screenshots_dialog.py:87
 msgid "Trash Screenshot?"
-msgstr "截图"
+msgstr "将截图移至回收站？"
 
 #: gradia/ui/dialog/delete_screenshots_dialog.py:88
 msgid "Are you sure you want to trash the following file?"
-msgstr "您确定要删除以下文件吗？"
+msgstr "您确定要将以下文件移至回收站吗？"
 
 #: gradia/ui/dialog/delete_screenshots_dialog.py:90
 msgid "Trash Screenshots?"
-msgstr "截图"
+msgstr "将截图移至回收站？"
 
 #: gradia/ui/dialog/delete_screenshots_dialog.py:91
 msgid "Are you sure you want to trash the following files?"
-msgstr "您确定要删除以下文件吗？"
+msgstr "您确定要将以下文件移至回收站吗？"
 
 #: gradia/ui/dialog/delete_screenshots_dialog.py:101
 msgid "Screenshot moved to trash"
-msgstr "截图子目录"
+msgstr "截图已移至回收站"
 
 #: gradia/ui/dialog/delete_screenshots_dialog.py:103
 msgid "Screenshots moved to trash"
-msgstr "截图已删除"
+msgstr "截图已移至回收站"
 
 #: gradia/app_constants.py:31
 msgid "PNG Image (*.png)"
@@ -425,7 +425,7 @@ msgstr "图片"
 
 #: data/ui/controls_overlay.blp:24
 msgid "Erase selected"
-msgstr "删除所选"
+msgstr "擦除所选"
 
 #: data/ui/controls_overlay.blp:42
 msgid "Undo the last action"
@@ -481,7 +481,7 @@ msgstr "图片选项"
 
 #: data/ui/image_sidebar.blp:48
 msgid "Disable all options"
-msgstr "清除所有标注"
+msgstr "禁用所有选项"
 
 #: data/ui/image_sidebar.blp:57
 msgid "Padding"
@@ -501,7 +501,7 @@ msgstr "阴影"
 
 #: data/ui/image_sidebar.blp:112
 msgid "Auto Balance"
-msgstr ""
+msgstr "自动平衡"
 
 #: data/ui/image_sidebar.blp:123
 msgid "Current File"
@@ -521,7 +521,7 @@ msgstr "位置"
 
 #: data/ui/image_sidebar.blp:136
 msgid "Modified image size"
-msgstr "修改后的图片尺寸"
+msgstr "修改后的图片大小"
 
 #: data/ui/image_sidebar.blp:137
 msgid "N/A"
@@ -553,7 +553,7 @@ msgstr "增强图片"
 
 #: data/ui/welcome_page.blp:26
 msgid "Drag and drop one here"
-msgstr "拖放文件到此处"
+msgstr "拖放图片到此处"
 
 #: data/ui/welcome_page.blp:42
 msgid "_Take a Screenshot…"
@@ -569,13 +569,13 @@ msgstr "图片选项"
 
 #: data/ui/settings_window.blp:15
 msgid "Recent Screenshots"
-msgstr "删除截图？"
+msgstr "最近截图"
 
 #: data/ui/settings_window.blp:16
 msgid ""
 "Configure which subfolder of Pictures to use to display recent screenshots "
 "from on the home page"
-msgstr ""
+msgstr "配置在主页上使用图片目录的哪个子文件夹来显示最近的屏幕截图"
 
 #: data/ui/settings_window.blp:19
 msgid "Select Folder"
@@ -583,51 +583,51 @@ msgstr "选择图片"
 
 #: data/ui/settings_window.blp:26
 msgid "Save Settings"
-msgstr ""
+msgstr "保存设置"
 
 #: data/ui/settings_window.blp:29
 msgid "Image Format"
-msgstr "支持的图片格式"
+msgstr "图片格式"
 
 #: data/ui/settings_window.blp:30
 msgid "Default format for saved screenshots"
-msgstr "截图失败"
+msgstr "保存截图的默认格式"
 
 #: data/ui/settings_window.blp:34
 msgid "Compress image"
-msgstr ""
+msgstr "压缩图片"
 
 #: data/ui/settings_window.blp:35
 msgid "On supported formats"
-msgstr "支持的图片格式"
+msgstr "仅限支持格式"
 
 #: data/ui/settings_window.blp:38
 msgid "Compress images to reduce file size"
-msgstr ""
+msgstr "压缩图片来减少文件大小"
 
 #: data/ui/settings_window.blp:44
 msgid "Confirm on close"
-msgstr ""
+msgstr "退出时确认"
 
 #: data/ui/settings_window.blp:45 data/ui/settings_window.blp:48
 msgid "Ask for confirmation before closing the app"
-msgstr ""
+msgstr "退出应用前请求确认"
 
 #: data/ui/settings_window.blp:56
 msgid "Screenshot Management"
-msgstr "截图已取消"
+msgstr "截图管理"
 
 #: data/ui/settings_window.blp:58
 msgid "Trash screenshots on close"
-msgstr "没有可删除的截图"
+msgstr "关闭应用时将截图移至回收站"
 
 #: data/ui/settings_window.blp:59
 msgid "Automatically move screenshots taken from whitin the app to trash."
-msgstr ""
+msgstr "自动将应用内截图移至垃圾桶"
 
 #: data/ui/settings_window.blp:62
 msgid "Trash screenshots on app close"
-msgstr "没有可删除的截图"
+msgstr "应用退出时将截图移至回收站"
 
 #: data/ui/settings_window.blp:70
 msgid "Shortcut"
@@ -635,7 +635,7 @@ msgstr "键盘快捷键"
 
 #: data/ui/settings_window.blp:74
 msgid "Shortcut setup Instructions"
-msgstr ""
+msgstr "快捷键设置指南"
 
 #: data/ui/settings_window.blp:81
 msgid ""
@@ -650,14 +650,20 @@ msgid ""
 "i>.\n"
 "4. For the <b>Command</b>, copy one of the commands below:"
 msgstr ""
+"如果您希望应用在截图后<b>自动打开</b>，你可以设置一个自定义键盘快捷键，步骤如下：\n"
+"\n"
+"1. 去<b>设置</b> → <b>键盘</b> → <b>查看及自定义快捷键</b> → <b>自定义快捷键</b>。\n"
+"2. 按下<b>加号</b>按钮来创建新的快捷键。\n"
+"3. 把<b>”名字“</b>一项设定为<i>用截图打开Gradia</i>或类似。\n"
+"4. 在<b>”命令“</b>一栏，复制下面其中一个命令："
 
 #: data/ui/settings_window.blp:88
 msgid "Interactive Screenshot"
-msgstr "增强后的截图"
+msgstr "互动式截图"
 
 #: data/ui/settings_window.blp:89
 msgid "Allows you to select an area to screenshot"
-msgstr ""
+msgstr "允许您选择一个区域来截图"
 
 #: data/ui/settings_window.blp:102 data/ui/settings_window.blp:123
 msgid "Copy to clipboard"
@@ -665,33 +671,33 @@ msgstr "复制到剪贴板"
 
 #: data/ui/settings_window.blp:109
 msgid "Full Screen Screenshot"
-msgstr "删除截图？"
+msgstr "全屏截图"
 
 #: data/ui/settings_window.blp:110
 msgid "Takes a screenshot of all screens instantly"
-msgstr ""
+msgstr "立刻截图所有屏幕"
 
 #: data/ui/settings_window.blp:130
 msgid ""
 "5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should "
 "be free by default)."
-msgstr ""
+msgstr "5. 指定一个键盘组合键 （<tt>Ctrl + Print</tt> 快捷键默认应可用）。"
 
 #: data/ui/confirm_close_dialog.blp:5
 msgid "Close Gradia?"
-msgstr "关于 Gradia"
+msgstr "关闭 Gradia？"
 
 #: data/ui/confirm_close_dialog.blp:6
 msgid "Are you sure you want to exit? All unsaved changes will be lost."
-msgstr "您确定要删除以下文件吗？"
+msgstr "您确定要退出吗？所有未保存更改将丢失。"
 
 #: data/ui/confirm_close_dialog.blp:10
 msgid "Close"
-msgstr ""
+msgstr "关闭"
 
 #: data/ui/confirm_close_dialog.blp:25
 msgid "Don't ask again"
-msgstr ""
+msgstr "不再询问"
 
 #~ msgid "Current drawing mode"
 #~ msgstr "当前绘图模式"
