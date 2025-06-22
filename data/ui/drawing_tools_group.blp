@@ -54,10 +54,11 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
               spacing: 6;
               valign: center;
 
-              // TODO: Replace with ColorDialogButton
-              Gtk.ColorButton stroke_color_button {
+              Gtk.ColorDialogButton stroke_color_button {
                 valign: center;
-                color-set => $_on_pen_color_set();
+                dialog: Gtk.ColorDialog {};
+
+                notify::rgba => $_on_pen_color_set();
               }
             }
           }
@@ -92,11 +93,13 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
               spacing: 6;
               valign: center;
 
-              // TODO: Replace with ColorDialogButton
-              Gtk.ColorButton highlighter_color_button {
+              Gtk.ColorDialogButton highlighter_color_button {
                 valign: center;
-                use-alpha: true;
-                color-set => $_on_highlighter_color_set();
+                dialog: Gtk.ColorDialog {
+                  with-alpha: true;
+                };
+
+                notify::rgba => $_on_highlighter_color_set();
               }
             }
           }
@@ -146,10 +149,12 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
                 ]
               }
 
-              // TODO: Replace with ColorDialogButton
-              Gtk.ColorButton fill_color_button {
-                use-alpha: true;
-                color-set => $_on_fill_color_set();
+              Gtk.ColorDialogButton fill_color_button {
+                dialog: Gtk.ColorDialog {
+                  with-alpha: true;
+                };
+
+                notify::rgba => $_on_fill_color_set();
               }
             }
           }
