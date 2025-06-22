@@ -74,7 +74,7 @@ class BaseImageExporter:
         """Ensure processed image is available for export"""
         if not self.window.processed_pixbuf:
             raise Exception("No processed image available for export")
-        return False 
+        return False
 
 
 class FileDialogExporter(BaseImageExporter):
@@ -93,6 +93,7 @@ class FileDialogExporter(BaseImageExporter):
             _("Save"),
             _("Cancel")
         )
+        dialog.set_modal(True)
 
         target_format = (
             filetype if filetype and filetype in SUPPORTED_EXPORT_FORMATS
