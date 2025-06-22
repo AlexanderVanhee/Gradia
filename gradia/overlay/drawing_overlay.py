@@ -84,14 +84,25 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.controls_overlay.set_delete_visible(action is not None)
 
     def _get_image_bounds(self):
-        if not self.picture_widget or not self.picture_widget.get_paintable():
+        if not self.picture_widget or not hasattr(self.picture_widget, 'get_allocated_width'):
             return 0, 0, self.get_width(), self.get_height()
-        widget_w = self.picture_widget.get_width()
-        widget_h = self.picture_widget.get_height()
-        img_w = self.picture_widget.get_paintable().get_intrinsic_width()
-        img_h = self.picture_widget.get_paintable().get_intrinsic_height()
+
+        if hasattr(self.picture_widget, 'get_root') and self.picture_widget.get_root():
+            main_window = self.picture_widget.get_root()
+            if hasattr(main_window, 'processed_surface') and main_window.processed_surface:
+                img_w = main_window.processed_surface.get_width()
+                img_h = main_window.processed_surface.get_height()
+            else:
+                return 0, 0, self.picture_widget.get_allocated_width(), self.picture_widget.get_allocated_height()
+        else:
+            return 0, 0, self.picture_widget.get_allocated_width(), self.picture_widget.get_allocated_height()
+
+        widget_w = self.picture_widget.get_allocated_width()
+        widget_h = self.picture_widget.get_allocated_height()
+
         if img_w <= 0 or img_h <= 0:
             return 0, 0, widget_w, widget_h
+
         scale = min(widget_w / img_w, widget_h / img_h)
         disp_w = img_w * scale
         disp_h = img_h * scale
@@ -100,14 +111,28 @@ class DrawingOverlay(Gtk.DrawingArea):
         return offset_x, offset_y, disp_w, disp_h
 
     def _get_modified_image_bounds(self):
-        return self.picture_widget.get_paintable().get_intrinsic_width(), self.picture_widget.get_paintable().get_intrinsic_height()
+        if not self.picture_widget or not hasattr(self.picture_widget, 'get_root'):
+            return self.get_width(), self.get_height()
+
+        if hasattr(self.picture_widget, 'get_root') and self.picture_widget.get_root():
+            main_window = self.picture_widget.get_root()
+            if hasattr(main_window, 'processed_surface') and main_window.processed_surface:
+                return main_window.processed_surface.get_width(), main_window.processed_surface.get_height()
+
+        return self.picture_widget.get_allocated_width(), self.picture_widget.get_allocated_height()
 
     def _get_scale_factor(self):
-        _, _, dw, dh = self._get_image_bounds()
-        if not self.picture_widget or not self.picture_widget.get_paintable():
+        ox, oy, dw, dh = self._get_image_bounds()
+        if not self.picture_widget or not hasattr(self.picture_widget, 'get_root'):
             return 1.0
-        img_w = self.picture_widget.get_paintable().get_intrinsic_width()
-        return dw / img_w if img_w else 1.0
+
+        if hasattr(self.picture_widget, 'get_root') and self.picture_widget.get_root():
+            main_window = self.picture_widget.get_root()
+            if hasattr(main_window, 'processed_surface') and main_window.processed_surface:
+                img_w = main_window.processed_surface.get_width()
+                return dw / img_w if img_w else 1.0
+
+        return 1.0
 
     def _widget_to_image_coords(self, x, y):
         ox, oy, dw, dh = self._get_image_bounds()
@@ -559,15 +584,56 @@ class DrawingOverlay(Gtk.DrawingArea):
         if self.selected_action:
             self._draw_selection_box(cr, scale)
 
-    def export_to_pixbuf(self) -> GdkPixbuf.Pixbuf | None:
-        if not self.picture_widget or not self.picture_widget.get_paintable():
+    def export_to_cairo_surface(self) -> cairo.ImageSurface | None:
+        base_surface = None
+        img_w, img_h = 0, 0
+
+        main_window = self.get_root()
+        if hasattr(main_window, 'processed_surface') and main_window.processed_surface:
+            base_surface = main_window.processed_surface
+            img_w = base_surface.get_width()
+            img_h = base_surface.get_height()
+        elif self.picture_widget:
+            paintable = self.picture_widget.get_paintable()
+            if paintable:
+                img_w = paintable.get_intrinsic_width()
+                img_h = paintable.get_intrinsic_height()
+                if img_w <= 0 or img_h <= 0:
+                    img_w = self.picture_widget.get_allocated_width()
+                    img_h = self.picture_widget.get_allocated_height()
+
+                if img_w <= 0 or img_h <= 0:
+                    return None
+
+                temp_surface = cairo.ImageSurface(cairo.Format.ARGB32, img_w, img_h)
+                temp_cr = cairo.Context(temp_surface)
+                paintable.snapshot(temp_cr, 0, 0, img_w, img_h)
+                base_surface = temp_surface
+
+        if not base_surface or img_w <= 0 or img_h <= 0:
             return None
 
-        paintable = self.picture_widget.get_paintable()
-        img_w = paintable.get_intrinsic_width()
-        img_h = paintable.get_intrinsic_height()
+        final_surface = cairo.ImageSurface(cairo.Format.ARGB32, img_w, img_h)
+        cr = cairo.Context(final_surface)
 
-        return render_actions_to_pixbuf(self.actions, img_w, img_h)
+        cr.set_operator(cairo.Operator.CLEAR)
+        cr.paint()
+        cr.set_operator(cairo.Operator.OVER)
+
+        cr.set_source_surface(base_surface, 0, 0)
+        cr.paint()
+
+        def image_coords_to_surface_coords(x_norm, y_norm):
+            return (x_norm * img_w, y_norm * img_h)
+
+        cr.set_line_cap(cairo.LineCap.ROUND)
+        cr.set_line_join(cairo.LineJoin.ROUND)
+
+        for action in self.actions:
+            action.draw(cr, image_coords_to_surface_coords, 1.0)
+
+        final_surface.flush()
+        return final_surface
 
     def clear_drawing(self) -> None:
         self._close_text_entry()
@@ -635,26 +701,3 @@ class DrawingOverlay(Gtk.DrawingArea):
     def set_number_radius(self, radius: float) -> None:
         self.number_radius = radius
 
-def render_actions_to_pixbuf(actions: list[DrawingAction], width: int, height: int) -> GdkPixbuf.Pixbuf | None:
-    if width <= 0 or height <= 0:
-        return None
-
-    surface = cairo.ImageSurface(cairo.Format.ARGB32, width, height)
-    cr = cairo.Context(surface)
-
-    cr.set_operator(cairo.Operator.CLEAR)
-    cr.paint()
-    cr.set_operator(cairo.Operator.OVER)
-
-    def image_coords_to_self(x, y):
-        return (x * width, y * height)
-
-    cr.set_line_cap(cairo.LineCap.ROUND)
-    cr.set_line_join(cairo.LineJoin.ROUND)
-
-    for action in actions:
-        action.draw(cr, image_coords_to_self, 1.0)
-
-    surface.flush()
-
-    return Gdk.pixbuf_get_from_surface(surface, 0, 0, width, height)

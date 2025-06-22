@@ -19,6 +19,7 @@ from collections.abc import Callable
 import os
 import threading
 from typing import Any, Optional
+import cairo
 
 from gi.repository import Adw, GLib, GObject, Gdk, Gio, Gtk, Xdp
 
@@ -77,7 +78,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.file_path: Optional[str] = file_path
         self.image_path: Optional[str] = None
         self.processed_path: Optional[str] = None
-        self.processed_pixbuf: Optional[Gdk.Pixbuf] = None
+        self.processed_surface: Optional[cairo.ImageSurface] = None
 
         self.export_manager: ExportManager = ExportManager(self, temp_dir)
         self.import_manager: ImportManager = ImportManager(self, temp_dir, self.app)
@@ -172,7 +173,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
     def _setup_image_stack(self) -> None:
         stack_info = create_image_stack()
         self.image_stack: Gtk.Stack = stack_info[0]
-        self.picture: Gtk.Picture = stack_info[1]
+        self.image: Gtk.DrawingArea = stack_info[1]
         self.spinner: Gtk.Widget = stack_info[2]
         self.drawing_overlay = stack_info[3]
         self.controls_overlay = stack_info[4]
@@ -363,10 +364,10 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         try:
             if self.image_path is not None:
                 self.processor.set_image_path(self.image_path)
-                pixbuf: Gdk.Pixbuf = self.processor.process()
-                self.processed_pixbuf = pixbuf
+                surface: cairo.ImageSurface = self.processor.process()
+                self.processed_surface = surface
                 self.processed_path = os.path.join(self.temp_dir, self.TEMP_PROCESSED_FILENAME)
-                pixbuf.savev(self.processed_path, "png", [], [])
+                surface.write_to_png(self.processed_path)
             else:
                 print("No image path set for processing.")
 
@@ -375,18 +376,44 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             print(f"Error processing image: {e}")
 
     def _update_image_preview(self) -> bool:
-        if self.processed_pixbuf:
-            paintable: Gdk.Paintable = Gdk.Texture.new_for_pixbuf(self.processed_pixbuf)
-            self.picture.set_paintable(paintable)
+        if self.processed_surface:
+            self.image.set_draw_func(self._draw_processed_image)
+            self.image.queue_draw()
             self._update_processed_image_size()
             self._hide_loading_state()
         return False
 
+    def _draw_processed_image(self, drawing_area: Gtk.DrawingArea, cr: cairo.Context, width: int, height: int) -> None:
+        """Draw the processed Cairo surface on the DrawingArea"""
+        if not self.processed_surface:
+            return
+
+        surface_width = self.processed_surface.get_width()
+        surface_height = self.processed_surface.get_height()
+
+        scale_x = width / surface_width
+        scale_y = height / surface_height
+        scale = min(scale_x, scale_y)
+
+        scaled_width = surface_width * scale
+        scaled_height = surface_height * scale
+        x_offset = (width - scaled_width) / 2
+        y_offset = (height - scaled_height) / 2
+
+        cr.set_source_rgba(0, 0, 0, 0)
+        cr.paint()
+
+        cr.translate(x_offset, y_offset)
+        cr.scale(scale, scale)
+
+        cr.set_source_surface(self.processed_surface, 0, 0)
+        cr.paint()
+
     def _update_processed_image_size(self) -> None:
         try:
-            if self.processed_pixbuf:
-                width: int = self.processed_pixbuf.get_width()
-                height: int = self.processed_pixbuf.get_height()
+            if self.processed_surface:
+                width: int = self.processed_surface.get_width()
+                height: int = self.processed_surface.get_height()
                 size_str: str = f"{width}×{height}"
                 self.sidebar.processed_size_row.set_subtitle(size_str)
             else:

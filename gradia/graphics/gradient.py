@@ -19,10 +19,10 @@ from collections.abc import Callable
 import ctypes
 from ctypes import CDLL, POINTER, c_double, c_int, c_uint8
 from typing import Optional
-
+import cairo
 from PIL import Image
 from gi.repository import Adw, Gtk
-
+import math
 from gradia.app_constants import PREDEFINED_GRADIENTS
 from gradia.graphics.background import Background
 from gradia.utils.colors import HexColor, hex_to_rgb, rgba_to_hex, hex_to_rgba
@@ -33,32 +33,7 @@ CacheKey = tuple[str, str, int, int, int]
 GradientPreset = tuple[str, str, int]
 CacheInfo = dict[str, int | list[CacheKey] | bool]
 
-
 class GradientBackground(Background):
-    _MAX_CACHE_SIZE: int = 100
-    _gradient_cache: dict[CacheKey, Image.Image] = {}
-    _c_lib: Optional[CDLL | bool] = None
-
-    @classmethod
-    def _load_c_lib(cls) -> None:
-        if cls._c_lib:
-            return
-
-        try:
-            from importlib.resources import files
-            gradia_path = files('gradia').joinpath('libgradient_gen.so')
-            cls._c_lib = ctypes.CDLL(str(gradia_path))
-
-            cls._c_lib.generate_gradient.argtypes = [
-                POINTER(c_uint8), c_int, c_int,
-                c_int, c_int, c_int,
-                c_int, c_int, c_int,
-                c_double
-            ]
-            cls._c_lib.generate_gradient.restype = None
-        except Exception:
-            cls._c_lib = False
-
     def __init__(
         self,
         start_color: HexColor = "#4A90E2",
@@ -68,7 +43,6 @@ class GradientBackground(Background):
         self.start_color: HexColor = start_color
         self.end_color: HexColor = end_color
         self.angle: int = angle
-        self._load_c_lib()
 
     @classmethod
     def fromIndex(cls, index: int) -> 'GradientBackground':
@@ -80,54 +54,39 @@ class GradientBackground(Background):
     def get_name(self) -> str:
         return f"gradient-{self.start_color}-{self.end_color}-{self.angle}"
 
-    def _generate_gradient_c(self, width: int, height: int) -> Image.Image:
-        if not self._c_lib or self._c_lib is False:
-            raise RuntimeError("C gradient library not loaded")
+    def prepare_cairo_surface(self, width: int, height: int) -> cairo.ImageSurface:
+        """Create a Cairo surface with the gradient"""
+        surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
+        ctx = cairo.Context(surface)
 
         start_rgb = hex_to_rgb(self.start_color)
         end_rgb = hex_to_rgb(self.end_color)
-        pixel_count = width * height * 4
-        pixel_buffer = (c_uint8 * pixel_count)()
 
-        self._c_lib.generate_gradient(
-            pixel_buffer, width, height,
-            start_rgb[0], start_rgb[1], start_rgb[2],
-            end_rgb[0], end_rgb[1], end_rgb[2],
-            float(self.angle)
-        )
+        start_r, start_g, start_b = start_rgb[0]/255, start_rgb[1]/255, start_rgb[2]/255
+        end_r, end_g, end_b = end_rgb[0]/255, end_rgb[1]/255, end_rgb[2]/255
 
-        return Image.frombytes('RGBA', (width, height), bytes(pixel_buffer))
+        angle_rad = math.radians(self.angle)
 
-    def prepare_image(self, width: int, height: int) -> Image.Image:
-        cache_key: CacheKey = (self.start_color, self.end_color, self.angle, width, height)
+        if self.angle == 0:
+            x0, y0, x1, y1 = 0, 0, width, 0
+        elif self.angle == 90:
+            x0, y0, x1, y1 = 0, 0, 0, height
+        else:
+            cx, cy = width / 2, height / 2
+            length = max(width, height)
+            dx = math.cos(angle_rad) * length / 2
+            dy = math.sin(angle_rad) * length / 2
+            x0, y0 = cx - dx, cy - dy
+            x1, y1 = cx + dx, cy + dy
 
-        if cache_key in self._gradient_cache:
-            return self._gradient_cache[cache_key].copy()
+        pattern = cairo.LinearGradient(x0, y0, x1, y1)
+        pattern.add_color_stop_rgb(0, start_r, start_g, start_b)
+        pattern.add_color_stop_rgb(1, end_r, end_g, end_b)
 
-        self._evict_cache_if_needed()
+        ctx.set_source(pattern)
+        ctx.paint()
 
-        image = self._generate_gradient_c(width, height)
-        self._gradient_cache[cache_key] = image.copy()
-        return image
-
-    def _evict_cache_if_needed(self) -> None:
-        if len(self._gradient_cache) >= self._MAX_CACHE_SIZE:
-            keys_to_remove = list(self._gradient_cache.keys())[:self._MAX_CACHE_SIZE // 2]
-            for key in keys_to_remove:
-                del self._gradient_cache[key]
-
-    @classmethod
-    def clear_cache(cls) -> None:
-        cls._gradient_cache.clear()
-
-    @classmethod
-    def get_cache_info(cls) -> CacheInfo:
-        return {
-            'cache_size': len(cls._gradient_cache),
-            'max_cache_size': cls._MAX_CACHE_SIZE,
-            'cached_gradients': list(cls._gradient_cache.keys()),
-            'c_lib_loaded': cls._c_lib is not None and cls._c_lib is not False
-        }
+        return surface
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/selectors/gradient_selector.ui")
 class GradientSelector(Adw.PreferencesGroup):

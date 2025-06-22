@@ -16,6 +16,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+import cairo
+import io
 
 from gi.repository import Gtk, Gio, GdkPixbuf
 from gradia.clipboard import copy_file_to_clipboard, save_pixbuff_to_path
@@ -26,56 +28,70 @@ from gradia.backend.settings import Settings
 ExportFormat = tuple[str, str, str]
 
 logger = Logger()
+
 class BaseImageExporter:
     """Base class for image export handlers"""
-
     def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str) -> None:
         self.window: Gtk.ApplicationWindow = window
         self.temp_dir: str = temp_dir
 
-    def get_processed_pixbuf(self):
-        return self.overlay_pixbuffs(self.window.processed_pixbuf, self.window.drawing_overlay.export_to_pixbuf())
+    def get_processed_surface(self):
+        # Get the background surface
+        background_surface = self.window.processed_surface
 
-    def overlay_pixbuffs(self, bottom: GdkPixbuf.Pixbuf, top: GdkPixbuf.Pixbuf, alpha: float = 1) -> GdkPixbuf.Pixbuf:
+        # Get the drawing overlay surface
+        overlay_surface = self.window.drawing_overlay.export_to_cairo_surface()
+
+        return self.overlay_surfaces(background_surface, overlay_surface)
+
+    def get_processed_pixbuf(self):
+        # Convert Cairo surface to pixbuf for compatibility
+        surface = self.get_processed_surface()
+
+        # Convert Cairo surface to PNG bytes
+        png_bytes = io.BytesIO()
+        surface.write_to_png(png_bytes)
+        png_bytes.seek(0)
+
+        # Load as pixbuf
+        loader = GdkPixbuf.PixbufLoader.new_with_type('png')
+        loader.write(png_bytes.getvalue())
+        loader.close()
+
+        return loader.get_pixbuf()
+
+    def overlay_surfaces(self, bottom: cairo.ImageSurface, top: cairo.ImageSurface, alpha: float = 1.0) -> cairo.ImageSurface:
         if bottom.get_width() != top.get_width() or bottom.get_height() != top.get_height():
-            raise ValueError("Pixbufs must be the same size to overlay")
+            raise ValueError("Surfaces must be the same size to overlay")
 
         width = bottom.get_width()
         height = bottom.get_height()
 
-        result = GdkPixbuf.Pixbuf.new(GdkPixbuf.Colorspace.RGB, True, 8, width, height)
-        result.fill(0x00000000)
+        # Create result surface
+        result = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
+        ctx = cairo.Context(result)
 
-        bottom.composite(
-            result,
-            0, 0, width, height,
-            0, 0, 1.0, 1.0,
-            GdkPixbuf.InterpType.BILINEAR,
-            255
-        )
+        # Draw bottom surface
+        ctx.set_source_surface(bottom, 0, 0)
+        ctx.paint()
 
-        top.composite(
-            result,
-            0, 0, width, height,
-            0, 0, 1.0, 1.0,
-            GdkPixbuf.InterpType.BILINEAR,
-            int(255 * alpha)
-        )
+        # Draw top surface with alpha
+        ctx.set_source_surface(top, 0, 0)
+        ctx.paint_with_alpha(alpha)
 
         return result
 
-    def _get_dynamic_filename(self, extension: str = ".png") -> str:
-       if self.window.image_path:
-           original_name = os.path.splitext(os.path.basename(self.window.image_path))[0]
-           return f"{original_name} ({_('Edit')}){extension}"
-       return f"{_('Enhanced Screenshot')}{extension}"
+    def get_dynamic_filename(self, extension: str = ".png") -> str:
+        if self.window.image_path:
+            original_name = os.path.splitext(os.path.basename(self.window.image_path))[0]
+            return f"{original_name} ({_('Edit')}){extension}"
+        return f"{_('Enhanced Screenshot')}{extension}"
 
-    def _ensure_processed_image_available(self) -> bool:
+    def ensure_processed_image_available(self) -> bool:
         """Ensure processed image is available for export"""
-        if not self.window.processed_pixbuf:
+        if not self.window.processed_surface:
             raise Exception("No processed image available for export")
-        return False 
-
+        return True
 
 class FileDialogExporter(BaseImageExporter):
     def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str) -> None:
@@ -99,7 +115,7 @@ class FileDialogExporter(BaseImageExporter):
             else self.settings.export_format if self.settings.export_format in SUPPORTED_EXPORT_FORMATS
             else DEFAULT_EXPORT_FORMAT
         )
-        base_name = os.path.splitext(self._get_dynamic_filename())[0]
+        base_name = os.path.splitext(self.get_dynamic_filename())[0]
         default_ext = SUPPORTED_EXPORT_FORMATS[target_format]['extensions'][0]
         dialog.set_current_name(base_name + default_ext)
 
@@ -175,7 +191,7 @@ class FileDialogExporter(BaseImageExporter):
 
     def _ensure_processed_image_available(self) -> bool:
         try:
-            super()._ensure_processed_image_available()
+            self.ensure_processed_image_available()
             return True
         except Exception:
             self.window._show_notification(_("No processed image available"))
@@ -192,7 +208,7 @@ class ClipboardExporter(BaseImageExporter):
     def copy_to_clipboard(self) -> None:
         """Copy processed image to system clipboard"""
         try:
-            self._ensure_processed_image_available()
+            self.ensure_processed_image_available()
 
             temp_path = save_pixbuff_to_path(self.temp_dir, self.get_processed_pixbuf())
             if not temp_path or not os.path.exists(temp_path):
@@ -204,7 +220,6 @@ class ClipboardExporter(BaseImageExporter):
         except Exception as e:
             self.window._show_notification(_("Failed to copy image to clipboard"))
             print(f"Error copying to clipboard: {e}")
-
 
 class ExportManager:
     """Coordinates export functionality"""
@@ -226,5 +241,5 @@ class ExportManager:
 
     def is_export_available(self) -> bool:
         """Check if export operations are available"""
-        return bool(self.file_exporter.processed_pixbuf)
+        return bool(self.window.processed_surface)
 

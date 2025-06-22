@@ -28,16 +28,16 @@ class Background(ABC):
     """
 
     @abstractmethod
-    def prepare_image(self, width: int, height: int) -> Image.Image:
+    def prepare_cairo_surface(self, width: int, height: int) -> Image.Image:
         """
-        Prepare and return a PIL Image with the background.
+        Prepare and return a Cairo surface with the background.
 
         Args:
             width (int): The target width
             height (int): The target height
 
         Returns:
-            PIL.Image: The background image
+            Image.Image: The background image
         """
         pass
 

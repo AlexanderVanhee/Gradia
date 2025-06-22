@@ -17,7 +17,7 @@
 
 from collections.abc import Callable
 from typing import Optional
-
+import cairo
 from PIL import Image
 from gi.repository import Adw, Gtk
 
@@ -34,10 +34,17 @@ class SolidBackground(Background):
     def get_name(self) -> str:
         return f"solid-{self.color}-{self.alpha}"
 
-    def prepare_image(self, width: int, height: int) -> Image.Image:
+    def prepare_cairo_surface(self, width: int, height: int) -> cairo.ImageSurface:
+        surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
+        ctx = cairo.Context(surface)
+
         rgb = hex_to_rgb(self.color)
-        alpha_value = int(self.alpha * 255)
-        return Image.new('RGBA', (width, height), (*rgb, alpha_value))
+        r, g, b = rgb[0]/255, rgb[1]/255, rgb[2]/255
+
+        ctx.set_source_rgba(r, g, b, self.alpha)
+        ctx.paint()
+
+        return surface
 
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/selectors/solid_selector.ui")

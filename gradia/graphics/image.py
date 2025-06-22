@@ -20,7 +20,7 @@ import os
 import tempfile
 import threading
 from typing import Callable, Optional
-
+import cairo
 from PIL import Image
 from gi.repository import Adw, GLib, Gdk, GdkPixbuf, Gio, Gtk
 
@@ -37,12 +37,10 @@ PRESET_IMAGES = [
     "/be/alexandervanhee/gradia/images/preset6.avif",
 ]
 
-
 class ImageBackground(Background):
     def __init__(self, file_path: Optional[str] = None) -> None:
         self.file_path: Optional[str] = file_path
-        self.image: Optional[Image.Image] = None
-
+        self.cairo_surface: Optional[cairo.ImageSurface] = None
         if file_path:
             self.load_image(file_path)
         else:
@@ -51,46 +49,68 @@ class ImageBackground(Background):
 
     def load_image(self, path: str) -> None:
         self.file_path = path
+        try:
+            if path.startswith(rootdir):
+                resource_data = Gio.resources_lookup_data(path, Gio.ResourceLookupFlags.NONE)
+                bytes_data = resource_data.get_data()
+                if bytes_data is None:
+                    raise RuntimeError("Failed to get data from resource lookup")
 
-        if path.startswith(rootdir):
-            resource_data = Gio.resources_lookup_data(path, Gio.ResourceLookupFlags.NONE)
-            bytes_data = resource_data.get_data()
+                loader = GdkPixbuf.PixbufLoader()
+                loader.write(bytes_data)
+                loader.close()
+                pixbuf = loader.get_pixbuf()
+            else:
+                pixbuf = GdkPixbuf.Pixbuf.new_from_file(path)
 
-            if bytes_data is None:
-                raise RuntimeError("Failed to get data from resource lookup")
+            width = pixbuf.get_width()
+            height = pixbuf.get_height()
+            surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
+            ctx = cairo.Context(surface)
 
-            byte_stream = io.BytesIO(bytes_data)
-            self.image = Image.open(byte_stream).convert("RGBA")
-        else:
-            self.image = Image.open(path).convert("RGBA")
+            Gdk.cairo_set_source_pixbuf(ctx, pixbuf, 0, 0)
+            ctx.paint()
 
-    def prepare_image(self, width: int, height: int) -> Optional[Image.Image]:
-        if not self.image:
-            return None
+            self.cairo_surface = surface
 
-        img = self.image
-        img_ratio = img.width / img.height
-        target_ratio = width / height
+        except Exception as e:
+            print(f"Failed to load image {path}: {e}")
+            self.cairo_surface = None
 
-        if img_ratio > target_ratio:
-            new_height = height
-            new_width = int(new_height * img_ratio)
-        else:
-            new_width = width
-            new_height = int(new_width / img_ratio)
+    def prepare_cairo_surface(self, width: int, height: int) -> cairo.ImageSurface:
+       if not self.cairo_surface:
+           surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
+           ctx = cairo.Context(surface)
+           ctx.set_source_rgba(0, 0, 0, 0)
+           ctx.paint()
+           return surface
 
-        img_resized = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
-        left = (new_width - width) // 2
-        top = (new_height - height) // 2
-        right = left + width
-        bottom = top + height
+       surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
+       ctx = cairo.Context(surface)
 
-        img_cropped = img_resized.crop((left, top, right, bottom))
-        return img_cropped
+       img_width = self.cairo_surface.get_width()
+       img_height = self.cairo_surface.get_height()
+       img_ratio = img_width / img_height
+       target_ratio = width / height
+
+       if img_ratio > target_ratio:
+           scale = height / img_height
+           x_offset = -(img_width * scale - width) / 2
+           y_offset = 0
+       else:
+           scale = width / img_width
+           x_offset = 0
+           y_offset = -(img_height * scale - height) / 2
+
+       ctx.translate(x_offset, y_offset)
+       ctx.scale(scale, scale)
+       ctx.set_source_surface(self.cairo_surface, 0, 0)
+       ctx.paint()
+
+       return surface
 
     def get_name(self) -> str:
         return f"image-{self.file_path or 'none'}"
-
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/selectors/image_selector.ui")
 class ImageSelector(Adw.PreferencesGroup):
@@ -260,32 +280,33 @@ class ImageSelector(Adw.PreferencesGroup):
     """
 
     def _update_preview(self) -> None:
-        if self.image_background.image:
-            def save_and_update() -> None:
-                try:
-                    if not self.image_background.image:
-                        return
+       if self.image_background.cairo_surface:
+           def save_and_update() -> None:
+               try:
+                   if not self.image_background.cairo_surface:
+                       return
 
-                    image = self.image_background.image.copy()
+                   png_bytes = io.BytesIO()
+                   self.image_background.cairo_surface.write_to_png(png_bytes)
+                   png_bytes.seek(0)
 
-                    max_width = 400
-                    if image.width > max_width:
-                        ratio = max_width / image.width
-                        new_size = (int(image.width * ratio), int(image.height * ratio))
-                        image = image.resize(new_size, Image.LANCZOS)
+                   image = Image.open(png_bytes).convert('RGBA')
 
-                    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as temp_file:
-                        temp_path = temp_file.name
-                        image.save(temp_path, 'PNG')
-
-                    GLib.idle_add(self._set_preview_image, temp_path)
-                except Exception as e:
-                    print(f"Error saving preview: {e}")
-
-            thread = threading.Thread(target=save_and_update, daemon=True)
-            thread.start()
-        else:
-            self.preview_picture.set_paintable(None)
+                   max_width = 400
+                   if image.width > max_width:
+                       ratio = max_width / image.width
+                       new_size = (int(image.width * ratio), int(image.height * ratio))
+                       image = image.resize(new_size, Image.LANCZOS)
+                   with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as temp_file:
+                       temp_path = temp_file.name
+                       image.save(temp_path, 'PNG')
+                   GLib.idle_add(self._set_preview_image, temp_path)
+               except Exception as e:
+                   print(f"Error saving preview: {e}")
+           thread = threading.Thread(target=save_and_update, daemon=True)
+           thread.start()
+       else:
+           self.preview_picture.set_paintable(None)
 
     def _set_preview_image(self, temp_path: str) -> bool:
         self.preview_picture.set_filename(temp_path)

@@ -36,25 +36,27 @@ class ControlsOverlay(Gtk.Box):
         self.delete_revealer.set_reveal_child(show)
 
 
-def create_image_stack() -> tuple[Gtk.Stack, Gtk.Picture, Adw.Spinner, 'DrawingOverlay', 'ControlsOverlay', Gtk.Overlay]:
+def create_image_stack() -> tuple[Gtk.Stack, Gtk.DrawingArea, Adw.Spinner, 'DrawingOverlay', 'ControlsOverlay', Gtk.Overlay]:
     stack = Gtk.Stack.new()
     stack.set_vexpand(True)
     stack.set_hexpand(True)
     stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
     stack.set_transition_duration(200)
 
-    picture = create_picture_widget()
+    drawing_area = Gtk.DrawingArea()
+    drawing_area.set_hexpand(True)
+    drawing_area.set_vexpand(True)
 
     transparency_background = TransparencyBackground()
     transparency_background.set_hexpand(True)
     transparency_background.set_vexpand(True)
-    transparency_background.set_picture_reference(picture)
+    transparency_background.set_picture_reference(drawing_area)
 
     image_overlay = Gtk.Overlay()
     image_overlay.set_child(transparency_background)
-    image_overlay.add_overlay(picture)
+    image_overlay.add_overlay(drawing_area)
 
-    drawing_overlay = create_drawing_overlay(picture)
+    drawing_overlay = create_drawing_overlay(drawing_area)
 
     overlay, controls_overlay = create_image_overlay(image_overlay, drawing_overlay)
 
@@ -82,7 +84,7 @@ def create_image_stack() -> tuple[Gtk.Stack, Gtk.Picture, Adw.Spinner, 'DrawingO
 
     main_overlay.add_overlay(top_bar)
 
-    return stack, picture, spinner, drawing_overlay, controls_overlay, main_overlay
+    return stack, drawing_area, spinner, drawing_overlay, controls_overlay, main_overlay
 
 
 def create_image_overlay(picture: Gtk.Picture, drawing_overlay: 'DrawingOverlay') -> Gtk.Overlay:
