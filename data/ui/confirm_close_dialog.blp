@@ -5,25 +5,27 @@ template $GradiaConfirmCloseDialog : Adw.AlertDialog {
   heading: _("Close Gradia?");
   body: _("Are you sure you want to exit? All unsaved changes will be lost.");
   close-response: "cancel";
+
   responses [
     cancel: _("Cancel"),
     close: _("Close") destructive,
   ]
-  extra-child: Box {
-    orientation: horizontal;
-    spacing: 12;
-    margin-top: 12;
-    margin-bottom: 6;
-    margin-start: 6;
-    margin-end: 6;
 
-    CheckButton dont_ask_switch {
-      valign: center;
+  extra-child: Gtk.ListBox {
+    selection-mode: none;
+
+    Adw.ActionRow {
+      title: _("Don't Ask Again");
+      activatable-widget: dont_ask_switch;
+
+      [prefix]
+      Gtk.CheckButton dont_ask_switch {
+        valign: center;
+      }
     }
 
-    Label {
-      label: _("Don't ask again");
-      valign: center;
-    }
+    styles [
+      "boxed-list"
+    ]
   };
 }
