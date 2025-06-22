@@ -16,7 +16,7 @@ gradia/ui/background_selector.py
 gradia/ui/drawing_tools_group.py
 gradia/overlay/drawing_overlay.py
 gradia/overlay/drawing_actions.py
-gradia/ui/settings_window.py
+gradia/ui/preferences_window.py
 gradia/ui/dialog/confirm_close_dialog.py
 gradia/ui/dialog/delete_screenshots_dialog.py
 gradia/app_constants.py
@@ -33,5 +33,5 @@ data/ui/recent_picker.blp
 data/ui/text_entry_popover.blp
 data/ui/welcome_page.blp
 data/ui/welcome_page.blp
-data/ui/settings_window.blp
+data/ui/preferences_window.blp
 data/ui/confirm_close_dialog.blp

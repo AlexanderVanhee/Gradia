@@ -187,7 +187,7 @@ def create_shortcuts_dialog(parent: Optional[Gtk.Window] = None) -> Gtk.Shortcut
             "title": _("General"),
             "shortcuts": [
                 (_("Keyboard Shortcuts"), "<Ctrl>question"),
-                (_("Settings"), "<Ctrl>comma"),
+                (_("Preferences"), "<Ctrl>comma"),
                 (_("Toggle Utility Pane"), "F9"),
             ]
         }

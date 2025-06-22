@@ -74,7 +74,7 @@ class BaseImageExporter:
         """Ensure processed image is available for export"""
         if not self.window.processed_pixbuf:
             raise Exception("No processed image available for export")
-        return False 
+        return False
 
 
 class FileDialogExporter(BaseImageExporter):
