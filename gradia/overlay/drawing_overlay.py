@@ -146,16 +146,21 @@ class DrawingOverlay(Gtk.DrawingArea):
         ox, oy, dw, dh = self._get_image_bounds()
         return ox <= x <= ox + dw and oy <= y <= oy + dh
 
-    def _get_background_pixbuf(self):
-        """Get the background image as a pixbuf"""
+    def _get_background_surface(self) -> cairo.ImageSurface | None:
         if not self.picture_widget:
             return None
 
-        paintable = self.picture_widget.get_paintable()
-        if isinstance(paintable, Gdk.Texture):
-            return Gdk.pixbuf_get_from_texture(paintable)
+        allocation = self.picture_widget.get_allocation()
+        width = allocation.width
+        height = allocation.height
 
-        return None
+        if width <= 0 or height <= 0:
+            return None
+
+        surface = cairo.ImageSurface(cairo.Format.ARGB32, width, height)
+        cr = cairo.Context(surface)
+
+        return surface
 
     def _setup_actions(self):
         for mode in DrawingMode:
@@ -493,7 +498,7 @@ class DrawingOverlay(Gtk.DrawingArea):
             elif mode == DrawingMode.CIRCLE:
                 self.actions.append(CircleAction(self.start_point, self.end_point, self.pen_color, self.pen_size, self.fill_color))
             elif mode == DrawingMode.CENSOR:
-                censor_action = CensorAction(self.start_point, self.end_point, self.pixelation_level, self._get_background_pixbuf())
+                censor_action = CensorAction(self.start_point, self.end_point, self.pixelation_level, self._get_background_surface())
                 self.actions.append(censor_action)
 
         self.start_point = None

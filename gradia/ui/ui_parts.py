@@ -84,7 +84,7 @@ def create_image_stack() -> tuple[Gtk.Stack, Gtk.DrawingArea, Adw.Spinner, 'Draw
 
     main_overlay.add_overlay(top_bar)
 
-    return stack, drawing_area, spinner, drawing_overlay, controls_overlay, main_overlay
+    return stack, drawing_area, spinner, drawing_overlay, controls_overlay, main_overlay, transparency_background
 
 
 def create_image_overlay(picture: Gtk.Picture, drawing_overlay: 'DrawingOverlay') -> Gtk.Overlay:

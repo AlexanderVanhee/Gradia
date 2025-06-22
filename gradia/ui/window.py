@@ -178,6 +178,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.drawing_overlay = stack_info[3]
         self.controls_overlay = stack_info[4]
         self.stack_box = stack_info[5]
+        self.transparency_background = stack_info[6]
 
     def _setup_sidebar(self) -> None:
         self.sidebar = ImageSidebar(
@@ -381,6 +382,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             self.image.queue_draw()
             self._update_processed_image_size()
             self._hide_loading_state()
+            self.transparency_background.queue_draw()
         return False
 
     def _draw_processed_image(self, drawing_area: Gtk.DrawingArea, cr: cairo.Context, width: int, height: int) -> None:

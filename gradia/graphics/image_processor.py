@@ -7,11 +7,11 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -22,15 +22,16 @@ import time
 import cairo
 
 from typing import Optional
-from gi.repository import GdkPixbuf
+from gi.repository import GdkPixbuf, Gdk
 from gradia.graphics.background import Background
 from gradia.backend.logger import Logger
+
+from PIL import Image, ImageChops, ImageDraw, ImageFilter
 
 logger = Logger()
 
 class ImageProcessor:
-    MAX_DIMESION = 1440
-    MAX_FILE_SIZE = 1000 * 1024
+    MAX_PIXEL_AMOUNT = 1048576
 
     def __init__(
         self,
@@ -65,10 +66,9 @@ class ImageProcessor:
             self.source_pixbuf = self._load_and_downscale_image(image_path)
             self._loaded_image_path = image_path
 
-            if self.auto_balance:
-                balance_start = time.perf_counter()
-                self._balanced_padding = self.get_balanced_padding()
-                logger.debug(f"Auto-balance analysis: {(time.perf_counter() - balance_start)*1000:.2f}ms")
+            balance_start = time.perf_counter()
+            self._balanced_padding = self.get_balanced_padding()
+            logger.debug(f"Auto-balance analysis: {(time.perf_counter() - balance_start)*1000:.2f}ms")
 
         logger.debug(f"Image loading: {(time.perf_counter() - start_time)*1000:.2f}ms")
 
@@ -78,19 +78,19 @@ class ImageProcessor:
         if not self.source_pixbuf:
             raise ValueError("No image loaded to process")
 
-        source_pixbuf = self.source_pixbuf.copy()
-        width, height = source_pixbuf.get_width(), source_pixbuf.get_height()
+        processing_pixbuf = self.source_pixbuf.copy()
+        width, height = processing_pixbuf.get_width(), processing_pixbuf.get_height()
 
         if self.auto_balance and self._balanced_padding:
             step_start = time.perf_counter()
-            source_pixbuf = self._apply_auto_balance(source_pixbuf)
-            width, height = source_pixbuf.get_width(), source_pixbuf.get_height()
+            processing_pixbuf = self._apply_auto_balance(processing_pixbuf)
+            width, height = processing_pixbuf.get_width(), processing_pixbuf.get_height()
             logger.debug(f"Auto-balance apply: {(time.perf_counter() - step_start)*1000:.2f}ms")
 
         if self.padding < 0:
             step_start = time.perf_counter()
-            source_pixbuf = self._crop_image(source_pixbuf)
-            width, height = source_pixbuf.get_width(), source_pixbuf.get_height()
+            processing_pixbuf = self._crop_image(processing_pixbuf)
+            width, height = processing_pixbuf.get_width(), processing_pixbuf.get_height()
             logger.debug(f"Image cropping: {(time.perf_counter() - step_start)*1000:.2f}ms")
 
         step_start = time.perf_counter()
@@ -107,14 +107,29 @@ class ImageProcessor:
 
         if self.shadow_strength > 0:
             step_start = time.perf_counter()
-            self._draw_shadow(ctx, source_pixbuf, paste_x, paste_y)
+            pil_image_for_shadow = self._pixbuf_to_pil(processing_pixbuf)
+            shadow_pil_img, shadow_offset = self._create_shadow_pil(
+                pil_image_for_shadow,
+                shadow_strength=self.shadow_strength
+            )
+            shadow_cairo_surface = self._pil_to_cairo_surface(shadow_pil_img)
+
+            shadow_paste_x = paste_x + shadow_offset[0]
+            shadow_paste_y = paste_y + shadow_offset[1]
+
+            ctx.save()
+            ctx.set_source_surface(shadow_cairo_surface, shadow_paste_x, shadow_paste_y)
+            ctx.paint()
+            ctx.restore()
             logger.debug(f"Shadow rendering: {(time.perf_counter() - step_start)*1000:.2f}ms")
 
         step_start = time.perf_counter()
-        self._draw_image_with_corners(ctx, source_pixbuf, paste_x, paste_y)
+        self._draw_image_with_corners(ctx, processing_pixbuf, paste_x, paste_y)
         logger.info(f"Image rendering: {(time.perf_counter() - step_start)*1000:.2f}ms")
 
-        step_start = time.perf_counter()
+        total_end = time.perf_counter()
+        logger.info(f"Total image processing time: {(total_end - total_start)*1000:.2f}ms")
+
         return surface
 
     def get_balanced_padding(self, tolerance: int = 5) -> dict[str, int | tuple[int, int, int, int]]:
@@ -138,9 +153,6 @@ class ImageProcessor:
 
         def is_similar(px):
             return all(abs(px[i] - ref_color[i]) <= tolerance for i in range(len(px)))
-
-        def scan_edge(scan_func):
-            return scan_func()
 
         def count_top():
             for y in range(height):
@@ -223,18 +235,19 @@ class ImageProcessor:
         return source_pixbuf
 
     def _needs_downscaling(self, pixbuf: GdkPixbuf.Pixbuf) -> bool:
-        return pixbuf.get_width() > self.MAX_DIMESION or pixbuf.get_height() > self.MAX_DIMESION
+        return (pixbuf.get_width() * pixbuf.get_height()) > self.MAX_PIXEL_AMOUNT
 
     def _downscale_image(self, pixbuf: GdkPixbuf.Pixbuf) -> GdkPixbuf.Pixbuf:
         width = pixbuf.get_width()
         height = pixbuf.get_height()
+        current_pixel_count = width * height
 
-        if width >= height:
-            new_width = self.MAX_DIMESION
-            new_height = int(height * (self.MAX_DIMESION / width))
-        else:
-            new_height = self.MAX_DIMESION
-            new_width = int(width * (self.MAX_DIMESION / height))
+        if current_pixel_count <= self.MAX_PIXEL_AMOUNT:
+            return pixbuf
+
+        scale_factor = math.sqrt(self.MAX_PIXEL_AMOUNT / current_pixel_count)
+        new_width = max(1, int(width * scale_factor))
+        new_height = max(1, int(height * scale_factor))
 
         return pixbuf.scale_simple(new_width, new_height, GdkPixbuf.InterpType.BILINEAR)
 
@@ -300,23 +313,36 @@ class ImageProcessor:
             ctx.fill()
             ctx.set_operator(cairo.OPERATOR_OVER)
 
-    def _draw_shadow(self, ctx: cairo.Context, pixbuf: GdkPixbuf.Pixbuf, x: int, y: int) -> None:
-        shadow_strength = max(0.0, min(self.shadow_strength, 10)) * 0.2
-        shadow_alpha = shadow_strength * 0.3
-        shadow_offset_x, shadow_offset_y = 10, 10
+    def _create_shadow_pil(
+        self,
+        image: Image.Image,
+        shadow_strength: float = 1.0
+    ) -> tuple[Image.Image, tuple[int, int]]:
 
-        ctx.save()
-        ctx.translate(x + shadow_offset_x, y + shadow_offset_y)
-        ctx.set_source_rgba(0, 0, 0, shadow_alpha)
+        shadow_strength_scaled = max(0.0, min(shadow_strength, 10))
+        blur_radius = int(shadow_strength_scaled * 2.5) + 2
+        shadow_alpha = int(255 * (0.2 + shadow_strength_scaled * 0.05))
+        shadow_color = (0, 0, 0, min(shadow_alpha, 255))
 
-        if self.corner_radius > 0:
-            self._draw_rounded_rectangle(ctx, 0, 0, pixbuf.get_width(), pixbuf.get_height())
-            ctx.fill()
-        else:
-            ctx.rectangle(0, 0, pixbuf.get_width(), pixbuf.get_height())
-            ctx.fill()
+        if image.mode != 'RGBA':
+            image = image.convert('RGBA')
 
-        ctx.restore()
+        alpha = image.split()[3]
+        shadow = Image.new("RGBA", image.size, shadow_color)
+        shadow.putalpha(alpha)
+
+        offset_x = int(shadow_strength_scaled * 0.5)
+        offset_y = int(shadow_strength_scaled * 0.8)
+
+        blur_margin = blur_radius * 2
+        expanded_width = image.width + blur_margin * 2
+        expanded_height = image.height + blur_margin * 2
+
+        shadow_canvas = Image.new("RGBA", (expanded_width, expanded_height), (0, 0, 0, 0))
+        shadow_canvas.paste(shadow, (blur_margin + offset_x, blur_margin + offset_y), shadow)
+        shadow_canvas = shadow_canvas.filter(ImageFilter.GaussianBlur(blur_radius))
+
+        return shadow_canvas, (-blur_margin, -blur_margin)
 
     def _draw_image_with_corners(self, ctx: cairo.Context, pixbuf: GdkPixbuf.Pixbuf, x: int, y: int) -> None:
         ctx.save()
@@ -342,8 +368,6 @@ class ImageProcessor:
         ctx.close_path()
 
     def _draw_pixbuf(self, ctx: cairo.Context, pixbuf: GdkPixbuf.Pixbuf, x: float, y: float) -> None:
-        from gi.repository import Gdk
-
         ctx.save()
         ctx.translate(x, y)
         Gdk.cairo_set_source_pixbuf(ctx, pixbuf, 0, 0)
@@ -386,3 +410,57 @@ class ImageProcessor:
             height=height,
             rowstride=width * 4
         )
+
+    def _pil_to_pixbuf(self, image: Image.Image) -> GdkPixbuf.Pixbuf:
+        if image.mode != 'RGBA':
+            image = image.convert('RGBA')
+
+        width, height = image.size
+        pixels = image.tobytes("raw", "RGBA")
+
+        pixbuf = GdkPixbuf.Pixbuf.new_from_data(
+            data=pixels,
+            colorspace=GdkPixbuf.Colorspace.RGB,
+            has_alpha=True,
+            bits_per_sample=8,
+            width=width,
+            height=height,
+            rowstride=width * 4,
+            destroy_fn=None
+        )
+        return pixbuf
+
+    def _pixbuf_to_pil(self, pixbuf: GdkPixbuf.Pixbuf) -> Image.Image:
+        width = pixbuf.get_width()
+        height = pixbuf.get_height()
+        rowstride = pixbuf.get_rowstride()
+        pixels = pixbuf.get_pixels()
+        has_alpha = pixbuf.get_has_alpha()
+        n_channels = pixbuf.get_n_channels()
+
+        if has_alpha and n_channels == 4:
+            mode = "RGBA"
+            pil_image = Image.frombytes(mode, (width, height), bytes(pixels), "raw", mode, rowstride)
+        elif not has_alpha and n_channels == 3:
+            mode = "RGB"
+            pil_image = Image.frombytes(mode, (width, height), bytes(pixels), "raw", mode, rowstride)
+        else:
+            raise ValueError(f"Unsupported Pixbuf format: has_alpha={has_alpha}, n_channels={n_channels}")
+
+        return pil_image
+
+    def _pil_to_cairo_surface(self, image: Image.Image) -> cairo.ImageSurface:
+        if image.mode != 'RGBA':
+            image = image.convert('RGBA')
+
+        width, height = image.size
+        data = image.tobytes("raw", "BGRA")
+
+        surface = cairo.ImageSurface.create_for_data(
+            bytearray(data),
+            cairo.FORMAT_ARGB32,
+            width,
+            height,
+            width * 4
+        )
+        return surface

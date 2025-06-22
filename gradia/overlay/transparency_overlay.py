@@ -36,10 +36,10 @@ class TransparencyBackground(Gtk.DrawingArea):
         light_gray = (0.9, 0.9, 0.9)
         dark_gray = (0.7, 0.7, 0.7)
 
-        start_x = max(0, int(offset_x))
-        start_y = max(0, int(offset_y))
-        end_x = min(width, int(offset_x + display_width))
-        end_y = min(height, int(offset_y + display_height))
+        start_x = max(0, int(offset_x)) + 1
+        start_y = max(0, int(offset_y)) + 1
+        end_x = min(width, int(offset_x + display_width)) -1
+        end_y = min(height, int(offset_y + display_height)) -1
 
         if start_x >= end_x or start_y >= end_y:
             return
