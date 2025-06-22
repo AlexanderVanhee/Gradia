@@ -159,7 +159,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
         self.create_action("delete-screenshots", lambda *_: self._create_delete_screenshots_dialog(), enabled=False)
 
-        self.create_action("settings", self._on_preferences_activated, ['<primary>comma'])
+        self.create_action("preferences", self._on_preferences_activated, ['<primary>comma'])
         self.create_action("toggle-utility-pane", self._on_toggle_utility_pane_activated, ['F9'])
 
         self.create_action("set-screenshot-folder",  lambda action, param: self.set_screenshot_subfolder(param.get_string()), vt="s")
