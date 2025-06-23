@@ -197,10 +197,7 @@ msgstr "Удалить снимок экрана?"
 #: gradia/ui/window.py:420
 #, fuzzy
 msgid "Are you sure you want to delete the following file?"
-msgstr ""
-"Вы уверены, что хотите удалить данный файл?\n"
-"\n"
-"%s"
+msgstr "Вы уверены, что хотите удалить данный файл?"
 
 #: gradia/ui/window.py:422
 msgid "Delete Screenshots?"
@@ -209,10 +206,7 @@ msgstr "Удалить снимки экрана?"
 #: gradia/ui/window.py:423
 #, fuzzy
 msgid "Are you sure you want to delete the following files?"
-msgstr ""
-"Вы уверены, что хотите удалить данные файлы?\n"
-"\n"
-"%s"
+msgstr "Вы уверены, что хотите удалить данные файлы?"
 
 #: gradia/ui/window.py:432 gradia/ui/image_exporters.py:120
 msgid "Cancel"

@@ -36,7 +36,7 @@ from gradia.ui.image_sidebar import ImageSidebar
 from gradia.ui.ui_parts import *
 from gradia.ui.welcome_page import WelcomePage
 from gradia.utils.aspect_ratio import *
-from gradia.ui.settings_window import SettingsWindow
+from gradia.ui.preferences_window import PreferencesWindow
 from gradia.backend.settings import Settings
 from gradia.constants import rootdir  # pyright: ignore
 from gradia.ui.dialog.delete_screenshots_dialog import DeleteScreenshotsDialog
@@ -159,7 +159,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
         self.create_action("delete-screenshots", lambda *_: self._create_delete_screenshots_dialog(), enabled=False)
 
-        self.create_action("settings", self._on_settings_activated, ['<primary>comma'])
+        self.create_action("preferences", self._on_preferences_activated, ['<primary>comma'])
         self.create_action("toggle-utility-pane", self._on_toggle_utility_pane_activated, ['F9'])
 
         self.create_action("set-screenshot-folder",  lambda action, param: self.set_screenshot_subfolder(param.get_string()), vt="s")
@@ -421,9 +421,9 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             self._show_notification
         )
 
-    def _on_settings_activated(self, action: Gio.SimpleAction, param) -> None:
-        settings_window = SettingsWindow(self)
-        settings_window.present()
+    def _on_preferences_activated(self, action: Gio.SimpleAction, param) -> None:
+        preferences_window = PreferencesWindow(self)
+        preferences_window.present()
 
     def set_screenshot_subfolder(self, subfolder) -> None:
         Settings().screenshot_subfolder = subfolder

@@ -17,6 +17,7 @@
 
 import io
 import os
+import math
 from typing import Optional
 
 from PIL import Image, ImageChops, ImageDraw, ImageFilter
@@ -25,8 +26,7 @@ from gi.repository import GdkPixbuf
 from gradia.graphics.background import Background
 
 class ImageProcessor:
-    MAX_DIMESION = 1440
-    MAX_FILE_SIZE = 1000 * 1024
+    MAX_PIXEL_AMOUNT = 1024*1024
 
     def __init__(
         self,
@@ -199,43 +199,22 @@ class ImageProcessor:
         if self._needs_downscaling(source_img):
             source_img = self._downscale_image(source_img)
 
-        quality = 100
-        source_img, compressed_size = self._compress_image_with_size(source_img, quality)
-
-        while compressed_size > self.MAX_FILE_SIZE and quality > 10:
-            quality -= 10
-            source_img, compressed_size = self._compress_image_with_size(source_img, quality)
-
         return source_img
-
-    def _compress_image_with_size(
-        self,
-        image: Image.Image,
-        quality: int
-    ) -> tuple[Image.Image, int]:
-        buffer = io.BytesIO()
-        image.save(buffer, format='PNG', optimize=True, quality=quality)
-        size = buffer.tell()
-        buffer.seek(0)
-        compressed = Image.open(buffer).convert("RGBA")
-
-        return compressed, size
 
     def _needs_downscaling(self, image: Image.Image) -> bool:
         width, height = image.size
-        return width > self.MAX_DIMESION or height > self.MAX_DIMESION
+        return (width * height) > self.MAX_PIXEL_AMOUNT
 
     def _downscale_image(self, image: Image.Image) -> Image.Image:
         width, height = image.size
+        current_pixel_count = width * height
+        if current_pixel_count <= self.MAX_PIXEL_AMOUNT:
+            return image
+        scale_factor = math.sqrt(self.MAX_PIXEL_AMOUNT / current_pixel_count)
+        new_width = max(1, int(width * scale_factor))
+        new_height = max(1, int(height * scale_factor))
 
-        if width >= height:
-            new_width = self.MAX_DIMESION
-            new_height = int(height * (self.MAX_DIMESION / width))
-        else:
-            new_height = self.MAX_DIMESION
-            new_width = int(width * (self.MAX_DIMESION / height))
-
-        return image.resize((new_width, new_height), Image.Resampling.LANCZOS)
+        return image.resize((new_width, new_height), Image.LANCZOS)
 
     def _crop_image(self, image: Image.Image) -> Image.Image:
         width, height = image.size

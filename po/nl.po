@@ -339,9 +339,7 @@ msgstr "Schermafbeelding verwijderen?"
 #: gradia/ui/dialog/delete_screenshots_dialog.py:88
 msgid "Are you sure you want to trash the following file?"
 msgstr ""
-"Weet je zeker dat je het volgende bestand wilt verwijderen?\n"
-"\n"
-"%s"
+"Weet je zeker dat je het volgende bestand wilt verwijderen?"
 
 #: gradia/ui/dialog/delete_screenshots_dialog.py:90
 msgid "Trash Screenshots?"
@@ -350,9 +348,7 @@ msgstr "Schermafbeeldingen verwijderen?"
 #: gradia/ui/dialog/delete_screenshots_dialog.py:91
 msgid "Are you sure you want to trash the following files?"
 msgstr ""
-"Weet je zeker dat je de volgende bestanden wilt verwijderen?\n"
-"\n"
-"%s"
+"Weet je zeker dat je de volgende bestanden wilt verwijderen?"
 
 #: gradia/ui/dialog/delete_screenshots_dialog.py:101
 msgid "Screenshot moved to trash"

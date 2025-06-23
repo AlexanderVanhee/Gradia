@@ -12,7 +12,7 @@
     <file preprocess="xml-stripblanks">ui/recent_picker.ui</file>
     <file preprocess="xml-stripblanks">ui/text_entry_popover.ui</file>
     <file preprocess="xml-stripblanks">ui/welcome_page.ui</file>
-    <file preprocess="xml-stripblanks">ui/settings_window.ui</file>
+    <file preprocess="xml-stripblanks">ui/preferences_window.ui</file>
     <file preprocess="xml-stripblanks">ui/confirm_close_dialog.ui</file>
     <file>style.css</file>
     <file>help.txt</file>

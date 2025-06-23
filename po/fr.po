@@ -195,10 +195,7 @@ msgstr "Supprimer la capture d'écran ?"
 #: gradia/ui/window.py:420
 #, fuzzy
 msgid "Are you sure you want to delete the following file?"
-msgstr ""
-"Êtes-vous sûr de vouloir supprimer le fichier suivant ?\n"
-"\n"
-"%s"
+msgstr "Êtes-vous sûr de vouloir supprimer le fichier suivant ?"
 
 #: gradia/ui/window.py:422
 msgid "Delete Screenshots?"
@@ -207,10 +204,7 @@ msgstr "Supprimer les captures d'écran ?"
 #: gradia/ui/window.py:423
 #, fuzzy
 msgid "Are you sure you want to delete the following files?"
-msgstr ""
-"Êtes-vous sûr de vouloir supprimer les fichiers suivants ?\n"
-"\n"
-"%s"
+msgstr "Êtes-vous sûr de vouloir supprimer les fichiers suivants ?"
 
 #: gradia/ui/window.py:432 gradia/ui/image_exporters.py:120
 msgid "Cancel"

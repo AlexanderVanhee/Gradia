@@ -7,13 +7,14 @@ template $GradiaSolidSelector : Adw.PreferencesGroup {
   Adw.ActionRow color_row {
     title: _("Color");
 
-    // TODO: Replace with ColorDialogButton
     [suffix]
-    Gtk.ColorButton color_button {
-      use-alpha: true;
+    Gtk.ColorDialogButton color_button {
       valign: center;
+      dialog: Gtk.ColorDialog {
+        with-alpha: true;
+      };
 
-      color-set => $_on_color_changed();
+      notify::rgba => $_on_color_changed();
     }
   }
 

@@ -1,4 +1,4 @@
-# settings_window.py
+# preferences_window.py
 # Copyright (C) 2025 Alexander Vanhee
 #
 # This program is free software: you can redistribute it and/or modify
@@ -92,9 +92,9 @@ def get_command_for_screenshot_type(screenshot_type: str) -> str:
         return f"gradia --screenshot={screenshot_type}"
 
 
-@Gtk.Template(resource_path=f"{rootdir}/ui/settings_window.ui")
-class SettingsWindow(Adw.PreferencesWindow):
-    __gtype_name__ = 'GradiaSettingsWindow'
+@Gtk.Template(resource_path=f"{rootdir}/ui/preferences_window.ui")
+class PreferencesWindow(Adw.PreferencesWindow):
+    __gtype_name__ = 'GradiaPreferencesWindow'
 
     location_group: Adw.PreferencesGroup = Gtk.Template.Child()
     folder_expander: Adw.ExpanderRow = Gtk.Template.Child()

@@ -58,8 +58,7 @@ class SolidSelector(Adw.PreferencesGroup):
         "#00000000"
     ]
 
-    color_button: Gtk.ColorButton = Gtk.Template.Child()
-
+    color_button: Gtk.ColorDialogButton = Gtk.Template.Child()
     color_presets_grid: Gtk.Grid = Gtk.Template.Child()
 
     def __init__(
@@ -144,7 +143,7 @@ class SolidSelector(Adw.PreferencesGroup):
     """
 
     @Gtk.Template.Callback()
-    def _on_color_changed(self, button: Gtk.ColorButton, *args) -> None:
+    def _on_color_changed(self, button: Gtk.ColorDialogButton, *args) -> None:
         rgba = button.get_rgba()
 
         self.solid.color = rgba_to_hex(rgba)

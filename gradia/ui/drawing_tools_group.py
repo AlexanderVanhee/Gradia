@@ -71,9 +71,9 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
     size_revealer: Gtk.Revealer = Gtk.Template.Child()
     number_radius_revealer: Gtk.Revealer = Gtk.Template.Child()
 
-    stroke_color_button: Gtk.ColorButton = Gtk.Template.Child()
-    highlighter_color_button: Gtk.ColorButton = Gtk.Template.Child()
-    fill_color_button: Gtk.ColorButton = Gtk.Template.Child()
+    stroke_color_button: Gtk.ColorDialogButton = Gtk.Template.Child()
+    highlighter_color_button: Gtk.ColorDialogButton = Gtk.Template.Child()
+    fill_color_button: Gtk.ColorDialogButton = Gtk.Template.Child()
 
     size_scale: Gtk.Scale = Gtk.Template.Child()
     number_radius_scale: Gtk.Scale = Gtk.Template.Child()
@@ -199,19 +199,19 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
         self.fill_color_button.emit("color-set")
 
     @Gtk.Template.Callback()
-    def _on_pen_color_set(self, button: Gtk.ColorButton, *args) -> None:
+    def _on_pen_color_set(self, button: Gtk.ColorDialogButton, *args) -> None:
         rgba = button.get_rgba()
         self.settings.pen_color = rgba
         self._activate_color_action("pen-color", rgba)
 
     @Gtk.Template.Callback()
-    def _on_highlighter_color_set(self, button: Gtk.ColorButton, *args) -> None:
+    def _on_highlighter_color_set(self, button: Gtk.ColorDialogButton, *args) -> None:
         rgba = button.get_rgba()
         self.settings.highlighter_color = rgba
         self._activate_color_action("highlighter-color", rgba)
 
     @Gtk.Template.Callback()
-    def _on_fill_color_set(self, button: Gtk.ColorButton, *args) -> None:
+    def _on_fill_color_set(self, button: Gtk.ColorDialogButton, *args) -> None:
         rgba = button.get_rgba()
         self.settings.fill_color = rgba
         self._activate_color_action("fill-color", rgba)

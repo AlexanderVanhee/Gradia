@@ -227,12 +227,10 @@ msgstr "Скриншоттарды жою керек пе?"
 #, python-format
 msgid ""
 "Are you sure you want to delete the following files?\n"
-"\n"
-"%s"
+
 msgstr ""
 "Келесі файлдарды жойғыңыз келетініне сенімдісіз бе?\n"
-"\n"
-"%s"
+
 #: gradia/ui/window.py:371 gradia/ui/image_exporters.py:120
 msgid "Cancel"
 msgstr "Бас тарту"
