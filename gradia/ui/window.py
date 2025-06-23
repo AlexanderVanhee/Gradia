@@ -141,6 +141,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
         self.create_action("save", lambda *_: self.export_manager.save_to_file(), ["<Primary>s"], enabled=False)
         self.create_action("copy", lambda *_: self.export_manager.copy_to_clipboard(), ["<Primary>c"], enabled=False)
+        self.create_action("command", lambda *_: self.export_manager.run_custom_command(), enabled=False)
 
         self.create_action("quit", lambda *_: self.close(), ["<Primary>w"])
 
@@ -329,7 +330,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.image_stack.get_style_context().add_class("view")
         self._show_loading_state()
         self.process_image()
-        self._set_save_and_toggle(True)
+        self._set_export_ready(True)
 
     def _show_loading_state(self) -> None:
         self.main_stack.set_visible_child_name("main")
@@ -407,11 +408,19 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             child: str = getattr(self, "_previous_stack_child", self.PAGE_IMAGE)
             self.image_stack.set_visible_child_name(child)
 
-    def _set_save_and_toggle(self, enabled: bool) -> None:
+    def _set_export_ready(self, enabled: bool) -> None:
+        self.image_ready = True
         for action_name in ["save", "copy"]:
             action = self.app.lookup_action(action_name)
             if action:
                 action.set_enabled(enabled)
+        self.update_command_ready()
+
+    def update_command_ready(self) -> None:
+        action = self.app.lookup_action('command')
+        if action:
+            is_valid = bool(Settings().custom_export_command.strip()) and self.image_ready
+            action.set_enabled(is_valid)
 
     def _create_delete_screenshots_dialog(self) -> None:
         dialog = DeleteScreenshotsDialog(self)

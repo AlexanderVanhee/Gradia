@@ -106,6 +106,8 @@ class PreferencesWindow(Adw.PreferencesWindow):
     compress_switch: Adw.SwitchRow = Gtk.Template.Child()
     delete_screenshot_switch: Adw.SwitchRow = Gtk.Template.Child()
     confirm_close_switch: Adw.SwitchRow = Gtk.Template.Child()
+    command_entry: Gtk.Entry = Gtk.Template.Child()
+    command_reset: Gtk.Button = Gtk.Template.Child()
 
     def __init__(self, parent_window: Adw.ApplicationWindow, **kwargs):
         super().__init__(**kwargs)
@@ -128,6 +130,8 @@ class PreferencesWindow(Adw.PreferencesWindow):
         self._populate_save_format_combo()
         self._setup_command_entries()
         self._bind_settings()
+
+        self.command_entry.set_text(self.settings.custom_export_command)
 
     def _setup_command_entries(self):
         interactive_command = get_command_for_screenshot_type("INTERACTIVE")
@@ -207,6 +211,9 @@ class PreferencesWindow(Adw.PreferencesWindow):
 
         self.save_format_combo.connect("notify::selected", self._on_export_format_changed)
 
+        self.command_entry.connect("changed", self._on_command_entry_changed)
+        self.command_reset.connect("clicked", self._on_command_reset_clicked)
+
     def _on_folder_row_activated(self, row: Adw.ActionRow) -> None:
         folder_name = row.folder_name
         self._update_folder_selection(folder_name)
@@ -226,6 +233,15 @@ class PreferencesWindow(Adw.PreferencesWindow):
             is_selected = row.folder_name == selected_folder
             row.checkmark.set_visible(is_selected)
         self._update_expander_title()
+
+    def _on_command_entry_changed(self, entry: Gtk.Entry) -> None:
+        self.settings.custom_export_command = entry.get_text()
+        self.parent_window.update_command_ready()
+
+    def _on_command_reset_clicked(self, button: Gtk.Button) -> None:
+        self.command_entry.set_text("")
+        self.settings.custom_export_command = ""
+        self.parent_window.update_command_ready()
 
     def _copy_to_clipboard(self, text: str) -> None:
         clipboard = self.get_clipboard()

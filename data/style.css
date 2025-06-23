@@ -82,3 +82,8 @@ headerbar.desktop windowcontrols button:active image {
 .gradient-preset:hover {
     filter: brightness(1.2);
 }
+
+.monospace {
+  font-family: monospace;
+}
+

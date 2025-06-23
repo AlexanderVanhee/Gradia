@@ -168,6 +168,16 @@ template $GradiaImageSidebar : Adw.Bin {
           "pill"
         ]
       }
+      Gtk.Button command_button {
+        icon-name: "terminal-symbolic";
+        tooltip-text: _("Run custom command");
+        action-name: "app.command";
+
+        styles [
+          "raised",
+          "circular"
+        ]
+      }
 
       styles [
         "toolbar"
