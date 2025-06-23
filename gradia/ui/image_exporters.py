@@ -217,21 +217,23 @@ class CommandLineExporter(BaseImageExporter):
             if not temp_path or not os.path.exists(temp_path):
                 raise Exception("Failed to create temporary file for command")
 
-
             command_template = Settings().custom_export_command
-            bash_command = f"bash -c '{command_template}' -- '{temp_path}'"
+            if "$1" not in command_template:
+                raise Exception("Custom export command must include $1 as a placeholder for the image path")
 
-            logger.info("running custom command: " + bash_command)
+            command = command_template.replace("$1", f"{temp_path}")
+
+            logger.info("running custom command: " + command)
             process = subprocess.Popen(
-                bash_command,
+                command,
                 shell=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE
             )
             stdout, stderr = process.communicate()
 
-            logger.info("stderr:" +( stderr.decode('utf-8') if stderr else "None"))
-            logger.info("stdout:" + ( stdout.decode('utf-8') if stdout else "None"))
+            logger.info("stderr:" + (stderr.decode('utf-8') if stderr else "None"))
+            logger.info("stdout:" + (stdout.decode('utf-8') if stdout else "None"))
             logger.info("return code:" + str(process.returncode))
 
             if process.returncode != 0:
