@@ -16,9 +16,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+import subprocess
 
 from gi.repository import Gtk, Gio, GdkPixbuf
-from gradia.clipboard import copy_file_to_clipboard, save_pixbuff_to_path
+from gradia.clipboard import copy_file_to_clipboard, copy_text_to_clipboard, save_pixbuff_to_path
 from gradia.backend.logger import Logger
 from gradia.app_constants import SUPPORTED_EXPORT_FORMATS, DEFAULT_EXPORT_FORMAT
 from gradia.backend.settings import Settings
@@ -190,6 +191,7 @@ class ClipboardExporter(BaseImageExporter):
     def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str) -> None:
         super().__init__(window, temp_dir)
 
+
     def copy_to_clipboard(self) -> None:
         """Copy processed image to system clipboard"""
         try:
@@ -207,6 +209,57 @@ class ClipboardExporter(BaseImageExporter):
             print(f"Error copying to clipboard: {e}")
 
 
+class CommandLineExporter(BaseImageExporter):
+    def run_custom_command(self) -> None:
+        try:
+            self._ensure_processed_image_available()
+            temp_path = save_pixbuff_to_path(self.temp_dir, self.get_processed_pixbuf())
+            if not temp_path or not os.path.exists(temp_path):
+                raise Exception("Failed to create temporary file for command")
+
+            command_template = Settings().custom_export_command
+            if "$1" not in command_template:
+                raise Exception("Custom export command must include $1 as a placeholder for the image path")
+
+            command = command_template.replace("$1", f"{temp_path}")
+
+            logger.info("running custom command: " + command)
+            process = subprocess.Popen(
+                command,
+                shell=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
+            stdout, stderr = process.communicate()
+
+            logger.info("stderr:" + (stderr.decode('utf-8') if stderr else "None"))
+            logger.info("stdout:" + (stdout.decode('utf-8') if stdout else "None"))
+            logger.info("return code:" + str(process.returncode))
+
+            if process.returncode != 0:
+                error_msg = stderr.decode('utf-8').strip() if stderr else "Unknown error"
+                self.window._show_notification(_("Custom command failed: ") + error_msg)
+                return
+
+            if stderr:
+                warning_msg = stderr.decode('utf-8').strip()
+                if warning_msg:
+                    self.window._show_notification(_("Warning: ") + warning_msg)
+
+            output_text = stdout.decode('utf-8').strip()
+            if output_text:
+                logger.info("output: " + output_text)
+                copy_text_to_clipboard(output_text)
+                self.window._show_notification(_("Result copied to clipboard"))
+            else:
+                self.window._show_notification(_("No output from command"))
+
+        except Exception as e:
+            self.window._show_notification(_("Failed to run custom export command"))
+            logger.error(f"Error running custom export command: {e}")
+            import traceback
+            traceback.print_exc()
+
 class ExportManager:
     """Coordinates export functionality"""
 
@@ -216,6 +269,7 @@ class ExportManager:
 
         self.file_exporter: FileDialogExporter = FileDialogExporter(window, temp_dir)
         self.clipboard_exporter: ClipboardExporter = ClipboardExporter(window, temp_dir)
+        self.command_exporter: CommandLineExporter = CommandLineExporter(window, temp_dir)
 
     def save_to_file(self) -> None:
         """Export to file using file dialog"""
@@ -224,6 +278,10 @@ class ExportManager:
     def copy_to_clipboard(self) -> None:
         """Export to clipboard"""
         self.clipboard_exporter.copy_to_clipboard()
+
+    def run_custom_command(self) -> None:
+        """Run custom export command"""
+        self.command_exporter.run_custom_command()
 
     def is_export_available(self) -> bool:
         """Check if export operations are available"""

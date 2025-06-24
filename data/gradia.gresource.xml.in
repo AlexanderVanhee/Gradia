@@ -43,6 +43,7 @@
     <file preprocess="xml-stripblanks">icons/scalable/actions/eraser4-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/settings-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/line-large-circle-outline-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/share-symbolic.svg</file>
   </gresource>
 </gresources>
 

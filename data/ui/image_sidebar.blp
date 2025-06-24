@@ -168,6 +168,16 @@ template $GradiaImageSidebar : Adw.Bin {
           "pill"
         ]
       }
+      Gtk.Button command_button {
+        icon-name: "share-symbolic";
+        tooltip-text: _("Run Upload Command");
+        action-name: "app.command";
+        width-request: 45;
+        styles [
+          "raised",
+          "circular"
+        ]
+      }
 
       styles [
         "toolbar"

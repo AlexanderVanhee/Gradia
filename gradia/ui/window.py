@@ -78,6 +78,8 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.image_path: Optional[str] = None
         self.processed_path: Optional[str] = None
         self.processed_pixbuf: Optional[Gdk.Pixbuf] = None
+        self.command_button = None
+        self.image_ready = False
 
         self.export_manager: ExportManager = ExportManager(self, temp_dir)
         self.import_manager: ImportManager = ImportManager(self, temp_dir, self.app)
@@ -141,6 +143,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
         self.create_action("save", lambda *_: self.export_manager.save_to_file(), ["<Primary>s"], enabled=False)
         self.create_action("copy", lambda *_: self.export_manager.copy_to_clipboard(), ["<Primary>c"], enabled=False)
+        self.create_action("command", lambda *_: self._run_custom_command(), enabled=False)
 
         self.create_action("quit", lambda *_: self.close(), ["<Primary>w"])
 
@@ -190,6 +193,8 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
         self.sidebar.set_size_request(self.SIDEBAR_WIDTH, -1)
         self.sidebar.set_visible(False)
+
+        self.command_button = self.sidebar.command_button
 
     def _setup(self) -> None:
         self.split_view.set_sidebar(self.sidebar)
@@ -329,7 +334,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.image_stack.get_style_context().add_class("view")
         self._show_loading_state()
         self.process_image()
-        self._set_save_and_toggle(True)
+        self._set_export_ready(True)
 
     def _show_loading_state(self) -> None:
         self.main_stack.set_visible_child_name("main")
@@ -407,11 +412,20 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             child: str = getattr(self, "_previous_stack_child", self.PAGE_IMAGE)
             self.image_stack.set_visible_child_name(child)
 
-    def _set_save_and_toggle(self, enabled: bool) -> None:
+    def _set_export_ready(self, enabled: bool) -> None:
+        self.image_ready = True
         for action_name in ["save", "copy"]:
             action = self.app.lookup_action(action_name)
             if action:
                 action.set_enabled(enabled)
+        self.update_command_ready()
+
+    def update_command_ready(self) -> None:
+        action = self.app.lookup_action('command')
+        if action:
+            action.set_enabled(self.image_ready)
+            self.command_button.set_visible(bool(Settings().custom_export_command.strip()))
+
 
     def _create_delete_screenshots_dialog(self) -> None:
         dialog = DeleteScreenshotsDialog(self)
@@ -431,3 +445,22 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
     def _on_toggle_utility_pane_activated(self, action: Gio.SimpleAction, param) -> None:
         self.split_view.set_show_sidebar(not self.split_view.get_show_sidebar())
+
+    def _run_custom_command(self) -> None:
+        if Settings().show_export_confirm_dialog:
+            dialog = Adw.MessageDialog.new(
+                parent=self.get_root(),
+                heading=_("Confirm Upload Command"),
+                body=_("Are you sure you want to run the upload command?")
+            )
+            dialog.add_response("cancel", _("Cancel"))
+            dialog.add_response("confirm", _("Run"))
+            dialog.set_default_response("cancel")
+            dialog.set_response_appearance("confirm", Adw.ResponseAppearance.SUGGESTED)
+
+            dialog.connect("response", lambda dialog, response_id:
+                          self.export_manager.run_custom_command() if response_id == "confirm" else None)
+
+            dialog.present()
+        else:
+            self.export_manager.run_custom_command()

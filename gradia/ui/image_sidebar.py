@@ -41,6 +41,7 @@ class ImageSidebar(Adw.Bin):
     filename_row: Adw.ActionRow = Gtk.Template.Child()
     location_row: Adw.ActionRow = Gtk.Template.Child()
     processed_size_row: Adw.ActionRow = Gtk.Template.Child()
+    command_button: Gtk.Button = Gtk.Template.Child()
 
     def __init__(
         self,
@@ -75,6 +76,7 @@ class ImageSidebar(Adw.Bin):
         self.background_selector_group.add(background_selector_widget)
         self._setup_widgets()
         self._connect_signals()
+
 
     def _setup_widgets(self) -> None:
         self.padding_adjustment.set_value(self._saved_values['padding'])

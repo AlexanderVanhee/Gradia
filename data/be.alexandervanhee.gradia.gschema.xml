@@ -53,6 +53,15 @@
       <default>true</default>
       <summary>Whether to ask before closing the app with content open.</summary>
     </key>
+    <key name="custom-export-command" type="s">
+      <default>''</default>
+      <summary>Custom command to run when pressing its button</summary>
+      <description>Command that receives the edited file path as stdin and returns clipboard output</description>
+    </key>
+    <key name="show-export-confirm-dialog" type="b">
+      <default>true</default>
+      <summary>Whether to ask before running the export command.</summary>
+    </key>
   </schema>
 </schemalist>
 

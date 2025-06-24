@@ -140,6 +140,18 @@ class Settings:
     def show_close_confirm_dialog(self) -> bool:
         return self._settings.get_boolean("show-close-confirm-dialog")
 
+    @property
+    def custom_export_command(self) -> str:
+        return self._settings.get_string("custom-export-command")
+
+    @custom_export_command.setter
+    def custom_export_command(self, value: str) -> None:
+        self._settings.set_string("custom-export-command", value)
+
+    @property
+    def show_export_confirm_dialog(self) -> bool:
+        return self._settings.get_boolean("show-export-confirm-dialog")
+
     def bind_switch(self, switch: Gtk.Switch, key: str) -> None:
         if key in self._settings.list_keys():
             self._settings.bind(
