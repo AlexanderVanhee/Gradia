@@ -106,6 +106,7 @@ class PreferencesWindow(Adw.PreferencesWindow):
     compress_switch: Adw.SwitchRow = Gtk.Template.Child()
     delete_screenshot_switch: Adw.SwitchRow = Gtk.Template.Child()
     confirm_close_switch: Adw.SwitchRow = Gtk.Template.Child()
+    confirm_upload_switch: Adw.SwitchRow = Gtk.Template.Child()
     command_entry: Gtk.Entry = Gtk.Template.Child()
     command_reset: Gtk.Button = Gtk.Template.Child()
 
@@ -260,3 +261,4 @@ class PreferencesWindow(Adw.PreferencesWindow):
         self.settings.bind_switch(self.compress_switch,"export-compress")
         self.settings.bind_switch(self.delete_screenshot_switch,"trash-screenshots-on-close")
         self.settings.bind_switch(self.confirm_close_switch,"show-close-confirm-dialog")
+        self.settings.bind_switch(self.confirm_upload_switch,"show-export-confirm-dialog")

@@ -148,6 +148,10 @@ class Settings:
     def custom_export_command(self, value: str) -> None:
         self._settings.set_string("custom-export-command", value)
 
+    @property
+    def show_export_confirm_dialog(self) -> bool:
+        return self._settings.get_boolean("show-export-confirm-dialog")
+
     def bind_switch(self, switch: Gtk.Switch, key: str) -> None:
         if key in self._settings.list_keys():
             self._settings.bind(

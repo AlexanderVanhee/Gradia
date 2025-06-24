@@ -66,8 +66,17 @@ template $GradiaPreferencesWindow : Adw.PreferencesWindow {
   }
 
   Adw.PreferencesGroup {
-    title: _("Custom export command");
-    description: _("Add a bash command here to enable a button that sends the edited image’s file path via stdin. The command’s output is copied to the clipboard, perfect for quick uploads or processing.");
+    title: _("Custom upload command");
+    description: _("Connect to your favorite upload service via a bash command");
+
+    [header-suffix]
+    Gtk.LinkButton more_info_link {
+      label: _("Guide");
+      uri: "https://gradia.alexandervanhee.be/upload-commands";
+      tooltip-text: _("Learn more about custom upload commands");
+      valign: center;
+    }
+
 
     Adw.ActionRow {
     child:Gtk.Box{
@@ -89,6 +98,17 @@ template $GradiaPreferencesWindow : Adw.PreferencesWindow {
       }
       };
     }
+
+    Adw.ComboRow confirm_upload_combo {
+      title: _("Confirm on upload");
+      subtitle: _("Ask for confirmation before running the upload command");
+      [suffix]
+      Gtk.Switch confirm_upload_switch {
+        tooltip-text: _("Ask for confirmation before running the upload command");
+        valign: center;
+      }
+    }
+
   }
 
   }
