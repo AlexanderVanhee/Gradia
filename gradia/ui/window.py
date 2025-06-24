@@ -79,6 +79,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.processed_path: Optional[str] = None
         self.processed_pixbuf: Optional[Gdk.Pixbuf] = None
         self.command_button = None
+        self.image_ready = False
 
         self.export_manager: ExportManager = ExportManager(self, temp_dir)
         self.import_manager: ImportManager = ImportManager(self, temp_dir, self.app)
