@@ -32,10 +32,10 @@ class ImageProcessor:
         self,
         image_path: Optional[str] = None,
         background: Optional[Background] = None,
-        padding: int = 5,
+        padding: int = 0,
         aspect_ratio: Optional[str | float] = None,
-        corner_radius: int = 2,
-        shadow_strength: float = 5,
+        corner_radius: int = 0,
+        shadow_strength: float = 0,
         auto_balance: bool = False
     ) -> None:
         self.background: Optional[Background] = background

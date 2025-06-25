@@ -186,6 +186,7 @@ class ImageSelector(Adw.PreferencesGroup):
 
             self._load_preset_image_async(path, picture, stack)
             self.popover_flowbox.append(button)
+            self.image_popover.set_position(Gtk.PositionType.TOP)
 
     """
     Callbacks

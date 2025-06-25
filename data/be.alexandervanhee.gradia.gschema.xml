@@ -29,6 +29,28 @@
       <default>'Adwaita Sans'</default>
       <summary>Selected font name</summary>
     </key>
+
+    <key name="image-padding" type="i">
+      <default>5</default>
+      <summary>Padding percentage around the image</summary>
+    </key>
+    <key name="image-corner-radius" type="i">
+      <default>2</default>
+      <summary>Radius of the rounded corners</summary>
+    </key>
+    <key name="image-aspect-ratio" type="s">
+      <default>''</default>
+      <summary>Aspect ratio of the final image</summary>
+    </key>
+    <key name="image-shadow-strength" type="i">
+      <default>5</default>
+      <summary>Intensity of the shadow behind the image</summary>
+    </key>
+    <key name="image-auto-balance" type="b">
+      <default>false</default>
+      <summary>If images with same colored edges should be balanced</summary>
+    </key>
+
    <key name="screenshot-subfolder" type="s">
       <default>'Screenshots'</default>
       <summary>Screenshot subdirectory</summary>

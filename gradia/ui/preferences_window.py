@@ -30,24 +30,9 @@ from gradia.backend.logger import Logger
 logger = Logger()
 
 class ScreenshotFolderFinder:
-    XDG_USER_DIRS_FILE = Path.home() / ".config" / "user-dirs.dirs"
-    FALLBACK_PICTURES_PATH = Path.home() / "Pictures"
 
     def __init__(self):
-        self.pictures_dir = self._get_xdg_user_dir("XDG_PICTURES_DIR") or self.FALLBACK_PICTURES_PATH
-
-    def _get_xdg_user_dir(self, key: str) -> Path | None:
-        if not self.XDG_USER_DIRS_FILE.exists():
-            return None
-
-        pattern = re.compile(rf'{key}="([^"]+)"')
-        with open(self.XDG_USER_DIRS_FILE, "r") as f:
-            for line in f:
-                match = pattern.match(line.strip())
-                if match:
-                    path = match.group(1).replace("$HOME", str(Path.home()))
-                    return Path(path)
-        return None
+        self.pictures_dir = Path(GLib.get_user_special_dir(GLib.USER_DIRECTORY_PICTURES))
 
     def get_screenshot_folders(self) -> list[tuple[str, str]]:
         folders = [(_("Root"), "")]
@@ -64,15 +49,14 @@ class ScreenshotFolderFinder:
                 folders.append((subdir.name, subdir.name))
 
         except PermissionError:
-            logger.warning("Permission denied accessing {path}").format(path=self.pictures_dir)
+            logger.warning(f"Permission denied accessing {self.pictures_dir}")
         except Exception as e:
-            logger.warning("Error reading screenshot folders: {error}").format(error=e)
+            logger.warning(f"Error reading screenshot folders: {e}")
 
         return folders
 
     def get_current_folder(self):
         return Settings().screenshot_subfolder
-
 
 def is_running_in_flatpak() -> bool:
     if os.getenv('FLATPAK_ID'):

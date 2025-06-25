@@ -66,7 +66,9 @@ Gtk.FileFilter image_filter {
 
 Gtk.Popover image_popover {
   autohide: true;
-  has-arrow: true;
+  has-arrow: false;
+  margin-top: 5;
+  margin-bottom:5;
 
   child: Gtk.FlowBox popover_flowbox {
     max-children-per-line: 3;

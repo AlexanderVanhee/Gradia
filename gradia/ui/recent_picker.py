@@ -15,12 +15,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from pathlib import Path
 import random
 import re
 from typing import Callable, Optional
-
-from gi.repository import Adw, Gtk
+from pathlib import Path
+from gi.repository import Adw, Gtk, GLib
 
 from gradia.app_constants import PREDEFINED_GRADIENTS
 from gradia.backend.settings import Settings
@@ -35,7 +34,6 @@ class RecentFile:
 
 class RecentImageGetter:
     MAX_RESULTS = 6
-    XDG_USER_DIRS_FILE = Path.home() / ".config" / "user-dirs.dirs"
     FALLBACK_PICTURES_PATH = Path.home() / "Pictures"
 
     def __init__(self) -> None:
@@ -44,7 +42,7 @@ class RecentImageGetter:
     def get_recent_screenshot_files(self) -> list[RecentFile]:
         screenshots_dir = self._get_screenshots_directory()
         if not screenshots_dir.exists():
-            print("Screenshots directory does not exist.")
+            print(f"Screenshots directory does not exist: {screenshots_dir}")
             return []
 
         image_extensions = {'.png', '.jpg', '.jpeg', '.webp', '.avif'}
@@ -53,25 +51,34 @@ class RecentImageGetter:
 
         sorted_files = sorted(all_files, key=lambda f: f.stat().st_mtime, reverse=True)
         top_files = sorted_files[:self.MAX_RESULTS]
+
         return [RecentFile(f) for f in top_files]
 
-    def _get_screenshots_directory(self) -> Path:
-        pictures_dir = self._get_xdg_user_directory("XDG_PICTURES_DIR") or self.FALLBACK_PICTURES_PATH
-        return pictures_dir / Settings().screenshot_subfolder
+    def _get_screenshots_directory(self) -> Path | None:
+        """
+        Get screenshots directory with fallback logic:
+        1. XDG_PICTURES_DIR/(configured folder from preferences)
+        2. XDG_PICTURES_DIR/Screenshots
+        3. XDG_PICTURES_DIR
+        """
+        xdg_pictures = GLib.get_user_special_dir(GLib.USER_DIRECTORY_PICTURES)
 
-    def _get_xdg_user_directory(self, key: str) -> Path | None:
-        if not self.XDG_USER_DIRS_FILE.exists():
+        if not xdg_pictures:
             return None
 
-        pattern = re.compile(rf'{key}="([^"]+)"')
-        with open(self.XDG_USER_DIRS_FILE, "r") as f:
-            for line in f:
-                match = pattern.match(line.strip())
-                if match:
-                    path = match.group(1).replace("$HOME", str(Path.home()))
-                    return Path(path)
-        return None
+        xdg_pictures_path = Path(xdg_pictures)
 
+        configured_subfolder = Settings().screenshot_subfolder
+        if configured_subfolder:
+            subfolder_path = xdg_pictures_path / configured_subfolder
+            if subfolder_path.exists():
+                return subfolder_path
+
+        screenshots_path = xdg_pictures_path / "Screenshots"
+        if screenshots_path.exists():
+            return screenshots_path
+
+        return xdg_pictures_path
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/recent_picker.ui")
 class RecentPicker(Adw.Bin):

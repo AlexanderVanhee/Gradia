@@ -98,28 +98,6 @@ class Settings:
     def screenshot_subfolder(self, value: str) -> None:
         self._settings.set_string("screenshot-subfolder", value)
 
-    """
-    Internal Methods
-    """
-
-    def _parse_rgba(self, color_str: str, fallback: tuple[float, float, float, float]) -> Gdk.RGBA:
-        rgba = Gdk.RGBA()
-
-        try:
-            parts = list(map(float, color_str.split(',')))
-
-            if len(parts) == 4:
-                rgba.red, rgba.green, rgba.blue, rgba.alpha = parts
-            else:
-                rgba.red, rgba.green, rgba.blue, rgba.alpha = fallback
-        except (ValueError, IndexError):
-            rgba.red, rgba.green, rgba.blue, rgba.alpha = fallback
-
-        return rgba
-
-    def _rgba_to_string(self, rgba: Gdk.RGBA) -> str:
-        return f"{rgba.red:.3f},{rgba.green:.3f},{rgba.blue:.3f},{rgba.alpha:.3f}"
-
     @property
     def export_format(self) -> str:
         return self._settings.get_string("export-format")
@@ -152,12 +130,107 @@ class Settings:
     def show_export_confirm_dialog(self) -> bool:
         return self._settings.get_boolean("show-export-confirm-dialog")
 
+    @property
+    def image_padding(self) -> int:
+        return self._settings.get_int("image-padding")
+
+    @image_padding.setter
+    def image_padding(self, value: int) -> None:
+        self._settings.set_int("image-padding", value)
+
+    @property
+    def image_corner_radius(self) -> int:
+        return self._settings.get_int("image-corner-radius")
+
+    @image_corner_radius.setter
+    def image_corner_radius(self, value: int) -> None:
+        self._settings.set_int("image-corner-radius", value)
+
+    @property
+    def image_aspect_ratio(self) -> str:
+        return self._settings.get_string("image-aspect-ratio")
+
+    @image_aspect_ratio.setter
+    def image_aspect_ratio(self, value: str) -> None:
+        self._settings.set_string("image-aspect-ratio", value)
+
+    @property
+    def image_shadow_strength(self) -> int:
+        return self._settings.get_int("image-shadow-strength")
+
+    @image_shadow_strength.setter
+    def image_shadow_strength(self, value: int) -> None:
+        self._settings.set_int("image-shadow-strength", value)
+
+    @property
+    def image_auto_balance(self) -> bool:
+        return self._settings.get_boolean("image-auto-balance")
+
+    @image_auto_balance.setter
+    def image_auto_balance(self, value: bool) -> None:
+        self._settings.set_boolean("image-auto-balance", value)
+
+    """
+    Internal Methods
+    """
+
+    def _parse_rgba(self, color_str: str, fallback: tuple[float, float, float, float]) -> Gdk.RGBA:
+        rgba = Gdk.RGBA()
+
+        try:
+            parts = list(map(float, color_str.split(',')))
+
+            if len(parts) == 4:
+                rgba.red, rgba.green, rgba.blue, rgba.alpha = parts
+            else:
+                rgba.red, rgba.green, rgba.blue, rgba.alpha = fallback
+        except (ValueError, IndexError):
+            rgba.red, rgba.green, rgba.blue, rgba.alpha = fallback
+
+        return rgba
+
+    def _rgba_to_string(self, rgba: Gdk.RGBA) -> str:
+        return f"{rgba.red:.3f},{rgba.green:.3f},{rgba.blue:.3f},{rgba.alpha:.3f}"
+
     def bind_switch(self, switch: Gtk.Switch, key: str) -> None:
         if key in self._settings.list_keys():
             self._settings.bind(
                 key,
                 switch,
                 "active",
+                Gio.SettingsBindFlags.DEFAULT
+            )
+        else:
+            print(f"Warning: GSettings key '{key}' not found in schema.")
+
+    def bind_adjustment(self, adjustment: Gtk.Adjustment, key: str) -> None:
+        if key in self._settings.list_keys():
+            self._settings.bind(
+                key,
+                adjustment,
+                "value",
+                Gio.SettingsBindFlags.DEFAULT
+            )
+        else:
+            print(f"Warning: GSettings key '{key}' not found in schema.")
+
+    def bind_scale(self, scale: Gtk.Scale, key: str) -> None:
+        if key in self._settings.list_keys():
+            self._settings.bind(
+                key,
+                scale.get_adjustment(),
+                "value",
+                Gio.SettingsBindFlags.DEFAULT
+            )
+        else:
+            print(f"Warning: GSettings key '{key}' not found in schema.")
+
+    def bind_spin_row(self, spin_row: object, key: str) -> None:
+        if key in self._settings.list_keys():
+            self._settings.bind(
+                key,
+                spin_row,
+                "value",
                 Gio.SettingsBindFlags.DEFAULT
             )
         else:

@@ -180,6 +180,7 @@ class GradientSelector(Adw.PreferencesGroup):
 
             button.connect("clicked", self._on_gradient_selected, start, end, angle)
             self.popover_flowbox.append(button)
+            self.gradient_popover.set_position(Gtk.PositionType.TOP)
 
     def _apply_gradient_to_preset_button(self, button: Gtk.Button, start: str, end: str, angle: int) -> None:
         css = f"""
@@ -316,3 +317,4 @@ class GradientSelector(Adw.PreferencesGroup):
     def _notify(self) -> None:
         if self.callback:
             self.callback(self.gradient)
+

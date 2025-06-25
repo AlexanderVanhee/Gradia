@@ -79,11 +79,10 @@ template $GradiaImageSidebar : Adw.Bin {
 
         Adw.ActionRow aspect_ratio_row {
           title: _("Aspect Ratio");
-          activatable-widget: aspect_ratio_entry;
-
+          activatable-widget: aspect_ratio_button;
           [suffix]
-          Gtk.Entry aspect_ratio_entry {
-            placeholder-text: "16:9";
+          Gtk.MenuButton aspect_ratio_button {
+            label: "Auto";
             valign: center;
           }
         }
