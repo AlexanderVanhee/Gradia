@@ -210,6 +210,26 @@ class ClipboardExporter(BaseImageExporter):
 
 
 class CommandLineExporter(BaseImageExporter):
+    def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str) -> None:
+        super().__init__(window, temp_dir)
+
+    def _is_valid_url(self, text: str) -> bool:
+        text = text.strip()
+        return text.startswith(('http://', 'https://')) and '.' in text
+
+    def _show_link_notification(self, url: str) -> None:
+        self.window._show_notification(
+            _("Link generated successfully"),
+            _("Open Link"),
+            lambda: self._open_link(url)
+        )
+
+    def _open_link(self, url: str) -> None:
+        try:
+            Gio.AppInfo.launch_default_for_uri(url, None)
+        except Exception as e:
+            logger.error(f"Failed to open URL: {e}")
+
     def run_custom_command(self) -> None:
         try:
             self._ensure_processed_image_available()
@@ -249,8 +269,13 @@ class CommandLineExporter(BaseImageExporter):
             output_text = stdout.decode('utf-8').strip()
             if output_text:
                 logger.info("output: " + output_text)
-                copy_text_to_clipboard(output_text)
-                self.window._show_notification(_("Result copied to clipboard"))
+
+                if self._is_valid_url(output_text):
+                    copy_text_to_clipboard(output_text)
+                    self._show_link_notification(output_text)
+                else:
+                    copy_text_to_clipboard(output_text)
+                    self.window._show_notification(_("Result copied to clipboard"))
             else:
                 self.window._show_notification(_("No output from command"))
 
@@ -259,6 +284,7 @@ class CommandLineExporter(BaseImageExporter):
             logger.error(f"Error running custom export command: {e}")
             import traceback
             traceback.print_exc()
+
 
 class ExportManager:
     """Coordinates export functionality"""

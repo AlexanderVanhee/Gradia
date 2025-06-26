@@ -87,3 +87,18 @@ headerbar.desktop windowcontrols button:active image {
   font-family: monospace;
 }
 
+
+.recent-button{
+    background-size: cover;
+    transition: filter 0.3s ease;
+}
+
+.recent-button:hover{
+    filter: brightness(1.1);
+}
+.recent-button:active{
+    filter: brightness(0.9);
+}
+.recent-button image {
+    border-radius: 4px;
+}

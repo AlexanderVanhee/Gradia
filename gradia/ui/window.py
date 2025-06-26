@@ -400,9 +400,12 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             self.sidebar.processed_size_row.set_subtitle(_("Error"))
             print(f"Error getting processed image size: {e}")
 
-    def _show_notification(self, message: str) -> None:
+    def _show_notification(self, message: str,action_label: str | None = None,action_callback: Callable[[], None] | None = None) -> None:
         if self.toast_overlay:
-            toast: Adw.Toast = Adw.Toast.new(message)
+            toast = Adw.Toast.new(message)
+            if action_label and action_callback:
+                toast.set_button_label(action_label)
+                toast.connect("button-clicked", lambda *_: action_callback())
             self.toast_overlay.add_toast(toast)
 
     def _set_loading_state(self, is_loading: bool) -> None:
@@ -451,11 +454,12 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             dialog = Adw.MessageDialog.new(
                 parent=self.get_root(),
                 heading=_("Confirm Upload Command"),
-                body=_("Are you sure you want to run the upload command?")
+                body=_("Are you sure you want to\n run the upload command?")
             )
             dialog.add_response("cancel", _("Cancel"))
             dialog.add_response("confirm", _("Run"))
             dialog.set_default_response("cancel")
+            dialog.set_size_request(350, -1)
             dialog.set_response_appearance("confirm", Adw.ResponseAppearance.SUGGESTED)
 
             dialog.connect("response", lambda dialog, response_id:

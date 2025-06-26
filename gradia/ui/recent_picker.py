@@ -181,6 +181,7 @@ class RecentPicker(Adw.Bin):
     def _apply_gradient_to_button(self, button: Gtk.Button, index: int) -> None:
         gradient_name = f"gradient-button-{index}"
         button.set_name(gradient_name)
+        button.add_css_class("recent-button")
 
         color_index = index % len(self.gradient_colors)
         start_color, end_color, angle = self.gradient_colors[color_index]
@@ -190,17 +191,6 @@ class RecentPicker(Adw.Bin):
                 background-image: linear-gradient({angle}deg, {start_color}, {end_color});
                 min-width: {self.IMAGE_WIDTH}px;
                 min-height: {self.IMAGE_HEIGHT}px;
-                background-size: cover;
-                transition: filter 0.3s ease;
-            }}
-            button#{gradient_name}:hover {{
-                filter: brightness(1.2);
-            }}
-            button#{gradient_name}:active {{
-                filter: brightness(0.9);
-            }}
-            button#{gradient_name} image {{
-                border-radius: 4px;
             }}
         """
 

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-16 00:21+0200\n"
-"PO-Revision-Date: 2025-06-10 18:11+0200\n"
+"POT-Creation-Date: 2025-06-21 15:02+0200\n"
+"PO-Revision-Date: 2025-06-25 17:39+0200\n"
 "Last-Translator: Uwe Senkler\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -19,8 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.6\n"
 
-#: data/be.alexandervanhee.gradia.desktop.in.in:2
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:11
+#: data/be.alexandervanhee.gradia.desktop.in.in:2 data/be.alexandervanhee.gradia.metainfo.xml.in.in:11
 msgid "Gradia"
 msgstr "Gradia"
 
@@ -38,19 +37,16 @@ msgstr "Bildschirmfotos aufbereiten"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:15
 msgid ""
-"Gradia helps you quickly prepare your screenshots for sharing by fixing "
-"common issues like transparency and awkward sizing. With simple tools to add "
-"backgrounds, adjust aspect ratios, and annotate images, you can enhance your "
-"screenshots to look professional and consistent across social media, blogs, "
-"and other platforms on the internet."
+"Gradia helps you quickly prepare your screenshots for sharing by fixing common issues like "
+"transparency and awkward sizing. With simple tools to add backgrounds, adjust aspect ratios, and "
+"annotate images, you can enhance your screenshots to look professional and consistent across social "
+"media, blogs, and other platforms on the internet."
 msgstr ""
-"Gradia hilft Ihnen, Bildschirmfotos umstandslos für die Veröffentlichung "
-"vorzubereiten, indem übliche Probleme wie Transparenz oder ungewöhnliche "
-"Formate behoben werden können. Mit unkomplizierten Werkzeugen zum Hinzufügen "
-"eines Hintergrunds, Ändern des Seitenverhältnisses oder Hinzufügen von "
-"Anmerkungen können Sie Bildschirmfotos aufbereiten, um eine professionelle "
-"Erscheinung auf Social Media, Blogs und anderen Internet-Plattformen zu "
-"gewährleisten."
+"Gradia hilft Ihnen, Bildschirmfotos umstandslos für die Veröffentlichung vorzubereiten, indem "
+"übliche Probleme wie Transparenz oder ungewöhnliche Formate behoben werden können. Mit "
+"unkomplizierten Werkzeugen zum Hinzufügen eines Hintergrunds, Ändern des Seitenverhältnisses oder "
+"Hinzufügen von Anmerkungen können Sie Bildschirmfotos aufbereiten, um eine professionelle "
+"Erscheinung auf Social Media, Blogs und anderen Internet-Plattformen zu gewährleisten."
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:16
 msgid "Key features:"
@@ -58,21 +54,16 @@ msgstr "Kernfunktionen:"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:18
 msgid "Add optional image and gradient backgrounds to your images"
-msgstr ""
-"Sie können unter Ihre Bilder optional Hintergrundbilder oder Farbverläufe "
-"legen"
+msgstr "Sie können unter Ihre Bilder optional Hintergrundbilder oder Farbverläufe legen"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:19
 msgid "Adjust aspect ratios and padding to fit different platforms"
 msgstr ""
-"Zur Anpassung an die verschiedenen Plattformen lassen sich Seitenverhältnis "
-"und Abstände festlegen"
+"Zur Anpassung an die verschiedenen Plattformen lassen sich Seitenverhältnis und Abstände festlegen"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:20
 msgid "Ten annotation modes, including text, arrow, and censor"
-msgstr ""
-"Es gibt zehn Werkzeuge für Anmerkungen, unter anderem für Text, Pfeile und "
-"Zensur"
+msgstr "Es gibt zehn Werkzeuge für Anmerkungen, unter anderem für Text, Pfeile und Zensur"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:21
 msgid "Multiple ways to import and export screenshots"
@@ -81,67 +72,33 @@ msgstr "Es gibt mehrere Wege, Bildschirmfotos zu importieren und exportieren"
 #. Package maintainers, please replace with correct command
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:24
 msgid ""
-"Want a keyboard shortcut on GNOME? Simply go to Settings → Keyboard → View "
-"and Customize Shortcuts → Custom Shortcuts. Then create a shortcut that runs "
-"<code>flatpak run be.alexandervanhee.gradia --screenshot=INTERACTIVE</code>."
+"Want a keyboard shortcut on GNOME? Simply go to Settings → Keyboard → View and Customize Shortcuts "
+"→ Custom Shortcuts. Then create a shortcut that runs <code>flatpak run be.alexandervanhee.gradia --"
+"screenshot=INTERACTIVE</code>."
 msgstr ""
-"Tastenkürzel unter GNOME gewünscht? Gehen Sie einfach zu Einstellungen → "
-"Tastatur → Tastenkürzel anzeigen und anpassen → Eigene Tastenkürzel. "
-"Erstellen Sie ein Tastenkürzel, das <code>flatpak run "
+"Tastenkürzel unter GNOME gewünscht? Gehen Sie einfach zu Einstellungen → Tastatur → Tastenkürzel "
+"anzeigen und anpassen → Eigene Tastenkürzel. Erstellen Sie ein Tastenkürzel, das <code>flatpak run "
 "be.alexandervanhee.gradia --screenshot=INTERACTIVE</code> ausführt."
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:30
 msgid "Alexander Vanhee"
 msgstr "Alexander Vanhee"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:142
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:153
 msgid "Edited screenshot"
 msgstr "Bearbeitetes Bildschirmfoto"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:146
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:157
 msgid "Edited picture"
 msgstr "Bearbeitetes Bild"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:150
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:161
 msgid "Startup view"
 msgstr "Startansicht"
 
-#: data/be.alexandervanhee.gradia.gschema.xml:6
-#, fuzzy
-msgid "Current drawing mode"
-msgstr "Aktuelle Datei"
-
-#: data/be.alexandervanhee.gradia.gschema.xml:10
-msgid "Pen color in rgba"
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:165
+msgid "UI element showcase"
 msgstr ""
-
-#: data/be.alexandervanhee.gradia.gschema.xml:14
-#, fuzzy
-msgid "Highlighter color in rgba"
-msgstr "Markierer"
-
-#: data/be.alexandervanhee.gradia.gschema.xml:18
-#, fuzzy
-msgid "Fill color in rgba"
-msgstr "Füllfarbe"
-
-#: data/be.alexandervanhee.gradia.gschema.xml:22
-msgid "Pen size"
-msgstr ""
-
-#: data/be.alexandervanhee.gradia.gschema.xml:26
-msgid "Number radius size"
-msgstr ""
-
-#: data/be.alexandervanhee.gradia.gschema.xml:30
-#, fuzzy
-msgid "Selected font name"
-msgstr "Bild wählen"
-
-#: data/be.alexandervanhee.gradia.gschema.xml:35
-#, fuzzy
-msgid "Screenshot subdirectory"
-msgstr "Bildschirmfoto gelöscht."
 
 #. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
 #: gradia/ui/ui_parts.py:160
@@ -188,105 +145,64 @@ msgstr "Gewähltes entfernen"
 msgid "General"
 msgstr "Allgemein"
 
-#: gradia/ui/ui_parts.py:189 data/ui/image_sidebar.blp:187
-#: data/ui/welcome_page.blp:72
+#: gradia/ui/ui_parts.py:189 data/ui/image_sidebar.blp:211 data/ui/welcome_page.blp:76
 msgid "Keyboard Shortcuts"
 msgstr "Tastenkürzel"
 
-#: gradia/ui/window.py:351
+#: gradia/ui/ui_parts.py:190 data/ui/image_sidebar.blp:207 data/ui/welcome_page.blp:72
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: gradia/ui/ui_parts.py:191
+msgid "Toggle Utility Pane"
+msgstr "Werkzeugbereich umschalten"
+
+#: gradia/ui/window.py:393
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: gradia/ui/window.py:353
+#: gradia/ui/window.py:395
 msgid "Error"
 msgstr "Fehler"
 
-#: gradia/ui/window.py:390
-#, fuzzy
-msgid "No screenshots to delete"
-msgstr "Keine zu löschenden Bildschirmfoto vorhanden."
-
-#: gradia/ui/window.py:419
-msgid "Delete Screenshot?"
-msgstr "Bildschirmfoto löschen?"
-
-#: gradia/ui/window.py:420
-#, fuzzy
-msgid "Are you sure you want to delete the following file?"
-msgstr "Folgende Datei wirklich löschen?"
-
-#: gradia/ui/window.py:422
-msgid "Delete Screenshots?"
-msgstr "Bildschirmfotos löschen?"
-
-#: gradia/ui/window.py:423
-#, fuzzy
-msgid "Are you sure you want to delete the following files?"
-msgstr "Folgende Dateien wirklich löschen?"
-
-#: gradia/ui/window.py:432 gradia/ui/image_exporters.py:120
-msgid "Cancel"
-msgstr "Abbrechen"
-
-#: gradia/ui/window.py:433
-msgid "Delete"
-msgstr "Löschen"
-
-#: gradia/ui/window.py:441
-#, fuzzy
-msgid "Screenshot deleted"
-msgstr "Bildschirmfoto gelöscht."
-
-#: gradia/ui/window.py:443
-#, fuzzy
-msgid "Screenshots deleted"
-msgstr "Bildschirmfotos gelöscht."
-
-#: gradia/ui/image_exporters.py:75
+#: gradia/ui/image_exporters.py:70
 msgid "Edit"
-msgstr "Bearbeiten"
+msgstr "Bearbeitet"
 
-#: gradia/ui/image_exporters.py:76
+#: gradia/ui/image_exporters.py:71
 msgid "Enhanced Screenshot"
 msgstr "Bearbeitetes Bildschirmfoto"
 
-#: gradia/ui/image_exporters.py:87
-msgid "PNG Image (*.png)"
-msgstr "PNG-Bild (*.png)"
-
-#: gradia/ui/image_exporters.py:93
-msgid "JPEG Image (*.jpg)"
-msgstr "JPEG-Bild (*.jpg)"
-
-#: gradia/ui/image_exporters.py:99
-msgid "WebP Image (*.webp)"
-msgstr "WebP-Bild (*.webp)"
-
-#: gradia/ui/image_exporters.py:116
+#: gradia/ui/image_exporters.py:90
 msgid "Save Image As"
 msgstr "Bild speichern als"
 
-#: gradia/ui/image_exporters.py:119
+#: gradia/ui/image_exporters.py:93
 msgid "Save"
 msgstr "Speichern"
 
-#: gradia/ui/image_exporters.py:142
-msgid "Unsupported image file extension."
-msgstr ""
+#: gradia/ui/image_exporters.py:94 gradia/ui/dialog/delete_screenshots_dialog.py:54
+#: data/ui/confirm_close_dialog.blp:9
+msgid "Cancel"
+msgstr "Abbrechen"
 
-#: gradia/ui/image_exporters.py:149
+#: gradia/ui/image_exporters.py:118
+msgid "Unsupported image file extension."
+msgstr "Nicht unterstützte Bilddatei-Namenserweiterung."
+
+#: gradia/ui/image_exporters.py:125
 msgid "Image saved successfully"
 msgstr "Bild erfolgreich gespeichert"
 
-#: gradia/ui/image_exporters.py:195
+#: gradia/ui/image_exporters.py:181
 msgid "No processed image available"
 msgstr "Kein bearbeitetes Bild vorhanden"
 
-#: gradia/ui/image_exporters.py:216
+#: gradia/ui/image_exporters.py:202
 msgid "Image copied to clipboard"
 msgstr "Bild in Zwischenablage kopiert"
 
-#: gradia/ui/image_exporters.py:219
+#: gradia/ui/image_exporters.py:205
 msgid "Failed to copy image to clipboard"
 msgstr "Kopieren des Bilds in die Zwischenablage fehlgeschlagen"
 
@@ -300,7 +216,7 @@ msgstr "Bilddateien"
 
 #: gradia/ui/image_loaders.py:120
 msgid "Not a supported image format."
-msgstr ""
+msgstr "Kein unterstütztes Bildformat."
 
 #: gradia/ui/image_loaders.py:150
 msgid "No image found in clipboard"
@@ -322,113 +238,172 @@ msgstr "Die Zwischenablage enthält kein Bild."
 msgid "Failed to load image from clipboard."
 msgstr "Laden eines Bilds aus der Zwischenablage fehlgeschlagen."
 
-#: gradia/ui/image_loaders.py:203 gradia/ui/image_loaders.py:218
+#: gradia/ui/image_loaders.py:202 gradia/ui/image_loaders.py:217
 msgid "Failed to take screenshot"
 msgstr "Erstellen eines Bildschirmfotos fehlgeschlagen"
 
-#: gradia/ui/image_loaders.py:234
+#: gradia/ui/image_loaders.py:233
 msgid "Screenshot cancelled"
 msgstr "Bildschirmfoto verworfen"
 
-#: gradia/ui/image_loaders.py:255 gradia/ui/image_loaders.py:256
+#: gradia/ui/image_loaders.py:254 gradia/ui/image_loaders.py:255
 msgid "Screenshot"
 msgstr "Bildschirmfoto"
 
-#: gradia/ui/image_loaders.py:259
+#: gradia/ui/image_loaders.py:258
 msgid "Screenshot captured!"
 msgstr "Bildschirmfoto erstellt!"
 
-#: gradia/ui/image_loaders.py:266
+#: gradia/ui/image_loaders.py:265
 msgid "Failed to process screenshot"
 msgstr "Bearbeiten des Bildschirmfotos fehlgeschlagen"
 
-#: gradia/overlay/drawing_actions.py:45
+#: gradia/overlay/drawing_actions.py:46
 msgid "Pen"
 msgstr "Stift"
 
-#: gradia/overlay/drawing_actions.py:46
+#: gradia/overlay/drawing_actions.py:47
 msgid "Arrow"
 msgstr "Pfeil"
 
-#: gradia/overlay/drawing_actions.py:47
+#: gradia/overlay/drawing_actions.py:48
 msgid "Line"
 msgstr "Linie"
 
-#: gradia/overlay/drawing_actions.py:48
+#: gradia/overlay/drawing_actions.py:49
 msgid "Square"
 msgstr "Quadrat"
 
-#: gradia/overlay/drawing_actions.py:49
+#: gradia/overlay/drawing_actions.py:50
 msgid "Circle"
 msgstr "Kreis"
 
-#: gradia/overlay/drawing_actions.py:50
+#: gradia/overlay/drawing_actions.py:51
 msgid "Text"
 msgstr "Text"
 
-#: gradia/overlay/drawing_actions.py:51
+#: gradia/overlay/drawing_actions.py:52
 msgid "Select"
 msgstr "Auswahlwerkzeug"
 
-#: gradia/overlay/drawing_actions.py:52
+#: gradia/overlay/drawing_actions.py:53
 msgid "Highlighter"
 msgstr "Markierer"
 
-#: gradia/overlay/drawing_actions.py:53
+#: gradia/overlay/drawing_actions.py:54
 msgid "Censor"
 msgstr "Zensor"
 
-#: gradia/overlay/drawing_actions.py:54
+#: gradia/overlay/drawing_actions.py:55
 msgid "Number"
 msgstr "Zahl"
 
-#: data/ui/selectors/gradient_selector.blp:5
+#: gradia/ui/settings_window.py:53 gradia/ui/settings_window.py:148
+msgid "Root"
+msgstr "Wurzel"
+
+#: gradia/ui/settings_window.py:145 gradia/ui/settings_window.py:148
+#, python-brace-format
+msgid "Selected: {folder}"
+msgstr "Gewählt: {folder}"
+
+#: gradia/ui/settings_window.py:146 gradia/ui/settings_window.py:149 data/ui/settings_window.blp:20
+msgid "Click to change folder"
+msgstr "Zum Ändern des Ordners klicken"
+
+#: gradia/ui/settings_window.py:233
+msgid "Copied!"
+msgstr "Kopiert!"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:33
+msgid "No screenshots to delete"
+msgstr "Keine zu löschenden Bildschirmfotos vorhanden"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:55
+msgid "Trash"
+msgstr "Papierkorb"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:87
+msgid "Trash Screenshot?"
+msgstr "Bildschirmfoto in den Papierkorb?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:88
+msgid "Are you sure you want to trash the following file?"
+msgstr "Folgende Datei wirklich in den Papierkorb verschieben?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:90
+msgid "Trash Screenshots?"
+msgstr "Bildschirmfoto in den Papierkorb?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:91
+msgid "Are you sure you want to trash the following files?"
+msgstr "Folgende Dateien wirklich in den Papierkorb verschieben?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:101
+msgid "Screenshot moved to trash"
+msgstr "Bildschirmfoto in den Papierkorb verschoben"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:103
+msgid "Screenshots moved to trash"
+msgstr "Bildschirmfotos in den Papierkorb verschoben"
+
+#: gradia/app_constants.py:31
+msgid "PNG Image (*.png)"
+msgstr "PNG-Bild (*.png)"
+
+#: gradia/app_constants.py:37
+msgid "JPEG Image (*.jpg)"
+msgstr "JPEG-Bild (*.jpg)"
+
+#: gradia/app_constants.py:43
+msgid "WebP Image (*.webp)"
+msgstr "WebP-Bild (*.webp)"
+
+#: data/ui/selectors/gradient_selector.blp:4
 msgid "Gradient Background"
 msgstr "Verlaufender Hintergrund"
 
-#: data/ui/selectors/gradient_selector.blp:10
+#: data/ui/selectors/gradient_selector.blp:8
 msgid "Gradient Presets"
 msgstr "Verlaufseinstellungen"
 
-#: data/ui/selectors/gradient_selector.blp:20
+#: data/ui/selectors/gradient_selector.blp:16
+msgid "Angle"
+msgstr "Winkel"
+
+#: data/ui/selectors/gradient_selector.blp:56
 msgid "Start Color"
 msgstr "Startfarbe"
 
-#: data/ui/selectors/gradient_selector.blp:32
+#: data/ui/selectors/gradient_selector.blp:68
 msgid "End Color"
 msgstr "Endfarbe"
-
-#: data/ui/selectors/gradient_selector.blp:44
-msgid "Angle"
-msgstr "Winkel"
 
 #: data/ui/selectors/image_selector.blp:5
 msgid "Image Background"
 msgstr "Bild als Hintergrund"
 
 #: data/ui/selectors/image_selector.blp:10
-#, fuzzy
 msgid "Image Presets"
-msgstr "Verlaufseinstellungen"
+msgstr "Bildvoreinstellungen"
 
 #: data/ui/selectors/image_selector.blp:22
 msgid "Select Image"
 msgstr "Bild wählen"
 
 #: data/ui/selectors/image_selector.blp:51
-#, fuzzy
 msgid "Select an Image"
 msgstr "Bild wählen"
 
 #: data/ui/selectors/image_selector.blp:56
 msgid "Supported Image Formats"
-msgstr ""
+msgstr "Unterstützte Bildformate"
 
 #: data/ui/selectors/solid_selector.blp:5
 msgid "Solid Color Background"
 msgstr "Einfarbiger Hintergrund"
 
-#: data/ui/selectors/solid_selector.blp:8 data/ui/drawing_tools_group.blp:38
+#: data/ui/selectors/solid_selector.blp:8 data/ui/drawing_tools_group.blp:47
 msgid "Color"
 msgstr "Farbe"
 
@@ -464,34 +439,31 @@ msgstr "Alle Anmerkungen löschen"
 msgid "Annotation Tools"
 msgstr "Anmerkungswerkzeuge"
 
-#: data/ui/drawing_tools_group.blp:65
-#, fuzzy
+#: data/ui/drawing_tools_group.blp:85
 msgid "Highlighter Color"
-msgstr "Markierer"
+msgstr "Markiererfarbe"
 
-#: data/ui/drawing_tools_group.blp:105
+#: data/ui/drawing_tools_group.blp:128
 msgid "Fill Color"
 msgstr "Füllfarbe"
 
-#: data/ui/drawing_tools_group.blp:117
+#: data/ui/drawing_tools_group.blp:140
 msgid "Reset Fill"
 msgstr "Füllung zurücksetzen"
 
-#: data/ui/drawing_tools_group.blp:143
+#: data/ui/drawing_tools_group.blp:178
 msgid "Font"
 msgstr "Schrift"
 
-#: data/ui/drawing_tools_group.blp:177
+#: data/ui/drawing_tools_group.blp:228
 msgid "Size"
-msgstr ""
+msgstr "Stärke"
 
-#: data/ui/drawing_tools_group.blp:217
-#, fuzzy
+#: data/ui/drawing_tools_group.blp:280
 msgid "Radius"
-msgstr "Eckenradius"
+msgstr "Radius"
 
 #: data/ui/image_sidebar.blp:24
-#, fuzzy
 msgid "Take a Screenshot"
 msgstr "Bildschirmfoto erstellen"
 
@@ -503,60 +475,67 @@ msgstr "Hauptmenü"
 msgid "Image Options"
 msgstr "Bildoptionen"
 
-#: data/ui/image_sidebar.blp:46
+#: data/ui/image_sidebar.blp:48
+msgid "Disable all options"
+msgstr "Alle Optionen deaktivieren"
+
+#: data/ui/image_sidebar.blp:57
 msgid "Padding"
 msgstr "Abstände"
 
-#: data/ui/image_sidebar.blp:58
+#: data/ui/image_sidebar.blp:69
 msgid "Corner Radius"
 msgstr "Eckenradius"
 
-#: data/ui/image_sidebar.blp:70
+#: data/ui/image_sidebar.blp:81
 msgid "Aspect Ratio"
 msgstr "Seitenverhältnis"
 
-#: data/ui/image_sidebar.blp:81
+#: data/ui/image_sidebar.blp:92
 msgid "Shadow"
 msgstr "Schatten"
 
-#: data/ui/image_sidebar.blp:103
+#: data/ui/image_sidebar.blp:112
+msgid "Auto Balance"
+msgstr "Automatische Korrektur"
+
+#: data/ui/image_sidebar.blp:123
 msgid "Current File"
 msgstr "Aktuelle Datei"
 
-#: data/ui/image_sidebar.blp:106
+#: data/ui/image_sidebar.blp:126
 msgid "Name"
 msgstr "Name"
 
-#: data/ui/image_sidebar.blp:107 data/ui/image_sidebar.blp:112
+#: data/ui/image_sidebar.blp:127 data/ui/image_sidebar.blp:132
 msgid "No file loaded"
 msgstr "Keine Datei geladen"
 
-#: data/ui/image_sidebar.blp:111
+#: data/ui/image_sidebar.blp:131
 msgid "Location"
 msgstr "Ort"
 
-#: data/ui/image_sidebar.blp:116
+#: data/ui/image_sidebar.blp:136
 msgid "Modified image size"
 msgstr "Größe des geänderten Bilds"
 
-#: data/ui/image_sidebar.blp:117
+#: data/ui/image_sidebar.blp:137
 msgid "N/A"
 msgstr "n. v."
 
-#: data/ui/image_sidebar.blp:132
+#: data/ui/image_sidebar.blp:152
 msgid "Save Image"
 msgstr "Bild speichern"
 
-#: data/ui/image_sidebar.blp:143
+#: data/ui/image_sidebar.blp:163
 msgid "Copy to Clipboard"
 msgstr "In Zwischenablage kopieren"
 
-#: data/ui/image_sidebar.blp:181
-#, fuzzy
+#: data/ui/image_sidebar.blp:201
 msgid "Delete Taken Screenshot(s)"
 msgstr "Erstellte(s) Bildschirmfoto(s) löschen"
 
-#: data/ui/image_sidebar.blp:191 data/ui/welcome_page.blp:76
+#: data/ui/image_sidebar.blp:215 data/ui/welcome_page.blp:80
 msgid "About Gradia"
 msgstr "Info zu Gradia"
 
@@ -573,13 +552,176 @@ msgid "Drag and drop one here"
 msgstr "Bild hierher ziehen und ablegen"
 
 #: data/ui/welcome_page.blp:42
-#, fuzzy
 msgid "_Take a Screenshot…"
 msgstr "Bildschirmfoto _erstellen …"
 
 #: data/ui/welcome_page.blp:54
 msgid "_Open Image…"
 msgstr "_Bild öffnen …"
+
+#: data/ui/settings_window.blp:7 data/ui/settings_window.blp:11
+msgid "Options"
+msgstr "Optionen"
+
+#: data/ui/settings_window.blp:15
+msgid "Recent Screenshots"
+msgstr "Letzte Bildschirmfotos"
+
+#: data/ui/settings_window.blp:16
+msgid ""
+"Configure which subfolder of Pictures to use to display recent screenshots from on the home page"
+msgstr ""
+"Einrichten, welchen Unterordner von »Bilder« verwendet werden soll, um auf dem Startbildschirm die "
+"zuletzt verwendeten Bildschirmfotos anzuzeigen"
+
+#: data/ui/settings_window.blp:19
+msgid "Select Folder"
+msgstr "Ordner wählen"
+
+#: data/ui/settings_window.blp:26
+msgid "Save Settings"
+msgstr "Einstellungen speichern"
+
+#: data/ui/settings_window.blp:29
+msgid "Image Format"
+msgstr "Bildformat"
+
+#: data/ui/settings_window.blp:30
+msgid "Default format for saved screenshots"
+msgstr "Standardformat für gespeicherte Bildschirmfotos"
+
+#: data/ui/settings_window.blp:34
+msgid "Compress image"
+msgstr "Bild komprimieren"
+
+#: data/ui/settings_window.blp:35
+msgid "On supported formats"
+msgstr "Über unterstützte Bildformate"
+
+#: data/ui/settings_window.blp:38
+msgid "Compress images to reduce file size"
+msgstr "Bilder zur Reduzierung der Dateigröße komprimieren"
+
+#: data/ui/settings_window.blp:44
+msgid "Confirm on close"
+msgstr "Beim Schließen bestätigen"
+
+#: data/ui/settings_window.blp:45 data/ui/settings_window.blp:48
+msgid "Ask for confirmation before closing the app"
+msgstr "Vor Schließen der Anwendung Bestätigung einholen"
+
+#: data/ui/settings_window.blp:56
+msgid "Screenshot Management"
+msgstr "Bildschirmfotoverwaltung"
+
+#: data/ui/settings_window.blp:58
+msgid "Trash screenshots on close"
+msgstr "Bildschirmfotos beim Schließen in den Papierkorb verschieben"
+
+#: data/ui/settings_window.blp:59
+msgid "Automatically move screenshots taken from whitin the app to trash."
+msgstr "Innerhalb der Anwendung erstellte Bildschirmfotos automatisch in den Papierkorb verschieben."
+
+#: data/ui/settings_window.blp:62
+msgid "Trash screenshots on app close"
+msgstr "Bildschirmfotos bei Schließen der Anwendung in den Papierkorb verschieben"
+
+#: data/ui/settings_window.blp:70
+msgid "Shortcut"
+msgstr "Tastenkürzel"
+
+#: data/ui/settings_window.blp:74
+msgid "Shortcut setup Instructions"
+msgstr "Anleitung zur Einrichtung eines Tastenkürzels"
+
+#: data/ui/settings_window.blp:81
+msgid ""
+"If you'd like the app to <b>open automatically</b> after taking a screenshot, you can set up a "
+"custom keyboard shortcut:\n"
+"\n"
+"<b>Steps:</b>\n"
+"1. Go to <b>Settings</b> → <b>Keyboard</b> → <b>View and Customize Shortcuts</b> → <b>Custom "
+"Shortcuts</b>.\n"
+"2. Click the <b>+</b> button to create a new shortcut.\n"
+"3. Set the <b>Name</b> to something like <i>Open Gradia with Screenshot</i>.\n"
+"4. For the <b>Command</b>, copy one of the commands below:"
+msgstr ""
+"Wenn Sie wünschen, dass die Anwendung <b>automatisch geöffnet</b> wird, nachdem ein Bildschirmfoto "
+"erstellt wurde, können Sie dazu ein eigenes Tastenkürzel einrichten:\n"
+"\n"
+"<b>Schritte:</b>\n"
+"1. Gehen Sie zu <b>Einstellungen</b> → <b>Tastatur</b> → <b>Tastenkürzel anzeigen und anpassen</b> "
+"→ <b>Eigene Tastenkürzel</b>.\n"
+"2. Erstellen Sie mit einem Klick auf <b>+</b> ein neues Tastenkürzel.\n"
+"3. Wählen Sie als <b>Name</b> beispielsweise <i>Gradia bei Bildschirmfoto öffnen</i>.\n"
+"4. Als <b>Befehl</b> kppieren Sie einen der folgenden Befehle:"
+
+#: data/ui/settings_window.blp:88
+msgid "Interactive Screenshot"
+msgstr "Interaktives Bildschirmfoto"
+
+#: data/ui/settings_window.blp:89
+msgid "Allows you to select an area to screenshot"
+msgstr "Einen Bereich zum Erstellen eines Bildschirmfotos auswählen"
+
+#: data/ui/settings_window.blp:102 data/ui/settings_window.blp:123
+msgid "Copy to clipboard"
+msgstr "In Zwischenablage kopieren"
+
+#: data/ui/settings_window.blp:109
+msgid "Full Screen Screenshot"
+msgstr "Foto des gesamten Bildschirms"
+
+#: data/ui/settings_window.blp:110
+msgid "Takes a screenshot of all screens instantly"
+msgstr "Sofort Foto aller Bildschirme erstellen"
+
+#: data/ui/settings_window.blp:130
+msgid ""
+"5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should be free by default)."
+msgstr ""
+"5. Weisen Sie ein Tastenkürzel Ihrer Wahl zu (<tt>Strg + Druck</tt> sollte standardmäßig verfügbar "
+"sein)."
+
+#: data/ui/confirm_close_dialog.blp:5
+msgid "Close Gradia?"
+msgstr "Gradia schließen?"
+
+#: data/ui/confirm_close_dialog.blp:6
+msgid "Are you sure you want to exit? All unsaved changes will be lost."
+msgstr "Wollen Sie Gradia wirklich verlassen? Alle nicht gespeicherten Änderungen gehen verloren."
+
+#: data/ui/confirm_close_dialog.blp:10
+msgid "Close"
+msgstr "Schließen"
+
+#: data/ui/confirm_close_dialog.blp:25
+msgid "Don't ask again"
+msgstr "Nicht mehr fragen"
+
+#~ msgid "Current drawing mode"
+#~ msgstr "Aktueller Zeichenmodus"
+
+#~ msgid "Pen color in rgba"
+#~ msgstr "Stiftfarbe in rgba"
+
+#~ msgid "Highlighter color in rgba"
+#~ msgstr "Markiererfarbe in rgba"
+
+#~ msgid "Fill color in rgba"
+#~ msgstr "Füllfarbe in rgba"
+
+#~ msgid "Pen size"
+#~ msgstr "Stiftstärke"
+
+#~ msgid "Number radius size"
+#~ msgstr "Zahlradius"
+
+#~ msgid "Delete"
+#~ msgstr "Löschen"
+
+#~ msgid "Screenshot deleted"
+#~ msgstr "Bildschirmfoto gelöscht"
 
 #~ msgid "Image files"
 #~ msgstr "Bilddateien"
@@ -591,26 +733,22 @@ msgstr "_Bild öffnen …"
 #~ msgstr "Füllen"
 
 #~ msgid ""
-#~ "On social media, it's often hard to control how your images appear to "
-#~ "others. Transparent or oddly sized images, like screenshots often don't "
-#~ "display well. Fixing these issues can feel like more trouble than it's "
-#~ "worth."
+#~ "On social media, it's often hard to control how your images appear to others. Transparent or "
+#~ "oddly sized images, like screenshots often don't display well. Fixing these issues can feel like "
+#~ "more trouble than it's worth."
 #~ msgstr ""
-#~ "In Social Media ist es oft schwierig, die Kontrolle darüber zu behalten, "
-#~ "wie Ihre Bilder bei anderen dargestellt werden. Durchsichtige oder Bilder "
-#~ "in ungewöhnlichen Abmessungen wie Bildschirmfotos werden häufig unschön "
-#~ "dargestellt. Der Aufwand zur Behebung solche Probleme fühlt sich manchmal "
-#~ "unnötig hoch an."
+#~ "In Social Media ist es oft schwierig, die Kontrolle darüber zu behalten, wie Ihre Bilder bei "
+#~ "anderen dargestellt werden. Durchsichtige oder Bilder in ungewöhnlichen Abmessungen wie "
+#~ "Bildschirmfotos werden häufig unschön dargestellt. Der Aufwand zur Behebung solche Probleme "
+#~ "fühlt sich manchmal unnötig hoch an."
 
 #~ msgid ""
-#~ "This tool aims to alleviate that problem by allowing you to quickly edit "
-#~ "images to address these issues, while also offering options to enhance "
-#~ "their overall appearance."
+#~ "This tool aims to alleviate that problem by allowing you to quickly edit images to address these "
+#~ "issues, while also offering options to enhance their overall appearance."
 #~ msgstr ""
-#~ "Der Zweck dieses Werkzeugs ist, die Behebung dieser Probleme zu "
-#~ "erleichtern, indem es Ihnen ermöglicht, Bilder im Handumdrehen "
-#~ "entsprechend zu bearbeiten. Darüber hinaus bietet es Optionen zur "
-#~ "Optimierung der Gesamterscheinung."
+#~ "Der Zweck dieses Werkzeugs ist, die Behebung dieser Probleme zu erleichtern, indem es Ihnen "
+#~ "ermöglicht, Bilder im Handumdrehen entsprechend zu bearbeiten. Darüber hinaus bietet es Optionen "
+#~ "zur Optimierung der Gesamterscheinung."
 
 #~ msgid "Save Processed Image"
 #~ msgstr "Bearbeitetes Bild speichern"
