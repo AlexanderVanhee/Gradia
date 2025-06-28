@@ -15,13 +15,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from typing import Optional
+from typing import Optional, Callable
 
 from gi.repository import Adw, GLib, GObject, Gdk, Gio, Gtk, Pango
 
 from gradia.backend.settings import Settings
 from gradia.constants import rootdir  # pyright: ignore
 from gradia.overlay.drawing_actions import DrawingMode
+from gradia.ui.font_dropdown_controller import FontDropdownController
 
 
 class ToolConfig:
@@ -56,7 +57,6 @@ class ToolConfig:
             ToolConfig(DrawingMode.NUMBER, "one-circle-symbolic", 4, 1, ["stroke_color", "number_radius"]),
         ]
 
-
 @Gtk.Template(resource_path=f"{rootdir}/ui/drawing_tools_group.ui")
 class DrawingToolsGroup(Adw.PreferencesGroup):
     __gtype_name__ = "GradiaDrawingToolsGroup"
@@ -81,6 +81,10 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
 
     tools_config = ToolConfig.get_all_tools()
 
+    font_dropdown: Gtk.DropDown = Gtk.Template.Child()
+
+    font_dropdown_controller = None
+
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
 
@@ -100,10 +104,13 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
         self._visible_revealers_count = 0
         self.options_row.set_visible(False)
 
-        self.fonts = ["Caveat", "Adwaita Sans", "Adwaita Mono", "Noto Sans"]
+        self.font_dropdown_controller = FontDropdownController(
+            self.font_string_list,
+            self.settings,
+            self._on_font_changed
+        )
 
         self._setup_annotation_tools_group()
-        self._setup_font_dropdown()
         self._restore_settings()
 
         try:
@@ -142,10 +149,6 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
         for revealer in self.revealers.values():
             revealer.connect("notify::child-revealed", self._on_revealer_child_revealed)
 
-    def _setup_font_dropdown(self) -> None:
-        for font in self.fonts:
-            self.font_string_list.append(font)
-
     def _initialize_all_actions(self) -> None:
         self._activate_color_action("pen-color", self.settings.pen_color)
         self._activate_color_action("highlighter-color", self.settings.highlighter_color)
@@ -154,11 +157,7 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
         self._activate_double_action("pen-size", self.settings.pen_size)
         self._activate_double_action("number-radius", self.settings.number_radius)
 
-        app = Gio.Application.get_default()
-        if app:
-            action = app.lookup_action("font")
-            if action:
-                action.activate(GLib.Variant('s', self.settings.font))
+        self.font_dropdown_controller.initialize_font_action()
 
         self._activate_draw_mode_action(DrawingMode(self.settings.draw_mode))
 
@@ -173,25 +172,21 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
             self.options_row.set_visible(False)
             self._pending_hide_options = False
 
-    # TODO: Define type for `list_item` parameter
-    @Gtk.Template.Callback()
-    def _font_factory_setup(self, _factory: Gtk.SignalListItemFactory, list_item, *args) -> None:
-        label = Gtk.Label(halign=Gtk.Align.START)
-        list_item.set_child(label)
+    def _on_font_changed(self, font_name: str) -> None:
+        pass
 
-    # TODO: Define type for `list_item` parameter
     @Gtk.Template.Callback()
-    def _font_factory_bind(self, _factory: Gtk.SignalListItemFactory, list_item, *args) -> None:
-        label = list_item.get_child()
-        string_object = list_item.get_item()
-        font_name = string_object.get_string()
-        label.set_text(font_name)
+    def _font_factory_setup(self, factory: Gtk.SignalListItemFactory, list_item, *args) -> None:
+        self.font_dropdown_controller.factory_setup(factory, list_item, *args)
 
-        attr_list = Pango.AttrList()
-        font_desc = Pango.FontDescription.from_string(f"{font_name} 12")
-        attr_font = Pango.attr_font_desc_new(font_desc)
-        attr_list.insert(attr_font)
-        label.set_attributes(attr_list)
+    @Gtk.Template.Callback()
+    def _font_factory_bind(self, factory: Gtk.SignalListItemFactory, list_item, *args) -> None:
+        self.font_dropdown_controller.factory_bind(factory, list_item, *args)
+
+    @Gtk.Template.Callback()
+    def _on_font_selected(self, dropdown: Gtk.DropDown, param: GObject.ParamSpec, *args) -> None:
+        if self.font_dropdown_controller:
+            self.font_dropdown_controller.on_font_selected(dropdown, param, *args)
 
     @Gtk.Template.Callback()
     def _on_reset_fill_clicked(self, _button: Gtk.Button, *args) -> None:
@@ -227,18 +222,6 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
         size_value = scale.get_value()
         self.settings.number_radius = size_value
         self._activate_double_action("number-radius", size_value)
-
-    @Gtk.Template.Callback()
-    def _on_font_selected(self, dropdown: Gtk.DropDown, _param: GObject.ParamSpec, *args) -> None:
-        selected_index = dropdown.get_selected()
-        if 0 <= selected_index < len(self.fonts):
-            font_name = self.fonts[selected_index]
-            self.settings.font = font_name
-            app = Gio.Application.get_default()
-            if app:
-                action = app.lookup_action("font")
-                if action:
-                    action.activate(GLib.Variant('s', font_name))
 
     def _on_button_toggled(self, button: Gtk.ToggleButton, drawing_mode: DrawingMode) -> None:
         if button.get_active():
@@ -318,13 +301,5 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
         self.size_scale.set_value(self.settings.pen_size)
         self.number_radius_scale.set_value(self.settings.number_radius)
 
-        saved_font = self.settings.font
-        if saved_font in self.fonts:
-            font_index = self.fonts.index(saved_font)
-            GLib.idle_add(self._set_font_selection, font_index)
 
-    def _set_font_selection(self, index: int) -> bool:
-        font_dropdown = self.get_template_child(Gtk.DropDown, "font_dropdown")
-        if font_dropdown:
-            font_dropdown.set_selected(index)
-        return False
+        self.font_dropdown_controller.restore_font_selection(self.font_dropdown)
