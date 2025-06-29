@@ -14,20 +14,22 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-    background-color: #222226;
 }
 
 body {
     min-height: 100vh;
-    font-family: 'Adwaita Sans', sans-serif;
-    color: #102d2c;
 }
 
 .top-section {
-    background-color: #50e3c2;
+    position: relative;
+    background-image: url("assets/drool-l.svg");
     padding: 2rem;
     text-align: center;
+    color: white;
+    background-size: cover;
+    background-position: center;
 }
+
 
 .top-section img {
     display: block;
@@ -37,60 +39,116 @@ body {
 .top-section h1 {
     font-size: 3rem;
     font-weight: bold;
-    margin-bottom: 5px;
+
 }
 
 .top-section h2 {
-    font-size: 1em;
-    font-weight: normal;
-    margin-top: 0.5rem;
+    font-size: 1.5em;
+    font-weight: 500;
+
 }
 
 .top-section a img {
     margin-top: 2rem;
 }
 
-.main {
-    background-color: #222226;
-    color: white;
-    padding: 2rem;
+.features-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+.feature-section {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    margin-bottom: 4rem;
+    padding: 2rem 0;
+}
+
+.feature-section:last-child {
+    margin-bottom: 0;
+}
+
+.feature-section.reverse {
+    flex-direction: row-reverse;
+}
+
+.feature-content {
+    flex: 1;
+}
+
+.feature-image {
+    flex: 1;
     text-align: center;
 }
 
-.comparison {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
-    margin-top: 2rem;
-    flex-wrap: wrap;
-}
-
-.comparison img {
-    max-width: 40%;
+.feature-image img {
+    max-width: 100%;
     height: auto;
+    border-radius: 12px;
 }
 
-.comparison .rounded {
-    border-radius: 1em;
+.feature-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1.5rem;
 }
 
-.arrow {
-    font-size: 500%;
-    margin: 0 1rem;
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
 }
 
-@media (max-width: 900px) {
-    .comparison {
+.feature-list li {
+    display: flex;
+    align-items: flex-start;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+.feature-list li::before {
+    content: "•";
+    margin-right: 0.75rem;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.button-row {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+
+}
+
+
+.github-link img {
+    width: 5rem;
+    height: 5rem;
+    background-color: white;
+    object-fit: contain;
+    padding: 10px;
+    border-radius: 25%;
+    filter: invert(100%);
+    border: 2px solid #888a85;
+}
+
+@media (max-width: 768px) {
+
+    .feature-section,
+    .feature-section.reverse {
         flex-direction: column;
-        gap: 0.75rem;
+        text-align: center;
+        gap: 2rem;
     }
 
-    .comparison img {
-        max-width: 100%;
+    .feature-title {
+        font-size: 2rem;
     }
 
-    .arrow {
-        transform: rotate(90deg);
+    .features-container {
+        padding: 2rem 2rem;
     }
 }

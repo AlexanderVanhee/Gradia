@@ -6,24 +6,79 @@
     <title>Gradia</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles/base.css">
     <link rel="stylesheet" href="styles.css" />
+
 </head>
 
 <body>
     <div class="top-section">
         <img src="assets/logo.svg" alt="Gradia Logo" width="200" height="200" />
         <h1>Gradia</h1>
-        <h2>Make your screenshots ready for the world.</h2>
-        <a href="" rel="noopener noreferrer">
-            <img width="240" alt="Get it on Flathub" src="https://flathub.org/api/badge?locale=en" />
-        </a>
+        <h2>Make your screenshots ready for all.</h2>
+        <div class="button-row">
+            <a href="https://flathub.org/apps/be.alexandervanhee.gradia" class="no-external" rel="noopener noreferrer">
+                <img width="240" alt="Get it on Flathub" src="https://flathub.org/api/badge?svg&locale=en" />
+            </a>
+            <a href="https://github.com/AlexanderVanhee/Gradia" class="no-external github-link">
+                <img src="assets/github.svg" alt="See it on Github">
+            </a>
+        </div>
     </div>
+    <div class="features-container">
 
-    <div class="main">
-        <div class="comparison">
-            <img src="assets/before.png" alt="Before">
-            <span class="arrow">➜</span>
-            <img class="rounded" src="assets/after.png" alt="After">
+        <div class="feature-section">
+            <div class="feature-content">
+                <h3 class="feature-title">Beautify Screenshots</h3>
+                <p class="feature-description">
+                    Transform your ordinary screenshots into eye-catching visuals perfect for sharing. With customizable
+                    framing options and professional styling features, your screenshots will stand out from the crowd.
+                </p>
+                <ul class="feature-list">
+                    <li>Solid, Gradient and Image framing options</li>
+                    <li>Shadow intensity Slider</li>
+                    <li>Customize aspect ratios</li>
+                    <li>Make it ready for social media</li>
+                    <li>One-click export in multiple formats</li>
+                </ul>
+            </div>
+            <div class="feature-image">
+                <img src="assets/promo_images/showcase.webp" alt="Beautiful Screenshot Example" />
+            </div>
+        </div>
+
+        <div class="feature-section reverse">
+            <div class="feature-content">
+                <h3 class="feature-title">Annotate it All</h3>
+                <p class="feature-description">
+                    Express yourself with a comprehensive set of annotation tools. Whether you need to highlight
+                    important information, add explanatory text, or blur sensitive content, Gradia has you covered. From
+                    precise drawing tools to smart blur effects, every tool is designed for both power and ease of use.
+                </p>
+            </div>
+            <div class="feature-image">
+                <img src="assets/promo_images/annotations.webp" alt="Annotation Tools" />
+            </div>
+        </div>
+
+        <div class="feature-section">
+            <div class="feature-content">
+                <h3 class="feature-title">Native Integration</h3>
+                <p class="feature-description">
+                    Built from the ground up for the modern Linux desktop. Gradia seamlessly integrates with your GNOME
+                    workflow, offering multiple ways to capture and import images while maintaining the speed and
+                    reliability you expect.
+                </p>
+                <ul class="feature-list">
+                    <li>Seamless GNOME desktop integration</li>
+                    <li>Wayland first approach</li>
+                    <li>System-wide screenshot shortcuts</li>
+                    <li>5+ ways to quickly import images</li>
+                </ul>
+            </div>
+            <div class="feature-image">
+                <img src="assets/promo_images/home.webp" alt="Native Integration" />
+            </div>
         </div>
     </div>
 </body>
