@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-16 00:21+0200\n"
-"PO-Revision-Date: 2025-06-10 18:57-0300\n"
+"PO-Revision-Date: 2025-06-29 03:26-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -101,41 +101,36 @@ msgid "Startup view"
 msgstr "Visualização de inicialização"
 
 #: data/be.alexandervanhee.gradia.gschema.xml:6
-#, fuzzy
 msgid "Current drawing mode"
-msgstr "Arquivo atual"
+msgstr "Modo de desenho"
 
 #: data/be.alexandervanhee.gradia.gschema.xml:10
 msgid "Pen color in rgba"
-msgstr ""
+msgstr "Cor da caneta"
 
 #: data/be.alexandervanhee.gradia.gschema.xml:14
-#, fuzzy
 msgid "Highlighter color in rgba"
-msgstr "Marcador"
+msgstr "Cor"
 
 #: data/be.alexandervanhee.gradia.gschema.xml:18
-#, fuzzy
 msgid "Fill color in rgba"
 msgstr "Cor de preenchimento"
 
 #: data/be.alexandervanhee.gradia.gschema.xml:22
 msgid "Pen size"
-msgstr ""
+msgstr "Tamanho da caneta"
 
 #: data/be.alexandervanhee.gradia.gschema.xml:26
 msgid "Number radius size"
-msgstr ""
+msgstr "Tamanho do raio"
 
 #: data/be.alexandervanhee.gradia.gschema.xml:30
-#, fuzzy
 msgid "Selected font name"
-msgstr "Selecionar imagem"
+msgstr "Fonte selecionada"
 
 #: data/be.alexandervanhee.gradia.gschema.xml:35
-#, fuzzy
 msgid "Screenshot subdirectory"
-msgstr "Captura de tela excluída."
+msgstr "Captura de tela excluída"
 
 #. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
 #: gradia/ui/ui_parts.py:160
@@ -196,16 +191,14 @@ msgid "Error"
 msgstr "Error"
 
 #: gradia/ui/window.py:390
-#, fuzzy
 msgid "No screenshots to delete"
-msgstr "Não há capturas de tela para excluir."
+msgstr "Não há capturas de tela para excluir"
 
 #: gradia/ui/window.py:419
 msgid "Delete Screenshot?"
 msgstr "Excluir captura de tela?"
 
 #: gradia/ui/window.py:420
-#, fuzzy
 msgid "Are you sure you want to delete the following file?"
 msgstr "Tem certeza de que deseja excluir o seguinte arquivo?"
 
@@ -214,7 +207,6 @@ msgid "Delete Screenshots?"
 msgstr "Excluir capturas de tela?"
 
 #: gradia/ui/window.py:423
-#, fuzzy
 msgid "Are you sure you want to delete the following files?"
 msgstr "Tem certeza de que deseja excluir os seguintes arquivos?"
 
@@ -227,14 +219,12 @@ msgid "Delete"
 msgstr "Excluir"
 
 #: gradia/ui/window.py:441
-#, fuzzy
 msgid "Screenshot deleted"
-msgstr "Captura de tela excluída."
+msgstr "Captura de tela excluída"
 
 #: gradia/ui/window.py:443
-#, fuzzy
 msgid "Screenshots deleted"
-msgstr "Capturas de tela excluídas."
+msgstr "Capturas de tela excluídas"
 
 #: gradia/ui/image_exporters.py:75
 msgid "Edit"
@@ -266,7 +256,7 @@ msgstr "Salvar"
 
 #: gradia/ui/image_exporters.py:142
 msgid "Unsupported image file extension."
-msgstr ""
+msgstr "Extensão de arquivo de imagem não suportada."
 
 #: gradia/ui/image_exporters.py:149
 msgid "Image saved successfully"
@@ -294,7 +284,7 @@ msgstr "Arquivos de imagem"
 
 #: gradia/ui/image_loaders.py:120
 msgid "Not a supported image format."
-msgstr ""
+msgstr "Não é um formato de imagem suportado."
 
 #: gradia/ui/image_loaders.py:150
 msgid "No image found in clipboard"
@@ -401,22 +391,20 @@ msgid "Image Background"
 msgstr "Imagem de fundo"
 
 #: data/ui/selectors/image_selector.blp:10
-#, fuzzy
 msgid "Image Presets"
-msgstr "Predefinições de gradiente"
+msgstr "Predefinições de imagem"
 
 #: data/ui/selectors/image_selector.blp:22
 msgid "Select Image"
 msgstr "Selecionar imagem"
 
 #: data/ui/selectors/image_selector.blp:51
-#, fuzzy
 msgid "Select an Image"
-msgstr "Selecionar imagem"
+msgstr "Selecionar uma imagem"
 
 #: data/ui/selectors/image_selector.blp:56
 msgid "Supported Image Formats"
-msgstr ""
+msgstr "Formatos de imagem suportados"
 
 #: data/ui/selectors/solid_selector.blp:5
 msgid "Solid Color Background"
@@ -459,9 +447,8 @@ msgid "Annotation Tools"
 msgstr "Ferramentas de anotação"
 
 #: data/ui/drawing_tools_group.blp:65
-#, fuzzy
 msgid "Highlighter Color"
-msgstr "Marcador"
+msgstr "Cor"
 
 #: data/ui/drawing_tools_group.blp:105
 msgid "Fill Color"
@@ -477,15 +464,13 @@ msgstr "Fonte"
 
 #: data/ui/drawing_tools_group.blp:177
 msgid "Size"
-msgstr ""
+msgstr "Tamanho"
 
 #: data/ui/drawing_tools_group.blp:217
-#, fuzzy
 msgid "Radius"
-msgstr "Arredondamento dos cantos"
+msgstr "Raio"
 
 #: data/ui/image_sidebar.blp:24
-#, fuzzy
 msgid "Take a Screenshot"
 msgstr "Faça uma captura de tela"
 
@@ -546,7 +531,6 @@ msgid "Copy to Clipboard"
 msgstr "Copiar para a área de transferência"
 
 #: data/ui/image_sidebar.blp:181
-#, fuzzy
 msgid "Delete Taken Screenshot(s)"
 msgstr "Excluir a(s) captura(s) de tela tirada(s)"
 
@@ -556,7 +540,7 @@ msgstr "Sobre a Gradia"
 
 #: data/ui/text_entry_popover.blp:12
 msgid "Enter text…"
-msgstr ""
+msgstr "Digite o texto…"
 
 #: data/ui/welcome_page.blp:25
 msgid "Enhance an Image"
@@ -567,7 +551,6 @@ msgid "Drag and drop one here"
 msgstr "Arraste e solte aqui"
 
 #: data/ui/welcome_page.blp:42
-#, fuzzy
 msgid "_Take a Screenshot…"
 msgstr "_Faça uma captura de tela…"
 
