@@ -2,7 +2,10 @@ name: gradia
 version: '1.5.0'
 summary: Make your screenshots ready for all
 description: |
-    Gradia helps you quickly prepare your screenshots for sharing by fixing common issues   like transparency and awkward sizing. With simple tools to add backgrounds, adjust aspect ratios, and annotate images, you can enhance your screenshots to look professional and consistent across social media, blogs, and other platforms on the internet.
+  Gradia helps you quickly prepare your screenshots for sharing by fixing common issues
+  like transparency and awkward sizing. With simple tools to add backgrounds, adjust aspect
+  ratios, and annotate images, you can enhance your screenshots to look professional and
+  consistent across social media, blogs, and other platforms on the internet.
 
 base: core24
 adopt-info: gradia
@@ -11,7 +14,51 @@ grade: stable
 confinement: strict
 
 parts:
+  libadwaita:
+    plugin: meson
+    source: https://gitlab.gnome.org/GNOME/libadwaita.git
+    source-tag: '1.7.4'
+    source-depth: 1
+    build-packages:
+      - libgtk-4-dev
+      - libglib2.0-dev
+      - gobject-introspection
+      - libgirepository1.0-dev
+      - sassc
+      - gettext
+      - pkg-config
+      - libxml2-utils
+      - gtk-doc-tools
+    meson-parameters:
+      - --prefix=/usr
+      - -Dgtk_doc=false
+      - -Dintrospection=enabled
+      - -Dvapi=false
+      - -Dtests=false
+      - -Dexamples=false
+      - -Dbuildtype=release
+      - -Ddefault_library=both
+      - -Dc_args=-Wno-error=format-nonliteral
+      - -Dc_args=-Wno-error=format=2
+      - -Dc_args=-Wno-error=format-security
+      - -Dc_args=-Wno-error=incompatible-pointer-types
+      - -Dc_args=-Wno-error=missing-declarations
+      - -Dc_args=-Wno-error=overflow
+      - -Dc_args=-Wno-error=return-type
+      - -Dc_args=-Wno-error=shift-count-overflow
+      - -Dc_args=-Wno-error=shift-overflow=2
+      - -Dc_args=-Wno-error=implicit-fallthrough=3
+      - -Dc_args=-Wno-error=redundant-decls
+      - -Dc_args=-U_FORTIFY_SOURCE
+    override-build: |
+      unset CFLAGS || true
+      unset CXXFLAGS || true
+      craftctl default
+    prime:
+      - usr/lib
+
   gradia:
+    after: [libadwaita]
     plugin: meson
     source: https://github.com/AlexanderVanhee/Gradia.git
     source-tag: 'v1.5.0'
@@ -28,7 +75,7 @@ parts:
     organize:
       snap/gradia/current: .
     prime:
-      - -snap/gradia
+      - .
 
   deps:
     plugin: nil
@@ -45,6 +92,7 @@ parts:
       - libzip4t64
       - libzstd1
       - libraqm0
+      - libavif-dev
     prime:
       - -bin
       - -pyvenv.cfg
@@ -81,6 +129,7 @@ apps:
     extensions: [gnome]
     environment:
       PYTHONPATH: $SNAP/usr/lib/python3/dist-packages:$PYTHONPATH
+      LD_LIBRARY_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$LD_LIBRARY_PATH
       GDK_DEBUG: portals
     plugs:
       - home
