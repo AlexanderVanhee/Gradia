@@ -31,7 +31,7 @@ def hex_to_rgba(hex_color: HexColor, alpha: float | None = None) -> Gdk.RGBA:
     rgba = Gdk.RGBA()
     rgba.parse(hex_color)
 
-    if alpha:
+    if alpha is not None:
         rgba.alpha = alpha
 
     return rgba

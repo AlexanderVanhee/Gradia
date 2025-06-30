@@ -56,6 +56,14 @@ class Settings:
         self._settings.set_string("highlighter-color", self._rgba_to_string(value))
 
     @property
+    def highlighter_size(self) -> float:
+        return self._settings.get_double("highlighter-size")
+
+    @highlighter_size.setter
+    def highlighter_size(self, value: float) -> None:
+        self._settings.set_double("highlighter-size", value)
+
+    @property
     def fill_color(self) -> Gdk.RGBA:
         return self._parse_rgba(
             self._settings.get_string("fill-color"),

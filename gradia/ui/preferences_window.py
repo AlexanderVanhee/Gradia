@@ -86,13 +86,14 @@ class PreferencesWindow(Adw.PreferencesWindow):
     interactive_copy_btn: Gtk.Button = Gtk.Template.Child()
     fullscreen_entry: Gtk.Entry = Gtk.Template.Child()
     fullscreen_copy_btn: Gtk.Button = Gtk.Template.Child()
-    save_format_combo: Adw.ComboRow = Gtk.Template.Child()
+    save_format_group: Adw.PreferencesGroup = Gtk.Template.Child()
     compress_switch: Adw.SwitchRow = Gtk.Template.Child()
     delete_screenshot_switch: Adw.SwitchRow = Gtk.Template.Child()
     confirm_close_switch: Adw.SwitchRow = Gtk.Template.Child()
     confirm_upload_switch: Adw.SwitchRow = Gtk.Template.Child()
     command_entry: Gtk.Entry = Gtk.Template.Child()
     command_reset: Gtk.Button = Gtk.Template.Child()
+    save_format_combo: Adw.ComboRow = Gtk.Template.Child()
 
     def __init__(self, parent_window: Adw.ApplicationWindow, **kwargs):
         super().__init__(**kwargs)
@@ -105,6 +106,8 @@ class PreferencesWindow(Adw.PreferencesWindow):
         self.available_folders = self.folder_finder.get_screenshot_folders()
         self.current_selected_folder = self.folder_finder.get_current_folder()
         self.folder_rows = []
+        self.format_toggle_group = None
+        self.format_toggles = []
 
         self._setup_widgets()
         self._connect_signals()
@@ -112,7 +115,7 @@ class PreferencesWindow(Adw.PreferencesWindow):
     def _setup_widgets(self):
         self._update_expander_title()
         self._create_folder_rows()
-        self._populate_save_format_combo()
+        self._create_save_format_toggle_group()
         self._setup_command_entries()
         self._bind_settings()
 
@@ -159,42 +162,39 @@ class PreferencesWindow(Adw.PreferencesWindow):
             self.folder_expander.add_row(row)
             self.folder_rows.append(row)
 
-    def _populate_save_format_combo(self):
-        string_list = Gtk.StringList()
+    def _create_save_format_toggle_group(self):
         current_format = self.settings.export_format
+        toggle_group = Adw.ToggleGroup(valign=Gtk.Align.CENTER)
+        toggle_group.add_css_class("round")
 
-        selected_index = 0
+
+        self.format_toggle_group = toggle_group
+        self.format_toggles = []
 
         format_keys = list(SUPPORTED_EXPORT_FORMATS.keys())
 
         for i, fmt in enumerate(format_keys):
-            display_name = SUPPORTED_EXPORT_FORMATS[fmt]['name']
-            string_list.append(display_name)
+            display_name = SUPPORTED_EXPORT_FORMATS[fmt]['shortname']
+            toggle = Adw.Toggle(label=display_name, name=fmt)
+            toggle_group.add(toggle)
 
+            self.format_toggles.append(toggle)
             if fmt == current_format:
-                selected_index = i
+                toggle_group.set_active_name(fmt)
 
-        self.save_format_combo.set_model(string_list)
-        self.save_format_combo.set_selected(selected_index)
+        toggle_group.connect("notify::active-name", self._on_format_toggle_changed)
+        self.save_format_combo.add_suffix(toggle_group)
 
-    def _on_export_format_changed(self, combo: Adw.ComboRow, pspec):
-        selected_index = combo.get_selected()
-        if selected_index != Gtk.INVALID_LIST_POSITION:
-            format_keys = list(SUPPORTED_EXPORT_FORMATS.keys())
-
-            if selected_index < len(format_keys):
-                fmt = format_keys[selected_index]
-                self.settings.export_format = fmt
-            else:
-                logger.info(f"Index {selected_index} out of range for {len(format_keys)} formats")
+    def _on_format_toggle_changed(self, toggle_group: Adw.ToggleGroup, pspec) -> None:
+        active_name = toggle_group.get_active_name()
+        if active_name:
+            self.settings.export_format = active_name
 
     def _connect_signals(self):
         self.interactive_copy_btn.connect("clicked",
             lambda btn: self._copy_to_clipboard(self.interactive_entry.get_text()))
         self.fullscreen_copy_btn.connect("clicked",
             lambda btn: self._copy_to_clipboard(self.fullscreen_entry.get_text()))
-
-        self.save_format_combo.connect("notify::selected", self._on_export_format_changed)
 
         self.command_entry.connect("changed", self._on_command_entry_changed)
         self.command_reset.connect("clicked", self._on_command_reset_clicked)

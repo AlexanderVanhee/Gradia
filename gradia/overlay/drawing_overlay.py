@@ -17,19 +17,17 @@
 
 import cairo
 from gi.repository import Adw, Gdk, Gio, Gtk
+from dataclasses import dataclass
+from typing import Tuple, Optional
 
 from gradia.overlay.drawing_actions import *
 from gradia.overlay.text_entry_popover import TextEntryPopover
+from gradia.overlay.drawing_settings import DrawingSettings
 
 SELECTION_BOX_PADDING = 0
-DEFAULT_ARROW_HEAD_SIZE = 25.0
-DEFAULT_FONT_SIZE = 22.0
-DEFAULT_HIGHLIGHTER_SIZE = 12.0
-DEFAULT_PIXELATION_LEVEL = 8
 
 class DrawingOverlay(Gtk.DrawingArea):
     __gtype_name__ = "GradiaDrawingOverlay"
-
     def __init__(self, **kwargs):
         super().__init__(can_focus=True, **kwargs)
 
@@ -37,14 +35,7 @@ class DrawingOverlay(Gtk.DrawingArea):
 
         self.picture_widget = None
         self.drawing_mode = DrawingMode.PEN
-        self.pen_size = None # Initialized via drawing_tools_group
-        self.pen_color = None # Initialized via drawing_tools_group
-        self.arrow_head_size = DEFAULT_ARROW_HEAD_SIZE
-        self.font_size = DEFAULT_FONT_SIZE
-        self.font_family = None # Initialized via drawing_tools_group
-        self.highlighter_size = DEFAULT_HIGHLIGHTER_SIZE
-        self.pixelation_level = DEFAULT_PIXELATION_LEVEL
-        self.fill_color = None
+        self.settings = DrawingSettings()
         self.is_drawing = False
         self.current_stroke = []
         self.start_point = None
@@ -52,7 +43,6 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.actions: list[DrawingAction] = []
         self.redo_stack = []
         self._next_number = 1
-        self.number_radius = None # Initialized via drawing_tools_group
 
         self._selected_action: DrawingAction | None = None
         self.selection_start_pos = None
@@ -122,14 +112,12 @@ class DrawingOverlay(Gtk.DrawingArea):
         return ox <= x <= ox + dw and oy <= y <= oy + dh
 
     def _get_background_pixbuf(self):
-        """Get the background image as a pixbuf"""
         if not self.picture_widget:
             return None
 
         paintable = self.picture_widget.get_paintable()
         if isinstance(paintable, Gdk.Texture):
             return Gdk.pixbuf_get_from_texture(paintable)
-
         return None
 
     def _setup_actions(self):
@@ -149,7 +137,6 @@ class DrawingOverlay(Gtk.DrawingArea):
 
         for i, action in enumerate(number_actions, 1):
             action.number = i
-
         self._next_number = len(number_actions) + 1
 
     def remove_selected_action(self) -> bool:
@@ -192,7 +179,7 @@ class DrawingOverlay(Gtk.DrawingArea):
             return False
 
         min_x, min_y, max_x, max_y = self.selected_action.get_bounds()
-        padding_img = max(self.pen_size, self.arrow_head_size, self.font_size / 2) / 200.0
+        padding_img = max(self.settings.pen_size, self.settings.arrow_head_size, self.settings.font_size / 2) / 200.0
         return min_x - padding_img <= x <= max_x + padding_img and min_y - padding_img <= y <= max_y + padding_img
 
     def _draw_selection_box(self, cr, scale):
@@ -242,13 +229,12 @@ class DrawingOverlay(Gtk.DrawingArea):
             rel_x, rel_y = self._widget_to_image_coords(x, y)
             number_action = NumberStampAction(
                 position=(rel_x, rel_y),
-                number=self._next_number, # Assign the current _next_number
-                radius=self.number_radius / 1000.0,
-                fill_color=self.pen_color
+                number=self._next_number,
+                settings=self.settings.copy()
             )
 
             self.actions.append(number_action)
-            self._renumber_actions() # Recalculate numbers based on chronological order
+            self._renumber_actions()
             self.redo_stack.clear()
             self.queue_draw()
 
@@ -287,7 +273,7 @@ class DrawingOverlay(Gtk.DrawingArea):
             on_text_activate=self._on_text_entry_activate,
             on_text_changed=self._on_text_entry_changed,
             on_font_size_changed=self._on_font_size_changed,
-            font_size=text_action.font_size,
+            font_size=text_action.settings.font_size,
             initial_text=text_action.text
         )
         self.text_entry_popup.connect("closed", self._on_text_entry_popover_closed)
@@ -308,7 +294,7 @@ class DrawingOverlay(Gtk.DrawingArea):
             on_text_activate=self._on_text_entry_activate,
             on_text_changed=self._on_text_entry_changed,
             on_font_size_changed=self._on_font_size_changed,
-            font_size=self.font_size
+            font_size=self.settings.font_size
         )
         self.text_entry_popup.connect("closed", self._on_text_entry_popover_closed)
         self.text_entry_popup.popup_at_widget_coords(self, x, y)
@@ -316,9 +302,9 @@ class DrawingOverlay(Gtk.DrawingArea):
     def _on_font_size_changed(self, spin_button):
         font_size = spin_button.get_value()
         if self.editing_text_action:
-            self.editing_text_action.font_size = font_size
+            self.editing_text_action.settings.font_size = font_size
         else:
-            self.font_size = font_size
+            self.settings.font_size = font_size
 
         if self.live_text:
             self.queue_draw()
@@ -345,10 +331,8 @@ class DrawingOverlay(Gtk.DrawingArea):
                             action = TextAction(
                                 self.text_position,
                                 text,
-                                self.pen_color,
-                                self.font_size,
                                 self._get_modified_image_bounds(),
-                                self.font_family
+                                self.settings.copy()
                             )
                             self.actions.append(action)
                             self.redo_stack.clear()
@@ -454,21 +438,21 @@ class DrawingOverlay(Gtk.DrawingArea):
         mode = self.drawing_mode
         if (mode == DrawingMode.PEN or mode == DrawingMode.HIGHLIGHTER) and len(self.current_stroke) > 1:
             if mode == DrawingMode.PEN:
-                self.actions.append(StrokeAction(self.current_stroke.copy(), self.pen_color, self.pen_size))
+                self.actions.append(StrokeAction(self.current_stroke.copy(), self.settings.copy()))
             else:
-                self.actions.append(HighlighterAction(self.current_stroke.copy(), self.highlighter_color, self.highlighter_size))
+                self.actions.append(HighlighterAction(self.current_stroke.copy(), self.settings.copy()))
             self.current_stroke.clear()
         elif self.start_point and self.end_point:
             if mode == DrawingMode.ARROW:
-                self.actions.append(ArrowAction(self.start_point, self.end_point, self.pen_color, self.arrow_head_size, self.pen_size))
+                self.actions.append(ArrowAction(self.start_point, self.end_point, self.settings.copy()))
             elif mode == DrawingMode.LINE:
-                self.actions.append(LineAction(self.start_point, self.end_point, self.pen_color, 0, self.pen_size))
+                self.actions.append(LineAction(self.start_point, self.end_point, self.settings.copy()))
             elif mode == DrawingMode.SQUARE:
-                self.actions.append(RectAction(self.start_point, self.end_point, self.pen_color, self.pen_size, self.fill_color))
+                self.actions.append(RectAction(self.start_point, self.end_point, self.settings.copy()))
             elif mode == DrawingMode.CIRCLE:
-                self.actions.append(CircleAction(self.start_point, self.end_point, self.pen_color, self.pen_size, self.fill_color))
+                self.actions.append(CircleAction(self.start_point, self.end_point, self.settings.copy()))
             elif mode == DrawingMode.CENSOR:
-                censor_action = CensorAction(self.start_point, self.end_point, self.pixelation_level, self._get_background_pixbuf())
+                censor_action = CensorAction(self.start_point, self.end_point, self._get_background_pixbuf(), self.settings.copy())
                 self.actions.append(censor_action)
 
         self.start_point = None
@@ -510,22 +494,21 @@ class DrawingOverlay(Gtk.DrawingArea):
                 continue
             action.draw(cr, self._image_to_widget_coords, scale)
 
-        # TODO: Convert to switch...case statements, cuz this looks horrible
         if self.is_drawing and self.drawing_mode != DrawingMode.TEXT and self.drawing_mode != DrawingMode.NUMBER:
-            cr.set_source_rgba(*self.pen_color)
+            cr.set_source_rgba(*self.settings.pen_color)
             if self.drawing_mode == DrawingMode.PEN and len(self.current_stroke) > 1:
-                StrokeAction(self.current_stroke, self.pen_color, self.pen_size).draw(cr, self._image_to_widget_coords, scale)
+                StrokeAction(self.current_stroke, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
             elif self.drawing_mode == DrawingMode.HIGHLIGHTER and len(self.current_stroke) > 1:
-                HighlighterAction(self.current_stroke, self.highlighter_color, self.highlighter_size).draw(cr, self._image_to_widget_coords, scale)
+                HighlighterAction(self.current_stroke, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
             elif self.start_point and self.end_point:
                 if self.drawing_mode == DrawingMode.ARROW:
-                    ArrowAction(self.start_point, self.end_point, self.pen_color, self.arrow_head_size, self.pen_size).draw(cr, self._image_to_widget_coords, scale)
+                    ArrowAction(self.start_point, self.end_point, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
                 elif self.drawing_mode == DrawingMode.LINE:
-                    LineAction(self.start_point, self.end_point, self.pen_color, 0, self.pen_size).draw(cr, self._image_to_widget_coords, scale)
+                    LineAction(self.start_point, self.end_point, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
                 elif self.drawing_mode == DrawingMode.SQUARE:
-                    RectAction(self.start_point, self.end_point, self.pen_color, self.pen_size, self.fill_color).draw(cr, self._image_to_widget_coords, scale)
+                    RectAction(self.start_point, self.end_point, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
                 elif self.drawing_mode == DrawingMode.CIRCLE:
-                    CircleAction(self.start_point, self.end_point, self.pen_color, self.pen_size, self.fill_color).draw(cr, self._image_to_widget_coords, scale)
+                    CircleAction(self.start_point, self.end_point, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
                 elif self.drawing_mode == DrawingMode.CENSOR:
                     cr.set_source_rgba(0.5, 0.5, 0.5, 0.5)
                     x1, y1 = self._image_to_widget_coords(*self.start_point)
@@ -540,19 +523,15 @@ class DrawingOverlay(Gtk.DrawingArea):
                 preview = TextAction(
                     self.text_position,
                     self.live_text,
-                    self.editing_text_action.color,
-                    self.editing_text_action.font_size,
                     self._get_modified_image_bounds(),
-                    self.editing_text_action.font_family
+                    self.editing_text_action.settings.copy()
                 )
             else:
                 preview = TextAction(
                     self.text_position,
                     self.live_text,
-                    self.pen_color,
-                    self.font_size,
                     self._get_modified_image_bounds(),
-                    self.font_family
+                    self.settings.copy()
                 )
             preview.draw(cr, self._image_to_widget_coords, scale)
 
@@ -599,41 +578,12 @@ class DrawingOverlay(Gtk.DrawingArea):
 
             self.queue_draw()
 
-    def set_pen_color(self, r: float, g: float, b: float, a: float=1.0) -> None:
-        self.pen_color = (r, g, b, a)
-
-    def set_fill_color(self, r: float, g: float, b: float, a: float=1) -> None:
-        self.fill_color = (r, g, b, a)
-
-    def set_highlighter_color(self, r: float, g: float, b: float, a: float=1) -> None:
-        self.highlighter_color = (r, g, b, a)
-
-    def set_pen_size(self, size: float) -> None:
-        self.pen_size = max(1.0, size)
-
-    def set_arrow_head_size(self, size: float) -> None:
-        self.arrow_head_size = max(5.0, size)
-
-    def set_font_size(self, size: float) -> None:
-        self.font_size = max(8.0, size)
-
-    def set_font_family(self, family: str) -> None:
-        self.font_family = family if family else "Sans"
-
-    def set_highlighter_size(self, size: float) -> None:
-        self.highlighter_size = max(1.0, size)
-
-    def set_pixelation_level(self, level: int) -> None:
-        self.pixelation_level = max(2, int(level))
-
     def set_drawing_visible(self, is_visible: bool) -> None:
         self.set_visible(is_visible)
 
     def get_drawing_visible(self) -> bool:
         return self.get_visible()
 
-    def set_number_radius(self, radius: float) -> None:
-        self.number_radius = radius
 
 def render_actions_to_pixbuf(actions: list[DrawingAction], width: int, height: int) -> GdkPixbuf.Pixbuf | None:
     if width <= 0 or height <= 0:

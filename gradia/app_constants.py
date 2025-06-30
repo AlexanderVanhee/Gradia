@@ -29,18 +29,21 @@ PREDEFINED_GRADIENTS: list[GradientPreset] = [
 SUPPORTED_EXPORT_FORMATS = {
     'png': {
         'name': _('PNG Image (*.png)'),
+        'shortname' : 'PNG',
         'mime_type': 'image/png',
         'extensions': ['.png'],
         'save_options': {'keys': [], 'values': []}
     },
     'jpeg': {
         'name': _('JPEG Image (*.jpg)'),
+        'shortname' : 'JPEG',
         'mime_type': 'image/jpeg',
         'extensions': ['.jpg', '.jpeg'],
         'save_options': {'keys': ['quality'], 'values': ['90']}
     },
     'webp': {
         'name': _('WebP Image (*.webp)'),
+        'shortname' : 'WebP',
         'mime_type': 'image/webp',
         'extensions': ['.webp'],
         'save_options': {'keys': ['quality'], 'values': ['90']}

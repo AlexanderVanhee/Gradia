@@ -74,6 +74,11 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
           orientation: vertical;
           spacing: 0;
 
+          styles [
+              "drawing_tool_entry_box"
+          ]
+
+
           Gtk.Box highlighter_color_container {
             orientation: horizontal;
             spacing: 6;
@@ -313,6 +318,65 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
           }
         };
       }
+
+
+      Gtk.Revealer highlighter_size_revealer {
+        reveal-child: false;
+        transition-type: swing_down;
+        transition-duration: 300;
+
+        styles [
+          "drawing_revealer"
+        ]
+
+        child: Gtk.Box {
+          orientation: vertical;
+          spacing: 0;
+
+          Gtk.Box  {
+            orientation: horizontal;
+            spacing: 6;
+            margin-top: 8;
+            margin-bottom: 8;
+            margin-start: 12;
+            margin-end: 12;
+
+            Gtk.Label {
+              label: _("Pressure");
+              halign: start;
+              hexpand: true;
+            }
+
+            Gtk.Box {
+              orientation: horizontal;
+              spacing: 6;
+              valign: center;
+
+              Gtk.Scale highlighter_scale {
+                orientation: horizontal;
+                width-request: 50;
+                hexpand: true;
+                draw-value: true;
+                value-pos: right;
+                digits: 0;
+
+                adjustment: Gtk.Adjustment highlighter_size_adjustment {
+                  lower: 3;
+                  upper: 30;
+                  value: 3;
+                  step-increment: 1;
+                  page-increment: 5;
+                };
+
+                value-changed => $_on_highlighter_size_changed();
+              }
+            }
+          }
+
+        };
+      }
+
+
     };
   }
 }

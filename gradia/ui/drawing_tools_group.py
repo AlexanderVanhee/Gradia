@@ -47,14 +47,14 @@ class ToolConfig:
         return [
             ToolConfig(DrawingMode.SELECT, "pointer-primary-click-symbolic", 0, 0, []),
             ToolConfig(DrawingMode.PEN, "edit-symbolic", 1, 0, ["stroke_color", "size"]),
-            ToolConfig(DrawingMode.TEXT, "text-insert2-symbolic", 2, 0, ["stroke_color", "font"]),
+            ToolConfig(DrawingMode.TEXT, "text-insert2-symbolic", 2, 0, ["stroke_color","fill_color", "font"]),
             ToolConfig(DrawingMode.LINE, "draw-line-symbolic", 3, 0, ["stroke_color", "size"]),
             ToolConfig(DrawingMode.ARROW, "arrow1-top-right-symbolic", 4, 0, ["stroke_color", "size"]),
             ToolConfig(DrawingMode.SQUARE, "box-small-outline-symbolic", 0, 1, ["stroke_color", "fill_color", "size"]),
             ToolConfig(DrawingMode.CIRCLE, "circle-outline-thick-symbolic", 1, 1, ["stroke_color", "fill_color", "size"]),
-            ToolConfig(DrawingMode.HIGHLIGHTER, "marker-symbolic", 2, 1, ["highlighter_color"]),
+            ToolConfig(DrawingMode.HIGHLIGHTER, "marker-symbolic", 2, 1, ["highlighter_color", "highlighter_size"]),
             ToolConfig(DrawingMode.CENSOR, "checkerboard-big-symbolic", 3, 1, []),
-            ToolConfig(DrawingMode.NUMBER, "one-circle-symbolic", 4, 1, ["stroke_color", "number_radius"]),
+            ToolConfig(DrawingMode.NUMBER, "one-circle-symbolic", 4, 1, ["stroke_color","fill_color", "number_radius"]),
         ]
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/drawing_tools_group.ui")
@@ -66,6 +66,7 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
 
     stroke_color_revealer: Gtk.Revealer = Gtk.Template.Child()
     highlighter_color_revealer: Gtk.Revealer = Gtk.Template.Child()
+    highlighter_size_revealer: Gtk.Revealer = Gtk.Template.Child()
     fill_color_revealer: Gtk.Revealer = Gtk.Template.Child()
     font_revealer: Gtk.Revealer = Gtk.Template.Child()
     size_revealer: Gtk.Revealer = Gtk.Template.Child()
@@ -76,6 +77,7 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
     fill_color_button: Gtk.ColorDialogButton = Gtk.Template.Child()
 
     size_scale: Gtk.Scale = Gtk.Template.Child()
+    highlighter_scale: Gtk.Scale = Gtk.Template.Child()
     number_radius_scale: Gtk.Scale = Gtk.Template.Child()
     font_string_list: Gtk.StringList = Gtk.Template.Child()
 
@@ -94,6 +96,7 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
         self.revealers = {
             "stroke_color": self.stroke_color_revealer,
             "highlighter_color": self.highlighter_color_revealer,
+            "highlighter_size" : self.highlighter_size_revealer,
             "fill_color": self.fill_color_revealer,
             "font": self.font_revealer,
             "size": self.size_revealer,
@@ -155,6 +158,7 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
         self._activate_color_action("fill-color", self.settings.fill_color)
 
         self._activate_double_action("pen-size", self.settings.pen_size)
+        self._activate_double_action("highlighter-size", self.settings.highlighter_size)
         self._activate_double_action("number-radius", self.settings.number_radius)
 
         self.font_dropdown_controller.initialize_font_action()
@@ -216,6 +220,12 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
         size_value = scale.get_value()
         self.settings.pen_size = size_value
         self._activate_double_action("pen-size", size_value)
+
+    @Gtk.Template.Callback()
+    def _on_highlighter_size_changed(self, scale: Gtk.Scale, *args) -> None:
+        size_value = scale.get_value()
+        self.settings.highlighter_size = size_value
+        self._activate_double_action("highlighter-size", size_value)
 
     @Gtk.Template.Callback()
     def _on_number_radius_changed(self, scale: Gtk.Scale, *args) -> None:
@@ -299,6 +309,7 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
         self.fill_color_button.set_rgba(self.settings.fill_color)
 
         self.size_scale.set_value(self.settings.pen_size)
+        self.highlighter_scale.set_value(self.settings.highlighter_size)
         self.number_radius_scale.set_value(self.settings.number_radius)
 
 
