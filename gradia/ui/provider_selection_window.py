@@ -1,9 +1,21 @@
+# Copyright (C) 2025 Alexander Vanhee
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import gi
-gi.require_version("Gtk", "4.0")
-gi.require_version("Adw", "1")
-gi.require_version("Gdk", "4.0")
 gi.require_version("Soup", "3.0")
 
 from gi.repository import Gtk, Adw, GLib, Gdk, Soup, GdkPixbuf
@@ -36,7 +48,7 @@ class ProviderSelectionWindow(Adw.Window):
         self.session = Soup.Session()
         self.providers_data = None
 
-        self.view_stack = Adw.ViewStack()
+        self.view_stack = Adw.ViewStack(enable_transitions=True)
         self.set_content(self.view_stack)
 
         self._setup_loading_page()
@@ -51,7 +63,9 @@ class ProviderSelectionWindow(Adw.Window):
             valign=Gtk.Align.CENTER
         )
 
-        spinner = Gtk.Spinner(spinning=True, vexpand=True, hexpand=True)
+        spinner = Adw.Spinner.new()
+        spinner.set_size_request(32, 32)
+
         label = Gtk.Label(label=_("Loading providers data..."), vexpand=True, hexpand=True)
 
         loading_box.append(spinner)
