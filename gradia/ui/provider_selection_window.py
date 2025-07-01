@@ -18,7 +18,7 @@ logger = Logger()
 class ProviderSelectionWindow(Adw.Window):
     __gtype_name__ = 'ProviderSelectionWindow'
 
-    PROVIDERS_DATA_URL = "http://localhost:8000/provider-info.json"
+    PROVIDERS_DATA_URL = "https://gradia.alexandervanhee.be/upload-providers/provider-info.json"
 
     def __init__(self, parent_window: Adw.PreferencesWindow, on_provider_selected=None, **kwargs):
         super().__init__(
