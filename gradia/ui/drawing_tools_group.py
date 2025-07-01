@@ -23,7 +23,7 @@ from gradia.backend.settings import Settings
 from gradia.constants import rootdir  # pyright: ignore
 from gradia.overlay.drawing_actions import DrawingMode
 from gradia.ui.font_dropdown_controller import FontDropdownController
-
+from gradia.ui.provider_selection_window import ProviderSelectionWindow
 
 class ToolConfig:
     def __init__(

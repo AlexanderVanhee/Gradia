@@ -26,6 +26,7 @@ from gradia.constants import rootdir  # pyright: ignore
 from gradia.backend.settings import Settings
 from gradia.app_constants import SUPPORTED_EXPORT_FORMATS
 from gradia.backend.logger import Logger
+from gradia.ui.provider_selection_window import ProviderSelectionWindow
 
 logger = Logger()
 
@@ -91,9 +92,8 @@ class PreferencesWindow(Adw.PreferencesWindow):
     delete_screenshot_switch: Adw.SwitchRow = Gtk.Template.Child()
     confirm_close_switch: Adw.SwitchRow = Gtk.Template.Child()
     confirm_upload_switch: Adw.SwitchRow = Gtk.Template.Child()
-    command_entry: Gtk.Entry = Gtk.Template.Child()
-    command_reset: Gtk.Button = Gtk.Template.Child()
     save_format_combo: Adw.ComboRow = Gtk.Template.Child()
+    provider_name: Gtk.Label = Gtk.Template.Child()
 
     def __init__(self, parent_window: Adw.ApplicationWindow, **kwargs):
         super().__init__(**kwargs)
@@ -117,9 +117,15 @@ class PreferencesWindow(Adw.PreferencesWindow):
         self._create_folder_rows()
         self._create_save_format_toggle_group()
         self._setup_command_entries()
+        self._setup_provider_display()
         self._bind_settings()
 
-        self.command_entry.set_text(self.settings.custom_export_command)
+    def _setup_provider_display(self):
+        provider_name = self.settings.provider_name
+        if provider_name:
+            self.provider_name.set_text(provider_name)
+        else:
+            self.provider_name.set_text(_("None selected"))
 
     def _setup_command_entries(self):
         interactive_command = get_command_for_screenshot_type("INTERACTIVE")
@@ -167,7 +173,6 @@ class PreferencesWindow(Adw.PreferencesWindow):
         toggle_group = Adw.ToggleGroup(valign=Gtk.Align.CENTER)
         toggle_group.add_css_class("round")
 
-
         self.format_toggle_group = toggle_group
         self.format_toggles = []
 
@@ -196,9 +201,6 @@ class PreferencesWindow(Adw.PreferencesWindow):
         self.fullscreen_copy_btn.connect("clicked",
             lambda btn: self._copy_to_clipboard(self.fullscreen_entry.get_text()))
 
-        self.command_entry.connect("changed", self._on_command_entry_changed)
-        self.command_reset.connect("clicked", self._on_command_reset_clicked)
-
     def _on_folder_row_activated(self, row: Adw.ActionRow) -> None:
         folder_name = row.folder_name
         self._update_folder_selection(folder_name)
@@ -219,15 +221,6 @@ class PreferencesWindow(Adw.PreferencesWindow):
             row.checkmark.set_visible(is_selected)
         self._update_expander_title()
 
-    def _on_command_entry_changed(self, entry: Gtk.Entry) -> None:
-        self.settings.custom_export_command = entry.get_text()
-        self.parent_window.update_command_ready()
-
-    def _on_command_reset_clicked(self, button: Gtk.Button) -> None:
-        self.command_entry.set_text("")
-        self.settings.custom_export_command = ""
-        self.parent_window.update_command_ready()
-
     def _copy_to_clipboard(self, text: str) -> None:
         clipboard = self.get_clipboard()
         clipboard.set(text)
@@ -246,3 +239,14 @@ class PreferencesWindow(Adw.PreferencesWindow):
         self.settings.bind_switch(self.delete_screenshot_switch,"trash-screenshots-on-close")
         self.settings.bind_switch(self.confirm_close_switch,"show-close-confirm-dialog")
         self.settings.bind_switch(self.confirm_upload_switch,"show-export-confirm-dialog")
+
+    @Gtk.Template.Callback()
+    def on_choose_provider_clicked(self, button: Gtk.Button) -> None:
+        def handle_selection(name: str, command: str):
+            self.provider_name.set_text(name)
+            self.settings.provider_name = name
+            self.settings.custom_export_command = command
+
+
+        window = ProviderSelectionWindow(parent_window=self, on_provider_selected=handle_selection)
+        window.present()

@@ -84,6 +84,10 @@
       <summary>Custom command to run when pressing its button</summary>
       <description>Command that receives the edited file path as stdin and returns clipboard output</description>
     </key>
+    <key name="provider-name" type="s">
+      <default>''</default>
+      <summary>Name associated with the custom command</summary>
+    </key>
     <key name="show-export-confirm-dialog" type="b">
       <default>true</default>
       <summary>Whether to ask before running the export command.</summary>

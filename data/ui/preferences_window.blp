@@ -66,37 +66,31 @@ template $GradiaPreferencesWindow : Adw.PreferencesWindow {
   }
 
   Adw.PreferencesGroup {
-    title: _("Custom upload command");
-    description: _("Connect to your favorite upload service via a bash command");
+    title: _("Image upload providers");
+    description: _("Connect to your favorite upload providers, or create a link yourself");
 
     [header-suffix]
     Gtk.LinkButton more_info_link {
-      label: _("Guide");
-      uri: "https://gradia.alexandervanhee.be/upload-commands";
-      tooltip-text: _("Learn more about custom upload commands");
+      label: _("More info");
+      uri: "https://gradia.alexandervanhee.be/providers";
+      tooltip-text: _("Learn more about providers");
       valign: center;
     }
 
-
-    Adw.ActionRow {
-    child:Gtk.Box{
-      margin-bottom: 6;
-      margin-top: 6;
-      margin-start: 6;
-      margin-end: 6;
-      spacing:6;
-
-      Entry command_entry {
-        hexpand: true;
-        placeholder-text: "echo $1";
-        styles ["monospace"]
+    Adw.ComboRow  {
+      title: _("Provider");
+      [suffix]
+      Gtk.Box{
+        Gtk.Label provider_name {
+        margin-end: 10;
+        }
+        Gtk.Button  {
+          label: _("Select");
+          tooltip-text: _("Choose a provider");
+          valign: center;
+          clicked => $on_choose_provider_clicked();
+        }
       }
-
-      Button command_reset {
-      icon-name: "edit-clear-symbolic";
-      styles ["flat"]
-      }
-      };
     }
 
     Adw.ComboRow confirm_upload_combo {
