@@ -129,6 +129,7 @@ class ProviderSelectionWindow(Adw.Window):
         list_box = Gtk.ListBox(valign=Gtk.Align.START, selection_mode=Gtk.SelectionMode.NONE)
         list_box.add_css_class("boxed-list")
 
+
         for provider_id, provider_data in self.providers_data.items():
             row = Adw.ActionRow(
                 title=provider_data["name"],
@@ -144,6 +145,22 @@ class ProviderSelectionWindow(Adw.Window):
             row.provider_id = provider_id
             row.connect("activated", self._on_provider_selected)
             list_box.append(row)
+
+
+        custom_row = Adw.ActionRow(
+            title=_("Custom Provider"),
+            subtitle=_("Create your own custom upload command"),
+            activatable=True
+        )
+
+        custom_icon = Gtk.Image.new_from_icon_name("applications-engineering-symbolic")
+        custom_icon.set_margin_start(8)
+        custom_icon.set_margin_end(8)
+        custom_row.add_prefix(custom_icon)
+        custom_row.add_suffix(Gtk.Image.new_from_icon_name("go-next-symbolic"))
+        custom_row.provider_id = "custom"
+        custom_row.connect("activated", self._on_provider_selected)
+        list_box.append(custom_row)
 
         scrolled.set_child(list_box)
 
@@ -163,6 +180,90 @@ class ProviderSelectionWindow(Adw.Window):
         self.navigation_view = Adw.NavigationView()
         self.navigation_view.add(page)
         self._show_content_page(self.navigation_view)
+
+    def _create_custom_provider_page(self):
+        page = Adw.NavigationPage(title=_("Custom Provider"))
+
+        header_bar = Adw.HeaderBar()
+        save_button = Gtk.Button(label=_("Save"))
+        save_button.add_css_class("suggested-action")
+        save_button.connect("clicked", self._on_save_custom_provider)
+        save_button.set_sensitive(False)
+        header_bar.pack_end(save_button)
+        self.custom_save_button = save_button
+
+        content = Adw.ToolbarView()
+        content.add_top_bar(header_bar)
+
+        scrolled = Gtk.ScrolledWindow(
+            hscrollbar_policy=Gtk.PolicyType.NEVER,
+            vscrollbar_policy=Gtk.PolicyType.AUTOMATIC
+        )
+
+        clamp = Adw.Clamp(
+            maximum_size=600,
+            tightening_threshold=400,
+            margin_top=24,
+            margin_bottom=24,
+            margin_start=12,
+            margin_end=12
+        )
+
+        main_box = Gtk.Box(
+            orientation=Gtk.Orientation.VERTICAL,
+            spacing=24
+        )
+
+        command_section = Adw.PreferencesGroup(
+            title=_("Upload Command"),
+            description=_("Enter a custom command to upload files. Use $1 as a placeholder for the file path.")
+        )
+
+        command_row = Adw.ActionRow(
+            title=_("Command")
+        )
+        command_row.set_activatable(False)
+
+        command_buffer = Gtk.TextBuffer()
+        command_buffer.connect("changed", self._on_custom_field_changed)
+        self.custom_command_buffer = command_buffer
+
+        command_text_view = Gtk.TextView(
+            buffer=command_buffer,
+            wrap_mode=Gtk.WrapMode.WORD,
+            accepts_tab=False,
+            monospace=True,
+            height_request=80
+        )
+
+        command_scrolled = Gtk.ScrolledWindow(
+            hscrollbar_policy=Gtk.PolicyType.AUTOMATIC,
+            vscrollbar_policy=Gtk.PolicyType.AUTOMATIC,
+            child=command_text_view,
+            margin_top=6,
+            margin_bottom=6,
+            margin_start=6,
+            margin_end=6
+        )
+        command_scrolled.add_css_class("card")
+
+        command_box = Gtk.Box(
+            orientation=Gtk.Orientation.VERTICAL,
+            spacing=6
+        )
+        command_box.append(command_scrolled)
+
+        command_row.set_child(command_box)
+        command_section.add(command_row)
+
+        main_box.append(command_section)
+
+        clamp.set_child(main_box)
+        scrolled.set_child(clamp)
+        content.set_content(scrolled)
+        page.set_child(content)
+
+        return page
 
     def _create_provider_detail_page(self, provider_id: str):
         provider_data = self.providers_data[provider_id]
@@ -308,8 +409,32 @@ class ProviderSelectionWindow(Adw.Window):
 
     def _on_provider_selected(self, row: Adw.ActionRow):
         provider_id = row.provider_id
-        detail_page = self._create_provider_detail_page(provider_id)
-        self.navigation_view.push(detail_page)
+
+        if provider_id == "custom":
+            custom_page = self._create_custom_provider_page()
+            self.navigation_view.push(custom_page)
+        else:
+            detail_page = self._create_provider_detail_page(provider_id)
+            self.navigation_view.push(detail_page)
+
+    def _on_custom_field_changed(self, widget):
+        start_iter = self.custom_command_buffer.get_start_iter()
+        end_iter = self.custom_command_buffer.get_end_iter()
+        command = self.custom_command_buffer.get_text(start_iter, end_iter, False).strip()
+
+        can_save = bool(command)
+        self.custom_save_button.set_sensitive(can_save)
+
+
+    def _on_save_custom_provider(self, button: Gtk.Button):
+        start_iter = self.custom_command_buffer.get_start_iter()
+        end_iter = self.custom_command_buffer.get_end_iter()
+        command = self.custom_command_buffer.get_text(start_iter, end_iter, False).strip()
+
+        if command:
+            if self.on_provider_selected:
+                self.on_provider_selected(_("Custom"), command)
+            self.close()
 
     def _on_select_provider(self, button: Gtk.Button, provider_id: str):
         provider_data = self.providers_data[provider_id]
@@ -371,4 +496,3 @@ class ProviderSelectionWindow(Adw.Window):
             picture.set_paintable(Gtk.Image.new_from_icon_name("image-missing-symbolic").get_paintable())
 
         picture.set_size_request(32, 32)
-
