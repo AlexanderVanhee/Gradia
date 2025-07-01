@@ -1,0 +1,159 @@
+{
+    "imgur": {
+        "name": "Imgur",
+        "description": "Popular image hosting with easy sharing and robust features.",
+        "icon_url": "http://gradia.alexandervanhee.be/upload-providers/imgur.webp",
+        "homepage_url": "https://imgur.com",
+        "tos_url": "https://imgur.com/tos",
+        "details": "Imgur is a widely used online image sharing community and image host, known for its simplicity and large user base. It offers convenient image uploading and direct linking.",
+        "features": [
+            {
+                "text": "Free image and GIF hosting",
+                "type": "positive"
+            },
+            {
+                "text": "Anonymous upload options available",
+                "type": "positive"
+            },
+            {
+                "text": "Supports albums and galleries",
+                "type": "positive"
+            },
+            {
+                "text": "Direct image links for easy embedding",
+                "type": "positive"
+            },
+            {
+                "text": "Subject to API rate limits for frequent uploads",
+                "type": "negative"
+            },
+            {
+                "text": "Requires a client ID for API authorization",
+                "type": "negative"
+            },
+            {
+                "text": "No official guarantee of permanent file storage for anonymous uploads",
+                "type": "negative"
+            }
+        ],
+        "upload_command": "curl -s -H \"Authorization: Client-ID fc2a3faf090d08b\" -F \"image=@$1\" https://api.imgur.com/3/image | tee >(sed -n 's/.*\"deletehash\":\"\\([^\"]*\\)\".*/\\1/p' | while read h; do echo \"[$(date +%F_%T)] $h\"; done >> \"$XDG_CONFIG_HOME/imgur-delete-hashes.txt\") | sed -n 's/.*\"link\":\"\\([^\"]*\\)\".*/\\1/p' | sed 's/\\\\//g'"
+    },
+    "catbox": {
+        "name": "Catbox",
+        "description": "Simple and free file hosting with permanent storage.",
+        "icon_url": "http://gradia.alexandervanhee.be/upload-providers/catbox.webp",
+        "homepage_url": "https://catbox.moe",
+        "tos_url": "https://catbox.moe/legal.php",
+        "details": "Catbox.moe is a straightforward file hosting service designed for simplicity and permanence. It allows users to upload various file types, including images, with no account required.",
+        "features": [
+            {
+                "text": "Completely free file hosting",
+                "type": "positive"
+            },
+            {
+                "text": "No user account or registration needed",
+                "type": "positive"
+            },
+            {
+                "text": "Files are kept indefinitely",
+                "type": "positive"
+            },
+            {
+                "text": "Minimalist and easy-to-use API",
+                "type": "positive"
+            },
+            {
+                "text": "No formal uptime Service Level Agreement (SLA)",
+                "type": "negative"
+            },
+            {
+                "text": "Limited support for file metadata",
+                "type": "negative"
+            },
+            {
+                "text": "Does not feature built-in album or gallery support",
+                "type": "negative"
+            }
+        ],
+        "upload_command": "curl -s -F \"reqtype=fileupload\" -F \"fileToUpload=@$1\" https://catbox.moe/user/api.php"
+    },
+    "0x0": {
+        "name": "0x0.st",
+        "description": "Open-source file hosting with 30-day availability.",
+        "icon_url": null,
+        "homepage_url": "https://0x0.st",
+        "tos_url": "https://0x0.st",
+        "details": "0x0.st is an open-source command-line pastebin and file upload service. It provides temporary hosting for files, typically retaining them for 30 days.",
+        "features": [
+            {
+                "text": "Free and anonymous file hosting",
+                "type": "positive"
+            },
+            {
+                "text": "No account or registration necessary",
+                "type": "positive"
+            },
+            {
+                "text": "Transparent and open-source platform",
+                "type": "positive"
+            },
+            {
+                "text": "Files are available for 30 days by default",
+                "type": "positive"
+            },
+            {
+                "text": "Uploaded files expire automatically after 30 days",
+                "type": "negative"
+            },
+            {
+                "text": "No official service guarantees",
+                "type": "negative"
+            },
+            {
+                "text": "File size upload limits apply",
+                "type": "negative"
+            }
+        ],
+        "upload_command": "curl -s -F \"file=@$1\" https://0x0.st | tr -d '\\n'"
+    },
+    "gofile": {
+        "name": "GoFile.io",
+        "description": "Free and robust file sharing platform for large files.",
+        "icon_url": "http://gradia.alexandervanhee.be/upload-providers/gofile.webp",
+        "homepage_url": "https://gofile.io",
+        "tos_url": "https://gofile.io/terms",
+        "details": "GoFile.io is a versatile file sharing service that allows users to upload and share files of various sizes. It's known for its ease of use and support for large uploads without requiring an account.",
+        "features": [
+            {
+                "text": "Free and easy-to-use file hosting",
+                "type": "positive"
+            },
+            {
+                "text": "No registration or account required",
+                "type": "positive"
+            },
+            {
+                "text": "Supports very large file uploads",
+                "type": "positive"
+            },
+            {
+                "text": "Provides direct download links",
+                "type": "positive"
+            },
+            {
+                "text": "Files are hosted temporarily and may expire",
+                "type": "negative"
+            },
+            {
+                "text": "API usage is subject to rate limits",
+                "type": "negative"
+            },
+            {
+                "text": "Access may be restricted in some geographical regions",
+                "type": "negative"
+            }
+        ],
+        "upload_command": "curl -s -F \"file=@$1\" https://store1.gofile.io/uploadFile | sed -n 's/.*\"downloadPage\":\"\\([^\"]*\\)\".*/\\1/p'"
+    }
+}
+
