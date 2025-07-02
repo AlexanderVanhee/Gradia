@@ -13,7 +13,7 @@ template $GradiaPreferencesWindow : Adw.PreferencesWindow {
 
     Adw.PreferencesGroup location_group {
       title: _("Recent Screenshots");
-      description: _("Configure which subfolder of Pictures to use to display recent screenshots from on the home page");
+      description: _("Configure which subfolder of Pictures to use to display recent screenshots on the home page");
 
       Adw.ExpanderRow folder_expander {
         title: _("Select Folder");
@@ -56,7 +56,7 @@ template $GradiaPreferencesWindow : Adw.PreferencesWindow {
     title: _("Screenshot Management");
     Adw.ComboRow {
       title: _("Trash screenshots on close");
-      subtitle: _("Automatically move screenshots taken from whitin the app to trash.");
+      subtitle: _("Automatically move screenshots taken from within the app to trash");
       [suffix]
       Gtk.Switch delete_screenshot_switch {
         tooltip-text: _("Trash screenshots on app close");
