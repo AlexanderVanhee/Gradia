@@ -22,8 +22,6 @@ parts:
     parse-info: [ usr/share/metainfo/be.alexandervanhee.gradia.metainfo.xml ]
     organize:
       snap/gradia/current: .
-    prime:
-      - -snap/gradia
   deps:
     plugin: python
     source: .
