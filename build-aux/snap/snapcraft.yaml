@@ -25,23 +25,29 @@ parts:
     prime:
       - -snap/gradia
   deps:
-    plugin: nil
-    override-build: |
-      python3 -m pip install --target=$CRAFT_PART_INSTALL/usr/lib/python3/dist-packages Wand==0.6.13 Pillow
-      snapcraftctl build
+    plugin: python
+    source: .
+    python-packages:
+      - Wand==0.6.13
+      - Pillow
+    stage:
+      - -bin/activate*
+      - -bin/Activate.ps1
+      - -bin/python*
+      - -bin/pip*
+      - -pyvenv.cfg
+      - -lib/*/*/setup*
+      - -lib/*/*/pkg*
+      - -lib/*/*/pip*
+      - -lib/*/*/_dist*
+      - -share
+      - -include
+    organize:
+      lib/python3.12/site-packages: usr/lib/python3/dist-packages
+
     stage-packages:
       - libzstd1
       - curl
-
-    prime:
-      - -bin
-      - -pyvenv.cfg
-      - -include
-      - -lib64
-      - -lib
-      - -usr/lib/*/*/pip*
-      - -usr/lib/*/*/setup*
-      - -usr/share
   cleanup:
     after:
       - deps
