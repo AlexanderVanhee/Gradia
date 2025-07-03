@@ -36,14 +36,10 @@ class ImageStack(Adw.Bin):
     controls_box: Gtk.Box = Gtk.Template.Child()
     erase_selected_revealer: Gtk.Revealer = Gtk.Template.Child()
 
-    drop_target = Gtk.DropTarget.new(type=Gio.File, actions=Gdk.DragAction.COPY)
+    drop_target: Gtk.DropTarget = Gtk.Template.Child()
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-
-        self.transparency_background.set_picture_reference(self.picture)
-        self.drawing_overlay.set_picture_reference(self.picture)
-        self.drawing_overlay.set_erase_selected_revealer(self.erase_selected_revealer)
 
         self._setup()
 
@@ -51,16 +47,20 @@ class ImageStack(Adw.Bin):
         self.erase_selected_revealer.set_reveal_child(show)
 
     def _setup(self) -> None:
-        # Setup image drop controller
-        self.drop_target.set_preload(True)
-        self.drop_target.connect("drop", self._on_file_dropped)
-        self.stack.add_controller(self.drop_target)
+        self.transparency_background.set_picture_reference(self.picture)
+        self.drawing_overlay.set_picture_reference(self.picture)
+        self.drawing_overlay.set_erase_selected_revealer(self.erase_selected_revealer)
 
-    def _on_file_dropped(self, _target: Gtk.DropTarget, value: Gio.File, _x: int, _y: int) -> None:
+        # Setup image drop controller
+        self.drop_target.set_gtypes([Gio.File])
+        self.drop_target.connect("drop", self._on_file_dropped)
+
+    def _on_file_dropped(self, _target: Gtk.DropTarget, value: Gio.File, _x: int, _y: int) -> bool:
         uri = value.get_uri()
         if uri:
             app = Gio.Application.get_default()
             action = app.lookup_action("load-drop") if app else None
             if action:
-                pass
                 action.activate(GLib.Variant('s', uri))
+                return True
+        return False

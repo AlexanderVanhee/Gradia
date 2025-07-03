@@ -6,6 +6,11 @@ template $GradiaImageStack : Adw.Bin {
     top-bar-style: flat;
     extend-content-to-top-edge: true;
 
+    Gtk.DropTarget drop_target {
+      actions: copy;
+      preload: true;
+    }
+
     [top]
     Adw.HeaderBar headerbar {
       show-title: false;
