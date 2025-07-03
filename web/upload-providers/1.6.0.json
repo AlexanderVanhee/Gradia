@@ -16,11 +16,11 @@
                 "type": "positive"
             },
             {
-                "text": "Supports albums and galleries",
+                "text": "Embedding functionality",
                 "type": "positive"
             },
             {
-                "text": "Direct image links for easy embedding",
+                "text": "Removal token functionality",
                 "type": "positive"
             },
             {
@@ -28,12 +28,8 @@
                 "type": "negative"
             },
             {
-                "text": "Requires a client ID for API authorization",
-                "type": "negative"
-            },
-            {
-                "text": "No official guarantee of permanent file storage for anonymous uploads",
-                "type": "negative"
+                "text": "Uses Gradia client ID",
+                "type": "neutral"
             }
         ],
         "upload_command": "curl -s -H \"Authorization: Client-ID fc2a3faf090d08b\" -F \"image=@$1\" https://api.imgur.com/3/image | tee >(sed -n 's/.*\"deletehash\":\"\\([^\"]*\\)\".*/\\1/p' | while read h; do echo \"[$(date +%F_%T)] $h\"; done >> \"$XDG_CONFIG_HOME/imgur-delete-hashes.txt\") | sed -n 's/.*\"link\":\"\\([^\"]*\\)\".*/\\1/p' | sed 's/\\\\//g'"
@@ -59,19 +55,11 @@
                 "type": "positive"
             },
             {
-                "text": "Minimalist and easy-to-use API",
-                "type": "positive"
-            },
-            {
                 "text": "No formal uptime Service Level Agreement (SLA)",
                 "type": "negative"
             },
             {
                 "text": "Limited support for file metadata",
-                "type": "negative"
-            },
-            {
-                "text": "Does not feature built-in album or gallery support",
                 "type": "negative"
             }
         ],
@@ -80,7 +68,7 @@
     "0x0": {
         "name": "0x0.st",
         "description": "Open-source file hosting with 30-day availability.",
-        "icon_url": null,
+        "icon_url": "http://gradia.alexandervanhee.be/upload-providers/0x0.webp",
         "homepage_url": "https://0x0.st",
         "tos_url": "https://0x0.st",
         "details": "0x0.st is an open-source command-line pastebin and file upload service. It provides temporary hosting for files, typically retaining them for 30 days.",
@@ -99,22 +87,26 @@
             },
             {
                 "text": "Files are available for 30 days by default",
-                "type": "positive"
-            },
-            {
-                "text": "Uploaded files expire automatically after 30 days",
-                "type": "negative"
+                "type": "neutral"
             },
             {
                 "text": "No official service guarantees",
                 "type": "negative"
             },
             {
-                "text": "File size upload limits apply",
+                "text": "No way to remove uploaded images",
+                "type": "negative"
+            },
+            {
+                "text": "Sole proprietorship",
+                "type": "negative"
+            },
+            {
+                "text": "Access may be restricted in some geographical regions",
                 "type": "negative"
             }
         ],
-        "upload_command": "curl -s -F \"file=@$1\" https://0x0.st | tr -d '\\n'"
+        "upload_command": "curl -s -A \"Gradia (+https://gradia.alexandervanhee.be)\" -F \"file=@$1\" https://0x0.st | tr -d '\\n'"
     },
     "gofile": {
         "name": "GoFile.io",

@@ -135,6 +135,14 @@ class Settings:
         self._settings.set_string("custom-export-command", value)
 
     @property
+    def provider_name(self) -> str:
+        return self._settings.get_string("provider-name")
+
+    @provider_name.setter
+    def provider_name(self, value:str) -> None:
+        self._settings.set_string("provider-name", value)
+
+    @property
     def show_export_confirm_dialog(self) -> bool:
         return self._settings.get_boolean("show-export-confirm-dialog")
 

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Providers</title>
+    <meta name="description" content="Learn how to upload images using Gradia's predefined or custom upload providers, with step-by-step setup instructions.">
+
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles/base.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <img src="assets/logo.svg" alt="Gradia Logo" class="logo-image">
+                <span>Gradia</span>
+            </div>
+            <h1 class="title">Providers</h1>
+            <p class="subtitle">Quickly upload an edited image to your favorite providers</p>
+            <p style="padding-top: 1rem;">
+                Instead of only giving the option of one provider, Gradia allows you to either select one of the predefined ones or <strong>create your own</strong>.
+
+                This page explains the basic idea behind this system, provides some explanation for popular providers,
+                and includes information on how to craft commands for your own setup.
+            </p>
+
+        </header>
+
+        <!-- Introduction -->
+        <section class="card how-it-works">
+            <h2 class="section-title">How it works</h2>
+            <p class="description">
+                All providers are just a <strong>bash command</strong> behind the scene. Including all the predefined ones,
+                this makes it easy to add new options in the future and allows you to create custom ones as well.
+                </br>
+                The command simply receives the image path as <code class="inline-code">$1</code> and
+                outputs the final URL to stdout.</p>
+
+            <div style="margin-top: 1rem; margin-bottom: 1rem;">
+                <strong class="example-label">Example:</strong>
+                <pre
+                    class="code-block"><code>curl -F "file=@$1" https://api.service.com/upload | jq -r '.url'</code></pre>
+            </div>
+
+            <p><strong>Note:</strong> Not all commands or functions are available in the Flatpak or the Snap by default. You may need to modify
+                permissions. For Flatpak, this can be done via <a
+                    href="https://flathub.org/apps/com.github.tchx84.Flatseal"><strong>Flatseal</strong></a>.</p>
+        </section>
+
+        <!-- Setup -->
+        <section class=" setup-section">
+            <h2 class="section-title">Basic Setup</h2>
+            <ol class="setup-steps card">
+                <li class="setup-step ">
+                    <span class="step-number">1</span>
+                    <div class="step-content">
+                        <strong class="step-title">Press the <strong>Select</strong> button in the "Image Upload Providers" section.</strong>
+                        <span class="step-description">or craft a custom command</span>
+                    </div>
+                </li>
+                <li class="setup-step ">
+                    <span class="step-number">2</span>
+                    <div class="step-content">
+                        <strong class="step-title">Choose one of the predefined providers from the list</strong>
+                        <span class="step-description">or pick "<strong>Custom Provider</strong>"</span>
+                    </div>
+                </li>
+                <li class="setup-step">
+                    <span class="step-number">3</span>
+                    <div class="step-content">
+                        <strong class="step-title">Review your option</strong>
+                        <span class="step-description">make sure the option fits your needs.</span>
+                    </div>
+                </li>
+                <li class="setup-step">
+                    <span class="step-number">4</span>
+                    <div class="step-content">
+                        <strong class="step-title">Test it out</strong>
+                        <span class="step-description">via the new button next to <strong>Save & Copy</strong></span>
+                    </div>
+                </li>
+            </ol>
+        </section>
+        <script>
+            function copy(btn) {
+                const code = btn.parentElement.querySelector('code').textContent;
+                navigator.clipboard.writeText(code).then(() => {
+                    btn.textContent = 'Copied!';
+                    btn.classList.add('copied');
+                    setTimeout(() => {
+                        btn.textContent = 'Copy';
+                        btn.classList.remove('copied');
+                    }, 2000);
+                });
+            }
+        </script>
+</body>
+
+</html>

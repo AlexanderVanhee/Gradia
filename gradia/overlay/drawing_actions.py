@@ -509,13 +509,13 @@ class NumberStampAction(DrawingAction):
 
     def contains_point(self, px, py):
         x, y = self.position
-        r = self.radius
+        r = self.radius / 1000
         distance = math.sqrt((px - x)**2 + (py - y)**2)
         return distance <= r
 
     def get_bounds(self):
         x, y = self.position
-        r = self.radius
+        r = self.radius /1000
         return self.apply_padding((x - r, y - r, x + r, y + r))
 
     def translate(self, dx, dy):

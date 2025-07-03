@@ -13,7 +13,7 @@ template $GradiaPreferencesWindow : Adw.PreferencesWindow {
 
     Adw.PreferencesGroup location_group {
       title: _("Recent Screenshots");
-      description: _("Configure which subfolder of Pictures to use to display recent screenshots from on the home page");
+      description: _("Configure which subfolder of Pictures to use to display recent screenshots on the home page");
 
       Adw.ExpanderRow folder_expander {
         title: _("Select Folder");
@@ -56,7 +56,7 @@ template $GradiaPreferencesWindow : Adw.PreferencesWindow {
     title: _("Screenshot Management");
     Adw.ComboRow {
       title: _("Trash screenshots on close");
-      subtitle: _("Automatically move screenshots taken from whitin the app to trash.");
+      subtitle: _("Automatically move screenshots taken from within the app to trash");
       [suffix]
       Gtk.Switch delete_screenshot_switch {
         tooltip-text: _("Trash screenshots on app close");
@@ -66,37 +66,32 @@ template $GradiaPreferencesWindow : Adw.PreferencesWindow {
   }
 
   Adw.PreferencesGroup {
-    title: _("Custom upload command");
-    description: _("Connect to your favorite upload service via a bash command");
+    title: _("Image Upload Providers");
+    description: _("Connect to your favorite upload providers, or create a link yourself");
 
     [header-suffix]
     Gtk.LinkButton more_info_link {
-      label: _("Guide");
-      uri: "https://gradia.alexandervanhee.be/upload-commands";
-      tooltip-text: _("Learn more about custom upload commands");
+      label: _("More info");
+      uri: "https://gradia.alexandervanhee.be/providers";
+      tooltip-text: _("Learn more about providers");
       valign: center;
     }
 
-
-    Adw.ActionRow {
-    child:Gtk.Box{
-      margin-bottom: 6;
-      margin-top: 6;
-      margin-start: 6;
-      margin-end: 6;
-      spacing:6;
-
-      Entry command_entry {
-        hexpand: true;
-        placeholder-text: "echo $1";
-        styles ["monospace"]
+    Adw.ComboRow  {
+      title: _("Provider");
+      [suffix]
+      Gtk.Box{
+        Gtk.Label provider_name {
+        margin-end: 10;
+        styles ["bold"]
+        }
+        Gtk.Button  {
+          label: _("Select");
+          tooltip-text: _("Choose a provider");
+          valign: center;
+          clicked => $on_choose_provider_clicked();
+        }
       }
-
-      Button command_reset {
-      icon-name: "edit-clear-symbolic";
-      styles ["flat"]
-      }
-      };
     }
 
     Adw.ComboRow confirm_upload_combo {

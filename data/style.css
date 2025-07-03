@@ -102,3 +102,8 @@ headerbar.desktop windowcontrols button:active image {
 .recent-button image {
     border-radius: 4px;
 }
+
+.bold {
+    font-weight: bold;
+}
+

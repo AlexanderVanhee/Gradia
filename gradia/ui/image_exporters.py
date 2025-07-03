@@ -241,12 +241,13 @@ class CommandLineExporter(BaseImageExporter):
             if "$1" not in command_template:
                 raise Exception("Custom export command must include $1 as a placeholder for the image path")
 
-            command = command_template.replace("$1", f"{temp_path}")
+            command = command_template.replace("$1", temp_path)
 
             logger.info("running custom command: " + command)
             process = subprocess.Popen(
                 command,
                 shell=True,
+                executable="/bin/bash",
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE
             )

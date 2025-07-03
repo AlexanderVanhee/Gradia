@@ -23,7 +23,7 @@ from gradia.backend.settings import Settings
 from gradia.constants import rootdir  # pyright: ignore
 from gradia.overlay.drawing_actions import DrawingMode
 from gradia.ui.font_dropdown_controller import FontDropdownController
-
+from gradia.ui.provider_selection_window import ProviderSelectionWindow
 
 class ToolConfig:
     def __init__(
@@ -133,10 +133,6 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
     """
 
     def _setup_annotation_tools_group(self) -> None:
-        self.stroke_color_button.set_rgba(Gdk.RGBA(red=1, green=1, blue=1, alpha=1))
-        self.highlighter_color_button.set_rgba(Gdk.RGBA(red=1, green=1, blue=0, alpha=0.5))
-        self.fill_color_button.set_rgba(Gdk.RGBA(red=0, green=0, blue=0, alpha=0))
-
         for tool_config in self.tools_config:
             button = Gtk.ToggleButton(
                 icon_name=tool_config.icon,
@@ -303,7 +299,6 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
 
     def _restore_settings(self) -> None:
         """Restore all settings from persistent storage."""
-
         self.stroke_color_button.set_rgba(self.settings.pen_color)
         self.highlighter_color_button.set_rgba(self.settings.highlighter_color)
         self.fill_color_button.set_rgba(self.settings.fill_color)

@@ -19,6 +19,7 @@
 			<li>Adjust aspect ratios and padding to fit different platforms</li>
 			<li>Ten annotation modes, including text, arrow, and censor</li>
 			<li>Multiple ways to import and export screenshots</li>
+		  <li>Quick upload button for image services like Imgur</li>
 		</ul>
 		<!-- Package maintainers, please replace with correct command -->
 		<p>Want a keyboard shortcut on GNOME? Simply go to Settings → Keyboard → View and Customize Shortcuts → Custom Shortcuts.
@@ -41,6 +42,27 @@
 		<color type="primary" scheme_preference="dark">#073c6f</color>
 	</branding>
 	<releases>
+    <release version="1.6.1" date="2025-07-03">
+	    <description translate="no">
+		    <p>Minor update fixing the following issues:</p>
+		    <ul>
+          <li>Color options for annotations are not persisting between sessions.</li>
+          <li>Stamp hitbox is way too large.</li>
+		    </ul>
+	    </description>
+    </release>
+    <release version="1.6.0" date="2025-07-03">
+      <description translate="no">
+        <p>This feature release includes:</p>
+        <ul>
+          <li>Upload functionality: use one of the predefined providers or create your own.</li>
+          <li>A pop-up menu for easier aspect ratio selection.</li>
+          <li>An expanded font dropdown that includes all available system fonts.</li>
+          <li>Optional background colors for the text and stamp annotation tools.</li>
+          <li>Pressure sensitivity support for the highlighter tool.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.5.0" date="2025-06-21">
       <description translate="no">
         <p>This feature release includes:</p>
@@ -149,19 +171,19 @@
 	</releases>
 	<screenshots>
 		<screenshot type="default">
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/07f353f1730129209372c56c6842770f6a060ee5/screenshots/showcase.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/58883291c3c0fafb48224b3f979e8d72072624cb/screenshots/showcase.webp</image>
 			<caption>Edited screenshot</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/07f353f1730129209372c56c6842770f6a060ee5/screenshots/dark.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/58883291c3c0fafb48224b3f979e8d72072624cb/screenshots/dark.webp</image>
 			<caption>Edited picture</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/07f353f1730129209372c56c6842770f6a060ee5/screenshots/home.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/58883291c3c0fafb48224b3f979e8d72072624cb/screenshots/home.webp</image>
 			<caption>Startup view</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/07f353f1730129209372c56c6842770f6a060ee5/screenshots/element.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/58883291c3c0fafb48224b3f979e8d72072624cb/screenshots/element.webp</image>
 			<caption>UI element showcase</caption>
 		</screenshot>
 	</screenshots>

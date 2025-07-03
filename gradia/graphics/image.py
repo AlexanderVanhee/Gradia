@@ -29,12 +29,12 @@ from gradia.graphics.background import Background
 
 
 PRESET_IMAGES = [
-    "/be/alexandervanhee/gradia/images/preset1.avif",
-    "/be/alexandervanhee/gradia/images/preset2.avif",
-    "/be/alexandervanhee/gradia/images/preset3.avif",
-    "/be/alexandervanhee/gradia/images/preset4.avif",
-    "/be/alexandervanhee/gradia/images/preset5.avif",
-    "/be/alexandervanhee/gradia/images/preset6.avif",
+    "/be/alexandervanhee/gradia/images/preset1.webp",
+    "/be/alexandervanhee/gradia/images/preset2.webp",
+    "/be/alexandervanhee/gradia/images/preset3.webp",
+    "/be/alexandervanhee/gradia/images/preset4.webp",
+    "/be/alexandervanhee/gradia/images/preset5.webp",
+    "/be/alexandervanhee/gradia/images/preset6.webp",
 ]
 
 

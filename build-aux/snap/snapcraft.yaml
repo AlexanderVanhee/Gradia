@@ -1,0 +1,77 @@
+# Thank you Soumya Dghosh for the guidance https://github.com/soumyaDghosh
+name: gradia
+version: '1.6.0'
+summary: Make your screenshots ready for all
+description: |
+    Gradia helps you quickly prepare your screenshots for sharing by fixing common issues   like transparency and awkward sizing. With simple tools to add backgrounds, adjust aspect ratios, and annotate images, you can enhance your screenshots to look professional and consistent across social media, blogs, and other platforms on the internet.
+base: core24
+adopt-info: gradia
+compression: lzo
+grade: stable
+confinement: strict
+parts:
+  gradia:
+    plugin: meson
+    source: https://github.com/AlexanderVanhee/Gradia.git
+    source-tag: 'v1.6.0'
+    source-depth: 1
+    meson-parameters:
+      - --prefix=/snap/gradia/current/usr
+      - -Dbuildtype=release
+    build-snaps:
+      - blueprint-compiler
+    parse-info: [ usr/share/metainfo/be.alexandervanhee.gradia.metainfo.xml ]
+    organize:
+      snap/gradia/current: .
+  deps:
+    plugin: python
+    source: .
+    python-packages:
+      - Wand==0.6.13
+      - Pillow
+    stage:
+      - -bin/activate*
+      - -bin/Activate.ps1
+      - -bin/python*
+      - -bin/pip*
+      - -pyvenv.cfg
+      - -lib/*/*/setup*
+      - -lib/*/*/pkg*
+      - -lib/*/*/pip*
+      - -lib/*/*/_dist*
+      - -share
+      - -include
+    organize:
+      lib/python3.12/site-packages: usr/lib/python3/dist-packages
+
+    stage-packages:
+      - libzstd1
+      - curl
+  cleanup:
+    after:
+      - deps
+    plugin: nil
+    build-snaps:
+      - core24
+      - gnome-46-2404
+    override-prime: |
+      set -eux
+      for snap in "core24" "gnome-46-2404"; do
+          cd "/snap/$snap/current" && find . -type f,l -exec rm -rf "$CRAFT_PRIME/{}" \;
+      done
+slots:
+  gradia:
+    interface: dbus
+    bus: session
+    name: be.alexandervanhee.gradia
+apps:
+  gradia:
+    command: usr/bin/gradia
+    common-id: be.alexandervanhee.gradia
+    extensions: [gnome]
+    environment:
+      PYTHONPATH: $SNAP/usr/lib/python3/dist-packages:$PYTHONPATH
+    plugs:
+      - home
+      - network
+      - network-status

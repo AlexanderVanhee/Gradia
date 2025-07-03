@@ -18,12 +18,12 @@
     <file>help.txt</file>
   </gresource>
   <gresource prefix="/be/alexandervanhee/gradia">
-    <file>images/preset1.avif</file>
-    <file>images/preset2.avif</file>
-    <file>images/preset3.avif</file>
-    <file>images/preset4.avif</file>
-    <file>images/preset5.avif</file>
-    <file>images/preset6.avif</file>
+    <file>images/preset1.webp</file>
+    <file>images/preset2.webp</file>
+    <file>images/preset3.webp</file>
+    <file>images/preset4.webp</file>
+    <file>images/preset5.webp</file>
+    <file>images/preset6.webp</file>
   </gresource>
   <gresource prefix="/be/alexandervanhee/gradia">
     <file preprocess="xml-stripblanks">icons/scalable/actions/image-alt-symbolic.svg</file>
@@ -44,6 +44,7 @@
     <file preprocess="xml-stripblanks">icons/scalable/actions/settings-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/line-large-circle-outline-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/share-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/house-symbolic.svg</file>
   </gresource>
 </gresources>
 
