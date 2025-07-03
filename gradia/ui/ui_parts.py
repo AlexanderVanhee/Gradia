@@ -52,6 +52,7 @@ def create_shortcuts_dialog(parent: Optional[Gtk.Window] = None) -> Gtk.Shortcut
                 (_("Save to File"), "<Ctrl>S"),
                 (_("Copy Image to Clipboard"), "<Ctrl>C"),
                 (_("Paste From Clipboard"), "<Ctrl>V"),
+                (_("Share Image"), "<Ctrl>M"),
             ]
         },
         {

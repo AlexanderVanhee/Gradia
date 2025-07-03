@@ -79,7 +79,6 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.image_path: Optional[str] = None
         self.processed_path: Optional[str] = None
         self.processed_pixbuf: Optional[Gdk.Pixbuf] = None
-        self.command_button = None
         self.image_ready = False
 
         self.export_manager: ExportManager = ExportManager(self, temp_dir)
@@ -144,7 +143,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
         self.create_action("save", lambda *_: self.export_manager.save_to_file(), ["<Primary>s"], enabled=False)
         self.create_action("copy", lambda *_: self.export_manager.copy_to_clipboard(), ["<Primary>c"], enabled=False)
-        self.create_action("command", lambda *_: self._run_custom_command(), enabled=False)
+        self.create_action("command", lambda *_: self._run_custom_command(), ["<Primary>m"], enabled=False)
 
         self.create_action("quit", lambda *_: self.close(), ["<Primary>w"])
 
@@ -194,7 +193,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.sidebar.set_size_request(self.SIDEBAR_WIDTH, -1)
         self.sidebar.set_visible(False)
 
-        self.command_button = self.sidebar.command_button
+        self.share_button = self.sidebar.share_button
 
     def _setup(self) -> None:
         self.split_view.set_sidebar(self.sidebar)
@@ -427,7 +426,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         action = self.app.lookup_action('command')
         if action:
             action.set_enabled(self.image_ready)
-            self.command_button.set_visible(bool(Settings().custom_export_command.strip()))
+            self.share_button.set_visible(bool(Settings().custom_export_command.strip()))
 
 
     def _create_delete_screenshots_dialog(self) -> None:
@@ -453,11 +452,11 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         if Settings().show_export_confirm_dialog:
             dialog = Adw.MessageDialog.new(
                 parent=self.get_root(),
-                heading=_("Confirm Upload Command"),
-                body=_("Are you sure you want to\n run the upload command?")
+                heading=_("Confirm Upload"),
+                body=_("Are you sure you want to upload this image?")
             )
             dialog.add_response("cancel", _("Cancel"))
-            dialog.add_response("confirm", _("Run"))
+            dialog.add_response("confirm", _("Upload"))
             dialog.set_default_response("cancel")
             dialog.set_size_request(350, -1)
             dialog.set_response_appearance("confirm", Adw.ResponseAppearance.SUGGESTED)
