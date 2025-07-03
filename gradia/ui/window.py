@@ -450,20 +450,20 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
     def _run_custom_command(self) -> None:
         if Settings().show_export_confirm_dialog:
-            dialog = Adw.MessageDialog.new(
-                parent=self.get_root(),
+            provider_name = Settings().provider_name
+
+            dialog = Adw.AlertDialog.new(
                 heading=_("Confirm Upload"),
-                body=_("Are you sure you want to upload this image?")
+                body=_(f"Are you sure you want to upload this image to {provider_name}?")
             )
             dialog.add_response("cancel", _("Cancel"))
             dialog.add_response("confirm", _("Upload"))
             dialog.set_default_response("cancel")
-            dialog.set_size_request(350, -1)
             dialog.set_response_appearance("confirm", Adw.ResponseAppearance.SUGGESTED)
 
             dialog.connect("response", lambda dialog, response_id:
                           self.export_manager.run_custom_command() if response_id == "confirm" else None)
 
-            dialog.present()
+            dialog.present(self.get_root())
         else:
             self.export_manager.run_custom_command()
