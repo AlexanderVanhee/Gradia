@@ -33,6 +33,7 @@ from gradia.ui.background_selector import BackgroundSelector
 from gradia.ui.image_exporters import ExportManager
 from gradia.ui.image_loaders import ImportManager
 from gradia.ui.image_sidebar import ImageSidebar
+from gradia.ui.image_stack import ImageStack
 from gradia.ui.ui_parts import *
 from gradia.ui.welcome_page import WelcomePage
 from gradia.utils.aspect_ratio import *
@@ -174,13 +175,11 @@ class GradiaMainWindow(Adw.ApplicationWindow):
     """
 
     def _setup_image_stack(self) -> None:
-        stack_info = create_image_stack()
-        self.image_stack: Gtk.Stack = stack_info[0]
-        self.picture: Gtk.Picture = stack_info[1]
-        self.spinner: Gtk.Widget = stack_info[2]
-        self.drawing_overlay = stack_info[3]
-        self.controls_overlay = stack_info[4]
-        self.stack_box = stack_info[5]
+        self.image_bin = ImageStack()
+        self.image_stack = self.image_bin.stack
+        self.picture = self.image_bin.picture
+        self.drawing_overlay = self.image_bin.drawing_overlay
+        self.controls_overlay = self.image_bin.controls_box
 
     def _setup_sidebar(self) -> None:
         self.sidebar = ImageSidebar(
@@ -199,7 +198,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
     def _setup(self) -> None:
         self.split_view.set_sidebar(self.sidebar)
-        self.split_view.set_content(self.stack_box)
+        self.split_view.set_content(self.image_bin)
         self.image_stack.set_hexpand(True)
         self.sidebar.set_hexpand(False)
 

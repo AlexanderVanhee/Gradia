@@ -25,9 +25,9 @@ data/ui/selectors/gradient_selector.blp
 data/ui/selectors/image_selector.blp
 data/ui/selectors/solid_selector.blp
 data/ui/background_selector.blp
-data/ui/controls_overlay.blp
 data/ui/drawing_tools_group.blp
 data/ui/image_sidebar.blp
+data/ui/image_stack.blp
 data/ui/main_window.blp
 data/ui/recent_picker.blp
 data/ui/text_entry_popover.blp
