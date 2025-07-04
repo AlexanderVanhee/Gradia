@@ -55,7 +55,7 @@ class ImageSidebar(Adw.Bin):
     filename_row: Adw.ActionRow = Gtk.Template.Child()
     location_row: Adw.ActionRow = Gtk.Template.Child()
     processed_size_row: Adw.ActionRow = Gtk.Template.Child()
-    command_button: Gtk.Button = Gtk.Template.Child()
+    share_button: Gtk.Button = Gtk.Template.Child()
 
     def __init__(
         self,

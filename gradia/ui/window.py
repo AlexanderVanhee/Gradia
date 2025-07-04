@@ -33,6 +33,7 @@ from gradia.ui.background_selector import BackgroundSelector
 from gradia.ui.image_exporters import ExportManager
 from gradia.ui.image_loaders import ImportManager
 from gradia.ui.image_sidebar import ImageSidebar
+from gradia.ui.image_stack import ImageStack
 from gradia.ui.ui_parts import *
 from gradia.ui.welcome_page import WelcomePage
 from gradia.utils.aspect_ratio import *
@@ -78,7 +79,6 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.image_path: Optional[str] = None
         self.processed_path: Optional[str] = None
         self.processed_pixbuf: Optional[Gdk.Pixbuf] = None
-        self.command_button = None
         self.image_ready = False
 
         self.export_manager: ExportManager = ExportManager(self, temp_dir)
@@ -143,7 +143,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
         self.create_action("save", lambda *_: self.export_manager.save_to_file(), ["<Primary>s"], enabled=False)
         self.create_action("copy", lambda *_: self.export_manager.copy_to_clipboard(), ["<Primary>c"], enabled=False)
-        self.create_action("command", lambda *_: self._run_custom_command(), enabled=False)
+        self.create_action("command", lambda *_: self._run_custom_command(), ["<Primary>m"], enabled=False)
 
         self.create_action("quit", lambda *_: self.close(), ["<Primary>w"])
 
@@ -174,13 +174,11 @@ class GradiaMainWindow(Adw.ApplicationWindow):
     """
 
     def _setup_image_stack(self) -> None:
-        stack_info = create_image_stack()
-        self.image_stack: Gtk.Stack = stack_info[0]
-        self.picture: Gtk.Picture = stack_info[1]
-        self.spinner: Gtk.Widget = stack_info[2]
-        self.drawing_overlay = stack_info[3]
-        self.controls_overlay = stack_info[4]
-        self.stack_box = stack_info[5]
+        self.image_bin = ImageStack()
+        self.image_stack = self.image_bin.stack
+        self.picture = self.image_bin.picture
+        self.drawing_overlay = self.image_bin.drawing_overlay
+        self.controls_overlay = self.image_bin.controls_box
 
     def _setup_sidebar(self) -> None:
         self.sidebar = ImageSidebar(
@@ -195,11 +193,11 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.sidebar.set_size_request(self.SIDEBAR_WIDTH, -1)
         self.sidebar.set_visible(False)
 
-        self.command_button = self.sidebar.command_button
+        self.share_button = self.sidebar.share_button
 
     def _setup(self) -> None:
         self.split_view.set_sidebar(self.sidebar)
-        self.split_view.set_content(self.stack_box)
+        self.split_view.set_content(self.image_bin)
         self.image_stack.set_hexpand(True)
         self.sidebar.set_hexpand(False)
 
@@ -428,7 +426,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         action = self.app.lookup_action('command')
         if action:
             action.set_enabled(self.image_ready)
-            self.command_button.set_visible(bool(Settings().custom_export_command.strip()))
+            self.share_button.set_visible(bool(Settings().custom_export_command.strip()))
 
 
     def _create_delete_screenshots_dialog(self) -> None:
@@ -452,20 +450,20 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
     def _run_custom_command(self) -> None:
         if Settings().show_export_confirm_dialog:
-            dialog = Adw.MessageDialog.new(
-                parent=self.get_root(),
-                heading=_("Confirm Upload Command"),
-                body=_("Are you sure you want to\n run the upload command?")
+            provider_name = Settings().provider_name
+
+            dialog = Adw.AlertDialog.new(
+                heading=_("Confirm Upload"),
+                body=_(f"Are you sure you want to upload this image to {provider_name}?")
             )
             dialog.add_response("cancel", _("Cancel"))
-            dialog.add_response("confirm", _("Run"))
+            dialog.add_response("confirm", _("Upload"))
             dialog.set_default_response("cancel")
-            dialog.set_size_request(350, -1)
             dialog.set_response_appearance("confirm", Adw.ResponseAppearance.SUGGESTED)
 
             dialog.connect("response", lambda dialog, response_id:
                           self.export_manager.run_custom_command() if response_id == "confirm" else None)
 
-            dialog.present()
+            dialog.present(self.get_root())
         else:
             self.export_manager.run_custom_command()

@@ -1,0 +1,144 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $GradiaImageStack : Adw.Bin {
+  child: Adw.ToolbarView toolbar_view {
+    top-bar-style: flat;
+    extend-content-to-top-edge: true;
+
+    Gtk.DropTarget drop_target {
+      actions: copy;
+      preload: true;
+    }
+
+    [top]
+    Adw.HeaderBar headerbar {
+      show-title: false;
+      show-start-title-buttons: false;
+
+      styles [
+        "desktop"
+      ]
+    }
+
+    content: Gtk.Stack stack {
+      transition-type: crossfade;
+      transition-duration: 200;
+      vexpand: true;
+      hexpand: true;
+
+      Gtk.StackPage loading_page {
+        name: "loading";
+
+        child: Gtk.Box spinner_box {
+          orientation: vertical;
+          halign: center;
+          valign: center;
+
+          Adw.Spinner spinner {
+            width-request: 48;
+            height-request: 48;
+          }
+        };
+      }
+
+      Gtk.StackPage image_page {
+        name: "image";
+
+        child: Gtk.Overlay picture_overlay {
+          [overlay]
+          $GradiaDrawingOverlay drawing_overlay {
+            visible: true;
+          }
+
+          [overlay]
+          Gtk.Box controls_box {
+            orientation: horizontal;
+            spacing: 6;
+
+            halign: fill;
+            valign: end;
+            margin-bottom: 12;
+            margin-start: 12;
+            margin-end: 12;
+
+            Gtk.Box left_controls_box {
+              orientation: horizontal;
+              spacing: 6;
+              hexpand: true;
+              halign: start;
+
+              Gtk.Revealer erase_selected_revealer {
+                transition-type: crossfade;
+                transition-duration: 300;
+
+                Gtk.Button back_button {
+                  icon-name: "eraser4-symbolic";
+                  tooltip-text: _("Erase Selected");
+                  action-name: "app.del-selected";
+
+                  styles [
+                    "osd",
+                    "circular"
+                  ]
+                }
+              }
+            }
+
+            Gtk.Box right_controls_box {
+              orientation: horizontal;
+              spacing: 6;
+              halign: end;
+
+              Gtk.Button undo_button {
+                icon-name: "edit-undo-symbolic";
+                tooltip-text: _("Undo");
+                action-name: "app.undo";
+
+                styles [
+                  "osd",
+                  "circular"
+                ]
+              }
+
+              Gtk.Button redo_button {
+                icon-name: "edit-redo-symbolic";
+                tooltip-text: _("Redo");
+                action-name: "app.redo";
+
+                styles [
+                  "osd",
+                  "circular"
+                ]
+              }
+
+              Gtk.Button reset_button {
+                icon-name: "user-trash-symbolic";
+                tooltip-text: _("Clear All");
+                action-name: "app.clear";
+
+                styles [
+                  "osd",
+                  "circular"
+                ]
+              }
+            }
+          }
+
+          child: Gtk.Overlay background_overlay {
+            [overlay]
+            Gtk.Picture picture {
+              content-fit: contain;
+              can-shrink: true;
+            }
+
+            child: $GradiaTransparencyBackground transparency_background {
+              hexpand: true;
+              vexpand: true;
+            };
+          };
+        };
+      }
+    };
+  };
+}
