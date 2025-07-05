@@ -267,27 +267,22 @@ class StyleManager:
         self.current_generic_style = 'Adwaita'
 
     def get_generic_style_names(self):
-        """Return list of generic style names for UI selection"""
         return list(self.style_variants.keys())
 
     def set_current_style(self, generic_name):
-        """Set the current generic style"""
         if generic_name in self.style_variants:
             self.current_generic_style = generic_name
             self._notify_theme_changed()
 
     def get_current_style_id(self):
-        """Get the actual style ID for current theme"""
         is_dark = self.is_dark_theme()
         variant = 'dark' if is_dark else 'light'
         return self.style_variants[self.current_generic_style][variant]
 
     def get_current_generic_style(self):
-        """Get the current generic style name"""
         return self.current_generic_style
 
     def get_scheme(self, scheme_id=None):
-        """Get GtkSource scheme object"""
         if scheme_id is None:
             scheme_id = self.get_current_style_id()
         return self.style_manager.get_scheme(scheme_id)
@@ -311,47 +306,104 @@ class StyleManager:
             callback(current_style_id, self.current_generic_style)
 
 
-
 class FakeWindowManager:
     def __init__(self, source_view):
         self.source_view = source_view
         self.fake_window_container = None
+        self.header_bar = None
+        self.title_entry = None
+        self.current_style_provider = None
 
     def create_fake_window(self):
         if self.fake_window_container:
             return self.fake_window_container
 
         frame = Gtk.Frame(valign=Gtk.Align.START, margin_top=12)
+        frame.add_css_class("window-border")
+        frame.add_css_class("card")
+
 
         self.fake_window_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         self.fake_window_container.get_style_context().add_class("adw-window")
 
-        header = Adw.HeaderBar.new()
+        self.header_bar = Adw.HeaderBar.new()
 
-        title_entry = Gtk.Entry(xalign=0.5, focus_on_click=False)
-        title_entry.set_text("My Code")
-        title_entry.set_halign(Gtk.Align.CENTER)
-        title_entry.set_valign(Gtk.Align.CENTER)
-        title_entry.set_width_chars(45)
-        title_entry.set_max_length(100)
-        title_entry.set_has_frame(False)
-        title_entry.get_style_context().add_class("title")
-        title_entry.get_style_context().add_class("title-entry")
+        self.title_entry = Gtk.Entry(xalign=0.5, focus_on_click=False)
+        self.title_entry.set_text("My Code")
+        self.title_entry.set_halign(Gtk.Align.CENTER)
+        self.title_entry.set_valign(Gtk.Align.CENTER)
+        self.title_entry.set_width_chars(45)
+        self.title_entry.set_max_length(100)
+        self.title_entry.set_has_frame(False)
+        self.title_entry.get_style_context().add_class("title")
+        self.title_entry.get_style_context().add_class("title-entry")
 
-        header.set_title_widget(title_entry)
+        self.header_bar.set_title_widget(self.title_entry)
 
         source_view_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         source_view_container.append(self.source_view)
 
-        self.fake_window_container.append(header)
+        self.fake_window_container.append(self.header_bar)
         self.fake_window_container.append(source_view_container)
 
         frame.set_child(self.fake_window_container)
 
         return frame
 
+    def update_header_colors(self, style_scheme):
+        if not self.header_bar or not self.title_entry:
+            return
+
+        if self.current_style_provider:
+            self.header_bar.get_style_context().remove_provider(self.current_style_provider)
+            self.title_entry.get_style_context().remove_provider(self.current_style_provider)
+
+        bg_color, fg_color = self._extract_header_colors(style_scheme)
+
+        if bg_color and fg_color:
+            css_data = f"""
+            headerbar {{
+                background: {bg_color};
+                color: {fg_color};
+                border-bottom: 1px solid alpha({fg_color}, 0.1);
+            }}
+
+            """
+
+            self.current_style_provider = Gtk.CssProvider()
+            self.current_style_provider.load_from_data(css_data.encode())
+
+            self.header_bar.get_style_context().add_provider(
+                self.current_style_provider,
+                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+            )
+            self.title_entry.get_style_context().add_provider(
+                self.current_style_provider,
+                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+            )
+
+    def _extract_header_colors(self, style_scheme):
+        scheme_id = style_scheme.get_id()
+
+        if scheme_id in ("Adwaita", "Adwaita-dark"):
+            return None, None
+        text_style = style_scheme.get_style("text")
+        bg_color = text_style.get_property("background")
+        fg_color = text_style.get_property("foreground")
+
+        return bg_color, fg_color
+
+
     def destroy_fake_window(self):
+        if self.current_style_provider and self.header_bar:
+            self.header_bar.get_style_context().remove_provider(self.current_style_provider)
+            if self.title_entry:
+                self.title_entry.get_style_context().remove_provider(self.current_style_provider)
+
         self.fake_window_container = None
+        self.header_bar = None
+        self.title_entry = None
+        self.current_style_provider = None
 
     def get_container(self):
         return self.fake_window_container
@@ -439,13 +491,17 @@ class SourceImageGeneratorWindow(Adw.Window):
         if self.fake_window_button.get_active():
             fake_window_frame = self.fake_window_manager.create_fake_window()
             self.resizable_container.set_child_widget(fake_window_frame)
+            scheme = self.style_manager.get_scheme()
+            self.fake_window_manager.update_header_colors(scheme)
         else:
             frame = Gtk.Frame(valign=Gtk.Align.START, margin_top=12)
+            frame.add_css_class("window-border")
+            frame.add_css_class("card")
             frame.set_child(self.source_view_manager.get_view())
-            self.resizable_container.set_child_widget(frame)
+
+            self.resizable_container.set_child_widget(self.source_view_manager.get_view())
 
     def _update_line_numbers(self):
-        """Update the line numbers visibility on the source view"""
         show_line_numbers = self.line_numbers_button.get_active()
         self.source_view_manager.set_show_line_numbers(show_line_numbers)
 
@@ -480,6 +536,9 @@ class SourceImageGeneratorWindow(Adw.Window):
         if 0 <= index < len(generic_styles):
             generic_name = generic_styles[index]
             self.style_manager.set_current_style(generic_name)
+            if self.fake_window_button.get_active():
+                scheme = self.style_manager.get_scheme()
+                self.fake_window_manager.update_header_colors(scheme)
 
     def _on_fake_window_toggled(self, switch, param_spec):
         if not switch.get_state():
@@ -492,6 +551,8 @@ class SourceImageGeneratorWindow(Adw.Window):
     def _on_theme_changed(self, style_id, generic_name):
         scheme = self.style_manager.get_scheme(style_id)
         self.source_view_manager.set_style_scheme(scheme)
+        if self.fake_window_button.get_active():
+            self.fake_window_manager.update_header_colors(scheme)
 
     def _get_export_widget(self) -> Gtk.Widget:
         if self.fake_window_button.get_active():

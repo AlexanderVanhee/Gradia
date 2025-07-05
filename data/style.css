@@ -107,3 +107,6 @@ headerbar.desktop windowcontrols button:active image {
     font-weight: bold;
 }
 
+frame.window-border {
+  border: 0.5px solid rgba(0, 0, 0, 0.2);
+}
