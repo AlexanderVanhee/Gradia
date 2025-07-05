@@ -69,8 +69,14 @@ template $GradiaWelcomePage : Adw.Bin {
 menu app_menu {
   section {
     item {
-      label: _("Preferences");
-      action: "app.preferences";
+      label: _("Source Snippits");
+      action: "app.create-source-image";
+    }
+  }
+  section {
+    item {
+      label: _("About Gradia");
+      action: "app.about";
     }
     item {
       label: _("Keyboard Shortcuts");

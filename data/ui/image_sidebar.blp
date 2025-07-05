@@ -208,10 +208,15 @@ Gtk.Popover gradient_popover {
 menu app_menu {
   section {
     item {
+      label: _("Source Snippits");
+      action: "app.create-source-image";
+    }
+    item {
       label: _("Delete Taken Screenshot(s)");
       action: "app.delete-screenshots";
     }
   }
+
   section {
     item {
       label: _("Preferences");

@@ -1,0 +1,91 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $SourceviewtestWindow : Adw.Window {
+  title: "Source Snippits";
+  default-width: 700;
+  default-height: 600;
+  width-request: 625;
+  height-request: 400;
+  content: Adw.ToolbarView toolbar_view {
+    [top]
+    Adw.HeaderBar {
+      [start]
+      Button export_button {
+        label: "Export";
+        styles [
+          "suggested-action"
+        ]
+      }
+    }
+    [top]
+    Adw.Clamp settings_clamp {
+      margin-top: 6;
+      margin-bottom: 6;
+      tightening-threshold: 525;
+      maximum-size: 610;
+      child: Box {
+        spacing: 0;
+        Box settings_container {
+          orientation: horizontal;
+          spacing: 12;
+          hexpand: true;
+          homogeneous: true;
+          Adw.PreferencesGroup language_settings_group {
+            hexpand: true;
+            Adw.ActionRow language_row {
+              title: "Language";
+              activatable-widget: language_dropdown;
+              [suffix]
+              DropDown language_dropdown {
+                valign: center;
+              }
+            }
+            Adw.ActionRow style_scheme_row {
+              title: "Style Scheme";
+              activatable-widget: style_scheme_dropdown;
+              [suffix]
+              DropDown style_scheme_dropdown {
+                valign: center;
+              }
+            }
+          }
+          Adw.PreferencesGroup appearance_settings_group {
+            hexpand: true;
+            Adw.ActionRow fake_window_row {
+              title: "Window Frame";
+              activatable-widget: fake_window_button;
+              [suffix]
+              Switch fake_window_button {
+                valign: center;
+                tooltip-text: "Add a window frame around the code";
+                styles [
+                  "flat"
+                ]
+              }
+            }
+            Adw.ActionRow line_number_row {
+              title: "Show Line Numbers";
+              activatable-widget: line_numbers_button;
+              [suffix]
+              Switch line_numbers_button {
+                valign: center;
+                tooltip-text: "Add a number before each new line of code";
+                styles [
+                  "flat"
+                ]
+              }
+            }
+          }
+        }
+        Gtk.Box {
+          width-request: 10;
+        }
+      };
+    }
+    content: ScrolledWindow scroller {
+      vexpand: true;
+      hexpand: true;
+    };
+  };
+}

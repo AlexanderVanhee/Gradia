@@ -12,7 +12,8 @@ blueprints = custom_target('blueprints',
     'text_entry_popover.blp',
     'welcome_page.blp',
     'preferences_window.blp',
-    'confirm_close_dialog.blp'
+    'confirm_close_dialog.blp',
+    'image_generator_window.blp'
   ),
   output: '.',
   command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@']
