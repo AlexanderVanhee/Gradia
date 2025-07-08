@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-21 15:02+0200\n"
-"PO-Revision-Date: 2025-06-25 17:39+0200\n"
+"POT-Creation-Date: 2025-07-03 19:13+0200\n"
+"PO-Revision-Date: 2025-07-06 13:56+0200\n"
 "Last-Translator: Uwe Senkler\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -69,8 +69,12 @@ msgstr "Es gibt zehn Werkzeuge für Anmerkungen, unter anderem für Text, Pfeile
 msgid "Multiple ways to import and export screenshots"
 msgstr "Es gibt mehrere Wege, Bildschirmfotos zu importieren und exportieren"
 
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:22
+msgid "Quick upload button for image services like Imgur"
+msgstr "Schnellhochladeknopf für Bilderdienste wie imgur"
+
 #. Package maintainers, please replace with correct command
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:24
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:25
 msgid ""
 "Want a keyboard shortcut on GNOME? Simply go to Settings → Keyboard → View and Customize Shortcuts "
 "→ Custom Shortcuts. Then create a shortcut that runs <code>flatpak run be.alexandervanhee.gradia --"
@@ -80,23 +84,23 @@ msgstr ""
 "anzeigen und anpassen → Eigene Tastenkürzel. Erstellen Sie ein Tastenkürzel, das <code>flatpak run "
 "be.alexandervanhee.gradia --screenshot=INTERACTIVE</code> ausführt."
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:30
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:31
 msgid "Alexander Vanhee"
 msgstr "Alexander Vanhee"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:153
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:175
 msgid "Edited screenshot"
 msgstr "Bearbeitetes Bildschirmfoto"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:157
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:179
 msgid "Edited picture"
 msgstr "Bearbeitetes Bild"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:161
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:183
 msgid "Startup view"
 msgstr "Startansicht"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:165
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:187
 msgid "UI element showcase"
 msgstr ""
 
@@ -145,66 +149,110 @@ msgstr "Gewähltes entfernen"
 msgid "General"
 msgstr "Allgemein"
 
-#: gradia/ui/ui_parts.py:189 data/ui/image_sidebar.blp:211 data/ui/welcome_page.blp:76
+#: gradia/ui/ui_parts.py:189 data/ui/image_sidebar.blp:220 data/ui/welcome_page.blp:76
 msgid "Keyboard Shortcuts"
 msgstr "Tastenkürzel"
 
-#: gradia/ui/ui_parts.py:190 data/ui/image_sidebar.blp:207 data/ui/welcome_page.blp:72
-msgid "Settings"
+#: gradia/ui/ui_parts.py:190 data/ui/image_sidebar.blp:216 data/ui/welcome_page.blp:72
+msgid "Preferences"
 msgstr "Einstellungen"
 
 #: gradia/ui/ui_parts.py:191
 msgid "Toggle Utility Pane"
 msgstr "Werkzeugbereich umschalten"
 
-#: gradia/ui/window.py:393
+#: gradia/ui/window.py:399
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: gradia/ui/window.py:395
+#: gradia/ui/window.py:401 gradia/ui/provider_selection_window.py:79
 msgid "Error"
 msgstr "Fehler"
 
-#: gradia/ui/image_exporters.py:70
-msgid "Edit"
-msgstr "Bearbeitet"
+#: gradia/ui/window.py:457
+msgid "Confirm Upload Command"
+msgstr "Hochladen bestätigen"
 
-#: gradia/ui/image_exporters.py:71
-msgid "Enhanced Screenshot"
-msgstr "Bearbeitetes Bildschirmfoto"
+#: gradia/ui/window.py:458
+msgid ""
+"Are you sure you want to\n"
+" run the upload command?"
+msgstr ""
+"Wollen Sie den Hochladenbefehl\n"
+"wirklich ausführen?"
 
-#: gradia/ui/image_exporters.py:90
-msgid "Save Image As"
-msgstr "Bild speichern als"
-
-#: gradia/ui/image_exporters.py:93
-msgid "Save"
-msgstr "Speichern"
-
-#: gradia/ui/image_exporters.py:94 gradia/ui/dialog/delete_screenshots_dialog.py:54
-#: data/ui/confirm_close_dialog.blp:9
+#: gradia/ui/window.py:460 gradia/ui/image_exporters.py:95
+#: gradia/ui/dialog/delete_screenshots_dialog.py:54 data/ui/confirm_close_dialog.blp:10
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: gradia/ui/image_exporters.py:118
+#: gradia/ui/window.py:461
+msgid "Run"
+msgstr "Ausführen"
+
+#: gradia/ui/image_exporters.py:71
+msgid "Edit"
+msgstr "Bearbeitet"
+
+#: gradia/ui/image_exporters.py:72
+msgid "Enhanced Screenshot"
+msgstr "Bearbeitetes Bildschirmfoto"
+
+#: gradia/ui/image_exporters.py:91
+msgid "Save Image As"
+msgstr "Bild speichern als"
+
+#: gradia/ui/image_exporters.py:94 gradia/ui/provider_selection_window.py:203
+msgid "Save"
+msgstr "Speichern"
+
+#: gradia/ui/image_exporters.py:120
 msgid "Unsupported image file extension."
 msgstr "Nicht unterstützte Bilddatei-Namenserweiterung."
 
-#: gradia/ui/image_exporters.py:125
+#: gradia/ui/image_exporters.py:127
 msgid "Image saved successfully"
 msgstr "Bild erfolgreich gespeichert"
 
-#: gradia/ui/image_exporters.py:181
+#: gradia/ui/image_exporters.py:183
 msgid "No processed image available"
 msgstr "Kein bearbeitetes Bild vorhanden"
 
-#: gradia/ui/image_exporters.py:202
+#: gradia/ui/image_exporters.py:205
 msgid "Image copied to clipboard"
 msgstr "Bild in Zwischenablage kopiert"
 
-#: gradia/ui/image_exporters.py:205
+#: gradia/ui/image_exporters.py:208
 msgid "Failed to copy image to clipboard"
 msgstr "Kopieren des Bilds in die Zwischenablage fehlgeschlagen"
+
+#: gradia/ui/image_exporters.py:222
+msgid "Link generated successfully"
+msgstr "Verweis erfolgreich erstellt"
+
+#: gradia/ui/image_exporters.py:223
+msgid "Open Link"
+msgstr "Verweis folgen"
+
+#: gradia/ui/image_exporters.py:262
+msgid "Custom command failed: "
+msgstr "Eigener Befehl fehlgeschlagen: "
+
+#: gradia/ui/image_exporters.py:268
+msgid "Warning: "
+msgstr "Warnung: "
+
+#: gradia/ui/image_exporters.py:279
+msgid "Result copied to clipboard"
+msgstr "Ergebnis in Zwischenablage kopiert"
+
+#: gradia/ui/image_exporters.py:281
+msgid "No output from command"
+msgstr "Keine Ausgabe des Befehls"
+
+#: gradia/ui/image_exporters.py:284
+msgid "Failed to run custom export command"
+msgstr "Ausführen des eigenen Exportbefehls fehlgeschlagen"
 
 #: gradia/ui/image_loaders.py:63 data/ui/image_sidebar.blp:17
 msgid "Open Image"
@@ -258,6 +306,68 @@ msgstr "Bildschirmfoto erstellt!"
 msgid "Failed to process screenshot"
 msgstr "Bearbeiten des Bildschirmfotos fehlgeschlagen"
 
+#: gradia/ui/provider_selection_window.py:38 gradia/ui/provider_selection_window.py:133
+msgid "Choose Provider"
+msgstr "Dienstleister wählen"
+
+#: gradia/ui/provider_selection_window.py:70
+msgid "Loading providers data..."
+msgstr "Dienstleisterdaten laden …"
+
+#: gradia/ui/provider_selection_window.py:85
+msgid "An error occurred"
+msgstr "Ein Fehler ist aufgetreten"
+
+#: gradia/ui/provider_selection_window.py:86
+msgid "Please try again later."
+msgstr "Bitte später nochmals versuchen."
+
+#: gradia/ui/provider_selection_window.py:166 gradia/ui/provider_selection_window.py:200
+msgid "Custom Provider"
+msgstr "Eigener Dienstleister"
+
+#: gradia/ui/provider_selection_window.py:167
+msgid "Create your own custom upload command"
+msgstr "Eigenen Hochladenbefehl erstellen"
+
+#: gradia/ui/provider_selection_window.py:233 gradia/ui/provider_selection_window.py:386
+msgid "Upload Command"
+msgstr "Hochladenbefehl"
+
+#: gradia/ui/provider_selection_window.py:234
+msgid "Enter a custom command to upload files. Use $1 as a placeholder for the file path."
+msgstr ""
+"Eigenen Befehl zum Hochladen von Dateien eingeben. $1 als Platzhalter für den Dateipfad verwenden."
+
+#: gradia/ui/provider_selection_window.py:238
+msgid "Command"
+msgstr "Befehl"
+
+#: gradia/ui/provider_selection_window.py:289 gradia/overlay/drawing_actions.py:52
+#: data/ui/preferences_window.blp:89
+msgid "Select"
+msgstr "Wählen"
+
+#: gradia/ui/provider_selection_window.py:340
+msgid "About"
+msgstr "Info"
+
+#: gradia/ui/provider_selection_window.py:343
+msgid "Homepage"
+msgstr "Startbildschirm"
+
+#: gradia/ui/provider_selection_window.py:354
+msgid "Terms of Service"
+msgstr "Nutzungsbedingungen"
+
+#: gradia/ui/provider_selection_window.py:365
+msgid "Features"
+msgstr "Funktionen"
+
+#: gradia/ui/provider_selection_window.py:451
+msgid "Custom"
+msgstr "Eigen"
+
 #: gradia/overlay/drawing_actions.py:46
 msgid "Pen"
 msgstr "Stift"
@@ -282,10 +392,6 @@ msgstr "Kreis"
 msgid "Text"
 msgstr "Text"
 
-#: gradia/overlay/drawing_actions.py:52
-msgid "Select"
-msgstr "Auswahlwerkzeug"
-
 #: gradia/overlay/drawing_actions.py:53
 msgid "Highlighter"
 msgstr "Markierer"
@@ -298,20 +404,25 @@ msgstr "Zensor"
 msgid "Number"
 msgstr "Zahl"
 
-#: gradia/ui/settings_window.py:53 gradia/ui/settings_window.py:148
+#: gradia/ui/preferences_window.py:39 gradia/ui/preferences_window.py:146
 msgid "Root"
 msgstr "Wurzel"
 
-#: gradia/ui/settings_window.py:145 gradia/ui/settings_window.py:148
+#: gradia/ui/preferences_window.py:128
+msgid "None selected"
+msgstr "Nichts gewählt"
+
+#: gradia/ui/preferences_window.py:143 gradia/ui/preferences_window.py:146
 #, python-brace-format
 msgid "Selected: {folder}"
 msgstr "Gewählt: {folder}"
 
-#: gradia/ui/settings_window.py:146 gradia/ui/settings_window.py:149 data/ui/settings_window.blp:20
+#: gradia/ui/preferences_window.py:144 gradia/ui/preferences_window.py:147
+#: data/ui/preferences_window.blp:20
 msgid "Click to change folder"
 msgstr "Zum Ändern des Ordners klicken"
 
-#: gradia/ui/settings_window.py:233
+#: gradia/ui/preferences_window.py:227
 msgid "Copied!"
 msgstr "Kopiert!"
 
@@ -351,11 +462,11 @@ msgstr "Bildschirmfotos in den Papierkorb verschoben"
 msgid "PNG Image (*.png)"
 msgstr "PNG-Bild (*.png)"
 
-#: gradia/app_constants.py:37
+#: gradia/app_constants.py:38
 msgid "JPEG Image (*.jpg)"
 msgstr "JPEG-Bild (*.jpg)"
 
-#: gradia/app_constants.py:43
+#: gradia/app_constants.py:45
 msgid "WebP Image (*.webp)"
 msgstr "WebP-Bild (*.webp)"
 
@@ -439,29 +550,33 @@ msgstr "Alle Anmerkungen löschen"
 msgid "Annotation Tools"
 msgstr "Anmerkungswerkzeuge"
 
-#: data/ui/drawing_tools_group.blp:85
+#: data/ui/drawing_tools_group.blp:91
 msgid "Highlighter Color"
 msgstr "Markiererfarbe"
 
-#: data/ui/drawing_tools_group.blp:128
+#: data/ui/drawing_tools_group.blp:136
 msgid "Fill Color"
 msgstr "Füllfarbe"
 
-#: data/ui/drawing_tools_group.blp:140
+#: data/ui/drawing_tools_group.blp:148
 msgid "Reset Fill"
 msgstr "Füllung zurücksetzen"
 
-#: data/ui/drawing_tools_group.blp:178
+#: data/ui/drawing_tools_group.blp:188
 msgid "Font"
 msgstr "Schrift"
 
-#: data/ui/drawing_tools_group.blp:228
+#: data/ui/drawing_tools_group.blp:238
 msgid "Size"
 msgstr "Stärke"
 
-#: data/ui/drawing_tools_group.blp:280
+#: data/ui/drawing_tools_group.blp:290
 msgid "Radius"
 msgstr "Radius"
+
+#: data/ui/drawing_tools_group.blp:345
+msgid "Pressure"
+msgstr "Druck"
 
 #: data/ui/image_sidebar.blp:24
 msgid "Take a Screenshot"
@@ -491,51 +606,55 @@ msgstr "Eckenradius"
 msgid "Aspect Ratio"
 msgstr "Seitenverhältnis"
 
-#: data/ui/image_sidebar.blp:92
+#: data/ui/image_sidebar.blp:91
 msgid "Shadow"
 msgstr "Schatten"
 
-#: data/ui/image_sidebar.blp:112
+#: data/ui/image_sidebar.blp:111
 msgid "Auto Balance"
 msgstr "Automatische Korrektur"
 
-#: data/ui/image_sidebar.blp:123
+#: data/ui/image_sidebar.blp:122
 msgid "Current File"
 msgstr "Aktuelle Datei"
 
-#: data/ui/image_sidebar.blp:126
+#: data/ui/image_sidebar.blp:125
 msgid "Name"
 msgstr "Name"
 
-#: data/ui/image_sidebar.blp:127 data/ui/image_sidebar.blp:132
+#: data/ui/image_sidebar.blp:126 data/ui/image_sidebar.blp:131
 msgid "No file loaded"
 msgstr "Keine Datei geladen"
 
-#: data/ui/image_sidebar.blp:131
+#: data/ui/image_sidebar.blp:130
 msgid "Location"
 msgstr "Ort"
 
-#: data/ui/image_sidebar.blp:136
+#: data/ui/image_sidebar.blp:135
 msgid "Modified image size"
 msgstr "Größe des geänderten Bilds"
 
-#: data/ui/image_sidebar.blp:137
+#: data/ui/image_sidebar.blp:136
 msgid "N/A"
 msgstr "n. v."
 
-#: data/ui/image_sidebar.blp:152
+#: data/ui/image_sidebar.blp:151
 msgid "Save Image"
 msgstr "Bild speichern"
 
-#: data/ui/image_sidebar.blp:163
+#: data/ui/image_sidebar.blp:162
 msgid "Copy to Clipboard"
 msgstr "In Zwischenablage kopieren"
 
-#: data/ui/image_sidebar.blp:201
+#: data/ui/image_sidebar.blp:172
+msgid "Run Upload Command"
+msgstr "Hochladenbefehl ausführen"
+
+#: data/ui/image_sidebar.blp:210
 msgid "Delete Taken Screenshot(s)"
 msgstr "Erstellte(s) Bildschirmfoto(s) löschen"
 
-#: data/ui/image_sidebar.blp:215 data/ui/welcome_page.blp:80
+#: data/ui/image_sidebar.blp:224 data/ui/welcome_page.blp:80
 msgid "About Gradia"
 msgstr "Info zu Gradia"
 
@@ -559,82 +678,118 @@ msgstr "Bildschirmfoto _erstellen …"
 msgid "_Open Image…"
 msgstr "_Bild öffnen …"
 
-#: data/ui/settings_window.blp:7 data/ui/settings_window.blp:11
+#: data/ui/preferences_window.blp:7 data/ui/preferences_window.blp:11
 msgid "Options"
 msgstr "Optionen"
 
-#: data/ui/settings_window.blp:15
+#: data/ui/preferences_window.blp:15
 msgid "Recent Screenshots"
 msgstr "Letzte Bildschirmfotos"
 
-#: data/ui/settings_window.blp:16
-msgid ""
-"Configure which subfolder of Pictures to use to display recent screenshots from on the home page"
+#: data/ui/preferences_window.blp:16
+#, fuzzy
+#| msgid ""
+#| "Configure which subfolder of Pictures to use to display recent screenshots from on the home page"
+msgid "Configure which subfolder of Pictures to use to display recent screenshots on the home page"
 msgstr ""
 "Einrichten, welchen Unterordner von »Bilder« verwendet werden soll, um auf dem Startbildschirm die "
 "zuletzt verwendeten Bildschirmfotos anzuzeigen"
 
-#: data/ui/settings_window.blp:19
+#: data/ui/preferences_window.blp:19
 msgid "Select Folder"
 msgstr "Ordner wählen"
 
-#: data/ui/settings_window.blp:26
+#: data/ui/preferences_window.blp:26
 msgid "Save Settings"
 msgstr "Einstellungen speichern"
 
-#: data/ui/settings_window.blp:29
+#: data/ui/preferences_window.blp:29
 msgid "Image Format"
 msgstr "Bildformat"
 
-#: data/ui/settings_window.blp:30
+#: data/ui/preferences_window.blp:30
 msgid "Default format for saved screenshots"
 msgstr "Standardformat für gespeicherte Bildschirmfotos"
 
-#: data/ui/settings_window.blp:34
+#: data/ui/preferences_window.blp:34
 msgid "Compress image"
 msgstr "Bild komprimieren"
 
-#: data/ui/settings_window.blp:35
+#: data/ui/preferences_window.blp:35
 msgid "On supported formats"
 msgstr "Über unterstützte Bildformate"
 
-#: data/ui/settings_window.blp:38
+#: data/ui/preferences_window.blp:38
 msgid "Compress images to reduce file size"
 msgstr "Bilder zur Reduzierung der Dateigröße komprimieren"
 
-#: data/ui/settings_window.blp:44
+#: data/ui/preferences_window.blp:44
 msgid "Confirm on close"
 msgstr "Beim Schließen bestätigen"
 
-#: data/ui/settings_window.blp:45 data/ui/settings_window.blp:48
+#: data/ui/preferences_window.blp:45 data/ui/preferences_window.blp:48
 msgid "Ask for confirmation before closing the app"
 msgstr "Vor Schließen der Anwendung Bestätigung einholen"
 
-#: data/ui/settings_window.blp:56
+#: data/ui/preferences_window.blp:56
 msgid "Screenshot Management"
 msgstr "Bildschirmfotoverwaltung"
 
-#: data/ui/settings_window.blp:58
+#: data/ui/preferences_window.blp:58
 msgid "Trash screenshots on close"
 msgstr "Bildschirmfotos beim Schließen in den Papierkorb verschieben"
 
-#: data/ui/settings_window.blp:59
-msgid "Automatically move screenshots taken from whitin the app to trash."
-msgstr "Innerhalb der Anwendung erstellte Bildschirmfotos automatisch in den Papierkorb verschieben."
+#: data/ui/preferences_window.blp:59
+msgid "Automatically move screenshots taken from within the app to trash"
+msgstr "Innerhalb der Anwendung erstellte Bildschirmfotos automatisch in den Papierkorb verschieben"
 
-#: data/ui/settings_window.blp:62
+#: data/ui/preferences_window.blp:62
 msgid "Trash screenshots on app close"
 msgstr "Bildschirmfotos bei Schließen der Anwendung in den Papierkorb verschieben"
 
-#: data/ui/settings_window.blp:70
+#: data/ui/preferences_window.blp:69
+msgid "Image Upload Providers"
+msgstr "Dienstleister zum Hochladen von Bildern"
+
+#: data/ui/preferences_window.blp:70
+msgid "Connect to your favorite upload providers, or create a link yourself"
+msgstr ""
+"Verbindung zu Ihrem bevorzugten Diensteister zum Hochladen von Bildern herstellen oder einen "
+"eigenen Verweis erstellen"
+
+#: data/ui/preferences_window.blp:74
+msgid "More info"
+msgstr "Weitere Informationen"
+
+#: data/ui/preferences_window.blp:76
+msgid "Learn more about providers"
+msgstr "Mehr über Dienstleister erfahren"
+
+#: data/ui/preferences_window.blp:81
+msgid "Provider"
+msgstr "Dienstleister"
+
+#: data/ui/preferences_window.blp:90
+msgid "Choose a provider"
+msgstr "Dienstleister wählen"
+
+#: data/ui/preferences_window.blp:98
+msgid "Confirm on upload"
+msgstr "Hochladen bestätigen"
+
+#: data/ui/preferences_window.blp:99 data/ui/preferences_window.blp:102
+msgid "Ask for confirmation before running the upload command"
+msgstr "Vor Ausführen des Hochladenbefehls Bestätigung einholen"
+
+#: data/ui/preferences_window.blp:112
 msgid "Shortcut"
 msgstr "Tastenkürzel"
 
-#: data/ui/settings_window.blp:74
+#: data/ui/preferences_window.blp:116
 msgid "Shortcut setup Instructions"
 msgstr "Anleitung zur Einrichtung eines Tastenkürzels"
 
-#: data/ui/settings_window.blp:81
+#: data/ui/preferences_window.blp:123
 msgid ""
 "If you'd like the app to <b>open automatically</b> after taking a screenshot, you can set up a "
 "custom keyboard shortcut:\n"
@@ -656,27 +811,27 @@ msgstr ""
 "3. Wählen Sie als <b>Name</b> beispielsweise <i>Gradia bei Bildschirmfoto öffnen</i>.\n"
 "4. Als <b>Befehl</b> kppieren Sie einen der folgenden Befehle:"
 
-#: data/ui/settings_window.blp:88
+#: data/ui/preferences_window.blp:130
 msgid "Interactive Screenshot"
 msgstr "Interaktives Bildschirmfoto"
 
-#: data/ui/settings_window.blp:89
+#: data/ui/preferences_window.blp:131
 msgid "Allows you to select an area to screenshot"
 msgstr "Einen Bereich zum Erstellen eines Bildschirmfotos auswählen"
 
-#: data/ui/settings_window.blp:102 data/ui/settings_window.blp:123
+#: data/ui/preferences_window.blp:144 data/ui/preferences_window.blp:165
 msgid "Copy to clipboard"
 msgstr "In Zwischenablage kopieren"
 
-#: data/ui/settings_window.blp:109
+#: data/ui/preferences_window.blp:151
 msgid "Full Screen Screenshot"
 msgstr "Foto des gesamten Bildschirms"
 
-#: data/ui/settings_window.blp:110
+#: data/ui/preferences_window.blp:152
 msgid "Takes a screenshot of all screens instantly"
 msgstr "Sofort Foto aller Bildschirme erstellen"
 
-#: data/ui/settings_window.blp:130
+#: data/ui/preferences_window.blp:172
 msgid ""
 "5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should be free by default)."
 msgstr ""
@@ -691,13 +846,16 @@ msgstr "Gradia schließen?"
 msgid "Are you sure you want to exit? All unsaved changes will be lost."
 msgstr "Wollen Sie Gradia wirklich verlassen? Alle nicht gespeicherten Änderungen gehen verloren."
 
-#: data/ui/confirm_close_dialog.blp:10
+#: data/ui/confirm_close_dialog.blp:11
 msgid "Close"
 msgstr "Schließen"
 
-#: data/ui/confirm_close_dialog.blp:25
-msgid "Don't ask again"
+#: data/ui/confirm_close_dialog.blp:18
+msgid "Don't Ask Again"
 msgstr "Nicht mehr fragen"
+
+#~ msgid "Settings"
+#~ msgstr "Einstellungen"
 
 #~ msgid "Current drawing mode"
 #~ msgstr "Aktueller Zeichenmodus"
