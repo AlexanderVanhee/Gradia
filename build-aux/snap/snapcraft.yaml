@@ -1,6 +1,6 @@
 # Thank you Soumya Dghosh for the guidance https://github.com/soumyaDghosh
 name: gradia
-version: '1.6.0'
+version: '1.6.1'
 summary: Make your screenshots ready for all
 description: |
     Gradia helps you quickly prepare your screenshots for sharing by fixing common issues   like transparency and awkward sizing. With simple tools to add backgrounds, adjust aspect ratios, and annotate images, you can enhance your screenshots to look professional and consistent across social media, blogs, and other platforms on the internet.
@@ -13,7 +13,7 @@ parts:
   gradia:
     plugin: meson
     source: https://github.com/AlexanderVanhee/Gradia.git
-    source-tag: 'v1.6.0'
+    source-tag: 'v1.6.1'
     source-depth: 1
     meson-parameters:
       - --prefix=/snap/gradia/current/usr

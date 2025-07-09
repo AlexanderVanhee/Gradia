@@ -16,11 +16,16 @@
   while also offering options to enhance their overall appearance.
 </p>
 
-<p align="center">
-  <a href="https://flathub.org/apps/be.alexandervanhee.gradia">
-    <img width="190" alt="Download on Flathub" src="https://flathub.org/api/badge?locale=en" />
-  </a>
-</p>
+<div align="center">
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1em;">
+    <a href="https://flathub.org/apps/be.alexandervanhee.gradia">
+      <img width="190" alt="Download on Flathub" src="https://flathub.org/api/badge?locale=en" />
+    </a>
+    <a href="https://snapcraft.io/gradia">
+      <img alt="Get it from the Snap Store" src="https://snapcraft.io/en/dark/install.svg" />
+    </a>
+  </div>
+</div>
 
 
 ---
