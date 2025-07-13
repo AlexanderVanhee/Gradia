@@ -7,17 +7,11 @@ template $SourceviewtestWindow : Adw.Window {
   default-height: 600;
   width-request: 625;
   height-request: 400;
+
   content: Adw.ToolbarView toolbar_view {
     [top]
-    Adw.HeaderBar {
-      [start]
-      Button export_button {
-        label: "Export";
-        styles [
-          "suggested-action"
-        ]
-      }
-    }
+    Adw.HeaderBar {}
+
     [top]
     Adw.Clamp settings_clamp {
       margin-top: 24;
@@ -83,9 +77,30 @@ template $SourceviewtestWindow : Adw.Window {
         }
       };
     }
-    content: ScrolledWindow scroller {
-      vexpand: true;
-      hexpand: true;
-    };
+
+    content:
+      ScrolledWindow scroller {
+        vexpand: true;
+        hexpand: true;
+      };
+
+
+    [bottom]
+    Box button_container {
+      orientation: horizontal;
+      halign: center;
+      margin-top: 12;
+      margin-bottom: 12;
+      margin-start: 12;
+      margin-end: 12;
+      Button export_button {
+        label: "Export";
+        halign: center;
+        styles [
+          "suggested-action",
+          "pill"
+        ]
+      }
+    }
   };
 }

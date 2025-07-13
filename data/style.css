@@ -110,3 +110,7 @@ headerbar.desktop windowcontrols button:active image {
 frame.window-border {
   border: 0.5px solid rgba(0, 0, 0, 0.2);
 }
+
+.title-entry text selection {
+  background-color: transparent;
+}
