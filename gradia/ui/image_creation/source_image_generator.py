@@ -50,34 +50,40 @@ MAX_WINDOW_WIDTH = 1200
 
 
 class SourceExporter:
-    def __init__(self, widget_to_export: Gtk.Widget, is_fake_window: bool = False):
+    def __init__(self, widget_to_export: Gtk.Widget, padding: int = 24, scale: float = 2.0):
         self.widget = widget_to_export
-        self.is_fake_window = is_fake_window
+        self.padding = padding
+        self.scale = scale
 
     def export_to_png(self, out_path: str):
         width = self.widget.get_allocated_width()
         height = self.widget.get_allocated_height()
 
-        surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
+        total_width = int((width + self.padding * 2) * self.scale)
+        total_height = int((height + self.padding * 2) * self.scale)
+
+        surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, total_width, total_height)
         cr = cairo.Context(surface)
 
-        if self.is_fake_window:
-            self._setup_transparent_background(cr)
-        else:
-            cr.set_source_rgb(1, 1, 1)
-            cr.paint()
+        self._setup_transparent_background(cr)
+
 
         if not self.widget.get_realized():
             self.widget.realize()
 
         snapshot = Gtk.Snapshot()
         type(self.widget).do_snapshot(self.widget, snapshot)
-
         render_node = snapshot.to_node()
+
         if render_node:
-            if self.is_fake_window:
-                self._apply_rounded_clipping(cr, width, height)
+            cr.save()
+            cr.scale(self.scale, self.scale)  # scale everything
+            cr.translate(self.padding, self.padding)
+
+            self._apply_rounded_clipping(cr, width, height)
+
             render_node.draw(cr)
+            cr.restore()
 
         surface.write_to_png(out_path)
         logger.info(f"Exported source image to: {out_path}")
@@ -88,7 +94,6 @@ class SourceExporter:
         cr.set_operator(cairo.OPERATOR_OVER)
 
     def _apply_rounded_clipping(self, cr, width, height, radius=12):
-        cr.save()
         cr.new_path()
         cr.arc(radius, radius, radius, 3.14159, 3 * 3.14159 / 2)
         cr.arc(width - radius, radius, radius, 3 * 3.14159 / 2, 0)
@@ -498,8 +503,7 @@ class SourceImageGeneratorWindow(Adw.Window):
             frame.add_css_class("window-border")
             frame.add_css_class("card")
             frame.set_child(self.source_view_manager.get_view())
-
-            self.resizable_container.set_child_widget(self.source_view_manager.get_view())
+            self.resizable_container.set_child_widget(frame)
 
     def _update_line_numbers(self):
         show_line_numbers = self.line_numbers_button.get_active()
@@ -516,8 +520,7 @@ class SourceImageGeneratorWindow(Adw.Window):
 
         widget_to_export = self._get_export_widget()
         widget_to_export.get_root().grab_focus()
-        is_fake_window = self.fake_window_button.get_active()
-        exporter = SourceExporter(widget_to_export, is_fake_window)
+        exporter = SourceExporter(widget_to_export)
         exporter.export_to_png(output_path)
 
         self.export_callback(output_path)
