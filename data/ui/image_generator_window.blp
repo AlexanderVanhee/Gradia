@@ -2,7 +2,7 @@ using Gtk 4.0;
 using Adw 1;
 
 template $SourceviewtestWindow : Adw.Window {
-  title: "Source Snippits";
+  title: _("Source Snippits");
   default-width: 700;
   default-height: 600;
   width-request: 625;
@@ -28,7 +28,7 @@ template $SourceviewtestWindow : Adw.Window {
           Adw.PreferencesGroup language_settings_group {
             hexpand: true;
             Adw.ActionRow language_row {
-              title: "Language";
+              title: _("Language");
               activatable-widget: language_dropdown;
               [suffix]
               DropDown language_dropdown {
@@ -36,7 +36,7 @@ template $SourceviewtestWindow : Adw.Window {
               }
             }
             Adw.ActionRow style_scheme_row {
-              title: "Style Scheme";
+              title: _("Style Scheme");
               activatable-widget: style_scheme_dropdown;
               [suffix]
               DropDown style_scheme_dropdown {
@@ -47,24 +47,24 @@ template $SourceviewtestWindow : Adw.Window {
           Adw.PreferencesGroup appearance_settings_group {
             hexpand: true;
             Adw.ActionRow fake_window_row {
-              title: "Window Frame";
+              title: _("Window Frame");
               activatable-widget: fake_window_button;
               [suffix]
               Switch fake_window_button {
                 valign: center;
-                tooltip-text: "Add a window frame around the code";
+                tooltip-text: _("Add a window frame around the code");
                 styles [
                   "flat"
                 ]
               }
             }
             Adw.ActionRow line_number_row {
-              title: "Show Line Numbers";
+              title: _("Show Line Numbers");
               activatable-widget: line_numbers_button;
               [suffix]
               Switch line_numbers_button {
                 valign: center;
-                tooltip-text: "Add a number before each new line of code";
+                tooltip-text: _("Add a number before each new line of code");
                 styles [
                   "flat"
                 ]
@@ -94,7 +94,7 @@ template $SourceviewtestWindow : Adw.Window {
       margin-start: 12;
       margin-end: 12;
       Button export_button {
-        label: "Export";
+        label: _("Export");
         halign: center;
         styles [
           "suggested-action",

@@ -160,6 +160,10 @@ class RecentPicker(Adw.Bin):
         self._setup_cards()
         self._load_images()
 
+    """
+    Setup Methods
+    """
+
     def _setup_cards(self) -> None:
         for row in range(self.GRID_ROWS):
             for column in range(self.GRID_COLUMNS):
@@ -194,6 +198,9 @@ class RecentPicker(Adw.Bin):
                 container.append(name_label)
 
                 self.item_grid.attach(container, column, row, 1, 1)
+    """
+    Callbacks
+    """
 
     def _on_image_clicked(self, index: int, *args) -> None:
         if index < len(self.recent_files):
@@ -203,8 +210,15 @@ class RecentPicker(Adw.Bin):
             if self.callback:
                 self.callback(str(file_path), original_gradient_index)
 
+    """
+    Public Methods
+    """
+
     def refresh(self) -> None:
         self._load_images()
+    """
+    Private Methods
+    """
 
     def _apply_gradient_to_button(self, button: Gtk.Button, index: int) -> None:
         gradient_name = f"gradient-button-{index}"
