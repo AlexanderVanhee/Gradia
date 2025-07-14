@@ -74,7 +74,7 @@ class WelcomePage(Adw.Bin):
     def _on_recent_image_click(self, path: str, gradient_index: int) -> None:
         app = Gio.Application.get_default()
         if app:
-            action = app.lookup_action("open-path-with-gradient")
+            action = app.lookup_action("open-path")
             if action:
-                param = GLib.Variant('(si)', (path, gradient_index))
+                param = GLib.Variant('s', path)
                 action.activate(param)

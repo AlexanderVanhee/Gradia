@@ -17,7 +17,7 @@
 
 from collections.abc import Callable
 from typing import Optional
-
+import json
 from PIL import Image
 from gi.repository import Adw, Gtk
 
@@ -30,6 +30,21 @@ class SolidBackground(Background):
     def __init__(self, color: str = "#4A90E2", alpha: float = 1.0) -> None:
         self.color = color
         self.alpha = alpha
+
+    @classmethod
+    def from_json(cls, json_str: str) -> 'SolidBackground':
+        data = json.loads(json_str)
+        return cls(
+            color=data.get("color", "#4A90E2"),
+            alpha=data.get("alpha", 1.0)
+        )
+
+    def to_json(self) -> str:
+        return json.dumps({
+            "type": "solid",
+            "color": self.color,
+            "alpha": self.alpha
+        })
 
     def get_name(self) -> str:
         return f"solid-{self.color}-{self.alpha}"

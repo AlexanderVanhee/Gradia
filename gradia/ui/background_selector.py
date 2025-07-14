@@ -25,6 +25,7 @@ from gradia.graphics.solid import SolidSelector, SolidBackground
 from gradia.graphics.image import ImageSelector, ImageBackground
 from gradia.graphics.background import Background
 from gradia.constants import rootdir  # pyright: ignore
+from gradia.backend.settings import Settings
 
 
 MODES = ["solid", "gradient", "image"]
@@ -38,26 +39,23 @@ class BackgroundSelector(Adw.Bin):
 
     def __init__(
         self,
-        gradient: GradientBackground,
-        solid: SolidBackground,
-        image: ImageBackground,
         callback: Optional[Callable[[Background], None]] = None,
-        initial_mode: str = "gradient",
         window: Optional[Gtk.Window] = None,
         **kwargs
     ) -> None:
         super().__init__(**kwargs)
 
-        self.gradient = gradient
-        self.solid = solid
-        self.image = image
+        self.settings = Settings()
+        self.solid = SolidBackground.from_json(self.settings.solid_state or '{}')
+        self.gradient = GradientBackground.from_json(self.settings.gradient_state or '{}')
+        self.image = ImageBackground()
         self.callback = callback
-        self.current_mode = initial_mode if initial_mode in MODES else "gradient"
+        self.current_mode = self.settings.background_mode if self.settings.background_mode in MODES else "gradient"
         self.initial_mode = self.current_mode
 
-        self.gradient_selector = GradientSelector(gradient, self._on_gradient_changed)
-        self.solid_selector = SolidSelector(solid, self._on_solid_changed)
-        self.image_selector = ImageSelector(image, self._on_image_changed, window)
+        self.gradient_selector = GradientSelector(self.gradient, self._on_gradient_changed)
+        self.solid_selector = SolidSelector(self.solid, self._on_solid_changed)
+        self.image_selector = ImageSelector(self.image, self._on_image_changed, window)
 
         self._setup()
 
@@ -66,7 +64,6 @@ class BackgroundSelector(Adw.Bin):
     """
 
     def _setup(self) -> None:
-        # Set initial active name for toggle group
         self.toggle_group.set_active_name(self.current_mode)
 
         self.stack.add_named(self.solid_selector, "solid")
@@ -83,14 +80,17 @@ class BackgroundSelector(Adw.Bin):
         active_name = group.get_active_name()
         if active_name in MODES and active_name != self.current_mode:
             self.current_mode = active_name
+            self.settings.background_mode = active_name
             self.stack.set_visible_child_name(active_name)
             self._notify_current()
 
-    def _on_gradient_changed(self, _gradient: GradientBackground) -> None:
+    def _on_gradient_changed(self, gradient: GradientBackground) -> None:
+        self.settings.gradient_state = gradient.to_json()
         if self.current_mode == "gradient":
             self._notify_current()
 
-    def _on_solid_changed(self, _solid: SolidBackground) -> None:
+    def _on_solid_changed(self, solid: SolidBackground) -> None:
+        self.settings.solid_state = solid.to_json()
         if self.current_mode == "solid":
             self._notify_current()
 
@@ -114,5 +114,4 @@ class BackgroundSelector(Adw.Bin):
             "solid": self.solid,
             "image": self.image
         }
-
         return backgrounds.get(self.current_mode)

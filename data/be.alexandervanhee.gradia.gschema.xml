@@ -55,6 +55,24 @@
       <summary>If images with same colored edges should be balanced</summary>
     </key>
 
+    <key name="background-mode" type="s">
+      <default>'gradient'</default>
+      <summary>The selected background mode</summary>
+    </key>
+    <key name="solid-state" type="s">
+      <default>"{\"color\": \"#4A90E2\", \"alpha\": 1.0}"</default>
+      <summary>Serialized state of the solid background</summary>
+    </key>
+
+    <key name="gradient-state" type="s">
+      <default>"{\"start_color\": \"#4A90E2\", \"end_color\": \"#50E3C2\", \"angle\": 0}"</default>
+      <summary>Serialized state of the gradient background</summary>
+    </key>
+    <key name="image-state" type="s">
+      <default>''</default>
+      <summary>Serialized state of the image background</summary>
+    </key>
+
    <key name="screenshot-subfolder" type="s">
       <default>'Screenshots'</default>
       <summary>Screenshot subdirectory</summary>
@@ -92,6 +110,32 @@
       <default>true</default>
       <summary>Whether to ask before running the export command.</summary>
     </key>
+
+    <key name="source-snippet-show-frame" type="b">
+      <default>true</default>
+      <summary>Whether to have a window frame for the source snippet.</summary>
+    </key>
+    <key name="source-snippet-show-line-numbers" type="b">
+      <default>true</default>
+      <summary>Whether to show a number before each line of code of the source snippet.</summary>
+    </key>
+    <key name="source-snippet-language" type="s">
+      <default>'c'</default>
+      <summary>Chosen programming language of the source snippet</summary>
+    </key>
+    <key name="source-snippet-code-text" type="s">
+      <default>'// Gradia&#10;#include &lt;pthread.h&gt;&#10;#include &lt;stdio.h&gt;&#10;&#10;void* say_hello(void* arg) {&#10;    puts("Hello from thread!");&#10;    return NULL;&#10;}&#10;&#10;int main() {&#10;    pthread_t t;&#10;    pthread_create(&amp;t, NULL, say_hello, NULL);&#10;    pthread_join(t, NULL);&#10;}'</default>
+      <summary>Code of the source snippet</summary>
+    </key>
+      <key name="source-snippet-title" type="s">
+      <default>'My Code'</default>
+      <summary>Title bar text of the source snippet</summary>
+    </key>
+    <key name="source-snippet-style-scheme" type="s">
+      <default>'Adwaita'</default>
+      <summary>Color scheme of the source snippet</summary>
+    </key>
+
   </schema>
 </schemalist>
 

@@ -19,7 +19,7 @@ import random
 import re
 from typing import Callable, Optional
 from pathlib import Path
-from gi.repository import Adw, Gtk, GLib
+from gi.repository import Adw, Gtk, GLib, Gdk, GdkPixbuf, Graphene, Gsk
 
 from gradia.app_constants import PREDEFINED_GRADIENTS
 from gradia.backend.settings import Settings
@@ -80,6 +80,50 @@ class RecentImageGetter:
 
         return xdg_pictures_path
 
+class RoundedImage(Gtk.Widget):
+    def __init__(self, path: str, radius: float = 8.0, padding: int=16):
+        super().__init__()
+        self.radius = radius
+        self.texture = None
+        self.padding = padding
+
+        try:
+            pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(path, 260, 160)
+            self.texture = Gdk.Texture.new_for_pixbuf(pixbuf)
+        except Exception as e:
+            print(f"Failed to load image {path}: {e}")
+
+    def do_snapshot(self, snapshot: Gtk.Snapshot) -> None:
+        if not self.texture:
+            return
+
+        widget_width = self.get_width()
+        widget_height = self.get_height()
+
+        texture_width = self.texture.get_width()
+        texture_height = self.texture.get_height()
+
+        available_width = widget_width - (self.padding * 2)
+        available_height = widget_height - (self.padding * 2)
+
+        scale_x = available_width / texture_width
+        scale_y = available_height / texture_height
+        scale = min(scale_x, scale_y)
+
+        scaled_width = texture_width * scale
+        scaled_height = texture_height * scale
+
+        x_offset = self.padding + (available_width - scaled_width) / 2
+        y_offset = self.padding + (available_height - scaled_height) / 2
+
+        image_rect = Graphene.Rect().init(x_offset, y_offset, scaled_width, scaled_height)
+        rounded_rect = Gsk.RoundedRect()
+        rounded_rect.init_from_rect(image_rect, self.radius)
+
+        snapshot.push_rounded_clip(rounded_rect)
+        snapshot.append_texture(self.texture, image_rect)
+        snapshot.pop()
+
 @Gtk.Template(resource_path=f"{rootdir}/ui/recent_picker.ui")
 class RecentPicker(Adw.Bin):
     __gtype_name__ = "GradiaRecentPicker"
@@ -95,7 +139,7 @@ class RecentPicker(Adw.Bin):
 
     item_grid: Gtk.Grid = Gtk.Template.Child()
 
-    def __init__(self, callback: Optional[Callable]=None, **kwargs) -> None:
+    def __init__(self, callback: Optional[Callable] = None, **kwargs) -> None:
         super().__init__(**kwargs)
 
         self.image_getter = RecentImageGetter()
@@ -154,7 +198,6 @@ class RecentPicker(Adw.Bin):
                 container.append(name_label)
 
                 self.item_grid.attach(container, column, row, 1, 1)
-
     """
     Callbacks
     """
@@ -173,7 +216,6 @@ class RecentPicker(Adw.Bin):
 
     def refresh(self) -> None:
         self._load_images()
-
     """
     Private Methods
     """
@@ -213,15 +255,9 @@ class RecentPicker(Adw.Bin):
                 file = recent_files[i]
 
                 try:
-                    picture = Gtk.Picture.new_for_filename(str(file.path))
-                    picture.set_margin_top(10)
-                    picture.set_margin_bottom(10)
-                    picture.set_margin_start(10)
-                    picture.set_margin_end(10)
-                    self.image_buttons[i].set_child(picture)
+                    rounded = RoundedImage(str(file.path))
+                    self.image_buttons[i].set_child(rounded)
                     self.image_buttons[i].set_sensitive(True)
-
-
                 except Exception as e:
                     filename = file.path.name
                     if len(filename) > self.MAX_FILENAME_LENGTH:
@@ -231,7 +267,7 @@ class RecentPicker(Adw.Bin):
                     self.image_buttons[i].set_child(error_label)
                     self.image_buttons[i].set_sensitive(False)
                     self.name_labels[i].set_text("")
-                    print(f"Error loading image {file_obj.path}: {e}")
+                    print(f"Error loading image {file.path}: {e}")
             else:
                 icon = Gtk.Image.new_from_icon_name("image-missing-symbolic")
                 self.image_buttons[i].set_child(icon)

@@ -85,9 +85,6 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.import_manager: ImportManager = ImportManager(self, temp_dir, self.app)
 
         self.background_selector: BackgroundSelector = BackgroundSelector(
-            gradient=GradientBackground(),
-            solid=SolidBackground(),
-            image=ImageBackground(),
             callback=self._on_background_changed,
             window=self
         )
@@ -127,19 +124,11 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.create_action("shortcuts", self._on_shortcuts_activated,  ['<primary>question'])
 
         self.create_action("open", lambda *_: self.import_manager.open_file_dialog(), ["<Primary>o"])
+        self.create_action("create-source-image", lambda *_: self.import_manager.generate_from_source_code(), ["<Primary>p"])
         self.create_action("load-drop", self.import_manager._on_drop_action, vt="s")
         self.create_action("paste", lambda *_: self.import_manager.load_from_clipboard(), ["<Primary>v"])
         self.create_action("screenshot", lambda *_: self.import_manager.take_screenshot(), ["<Primary>a"])
         self.create_action("open-path", lambda action, param: self.import_manager.load_from_file(param.get_string()), vt="s")
-
-        self.create_action(
-            "open-path-with-gradient",
-            lambda action, param: (
-                self.import_manager.load_from_file(param.unpack()[0]),
-                setattr(self.processor, 'background', GradientBackground.fromIndex(param.unpack()[1]))
-            ),
-            vt="(si)"
-        )
 
         self.create_action("save", lambda *_: self.export_manager.save_to_file(), ["<Primary>s"], enabled=False)
         self.create_action("copy", lambda *_: self.export_manager.copy_to_clipboard(), ["<Primary>c"], enabled=False)
@@ -447,6 +436,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
     def _on_toggle_utility_pane_activated(self, action: Gio.SimpleAction, param) -> None:
         self.split_view.set_show_sidebar(not self.split_view.get_show_sidebar())
+
 
     def _run_custom_command(self) -> None:
         if Settings().show_export_confirm_dialog:

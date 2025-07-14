@@ -17,6 +17,7 @@
 
 from collections.abc import Callable
 import ctypes
+import json
 from ctypes import CDLL, POINTER, c_double, c_int, c_uint8
 from typing import Optional
 
@@ -71,11 +72,13 @@ class GradientBackground(Background):
         self._load_c_lib()
 
     @classmethod
-    def fromIndex(cls, index: int) -> 'GradientBackground':
-        if not (0 <= index < len(PREDEFINED_GRADIENTS)):
-            raise IndexError(f"Gradient index {index} is out of range.")
-        start_color, end_color, angle = PREDEFINED_GRADIENTS[index]
-        return cls(start_color=start_color, end_color=end_color, angle=angle)
+    def from_json(cls, json_str: str) -> 'GradientBackground':
+        data = json.loads(json_str)
+        return cls(
+            start_color=data.get('start_color', "#4A90E2"),
+            end_color=data.get('end_color', "#50E3C2"),
+            angle=data.get('angle', 0)
+        )
 
     def get_name(self) -> str:
         return f"gradient-{self.start_color}-{self.end_color}-{self.angle}"
@@ -128,6 +131,12 @@ class GradientBackground(Background):
             'cached_gradients': list(cls._gradient_cache.keys()),
             'c_lib_loaded': cls._c_lib is not None and cls._c_lib is not False
         }
+    def to_json(self) -> str:
+        return json.dumps({
+            'start_color': self.start_color,
+            'end_color': self.end_color,
+            'angle': self.angle
+        })
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/selectors/gradient_selector.ui")
 class GradientSelector(Adw.PreferencesGroup):

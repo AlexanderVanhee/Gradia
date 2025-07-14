@@ -16,11 +16,13 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+from datetime import datetime
 from typing import Optional, Callable
 
 from gi.repository import Gtk, Gio, Gdk, GLib, Xdp
 from gradia.clipboard import save_texture_to_file
-
+from gradia.ui.image_creation.source_image_generator import SourceImageGeneratorWindow
+from gradia.utils.timestamp_filename import TimestampedFilenameGenerator
 ImportFormat = tuple[str, str]
 
 class BaseImageLoader:
@@ -43,12 +45,13 @@ class BaseImageLoader:
         supported_extensions = [ext for ext, _mime in self.SUPPORTED_INPUT_FORMATS]
         return any(lower_path.endswith(ext) for ext in supported_extensions)
 
-    def _set_image_and_update_ui(self, image_path: str, filename: str, location: str) -> None:
+    def _set_image_and_update_ui(self, image_path: str, filename: str, location: str, has_actual_filename: bool = True) -> None:
         """Common method to set image and update UI"""
         self.window.image_path = image_path
         if hasattr(self.window, 'drawing_overlay') and self.window.drawing_overlay:
             self.window.drawing_overlay.clear_drawing()
         self.window._update_sidebar_file_info(filename, location)
+        self.window.image_has_actual_filename = has_actual_filename
         self.window._start_processing()
 
 
@@ -245,8 +248,9 @@ class ScreenshotImageLoader(BaseImageLoader):
             if not success or not contents:
                 raise Exception("Failed to load screenshot data")
 
-            temp_filename = f"screenshot_{os.urandom(6).hex()}.png"
-            temp_path = os.path.join(self.temp_dir, temp_filename)
+
+            filename = TimestampedFilenameGenerator().generate(_("Edited Screenshot From %Y-%m-%d %H-%M-%S")) + ".png"
+            temp_path = os.path.join(self.temp_dir, filename)
 
             with open(temp_path, 'wb') as f:
                 f.write(contents)
@@ -254,7 +258,7 @@ class ScreenshotImageLoader(BaseImageLoader):
             filename = _("Screenshot")
             location = _("Screenshot")
 
-            self._set_image_and_update_ui(temp_path, filename, location)
+            self._set_image_and_update_ui(temp_path, filename, location, has_actual_filename=False)
             self.window._show_notification(_("Screenshot captured!"))
 
             if self._success_callback:
@@ -303,10 +307,41 @@ class CommandlineLoader(BaseImageLoader):
             filename = os.path.basename(file_path)
             directory = os.path.dirname(file_path)
 
-            self._set_image_and_update_ui(file_path, filename, directory)
+            self._set_image_and_update_ui(file_path, filename, directory, has_actual_filename=False)
 
         except Exception as e:
             print(f"Error loading file from command line: {e}")
+
+class SourceImageLoader(BaseImageLoader):
+    """Handles loading images from source code image generator"""
+
+    def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str) -> None:
+        super().__init__(window, temp_dir)
+        self._generator_window: Optional[SourceImageGeneratorWindow] = None
+
+    def open_generator(self) -> None:
+        if self._generator_window and self._generator_window.get_visible():
+            self._generator_window.present()
+            return
+
+        self._generator_window = SourceImageGeneratorWindow(parent_window=self.window, temp_dir=self.temp_dir, export_callback=self.load_generated_image)
+        self._generator_window.set_transient_for(self.window)
+        self._generator_window.connect("destroy", self._on_generator_window_destroyed)
+        self._generator_window.show()
+
+    def _on_generator_window_destroyed(self, window: Gtk.Window) -> None:
+        self._generator_window = None
+
+    def load_generated_image(self, image_path: str) -> None:
+        if not image_path or not os.path.isfile(image_path):
+            print(f"Invalid generated image path: {image_path}")
+            return
+
+        filename = _("Generated Image")
+        location = _("Source")
+
+        self._set_image_and_update_ui(image_path, filename, location, has_actual_filename=False)
+        self.window._show_notification(_("Source snippet Generated!"))
 
 class ImportManager:
     def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str, app: Gtk.Application) -> None:
@@ -318,6 +353,7 @@ class ImportManager:
         self.clipboard_loader: ClipboardImageLoader = ClipboardImageLoader(window, temp_dir)
         self.screenshot_loader: ScreenshotImageLoader = ScreenshotImageLoader(window, temp_dir, app)
         self.commandline_loader: CommandlineLoader = CommandlineLoader(window, temp_dir)
+        self.source_image_loader: SourceImageLoader = SourceImageLoader(window, temp_dir)
 
     def open_file_dialog(self) -> None:
         self.file_loader.open_file_dialog()
@@ -349,4 +385,7 @@ class ImportManager:
 
     def load_from_file(self, file_path: str) -> None:
         self.commandline_loader.load_from_file(file_path)
+
+    def generate_from_source_code(self) -> None:
+        self.source_image_loader.open_generator()
 

@@ -69,6 +69,12 @@ template $GradiaWelcomePage : Adw.Bin {
 menu app_menu {
   section {
     item {
+      label: _("Source Snippets");
+      action: "app.create-source-image";
+    }
+  }
+  section {
+    item {
       label: _("Preferences");
       action: "app.preferences";
     }

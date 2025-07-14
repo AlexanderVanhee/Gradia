@@ -186,6 +186,70 @@ class Settings:
     def image_auto_balance(self, value: bool) -> None:
         self._settings.set_boolean("image-auto-balance", value)
 
+    @property
+    def background_mode(self) -> str:
+        return self._settings.get_string("background-mode")
+
+    @background_mode.setter
+    def background_mode(self, value: str) -> None:
+        self._settings.set_string("background-mode", value)
+
+    @property
+    def solid_state(self) -> str:
+        return self._settings.get_string("solid-state")
+
+    @solid_state.setter
+    def solid_state(self, value: str) -> None:
+        self._settings.set_string("solid-state", value)
+
+    @property
+    def gradient_state(self) -> str:
+        return self._settings.get_string("gradient-state")
+
+    @gradient_state.setter
+    def gradient_state(self, value: str) -> None:
+        self._settings.set_string("gradient-state", value)
+
+    @property
+    def image_state(self) -> str:
+        return self._settings.get_string("image-state")
+
+    @image_state.setter
+    def image_state(self, value: str) -> None:
+        self._settings.set_string("image-state", value)
+
+    @property
+    def source_snippet_language(self) -> str:
+        return self._settings.get_string("source-snippet-language")
+
+    @source_snippet_language.setter
+    def source_snippet_language(self, value: str) -> None:
+        self._settings.set_string("source-snippet-language", value)
+
+    @property
+    def source_snippet_code_text(self) -> str:
+        return self._settings.get_string("source-snippet-code-text")
+
+    @source_snippet_code_text.setter
+    def source_snippet_code_text(self, value: str) -> None:
+        self._settings.set_string("source-snippet-code-text", value)
+
+    @property
+    def source_snippet_title(self) -> str:
+        return self._settings.get_string("source-snippet-title")
+
+    @source_snippet_title.setter
+    def source_snippet_title(self, value: str) -> None:
+        self._settings.set_string("source-snippet-title", value)
+
+    @property
+    def source_snippet_style_scheme(self) -> str:
+        return self._settings.get_string("source-snippet-style-scheme")
+
+    @source_snippet_style_scheme.setter
+    def source_snippet_style_scheme(self, value: str) -> None:
+        self._settings.set_string("source-snippet-style-scheme", value)
+
     """
     Internal Methods
     """
