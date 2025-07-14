@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-03 19:13+0200\n"
-"PO-Revision-Date: 2025-07-07 06:53+0200\n"
+"POT-Creation-Date: 2025-07-09 19:16+0300\n"
+"PO-Revision-Date: 2025-07-14 18:57+0200\n"
 "Last-Translator: Adam Lewicki <a.lewicki95@gmail.com>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -19,16 +19,16 @@ msgstr ""
 "|| n%100>14) ? 1 : 2);\n"
 "X-Generator: Poedit 3.6\n"
 
-#: data/be.alexandervanhee.gradia.desktop.in.in:2
+#: data/be.alexandervanhee.gradia.desktop.in.in:3
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:11
 msgid "Gradia"
 msgstr "Zaawansowany zrzut ekranu"
 
-#: data/be.alexandervanhee.gradia.desktop.in.in:3 gradia/ui/ui_parts.py:147
+#: data/be.alexandervanhee.gradia.desktop.in.in:4 gradia/ui/ui_parts.py:26
 msgid "Make your images ready for the world"
 msgstr "Twórz obrazy gotowe do publikacji"
 
-#: data/be.alexandervanhee.gradia.desktop.in.in:9
+#: data/be.alexandervanhee.gradia.desktop.in.in:10
 msgid "Image;Gradient;Background;Screenshot;Edit;"
 msgstr "Obraz;Gradient;Tło;Zrzut ekranu;Edycja;Gradia;"
 
@@ -108,101 +108,94 @@ msgid "UI element showcase"
 msgstr "Prezentacja elementów interfejsu użytkownika"
 
 #. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
-#: gradia/ui/ui_parts.py:160
+#: gradia/ui/ui_parts.py:39
 msgid "translator-credits"
 msgstr "tłumacze"
 
-#: gradia/ui/ui_parts.py:170
+#: gradia/ui/ui_parts.py:49
 msgid "File Actions"
 msgstr "Akcje na plikach"
 
-#: gradia/ui/ui_parts.py:172
+#: gradia/ui/ui_parts.py:51
 msgid "Open File"
 msgstr "Otwórz plik"
 
-#: gradia/ui/ui_parts.py:173
+#: gradia/ui/ui_parts.py:52
 msgid "Save to File"
 msgstr "Zapisz do pliku"
 
-#: gradia/ui/ui_parts.py:174
+#: gradia/ui/ui_parts.py:53
 msgid "Copy Image to Clipboard"
 msgstr "Skopiuj obraz do schowka"
 
-#: gradia/ui/ui_parts.py:175
+#: gradia/ui/ui_parts.py:54
 msgid "Paste From Clipboard"
 msgstr "Wklej ze schowka"
 
-#: gradia/ui/ui_parts.py:179
+#: gradia/ui/ui_parts.py:55 data/ui/image_sidebar.blp:172
+msgid "Share Image"
+msgstr "Udostępnij obraz"
+
+#: gradia/ui/ui_parts.py:59
 msgid "Annotations"
 msgstr "Adnotacje"
 
-#: gradia/ui/ui_parts.py:181
+#: gradia/ui/ui_parts.py:61 data/ui/image_stack.blp:95
 msgid "Undo"
 msgstr "Cofnij"
 
-#: gradia/ui/ui_parts.py:182
+#: gradia/ui/ui_parts.py:62 data/ui/image_stack.blp:106
 msgid "Redo"
 msgstr "Ponów"
 
-#: gradia/ui/ui_parts.py:183
-msgid "Remove Selected"
-msgstr "Usuń wybrane"
+#: gradia/ui/ui_parts.py:63 data/ui/image_stack.blp:77
+msgid "Erase Selected"
+msgstr "Wyczyść wybrane"
 
-#: gradia/ui/ui_parts.py:187
+#: gradia/ui/ui_parts.py:67
 msgid "General"
 msgstr "Ogólne"
 
-#: gradia/ui/ui_parts.py:189 data/ui/image_sidebar.blp:220
+#: gradia/ui/ui_parts.py:69 data/ui/image_sidebar.blp:221
 #: data/ui/welcome_page.blp:76
 msgid "Keyboard Shortcuts"
 msgstr "Skróty klawiszowe"
 
-#: gradia/ui/ui_parts.py:190 data/ui/image_sidebar.blp:216
+#: gradia/ui/ui_parts.py:70 data/ui/image_sidebar.blp:217
 #: data/ui/welcome_page.blp:72
 msgid "Preferences"
 msgstr "Preferencje"
 
-#: gradia/ui/ui_parts.py:191
+#: gradia/ui/ui_parts.py:71
 msgid "Toggle Utility Pane"
 msgstr "Przełącz pasek narzędzi"
 
-#: gradia/ui/window.py:399
+#: gradia/ui/window.py:397
 msgid "Unknown"
 msgstr "Nieznane"
 
-#: gradia/ui/window.py:401 gradia/ui/provider_selection_window.py:79
+#: gradia/ui/window.py:399 gradia/ui/provider_selection_window.py:79
 msgid "Error"
 msgstr "Błąd"
 
+#: gradia/ui/window.py:456
+msgid "Confirm Upload"
+msgstr "Potwierdź, aby wczytać"
+
 #: gradia/ui/window.py:457
-msgid "Confirm Upload Command"
-msgstr "Komenda potwierdzająca wczytanie"
+#, python-brace-format
+msgid "Are you sure you want to upload this image to {provider_name}?"
+msgstr "Czy na pewno chcesz wczytać ten plik na {provider_name}?"
 
-#: gradia/ui/window.py:458
-msgid ""
-"Are you sure you want to\n"
-" run the upload command?"
-msgstr ""
-"Czy na pewno chcesz\n"
-" uruchomić komendę do wczytania?"
-
-#: gradia/ui/window.py:460 gradia/ui/image_exporters.py:95
+#: gradia/ui/window.py:459 gradia/ui/image_exporters.py:95
 #: gradia/ui/dialog/delete_screenshots_dialog.py:54
 #: data/ui/confirm_close_dialog.blp:10
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: gradia/ui/window.py:461
-msgid "Run"
-msgstr "Uruchom"
-
-#: gradia/ui/image_exporters.py:71
-msgid "Edit"
-msgstr "Edycja"
-
-#: gradia/ui/image_exporters.py:72
-msgid "Enhanced Screenshot"
-msgstr "Ulepszony zrzut ekranu"
+#: gradia/ui/window.py:460
+msgid "Upload"
+msgstr "Wczytaj"
 
 #: gradia/ui/image_exporters.py:91
 msgid "Save Image As"
@@ -542,22 +535,6 @@ msgstr "Gradient"
 msgid "Image"
 msgstr "Obraz"
 
-#: data/ui/controls_overlay.blp:24
-msgid "Erase selected"
-msgstr "Wyczyść wybrane"
-
-#: data/ui/controls_overlay.blp:42
-msgid "Undo the last action"
-msgstr "Cofnij ostatnią akcję"
-
-#: data/ui/controls_overlay.blp:53
-msgid "Redo the last undone action"
-msgstr "Przywróć ostatnią akcję"
-
-#: data/ui/controls_overlay.blp:64
-msgid "Clear all annotations"
-msgstr "Wyczyść wszystkie adnotacje"
-
 #: data/ui/drawing_tools_group.blp:5
 msgid "Annotation Tools"
 msgstr "Narzędzia adnotacji"
@@ -658,17 +635,17 @@ msgstr "Zapisz obraz"
 msgid "Copy to Clipboard"
 msgstr "Skopiuj do schowka"
 
-#: data/ui/image_sidebar.blp:172
-msgid "Run Upload Command"
-msgstr "Uruchom komendę do wczytania"
-
-#: data/ui/image_sidebar.blp:210
+#: data/ui/image_sidebar.blp:211
 msgid "Delete Taken Screenshot(s)"
 msgstr "Usuń wykonany(e) zrzut(y) ekranu"
 
-#: data/ui/image_sidebar.blp:224 data/ui/welcome_page.blp:80
+#: data/ui/image_sidebar.blp:225 data/ui/welcome_page.blp:80
 msgid "About Gradia"
 msgstr "O programie"
+
+#: data/ui/image_stack.blp:117
+msgid "Clear All"
+msgstr "Wyczyść wszystko"
 
 #: data/ui/text_entry_popover.blp:12
 msgid "Enter text…"
@@ -869,6 +846,40 @@ msgstr "Zamknij"
 #: data/ui/confirm_close_dialog.blp:18
 msgid "Don't Ask Again"
 msgstr "Nie pytaj ponownie"
+
+#~ msgid "Remove Selected"
+#~ msgstr "Usuń wybrane"
+
+#~ msgid "Confirm Upload Command"
+#~ msgstr "Komenda potwierdzająca wczytanie"
+
+#~ msgid ""
+#~ "Are you sure you want to\n"
+#~ " run the upload command?"
+#~ msgstr ""
+#~ "Czy na pewno chcesz\n"
+#~ " uruchomić komendę do wczytania?"
+
+#~ msgid "Run"
+#~ msgstr "Uruchom"
+
+#~ msgid "Edit"
+#~ msgstr "Edycja"
+
+#~ msgid "Enhanced Screenshot"
+#~ msgstr "Ulepszony zrzut ekranu"
+
+#~ msgid "Undo the last action"
+#~ msgstr "Cofnij ostatnią akcję"
+
+#~ msgid "Redo the last undone action"
+#~ msgstr "Przywróć ostatnią akcję"
+
+#~ msgid "Clear all annotations"
+#~ msgstr "Wyczyść wszystkie adnotacje"
+
+#~ msgid "Run Upload Command"
+#~ msgstr "Uruchom komendę do wczytania"
 
 #~ msgid "Current drawing mode"
 #~ msgstr "Aktualny tryb rysowania"
