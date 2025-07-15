@@ -167,6 +167,62 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
         };
       }
 
+      Gtk.Revealer outline_color_revealer {
+        reveal-child: false;
+        transition-type: swing_down;
+        transition-duration: 300;
+
+        child: Gtk.Box {
+          orientation: vertical;
+          spacing: 0;
+
+          styles [
+            "drawing_tool_entry_box"
+          ]
+
+          Gtk.Box outline_color_container {
+            orientation: horizontal;
+            spacing: 6;
+            margin-top: 8;
+            margin-bottom: 8;
+            margin-start: 12;
+            margin-end: 12;
+
+            Gtk.Label outline_color_label {
+              label: _("Outline Color");
+              halign: start;
+              hexpand: true;
+            }
+
+            Gtk.Box outline_color_suffix_box {
+              orientation: horizontal;
+              spacing: 6;
+              valign: center;
+
+              Gtk.Button outline_reset_button {
+                icon-name: "edit-clear-symbolic";
+                tooltip-text: _("Reset Outline");
+
+                clicked => $_on_reset_outline_clicked();
+
+                styles [
+                  "flat"
+                ]
+              }
+
+              Gtk.ColorDialogButton outline_color_button {
+                dialog: Gtk.ColorDialog {
+                  with-alpha: true;
+                };
+
+                notify::rgba => $_on_outline_color_set();
+              }
+            }
+          }
+
+        };
+      }
+
       Gtk.Revealer font_revealer {
         reveal-child: false;
         transition-type: swing_down;

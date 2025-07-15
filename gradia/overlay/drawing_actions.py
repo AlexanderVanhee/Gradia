@@ -22,8 +22,10 @@ from gi.repository import Gtk, Gdk, Gio, Pango, PangoCairo, GdkPixbuf
 from enum import Enum
 import math
 from gradia.backend.logger import Logger
+from gradia.utils.colors import has_visible_color
 import time
 import random
+import unicodedata
 
 logging = Logger()
 
@@ -195,7 +197,6 @@ class TextAction(DrawingAction):
 
     def __init__(self, position: tuple[float, float], text: str, image_bounds: tuple[int, int], settings):
         self.settings = settings
-
         self.position = position
         self.text = text
         self.image_bounds = image_bounds
@@ -203,17 +204,34 @@ class TextAction(DrawingAction):
         self.font_size = settings.font_size
         self.font_family = settings.font_family
         self.background_color = settings.fill_color
+        self.outline_color = settings.outline_color
+
+    def contains_emoji(self) -> bool:
+        for char in self.text:
+            cat = unicodedata.category(char)
+            if cat.startswith("S") or ord(char) > 0xFFFF:
+                return True
+            if "EMOJI" in unicodedata.name(char, "").upper():
+                return True
+        return False
+
+    def draw_rounded_rectangle(self, cr: cairo.Context, x: float, y: float, width: float, height: float, radius: float):
+        cr.new_sub_path()
+        cr.arc(x + radius, y + radius, radius, math.pi, 3 * math.pi / 2)
+        cr.arc(x + width - radius, y + radius, radius, 3 * math.pi / 2, 0)
+        cr.arc(x + width - radius, y + height - radius, radius, 0, math.pi / 2)
+        cr.arc(x + radius, y + height - radius, radius, math.pi / 2, math.pi)
+        cr.close_path()
 
     def draw(self, cr: cairo.Context, image_to_widget_coords, scale: float):
         if not self.text.strip():
             return
 
         x, y = image_to_widget_coords(*self.position)
-
         layout = PangoCairo.create_layout(cr)
         font_desc = Pango.FontDescription()
-        font_desc.set_family(self.settings.font_family)
-        font_desc.set_size(int(self.settings.font_size * scale * Pango.SCALE))
+        font_desc.set_family(self.font_family)
+        font_desc.set_size(int(self.font_size * scale * Pango.SCALE))
         layout.set_font_description(font_desc)
         layout.set_text(self.text, -1)
 
@@ -224,19 +242,31 @@ class TextAction(DrawingAction):
         text_x = x - text_width / 2
         text_y = y - text_height
 
-        if self.settings.fill_color and any(c > 0 or (len(self.settings.fill_color) > 3 and self.settings.fill_color[3] > 0) for c in self.settings.fill_color):
-            cr.set_source_rgba(*self.settings.fill_color)
-            cr.rectangle(
-                text_x - self.PADDING_X,
-                text_y - self.PADDING_Y,
-                text_width + 2 * self.PADDING_X,
-                text_height + 2 * self.PADDING_Y
-            )
+        if self.background_color and any(c > 0 for c in self.background_color):
+            cr.set_source_rgba(*self.background_color)
+
+            bg_x = text_x - self.PADDING_X
+            bg_y = text_y - self.PADDING_Y
+            bg_width = text_width + 2 * self.PADDING_X
+            bg_height = text_height + 2 * self.PADDING_Y
+
+            radius = min(6.0 * scale, min(bg_width, bg_height) / 4)
+
+            self.draw_rounded_rectangle(cr, bg_x, bg_y, bg_width, bg_height, radius)
             cr.fill()
 
-        cr.set_source_rgba(*self.settings.pen_color)
         cr.move_to(text_x, text_y)
-        PangoCairo.show_layout(cr, layout)
+        if self.contains_emoji():
+            cr.set_source_rgba(*self.color)
+            PangoCairo.show_layout(cr, layout)
+        else:
+            PangoCairo.layout_path(cr, layout)
+            if self.outline_color and any(c > 0 for c in self.outline_color):
+                cr.set_source_rgba(*self.outline_color)
+                cr.set_line_width(4.0 * scale)
+                cr.stroke_preserve()
+            cr.set_source_rgba(*self.color)
+            cr.fill()
 
     def get_bounds(self) -> tuple[float, float, float, float]:
         if not self.text.strip():
@@ -245,11 +275,10 @@ class TextAction(DrawingAction):
 
         temp_surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, 1, 1)
         temp_cr = cairo.Context(temp_surface)
-
         layout = PangoCairo.create_layout(temp_cr)
         font_desc = Pango.FontDescription()
-        font_desc.set_family(self.settings.font_family)
-        font_desc.set_size(int(self.settings.font_size * Pango.SCALE))
+        font_desc.set_family(self.font_family)
+        font_desc.set_size(int(self.font_size * Pango.SCALE))
         layout.set_font_description(font_desc)
         layout.set_text(self.text, -1)
 
@@ -259,7 +288,6 @@ class TextAction(DrawingAction):
 
         reference_width = self.image_bounds[0]
         reference_height = self.image_bounds[1]
-
         text_width = text_width_px / reference_width
         text_height = text_height_px / reference_height
 
@@ -486,10 +514,9 @@ class NumberStampAction(DrawingAction):
         self.number = number
         self.radius = settings.number_radius
         self.fill_color = settings.fill_color
-        self.creation_time = time.time()
-        r, g, b, a = self.fill_color
         self.text_color = settings.pen_color
-
+        self.outline_color = settings.outline_color
+        self.creation_time = time.time()
 
     def draw(self, cr, image_to_widget_coords, scale):
         x, y = image_to_widget_coords(*self.position)
@@ -497,15 +524,33 @@ class NumberStampAction(DrawingAction):
 
         cr.set_source_rgba(*self.fill_color)
         cr.arc(x, y, r, 0, 2 * math.pi)
-        cr.fill()
+        cr.fill_preserve()
 
-        cr.set_source_rgba(*self.text_color)
+        if has_visible_color(self.outline_color) and has_visible_color(self.fill_color):
+            cr.set_source_rgba(*self.outline_color)
+            cr.set_line_width(2.0 * scale)
+            cr.stroke()
+        else:
+            cr.new_path()
+
         cr.select_font_face("Sans", cairo.FontSlant.NORMAL, cairo.FontWeight.BOLD)
         cr.set_font_size(r * 1.2)
         text = str(self.number)
+
         xbearing, ybearing, width, height, xadvance, yadvance = cr.text_extents(text)
-        cr.move_to(x - width / 2 - xbearing, y + height / 2)
-        cr.show_text(text)
+        tx = x - width / 2 - xbearing
+        ty = y + height / 2
+
+        cr.move_to(tx, ty)
+        cr.text_path(text)
+
+        if self.outline_color and any(c > 0 for c in self.outline_color):
+            cr.set_source_rgba(*self.outline_color)
+            cr.set_line_width(4 * scale)
+            cr.stroke_preserve()
+
+        cr.set_source_rgba(*self.text_color)
+        cr.fill()
 
     def contains_point(self, px, py):
         x, y = self.position
@@ -515,8 +560,9 @@ class NumberStampAction(DrawingAction):
 
     def get_bounds(self):
         x, y = self.position
-        r = self.radius /1000
+        r = self.radius / 1000
         return self.apply_padding((x - r, y - r, x + r, y + r))
 
     def translate(self, dx, dy):
         self.position = (self.position[0] + dx, self.position[1] + dy)
+

@@ -56,3 +56,6 @@ def hex_to_rgb(hex_color: HexColor) -> RGBTuple:
     hex_color = hex_color.lstrip('#')
     r, g, b = (int(hex_color[i:i+2], 16) for i in (0, 2, 4))
     return (r, g, b)
+
+def has_visible_color(color):
+    return any(c > 0 for c in color[:3]) or (len(color) > 3 and color[3] > 0)

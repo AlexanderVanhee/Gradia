@@ -143,6 +143,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
         self.create_action("pen-color", lambda action, param: self._set_pen_color_from_string(param.get_string()), vt="s")
         self.create_action("fill-color", lambda action, param: self._set_fill_color_from_string(param.get_string()), vt="s")
+        self.create_action("outline-color", lambda action, param: self._set_outline_color_from_string(param.get_string()), vt="s")
         self.create_action("highlighter-color", lambda action, param: self._set_highlighter_color_from_string(param.get_string()), vt="s")
         self.create_action("del-selected", lambda *_: self.drawing_overlay.remove_selected_action(), ["<Primary>x", "Delete"])
         self.create_action("font", lambda action, param: self.drawing_overlay.settings.set_font_family(param.get_string()), vt="s")
@@ -344,6 +345,9 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
     def _set_fill_color_from_string(self, color_string: str) -> None:
         self.drawing_overlay.settings.set_fill_color(*self._parse_rgba(color_string))
+
+    def _set_outline_color_from_string(self, color_string: str) -> None:
+        self.drawing_overlay.settings.set_outline_color(*self._parse_rgba(color_string))
 
     def _set_highlighter_color_from_string(self, color_string: str) -> None:
         self.drawing_overlay.settings.set_highlighter_color(*self._parse_rgba(color_string))

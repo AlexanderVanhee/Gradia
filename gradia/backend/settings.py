@@ -74,6 +74,18 @@ class Settings:
     def fill_color(self, value: Gdk.RGBA) -> None:
         self._settings.set_string("fill-color", self._rgba_to_string(value))
 
+
+    @property
+    def outline_color(self) -> Gdk.RGBA:
+        return self._parse_rgba(
+            self._settings.get_string("outline-color"),
+            fallback=(0.0, 0.0, 0.0, 0.0)
+        )
+
+    @outline_color.setter
+    def outline_color(self, value: Gdk.RGBA) -> None:
+        self._settings.set_string("outline-color", self._rgba_to_string(value))
+
     @property
     def pen_size(self) -> float:
         return self._settings.get_double("pen-size")

@@ -18,7 +18,7 @@
 import gi
 gi.require_version("GtkSource", "5")
 
-from gi.repository import Gtk, Adw, GtkSource, GLib, Gdk, Gio
+from gi.repository import Gtk, Adw, GtkSource, GLib, Gdk, Gio, GObject
 from gradia.constants import rootdir  # pyright: ignore
 from gradia.backend.logger import Logger
 from gradia.backend.settings import Settings
@@ -495,6 +495,11 @@ class SourceImageGeneratorWindow(Adw.Window):
         languages = self.language_manager.get_languages()
         self.language_dropdown.set_model(Gtk.StringList.new(languages))
 
+        expression = Gtk.ClosureExpression.new(
+            GObject.TYPE_STRING, lambda obj: obj.get_string(), None
+        )
+
+        self.language_dropdown.set_expression(expression)
         initial_language = self.settings.source_snippet_language
 
         if initial_language in languages:
@@ -505,6 +510,7 @@ class SourceImageGeneratorWindow(Adw.Window):
 
         generic_styles = self.style_manager.get_generic_style_names()
         self.style_scheme_dropdown.set_model(Gtk.StringList.new(generic_styles))
+
 
         default_generic_style = self.style_manager.get_current_generic_style()
         if default_generic_style in generic_styles:

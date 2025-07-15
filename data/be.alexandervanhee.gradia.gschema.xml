@@ -21,6 +21,10 @@
       <default>'0.000,0.000,0.000,0.000'</default>
       <summary>Fill color in rgba</summary>
     </key>
+    <key name="outline-color" type="s">
+      <default>'0.000,0.000,0.000,0.000'</default>
+      <summary>Text outline color in rgba</summary>
+    </key>
     <key name="pen-size" type="d">
       <default>3.0</default>
       <summary>Pen size</summary>

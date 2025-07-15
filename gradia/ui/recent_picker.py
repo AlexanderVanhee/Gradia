@@ -81,7 +81,7 @@ class RecentImageGetter:
         return xdg_pictures_path
 
 class RoundedImage(Gtk.Widget):
-    def __init__(self, path: str, radius: float = 8.0, padding: int=16):
+    def __init__(self, path: str, radius: float = 4.0, padding: int=16):
         super().__init__()
         self.radius = radius
         self.texture = None
@@ -152,7 +152,6 @@ class RecentPicker(Adw.Bin):
         self.gradient_colors = PREDEFINED_GRADIENTS
         self.original_gradient_indexes = list(range(len(self.gradient_colors)))
         combined = list(zip(self.gradient_colors, self.original_gradient_indexes))
-        random.shuffle(combined)
         self.gradient_colors, self.original_gradient_indexes = zip(*combined)
         self.gradient_colors = list(self.gradient_colors)
         self.original_gradient_indexes = list(self.original_gradient_indexes)
