@@ -58,6 +58,10 @@
       <default>false</default>
       <summary>If images with same colored edges should be balanced</summary>
     </key>
+    <key name="image-rotation" type="i">
+      <default>0</default>
+      <summary>Rotation of the the inner image</summary>
+    </key>
 
     <key name="background-mode" type="s">
       <default>'gradient'</default>

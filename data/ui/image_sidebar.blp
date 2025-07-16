@@ -116,6 +116,19 @@ template $GradiaImageSidebar : Adw.Bin {
             valign: center;
           }
         }
+
+        Adw.SpinRow rotation_row {
+          title: _("Rotation");
+          numeric: true;
+          adjustment: Gtk.Adjustment rotation_adjustment {
+            value: 0;
+            lower: 0;
+            upper: 270;
+            step-increment: 90;
+            page-increment: 90;
+          };
+        }
+
       }
 
       Adw.PreferencesGroup file_info_group {

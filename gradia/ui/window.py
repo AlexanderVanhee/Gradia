@@ -151,6 +151,12 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.create_action("highlighter-size", lambda action, param: self.drawing_overlay.settings.set_highlighter_size(param.get_double()), vt="d")
         self.create_action("number-radius", lambda action, param: self.drawing_overlay.settings.set_number_radius(param.get_double()), vt="d")
 
+        self.create_action("padding-changed", lambda action, param: self.on_padding_changed(param.get_int32()), vt="i")
+        self.create_action("corner-radius-changed", lambda action, param: self.on_corner_radius_changed(param.get_int32()), vt="i")
+        self.create_action("aspect-ratio-changed", lambda action, param: self.on_aspect_ratio_changed(param.get_string()), vt="s")
+        self.create_action("shadow-strength-changed", lambda action, param: self.on_shadow_strength_changed(param.get_int32()), vt="i")
+        self.create_action("auto-balance-changed", lambda action, param: self.on_auto_balance_changed(param.get_boolean()), vt="b")
+        self.create_action("rotation-changed", lambda action, param: self.on_rotation_changed(param.get_int32()), vt="i")
         self.create_action("delete-screenshots", lambda *_: self._create_delete_screenshots_dialog(), enabled=False)
 
         self.create_action("preferences", self._on_preferences_activated, ['<primary>comma'])
@@ -173,11 +179,6 @@ class GradiaMainWindow(Adw.ApplicationWindow):
     def _setup_sidebar(self) -> None:
         self.sidebar = ImageSidebar(
             background_selector_widget=self.background_selector,
-            on_padding_changed=self.on_padding_changed,
-            on_corner_radius_changed=self.on_corner_radius_changed,
-            on_aspect_ratio_changed=self.on_aspect_ratio_changed,
-            on_shadow_strength_changed=self.on_shadow_strength_changed,
-            on_auto_balance_changed=self.on_auto_balance_changed
         )
 
         self.sidebar.set_size_request(self.SIDEBAR_WIDTH, -1)
@@ -249,6 +250,11 @@ class GradiaMainWindow(Adw.ApplicationWindow):
     def on_auto_balance_changed(self, value: bool) -> None:
         self.processor.auto_balance = value
         self._trigger_processing()
+
+    def on_rotation_changed(self, value: int) -> None:
+        self.processor.rotation = value
+        self._trigger_processing()
+
 
     def _on_about_activated(self, action: Gio.SimpleAction, param: GObject.ParamSpec) -> None:
         about = AboutDialog(version=self.version)
