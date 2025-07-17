@@ -79,6 +79,21 @@ template $GradiaImageStack : Adw.Bin {
                 ]
               }
 
+              Gtk.Revealer reset_crop_revealer {
+                transition-type: crossfade;
+                transition-duration: 300;
+
+                Gtk.Button reset_crop_button {
+                  icon-name: "crop-reset-symbolic";
+                  tooltip-text: _("Reset the Crop Selection");
+                  action-name: "app.reset-crop";
+                  styles [
+                    "osd",
+                    "circular"
+                  ]
+                }
+              }
+
               Gtk.Revealer erase_selected_revealer {
                 transition-type: crossfade;
                 transition-duration: 300;

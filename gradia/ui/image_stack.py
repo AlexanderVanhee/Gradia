@@ -15,7 +15,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from gi.repository import Adw, Gio, Gtk, Gdk, GLib
+from gi.repository import Adw, Gio, Gtk, Gdk, GLib, GObject
 
 from gradia.constants import rootdir  # pyright: ignore
 from gradia.overlay.drawing_overlay import DrawingOverlay
@@ -40,6 +40,9 @@ class ImageStack(Adw.Bin):
 
     drop_target: Gtk.DropTarget = Gtk.Template.Child()
 
+    reset_crop_revealer: Gtk.Revealer = Gtk.Template.Child()
+
+
     crop_enabled: bool = False
     crop_has_been_enabled: bool = False
 
@@ -62,6 +65,8 @@ class ImageStack(Adw.Bin):
         self.drop_target.set_gtypes([Gio.File])
         self.drop_target.connect("drop", self._on_file_dropped)
 
+        self.reset_crop_revealer.connect("notify::reveal-child", self._on_reset_crop_reveal_changed)
+
     def _on_file_dropped(self, _target: Gtk.DropTarget, value: Gio.File, _x: int, _y: int) -> bool:
         uri = value.get_uri()
         if uri:
@@ -72,12 +77,26 @@ class ImageStack(Adw.Bin):
                 return True
         return False
 
+    def _on_reset_crop_reveal_changed(self, revealer: Gtk.Revealer, _pspec: GObject.ParamSpec) -> None:
+        if not revealer.get_reveal_child():
+            GLib.timeout_add(300, lambda: revealer.set_visible(False))
+
+    def reset_crop_selection(self) -> None:
+        self.crop_overlay.set_crop_rectangle(0.0, 0.0, 1, 1)
+        self.crop_has_been_enabled = False
+        self.on_toggle_crop()
 
     def on_toggle_crop(self) -> None:
         self.crop_enabled = not self.crop_enabled
         self.crop_overlay.set_interaction_enabled(self.crop_enabled)
         self.crop_overlay.set_can_target(self.crop_enabled)
 
+        if self.crop_enabled:
+            self.reset_crop_revealer.set_visible(True)
+
+        self.reset_crop_revealer.set_reveal_child(self.crop_enabled)
+
         if self.crop_enabled and not self.crop_has_been_enabled:
             self.crop_overlay.set_crop_rectangle(0.1, 0.1, 0.8, 0.8)
             self.crop_has_been_enabled = True
+

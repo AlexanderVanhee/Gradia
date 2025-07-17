@@ -138,6 +138,8 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.create_action("quit", lambda *_: self.close(), ["<Primary>w"])
 
         self.create_action("crop", lambda *_: self.image_bin.on_toggle_crop(), ["<Primary>r"])
+        self.create_action("reset-crop", lambda *_: self.image_bin.reset_crop_selection(), ["<Primary><Shift>r"])
+
         self.create_action("undo", lambda *_: self.drawing_overlay.undo(), ["<Primary>z"])
         self.create_action("redo", lambda *_: self.drawing_overlay.redo(), ["<Primary><Shift>z"])
         self.create_action("clear", lambda *_: self.drawing_overlay.clear_drawing())
