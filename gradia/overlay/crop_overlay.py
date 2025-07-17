@@ -14,23 +14,22 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+
 from typing import Any
-import cairo
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk, Gdk, Graphene
 import math
 
-class CropOverlay(Gtk.DrawingArea):
+class CropOverlay(Gtk.Widget):
     __gtype_name__ = "GradiaCropOverlay"
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-        self.set_draw_func(self._on_draw, None)
         self.picture_widget: Gtk.Picture | None = None
 
         self.crop_x = 0.0
         self.crop_y = 0.0
-        self.crop_width = 1
-        self.crop_height = 1
+        self.crop_width = 1.0
+        self.crop_height = 1.0
 
         self.handle_size = 12
         self.edge_grab_distance = 8
@@ -67,8 +66,14 @@ class CropOverlay(Gtk.DrawingArea):
 
         self.queue_draw()
 
-    def _on_draw(self, area: Gtk.DrawingArea, context: cairo.Context, width: int, height: int, user_data: Any) -> None:
+    def do_snapshot(self, snapshot: Gtk.Snapshot) -> None:
         if not self.picture_widget or not self.picture_widget.get_paintable():
+            return
+
+        width = self.get_width()
+        height = self.get_height()
+
+        if width <= 0 or height <= 0:
             return
 
         img_x, img_y, img_w, img_h = self._get_image_bounds()
@@ -78,31 +83,72 @@ class CropOverlay(Gtk.DrawingArea):
         crop_w = self.crop_width * img_w
         crop_h = self.crop_height * img_h
 
-        context.set_source_rgba(0.2, 0.2, 0.2, 0.6)
-        context.rectangle(img_x, img_y, img_w, img_h)
-        context.fill()
+        overlay_rect = Graphene.Rect.alloc()
+        overlay_rect.init(img_x, img_y, img_w, img_h)
 
+        crop_rect = Graphene.Rect.alloc()
+        crop_rect.init(crop_x, crop_y, crop_w, crop_h)
 
-        context.set_operator(cairo.OPERATOR_CLEAR)
-        context.rectangle(crop_x, crop_y, crop_w, crop_h)
-        context.fill()
+        overlay_color = Gdk.RGBA()
+        overlay_color.red = 0.2
+        overlay_color.green = 0.2
+        overlay_color.blue = 0.2
+        overlay_color.alpha = 0.6
 
+        # Top overlay
+        if crop_y > img_y:
+            top_overlay = Graphene.Rect.alloc()
+            top_overlay.init(img_x, img_y-1, img_w, crop_y - img_y +1)
+            snapshot.append_color(overlay_color, top_overlay)
 
-        context.set_operator(cairo.OPERATOR_OVER)
+        # Bottom overlay
+        if crop_y + crop_h < img_y + img_h:
+            bottom_overlay = Graphene.Rect.alloc()
+            bottom_overlay.init(img_x, crop_y + crop_h, img_w, (img_y + img_h) - (crop_y + crop_h))
+            snapshot.append_color(overlay_color, bottom_overlay)
 
-        context.set_source_rgba(1.0, 1.0, 1.0, 0.8)
+        # Left overlay
+        if crop_x > img_x:
+            left_overlay = Graphene.Rect.alloc()
+            left_overlay.init(img_x, crop_y - 0.20, crop_x - img_x, crop_h + 0.4)
+            snapshot.append_color(overlay_color, left_overlay)
+
+       # Right overlay
+        if crop_x + crop_w < img_x + img_w:
+            right_overlay = Graphene.Rect.alloc()
+            right_overlay.init(crop_x + crop_w, crop_y - 0.20, (img_x + img_w) - (crop_x + crop_w), crop_h + 0.4)
+            snapshot.append_color(overlay_color, right_overlay)
+
         if self.interaction_enabled:
-            context.set_line_width(2)
-            context.rectangle(crop_x, crop_y, crop_w, crop_h)
-            context.stroke()
+            border_color = Gdk.RGBA()
+            border_color.red = 1.0
+            border_color.green = 1.0
+            border_color.blue = 1.0
+            border_color.alpha = 0.8
 
-        if self.interaction_enabled:
-            self._draw_corner_handles(context, crop_x, crop_y, crop_w, crop_h)
+            border_width = 2.0
 
-    def _draw_corner_handles(self, context: cairo.Context, x: float, y: float, w: float, h: float) -> None:
+            top_border = Graphene.Rect.alloc()
+            top_border.init(crop_x, crop_y - border_width/2, crop_w, border_width)
+            snapshot.append_color(border_color, top_border)
+
+            bottom_border = Graphene.Rect.alloc()
+            bottom_border.init(crop_x, crop_y + crop_h - border_width/2, crop_w, border_width)
+            snapshot.append_color(border_color, bottom_border)
+
+            left_border = Graphene.Rect.alloc()
+            left_border.init(crop_x - border_width/2, crop_y, border_width, crop_h)
+            snapshot.append_color(border_color, left_border)
+
+            right_border = Graphene.Rect.alloc()
+            right_border.init(crop_x + crop_w - border_width/2, crop_y, border_width, crop_h)
+            snapshot.append_color(border_color, right_border)
+
+            self._draw_corner_handles(snapshot, crop_x, crop_y, crop_w, crop_h)
+
+    def _draw_corner_handles(self, snapshot: Gtk.Snapshot, x: float, y: float, w: float, h: float) -> None:
         handle_size = self.handle_size
-        half_handle = handle_size // 2
-
+        half_handle = handle_size / 2
 
         corners = [
             (x, y),  # Top-left
@@ -111,16 +157,65 @@ class CropOverlay(Gtk.DrawingArea):
             (x, y + h),  # Bottom-left
         ]
 
+        fill_color = Gdk.RGBA()
+        fill_color.red = 1.0
+        fill_color.green = 1.0
+        fill_color.blue = 1.0
+        fill_color.alpha = 0.9
+
+        border_color = Gdk.RGBA()
+        border_color.red = 0.2
+        border_color.green = 0.2
+        border_color.blue = 0.2
+        border_color.alpha = 0.8
+
         for corner_x, corner_y in corners:
-            context.set_source_rgba(1.0, 1.0, 1.0, 0.9)
-            context.rectangle(corner_x - half_handle, corner_y - half_handle, handle_size, handle_size)
-            context.fill()
+            handle_rect = Graphene.Rect.alloc()
+            handle_rect.init(
+                corner_x - half_handle,
+                corner_y - half_handle,
+                handle_size,
+                handle_size
+            )
+            snapshot.append_color(fill_color, handle_rect)
 
-            context.set_source_rgba(0.2, 0.2, 0.2, 0.8)
-            context.set_line_width(1)
-            context.rectangle(corner_x - half_handle, corner_y - half_handle, handle_size, handle_size)
-            context.stroke()
+            border_width = 1.0
 
+            top_border = Graphene.Rect.alloc()
+            top_border.init(
+                corner_x - half_handle,
+                corner_y - half_handle,
+                handle_size,
+                border_width
+            )
+            snapshot.append_color(border_color, top_border)
+
+            bottom_border = Graphene.Rect.alloc()
+            bottom_border.init(
+                corner_x - half_handle,
+                corner_y + half_handle - border_width,
+                handle_size,
+                border_width
+            )
+            snapshot.append_color(border_color, bottom_border)
+
+            left_border = Graphene.Rect.alloc()
+            left_border.init(
+                corner_x - half_handle,
+                corner_y - half_handle,
+                border_width,
+                handle_size
+            )
+            snapshot.append_color(border_color, left_border)
+
+            right_border = Graphene.Rect.alloc()
+            right_border.init(
+                corner_x + half_handle - border_width,
+                corner_y - half_handle,
+                border_width,
+                handle_size
+            )
+            snapshot.append_color(border_color, right_border)
 
     def _get_handle_at_point(self, x: float, y: float) -> str | None:
         if not self.interaction_enabled or not self.picture_widget or not self.picture_widget.get_paintable():
@@ -133,7 +228,7 @@ class CropOverlay(Gtk.DrawingArea):
         crop_w = self.crop_width * img_w
         crop_h = self.crop_height * img_h
 
-        half_handle = self.handle_size // 2
+        half_handle = self.handle_size / 2
 
         corners = {
             "top-left": (crop_x, crop_y),
@@ -160,7 +255,7 @@ class CropOverlay(Gtk.DrawingArea):
         crop_w = self.crop_width * img_w
         crop_h = self.crop_height * img_h
 
-        half_handle = self.handle_size // 2
+        half_handle = self.handle_size / 2
 
         edges = {
             "top": (crop_x + crop_w/2, crop_y),
