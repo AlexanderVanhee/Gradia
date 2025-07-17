@@ -35,7 +35,12 @@ class BaseImageExporter:
         self.temp_dir: str = temp_dir
 
     def get_processed_pixbuf(self):
-        return self.overlay_pixbuffs(self.window.processed_pixbuf, self.window.drawing_overlay.export_to_pixbuf())
+        composited = self.overlay_pixbuffs(
+            self.window.processed_pixbuf,
+            self.window.drawing_overlay.export_to_pixbuf()
+        )
+        crop_rect = self.window.image_bin.crop_overlay.get_crop_rectangle()
+        return self.crop_pixbuf(composited, crop_rect)
 
     def overlay_pixbuffs(self, bottom: GdkPixbuf.Pixbuf, top: GdkPixbuf.Pixbuf, alpha: float = 1) -> GdkPixbuf.Pixbuf:
         if bottom.get_width() != top.get_width() or bottom.get_height() != top.get_height():
@@ -73,6 +78,26 @@ class BaseImageExporter:
             else:
                 return f"{original_name}{extension}"
         return f"{_('Enhanced Screenshot')}{extension}"
+
+
+    def crop_pixbuf(self, pixbuf: GdkPixbuf.Pixbuf, crop: tuple[float, float, float, float]) -> GdkPixbuf.Pixbuf:
+        crop_x, crop_y, crop_w, crop_h = crop
+
+        if (crop_x, crop_y, crop_w, crop_h) == (0.0, 0.0, 1.0, 1.0):
+            return pixbuf
+
+        width = pixbuf.get_width()
+        height = pixbuf.get_height()
+
+        crop_px = int(crop_x * width)
+        crop_py = int(crop_y * height)
+        crop_pw = int(crop_w * width)
+        crop_ph = int(crop_h * height)
+
+        crop_pw = max(1, min(crop_pw, width - crop_px))
+        crop_ph = max(1, min(crop_ph, height - crop_py))
+
+        return GdkPixbuf.Pixbuf.new_subpixbuf(pixbuf, crop_px, crop_py, crop_pw, crop_ph)
 
     def _ensure_processed_image_available(self) -> bool:
         """Ensure processed image is available for export"""

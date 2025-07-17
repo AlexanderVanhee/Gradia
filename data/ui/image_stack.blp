@@ -15,7 +15,6 @@ template $GradiaImageStack : Adw.Bin {
     Adw.HeaderBar headerbar {
       show-title: false;
       show-start-title-buttons: false;
-
       styles [
         "desktop"
       ]
@@ -29,7 +28,6 @@ template $GradiaImageStack : Adw.Bin {
 
       Gtk.StackPage loading_page {
         name: "loading";
-
         child: Gtk.Box spinner_box {
           orientation: vertical;
           halign: center;
@@ -44,7 +42,6 @@ template $GradiaImageStack : Adw.Bin {
 
       Gtk.StackPage image_page {
         name: "image";
-
         child: Gtk.Overlay picture_overlay {
           [overlay]
           $GradiaDrawingOverlay drawing_overlay {
@@ -52,10 +49,14 @@ template $GradiaImageStack : Adw.Bin {
           }
 
           [overlay]
+          $GradiaCropOverlay crop_overlay {
+            visible: true;
+          }
+
+          [overlay]
           Gtk.Box controls_box {
             orientation: horizontal;
             spacing: 6;
-
             halign: fill;
             valign: end;
             margin-bottom: 12;
@@ -68,6 +69,16 @@ template $GradiaImageStack : Adw.Bin {
               hexpand: true;
               halign: start;
 
+              Gtk.Button crop_button {
+                icon-name: "crop-symbolic";
+                tooltip-text: _("Erase Selected");
+                action-name: "app.crop";
+                styles [
+                  "osd",
+                  "circular"
+                ]
+              }
+
               Gtk.Revealer erase_selected_revealer {
                 transition-type: crossfade;
                 transition-duration: 300;
@@ -76,7 +87,6 @@ template $GradiaImageStack : Adw.Bin {
                   icon-name: "eraser4-symbolic";
                   tooltip-text: _("Erase Selected");
                   action-name: "app.del-selected";
-
                   styles [
                     "osd",
                     "circular"
@@ -94,7 +104,6 @@ template $GradiaImageStack : Adw.Bin {
                 icon-name: "edit-undo-symbolic";
                 tooltip-text: _("Undo");
                 action-name: "app.undo";
-
                 styles [
                   "osd",
                   "circular"
@@ -105,7 +114,6 @@ template $GradiaImageStack : Adw.Bin {
                 icon-name: "edit-redo-symbolic";
                 tooltip-text: _("Redo");
                 action-name: "app.redo";
-
                 styles [
                   "osd",
                   "circular"
@@ -116,7 +124,6 @@ template $GradiaImageStack : Adw.Bin {
                 icon-name: "user-trash-symbolic";
                 tooltip-text: _("Clear All");
                 action-name: "app.clear";
-
                 styles [
                   "osd",
                   "circular"
@@ -142,3 +149,4 @@ template $GradiaImageStack : Adw.Bin {
     };
   };
 }
+
