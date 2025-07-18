@@ -25,6 +25,9 @@ from gradia.overlay.crop_overlay import CropOverlay
 @Gtk.Template(resource_path=f"{rootdir}/ui/image_stack.ui")
 class ImageStack(Adw.Bin):
     __gtype_name__ = "GradiaImageStack"
+    __gsignals__ = {
+        "crop-toggled": (GObject.SignalFlags.RUN_FIRST, None, (bool,))
+    }
 
     stack: Gtk.Stack = Gtk.Template.Child()
 
@@ -37,6 +40,7 @@ class ImageStack(Adw.Bin):
 
     controls_box: Gtk.Box = Gtk.Template.Child()
     erase_selected_revealer: Gtk.Revealer = Gtk.Template.Child()
+    right_controls_revealer: Gtk.Revealer = Gtk.Template.Child()
 
     drop_target: Gtk.DropTarget = Gtk.Template.Child()
 
@@ -90,9 +94,12 @@ class ImageStack(Adw.Bin):
         self.crop_enabled = not self.crop_enabled
         self.crop_overlay.set_interaction_enabled(self.crop_enabled)
         self.crop_overlay.set_can_target(self.crop_enabled)
+        self.right_controls_revealer.set_reveal_child(not self.crop_enabled)
 
         if self.crop_enabled:
             self.reset_crop_revealer.set_visible(True)
+
+        self.emit("crop-toggled", self.crop_enabled)
 
         self.reset_crop_revealer.set_reveal_child(self.crop_enabled)
 

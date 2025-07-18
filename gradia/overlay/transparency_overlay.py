@@ -16,32 +16,29 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from typing import Any
+from gi.repository import Gtk, Gdk, Graphene
 
-import cairo
-from gi.repository import Gtk
-
-class TransparencyBackground(Gtk.DrawingArea):
+class TransparencyBackground(Gtk.Widget):
     __gtype_name__ = "GradiaTransparencyBackground"
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-
-        self.set_draw_func(self._on_draw, None)
-
         self.picture_widget: Gtk.Picture | None = None
         self.square_size = 20
 
-    """
-    Callbacks
-    """
-
-    def _on_draw(self, _area: Gtk.DrawingArea, context: cairo.Context, _width: int, _height: int, _user_data: Any) -> None:
-        """Draw checkerboard pattern only within image bounds"""
-
+    def do_snapshot(self, snapshot: Gtk.Snapshot) -> None:
         offset_x, offset_y, display_width, display_height = self._get_image_bounds()
+        light_gray = Gdk.RGBA()
+        light_gray.red = 0.9
+        light_gray.green = 0.9
+        light_gray.blue = 0.9
+        light_gray.alpha = 1.0
 
-        light_gray = (0.9, 0.9, 0.9)
-        dark_gray = (0.7, 0.7, 0.7)
+        dark_gray = Gdk.RGBA()
+        dark_gray.red = 0.7
+        dark_gray.green = 0.7
+        dark_gray.blue = 0.7
+        dark_gray.alpha = 1.0
 
         start_x = int(offset_x)
         start_y = int(offset_y)
@@ -53,28 +50,19 @@ class TransparencyBackground(Gtk.DrawingArea):
                 square_x = (x - start_x) // self.square_size
                 square_y = (y - start_y) // self.square_size
                 is_light = (square_x + square_y) % 2 == 0
-
                 color = light_gray if is_light else dark_gray
-                context.set_source_rgb(*color)
 
                 square_w = min(self.square_size, end_x - x)
                 square_h = min(self.square_size, end_y - y)
 
-                context.rectangle(x, y, square_w, square_h)
-                context.fill()
-
-    """
-    Public Methods
-    """
+                square_rect = Graphene.Rect.alloc()
+                square_rect.init(x, y, square_w, square_h)
+                snapshot.append_color(color, square_rect)
 
     def set_picture_reference(self, picture: Gtk.Picture) -> None:
         self.picture_widget = picture
         if picture:
             picture.connect("notify::paintable", lambda *args: self.queue_draw())
-
-    """
-    Private Methods
-    """
 
     def _get_image_bounds(self) -> tuple[float, float, float, float]:
         if not self.picture_widget or not self.picture_widget.get_paintable():
@@ -91,6 +79,7 @@ class TransparencyBackground(Gtk.DrawingArea):
         scale = min(widget_width / image_width, widget_height / image_height)
         display_width = image_width * scale
         display_height = image_height * scale
+
         offset_x = (widget_width - display_width) / 2
         offset_y = (widget_height - display_height) / 2
 

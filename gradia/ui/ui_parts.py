@@ -77,11 +77,18 @@ class ShortcutsDialog:
                 ]
             },
             {
+                "title": _("Cropping"),
+                "shortcuts": [
+                    (_("Toggle Crop Mode"), "<Ctrl>R"),
+                    (_("Reset Crop"), "<Ctrl><Shift>R")
+                ]
+            },
+            {
                 "title": _("General"),
                 "shortcuts": [
                     (_("Keyboard Shortcuts"), "<Ctrl>question"),
                     (_("Preferences"), "<Ctrl>comma"),
-                    (_("Toggle Utility Pane"), "F9"),
+                    (_("Open Source Snippits"), "<Ctrl>P"),
                 ]
             }
         ]

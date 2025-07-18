@@ -71,7 +71,7 @@ template $GradiaImageStack : Adw.Bin {
 
               Gtk.Button crop_button {
                 icon-name: "crop-symbolic";
-                tooltip-text: _("Erase Selected");
+                tooltip-text: _("Toggle Crop Mode");
                 action-name: "app.crop";
                 styles [
                   "osd",
@@ -85,7 +85,7 @@ template $GradiaImageStack : Adw.Bin {
 
                 Gtk.Button reset_crop_button {
                   icon-name: "crop-reset-symbolic";
-                  tooltip-text: _("Reset the Crop Selection");
+                  tooltip-text: _("Reset Crop Selection");
                   action-name: "app.reset-crop";
                   styles [
                     "osd",
@@ -110,39 +110,44 @@ template $GradiaImageStack : Adw.Bin {
               }
             }
 
-            Gtk.Box right_controls_box {
-              orientation: horizontal;
-              spacing: 6;
-              halign: end;
+            Gtk.Revealer right_controls_revealer {
+              transition-type: crossfade;
+              transition-duration: 300;
 
-              Gtk.Button undo_button {
-                icon-name: "edit-undo-symbolic";
-                tooltip-text: _("Undo");
-                action-name: "app.undo";
-                styles [
-                  "osd",
-                  "circular"
-                ]
-              }
+              Gtk.Box right_controls_box {
+                orientation: horizontal;
+                spacing: 6;
+                halign: end;
 
-              Gtk.Button redo_button {
-                icon-name: "edit-redo-symbolic";
-                tooltip-text: _("Redo");
-                action-name: "app.redo";
-                styles [
-                  "osd",
-                  "circular"
-                ]
-              }
+                Gtk.Button undo_button {
+                  icon-name: "edit-undo-symbolic";
+                  tooltip-text: _("Undo");
+                  action-name: "app.undo";
+                  styles [
+                    "osd",
+                    "circular"
+                  ]
+                }
 
-              Gtk.Button reset_button {
-                icon-name: "user-trash-symbolic";
-                tooltip-text: _("Clear All");
-                action-name: "app.clear";
-                styles [
-                  "osd",
-                  "circular"
-                ]
+                Gtk.Button redo_button {
+                  icon-name: "edit-redo-symbolic";
+                  tooltip-text: _("Redo");
+                  action-name: "app.redo";
+                  styles [
+                    "osd",
+                    "circular"
+                  ]
+                }
+
+                Gtk.Button reset_button {
+                  icon-name: "user-trash-symbolic";
+                  tooltip-text: _("Clear All");
+                  action-name: "app.clear";
+                  styles [
+                    "osd",
+                    "circular"
+                  ]
+                }
               }
             }
           }
@@ -164,4 +169,3 @@ template $GradiaImageStack : Adw.Bin {
     };
   };
 }
-
