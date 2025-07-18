@@ -7,27 +7,27 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-03 19:13+0200\n"
-"PO-Revision-Date: 2025-07-05 18:28+0800\n"
+"POT-Creation-Date: 2025-07-09 19:16+0300\n"
+"PO-Revision-Date: 2025-07-18 19:10+0800\n"
 "Last-Translator: G-Src <gsrc@fsfans.club>\n"
 "Language-Team: Chinese <>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.04.2\n"
+"X-Generator: Lokalize 25.04.3\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: data/be.alexandervanhee.gradia.desktop.in.in:2
+#: data/be.alexandervanhee.gradia.desktop.in.in:3
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:11
 msgid "Gradia"
 msgstr "Gradia"
 
-#: data/be.alexandervanhee.gradia.desktop.in.in:3 gradia/ui/ui_parts.py:147
+#: data/be.alexandervanhee.gradia.desktop.in.in:4 gradia/ui/ui_parts.py:26
 msgid "Make your images ready for the world"
 msgstr "让您的图片走向世界"
 
-#: data/be.alexandervanhee.gradia.desktop.in.in:9
+#: data/be.alexandervanhee.gradia.desktop.in.in:10
 msgid "Image;Gradient;Background;Screenshot;Edit;"
 msgstr ""
 "Image;Gradient;Background;Screenshot;Edit;图片;渐变;背景;截图;编"
@@ -105,99 +105,94 @@ msgid "UI element showcase"
 msgstr "UI 元素展示"
 
 #. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
-#: gradia/ui/ui_parts.py:160
+#: gradia/ui/ui_parts.py:39
 msgid "translator-credits"
 msgstr "G-Src <gsrc@fsfans.club>"
 
-#: gradia/ui/ui_parts.py:170
+#: gradia/ui/ui_parts.py:49
 msgid "File Actions"
 msgstr "文件操作"
 
-#: gradia/ui/ui_parts.py:172
+#: gradia/ui/ui_parts.py:51
 msgid "Open File"
 msgstr "打开文件"
 
-#: gradia/ui/ui_parts.py:173
+#: gradia/ui/ui_parts.py:52
 msgid "Save to File"
 msgstr "保存到文件"
 
-#: gradia/ui/ui_parts.py:174
+#: gradia/ui/ui_parts.py:53
 msgid "Copy Image to Clipboard"
 msgstr "复制图片到剪贴板"
 
-#: gradia/ui/ui_parts.py:175
+#: gradia/ui/ui_parts.py:54
 msgid "Paste From Clipboard"
 msgstr "从剪贴板粘贴"
 
-#: gradia/ui/ui_parts.py:179
+#: gradia/ui/ui_parts.py:55 data/ui/image_sidebar.blp:172
+msgid "Share Image"
+msgstr "分享图片"
+
+#: gradia/ui/ui_parts.py:59
 msgid "Annotations"
 msgstr "注释"
 
-#: gradia/ui/ui_parts.py:181
+#: gradia/ui/ui_parts.py:61 data/ui/image_stack.blp:95
 msgid "Undo"
 msgstr "撤销"
 
-#: gradia/ui/ui_parts.py:182
+#: gradia/ui/ui_parts.py:62 data/ui/image_stack.blp:106
 msgid "Redo"
 msgstr "重做"
 
-#: gradia/ui/ui_parts.py:183
-msgid "Remove Selected"
-msgstr "删除所选"
+#: gradia/ui/ui_parts.py:63 data/ui/image_stack.blp:77
+msgid "Erase Selected"
+msgstr "擦除所选"
 
-#: gradia/ui/ui_parts.py:187
+#: gradia/ui/ui_parts.py:67
 msgid "General"
 msgstr "常规"
 
-#: gradia/ui/ui_parts.py:189 data/ui/image_sidebar.blp:220
+#: gradia/ui/ui_parts.py:69 data/ui/image_sidebar.blp:221
 #: data/ui/welcome_page.blp:76
 msgid "Keyboard Shortcuts"
 msgstr "键盘快捷键"
 
-#: gradia/ui/ui_parts.py:190 data/ui/image_sidebar.blp:216
+#: gradia/ui/ui_parts.py:70 data/ui/image_sidebar.blp:217
 #: data/ui/welcome_page.blp:72
 msgid "Preferences"
 msgstr "偏好"
 
-#: gradia/ui/ui_parts.py:191
+#: gradia/ui/ui_parts.py:71
 msgid "Toggle Utility Pane"
 msgstr "切换工具栏"
 
-#: gradia/ui/window.py:399
+#: gradia/ui/window.py:397
 msgid "Unknown"
 msgstr "未知"
 
-#: gradia/ui/window.py:401 gradia/ui/provider_selection_window.py:79
+#: gradia/ui/window.py:399 gradia/ui/provider_selection_window.py:79
 msgid "Error"
 msgstr "错误"
 
-#: gradia/ui/window.py:457
-msgid "Confirm Upload Command"
+#: gradia/ui/window.py:456
+msgid "Confirm Upload"
 msgstr "确认上传"
 
-#: gradia/ui/window.py:458
-msgid ""
-"Are you sure you want to\n"
-" run the upload command?"
-msgstr "您确定要运行上传指令吗？"
+#: gradia/ui/window.py:457
+#, python-brace-format
+msgid "Are you sure you want to upload this image to {provider_name}?"
+msgstr "您确定要将这张图片上传至 {provider_name} 吗？"
 
-#: gradia/ui/window.py:460 gradia/ui/image_exporters.py:95
+#: gradia/ui/window.py:459 gradia/ui/image_exporters.py:95
 #: gradia/ui/dialog/delete_screenshots_dialog.py:54
 #: data/ui/confirm_close_dialog.blp:10
 msgid "Cancel"
 msgstr "取消"
 
-#: gradia/ui/window.py:461
-msgid "Run"
-msgstr "运行"
-
-#: gradia/ui/image_exporters.py:71
-msgid "Edit"
-msgstr "编辑"
-
-#: gradia/ui/image_exporters.py:72
-msgid "Enhanced Screenshot"
-msgstr "增强后的截图"
+#: gradia/ui/window.py:460
+msgid "Upload"
+msgstr "上传"
 
 #: gradia/ui/image_exporters.py:91
 msgid "Save Image As"
@@ -535,22 +530,6 @@ msgstr "渐变"
 msgid "Image"
 msgstr "图片"
 
-#: data/ui/controls_overlay.blp:24
-msgid "Erase selected"
-msgstr "擦除所选"
-
-#: data/ui/controls_overlay.blp:42
-msgid "Undo the last action"
-msgstr "撤销上一步"
-
-#: data/ui/controls_overlay.blp:53
-msgid "Redo the last undone action"
-msgstr "重做上一步"
-
-#: data/ui/controls_overlay.blp:64
-msgid "Clear all annotations"
-msgstr "清除所有标注"
-
 #: data/ui/drawing_tools_group.blp:5
 msgid "Annotation Tools"
 msgstr "标注工具"
@@ -651,17 +630,17 @@ msgstr "保存图片"
 msgid "Copy to Clipboard"
 msgstr "复制到剪贴板"
 
-#: data/ui/image_sidebar.blp:172
-msgid "Run Upload Command"
-msgstr "运行上传指令"
-
-#: data/ui/image_sidebar.blp:210
+#: data/ui/image_sidebar.blp:211
 msgid "Delete Taken Screenshot(s)"
 msgstr "删除已截图片"
 
-#: data/ui/image_sidebar.blp:224 data/ui/welcome_page.blp:80
+#: data/ui/image_sidebar.blp:225 data/ui/welcome_page.blp:80
 msgid "About Gradia"
 msgstr "关于 Gradia"
+
+#: data/ui/image_stack.blp:117
+msgid "Clear All"
+msgstr ""
 
 #: data/ui/text_entry_popover.blp:12
 msgid "Enter text…"
@@ -852,6 +831,38 @@ msgstr "关闭"
 #: data/ui/confirm_close_dialog.blp:18
 msgid "Don't Ask Again"
 msgstr "不再询问"
+
+#~ msgid "Remove Selected"
+#~ msgstr "删除所选"
+
+#~ msgid "Confirm Upload Command"
+#~ msgstr "确认上传"
+
+#~ msgid ""
+#~ "Are you sure you want to\n"
+#~ " run the upload command?"
+#~ msgstr "您确定要运行上传指令吗？"
+
+#~ msgid "Run"
+#~ msgstr "运行"
+
+#~ msgid "Edit"
+#~ msgstr "编辑"
+
+#~ msgid "Enhanced Screenshot"
+#~ msgstr "增强后的截图"
+
+#~ msgid "Undo the last action"
+#~ msgstr "撤销上一步"
+
+#~ msgid "Redo the last undone action"
+#~ msgstr "重做上一步"
+
+#~ msgid "Clear all annotations"
+#~ msgstr "清除所有标注"
+
+#~ msgid "Run Upload Command"
+#~ msgstr "运行上传指令"
 
 #~ msgid "Settings"
 #~ msgstr "设置"
