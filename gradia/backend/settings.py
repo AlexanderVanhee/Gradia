@@ -199,6 +199,14 @@ class Settings:
         self._settings.set_boolean("image-auto-balance", value)
 
     @property
+    def image_rotation(self) -> int:
+        return self._settings.get_int("image-rotation")
+
+    @image_rotation.setter
+    def image_rotation(self, value: int) -> None:
+        self._settings.set_int("image-rotation", value)
+
+    @property
     def background_mode(self) -> str:
         return self._settings.get_string("background-mode")
 

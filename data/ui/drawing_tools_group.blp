@@ -56,7 +56,9 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
 
               Gtk.ColorDialogButton stroke_color_button {
                 valign: center;
-                dialog: Gtk.ColorDialog {};
+                dialog: Gtk.ColorDialog {
+                modal: false;
+                };
 
                 notify::rgba => $_on_pen_color_set();
               }
@@ -102,6 +104,8 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
                 valign: center;
                 dialog: Gtk.ColorDialog {
                   with-alpha: true;
+                  modal: false;
+                  title: _("Pick the Highlighter Color");
                 };
 
                 notify::rgba => $_on_highlighter_color_set();
@@ -157,6 +161,8 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
               Gtk.ColorDialogButton fill_color_button {
                 dialog: Gtk.ColorDialog {
                   with-alpha: true;
+                  modal: false;
+                  title: _("Pick the Fill Color");
                 };
 
                 notify::rgba => $_on_fill_color_set();
@@ -213,6 +219,8 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
               Gtk.ColorDialogButton outline_color_button {
                 dialog: Gtk.ColorDialog {
                   with-alpha: true;
+                  modal: false;
+                  title: _("Pick the Outline Color");
                 };
 
                 notify::rgba => $_on_outline_color_set();

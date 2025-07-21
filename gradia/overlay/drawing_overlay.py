@@ -307,6 +307,9 @@ class DrawingOverlay(Gtk.DrawingArea):
         font_size = spin_button.get_value()
         if self.editing_text_action:
             self.editing_text_action.settings.font_size = font_size
+            self.editing_text_action.font_size = font_size
+            if self.selected_action == self.editing_text_action:
+                self.queue_draw()
         else:
             self.settings.font_size = font_size
 
@@ -324,6 +327,9 @@ class DrawingOverlay(Gtk.DrawingArea):
                     if self.editing_text_action:
                         if text:
                             self.editing_text_action.text = text
+                            if hasattr(self.text_entry_popup, 'font_size_spin'):
+                                self.editing_text_action.font_size = self.text_entry_popup.font_size_spin.get_value()
+                                self.editing_text_action.settings.font_size = self.text_entry_popup.font_size_spin.get_value()
                         else:
                             if self.editing_text_action in self.actions:
                                 self.actions.remove(self.editing_text_action)
@@ -332,17 +338,22 @@ class DrawingOverlay(Gtk.DrawingArea):
                         self.redo_stack.clear()
                     else:
                         if text:
+                            current_settings = self.settings.copy()
+                            if hasattr(self.text_entry_popup, 'font_size_spin'):
+                                current_settings.font_size = self.text_entry_popup.font_size_spin.get_value()
+
                             action = TextAction(
                                 self.text_position,
                                 text,
                                 self._get_modified_image_bounds(),
-                                self.settings.copy()
+                                current_settings
                             )
                             self.actions.append(action)
                             self.redo_stack.clear()
 
         self._cleanup_text_entry()
         self.queue_draw()
+
 
     def _on_text_entry_changed(self, entry):
         self.live_text = entry.get_text()

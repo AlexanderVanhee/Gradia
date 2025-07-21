@@ -80,6 +80,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.processed_path: Optional[str] = None
         self.processed_pixbuf: Optional[Gdk.Pixbuf] = None
         self.image_ready = False
+        self.show_close_confirmation = False
 
         self.export_manager: ExportManager = ExportManager(self, temp_dir)
         self.import_manager: ImportManager = ImportManager(self, temp_dir, self.app)
@@ -120,7 +121,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
     def _setup_actions(self) -> None:
         self.create_action("shortcuts", self._on_shortcuts_activated)
         self.create_action("about", self._on_about_activated)
-        self.create_action('quit', lambda *_: self.app.quit(), ['<primary>q'])
+        self.create_action("quit", lambda *_: self.close(),  ['<primary>q', '<primary>w'])
         self.create_action("shortcuts", self._on_shortcuts_activated,  ['<primary>question'])
 
         self.create_action("open", lambda *_: self.import_manager.open_file_dialog(), ["<Primary>o"])
@@ -134,7 +135,8 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.create_action("copy", lambda *_: self.export_manager.copy_to_clipboard(), ["<Primary>c"], enabled=False)
         self.create_action("command", lambda *_: self._run_custom_command(), ["<Primary>m"], enabled=False)
 
-        self.create_action("quit", lambda *_: self.close(), ["<Primary>w"])
+        self.create_action("crop", lambda *_: self.image_bin.on_toggle_crop(), ["<Primary>r"])
+        self.create_action("reset-crop", lambda *_: self.image_bin.reset_crop_selection(), ["<Primary><Shift>r"])
 
         self.create_action("undo", lambda *_: self.drawing_overlay.undo(), ["<Primary>z"])
         self.create_action("redo", lambda *_: self.drawing_overlay.redo(), ["<Primary><Shift>z"])
@@ -154,7 +156,6 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.create_action("delete-screenshots", lambda *_: self._create_delete_screenshots_dialog(), enabled=False)
 
         self.create_action("preferences", self._on_preferences_activated, ['<primary>comma'])
-        self.create_action("toggle-utility-pane", self._on_toggle_utility_pane_activated, ['F9'])
 
         self.create_action("set-screenshot-folder",  lambda action, param: self.set_screenshot_subfolder(param.get_string()), vt="s")
 
@@ -165,10 +166,10 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
     def _setup_image_stack(self) -> None:
         self.image_bin = ImageStack()
+        self.image_bin.connect("crop-toggled", self._on_crop_toggled)
         self.image_stack = self.image_bin.stack
         self.picture = self.image_bin.picture
         self.drawing_overlay = self.image_bin.drawing_overlay
-        self.controls_overlay = self.image_bin.controls_box
 
     def _setup_sidebar(self) -> None:
         self.sidebar = ImageSidebar(
@@ -177,7 +178,8 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             on_corner_radius_changed=self.on_corner_radius_changed,
             on_aspect_ratio_changed=self.on_aspect_ratio_changed,
             on_shadow_strength_changed=self.on_shadow_strength_changed,
-            on_auto_balance_changed=self.on_auto_balance_changed
+            on_auto_balance_changed=self.on_auto_balance_changed,
+            on_rotation_changed=self.on_rotation_changed
         )
 
         self.sidebar.set_size_request(self.SIDEBAR_WIDTH, -1)
@@ -195,7 +197,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
     Shutdown
     """
     def _on_close_request(self, window) -> bool:
-        if Settings().show_close_confirm_dialog and self.image_path:
+        if Settings().show_close_confirm_dialog and self.show_close_confirmation:
             confirm_dialog = ConfirmCloseDialog(self)
             confirm_dialog.show_dialog(self._on_confirm_close_ok)
             return True
@@ -250,15 +252,20 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.processor.auto_balance = value
         self._trigger_processing()
 
+    def on_rotation_changed(self, value: int) -> None:
+        self.processor.rotation = value
+        self._trigger_processing()
 
-    def _on_about_activated(self, _action: Gio.SimpleAction, _param: GObject.ParamSpec) -> None:
-        about = create_about_dialog(version=self.version)
-        about.present(self)
 
-    def _on_shortcuts_activated(self, _action: Gio.SimpleAction, _param: GObject.ParamSpec) -> None:
-        shortcuts = create_shortcuts_dialog(self)
-        shortcuts.connect("close-request", self._on_shortcuts_closed)
-        shortcuts.present()
+    def _on_about_activated(self, action: Gio.SimpleAction, param: GObject.ParamSpec) -> None:
+        about = AboutDialog(version=self.version)
+        about.show(self)
+
+    def _on_shortcuts_activated(self, action: Gio.SimpleAction, param: GObject.ParamSpec) -> None:
+        shortcuts = ShortcutsDialog(parent=self)
+        shortcuts.create()
+        shortcuts.dialog.connect("close-request", self._on_shortcuts_closed)
+        shortcuts.dialog.present()
 
     def _on_shortcuts_closed(self, dialog: Adw.Window) -> bool:
         dialog.hide()
@@ -438,8 +445,8 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         Settings().screenshot_subfolder = subfolder
         self.welcome_content.refresh_recent_picker()
 
-    def _on_toggle_utility_pane_activated(self, action: Gio.SimpleAction, param) -> None:
-        self.split_view.set_show_sidebar(not self.split_view.get_show_sidebar())
+    def _on_crop_toggled(self, image_stack: ImageStack, enabled: bool) -> None:
+        self.split_view.set_show_sidebar(not enabled)
 
 
     def _run_custom_command(self) -> None:

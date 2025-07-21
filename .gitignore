@@ -225,3 +225,5 @@ pyrightconfig.json
 # End of https://www.toptal.com/developers/gitignore/api/meson,flatpak,python,visualstudiocode
 /.flatpak
 /.vscode
+web/.idea/workspace.xml
+web/.idea/vcs.xml

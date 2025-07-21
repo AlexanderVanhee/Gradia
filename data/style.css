@@ -111,6 +111,42 @@ frame.window-border {
   border: 0.5px solid rgba(0, 0, 0, 0.2);
 }
 
-.title-entry text selection {
+.title-entry.no-highlights text selection {
   background-color: transparent;
+}
+
+.sourceview.no-highlights text selection {
+    background-color: transparent;
+}
+
+.title-entry.no-highlights {
+  outline: none;
+  transition-property: none;
+  transition-duration: 0s;
+  transition-delay: 0s;
+}
+
+.rotate.circular {
+  min-width: 30px;
+  min-height: 30px;
+}
+
+ GtkSourceStyleSchemePreview {
+  border-radius: 6px;
+}
+
+ GtkSourceStyleSchemePreview > image {
+    background-color: @accent_bg_color;
+    border-radius:999px;
+    margin-right:5px;
+    margin-bottom:5px;
+}
+
+GtkSourceStyleSchemePreview .selected {
+    border: 5px solid @accent_bg_color;
+}
+
+.flat-dropdown > button:not(:checked):not(:hover) {
+  background: transparent;
+  box-shadow: none;
 }

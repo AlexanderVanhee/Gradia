@@ -42,6 +42,28 @@
 		<color type="primary" scheme_preference="dark">#073c6f</color>
 	</branding>
 	<releases>
+      <release version="1.7.1" date="2025-07-18">
+        <description translate="no">
+            <p>This minor release includes:</p>
+            <ul>
+                <li>A fix for where the disable button state would not persist between sessions.</li>
+                <li>A cropping tool for trimming an image before export.</li>
+            </ul>
+        </description>
+      </release>
+      <release version="1.7.0" date="2025-07-17">
+        <description translate="no">
+            <p>This feature release includes:</p>
+            <ul>
+                <li>Added Source Snippets, making it easier for developers to showcase their code using Gradia.</li>
+                <li>Default export filenames are now more descriptive and include creation time.</li>
+                <li>The app no longer asks for confirmation on close if the current image has already been saved or exported.</li>
+                <li>Text and Stamp annotation tools now support optional outlines.</li>
+                <li>Images can now be rotated in 90-degree increments.</li>
+                <li>Color pickers for annotation tools are no longer modal, allowing accurate color selection within the app window.</li>
+            </ul>
+        </description>
+    </release>
     <release version="1.6.1" date="2025-07-03">
 	    <description translate="no">
 		    <p>Minor update fixing the following issues:</p>
@@ -171,20 +193,24 @@
 	</releases>
 	<screenshots>
 		<screenshot type="default">
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/58883291c3c0fafb48224b3f979e8d72072624cb/screenshots/showcase.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/e6494a703012893752950ccf7cf206701cb132b9/screenshots/showcase.webp</image>
 			<caption>Edited screenshot</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/58883291c3c0fafb48224b3f979e8d72072624cb/screenshots/dark.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/e6494a703012893752950ccf7cf206701cb132b9/screenshots/dark.webp</image>
 			<caption>Edited picture</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/58883291c3c0fafb48224b3f979e8d72072624cb/screenshots/home.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/e6494a703012893752950ccf7cf206701cb132b9/screenshots/home.webp</image>
 			<caption>Startup view</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/58883291c3c0fafb48224b3f979e8d72072624cb/screenshots/element.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/e6494a703012893752950ccf7cf206701cb132b9/screenshots/element.webp</image>
 			<caption>UI element showcase</caption>
+		</screenshot>
+		<screenshot>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/7cad3da3bddfea7ca8f6d304da2cf145896d87a6/screenshots/snippets.webp</image>
+			<caption>Source Snippets</caption>
 		</screenshot>
 	</screenshots>
 </component>

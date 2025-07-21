@@ -29,27 +29,9 @@ import datetime
 
 logger = Logger()
 
-DEFAULT_LANGUAGE = "c"
-DEFAULT_TEXT = '''// Gradia 🎨
-#include <pthread.h>
-#include <stdio.h>
-
-void* say_hello(void* arg) {
-    puts("Hello from thread!");
-    return NULL;
-}
-
-int main() {
-    pthread_t t;
-    pthread_create(&t, NULL, say_hello, NULL);
-    pthread_join(t, NULL);
-}'''
-
-
 DEFAULT_WINDOW_WIDTH = 600
 MIN_WINDOW_WIDTH = 150
 MAX_WINDOW_WIDTH = 1200
-
 
 class SourceExporter:
     def __init__(self, widget_to_export: Gtk.Widget, padding: int = 24, scale: float = 2.0):
@@ -79,7 +61,7 @@ class SourceExporter:
 
         if render_node:
             cr.save()
-            cr.scale(self.scale, self.scale)  # scale everything
+            cr.scale(self.scale, self.scale)
             cr.translate(self.padding, self.padding)
 
             self._apply_rounded_clipping(cr, width, height)
@@ -194,6 +176,7 @@ class SourceViewManager:
     def __init__(self):
         self.source_view = GtkSource.View.new()
         self.source_buffer = self.source_view.get_buffer()
+        self.source_buffer.set_highlight_matching_brackets(False)
         self._text_changed_callback = None
         self._setup_source_view()
         self._connect_signals()
@@ -257,79 +240,32 @@ class LanguageManager:
 class StyleManager:
     def __init__(self):
         self.style_manager = GtkSource.StyleSchemeManager.get_default()
+        self.style_manager.append_search_path("resource:///be/alexandervanhee/gradia/source-styles")
         self.settings = Gtk.Settings.get_default()
         self.theme_changed_callbacks = []
 
-        self.style_variants = {
-            'Adwaita': {
-                'light': 'Adwaita',
-                'dark': 'Adwaita-dark'
-            },
-            'Classic': {
-                'light': 'classic',
-                'dark': 'classic-dark'
-            },
-            'Cobalt': {
-                'light': 'cobalt-light',
-                'dark': 'cobalt'
-            },
-            'Kate': {
-                'light': 'kate',
-                'dark': 'kate-dark'
-            },
-            'Solarized': {
-                'light': 'solarized-light',
-                'dark': 'solarized-dark'
-            },
-            'Tango/Oblivion': {
-                'light': 'tango',
-                'dark': 'oblivion'
-            }
-        }
+        self.style_schemes = [
+            'Adwaita',
+            'classic',
+            'cobalt-light',
+            'kate',
+            'solarized-light',
+            'tango',
+            'Adwaita-dark',
+            'classic-dark',
+            'cobalt',
+            'kate-dark',
+            'oblivion',
+            'solarized-dark',
+            'clone-of-ubuntu',
+            'builder-dark',
+            'vscode-dark'
+        ]
 
-        self.settings.connect("notify::gtk-application-prefer-dark-theme",
-                            self._on_theme_changed)
+        self.use_generic_styles = True
 
-        self.current_generic_style = 'Adwaita'
-
-    def get_generic_style_names(self):
-        return list(self.style_variants.keys())
-
-    def set_current_style(self, generic_name):
-        if generic_name in self.style_variants:
-            self.current_generic_style = generic_name
-            self._notify_theme_changed()
-
-    def get_current_style_id(self):
-        is_dark = self.is_dark_theme()
-        variant = 'dark' if is_dark else 'light'
-        return self.style_variants[self.current_generic_style][variant]
-
-    def get_current_generic_style(self):
-        return self.current_generic_style
-
-    def get_scheme(self, scheme_id=None):
-        if scheme_id is None:
-            scheme_id = self.get_current_style_id()
-        return self.style_manager.get_scheme(scheme_id)
-
-    def is_dark_theme(self):
-        return self.settings.get_property("gtk-application-prefer-dark-theme")
-
-    def connect_theme_changed(self, callback):
-        self.theme_changed_callbacks.append(callback)
-
-    def disconnect_theme_changed(self, callback):
-        if callback in self.theme_changed_callbacks:
-            self.theme_changed_callbacks.remove(callback)
-
-    def _on_theme_changed(self, settings, param):
-        self._notify_theme_changed()
-
-    def _notify_theme_changed(self):
-        current_style_id = self.get_current_style_id()
-        for callback in self.theme_changed_callbacks:
-            callback(current_style_id, self.current_generic_style)
+    def get_all_schemes(self):
+        return self.style_schemes
 
 
 class FakeWindowManager:
@@ -354,6 +290,7 @@ class FakeWindowManager:
         self.fake_window_container.get_style_context().add_class("adw-window")
 
         self.header_bar = Adw.HeaderBar.new()
+        self.header_bar.get_style_context().add_class("flat")
 
         self.title_entry = Gtk.Entry(xalign=0.5, focus_on_click=False)
         self.title_entry.set_text(self.settings.source_snippet_title)
@@ -418,8 +355,6 @@ class FakeWindowManager:
     def _extract_header_colors(self, style_scheme):
         scheme_id = style_scheme.get_id()
 
-        if scheme_id in ("Adwaita", "Adwaita-dark"):
-            return None, None
         text_style = style_scheme.get_style("text")
         bg_color = text_style.get_property("background")
         fg_color = text_style.get_property("foreground")
@@ -449,7 +384,10 @@ class SourceImageGeneratorWindow(Adw.Window):
     export_button = Gtk.Template.Child()
     scroller = Gtk.Template.Child()
     language_dropdown = Gtk.Template.Child()
-    style_scheme_dropdown = Gtk.Template.Child()
+    style_scheme_button = Gtk.Template.Child()
+    style_scheme_popover = Gtk.Template.Child()
+    style_scheme_flowbox = Gtk.Template.Child()
+    style_scheme_label = Gtk.Template.Child()
     fake_window_button = Gtk.Template.Child()
     line_numbers_button = Gtk.Template.Child()
     toolbar_view = Gtk.Template.Child()
@@ -472,24 +410,41 @@ class SourceImageGeneratorWindow(Adw.Window):
         self.style_manager = StyleManager()
         self.fake_window_manager = FakeWindowManager(self.source_view_manager.get_view())
 
+        self.current_scheme_id = self.settings.source_snippet_style_scheme
+        self.gtk_style_manager = GtkSource.StyleSchemeManager.get_default()
+        self.style_scheme_previews = {}
+
         self._setup_ui()
         self._setup_dropdowns()
         self._setup_initial_state()
         self._connect_signals()
 
-        self.settings.bind_switch(self.fake_window_button,"source-snippet-show-frame")
-        self.settings.bind_switch(self.line_numbers_button,"source-snippet-show-line-numbers")
+        self.settings.bind_switch(self.fake_window_button, "source-snippet-show-frame")
+        self.settings.bind_switch(self.line_numbers_button, "source-snippet-show-line-numbers")
+
+        shortcut_controller = Gtk.ShortcutController()
+        shortcut = Gtk.Shortcut.new(
+            Gtk.ShortcutTrigger.parse_string("Escape"),
+            Gtk.ShortcutAction.parse_string("action(window.close)")
+        )
+        shortcut_controller.add_shortcut(shortcut)
+        self.add_controller(shortcut_controller)
+
 
     def _setup_ui(self):
         self.resizable_container = ResizableContainer()
         self.scroller.set_child(self.resizable_container)
         self.source_view_manager.set_text(self.settings.source_snippet_code_text)
-        self.style_manager.set_current_style(self.settings.source_snippet_style_scheme)
+
+        if self.current_scheme_id:
+            scheme = self.gtk_style_manager.get_scheme(self.current_scheme_id)
+            if scheme:
+                self.source_view_manager.set_style_scheme(scheme)
+
         def update_settings(text):
             self.settings.source_snippet_code_text = text
 
         self.source_view_manager.set_text_changed_callback(update_settings)
-
 
     def _setup_dropdowns(self):
         languages = self.language_manager.get_languages()
@@ -508,17 +463,42 @@ class SourceImageGeneratorWindow(Adw.Window):
             language = self.language_manager.get_language(initial_language)
             self.source_view_manager.set_language(language)
 
-        generic_styles = self.style_manager.get_generic_style_names()
-        self.style_scheme_dropdown.set_model(Gtk.StringList.new(generic_styles))
+        self._setup_style_scheme_flowbox()
 
+    def _setup_style_scheme_flowbox(self):
+        scheme_manager = GtkSource.StyleSchemeManager.get_default()
+        scheme_ids = self.style_manager.get_all_schemes()
+        self.style_scheme_previews = {}
 
-        default_generic_style = self.style_manager.get_current_generic_style()
-        if default_generic_style in generic_styles:
-            index = generic_styles.index(default_generic_style)
-            self.style_scheme_dropdown.set_selected(index)
+        for scheme_id in scheme_ids:
+            scheme = scheme_manager.get_scheme(scheme_id)
+            if not scheme:
+                continue
+            preview = GtkSource.StyleSchemePreview.new(scheme)
+            preview.set_valign(Gtk.Align.START)
+            preview.set_hexpand(True)
+            preview.set_vexpand(False)
+            flowboxchild = Gtk.FlowBoxChild(valign=Gtk.Align.START)
+            flowboxchild.set_child(preview)
+            self.style_scheme_flowbox.append(flowboxchild)
+            self.style_scheme_previews[scheme_id] = preview
+            if scheme_id == self.current_scheme_id:
+                preview.set_selected(True)
+                self.style_scheme_label.set_text(scheme.get_name())
+            preview.connect("activate", self._on_style_scheme_selected, scheme_id, scheme.get_name())
 
-        scheme = self.style_manager.get_scheme()
-        self.source_view_manager.set_style_scheme(scheme)
+            GLib.idle_add(self._force_popover_sizing)
+
+    def _force_popover_sizing(self):
+        self.style_scheme_popover.set_opacity(0)
+        self.style_scheme_popover.popup()
+        GLib.idle_add(self._hide_popover_after_sizing)
+        return False
+
+    def _hide_popover_after_sizing(self):
+        self.style_scheme_popover.set_opacity(1)
+        self.style_scheme_popover.popdown()
+        return False
 
     def _setup_initial_state(self):
         self.fake_window_button.set_active(True)
@@ -529,10 +509,8 @@ class SourceImageGeneratorWindow(Adw.Window):
     def _connect_signals(self):
         self.export_button.connect("clicked", self._on_export_clicked)
         self.language_dropdown.connect("notify::selected", self._on_language_changed)
-        self.style_scheme_dropdown.connect("notify::selected", self._on_style_scheme_changed)
         self.fake_window_button.connect("notify::state", self._on_fake_window_toggled)
         self.line_numbers_button.connect("notify::state", self._on_line_numbers_toggled)
-        self.style_manager.connect_theme_changed(self._on_theme_changed)
 
     def _safely_unparent_widget(self, widget):
         parent = widget.get_parent()
@@ -551,8 +529,10 @@ class SourceImageGeneratorWindow(Adw.Window):
         if self.fake_window_button.get_active():
             fake_window_frame = self.fake_window_manager.create_fake_window()
             self.resizable_container.set_child_widget(fake_window_frame)
-            scheme = self.style_manager.get_scheme()
-            self.fake_window_manager.update_header_colors(scheme)
+
+            current_scheme = self._get_current_scheme()
+            if current_scheme:
+                self.fake_window_manager.update_header_colors(current_scheme)
         else:
             frame = Gtk.Frame(valign=Gtk.Align.START, margin_top=12)
             frame.add_css_class("window-border")
@@ -564,10 +544,14 @@ class SourceImageGeneratorWindow(Adw.Window):
         show_line_numbers = self.line_numbers_button.get_active()
         self.source_view_manager.set_show_line_numbers(show_line_numbers)
 
+    def _get_current_scheme(self):
+        if self.current_scheme_id:
+            return self.gtk_style_manager.get_scheme(self.current_scheme_id)
+        return None
+
     def _on_export_clicked(self, _button):
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-
-        filename = TimestampedFilenameGenerator().generate(_("Source Snippit From %Y-%m-%d %H-%M-%S")) + ".png"
+        filename = TimestampedFilenameGenerator().generate(_("Source Snippet From %Y-%m-%d %H-%M-%S")) + ".png"
 
         if self.temp_dir:
             output_path = os.path.join(self.temp_dir, filename)
@@ -576,11 +560,18 @@ class SourceImageGeneratorWindow(Adw.Window):
 
         widget_to_export = self._get_export_widget()
         widget_to_export.get_root().grab_focus()
-        exporter = SourceExporter(widget_to_export)
-        exporter.export_to_png(output_path)
 
-        self.export_callback(output_path)
-        self.close()
+        self.source_view_manager.get_view().get_style_context().add_class("no-highlights")
+        self.fake_window_manager.title_entry.get_style_context().add_class("no-highlights")
+
+        def do_export():
+            exporter = SourceExporter(widget_to_export)
+            exporter.export_to_png(output_path)
+            self.export_callback(output_path)
+            self.close()
+            return False
+
+        GLib.timeout_add(50, do_export)
 
     def _on_language_changed(self, dropdown, _param):
         languages = self.language_manager.get_languages()
@@ -590,16 +581,21 @@ class SourceImageGeneratorWindow(Adw.Window):
             self.source_view_manager.set_language(language)
             self.settings.source_snippet_language = languages[index]
 
-    def _on_style_scheme_changed(self, dropdown, _param):
-        generic_styles = self.style_manager.get_generic_style_names()
-        index = dropdown.get_selected()
-        if 0 <= index < len(generic_styles):
-            generic_name = generic_styles[index]
-            self.style_manager.set_current_style(generic_name)
-            self.settings.source_snippet_style_scheme = generic_name
+    def _on_style_scheme_selected(self, button, scheme_id, scheme_name):
+        self.current_scheme_id = scheme_id
+        self.settings.source_snippet_style_scheme = scheme_id
+
+        for sid, preview in self.style_scheme_previews.items():
+            preview.set_selected(sid == scheme_id)
+
+        scheme = self.gtk_style_manager.get_scheme(scheme_id)
+        if scheme:
+            self.source_view_manager.set_style_scheme(scheme)
             if self.fake_window_button.get_active():
-                scheme = self.style_manager.get_scheme()
                 self.fake_window_manager.update_header_colors(scheme)
+
+        self.style_scheme_label.set_text(scheme_name)
+        self.style_scheme_popover.popdown()
 
     def _on_fake_window_toggled(self, switch, param_spec):
         if not switch.get_state():
@@ -610,12 +606,6 @@ class SourceImageGeneratorWindow(Adw.Window):
 
     def _on_line_numbers_toggled(self, switch, param_spec):
         self._update_line_numbers()
-
-    def _on_theme_changed(self, style_id, generic_name):
-        scheme = self.style_manager.get_scheme(style_id)
-        self.source_view_manager.set_style_scheme(scheme)
-        if self.fake_window_button.get_active():
-            self.fake_window_manager.update_header_colors(scheme)
 
     def _get_export_widget(self) -> Gtk.Widget:
         if self.fake_window_button.get_active():

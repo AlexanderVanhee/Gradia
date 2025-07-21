@@ -83,6 +83,7 @@ class PreferencesWindow(Adw.PreferencesWindow):
 
     location_group: Adw.PreferencesGroup = Gtk.Template.Child()
     folder_expander: Adw.ExpanderRow = Gtk.Template.Child()
+    folder_label: Gtk.Label = Gtk.Template.Child()
     interactive_entry: Gtk.Entry = Gtk.Template.Child()
     interactive_copy_btn: Gtk.Button = Gtk.Template.Child()
     fullscreen_entry: Gtk.Entry = Gtk.Template.Child()
@@ -140,11 +141,9 @@ class PreferencesWindow(Adw.PreferencesWindow):
                 (name for name, folder in self.available_folders if folder == self.current_selected_folder),
                 self.current_selected_folder
             )
-            self.folder_expander.set_title(_("Selected: {folder}").format(folder=display_name))
-            self.folder_expander.set_subtitle(_("Click to change folder"))
+            self.folder_label.set_text(display_name)
         else:
-            self.folder_expander.set_title(_("Selected: {folder}").format(folder=_("Root")))
-            self.folder_expander.set_subtitle(_("Click to change folder"))
+            self.folder_label.set_text(_("Root"))
 
     def _create_folder_rows(self):
         for row in self.folder_rows:
@@ -154,6 +153,7 @@ class PreferencesWindow(Adw.PreferencesWindow):
         for display_name, folder_name in self.available_folders:
             row = Adw.ActionRow()
             row.set_title(display_name)
+            row.add_css_class("monospace")
 
             checkmark = Gtk.Image()
             checkmark.set_from_icon_name("object-select-symbolic")

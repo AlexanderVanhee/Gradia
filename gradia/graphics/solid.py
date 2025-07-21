@@ -120,12 +120,12 @@ class SolidSelector(Adw.PreferencesGroup):
             if alpha_from_hex == 0.0:
                 css = f"""
                 button {{
-                    background: linear-gradient(45deg, {self.CHECKER_DARK} 25%, transparent 25%),
-                                linear-gradient(-45deg, {self.CHECKER_DARK} 25%, transparent 25%),
-                                linear-gradient(45deg, transparent 75%, {self.CHECKER_DARK} 75%),
-                                linear-gradient(-45deg, transparent 75%, {self.CHECKER_DARK} 75%);
+                    background-image:
+                        linear-gradient(45deg, {self.CHECKER_DARK} 25%, transparent 25%, transparent 75%, {self.CHECKER_DARK} 75%),
+                        linear-gradient(45deg, {self.CHECKER_DARK} 25%, transparent 25%, transparent 75%, {self.CHECKER_DARK} 75%);
+                    background-color: {self.CHECKER_LIGHT};
                     background-size: 20px 20px;
-                    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+                    background-position: 0 0, 10px 10px;
                     border-radius: 50%;
                     border: 1px solid @borders;
                 }}

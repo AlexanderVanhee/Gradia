@@ -52,6 +52,7 @@ class BaseImageLoader:
             self.window.drawing_overlay.clear_drawing()
         self.window._update_sidebar_file_info(filename, location)
         self.window.image_has_actual_filename = has_actual_filename
+        self.window.show_close_confirmation = True
         self.window._start_processing()
 
 
