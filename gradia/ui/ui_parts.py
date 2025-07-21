@@ -88,7 +88,7 @@ class ShortcutsDialog:
                 "shortcuts": [
                     (_("Keyboard Shortcuts"), "<Ctrl>question"),
                     (_("Preferences"), "<Ctrl>comma"),
-                    (_("Open Source Snippits"), "<Ctrl>P"),
+                    (_("Open Source Snippets"), "<Ctrl>P"),
                 ]
             }
         ]

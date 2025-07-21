@@ -536,7 +536,7 @@ class SourceImageGeneratorWindow(Adw.Window):
 
     def _on_export_clicked(self, _button):
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = TimestampedFilenameGenerator().generate(_("Source Snippit From %Y-%m-%d %H-%M-%S")) + ".png"
+        filename = TimestampedFilenameGenerator().generate(_("Source Snippet From %Y-%m-%d %H-%M-%S")) + ".png"
 
         if self.temp_dir:
             output_path = os.path.join(self.temp_dir, filename)
