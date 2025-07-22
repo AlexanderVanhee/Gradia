@@ -2,65 +2,63 @@ using Gtk 4.0;
 using Adw 1;
 
 template $GradiaWelcomePage : Adw.Bin {
-  child: Adw.ToolbarView toolbar_view {
-    top-bar-style: flat;
+  child: $DropOverlay drop_overlay {
+    title: _("Drop Image Here");
+    child-widget: Adw.ToolbarView {
+      top-bar-style: flat;
 
-    Gtk.DropTarget drop_target {
-      actions: copy;
-      preload: true;
-    }
-
-    [top]
-    Adw.HeaderBar headerbar {
-      [end]
-      Gtk.MenuButton about_menu_button {
-        icon-name: "open-menu-symbolic";
-        tooltip-text: _("Main Menu");
-        menu-model: app_menu;
-        primary: true;
+      [top]
+      Adw.HeaderBar headerbar {
+        [end]
+        Gtk.MenuButton about_menu_button {
+          icon-name: "open-menu-symbolic";
+          tooltip-text: _("Main Menu");
+          menu-model: app_menu;
+          primary: true;
+        }
       }
-    }
 
-    content: Adw.StatusPage status_page {
-      title: _("Enhance an Image");
-      description: _("Drag and drop one here");
+      content: Adw.StatusPage status_page {
+        title: _("Enhance an Image");
+        description: _("Drag and drop one here");
 
-      child: Gtk.Box main_box {
-        orientation: vertical;
-        spacing: 24;
-        halign: center;
-
-        $GradiaRecentPicker recent_picker {}
-
-        Gtk.Box button_box {
-          orientation: horizontal;
-          spacing: 12;
-          margin-top: 10;
+        child: Gtk.Box main_box {
+          orientation: vertical;
+          spacing: 24;
           halign: center;
 
-          Gtk.Button screenshot_button {
-            label: _("_Take a Screenshot…");
-            use-underline: true;
-            halign: center;
-            action-name: "app.screenshot";
-            styles [
-              "pill",
-              "text-button",
-              "suggested-action"
-            ]
-          }
+          $GradiaRecentPicker recent_picker {}
 
-          Gtk.Button open_image_button {
-            label: _("_Open Image…");
-            use-underline: true;
+          Gtk.Box button_box {
+            orientation: horizontal;
+            spacing: 12;
+            margin-top: 10;
             halign: center;
-            action-name: "app.open";
-            styles [
-              "pill",
-              "text-button"
-            ]
+
+            Gtk.Button screenshot_button {
+              label: _("_Take a Screenshot…");
+              use-underline: true;
+              halign: center;
+              action-name: "app.screenshot";
+              styles [
+                "pill",
+                "text-button",
+                "suggested-action"
+              ]
+            }
+
+            Gtk.Button open_image_button {
+              label: _("_Open Image…");
+              use-underline: true;
+              halign: center;
+              action-name: "app.open";
+              styles [
+                "pill",
+                "text-button"
+              ]
+            }
           }
-        }
+        };
       };
     };
   };

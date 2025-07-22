@@ -19,13 +19,14 @@ from gi.repository import Adw, GLib, Gdk, Gio, Gtk
 
 from gradia.constants import rootdir  # pyright: ignore
 from gradia.ui.recent_picker import RecentPicker
+from gradia.overlay.drop_overlay import DropOverlay
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/welcome_page.ui")
 class WelcomePage(Adw.Bin):
     __gtype_name__ = "GradiaWelcomePage"
 
     recent_picker: RecentPicker = Gtk.Template.Child()
-    drop_target: Gtk.DropTarget = Gtk.Template.Child()
+    drop_overlay: DropOverlay = Gtk.Template.Child()
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
@@ -38,11 +39,14 @@ class WelcomePage(Adw.Bin):
     """
 
     def _setup_drag_and_drop(self) -> None:
-        self.drop_target.set_gtypes([Gio.File])
+        drop_target = Gtk.DropTarget.new(Gio.File, Gdk.DragAction.COPY)
+        drop_target.set_preload(True)
 
-        self.drop_target.connect("drop", self._on_file_dropped)
-        self.drop_target.connect("enter", self._on_drag_enter)
-        self.drop_target.connect("leave", self._on_drag_leave)
+        drop_target.connect("drop", self._on_file_dropped)
+        drop_target.connect("enter", self._on_drag_enter)
+        drop_target.connect("leave", self._on_drag_leave)
+
+        self.drop_overlay.drop_target = drop_target
 
     """
     Callbacks
@@ -59,11 +63,11 @@ class WelcomePage(Adw.Bin):
         return False
 
     def _on_drag_enter(self, _drop_target: Gtk.DropTarget, _x: int, _y: int) -> Gdk.DragAction:
-        self.add_css_class("drag-hover")
+        self.drop_overlay.add_css_class("drag-hover")
         return Gdk.DragAction.COPY
 
     def _on_drag_leave(self, _drop_target: Gtk.DropTarget) -> None:
-        self.remove_css_class("drag-hover")
+        self.drop_overlay.remove_css_class("drag-hover")
 
     def refresh_recent_picker(self) -> None:
         self.recent_picker.refresh()
@@ -78,3 +82,4 @@ class WelcomePage(Adw.Bin):
             if action:
                 param = GLib.Variant('s', path)
                 action.activate(param)
+

@@ -26,7 +26,7 @@ from gi.repository import Adw, Gtk
 
 from gradia.app_constants import PREDEFINED_GRADIENTS
 from gradia.graphics.background import Background
-from gradia.utils.colors import HexColor, hex_to_rgb, rgba_to_hex, hex_to_rgba
+from gradia.utils.colors import HexColor, hex_to_rgb, rgba_to_hex, hex_to_rgba, is_light_color
 from gradia.constants import rootdir  # pyright: ignore
 
 
@@ -234,7 +234,7 @@ class GradientSelector(Adw.PreferencesGroup):
         start_context = self.start_color_button.get_style_context()
         start_context.add_provider(start_css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 2)
 
-        if self.is_light_color(self.gradient.start_color):
+        if is_light_color(self.gradient.start_color):
             start_context.add_class("dark")
         else:
             start_context.remove_class("dark")
@@ -249,7 +249,7 @@ class GradientSelector(Adw.PreferencesGroup):
         end_context = self.end_color_button.get_style_context()
         end_context.add_provider(end_css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 2)
 
-        if self.is_light_color(self.gradient.end_color):
+        if is_light_color(self.gradient.end_color):
             end_context.add_class("dark")
         else:
             end_context.remove_class("dark")
@@ -293,11 +293,6 @@ class GradientSelector(Adw.PreferencesGroup):
         except Exception:
             pass
 
-    def is_light_color(self, hex_color: str) -> bool:
-        hex_color = hex_color.lstrip("#")
-        r, g, b = [int(hex_color[i:i + 2], 16) for i in (0, 2, 4)]
-        luminance = 0.299 * r + 0.587 * g + 0.114 * b
-        return luminance > 200
 
     @Gtk.Template.Callback()
     def _on_angle_output(self, row: Adw.SpinRow, *args) -> None:
