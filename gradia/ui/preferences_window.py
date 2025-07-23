@@ -1,4 +1,3 @@
-# preferences_window.py
 # Copyright (C) 2025 Alexander Vanhee
 #
 # This program is free software: you can redistribute it and/or modify
@@ -26,7 +25,7 @@ from gradia.constants import rootdir  # pyright: ignore
 from gradia.backend.settings import Settings
 from gradia.app_constants import SUPPORTED_EXPORT_FORMATS
 from gradia.backend.logger import Logger
-from gradia.ui.provider_selection_window import ProviderSelectionWindow
+from gradia.ui.provider_selection_window import ProviderListPage
 
 logger = Logger()
 
@@ -78,16 +77,17 @@ def get_command_for_screenshot_type(screenshot_type: str) -> str:
 
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/preferences_window.ui")
-class PreferencesWindow(Adw.PreferencesWindow):
+class PreferencesWindow(Adw.Window):
     __gtype_name__ = 'GradiaPreferencesWindow'
+
+    view_stack: Adw.NavigationView = Gtk.Template.Child()
+    help_button: Gtk.Button = Gtk.Template.Child()
+
+    screenshot_guide_page : Adw.NavigationPage =  Gtk.Template.Child()
 
     location_group: Adw.PreferencesGroup = Gtk.Template.Child()
     folder_expander: Adw.ExpanderRow = Gtk.Template.Child()
     folder_label: Gtk.Label = Gtk.Template.Child()
-    interactive_entry: Gtk.Entry = Gtk.Template.Child()
-    interactive_copy_btn: Gtk.Button = Gtk.Template.Child()
-    fullscreen_entry: Gtk.Entry = Gtk.Template.Child()
-    fullscreen_copy_btn: Gtk.Button = Gtk.Template.Child()
     save_format_group: Adw.PreferencesGroup = Gtk.Template.Child()
     compress_switch: Adw.SwitchRow = Gtk.Template.Child()
     delete_screenshot_switch: Adw.SwitchRow = Gtk.Template.Child()
@@ -95,6 +95,11 @@ class PreferencesWindow(Adw.PreferencesWindow):
     confirm_upload_switch: Adw.SwitchRow = Gtk.Template.Child()
     save_format_combo: Adw.ComboRow = Gtk.Template.Child()
     provider_name: Gtk.Label = Gtk.Template.Child()
+
+    interactive_entry: Gtk.Entry = Gtk.Template.Child()
+    interactive_copy_btn: Gtk.Button = Gtk.Template.Child()
+    fullscreen_entry: Gtk.Entry = Gtk.Template.Child()
+    fullscreen_copy_btn: Gtk.Button = Gtk.Template.Child()
 
     def __init__(self, parent_window: Adw.ApplicationWindow, **kwargs):
         super().__init__(**kwargs)
@@ -112,6 +117,14 @@ class PreferencesWindow(Adw.PreferencesWindow):
 
         self._setup_widgets()
         self._connect_signals()
+
+        shortcut_controller = Gtk.ShortcutController()
+        shortcut = Gtk.Shortcut.new(
+            Gtk.ShortcutTrigger.parse_string("Escape"),
+            Gtk.ShortcutAction.parse_string("action(window.close)")
+        )
+        shortcut_controller.add_shortcut(shortcut)
+        self.add_controller(shortcut_controller)
 
     def _setup_widgets(self):
         self._update_expander_title()
@@ -201,6 +214,11 @@ class PreferencesWindow(Adw.PreferencesWindow):
         self.fullscreen_copy_btn.connect("clicked",
             lambda btn: self._copy_to_clipboard(self.fullscreen_entry.get_text()))
 
+        self.help_button.connect("activated", self._on_help_button_clicked)
+
+    def _on_help_button_clicked(self, button: Gtk.Button) -> None:
+        self.view_stack.push(self.screenshot_guide_page)
+
     def _on_folder_row_activated(self, row: Adw.ActionRow) -> None:
         folder_name = row.folder_name
         self._update_folder_selection(folder_name)
@@ -229,7 +247,8 @@ class PreferencesWindow(Adw.PreferencesWindow):
     def show_toast(self, message: str) -> None:
         toast = Adw.Toast.new(message)
         toast.set_timeout(2)
-        self.add_toast(toast)
+        if hasattr(self.parent_window, 'add_toast'):
+            self.parent_window.add_toast(toast)
 
     def set_current_subfolder(self, subfolder: str) -> None:
         self._update_folder_selection(subfolder)
@@ -247,7 +266,5 @@ class PreferencesWindow(Adw.PreferencesWindow):
             self.settings.provider_name = name
             self.settings.custom_export_command = command
             self.parent_window.update_command_ready()
+        self.view_stack.push(ProviderListPage(self.view_stack, on_provider_selected=handle_selection))
 
-
-        window = ProviderSelectionWindow(parent_window=self, on_provider_selected=handle_selection)
-        window.present()

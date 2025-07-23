@@ -1,195 +1,243 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $GradiaPreferencesWindow : Adw.PreferencesWindow {
+template $GradiaPreferencesWindow : Adw.Window {
   default-width: 600;
   default-height: 500;
-  title: _("Options");
   modal: true;
+    Adw.NavigationView view_stack {
+      vhomogeneous: false;
+      vexpand: true;
 
-  Adw.PreferencesPage screenshots_page {
-    title: _("Options");
-    icon-name: "settings-symbolic";
-
-    Adw.PreferencesGroup location_group {
-      title: _("Recent Screenshots");
-
-      Adw.ExpanderRow folder_expander {
-        title: _("Select Folder");
-        subtitle: _("What folder to use for the home page");
-        show-enable-switch: false;
-
-        [suffix]
-        Gtk.Label folder_label {
-        label: _("Test");
-        styles ["dim-label"]
-        }
-      }
-    }
-
-    Adw.PreferencesGroup save_format_group {
-      title: _("Save Settings");
-
-      Adw.ComboRow save_format_combo {
-        title: _("Image Format");
-        subtitle: _("Default format for saved screenshots");
-      }
-
-      Adw.SwitchRow compress_switch {
-        title: _("Compress image");
-        subtitle: _("On supported formats");
-        tooltip-text: _("Compress images to reduce file size");
-        activatable: true;
-      }
-
-      Adw.SwitchRow confirm_close_switch {
-        title: _("Confirm on close");
-        subtitle: _("Ask for confirmation before closing the app");
-        tooltip-text: _("Ask for confirmation before closing the app");
-        activatable: true;
-      }
-
-    }
-
-  Adw.PreferencesGroup {
-    title: _("Screenshot Management");
-
-    Adw.SwitchRow delete_screenshot_switch {
-      title: _("Trash screenshots on close");
-      subtitle: _("Automatically move screenshots taken from within the app to trash");
-      tooltip-text: _("Trash screenshots on app close");
-      activatable: true;
-    }
-  }
-
-  Adw.PreferencesGroup {
-    title: _("Image Upload Providers");
-    description: _("Connect to your favorite upload providers, or create a link yourself");
-
-    [header-suffix]
-    Gtk.LinkButton more_info_link {
-      label: _("Learn More...");
-      uri: "https://gradia.alexandervanhee.be/providers";
-      tooltip-text: _("Learn more about providers");
-      valign: center;
-    }
-
-    Adw.ActionRow provider_row {
-      title: _("Provider");
-      activatable: true;
-      activated => $on_choose_provider_clicked();
-
-      [suffix]
-      Gtk.Box {
-        spacing: 6;
-        valign: center;
-
-        Gtk.Label provider_name {
-          label: _("None Selected");
-          styles ["dim-label"]
-        }
-
-        Gtk.Image {
-          icon-name: "go-next-symbolic";
-        }
-      }
-    }
-
-    Adw.SwitchRow confirm_upload_switch {
-      title: _("Confirm on upload");
-      subtitle: _("Ask for confirmation before running the upload command");
-      tooltip-text: _("Ask for confirmation before running the upload command");
-      activatable: true;
-    }
-
-  }
-
-  }
-
-  Adw.PreferencesPage setup_page {
-    title: _("Shortcut");
-    icon-name: "help-about-symbolic";
-
-    Adw.PreferencesGroup instructions_group {
-      title: _("Shortcut setup Instructions");
-
-      Gtk.Box content_box {
-        orientation: vertical;
-        spacing: 12;
-
-        Gtk.Label instruction_label {
-          label: _("If you'd like the app to <b>open automatically</b> after taking a screenshot, you can set up a custom keyboard shortcut:\n\n<b>Steps:</b>\n1. Go to <b>Settings</b> → <b>Keyboard</b> → <b>View and Customize Shortcuts</b> → <b>Custom Shortcuts</b>.\n2. Click the <b>+</b> button to create a new shortcut.\n3. Set the <b>Name</b> to something like <i>Open Gradia with Screenshot</i>.\n4. For the <b>Command</b>, copy one of the commands below:");
-          use-markup: true;
-          wrap: true;
-          halign: start;
-        }
-
-        Adw.PreferencesGroup interactive_group {
-          margin-bottom:12;
-          title: _("Interactive Screenshot");
-          description: _("Allows you to select an area to screenshot");
-
-            Adw.ActionRow interactive_row {
-              margin-top:2;
-              margin-bottom:2;
-              margin-start:2;
-              margin-end:2;
+      Adw.NavigationPage {
+        tag: "preferences";
+        title: _("Preferences");
+        child: Adw.ToolbarView {
+          [top]
+          Adw.HeaderBar {}
+          content: Gtk.ScrolledWindow {
+            hscrollbar-policy: never;
+            child: Adw.Clamp {
+              maximum-size: 600;
+              tightening-threshold: 400;
               child: Gtk.Box {
-                spacing: 4;
-                Gtk.Entry interactive_entry {
-                  editable: false;
-                  hexpand: true;
-                  text: "";
-                  styles ["monospace","flat"]
+                orientation: vertical;
+                spacing: 24;
+                margin-top: 24;
+                margin-bottom: 24;
+                margin-start: 12;
+                margin-end: 12;
+
+                Adw.PreferencesGroup location_group {
+                  title: _("Screenshots Folder");
+
+                  Adw.ExpanderRow folder_expander {
+                    title: _("Select Folder");
+                    subtitle: _("What folder to use for the home page");
+                    show-enable-switch: false;
+
+                    [suffix]
+                    Gtk.Label folder_label {
+                      label: _("Test");
+                      styles ["dim-label"]
+                    }
+                  }
                 }
-                Separator {}
-                Gtk.Button interactive_copy_btn {
-                  icon-name: "edit-copy-symbolic";
-                  tooltip-text: _("Copy to clipboard");
-                  valign: center;
-                  styles ["flat"]
+
+                Adw.PreferencesGroup  {
+                  Adw.ButtonRow help_button {
+                    title: _("Screenshot Shortkey");
+                     styles ["accent"]
+                  }
+                }
+
+                Adw.PreferencesGroup save_format_group {
+                  title: _("Save Settings");
+
+                  Adw.ComboRow save_format_combo {
+                    title: _("Image Format");
+                    subtitle: _("Default format for saved screenshots");
+                  }
+
+                  Adw.SwitchRow compress_switch {
+                    title: _("Compress image");
+                    subtitle: _("On supported formats");
+                    tooltip-text: _("Compress images to reduce file size");
+                    activatable: true;
+                  }
+
+                  Adw.SwitchRow confirm_close_switch {
+                    title: _("Confirm on close");
+                    subtitle: _("Ask for confirmation before closing the app");
+                    tooltip-text: _("Ask for confirmation before closing the app");
+                    activatable: true;
+                  }
+                }
+
+                Adw.PreferencesGroup {
+                  title: _("Screenshot Management");
+
+                  Adw.SwitchRow delete_screenshot_switch {
+                    title: _("Trash screenshots on close");
+                    subtitle: _("Automatically move screenshots taken from within the app to trash");
+                    tooltip-text: _("Trash screenshots on app close");
+                    activatable: true;
+                  }
+                }
+
+                Adw.PreferencesGroup {
+                  title: _("Image Upload Providers");
+                  description: _("Connect to your favorite upload providers, or create a link yourself");
+
+                  [header-suffix]
+                  Gtk.LinkButton more_info_link {
+                    label: _("Learn More...");
+                    uri: "https://gradia.alexandervanhee.be/providers";
+                    tooltip-text: _("Learn more about providers");
+                    valign: center;
+                  }
+
+                  Adw.ActionRow provider_row {
+                    title: _("Provider");
+                    activatable: true;
+                    activated => $on_choose_provider_clicked();
+
+                    [suffix]
+                    Gtk.Box {
+                      spacing: 6;
+                      valign: center;
+
+                      Gtk.Label provider_name {
+                        label: _("None Selected");
+                        styles ["dim-label"]
+                      }
+
+                      Gtk.Image {
+                        icon-name: "go-next-symbolic";
+                      }
+                    }
+                  }
+
+                  Adw.SwitchRow confirm_upload_switch {
+                    title: _("Confirm on upload");
+                    subtitle: _("Ask for confirmation before running the upload command");
+                    tooltip-text: _("Ask for confirmation before running the upload command");
+                    activatable: true;
+                  }
                 }
               };
-              }
-            }
-        }
-
-        Adw.PreferencesGroup fullscreen_group {
-          title: _("Full Screen Screenshot");
-          description: _("Takes a screenshot of all screens instantly");
-
-          Adw.ActionRow fullscreen_row {
-            margin-top:2;
-            margin-bottom:2;
-            margin-start:2;
-            margin-end:2;
-            child: Gtk.Box {
-              spacing: 4;
-              Gtk.Entry fullscreen_entry {
-                editable: false;
-                hexpand: true;
-                text: "";
-                styles ["monospace","flat"]
-              }
-              Separator {}
-              Gtk.Button fullscreen_copy_btn {
-                icon-name: "edit-copy-symbolic";
-                tooltip-text: _("Copy to clipboard");
-                valign: center;
-                styles ["flat"]
-              }
             };
-        }
+          };
+        };
+      }
 
-        Gtk.Label final_label {
-          margin-top:12;
-          label: _("5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should be free by default).");
-          use-markup: true;
-          wrap: true;
-          selectable: true;
-          halign: start;
-        }
+      Adw.NavigationPage screenshot_guide_page {
+        name: "screenshot-guide";
+        title: _("Screenshot Shortcut Guide");
+        child: Adw.ToolbarView {
+          [top]
+          Adw.HeaderBar {
+            show-back-button: true;
+          }
+
+          content: Gtk.ScrolledWindow {
+            hscrollbar-policy: never;
+            child: Adw.Clamp {
+              maximum-size: 600;
+              tightening-threshold: 400;
+              child: Gtk.Box {
+                orientation: vertical;
+                spacing: 24;
+                margin-top: 24;
+                margin-bottom: 24;
+                margin-start: 12;
+                margin-end: 12;
+
+                Adw.PreferencesGroup instructions_group {
+                  title: _("Shortcut setup Instructions");
+
+                  Gtk.Box content_box {
+                    orientation: vertical;
+                    spacing: 12;
+
+                    Gtk.Label instruction_label {
+                      label: _("If you'd like the app to <b>open automatically</b> after taking a screenshot, you can set up a custom keyboard shortcut:\n\n<b>Steps:</b>\n1. Go to <b>Settings</b> → <b>Keyboard</b> → <b>View and Customize Shortcuts</b> → <b>Custom Shortcuts</b>.\n2. Click the <b>+</b> button to create a new shortcut.\n3. Set the <b>Name</b> to something like <i>Open Gradia with Screenshot</i>.\n4. For the <b>Command</b>, copy one of the commands below:");
+                      use-markup: true;
+                      wrap: true;
+                      halign: start;
+                    }
+
+                    Adw.PreferencesGroup interactive_group {
+                      margin-bottom: 12;
+                      title: _("Interactive Screenshot");
+                      description: _("Allows you to select an area to screenshot");
+
+                      Adw.ActionRow interactive_row {
+                        margin-top: 2;
+                        margin-bottom: 2;
+                        margin-start: 2;
+                        margin-end: 2;
+                        child: Gtk.Box {
+                          spacing: 4;
+                          Gtk.Entry interactive_entry {
+                            editable: false;
+                            hexpand: true;
+                            text: "";
+                            styles ["monospace","flat"]
+                          }
+                          Separator {}
+                          Gtk.Button interactive_copy_btn {
+                            icon-name: "edit-copy-symbolic";
+                            tooltip-text: _("Copy to clipboard");
+                            valign: center;
+                            styles ["flat"]
+                          }
+                        };
+                      }
+                    }
+
+                    Adw.PreferencesGroup fullscreen_group {
+                      title: _("Full Screen Screenshot");
+                      description: _("Takes a screenshot of all screens instantly");
+
+                      Adw.ActionRow fullscreen_row {
+                        margin-top: 2;
+                        margin-bottom: 2;
+                        margin-start: 2;
+                        margin-end: 2;
+                        child: Gtk.Box {
+                          spacing: 4;
+                          Gtk.Entry fullscreen_entry {
+                            editable: false;
+                            hexpand: true;
+                            text: "";
+                            styles ["monospace","flat"]
+                          }
+                          Separator {}
+                          Gtk.Button fullscreen_copy_btn {
+                            icon-name: "edit-copy-symbolic";
+                            tooltip-text: _("Copy to clipboard");
+                            valign: center;
+                            styles ["flat"]
+                          }
+                        };
+                      }
+                    }
+
+                    Gtk.Label final_label {
+                      margin-top: 12;
+                      label: _("5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should be free by default).");
+                      use-markup: true;
+                      wrap: true;
+                      selectable: true;
+                      halign: start;
+                    }
+                  }
+                }
+              };
+            };
+          };
+        };
       }
     }
   }
-}

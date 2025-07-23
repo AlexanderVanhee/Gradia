@@ -1,7 +1,9 @@
 using Gtk 4.0;
 using Adw 1;
+
 template $GradiaGradientSelector : Adw.PreferencesGroup {
   title: _("Gradient Background");
+
   [header-suffix]
   Gtk.MenuButton {
     icon-name: "columns-symbolic";
@@ -12,6 +14,7 @@ template $GradiaGradientSelector : Adw.PreferencesGroup {
       "flat"
     ]
   }
+
   Adw.SpinRow angle_spin_row {
     title: _("Angle");
     numeric: true;
@@ -22,17 +25,20 @@ template $GradiaGradientSelector : Adw.PreferencesGroup {
     };
     output => $_on_angle_output();
   }
+
   Adw.ActionRow gradient_preview_row {
     child: Gtk.Box {
       orientation: vertical;
       valign: center;
       halign: center;
+
       Gtk.Frame gradient_preview_frame {
         margin-top: 8;
         margin-bottom: 8;
         styles [
           "view"
         ]
+
         Gtk.Box gradient_preview_box {
           orientation: horizontal;
           width-request: 250;
@@ -40,9 +46,11 @@ template $GradiaGradientSelector : Adw.PreferencesGroup {
           styles [
             "gradient-preview"
           ]
+
           Gtk.Overlay {
             Gtk.Box {
             }
+
             [overlay]
             Gtk.Box button_container {
               orientation: horizontal;
@@ -51,28 +59,16 @@ template $GradiaGradientSelector : Adw.PreferencesGroup {
               homogeneous: true;
               margin-start: 25;
               margin-end: 25;
-              Gtk.Button start_color_button {
+
+              $GradientColorButton start_color_button {
                 margin-end: 62;
                 tooltip-text: _("Start Color");
-                child: Gtk.Image {
-                  icon-name: "edit-symbolic";
-                };
-                styles [
-                  "gradient-color-picker",
-                  "circular"
-                ]
                 clicked => $_on_start_color_button_clicked();
               }
-              Gtk.Button end_color_button {
+
+              $GradientColorButton end_color_button {
                 margin-start: 62;
                 tooltip-text: _("End Color");
-                child: Gtk.Image {
-                  icon-name: "edit-symbolic";
-                };
-                styles [
-                  "gradient-color-picker",
-                  "circular"
-                ]
                 clicked => $_on_end_color_button_clicked();
               }
             }
@@ -82,6 +78,7 @@ template $GradiaGradientSelector : Adw.PreferencesGroup {
     };
   }
 }
+
 Gtk.Popover gradient_popover {
   autohide: true;
   child: Gtk.FlowBox popover_flowbox {

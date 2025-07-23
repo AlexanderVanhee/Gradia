@@ -45,6 +45,29 @@ class AboutDialog:
             copyright="Copyright © 2025 Alexander Vanhee",
             license_type=Gtk.License.GPL_3_0
         )
+
+        self.dialog.add_acknowledgement_section(
+            _("Code and Design Borrowed from"),
+            [
+                "Switcheroo https://apps.gnome.org/en-GB/Converter/",
+                "Halftone https://github.com/tfuxu/Halftone",
+                "Gradience https://github.com/GradienceTeam/Gradience",
+                "Emblem https://apps.gnome.org/en-GB/Emblem/",
+                "Builder https://apps.gnome.org/en-GB/Builder/",
+                None
+            ]
+        )
+
+        self.dialog.add_acknowledgement_section(
+            _("Image Sources"),
+            [
+                "GNOME backgrounds https://gitlab.gnome.org/GNOME/gnome-backgrounds",
+                "Fruit Basket https://unsplash.com/photos/background-pattern-oWr5S1bO2ak",
+                None
+            ]
+        )
+
+
         return self.dialog
 
     def show(self, parent: Optional[Gtk.Window] = None):

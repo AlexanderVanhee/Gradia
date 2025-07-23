@@ -43,9 +43,6 @@ class WelcomePage(Adw.Bin):
         drop_target.set_preload(True)
 
         drop_target.connect("drop", self._on_file_dropped)
-        drop_target.connect("enter", self._on_drag_enter)
-        drop_target.connect("leave", self._on_drag_leave)
-
         self.drop_overlay.drop_target = drop_target
 
     """
@@ -61,13 +58,6 @@ class WelcomePage(Adw.Bin):
                 action.activate(GLib.Variant('s', uri))
                 return True
         return False
-
-    def _on_drag_enter(self, _drop_target: Gtk.DropTarget, _x: int, _y: int) -> Gdk.DragAction:
-        self.drop_overlay.add_css_class("drag-hover")
-        return Gdk.DragAction.COPY
-
-    def _on_drag_leave(self, _drop_target: Gtk.DropTarget) -> None:
-        self.drop_overlay.remove_css_class("drag-hover")
 
     def refresh_recent_picker(self) -> None:
         self.recent_picker.refresh()

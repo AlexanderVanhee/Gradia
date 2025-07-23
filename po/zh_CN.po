@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-09 19:16+0300\n"
-"PO-Revision-Date: 2025-07-18 19:10+0800\n"
+"POT-Creation-Date: 2025-07-21 12:24+0300\n"
+"PO-Revision-Date: 2025-07-22 21:41+0800\n"
 "Last-Translator: G-Src <gsrc@fsfans.club>\n"
 "Language-Team: Chinese <>\n"
 "Language: zh_CN\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Gradia"
 msgstr "Gradia"
 
-#: data/be.alexandervanhee.gradia.desktop.in.in:4 gradia/ui/ui_parts.py:26
+#: data/be.alexandervanhee.gradia.desktop.in.in:4
 msgid "Make your images ready for the world"
 msgstr "让您的图片走向世界"
 
@@ -73,234 +73,262 @@ msgstr "多种导入和导出截图的方式"
 msgid "Quick upload button for image services like Imgur"
 msgstr "对于像Imgur等服务的快速上传按钮"
 
-#. Package maintainers, please replace with correct command
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:25
-msgid ""
-"Want a keyboard shortcut on GNOME? Simply go to Settings → Keyboard → View "
-"and Customize Shortcuts → Custom Shortcuts. Then create a shortcut that runs "
-"<code>flatpak run be.alexandervanhee.gradia --screenshot=INTERACTIVE</code>."
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:27
+msgid "flatpak run be.alexandervanhee.gradia --screenshot=INTERACTIVE"
 msgstr ""
-"想在 GNOME 上设置键盘快捷键？只需转到 设置 → 键盘 → 查看及自定义快捷键 → 自定"
-"义快捷键。然后创建一个运行 <code>flatpak run be.alexandervanhee.gradia --"
-"screenshot=INTERACTIVE</code> 命令的快捷键。"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:31
-msgid "Alexander Vanhee"
-msgstr "Alexander Vanhee"
-
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:175
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:197
 msgid "Edited screenshot"
 msgstr "编辑后的截图"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:179
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:201
 msgid "Edited picture"
 msgstr "编辑后的图片"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:183
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:205
 msgid "Startup view"
 msgstr "启动视图"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:187
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:209
 msgid "UI element showcase"
 msgstr "UI 元素展示"
 
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:213
+#: gradia/ui/image_creation/source_image_generator.py:393
+#: data/ui/image_sidebar.blp:234 data/ui/welcome_page.blp:72
+#: data/ui/image_generator_window.blp:6
+msgid "Source Snippets"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:31
+msgid "Make your images ready for all"
+msgstr "让您的图片供所有人使用"
+
 #. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
-#: gradia/ui/ui_parts.py:39
+#: gradia/ui/ui_parts.py:44
 msgid "translator-credits"
 msgstr "G-Src <gsrc@fsfans.club>"
 
-#: gradia/ui/ui_parts.py:49
+#: gradia/ui/ui_parts.py:62
 msgid "File Actions"
 msgstr "文件操作"
 
-#: gradia/ui/ui_parts.py:51
+#: gradia/ui/ui_parts.py:64
 msgid "Open File"
 msgstr "打开文件"
 
-#: gradia/ui/ui_parts.py:52
+#: gradia/ui/ui_parts.py:65
 msgid "Save to File"
 msgstr "保存到文件"
 
-#: gradia/ui/ui_parts.py:53
+#: gradia/ui/ui_parts.py:66
 msgid "Copy Image to Clipboard"
 msgstr "复制图片到剪贴板"
 
-#: gradia/ui/ui_parts.py:54
+#: gradia/ui/ui_parts.py:67
 msgid "Paste From Clipboard"
 msgstr "从剪贴板粘贴"
 
-#: gradia/ui/ui_parts.py:55 data/ui/image_sidebar.blp:172
+#: gradia/ui/ui_parts.py:68 data/ui/image_sidebar.blp:195
 msgid "Share Image"
 msgstr "分享图片"
 
-#: gradia/ui/ui_parts.py:59
+#: gradia/ui/ui_parts.py:72
 msgid "Annotations"
 msgstr "注释"
 
-#: gradia/ui/ui_parts.py:61 data/ui/image_stack.blp:95
+#: gradia/ui/ui_parts.py:74 data/ui/image_stack.blp:124
 msgid "Undo"
 msgstr "撤销"
 
-#: gradia/ui/ui_parts.py:62 data/ui/image_stack.blp:106
+#: gradia/ui/ui_parts.py:75 data/ui/image_stack.blp:134
 msgid "Redo"
 msgstr "重做"
 
-#: gradia/ui/ui_parts.py:63 data/ui/image_stack.blp:77
+#: gradia/ui/ui_parts.py:76 data/ui/image_stack.blp:97
 msgid "Erase Selected"
 msgstr "擦除所选"
 
-#: gradia/ui/ui_parts.py:67
+#: gradia/ui/ui_parts.py:80
+msgid "Cropping"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:82 data/ui/image_stack.blp:68
+msgid "Toggle Crop Mode"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:83
+msgid "Reset Crop"
+msgstr "重置截断"
+
+#: gradia/ui/ui_parts.py:87
 msgid "General"
 msgstr "常规"
 
-#: gradia/ui/ui_parts.py:69 data/ui/image_sidebar.blp:221
-#: data/ui/welcome_page.blp:76
+#: gradia/ui/ui_parts.py:89 data/ui/image_sidebar.blp:249
+#: data/ui/welcome_page.blp:82
 msgid "Keyboard Shortcuts"
 msgstr "键盘快捷键"
 
-#: gradia/ui/ui_parts.py:70 data/ui/image_sidebar.blp:217
-#: data/ui/welcome_page.blp:72
+#: gradia/ui/ui_parts.py:90 data/ui/image_sidebar.blp:245
+#: data/ui/welcome_page.blp:78
 msgid "Preferences"
 msgstr "偏好"
 
-#: gradia/ui/ui_parts.py:71
-msgid "Toggle Utility Pane"
-msgstr "切换工具栏"
+#: gradia/ui/ui_parts.py:91
+msgid "Open Source Snippets"
+msgstr ""
 
-#: gradia/ui/window.py:397
+#: gradia/ui/window.py:399
 msgid "Unknown"
 msgstr "未知"
 
-#: gradia/ui/window.py:399 gradia/ui/provider_selection_window.py:79
+#: gradia/ui/window.py:401 gradia/ui/provider_selection_window.py:79
 msgid "Error"
 msgstr "错误"
 
-#: gradia/ui/window.py:456
+#: gradia/ui/window.py:459
 msgid "Confirm Upload"
 msgstr "确认上传"
 
-#: gradia/ui/window.py:457
+#: gradia/ui/window.py:460
 #, python-brace-format
 msgid "Are you sure you want to upload this image to {provider_name}?"
 msgstr "您确定要将这张图片上传至 {provider_name} 吗？"
 
-#: gradia/ui/window.py:459 gradia/ui/image_exporters.py:95
+#: gradia/ui/window.py:462 gradia/ui/image_exporters.py:123
 #: gradia/ui/dialog/delete_screenshots_dialog.py:54
 #: data/ui/confirm_close_dialog.blp:10
 msgid "Cancel"
 msgstr "取消"
 
-#: gradia/ui/window.py:460
+#: gradia/ui/window.py:463
 msgid "Upload"
 msgstr "上传"
 
-#: gradia/ui/image_exporters.py:91
+#: gradia/ui/image_exporters.py:119
 msgid "Save Image As"
 msgstr "另存图片为"
 
-#: gradia/ui/image_exporters.py:94 gradia/ui/provider_selection_window.py:203
+#: gradia/ui/image_exporters.py:122 gradia/ui/provider_selection_window.py:203
 msgid "Save"
 msgstr "保存"
 
-#: gradia/ui/image_exporters.py:120
+#: gradia/ui/image_exporters.py:148
 msgid "Unsupported image file extension."
 msgstr "不支持的图片文件扩展名。"
 
-#: gradia/ui/image_exporters.py:127
+#: gradia/ui/image_exporters.py:156
 msgid "Image saved successfully"
 msgstr "图片保存成功"
 
-#: gradia/ui/image_exporters.py:183
+#: gradia/ui/image_exporters.py:212
 msgid "No processed image available"
 msgstr "没有可用的经处理图片"
 
-#: gradia/ui/image_exporters.py:205
+#: gradia/ui/image_exporters.py:235
 msgid "Image copied to clipboard"
 msgstr "图片已复制到剪贴板"
 
-#: gradia/ui/image_exporters.py:208
+#: gradia/ui/image_exporters.py:238
 msgid "Failed to copy image to clipboard"
 msgstr "复制图片到剪贴板失败"
 
-#: gradia/ui/image_exporters.py:222
+#: gradia/ui/image_exporters.py:252
 msgid "Link generated successfully"
 msgstr "链接成功生成"
 
-#: gradia/ui/image_exporters.py:223
+#: gradia/ui/image_exporters.py:253
 msgid "Open Link"
 msgstr "打开链接"
 
-#: gradia/ui/image_exporters.py:262
+#: gradia/ui/image_exporters.py:292
 msgid "Custom command failed: "
 msgstr "自定义指令失败："
 
-#: gradia/ui/image_exporters.py:268
+#: gradia/ui/image_exporters.py:298
 msgid "Warning: "
 msgstr "警告："
 
-#: gradia/ui/image_exporters.py:279
+#: gradia/ui/image_exporters.py:309
 msgid "Result copied to clipboard"
 msgstr "图片已复制到剪贴板"
 
-#: gradia/ui/image_exporters.py:281
+#: gradia/ui/image_exporters.py:311
 msgid "No output from command"
 msgstr "命令无输出"
 
-#: gradia/ui/image_exporters.py:284
+#: gradia/ui/image_exporters.py:314
 msgid "Failed to run custom export command"
 msgstr "运行自定义导出指令失败"
 
-#: gradia/ui/image_loaders.py:63 data/ui/image_sidebar.blp:17
+#: gradia/ui/image_loaders.py:67 data/ui/image_sidebar.blp:17
 msgid "Open Image"
 msgstr "打开图片"
 
-#: gradia/ui/image_loaders.py:66
+#: gradia/ui/image_loaders.py:70
 msgid "Image Files"
 msgstr "图片文件"
 
-#: gradia/ui/image_loaders.py:120
+#: gradia/ui/image_loaders.py:124
 msgid "Not a supported image format."
 msgstr "图片格式不受支持。"
 
-#: gradia/ui/image_loaders.py:150
+#: gradia/ui/image_loaders.py:154
 msgid "No image found in clipboard"
 msgstr "剪贴板中未发现图片"
 
-#: gradia/ui/image_loaders.py:157
+#: gradia/ui/image_loaders.py:161
 msgid "Clipboard Image"
 msgstr "剪贴板图片"
 
-#: gradia/ui/image_loaders.py:158
+#: gradia/ui/image_loaders.py:162
 msgid "From clipboard"
 msgstr "来自剪贴板"
 
-#: gradia/ui/image_loaders.py:165
+#: gradia/ui/image_loaders.py:169
 msgid "Clipboard does not contain an image."
 msgstr "剪贴板不包含图片。"
 
-#: gradia/ui/image_loaders.py:167
+#: gradia/ui/image_loaders.py:171
 msgid "Failed to load image from clipboard."
 msgstr "从剪贴板加载图片失败。"
 
-#: gradia/ui/image_loaders.py:202 gradia/ui/image_loaders.py:217
+#: gradia/ui/image_loaders.py:206 gradia/ui/image_loaders.py:221
 msgid "Failed to take screenshot"
 msgstr "截图失败"
 
-#: gradia/ui/image_loaders.py:233
+#: gradia/ui/image_loaders.py:237
 msgid "Screenshot cancelled"
 msgstr "截图已取消"
 
-#: gradia/ui/image_loaders.py:254 gradia/ui/image_loaders.py:255
+#: gradia/ui/image_loaders.py:253
+msgid "Edited Screenshot From %Y-%m-%d %H-%M-%S"
+msgstr ""
+
+#: gradia/ui/image_loaders.py:259 gradia/ui/image_loaders.py:260
 msgid "Screenshot"
 msgstr "截图"
 
-#: gradia/ui/image_loaders.py:258
+#: gradia/ui/image_loaders.py:263
 msgid "Screenshot captured!"
 msgstr "已捕获截图！"
 
-#: gradia/ui/image_loaders.py:265
+#: gradia/ui/image_loaders.py:270
 msgid "Failed to process screenshot"
 msgstr "处理截图失败"
+
+#: gradia/ui/image_loaders.py:341
+msgid "Generated Image"
+msgstr "生成的图片"
+
+#: gradia/ui/image_loaders.py:342
+msgid "Source"
+msgstr ""
+
+#: gradia/ui/image_loaders.py:345
+msgid "Source snippet Generated!"
+msgstr ""
 
 #: gradia/ui/provider_selection_window.py:38
 #: gradia/ui/provider_selection_window.py:133
@@ -344,7 +372,7 @@ msgid "Command"
 msgstr "指令"
 
 #: gradia/ui/provider_selection_window.py:289
-#: gradia/overlay/drawing_actions.py:52 data/ui/preferences_window.blp:89
+#: gradia/overlay/drawing_actions.py:54
 msgid "Select"
 msgstr "选择"
 
@@ -368,39 +396,39 @@ msgstr "功能"
 msgid "Custom"
 msgstr "自定义"
 
-#: gradia/overlay/drawing_actions.py:46
+#: gradia/overlay/drawing_actions.py:48
 msgid "Pen"
 msgstr "笔"
 
-#: gradia/overlay/drawing_actions.py:47
+#: gradia/overlay/drawing_actions.py:49
 msgid "Arrow"
 msgstr "箭头"
 
-#: gradia/overlay/drawing_actions.py:48
+#: gradia/overlay/drawing_actions.py:50
 msgid "Line"
 msgstr "线条"
 
-#: gradia/overlay/drawing_actions.py:49
+#: gradia/overlay/drawing_actions.py:51
 msgid "Square"
 msgstr "方形"
 
-#: gradia/overlay/drawing_actions.py:50
+#: gradia/overlay/drawing_actions.py:52
 msgid "Circle"
 msgstr "圆形"
 
-#: gradia/overlay/drawing_actions.py:51
+#: gradia/overlay/drawing_actions.py:53
 msgid "Text"
 msgstr "文本"
 
-#: gradia/overlay/drawing_actions.py:53
+#: gradia/overlay/drawing_actions.py:55
 msgid "Highlighter"
 msgstr "荧光笔"
 
-#: gradia/overlay/drawing_actions.py:54
+#: gradia/overlay/drawing_actions.py:56
 msgid "Censor"
 msgstr "打码"
 
-#: gradia/overlay/drawing_actions.py:55
+#: gradia/overlay/drawing_actions.py:57
 msgid "Number"
 msgstr "数字"
 
@@ -408,19 +436,9 @@ msgstr "数字"
 msgid "Root"
 msgstr "根目录"
 
-#: gradia/ui/preferences_window.py:128
+#: gradia/ui/preferences_window.py:129
 msgid "None selected"
 msgstr "未选择"
-
-#: gradia/ui/preferences_window.py:143 gradia/ui/preferences_window.py:146
-#, python-brace-format
-msgid "Selected: {folder}"
-msgstr "已选择：{folder}"
-
-#: gradia/ui/preferences_window.py:144 gradia/ui/preferences_window.py:147
-#: data/ui/preferences_window.blp:20
-msgid "Click to change folder"
-msgstr "点击来改变文件夹"
 
 #: gradia/ui/preferences_window.py:227
 msgid "Copied!"
@@ -458,17 +476,25 @@ msgstr "截图已移至回收站"
 msgid "Screenshots moved to trash"
 msgstr "截图已移至回收站"
 
-#: gradia/app_constants.py:31
+#: gradia/ui/image_creation/source_image_generator.py:539
+msgid "Source Snippet From %Y-%m-%d %H-%M-%S"
+msgstr ""
+
+#: gradia/app_constants.py:32
 msgid "PNG Image (*.png)"
 msgstr "PNG 图片 (*.png)"
 
-#: gradia/app_constants.py:38
+#: gradia/app_constants.py:39
 msgid "JPEG Image (*.jpg)"
 msgstr "JPEG 图片 (*.jpg)"
 
-#: gradia/app_constants.py:45
+#: gradia/app_constants.py:46
 msgid "WebP Image (*.webp)"
 msgstr "WebP 图片 (*.webp)"
+
+#: gradia/utils/std_image_loader.py:38
+msgid "Edited Image From %Y-%m-%d %H-%M-%S"
+msgstr ""
 
 #: data/ui/selectors/gradient_selector.blp:4
 msgid "Gradient Background"
@@ -534,31 +560,51 @@ msgstr "图片"
 msgid "Annotation Tools"
 msgstr "标注工具"
 
-#: data/ui/drawing_tools_group.blp:91
+#: data/ui/drawing_tools_group.blp:93
 msgid "Highlighter Color"
 msgstr "荧光笔颜色"
 
-#: data/ui/drawing_tools_group.blp:136
+#: data/ui/drawing_tools_group.blp:108
+msgid "Pick the Highlighter Color"
+msgstr "选择荧光笔颜色"
+
+#: data/ui/drawing_tools_group.blp:140
 msgid "Fill Color"
 msgstr "填充颜色"
 
-#: data/ui/drawing_tools_group.blp:148
+#: data/ui/drawing_tools_group.blp:152
 msgid "Reset Fill"
 msgstr "重置填充"
 
-#: data/ui/drawing_tools_group.blp:188
+#: data/ui/drawing_tools_group.blp:165
+msgid "Pick the Fill Color"
+msgstr "选择填充颜色"
+
+#: data/ui/drawing_tools_group.blp:198
+msgid "Outline Color"
+msgstr "轮廓颜色"
+
+#: data/ui/drawing_tools_group.blp:210
+msgid "Reset Outline"
+msgstr "重置轮廓"
+
+#: data/ui/drawing_tools_group.blp:223
+msgid "Pick the Outline Color"
+msgstr ""
+
+#: data/ui/drawing_tools_group.blp:252
 msgid "Font"
 msgstr "字体"
 
-#: data/ui/drawing_tools_group.blp:238
+#: data/ui/drawing_tools_group.blp:302
 msgid "Size"
 msgstr "大小"
 
-#: data/ui/drawing_tools_group.blp:290
+#: data/ui/drawing_tools_group.blp:354
 msgid "Radius"
 msgstr "半径"
 
-#: data/ui/drawing_tools_group.blp:345
+#: data/ui/drawing_tools_group.blp:409
 msgid "Pressure"
 msgstr "压感"
 
@@ -590,55 +636,71 @@ msgstr "圆角半径"
 msgid "Aspect Ratio"
 msgstr "宽高比"
 
-#: data/ui/image_sidebar.blp:91
+#: data/ui/image_sidebar.blp:92
 msgid "Shadow"
 msgstr "阴影"
 
-#: data/ui/image_sidebar.blp:111
+#: data/ui/image_sidebar.blp:112
 msgid "Auto Balance"
 msgstr "自动平衡"
 
-#: data/ui/image_sidebar.blp:122
+#: data/ui/image_sidebar.blp:117
+msgid "Rotation"
+msgstr "旋转"
+
+#: data/ui/image_sidebar.blp:126
+msgid "Rotate Anticlockwise"
+msgstr ""
+
+#: data/ui/image_sidebar.blp:134
+msgid "Rotate Clockwise"
+msgstr ""
+
+#: data/ui/image_sidebar.blp:145
 msgid "Current File"
 msgstr "当前文件"
 
-#: data/ui/image_sidebar.blp:125
+#: data/ui/image_sidebar.blp:148
 msgid "Name"
 msgstr "名称"
 
-#: data/ui/image_sidebar.blp:126 data/ui/image_sidebar.blp:131
+#: data/ui/image_sidebar.blp:149 data/ui/image_sidebar.blp:154
 msgid "No file loaded"
 msgstr "未加载文件"
 
-#: data/ui/image_sidebar.blp:130
+#: data/ui/image_sidebar.blp:153
 msgid "Location"
 msgstr "位置"
 
-#: data/ui/image_sidebar.blp:135
+#: data/ui/image_sidebar.blp:158
 msgid "Modified image size"
 msgstr "修改后的图片大小"
 
-#: data/ui/image_sidebar.blp:136
+#: data/ui/image_sidebar.blp:159
 msgid "N/A"
 msgstr "N/A"
 
-#: data/ui/image_sidebar.blp:151
+#: data/ui/image_sidebar.blp:174
 msgid "Save Image"
 msgstr "保存图片"
 
-#: data/ui/image_sidebar.blp:162
+#: data/ui/image_sidebar.blp:185
 msgid "Copy to Clipboard"
 msgstr "复制到剪贴板"
 
-#: data/ui/image_sidebar.blp:211
+#: data/ui/image_sidebar.blp:238
 msgid "Delete Taken Screenshot(s)"
 msgstr "删除已截图片"
 
-#: data/ui/image_sidebar.blp:225 data/ui/welcome_page.blp:80
+#: data/ui/image_sidebar.blp:253 data/ui/welcome_page.blp:86
 msgid "About Gradia"
 msgstr "关于 Gradia"
 
-#: data/ui/image_stack.blp:117
+#: data/ui/image_stack.blp:82
+msgid "Reset Crop Selection"
+msgstr ""
+
+#: data/ui/image_stack.blp:144
 msgid "Clear All"
 msgstr ""
 
@@ -670,49 +732,51 @@ msgstr "图片选项"
 msgid "Recent Screenshots"
 msgstr "最近截图"
 
-#: data/ui/preferences_window.blp:16
-msgid ""
-"Configure which subfolder of Pictures to use to display recent screenshots "
-"on the home page"
-msgstr "配置在主页上使用图片目录的哪个子文件夹来显示最近的屏幕截图"
-
-#: data/ui/preferences_window.blp:19
+#: data/ui/preferences_window.blp:18
 msgid "Select Folder"
 msgstr "选择图片"
 
-#: data/ui/preferences_window.blp:26
+#: data/ui/preferences_window.blp:19
+msgid "What folder to use for the home page"
+msgstr ""
+
+#: data/ui/preferences_window.blp:24
+msgid "Test"
+msgstr ""
+
+#: data/ui/preferences_window.blp:31
 msgid "Save Settings"
 msgstr "保存设置"
 
-#: data/ui/preferences_window.blp:29
+#: data/ui/preferences_window.blp:34
 msgid "Image Format"
 msgstr "图片格式"
 
-#: data/ui/preferences_window.blp:30
+#: data/ui/preferences_window.blp:35
 msgid "Default format for saved screenshots"
 msgstr "保存截图的默认格式"
 
-#: data/ui/preferences_window.blp:34
+#: data/ui/preferences_window.blp:39
 msgid "Compress image"
 msgstr "压缩图片"
 
-#: data/ui/preferences_window.blp:35
+#: data/ui/preferences_window.blp:40
 msgid "On supported formats"
 msgstr "仅限支持格式"
 
-#: data/ui/preferences_window.blp:38
+#: data/ui/preferences_window.blp:41
 msgid "Compress images to reduce file size"
 msgstr "压缩图片来减少文件大小"
 
-#: data/ui/preferences_window.blp:44
+#: data/ui/preferences_window.blp:46
 msgid "Confirm on close"
 msgstr "退出时确认"
 
-#: data/ui/preferences_window.blp:45 data/ui/preferences_window.blp:48
+#: data/ui/preferences_window.blp:47 data/ui/preferences_window.blp:48
 msgid "Ask for confirmation before closing the app"
 msgstr "退出应用前请求确认"
 
-#: data/ui/preferences_window.blp:56
+#: data/ui/preferences_window.blp:55
 msgid "Screenshot Management"
 msgstr "截图管理"
 
@@ -724,51 +788,51 @@ msgstr "关闭应用时将截图移至回收站"
 msgid "Automatically move screenshots taken from within the app to trash"
 msgstr "自动将应用内截图移至垃圾桶"
 
-#: data/ui/preferences_window.blp:62
+#: data/ui/preferences_window.blp:60
 msgid "Trash screenshots on app close"
 msgstr "应用退出时将截图移至回收站"
 
-#: data/ui/preferences_window.blp:69
+#: data/ui/preferences_window.blp:66
 msgid "Image Upload Providers"
 msgstr "图片上传提供商"
 
-#: data/ui/preferences_window.blp:70
+#: data/ui/preferences_window.blp:67
 msgid "Connect to your favorite upload providers, or create a link yourself"
 msgstr "连接到您最爱的上传提供商，或自行创建链接"
 
-#: data/ui/preferences_window.blp:74
-msgid "More info"
-msgstr "更多信息"
+#: data/ui/preferences_window.blp:71
+msgid "Learn More..."
+msgstr ""
 
-#: data/ui/preferences_window.blp:76
+#: data/ui/preferences_window.blp:73
 msgid "Learn more about providers"
 msgstr "学习关于提供商的更多信息"
 
-#: data/ui/preferences_window.blp:81
+#: data/ui/preferences_window.blp:78
 msgid "Provider"
 msgstr "提供商"
 
-#: data/ui/preferences_window.blp:90
-msgid "Choose a provider"
-msgstr "选择提供商"
+#: data/ui/preferences_window.blp:88
+msgid "None Selected"
+msgstr "未选择"
 
-#: data/ui/preferences_window.blp:98
+#: data/ui/preferences_window.blp:99
 msgid "Confirm on upload"
 msgstr "上传时确认"
 
-#: data/ui/preferences_window.blp:99 data/ui/preferences_window.blp:102
+#: data/ui/preferences_window.blp:100 data/ui/preferences_window.blp:101
 msgid "Ask for confirmation before running the upload command"
 msgstr "运行上传指令前请求确认"
 
-#: data/ui/preferences_window.blp:112
+#: data/ui/preferences_window.blp:110
 msgid "Shortcut"
 msgstr "键盘快捷键"
 
-#: data/ui/preferences_window.blp:116
+#: data/ui/preferences_window.blp:114
 msgid "Shortcut setup Instructions"
 msgstr "快捷键设置指南"
 
-#: data/ui/preferences_window.blp:123
+#: data/ui/preferences_window.blp:121
 msgid ""
 "If you'd like the app to <b>open automatically</b> after taking a "
 "screenshot, you can set up a custom keyboard shortcut:\n"
@@ -790,27 +854,27 @@ msgstr ""
 "3. 把<b>”名字“</b>一项设定为<i>用截图打开Gradia</i>或类似。\n"
 "4. 在<b>”命令“</b>一栏，复制下面其中一个命令："
 
-#: data/ui/preferences_window.blp:130
+#: data/ui/preferences_window.blp:129
 msgid "Interactive Screenshot"
 msgstr "互动式截图"
 
-#: data/ui/preferences_window.blp:131
+#: data/ui/preferences_window.blp:130
 msgid "Allows you to select an area to screenshot"
 msgstr "允许您选择一个区域来截图"
 
-#: data/ui/preferences_window.blp:144 data/ui/preferences_window.blp:165
+#: data/ui/preferences_window.blp:148 data/ui/preferences_window.blp:177
 msgid "Copy to clipboard"
 msgstr "复制到剪贴板"
 
-#: data/ui/preferences_window.blp:151
+#: data/ui/preferences_window.blp:158
 msgid "Full Screen Screenshot"
 msgstr "全屏截图"
 
-#: data/ui/preferences_window.blp:152
+#: data/ui/preferences_window.blp:159
 msgid "Takes a screenshot of all screens instantly"
 msgstr "立刻截图所有屏幕"
 
-#: data/ui/preferences_window.blp:172
+#: data/ui/preferences_window.blp:186
 msgid ""
 "5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should "
 "be free by default)."
@@ -831,6 +895,76 @@ msgstr "关闭"
 #: data/ui/confirm_close_dialog.blp:18
 msgid "Don't Ask Again"
 msgstr "不再询问"
+
+#: data/ui/image_generator_window.blp:30
+msgid "Language"
+msgstr ""
+
+#: data/ui/image_generator_window.blp:40
+msgid "Style Scheme"
+msgstr ""
+
+#: data/ui/image_generator_window.blp:46
+msgid "Choose a color scheme for syntax highlighting"
+msgstr ""
+
+#: data/ui/image_generator_window.blp:56
+msgid "Default"
+msgstr ""
+
+#: data/ui/image_generator_window.blp:71
+msgid "Window Frame"
+msgstr ""
+
+#: data/ui/image_generator_window.blp:76
+msgid "Add a window frame around the code"
+msgstr ""
+
+#: data/ui/image_generator_window.blp:83
+msgid "Show Line Numbers"
+msgstr ""
+
+#: data/ui/image_generator_window.blp:88
+msgid "Add a number before each new line of code"
+msgstr ""
+
+#: data/ui/image_generator_window.blp:115
+msgid "Export"
+msgstr ""
+
+#~ msgid ""
+#~ "Want a keyboard shortcut on GNOME? Simply go to Settings → Keyboard → "
+#~ "View and Customize Shortcuts → Custom Shortcuts. Then create a shortcut "
+#~ "that runs <code>flatpak run be.alexandervanhee.gradia --"
+#~ "screenshot=INTERACTIVE</code>."
+#~ msgstr ""
+#~ "想在 GNOME 上设置键盘快捷键？只需转到 设置 → 键盘 → 查看及自定义快捷键 → "
+#~ "自定义快捷键。然后创建一个运行 <code>flatpak run "
+#~ "be.alexandervanhee.gradia --screenshot=INTERACTIVE</code> 命令的快捷键。"
+
+#~ msgid "Alexander Vanhee"
+#~ msgstr "Alexander Vanhee"
+
+#~ msgid "Toggle Utility Pane"
+#~ msgstr "切换工具栏"
+
+#, python-brace-format
+#~ msgid "Selected: {folder}"
+#~ msgstr "已选择：{folder}"
+
+#~ msgid "Click to change folder"
+#~ msgstr "点击来改变文件夹"
+
+#~ msgid ""
+#~ "Configure which subfolder of Pictures to use to display recent "
+#~ "screenshots on the home page"
+#~ msgstr "配置在主页上使用图片目录的哪个子文件夹来显示最近的屏幕截图"
+
+#~ msgid "More info"
+#~ msgstr "更多信息"
+
+#~ msgid "Choose a provider"
+#~ msgstr "选择提供商"
 
 #~ msgid "Remove Selected"
 #~ msgstr "删除所选"

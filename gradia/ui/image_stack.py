@@ -21,6 +21,7 @@ from gradia.constants import rootdir  # pyright: ignore
 from gradia.overlay.drawing_overlay import DrawingOverlay
 from gradia.overlay.transparency_overlay import TransparencyBackground
 from gradia.overlay.crop_overlay import CropOverlay
+from gradia.overlay.drop_overlay import DropOverlay
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/image_stack.ui")
 class ImageStack(Adw.Bin):
@@ -41,10 +42,9 @@ class ImageStack(Adw.Bin):
     erase_selected_revealer: Gtk.Revealer = Gtk.Template.Child()
     right_controls_revealer: Gtk.Revealer = Gtk.Template.Child()
 
-    drop_target: Gtk.DropTarget = Gtk.Template.Child()
+    drop_overlay: DropOverlay = Gtk.Template.Child()
 
     reset_crop_revealer: Gtk.Revealer = Gtk.Template.Child()
-
 
     crop_enabled: bool = False
     crop_has_been_enabled: bool = False
@@ -66,9 +66,13 @@ class ImageStack(Adw.Bin):
         self.right_controls_revealer.set_reveal_child(True)
         self.reset_crop_revealer.set_visible(False)
 
-        # Setup image drop controller
-        self.drop_target.set_gtypes([Gio.File])
-        self.drop_target.connect("drop", self._on_file_dropped)
+        drop_target = Gtk.DropTarget.new(Gio.File, Gdk.DragAction.COPY)
+        drop_target.set_preload(True)
+
+        drop_target.connect("drop", self._on_file_dropped)
+        drop_target.set_preload(True)
+
+        self.drop_overlay.drop_target = drop_target
 
         self.reset_crop_revealer.connect("notify::reveal-child", self._on_reset_crop_reveal_changed)
 

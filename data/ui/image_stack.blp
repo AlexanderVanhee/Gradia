@@ -2,14 +2,12 @@ using Gtk 4.0;
 using Adw 1;
 
 template $GradiaImageStack : Adw.Bin {
-  child: Adw.ToolbarView toolbar_view {
+  child: $DropOverlay drop_overlay {
+    title: _("Drop Image Here");
+    child-widget:Adw.ToolbarView toolbar_view {
     top-bar-style: flat;
     extend-content-to-top-edge: true;
 
-    Gtk.DropTarget drop_target {
-      actions: copy;
-      preload: true;
-    }
 
     [top]
     Adw.HeaderBar headerbar {
@@ -166,5 +164,6 @@ template $GradiaImageStack : Adw.Bin {
         };
       }
     };
+  };
   };
 }

@@ -41,9 +41,9 @@ class RecentImageGetter:
 
     def get_recent_screenshot_files(self) -> list[RecentFile]:
         screenshots_dir = self._get_screenshots_directory()
-        if not screenshots_dir.exists():
+        if not screenshots_dir or not screenshots_dir.exists():
             print(f"Screenshots directory does not exist: {screenshots_dir}")
-            return []
+            return None
 
         image_extensions = {'.png', '.jpg', '.jpeg', '.webp', '.avif'}
         all_files = [f for f in screenshots_dir.iterdir()
@@ -56,29 +56,23 @@ class RecentImageGetter:
 
     def _get_screenshots_directory(self) -> Path | None:
         """
-        Get screenshots directory with fallback logic:
-        1. XDG_PICTURES_DIR/(configured folder from preferences)
-        2. XDG_PICTURES_DIR/Screenshots
-        3. XDG_PICTURES_DIR
+        Return XDG_PICTURES_DIR/(configured folder from preferences), or the XDG_PICTURES_DIR itself
+        if no subfolder is configured. Returns None if the base pictures directory doesn't exist.
         """
         xdg_pictures = GLib.get_user_special_dir(GLib.USER_DIRECTORY_PICTURES)
-
         if not xdg_pictures:
             return None
 
-        xdg_pictures_path = Path(xdg_pictures)
-
         configured_subfolder = Settings().screenshot_subfolder
-        if configured_subfolder:
-            subfolder_path = xdg_pictures_path / configured_subfolder
-            if subfolder_path.exists():
-                return subfolder_path
+        print(f"folder: {configured_subfolder}")
 
-        screenshots_path = xdg_pictures_path / "Screenshots"
-        if screenshots_path.exists():
-            return screenshots_path
+        if not configured_subfolder:
+            path = Path(xdg_pictures)
+            return path if path.exists() else None
 
-        return xdg_pictures_path
+        path = Path(xdg_pictures) / configured_subfolder
+        return path if path.exists() else None
+
 
 class RoundedImage(Gtk.Widget):
     def __init__(self, path: str, radius: float = 4.0, padding: int=16):
@@ -138,6 +132,9 @@ class RecentPicker(Adw.Bin):
     FILENAME_TRUNCATE_LENGTH = 27
 
     item_grid: Gtk.Grid = Gtk.Template.Child()
+
+    recent_overlay: Gtk.Overlay= Gtk.Template.Child()
+    error_overlay: Adw.StatusPage = Gtk.Template.Child()
 
     def __init__(self, callback: Optional[Callable] = None, **kwargs) -> None:
         super().__init__(**kwargs)
@@ -249,6 +246,13 @@ class RecentPicker(Adw.Bin):
     def _update_display(self, recent_files: list[RecentFile]) -> None:
         self.recent_files = recent_files
 
+        if self.recent_files is None:
+            self.error_overlay.set_visible(True)
+            self.item_grid.set_opacity(0.25)
+            recent_files = []
+        else:
+            self.error_overlay.set_visible(False)
+            self.item_grid.set_opacity(1)
         for i in range(self.GRID_ROWS * self.GRID_COLUMNS):
             if i < len(recent_files):
                 file = recent_files[i]
