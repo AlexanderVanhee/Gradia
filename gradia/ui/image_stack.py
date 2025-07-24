@@ -76,6 +76,7 @@ class ImageStack(Adw.Bin):
         self.reset_crop_revealer.set_visible(False)
         self.ocr_revealer.set_reveal_child(True)
         self.crop_overlay_revealer.set_reveal_child(True)
+        self.crop_overlay_revealer.set_sensitive(False)
 
         self.ocr_text_view.get_style_context().remove_class("view")
 
@@ -115,6 +116,7 @@ class ImageStack(Adw.Bin):
         self.right_controls_revealer.set_reveal_child(not self.crop_enabled)
         self.ocr_revealer.set_reveal_child(not self.crop_enabled)
         self.confirm_crop_revealer.set_reveal_child(self.crop_enabled)
+        self.crop_overlay_revealer.set_sensitive(self.crop_enabled)
 
         if self.crop_enabled:
             self.reset_crop_revealer.set_visible(True)
