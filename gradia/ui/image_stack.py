@@ -23,6 +23,7 @@ from gradia.overlay.transparency_overlay import TransparencyBackground
 from gradia.overlay.crop_overlay import CropOverlay
 from gradia.overlay.drop_overlay import DropOverlay
 from gradia.backend.ocr import OCR
+from gradia.clipboard import copy_text_to_clipboard
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/image_stack.ui")
 class ImageStack(Adw.Bin):
@@ -136,13 +137,25 @@ class ImageStack(Adw.Bin):
     def on_ocr(self) -> None:
         self.ocr_enabled = True
         ocr = OCR()
-
-        buffer = self.ocr_text_view.get_buffer()
-        buffer.set_text(ocr.extract_text(self.window.processed_path))
-        self._update_ocr_ui_state()
+        extracted_text = ocr.extract_text(self.window.processed_path)
+        if not extracted_text.strip():
+            self.window._show_notification(_("No text found in image"))
+        else:
+            buffer = self.ocr_text_view.get_buffer()
+            buffer.set_text(extracted_text)
+            self._update_ocr_ui_state()
 
     @Gtk.Template.Callback()
-    def _on_sheet_close_clicked(self, sheet: Adw.BottomSheet) -> None:
-        self.ocr_enabled = False
-        self._update_ocr_ui_state()
+    def _on_sheet_shown_changed(self, bottom_sheet, pspec):
+        if not bottom_sheet.get_open():
+            self.ocr_enabled = False
+            self._update_ocr_ui_state()
+
+    @Gtk.Template.Callback()
+    def _on_copy_ocr_clicked(self, button: Gtk.Button) -> None:
+        buffer = self.ocr_text_view.get_buffer()
+        start_iter, end_iter = buffer.get_bounds()
+        text = buffer.get_text(start_iter, end_iter, True)
+        copy_text_to_clipboard(text)
+        self.window._show_notification(_("Result copied to clipboard"))
 

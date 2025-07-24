@@ -16,6 +16,10 @@ desktop_file = i18n.merge_file(
   install_dir: join_paths(get_option('datadir'), 'applications')
 )
 
+install_data('ocr/eng.traineddata',
+  install_dir: join_paths(get_option('datadir'), 'tessdata')
+)
+
 # .desktop validation
 desktop_utils = find_program('desktop-file-validate', required: false)
 if desktop_utils.found()

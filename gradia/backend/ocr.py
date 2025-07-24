@@ -5,17 +5,18 @@ import os
 class OCR:
 
     def __init__(self):
-        pass
+        self.tessdata_dir = "/app/share/tessdata"
 
     def extract_text(self, file_path):
-
         try:
             if not os.path.exists(file_path):
                 raise FileNotFoundError(f"File not found: {file_path}")
 
             image = Image.open(file_path)
 
-            extracted_text = pytesseract.image_to_string(image)
+            config = f'--tessdata-dir "{self.tessdata_dir}"'
+
+            extracted_text = pytesseract.image_to_string(image, config=config)
 
             return extracted_text.strip()
 

@@ -4,9 +4,8 @@ using Adw 1;
 template $GradiaImageStack : Adw.Bin {
   child: Adw.BottomSheet bottom_sheet {
     full-width: false;
-    can-close: false;
-    show-drag-handle: false;
-    close-attempt => $_on_sheet_close_clicked();
+    show-drag-handle: true;
+    notify::open => $_on_sheet_shown_changed();
 
     content: $DropOverlay drop_overlay {
       title: _("Drop Image Here");
@@ -219,6 +218,10 @@ template $GradiaImageStack : Adw.Bin {
     };
 
     sheet: Gtk.Overlay {
+          styles [
+        "view"
+      ]
+
       [overlay]
       Gtk.Button copy_ocr_button {
         icon-name: "edit-copy-symbolic";
@@ -230,6 +233,7 @@ template $GradiaImageStack : Adw.Bin {
         overflow: visible;
         width-request: 48;
         height-request: 48;
+        clicked => $_on_copy_ocr_clicked();
         styles [
           "suggested-action",
           "circular"
@@ -240,8 +244,8 @@ template $GradiaImageStack : Adw.Bin {
         title: _("OCR");
         child: Gtk.TextView ocr_text_view {
           editable: false;
-          left-margin: 5;
-          right-margin: 5;
+          left-margin: 2;
+          right-margin: 2;
           margin-bottom:50;
           wrap-mode: word_char;
         };
