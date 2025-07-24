@@ -59,47 +59,46 @@ class DrawingMode(Enum):
 
 
 class DrawingAction:
-    DEFAULT_PADDING = 0.02
+    DEFAULT_PADDING_IMG = 30
 
-    def draw(self, cr: cairo.Context, image_to_widget_coords, scale: float):
+    def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
         raise NotImplementedError
 
-    def get_bounds(self):
+    def get_bounds(self) -> tuple[int, int, int, int]:
         raise NotImplementedError
 
-    def apply_padding(self, bounds, extra_padding=0.0):
+    def apply_padding(self, bounds: tuple[int, int, int, int], extra_padding_img: int = 0) -> tuple[int, int, int, int]:
         min_x, min_y, max_x, max_y = bounds
-        padding = self.DEFAULT_PADDING + extra_padding
+        padding = self.DEFAULT_PADDING_IMG + extra_padding_img
         return (min_x - padding, min_y - padding, max_x + padding, max_y + padding)
 
-    def contains_point(self, x, y):
+    def contains_point(self, x_img: int, y_img: int) -> bool:
         min_x, min_y, max_x, max_y = self.get_bounds()
         if isinstance(self, (LineAction, ArrowAction)):
-            px, py = x, y
+            px, py = x_img, y_img
             x1, y1 = self.start
             x2, y2 = self.end
             line_len_sq = (x2 - x1) ** 2 + (y2 - y1) ** 2
             if line_len_sq == 0:
-                return math.hypot(px - x1, py - y1) < self.DEFAULT_PADDING
+                return math.hypot(px - x1, py - y1) < self.DEFAULT_PADDING_IMG
             t = ((px - x1) * (x2 - x1) + (py - y1) * (y2 - y1)) / line_len_sq
             t = max(0, min(1, t))
             closest_x = x1 + t * (x2 - x1)
             closest_y = y1 + t * (y2 - y1)
             dist_sq = (px - closest_x)**2 + (py - closest_y)**2
-            return dist_sq < (0.01 + self.width / 200.0)**2
-        return min_x <= x <= max_x and min_y <= y <= max_y
+            return dist_sq < (self.DEFAULT_PADDING_IMG + self.width)**2
+        return min_x <= x_img <= max_x and min_y <= y_img <= max_y
 
-    def translate(self, dx, dy):
+    def translate(self, dx: int, dy: int):
         raise NotImplementedError
 
 class StrokeAction(DrawingAction):
-    def __init__(self, stroke: list[tuple[float, float]], settings):
+    def __init__(self, stroke: list[tuple[int, int]], settings):
         self.stroke = stroke
         self.color = settings.pen_color
         self.pen_size = settings.pen_size
 
-    def draw(self, cr, image_to_widget_coords, scale):
-        """Drawing function using bezier curves."""
+    def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
         if len(self.stroke) < 2:
             return
 
@@ -138,25 +137,24 @@ class StrokeAction(DrawingAction):
 
         cr.stroke()
 
-
-    def get_bounds(self):
+    def get_bounds(self) -> tuple[int, int, int, int]:
         if not self.stroke:
             return (0, 0, 0, 0)
         xs, ys = zip(*self.stroke)
         return self.apply_padding((min(xs), min(ys), max(xs), max(ys)))
 
-    def translate(self, dx, dy):
+    def translate(self, dx: int, dy: int):
         self.stroke = [(x + dx, y + dy) for x, y in self.stroke]
 
 class ArrowAction(DrawingAction):
-    def __init__(self, start, end, settings):
+    def __init__(self, start: tuple[int, int], end: tuple[int, int], settings):
         self.start = start
         self.end = end
         self.color = settings.pen_color
         self.arrow_head_size = settings.arrow_head_size
         self.width = settings.pen_size
 
-    def draw(self, cr, image_to_widget_coords, scale):
+    def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
         start_x, start_y = image_to_widget_coords(*self.start)
         end_x, end_y = image_to_widget_coords(*self.end)
         distance = math.hypot(end_x - start_x, end_y - start_y)
@@ -180,26 +178,26 @@ class ArrowAction(DrawingAction):
         cr.line_to(x2, y2)
         cr.stroke()
 
-    def get_bounds(self):
+    def get_bounds(self) -> tuple[int, int, int, int]:
         min_x = min(self.start[0], self.end[0])
         max_x = max(self.start[0], self.end[0])
         min_y = min(self.start[1], self.end[1])
         max_y = max(self.start[1], self.end[1])
-        return self.apply_padding((min_x, min_y, max_x, max_y))
+        return self.apply_padding((min_x, min_y, max_x, max_y), extra_padding_img=self.arrow_head_size)
 
-    def translate(self, dx, dy):
+    def translate(self, dx: int, dy: int):
         self.start = (self.start[0] + dx, self.start[1] + dy)
         self.end = (self.end[0] + dx, self.end[1] + dy)
 
 class TextAction(DrawingAction):
-    PADDING_X = 4
-    PADDING_Y = 2
+    PADDING_X_IMG = 4
+    PADDING_Y_IMG = 2
 
-    def __init__(self, position: tuple[float, float], text: str, image_bounds: tuple[int, int], settings):
+    def __init__(self, position: tuple[int, int], text: str, intrinsic_image_bounds: tuple[int, int], settings):
         self.settings = settings
         self.position = position
         self.text = text
-        self.image_bounds = image_bounds
+        self.intrinsic_image_bounds = intrinsic_image_bounds
         self.color = settings.pen_color
         self.font_size = settings.font_size
         self.font_family = settings.font_family
@@ -223,11 +221,12 @@ class TextAction(DrawingAction):
         cr.arc(x + radius, y + height - radius, radius, math.pi / 2, math.pi)
         cr.close_path()
 
-    def draw(self, cr: cairo.Context, image_to_widget_coords, scale: float):
+    def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
         if not self.text.strip():
             return
 
-        x, y = image_to_widget_coords(*self.position)
+        x_widget, y_widget = image_to_widget_coords(*self.position)
+
         layout = PangoCairo.create_layout(cr)
         font_desc = Pango.FontDescription()
         font_desc.set_family(self.font_family)
@@ -236,26 +235,26 @@ class TextAction(DrawingAction):
         layout.set_text(self.text, -1)
 
         _, logical_rect = layout.get_extents()
-        text_width = logical_rect.width / Pango.SCALE
-        text_height = logical_rect.height / Pango.SCALE
+        text_width_widget = logical_rect.width / Pango.SCALE
+        text_height_widget = logical_rect.height / Pango.SCALE
 
-        text_x = x - text_width / 2
-        text_y = y - text_height
+        text_x_widget = x_widget - text_width_widget / 2
+        text_y_widget = y_widget - text_height_widget
 
         if self.background_color and any(c > 0 for c in self.background_color):
             cr.set_source_rgba(*self.background_color)
 
-            bg_x = text_x - self.PADDING_X
-            bg_y = text_y - self.PADDING_Y
-            bg_width = text_width + 2 * self.PADDING_X
-            bg_height = text_height + 2 * self.PADDING_Y
+            bg_x_widget = text_x_widget - self.PADDING_X_IMG * scale
+            bg_y_widget = text_y_widget - self.PADDING_Y_IMG * scale
+            bg_width_widget = text_width_widget + 2 * self.PADDING_X_IMG * scale
+            bg_height_widget = text_height_widget + 2 * self.PADDING_Y_IMG * scale
 
-            radius = min(6.0 * scale, min(bg_width, bg_height) / 4)
+            radius = min(6.0 * scale, min(bg_width_widget, bg_height_widget) / 4)
 
-            self.draw_rounded_rectangle(cr, bg_x, bg_y, bg_width, bg_height, radius)
+            self.draw_rounded_rectangle(cr, bg_x_widget, bg_y_widget, bg_width_widget, bg_height_widget, radius)
             cr.fill()
 
-        cr.move_to(text_x, text_y)
+        cr.move_to(text_x_widget, text_y_widget)
         if self.contains_emoji():
             cr.set_source_rgba(*self.color)
             PangoCairo.show_layout(cr, layout)
@@ -268,7 +267,7 @@ class TextAction(DrawingAction):
             cr.set_source_rgba(*self.color)
             cr.fill()
 
-    def get_bounds(self) -> tuple[float, float, float, float]:
+    def get_bounds(self) -> tuple[int, int, int, int]:
         if not self.text.strip():
             x, y = self.position
             return (x, y, x, y)
@@ -283,30 +282,23 @@ class TextAction(DrawingAction):
         layout.set_text(self.text, -1)
 
         _, logical_rect = layout.get_extents()
-        text_width_px = logical_rect.width / Pango.SCALE
-        text_height_px = logical_rect.height / Pango.SCALE
+        text_width_img = int(logical_rect.width / Pango.SCALE)
+        text_height_img = int(logical_rect.height / Pango.SCALE)
 
-        reference_width = self.image_bounds[0]
-        reference_height = self.image_bounds[1]
-        text_width = text_width_px / reference_width
-        text_height = text_height_px / reference_height
+        x_img, y_img = self.position
 
-        padding_x_ratio = self.PADDING_X / reference_width
-        padding_y_ratio = self.PADDING_Y / reference_height
+        left_img = x_img - text_width_img // 2 - self.PADDING_X_IMG
+        right_img = x_img + text_width_img // 2 + self.PADDING_X_IMG
+        top_img = y_img - text_height_img - self.PADDING_Y_IMG
+        bottom_img = y_img + self.PADDING_Y_IMG
 
-        x, y = self.position
-        left = x - text_width / 2 - padding_x_ratio
-        right = x + text_width / 2 + padding_x_ratio
-        top = y - text_height - padding_y_ratio
-        bottom = y + padding_y_ratio
+        return self.apply_padding((left_img, top_img, right_img, bottom_img), extra_padding_img=int(self.font_size * 0.1))
 
-        return self.apply_padding((left, top, right, bottom))
-
-    def translate(self, dx: float, dy: float):
+    def translate(self, dx: int, dy: int):
         self.position = (self.position[0] + dx, self.position[1] + dy)
 
 class LineAction(ArrowAction):
-    def draw(self, cr, image_to_widget_coords, scale):
+    def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
         cr.set_source_rgba(*self.color)
         cr.set_line_width(self.width * scale)
         cr.move_to(*image_to_widget_coords(*self.start))
@@ -314,18 +306,18 @@ class LineAction(ArrowAction):
         cr.stroke()
 
 class RectAction(DrawingAction):
-    def __init__(self, start, end, settings):
+    def __init__(self, start: tuple[int, int], end: tuple[int, int], settings):
         self.start = start
         self.end = end
         self.color = settings.pen_color
         self.width = settings.pen_size
         self.fill_color = settings.fill_color
 
-    def draw(self, cr, image_to_widget_coords, scale):
-        x1, y1 = image_to_widget_coords(*self.start)
-        x2, y2 = image_to_widget_coords(*self.end)
-        x, y = min(x1, x2), min(y1, y2)
-        w, h = abs(x2 - x1), abs(y2 - y1)
+    def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
+        x1_widget, y1_widget = image_to_widget_coords(*self.start)
+        x2_widget, y2_widget = image_to_widget_coords(*self.end)
+        x, y = min(x1_widget, x2_widget), min(y1_widget, y2_widget)
+        w, h = abs(x2_widget - x1_widget), abs(y2_widget - y1_widget)
         if self.fill_color:
             cr.set_source_rgba(*self.fill_color)
             cr.rectangle(x, y, w, h)
@@ -335,23 +327,23 @@ class RectAction(DrawingAction):
         cr.rectangle(x, y, w, h)
         cr.stroke()
 
-    def get_bounds(self):
+    def get_bounds(self) -> tuple[int, int, int, int]:
         min_x = min(self.start[0], self.end[0])
         max_x = max(self.start[0], self.end[0])
         min_y = min(self.start[1], self.end[1])
         max_y = max(self.start[1], self.end[1])
-        return self.apply_padding((min_x, min_y, max_x, max_y))
+        return self.apply_padding((min_x, min_y, max_x, max_y), extra_padding_img=self.width)
 
-    def translate(self, dx, dy):
+    def translate(self, dx: int, dy: int):
         self.start = (self.start[0] + dx, self.start[1] + dy)
         self.end = (self.end[0] + dx, self.end[1] + dy)
 
 class CircleAction(RectAction):
-    def draw(self, cr, image_to_widget_coords, scale):
-        x1, y1 = image_to_widget_coords(*self.start)
-        x2, y2 = image_to_widget_coords(*self.end)
-        cx, cy = (x1 + x2) / 2, (y1 + y2) / 2
-        rx, ry = abs(x2 - x1) / 2, abs(y2 - y1) / 2
+    def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
+        x1_widget, y1_widget = image_to_widget_coords(*self.start)
+        x2_widget, y2_widget = image_to_widget_coords(*self.end)
+        cx, cy = (x1_widget + x2_widget) / 2, (y1_widget + y2_widget) / 2
+        rx, ry = abs(x2_widget - x1_widget) / 2, abs(y2_widget - y1_widget) / 2
         if rx < 1e-3 or ry < 1e-3:
             return
         cr.save()
@@ -367,12 +359,12 @@ class CircleAction(RectAction):
         cr.stroke()
 
 class HighlighterAction(StrokeAction):
-    def __init__(self, stroke, settings):
+    def __init__(self, stroke: list[tuple[int, int]], settings):
         self.stroke = stroke
         self.color = settings.highlighter_color
         self.pen_size = settings.highlighter_size
 
-    def draw(self, cr, image_to_widget_coords, scale):
+    def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
         if len(self.stroke) < 2:
             return
         coords = [image_to_widget_coords(x, y) for x, y in self.stroke]
@@ -388,15 +380,15 @@ class HighlighterAction(StrokeAction):
         cr.set_line_cap(cairo.LineCap.ROUND)
 
 class CensorAction(RectAction):
-    def __init__(self, start, end, background_pixbuf, settings):
+    def __init__(self, start: tuple[int, int], end: tuple[int, int], background_pixbuf: GdkPixbuf.Pixbuf, settings):
         super().__init__(start, end, settings)
         self.pixelation_level = settings.pixelation_level
         self.background_pixbuf = background_pixbuf
 
-    def set_background(self, pixbuf):
+    def set_background(self, pixbuf: GdkPixbuf.Pixbuf):
         self.background_pixbuf = pixbuf
 
-    def draw(self, cr, image_to_widget_coords, scale):
+    def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
         rect = self._get_widget_rect(image_to_widget_coords)
         if not rect or not self.background_pixbuf:
             return self._draw_fallback(cr, rect)
@@ -409,7 +401,6 @@ class CensorAction(RectAction):
         if not cropped:
             return
 
-        # Scale down for pixelation
         pixel_size = self.pixelation_level
         small = cropped.scale_simple(
             max(1, cropped.get_width() // pixel_size),
@@ -429,7 +420,7 @@ class CensorAction(RectAction):
 
         self._draw_pixbuf(cr, pixelated, rect)
 
-    def _get_widget_rect(self, transform):
+    def _get_widget_rect(self, transform: Callable[[int, int], tuple[float, float]]) -> dict | None:
         x1, y1 = transform(*self.start)
         x2, y2 = transform(*self.end)
         rect = {
@@ -440,27 +431,38 @@ class CensorAction(RectAction):
         }
         return rect if rect['width'] >= 1 and rect['height'] >= 1 else None
 
-    def _draw_fallback(self, cr, rect):
+    def _draw_fallback(self, cr: cairo.Context, rect: dict | None):
         if rect:
             cr.set_source_rgba(0.5, 0.5, 0.5, 0.8)
             cr.rectangle(rect['x'], rect['y'], rect['width'], rect['height'])
             cr.fill()
 
-    def _get_crop_region(self):
-        w, h = self.background_pixbuf.get_width(), self.background_pixbuf.get_height()
-        x1, y1 = int(self.start[0] * w), int(self.start[1] * h)
-        x2, y2 = int(self.end[0] * w), int(self.end[1] * h)
+    def _get_crop_region(self) -> dict | None:
+        img_w, img_h = self.background_pixbuf.get_width(), self.background_pixbuf.get_height()
 
-        x1, x2 = sorted((max(0, min(x1, w - 1)), max(0, min(x2, w - 1))))
-        y1, y2 = sorted((max(0, min(y1, h - 1)), max(0, min(y2, h - 1))))
+        x1_intrinsic_tl = int(self.start[0] + img_w / 2)
+        y1_intrinsic_tl = int(self.start[1] + img_h / 2)
+        x2_intrinsic_tl = int(self.end[0] + img_w / 2)
+        y2_intrinsic_tl = int(self.end[1] + img_h / 2)
 
-        crop_w, crop_h = x2 - x1 + 1, y2 - y1 + 1
+        x_crop_start, x_crop_end = sorted((x1_intrinsic_tl, x2_intrinsic_tl))
+        y_crop_start, y_crop_end = sorted((y1_intrinsic_tl, y2_intrinsic_tl))
+
+        x_crop_start = max(0, min(x_crop_start, img_w - 1))
+        x_crop_end = max(0, min(x_crop_end, img_w - 1))
+        y_crop_start = max(0, min(y_crop_start, img_h - 1))
+        y_crop_end = max(0, min(y_crop_end, img_h - 1))
+
+        crop_w = x_crop_end - x_crop_start
+        crop_h = y_crop_end - y_crop_start
+
         if crop_w <= 0 or crop_h <= 0:
             return None
 
-        return {'x': x1, 'y': y1, 'width': crop_w, 'height': crop_h}
+        return {'x': x_crop_start, 'y': y_crop_start, 'width': crop_w, 'height': crop_h}
 
-    def _crop_pixbuf(self, crop):
+
+    def _crop_pixbuf(self, crop: dict) -> GdkPixbuf.Pixbuf | None:
         try:
             return GdkPixbuf.Pixbuf.new_subpixbuf(
                 self.background_pixbuf,
@@ -471,12 +473,12 @@ class CensorAction(RectAction):
             print(f"Crop failed: {e}")
             return None
 
-    def _randomize_pixels(self, pixbuf):
+    def _randomize_pixels(self, pixbuf: GdkPixbuf.Pixbuf) -> GdkPixbuf.Pixbuf | None:
         pixels = bytearray(pixbuf.get_pixels())
         w, h = pixbuf.get_width(), pixbuf.get_height()
         stride, channels = pixbuf.get_rowstride(), pixbuf.get_n_channels()
         offsets = [(-1,0),(1,0),(0,-1),(0,1),(-1,-1),(1,-1),(-1,1),(1,1)]
-        random.seed(42)
+        random.seed(start_time_seed)
 
         for y in range(h):
             for x in range(w):
@@ -500,7 +502,7 @@ class CensorAction(RectAction):
             print(f"Randomize failed: {e}")
             return None
 
-    def _draw_pixbuf(self, cr, pixbuf, rect):
+    def _draw_pixbuf(self, cr: cairo.Context, pixbuf: GdkPixbuf.Pixbuf, rect: dict):
         cr.save()
         Gdk.cairo_set_source_pixbuf(cr, pixbuf, rect['x'], rect['y'])
         cr.rectangle(rect['x'], rect['y'], rect['width'], rect['height'])
@@ -508,7 +510,7 @@ class CensorAction(RectAction):
         cr.restore()
 
 class NumberStampAction(DrawingAction):
-    def __init__(self, position, number, settings):
+    def __init__(self, position: tuple[int, int], number: int, settings):
         super().__init__()
         self.position = position
         self.number = number
@@ -518,12 +520,12 @@ class NumberStampAction(DrawingAction):
         self.outline_color = settings.outline_color
         self.creation_time = time.time()
 
-    def draw(self, cr, image_to_widget_coords, scale):
-        x, y = image_to_widget_coords(*self.position)
-        r = self.radius * scale
+    def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
+        x_widget, y_widget = image_to_widget_coords(*self.position)
+        r_widget = self.radius * scale
 
         cr.set_source_rgba(*self.fill_color)
-        cr.arc(x, y, r, 0, 2 * math.pi)
+        cr.arc(x_widget, y_widget, r_widget, 0, 2 * math.pi)
         cr.fill_preserve()
 
         if has_visible_color(self.outline_color) and has_visible_color(self.fill_color):
@@ -534,12 +536,12 @@ class NumberStampAction(DrawingAction):
             cr.new_path()
 
         cr.select_font_face("Sans", cairo.FontSlant.NORMAL, cairo.FontWeight.BOLD)
-        cr.set_font_size(r * 1.2)
+        cr.set_font_size(r_widget * 1.2)
         text = str(self.number)
 
         xbearing, ybearing, width, height, xadvance, yadvance = cr.text_extents(text)
-        tx = x - width / 2 - xbearing
-        ty = y + height / 2
+        tx = x_widget - width / 2 - xbearing
+        ty = y_widget + height / 2
 
         cr.move_to(tx, ty)
         cr.text_path(text)
@@ -552,17 +554,15 @@ class NumberStampAction(DrawingAction):
         cr.set_source_rgba(*self.text_color)
         cr.fill()
 
-    def contains_point(self, px, py):
-        x, y = self.position
-        r = self.radius / 1000
-        distance = math.sqrt((px - x)**2 + (py - y)**2)
-        return distance <= r
+    def contains_point(self, px_img: int, py_img: int) -> bool:
+        x_img, y_img = self.position
+        distance_sq = (px_img - x_img)**2 + (py_img - y_img)**2
+        return distance_sq <= (self.radius + 5)**2
 
-    def get_bounds(self):
-        x, y = self.position
-        r = self.radius / 1000
-        return self.apply_padding((x - r, y - r, x + r, y + r))
+    def get_bounds(self) -> tuple[int, int, int, int]:
+        x_img, y_img = self.position
+        r_img = self.radius
+        return self.apply_padding((x_img - r_img, y_img - r_img, x_img + r_img, y_img + r_img))
 
-    def translate(self, dx, dy):
+    def translate(self, dx: int, dy: int):
         self.position = (self.position[0] + dx, self.position[1] + dy)
-

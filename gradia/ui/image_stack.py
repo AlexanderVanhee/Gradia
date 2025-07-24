@@ -45,6 +45,7 @@ class ImageStack(Adw.Bin):
     drop_overlay: DropOverlay = Gtk.Template.Child()
 
     reset_crop_revealer: Gtk.Revealer = Gtk.Template.Child()
+    confirm_crop_revealer: Gtk.Revealer = Gtk.Template.Child()
 
     crop_enabled: bool = False
     crop_has_been_enabled: bool = False
@@ -100,6 +101,7 @@ class ImageStack(Adw.Bin):
         self.crop_overlay.set_interaction_enabled(self.crop_enabled)
         self.crop_overlay.set_can_target(self.crop_enabled)
         self.right_controls_revealer.set_reveal_child(not self.crop_enabled)
+        self.confirm_crop_revealer.set_reveal_child(self.crop_enabled)
 
         if self.crop_enabled:
             self.reset_crop_revealer.set_visible(True)

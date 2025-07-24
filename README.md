@@ -67,7 +67,7 @@ If you'd like Gradia to **open automatically** after taking a screenshot, you ca
 > [!WARNING]
 > These methods are not officially supported. Issues related to packaging in these methods should be reported outside this project's bug tracker.
 
-[![Packaging status](https://repology.org/badge/vertical-allrepos/gradia.svg)](https://repology.org/project/gradia/versions)
+[![Packaging status](https://repology.org/badge/vertical-allrepos/gradia.svg?columns=3)](https://repology.org/project/gradia/versions)
 
 ## How to build
 

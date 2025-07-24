@@ -103,6 +103,32 @@ template $GradiaImageStack : Adw.Bin {
           }
 
           [overlay]
+          Gtk.Box middle_controls_container {
+            orientation: horizontal;
+            spacing: 6;
+            halign: center;
+            valign: end;
+            margin-bottom: 12;
+            margin-start: 12;
+            hexpand: false;
+
+            Gtk.Revealer confirm_crop_revealer {
+              transition-type: crossfade;
+              transition-duration: 300;
+
+              Gtk.Button {
+                label: _("Confirm");
+                tooltip-text: _("Confirm Crop Selection");
+                action-name: "app.crop";
+                styles [
+                  "pill", "osd"
+                ]
+              }
+            }
+
+          }
+
+          [overlay]
           Gtk.Revealer right_controls_revealer {
             transition-type: crossfade;
             transition-duration: 300;

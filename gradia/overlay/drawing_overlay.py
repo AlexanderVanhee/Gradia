@@ -77,43 +77,83 @@ class DrawingOverlay(Gtk.DrawingArea):
         self._selected_action = action
         self.erase_selected_revealer.set_reveal_child(action is not None)
 
-    def _get_image_bounds(self):
+    def _get_image_bounds(self) -> Tuple[float, float, float, float]:
         if not self.picture_widget or not self.picture_widget.get_paintable():
-            return 0, 0, self.get_width(), self.get_height()
-        widget_w = self.picture_widget.get_width()
-        widget_h = self.picture_widget.get_height()
-        img_w = self.picture_widget.get_paintable().get_intrinsic_width()
-        img_h = self.picture_widget.get_paintable().get_intrinsic_height()
-        if img_w <= 0 or img_h <= 0:
+            return 0, 0, float(self.get_width()), float(self.get_height())
+
+        widget_w = float(self.picture_widget.get_width())
+        widget_h = float(self.picture_widget.get_height())
+        img_w_intrinsic = float(self.picture_widget.get_paintable().get_intrinsic_width())
+        img_h_intrinsic = float(self.picture_widget.get_paintable().get_intrinsic_height())
+
+        if img_w_intrinsic <= 0 or img_h_intrinsic <= 0:
             return 0, 0, widget_w, widget_h
-        scale = min(widget_w / img_w, widget_h / img_h)
-        disp_w = img_w * scale
-        disp_h = img_h * scale
+
+        scale = min(widget_w / img_w_intrinsic, widget_h / img_h_intrinsic)
+
+        disp_w = img_w_intrinsic * scale
+        disp_h = img_h_intrinsic * scale
+
         offset_x = (widget_w - disp_w) / 2
         offset_y = (widget_h - disp_h) / 2
         return offset_x, offset_y, disp_w, disp_h
 
-    def _get_modified_image_bounds(self):
-        return self.picture_widget.get_paintable().get_intrinsic_width(), self.picture_widget.get_paintable().get_intrinsic_height()
+    def _get_modified_image_bounds(self) -> Tuple[int, int]:
+        if not self.picture_widget or not self.picture_widget.get_paintable():
+            return 0, 0
+        return self.picture_widget.get_paintable().get_intrinsic_width(), \
+               self.picture_widget.get_paintable().get_intrinsic_height()
 
-    def _get_scale_factor(self):
+    def _get_scale_factor(self) -> float:
         _, _, dw, dh = self._get_image_bounds()
         if not self.picture_widget or not self.picture_widget.get_paintable():
             return 1.0
-        img_w = self.picture_widget.get_paintable().get_intrinsic_width()
-        return dw / img_w if img_w else 1.0
+        img_w_intrinsic = self.picture_widget.get_paintable().get_intrinsic_width()
+        return dw / img_w_intrinsic if img_w_intrinsic else 1.0
 
-    def _widget_to_image_coords(self, x, y):
-        ox, oy, dw, dh = self._get_image_bounds()
-        return ((x - ox) / dw, (y - oy) / dh) if dw and dh else (x, y)
+    def _widget_to_image_coords(self, x_widget: float, y_widget: float) -> Tuple[int, int]:
+        ox, oy, disp_w, disp_h = self._get_image_bounds()
+        scale = self._get_scale_factor()
 
-    def _image_to_widget_coords(self, rx, ry):
-        ox, oy, dw, dh = self._get_image_bounds()
-        return (ox + rx * dw, oy + ry * dh)
+        rel_x_on_disp_image = x_widget - ox
+        rel_y_on_disp_image = y_widget - oy
 
-    def _is_point_in_image(self, x, y):
+        img_x_intrinsic_top_left = rel_x_on_disp_image / scale
+        img_y_intrinsic_top_left = rel_y_on_disp_image / scale
+
+        img_w_intrinsic, img_h_intrinsic = self._get_modified_image_bounds()
+
+        center_x_intrinsic = img_w_intrinsic / 2
+        center_y_intrinsic = img_h_intrinsic / 2
+
+        img_x_centered = round(img_x_intrinsic_top_left - center_x_intrinsic)
+        img_y_centered = round(img_y_intrinsic_top_left - center_y_intrinsic)
+
+        return img_x_centered, img_y_centered
+
+    def _image_to_widget_coords(self, x_image: int, y_image: int) -> Tuple[float, float]:
+        ox, oy, disp_w, disp_h = self._get_image_bounds()
+        scale = self._get_scale_factor()
+
+        img_w_intrinsic, img_h_intrinsic = self._get_modified_image_bounds()
+
+        center_x_intrinsic = img_w_intrinsic / 2
+        center_y_intrinsic = img_h_intrinsic / 2
+
+        img_x_intrinsic_top_left = center_x_intrinsic + x_image
+        img_y_intrinsic_top_left = center_y_intrinsic + y_image
+
+        rel_x_on_disp_image = img_x_intrinsic_top_left * scale
+        rel_y_on_disp_image = img_y_intrinsic_top_left * scale
+
+        widget_x = ox + rel_x_on_disp_image
+        widget_y = oy + rel_y_on_disp_image
+
+        return widget_x, widget_y
+
+    def _is_point_in_image(self, x_widget: float, y_widget: float) -> bool:
         ox, oy, dw, dh = self._get_image_bounds()
-        return ox <= x <= ox + dw and oy <= y <= oy + dh
+        return ox <= x_widget <= ox + dw and oy <= y_widget <= oy + dh
 
     def _get_background_pixbuf(self):
         if not self.picture_widget:
@@ -132,7 +172,7 @@ class DrawingOverlay(Gtk.DrawingArea):
             if hasattr(root, "add_action"):
                 root.add_action(action)
 
-    def _get_number_actions(self):
+    def _get_number_actions(self) -> list:
         return [action for action in self.actions if isinstance(action, NumberStampAction)]
 
     def _renumber_actions(self):
@@ -172,31 +212,33 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.end_point = None
         self.queue_draw()
 
-    def _find_action_at_point(self, x, y):
+    def _find_action_at_point(self, x_image: int, y_image: int) -> DrawingAction | None:
         for action in reversed(self.actions):
-            if action.contains_point(x, y):
+            if action.contains_point(x_image, y_image):
                 return action
         return None
 
-    def _is_point_in_selection_bounds(self, x, y):
+    def _is_point_in_selection_bounds(self, x_image: int, y_image: int) -> bool:
         if not self.selected_action:
             return False
 
         min_x, min_y, max_x, max_y = self.selected_action.get_bounds()
-        padding_img = max(self.settings.pen_size, self.settings.arrow_head_size, self.settings.font_size / 2) / 200.0
-        return min_x - padding_img <= x <= max_x + padding_img and min_y - padding_img <= y <= max_y + padding_img
+        padding_img = max(self.settings.pen_size, self.settings.arrow_head_size, self.settings.font_size / 2)
 
-    def _draw_selection_box(self, cr, scale):
+        return min_x - padding_img <= x_image <= max_x + padding_img and \
+               min_y - padding_img <= y_image <= max_y + padding_img
+
+    def _draw_selection_box(self, cr: cairo.Context, scale: float):
         if not self.selected_action:
             return
 
-        min_x, min_y, max_x, max_y = self.selected_action.get_bounds()
-        x1, y1 = self._image_to_widget_coords(min_x, min_y)
-        x2, y2 = self._image_to_widget_coords(max_x, max_y)
+        min_x_img, min_y_img, max_x_img, max_y_img = self.selected_action.get_bounds()
+        x1_widget, y1_widget = self._image_to_widget_coords(min_x_img, min_y_img)
+        x2_widget, y2_widget = self._image_to_widget_coords(max_x_img, max_y_img)
 
         padding = SELECTION_BOX_PADDING
-        x, y = x1 - padding, y1 - padding
-        w, h = (x2 - x1) + 2 * padding, (y2 - y1) + 2 * padding
+        x, y = x1_widget - padding, y1_widget - padding
+        w, h = (x2_widget - x1_widget) + 2 * padding, (y2_widget - y1_widget) + 2 * padding
 
         accent = Adw.StyleManager.get_default().get_accent_color_rgba()
         cr.set_source_rgba(*accent)
@@ -223,16 +265,16 @@ class DrawingOverlay(Gtk.DrawingArea):
         motion.connect("motion", self._on_motion)
         self.add_controller(motion)
 
-    def _on_click(self, gesture, n_press, x, y):
-        if self.drawing_mode == DrawingMode.TEXT and self._is_point_in_image(x, y):
+    def _on_click(self, gesture, n_press, x_widget, y_widget):
+        if self.drawing_mode == DrawingMode.TEXT and self._is_point_in_image(x_widget, y_widget):
             self.grab_focus()
             if n_press == 1:
-                self._show_text_entry(x, y)
-        elif self.drawing_mode == DrawingMode.NUMBER and self._is_point_in_image(x, y) and n_press == 1:
+                self._show_text_entry(x_widget, y_widget)
+        elif self.drawing_mode == DrawingMode.NUMBER and self._is_point_in_image(x_widget, y_widget) and n_press == 1:
             self.grab_focus()
-            rel_x, rel_y = self._widget_to_image_coords(x, y)
+            img_x, img_y = self._widget_to_image_coords(x_widget, y_widget)
             number_action = NumberStampAction(
-                position=(rel_x, rel_y),
+                position=(img_x, img_y),
                 number=self._next_number,
                 settings=self.settings.copy()
             )
@@ -242,15 +284,15 @@ class DrawingOverlay(Gtk.DrawingArea):
             self.redo_stack.clear()
             self.queue_draw()
 
-        elif self.drawing_mode == DrawingMode.SELECT and self._is_point_in_image(x, y):
+        elif self.drawing_mode == DrawingMode.SELECT and self._is_point_in_image(x_widget, y_widget):
             self.grab_focus()
-            img_x, img_y = self._widget_to_image_coords(x, y)
+            img_x, img_y = self._widget_to_image_coords(x_widget, y_widget)
 
             if (n_press == 2 and
                 self.selected_action and
                 isinstance(self.selected_action, TextAction) and
                 self.selected_action.contains_point(img_x, img_y)):
-                self._start_text_edit(self.selected_action, x, y)
+                self._start_text_edit(self.selected_action, x_widget, y_widget)
                 return
 
             if n_press == 1:
@@ -283,12 +325,12 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.text_entry_popup.connect("closed", self._on_text_entry_popover_closed)
         self.text_entry_popup.popup_at_widget_coords(self, widget_x, widget_y)
 
-    def _show_text_entry(self, x, y):
+    def _show_text_entry(self, x_widget, y_widget):
         if self.text_entry_popup:
             self.text_entry_popup.popdown()
             self.text_entry_popup = None
 
-        self.text_position = self._widget_to_image_coords(x, y)
+        self.text_position = self._widget_to_image_coords(x_widget, y_widget)
         self.is_text_editing = True
         self.live_text = ""
         self.editing_text_action = None
@@ -301,7 +343,7 @@ class DrawingOverlay(Gtk.DrawingArea):
             font_size=self.settings.font_size
         )
         self.text_entry_popup.connect("closed", self._on_text_entry_popover_closed)
-        self.text_entry_popup.popup_at_widget_coords(self, x, y)
+        self.text_entry_popup.popup_at_widget_coords(self, x_widget, y_widget)
 
     def _on_font_size_changed(self, spin_button):
         font_size = spin_button.get_value()
@@ -382,49 +424,48 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.is_text_editing = False
         self.editing_text_action = None
 
-    def _on_drag_begin(self, gesture, x, y):
+    def _on_drag_begin(self, gesture, x_widget, y_widget):
         if self.drawing_mode == DrawingMode.TEXT or self.drawing_mode == DrawingMode.NUMBER or self.text_entry_popup:
             return
-        if not self._is_point_in_image(x, y):
+        if not self._is_point_in_image(x_widget, y_widget):
             return
 
         self.grab_focus()
-        rel_x, rel_y = self._widget_to_image_coords(x, y)
+        img_x, img_y = self._widget_to_image_coords(x_widget, y_widget)
 
         if self.drawing_mode == DrawingMode.SELECT:
-            if self.selected_action and self._is_point_in_selection_bounds(rel_x, rel_y):
+            if self.selected_action and self._is_point_in_selection_bounds(img_x, img_y):
                 self.is_moving_selection = True
-                self.move_start_point = (rel_x, rel_y)
+                self.move_start_point = (img_x, img_y)
             else:
-                self.selected_action = self._find_action_at_point(rel_x, rel_y)
+                self.selected_action = self._find_action_at_point(img_x, img_y)
                 if self.selected_action:
                     self.is_moving_selection = True
-                    self.move_start_point = (rel_x, rel_y)
+                    self.move_start_point = (img_x, img_y)
             self.queue_draw()
             return
 
         self.is_drawing = True
-        rel = self._widget_to_image_coords(x, y)
         if self.drawing_mode == DrawingMode.PEN or self.drawing_mode == DrawingMode.HIGHLIGHTER:
-            self.current_stroke = [rel]
+            self.current_stroke = [(img_x, img_y)]
         else:
-            self.start_point = rel
-            self.end_point = rel
+            self.start_point = (img_x, img_y)
+            self.end_point = (img_x, img_y)
 
-    def _on_drag_update(self, gesture, dx, dy):
+    def _on_drag_update(self, gesture, dx_widget, dy_widget):
         if self.drawing_mode == DrawingMode.TEXT or self.drawing_mode == DrawingMode.NUMBER:
             return
 
-        start = gesture.get_start_point()
-        cur_x, cur_y = start.x + dx, start.y + dy
-        rel_x, rel_y = self._widget_to_image_coords(cur_x, cur_y)
+        start_x_widget, start_y_widget = gesture.get_start_point().x, gesture.get_start_point().y
+        cur_x_widget, cur_y_widget = start_x_widget + dx_widget, start_y_widget + dy_widget
+        img_x, img_y = self._widget_to_image_coords(cur_x_widget, cur_y_widget)
 
         if self.drawing_mode == DrawingMode.SELECT and self.is_moving_selection and self.selected_action and self.move_start_point:
-            old_x, old_y = self.move_start_point
-            delta_x = rel_x - old_x
-            delta_y = rel_y - old_y
-            self.selected_action.translate(delta_x, delta_y)
-            self.move_start_point = (rel_x, rel_y)
+            old_x_img, old_y_img = self.move_start_point
+            delta_x_img = img_x - old_x_img
+            delta_y_img = img_y - old_y_img
+            self.selected_action.translate(delta_x_img, delta_y_img)
+            self.move_start_point = (img_x, img_y)
             self.queue_draw()
             return
 
@@ -432,12 +473,12 @@ class DrawingOverlay(Gtk.DrawingArea):
             return
 
         if self.drawing_mode == DrawingMode.PEN or self.drawing_mode == DrawingMode.HIGHLIGHTER:
-            self.current_stroke.append((rel_x, rel_y))
+            self.current_stroke.append((img_x, img_y))
         else:
-            self.end_point = (rel_x, rel_y)
+            self.end_point = (img_x, img_y)
         self.queue_draw()
 
-    def _on_drag_end(self, gesture, dx, dy):
+    def _on_drag_end(self, gesture, dx_widget, dy_widget):
         if self.drawing_mode == DrawingMode.TEXT or self.drawing_mode == DrawingMode.NUMBER:
             return
 
@@ -475,13 +516,13 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.redo_stack.clear()
         self.queue_draw()
 
-    def _on_motion(self, controller, x, y):
+    def _on_motion(self, controller, x_widget, y_widget):
         if self.drawing_mode == DrawingMode.TEXT:
-            name = "text" if self._is_point_in_image(x, y) else "default"
+            name = "text" if self._is_point_in_image(x_widget, y_widget) else "default"
         elif self.drawing_mode == DrawingMode.NUMBER:
-            name = "crosshair" if self._is_point_in_image(x, y) else "default"
+            name = "crosshair" if self._is_point_in_image(x_widget, y_widget) else "default"
         elif self.drawing_mode == DrawingMode.SELECT:
-            img_x, img_y = self._widget_to_image_coords(x, y)
+            img_x, img_y = self._widget_to_image_coords(x_widget, y_widget)
             if self.selected_action and self._is_point_in_selection_bounds(img_x, img_y):
                 name = "grab"
             elif self._find_action_at_point(img_x, img_y):
@@ -489,18 +530,19 @@ class DrawingOverlay(Gtk.DrawingArea):
             else:
                 name = "default"
         elif self.drawing_mode == DrawingMode.CENSOR:
-            name = "crosshair" if self._is_point_in_image(x, y) else "default"
+            name = "crosshair" if self._is_point_in_image(x_widget, y_widget) else "default"
         else:
             name = "crosshair" if self.drawing_mode == DrawingMode.PEN or self.drawing_mode == DrawingMode.HIGHLIGHTER else "cell"
-            if not self._is_point_in_image(x, y):
+            if not self._is_point_in_image(x_widget, y_widget):
                 name = "default"
         self.set_cursor(Gdk.Cursor.new_from_name(name, None))
 
-    def _on_draw(self, area, cr, width, height):
+    def _on_draw(self, area, cr: cairo.Context, width: int, height: int):
         scale = self._get_scale_factor()
+        ox, oy, dw, dh = self._get_image_bounds()
+
         cr.set_line_cap(cairo.LineCap.ROUND)
         cr.set_line_join(cairo.LineJoin.ROUND)
-        ox, oy, dw, dh = self._get_image_bounds()
         cr.rectangle(ox, oy, dw, dh)
         cr.clip()
 
@@ -526,10 +568,10 @@ class DrawingOverlay(Gtk.DrawingArea):
                     CircleAction(self.start_point, self.end_point, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
                 elif self.drawing_mode == DrawingMode.CENSOR:
                     cr.set_source_rgba(0.5, 0.5, 0.5, 0.5)
-                    x1, y1 = self._image_to_widget_coords(*self.start_point)
-                    x2, y2 = self._image_to_widget_coords(*self.end_point)
-                    x, y = min(x1, x2), min(y1, y2)
-                    w, h = abs(x2 - x1), abs(y2 - y1)
+                    x1_widget, y1_widget = self._image_to_widget_coords(*self.start_point)
+                    x2_widget, y2_widget = self._image_to_widget_coords(*self.end_point)
+                    x, y = min(x1_widget, x2_widget), min(y1_widget, y2_widget)
+                    w, h = abs(x2_widget - x1_widget), abs(y2_widget - y1_widget)
                     cr.rectangle(x, y, w, h)
                     cr.fill()
 
@@ -611,14 +653,16 @@ def render_actions_to_pixbuf(actions: list[DrawingAction], width: int, height: i
     cr.paint()
     cr.set_operator(cairo.Operator.OVER)
 
-    def image_coords_to_self(x, y):
-        return (x * width, y * height)
+    def image_coords_to_intrinsic_pixels(x_image: int, y_image: int) -> Tuple[float, float]:
+        center_x_intrinsic = width / 2.0
+        center_y_intrinsic = height / 2.0
+        return (center_x_intrinsic + x_image, center_y_intrinsic + y_image)
 
     cr.set_line_cap(cairo.LineCap.ROUND)
     cr.set_line_join(cairo.LineJoin.ROUND)
 
     for action in actions:
-        action.draw(cr, image_coords_to_self, 1.0)
+        action.draw(cr, image_coords_to_intrinsic_pixels, 1.0)
 
     surface.flush()
 

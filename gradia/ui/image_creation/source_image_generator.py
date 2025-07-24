@@ -562,7 +562,8 @@ class SourceImageGeneratorWindow(Adw.Window):
         widget_to_export.get_root().grab_focus()
 
         self.source_view_manager.get_view().get_style_context().add_class("no-highlights")
-        self.fake_window_manager.title_entry.get_style_context().add_class("no-highlights")
+        if self.fake_window_manager.title_entry is not None:
+            self.fake_window_manager.title_entry.get_style_context().add_class("no-highlights")
 
         def do_export():
             exporter = SourceExporter(widget_to_export)

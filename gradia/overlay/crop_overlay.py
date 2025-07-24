@@ -16,8 +16,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from typing import Any
-from gi.repository import Gtk, Gdk, Graphene
+from gi.repository import Gtk, Gdk, Graphene, Gsk
 import math
+import cairo
 
 class CropOverlay(Gtk.Widget):
     __gtype_name__ = "GradiaCropOverlay"
@@ -31,7 +32,7 @@ class CropOverlay(Gtk.Widget):
         self.crop_width = 1.0
         self.crop_height = 1.0
 
-        self.handle_size = 12
+        self.handle_size = 18
         self.edge_grab_distance = 8
         self.dragging_handle = None
         self.dragging_edge = None
@@ -146,76 +147,31 @@ class CropOverlay(Gtk.Widget):
 
             self._draw_corner_handles(snapshot, crop_x, crop_y, crop_w, crop_h)
 
+
     def _draw_corner_handles(self, snapshot: Gtk.Snapshot, x: float, y: float, w: float, h: float) -> None:
         handle_size = self.handle_size
-        half_handle = handle_size / 2
-
+        radius = handle_size / 2.0
         corners = [
-            (x, y),  # Top-left
-            (x + w, y),  # Top-right
-            (x + w, y + h),  # Bottom-right
-            (x, y + h),  # Bottom-left
+            (x, y),
+            (x + w, y),
+            (x + w, y + h),
+            (x, y + h),
         ]
-
-        fill_color = Gdk.RGBA()
-        fill_color.red = 1.0
-        fill_color.green = 1.0
-        fill_color.blue = 1.0
-        fill_color.alpha = 0.9
-
-        border_color = Gdk.RGBA()
-        border_color.red = 0.2
-        border_color.green = 0.2
-        border_color.blue = 0.2
-        border_color.alpha = 0.8
-
-        for corner_x, corner_y in corners:
-            handle_rect = Graphene.Rect.alloc()
-            handle_rect.init(
-                corner_x - half_handle,
-                corner_y - half_handle,
+        color = Gdk.RGBA(red=1, green=1, blue=1, alpha=1.0)
+        for cx, cy in corners:
+            rect = Graphene.Rect()
+            rect.init(
+                cx - radius,
+                cy - radius,
                 handle_size,
                 handle_size
             )
-            snapshot.append_color(fill_color, handle_rect)
+            rounded_rect = Gsk.RoundedRect()
+            rounded_rect.init_from_rect(rect, radius)
+            snapshot.push_rounded_clip(rounded_rect)
+            snapshot.append_color(color, rect)
+            snapshot.pop()
 
-            border_width = 1.0
-
-            top_border = Graphene.Rect.alloc()
-            top_border.init(
-                corner_x - half_handle,
-                corner_y - half_handle,
-                handle_size,
-                border_width
-            )
-            snapshot.append_color(border_color, top_border)
-
-            bottom_border = Graphene.Rect.alloc()
-            bottom_border.init(
-                corner_x - half_handle,
-                corner_y + half_handle - border_width,
-                handle_size,
-                border_width
-            )
-            snapshot.append_color(border_color, bottom_border)
-
-            left_border = Graphene.Rect.alloc()
-            left_border.init(
-                corner_x - half_handle,
-                corner_y - half_handle,
-                border_width,
-                handle_size
-            )
-            snapshot.append_color(border_color, left_border)
-
-            right_border = Graphene.Rect.alloc()
-            right_border.init(
-                corner_x + half_handle - border_width,
-                corner_y - half_handle,
-                border_width,
-                handle_size
-            )
-            snapshot.append_color(border_color, right_border)
 
     def _get_handle_at_point(self, x: float, y: float) -> str | None:
         if not self.interaction_enabled or not self.picture_widget or not self.picture_widget.get_paintable():
