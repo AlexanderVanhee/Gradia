@@ -135,6 +135,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.create_action("copy", lambda *_: self.export_manager.copy_to_clipboard(), ["<Primary>c"], enabled=False)
         self.create_action("command", lambda *_: self._run_custom_command(), ["<Primary>m"], enabled=False)
 
+        self.create_action("ocr", lambda *_: self.image_bin.on_ocr(), ["<Primary>i"])
         self.create_action("crop", lambda *_: self.image_bin.on_toggle_crop(), ["<Primary>r"])
         self.create_action("reset-crop", lambda *_: self.image_bin.reset_crop_selection(), ["<Primary><Shift>r"])
 
@@ -165,8 +166,8 @@ class GradiaMainWindow(Adw.ApplicationWindow):
     """
 
     def _setup_image_stack(self) -> None:
-        self.image_bin = ImageStack()
-        self.image_bin.connect("crop-toggled", self._on_crop_toggled)
+        self.image_bin = ImageStack(self)
+        self.image_bin.connect("sidebar-toggled", self._on_sidebar_toggled)
         self.image_stack = self.image_bin.stack
         self.picture = self.image_bin.picture
         self.drawing_overlay = self.image_bin.drawing_overlay
@@ -445,9 +446,8 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         Settings().screenshot_subfolder = subfolder
         self.welcome_content.refresh_recent_picker()
 
-    def _on_crop_toggled(self, image_stack: ImageStack, enabled: bool) -> None:
+    def _on_sidebar_toggled(self, image_stack: ImageStack, enabled: bool) -> None:
         self.split_view.set_show_sidebar(not enabled)
-
 
     def _run_custom_command(self) -> None:
         if Settings().show_export_confirm_dialog:

@@ -22,12 +22,13 @@ from gradia.overlay.drawing_overlay import DrawingOverlay
 from gradia.overlay.transparency_overlay import TransparencyBackground
 from gradia.overlay.crop_overlay import CropOverlay
 from gradia.overlay.drop_overlay import DropOverlay
+from gradia.backend.ocr import OCR
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/image_stack.ui")
 class ImageStack(Adw.Bin):
     __gtype_name__ = "GradiaImageStack"
     __gsignals__ = {
-        "crop-toggled": (GObject.SignalFlags.RUN_FIRST, None, (bool,))
+        "sidebar-toggled": (GObject.SignalFlags.RUN_FIRST, None, (bool,))
     }
 
     stack: Gtk.Stack = Gtk.Template.Child()
@@ -38,22 +39,28 @@ class ImageStack(Adw.Bin):
     picture: Gtk.Picture = Gtk.Template.Child()
     transparency_background: TransparencyBackground = Gtk.Template.Child()
     crop_overlay: CropOverlay = Gtk.Template.Child()
+    crop_overlay_revealer: Gtk.Revealer = Gtk.Template.Child()
 
     erase_selected_revealer: Gtk.Revealer = Gtk.Template.Child()
     right_controls_revealer: Gtk.Revealer = Gtk.Template.Child()
+    ocr_revealer: Gtk.Revealer = Gtk.Template.Child()
+    ocr_text_view : Gtk.TextView = Gtk.Template.Child()
 
     drop_overlay: DropOverlay = Gtk.Template.Child()
 
     reset_crop_revealer: Gtk.Revealer = Gtk.Template.Child()
     confirm_crop_revealer: Gtk.Revealer = Gtk.Template.Child()
 
+    bottom_sheet: Adw.BottomSheet = Gtk.Template.Child()
+
     crop_enabled: bool = False
     crop_has_been_enabled: bool = False
 
 
-    def __init__(self, **kwargs) -> None:
+    def __init__(self, window: Adw.Window, **kwargs) -> None:
         super().__init__(**kwargs)
         self._setup()
+        self.window = window
 
     def set_erase_selected_visible(self, show: bool) -> None:
         self.erase_selected_revealer.set_reveal_child(show)
@@ -66,6 +73,10 @@ class ImageStack(Adw.Bin):
         self.drawing_overlay.set_erase_selected_revealer(self.erase_selected_revealer)
         self.right_controls_revealer.set_reveal_child(True)
         self.reset_crop_revealer.set_visible(False)
+        self.ocr_revealer.set_reveal_child(True)
+        self.crop_overlay_revealer.set_reveal_child(True)
+
+        self.ocr_text_view.get_style_context().remove_class("view")
 
         drop_target = Gtk.DropTarget.new(Gio.File, Gdk.DragAction.COPY)
         drop_target.set_preload(True)
@@ -101,16 +112,37 @@ class ImageStack(Adw.Bin):
         self.crop_overlay.set_interaction_enabled(self.crop_enabled)
         self.crop_overlay.set_can_target(self.crop_enabled)
         self.right_controls_revealer.set_reveal_child(not self.crop_enabled)
+        self.ocr_revealer.set_reveal_child(not self.crop_enabled)
         self.confirm_crop_revealer.set_reveal_child(self.crop_enabled)
 
         if self.crop_enabled:
             self.reset_crop_revealer.set_visible(True)
 
-        self.emit("crop-toggled", self.crop_enabled)
+        self.emit("sidebar-toggled", self.crop_enabled)
 
         self.reset_crop_revealer.set_reveal_child(self.crop_enabled)
 
         if self.crop_enabled and not self.crop_has_been_enabled:
             self.crop_overlay.set_crop_rectangle(0.1, 0.1, 0.8, 0.8)
             self.crop_has_been_enabled = True
+
+    def _update_ocr_ui_state(self) -> None:
+        self.right_controls_revealer.set_reveal_child(not self.ocr_enabled)
+        self.bottom_sheet.set_open(self.ocr_enabled)
+        self.crop_overlay_revealer.set_reveal_child(not self.ocr_enabled)
+        self.emit("sidebar-toggled", self.ocr_enabled)
+
+
+    def on_ocr(self) -> None:
+        self.ocr_enabled = True
+        ocr = OCR()
+
+        buffer = self.ocr_text_view.get_buffer()
+        buffer.set_text(ocr.extract_text(self.window.processed_path))
+        self._update_ocr_ui_state()
+
+    @Gtk.Template.Callback()
+    def _on_sheet_close_clicked(self, sheet: Adw.BottomSheet) -> None:
+        self.ocr_enabled = False
+        self._update_ocr_ui_state()
 
