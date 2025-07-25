@@ -13,7 +13,8 @@ blueprints = custom_target('blueprints',
     'welcome_page.blp',
     'preferences_window.blp',
     'confirm_close_dialog.blp',
-    'image_generator_window.blp'
+    'image_generator_window.blp',
+    'ocr_page.blp',
   ),
   output: '.',
   command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@']

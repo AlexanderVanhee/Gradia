@@ -1,0 +1,19 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $GradiaOCRDownloadPage : Adw.NavigationPage {
+  title: _("OCR Languages");
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      show-start-title-buttons: false;
+    }
+
+    content: Adw.StatusPage {
+      icon-name: "scanner-symbolic";
+      title: _("OCR Languages");
+      description: _("Download and manage OCR language packs");
+    };
+  }
+}

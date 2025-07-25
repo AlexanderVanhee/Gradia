@@ -125,6 +125,35 @@ template $GradiaPreferencesWindow : Adw.Window {
                     activatable: true;
                   }
                 }
+
+
+               Adw.PreferencesGroup {
+                  title: _("OCR");
+
+                  Adw.ActionRow {
+                    title: _("Language Settings");
+                    subtitle: _("Select languages to improve OCR accuracy");
+                    activatable: true;
+                    activated => $on_ocr_clicked();
+
+                    [suffix]
+                    Gtk.Box {
+                      spacing: 6;
+                      valign: center;
+
+                      Gtk.Label ocr_language_name {
+                        label: _("None Selected");
+                        styles ["dim-label"]
+                      }
+
+                      Gtk.Image {
+                        icon-name: "go-next-symbolic";
+                      }
+                    }
+                  }
+                }
+
+
               };
             };
           };

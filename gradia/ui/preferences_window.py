@@ -26,6 +26,7 @@ from gradia.backend.settings import Settings
 from gradia.app_constants import SUPPORTED_EXPORT_FORMATS
 from gradia.backend.logger import Logger
 from gradia.ui.provider_selection_window import ProviderListPage
+from gradia.ui.ocr_page import OCRDownloadPage
 
 logger = Logger()
 
@@ -267,4 +268,15 @@ class PreferencesWindow(Adw.Window):
             self.settings.custom_export_command = command
             self.parent_window.update_command_ready()
         self.view_stack.push(ProviderListPage(self.view_stack, on_provider_selected=handle_selection))
+
+    @Gtk.Template.Callback()
+    def on_ocr_clicked(self, button: Gtk.Button) -> None:
+        """
+        def handle_selection(name: str, command: str):
+            self.provider_name.set_text(name)
+            self.settings.provider_name = name
+            self.settings.custom_export_command = command
+            self.parent_window.update_command_ready()
+        """
+        self.view_stack.push(OCRDownloadPage())
 

@@ -52,3 +52,5 @@ SUPPORTED_EXPORT_FORMATS = {
 }
 
 DEFAULT_EXPORT_FORMAT = 'jpeg'
+
+TESSDATA_DIR = "/app/share/tessdata"
