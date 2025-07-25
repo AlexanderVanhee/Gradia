@@ -64,8 +64,6 @@ class RecentImageGetter:
             return None
 
         configured_subfolder = Settings().screenshot_subfolder
-        print(f"folder: {configured_subfolder}")
-
         if not configured_subfolder:
             path = Path(xdg_pictures)
             return path if path.exists() else None

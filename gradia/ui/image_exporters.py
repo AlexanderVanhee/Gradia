@@ -275,12 +275,10 @@ class CommandLineExporter(BaseImageExporter):
 
             logger.info("running custom command: " + command)
             process = subprocess.Popen(
-                command,
-                shell=True,
-                executable="/bin/bash",
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE
-            )
+                    ["/usr/bin/env", "bash", "-c", command],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE
+                )
             stdout, stderr = process.communicate()
 
             logger.info("stderr:" + (stderr.decode('utf-8') if stderr else "None"))

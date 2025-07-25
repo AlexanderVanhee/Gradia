@@ -16,6 +16,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+import mimetypes
+from urllib.parse import urlparse, unquote
+import urllib.request
 from datetime import datetime
 from typing import Optional, Callable
 
@@ -23,7 +26,10 @@ from gi.repository import Gtk, Gio, Gdk, GLib, Xdp
 from gradia.clipboard import save_texture_to_file
 from gradia.ui.image_creation.source_image_generator import SourceImageGeneratorWindow
 from gradia.utils.timestamp_filename import TimestampedFilenameGenerator
+from gradia.backend.logger import Logger
 ImportFormat = tuple[str, str]
+
+logger = Logger()
 
 class BaseImageLoader:
     """Base class for image loading handlers"""
@@ -85,11 +91,11 @@ class FileDialogImageLoader(BaseImageLoader):
 
             file_path = file.get_path()
             if not file_path or not os.path.isfile(file_path):
-                print(f"Invalid file path: {file_path}")
+                logger.info(f"Invalid file path: {file_path}")
                 return
 
             if not self._is_supported_format(file_path):
-                print(f"Unsupported file format: {file_path}")
+                logger.info(f"Unsupported file format: {file_path}")
                 return
 
             filename = os.path.basename(file_path)
@@ -98,7 +104,7 @@ class FileDialogImageLoader(BaseImageLoader):
             self._set_image_and_update_ui(file_path, filename, directory)
 
         except Exception as e:
-            print(f"Error opening file: {e}")
+            logger.error(f"Error opening file: {e}")
 
 
 class DragDropImageLoader(BaseImageLoader):
@@ -113,23 +119,67 @@ class DragDropImageLoader(BaseImageLoader):
         y: int
     ) -> bool:
 
-        if not isinstance(value, Gio.File):
+        if isinstance(value, Gio.File):
+            uri = value.get_uri()
+            logger.info(f"Dropped URI: {uri}")
+
+            if uri.startswith("file://"):
+                file_path = unquote(urlparse(uri).path)
+
+                if not os.path.isfile(file_path):
+                    ("File does not exist:", file_path)
+                    return False
+
+                if not self._is_supported_format(file_path):
+                    self.window._show_notification(_("Not a supported image format."))
+                    return False
+
+                filename = os.path.basename(file_path)
+                directory = os.path.dirname(file_path)
+                self._set_image_and_update_ui(file_path, filename, directory)
+                return True
+
+            elif uri.startswith(("http://", "https://")):
+                return self._handle_image_url(uri)
+
+            else:
+                logger.info("Unsupported URI scheme:", uri)
+                self.window._show_notification(_("Unsupported file drop."))
+                return False
+        return False
+
+    def _handle_image_url(self, url: str) -> bool:
+        try:
+            path = urlparse(url).path
+            mime_type, _unused = mimetypes.guess_type(path)
+            logger.info(f"mime type from guess_type: {mime_type}")
+
+            if not (mime_type and mime_type.startswith("image/")):
+                lower_path = path.lower()
+                supported_extensions = [ext for ext, _ in self.SUPPORTED_INPUT_FORMATS]
+                if not any(lower_path.endswith(ext) for ext in supported_extensions):
+                    self.window._show_notification(_("URL is not a valid image format."))
+                    return False
+                else:
+                    logger.info("Fallback: file extension matches supported image format.")
+
+            filename = os.path.basename(path) or "downloaded_image"
+            temp_path = os.path.join(self.temp_dir, filename)
+
+            urllib.request.urlretrieve(url, temp_path)
+
+            if not self._is_supported_format(temp_path):
+                self.window._show_notification(_("URL is not a supported image format."))
+                os.remove(temp_path)
+                return False
+
+            self._set_image_and_update_ui(temp_path, filename, self.temp_dir)
+            return True
+
+        except Exception as e:
+            logger.error("Error downloading image:", e)
+            self.window._show_notification(_("Failed to load image from URL."))
             return False
-
-        file_path = value.get_path()
-        if not file_path or not os.path.isfile(file_path):
-            return False
-
-        if not self._is_supported_format(file_path):
-            self.window._show_notification(_("Not a supported image format."))
-            return False
-
-        filename = os.path.basename(file_path)
-        directory = os.path.dirname(file_path)
-
-        self._set_image_and_update_ui(file_path, filename, directory)
-        return True
-
 
 class ClipboardImageLoader(BaseImageLoader):
     TEMP_CLIPBOARD_FILENAME: str = "clipboard_image.png"
@@ -150,7 +200,7 @@ class ClipboardImageLoader(BaseImageLoader):
         try:
             texture = clipboard.read_texture_finish(result)
             if not texture:
-                print("No image found in clipboard")
+                logger.info("No image found in clipboard")
                 self.window._show_notification(_("No image found in clipboard"))
                 return
 
@@ -169,7 +219,7 @@ class ClipboardImageLoader(BaseImageLoader):
                 self.window._show_notification(_("Clipboard does not contain an image."))
             else:
                 self.window._show_notification(_("Failed to load image from clipboard."))
-                print(f"Error processing clipboard image: {e}")
+                logger.error(f"Error processing clipboard image: {e}")
 
         finally:
             self.window._set_loading_state(False)
@@ -202,7 +252,7 @@ class ScreenshotImageLoader(BaseImageLoader):
             self.window.hide()
             GLib.timeout_add(150, self._do_take_screenshot, flags)
         except Exception as e:
-            print(f"Failed to initiate screenshot: {e}")
+            logger.error(f"Failed to initiate screenshot: {e}")
             self.window._show_notification(_("Failed to take screenshot"))
             if on_error_or_cancel:
                 on_error_or_cancel(str(e))
@@ -217,7 +267,7 @@ class ScreenshotImageLoader(BaseImageLoader):
                 None
             )
         except Exception as e:
-            print(f"Failed during screenshot: {e}")
+            logger.info(f"Failed during screenshot: {e}")
             self.window._show_notification(_("Failed to take screenshot"))
             self.window.show()
             if self._error_callback:
@@ -233,7 +283,7 @@ class ScreenshotImageLoader(BaseImageLoader):
             self._handle_screenshot_uri(uri)
             self._update_delete_action_state()
         except GLib.Error as e:
-            print(f"Screenshot error: {e}")
+            logger.error(f"Screenshot error: {e}")
             self.window._show_notification(_("Screenshot cancelled"))
             if self._error_callback:
                 self._error_callback(str(e))
@@ -266,7 +316,7 @@ class ScreenshotImageLoader(BaseImageLoader):
                 self._success_callback()
 
         except Exception as e:
-            print(f"Error processing screenshot: {e}")
+            logger.error(f"Error processing screenshot: {e}")
             self.window._show_notification(_("Failed to process screenshot"))
         finally:
             self.window._set_loading_state(False)
@@ -280,7 +330,7 @@ class ScreenshotImageLoader(BaseImageLoader):
                 file = Gio.File.new_for_uri(uri)
                 file.trash(None)
             except Exception as e:
-                print(f"Failed to trash screenshot {uri}: {e}")
+                logger.error(f"Failed to trash screenshot {uri}: {e}")
 
         self._screenshot_uris.clear()
         self._update_delete_action_state()
@@ -294,15 +344,15 @@ class CommandlineLoader(BaseImageLoader):
     def load_from_file(self, file_path: str) -> None:
         try:
             if not file_path:
-                print("No file path provided")
+                logger.info("No file path provided")
                 return
 
             if not os.path.isfile(file_path):
-                print(f"File does not exist: {file_path}")
+                logger.info(f"File does not exist: {file_path}")
                 return
 
             if not self._is_supported_format(file_path):
-                print(f"Unsupported file format: {file_path}")
+                logger.info(f"Unsupported file format: {file_path}")
                 return
 
             filename = os.path.basename(file_path)
@@ -311,7 +361,7 @@ class CommandlineLoader(BaseImageLoader):
             self._set_image_and_update_ui(file_path, filename, directory, has_actual_filename=False)
 
         except Exception as e:
-            print(f"Error loading file from command line: {e}")
+            logger.error(f"Error loading file from command line: {e}")
 
 class SourceImageLoader(BaseImageLoader):
     """Handles loading images from source code image generator"""
@@ -335,7 +385,7 @@ class SourceImageLoader(BaseImageLoader):
 
     def load_generated_image(self, image_path: str) -> None:
         if not image_path or not os.path.isfile(image_path):
-            print(f"Invalid generated image path: {image_path}")
+            logger.warning(f"Invalid generated image path: {image_path}")
             return
 
         filename = _("Generated Image")
@@ -365,7 +415,7 @@ class ImportManager:
             file = Gio.File.new_for_uri(uri)
             self.drag_drop_loader.handle_file_drop(None, file, 0, 0)
         else:
-            print("ImportManager._on_drop_action: Invalid drop parameter")
+            logger.info("ImportManager._on_drop_action: Invalid drop parameter")
 
     def load_from_clipboard(self) -> None:
         self.clipboard_loader.load_from_clipboard()
