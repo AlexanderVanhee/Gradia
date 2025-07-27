@@ -16,12 +16,26 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from typing import Any
-from gi.repository import Gtk, Gdk, Graphene, Gsk
+from gi.repository import Gtk, Gdk, Graphene, Gsk, GObject
 import math
 import cairo
 
 class CropOverlay(Gtk.Widget):
     __gtype_name__ = "GradiaCropOverlay"
+
+    interactive = GObject.Property(
+        type=bool,
+        default=False,
+        nick="Interactive",
+        blurb="Whether the crop overlay allows user interaction"
+    )
+
+    aspect_ratio = GObject.Property(
+        type=float,
+        default=0.0,
+        nick="Aspect Ratio",
+        blurb="Locked aspect ratio (width/height). 0 means unlocked, 1 means square"
+    )
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
@@ -41,8 +55,6 @@ class CropOverlay(Gtk.Widget):
         self.drag_start_y = 0
         self.drag_start_crop = None
 
-        self.interaction_enabled = False
-
         self.gesture_click = Gtk.GestureClick()
         self.gesture_click.connect("pressed", self._on_button_pressed)
         self.gesture_click.connect("released", self._on_button_released)
@@ -54,10 +66,11 @@ class CropOverlay(Gtk.Widget):
 
         self.set_cursor_from_name("crosshair")
 
-    def set_interaction_enabled(self, enabled: bool) -> None:
-        self.interaction_enabled = enabled
+        self.connect("notify::interactive", self._on_interactive_changed)
+        self.connect("notify::aspect-ratio", self._on_aspect_ratio_changed)
 
-        if not enabled:
+    def _on_interactive_changed(self, obj, pspec):
+        if not self.interactive:
             self.dragging_handle = None
             self.dragging_edge = None
             self.dragging_area = False
@@ -66,6 +79,38 @@ class CropOverlay(Gtk.Widget):
             self.set_cursor_from_name("crosshair")
 
         self.queue_draw()
+
+    def _on_aspect_ratio_changed(self, obj, pspec):
+        self._apply_aspect_ratio()
+        self.queue_draw()
+
+    def _apply_aspect_ratio(self) -> None:
+        if self.aspect_ratio <= 0.0 or not self.picture_widget:
+            return
+
+        img_x, img_y, img_w, img_h = self._get_image_bounds()
+        if img_w <= 0 or img_h <= 0:
+            return
+
+        target_rel_aspect = (self.aspect_ratio * img_h) / img_w
+        current_rel_aspect = self.crop_width / self.crop_height
+
+        if abs(target_rel_aspect - current_rel_aspect) < 1e-5:
+            return
+
+        center_x = self.crop_x + self.crop_width / 2
+        center_y = self.crop_y + self.crop_height / 2
+
+        if self.crop_width / target_rel_aspect > self.crop_height:
+            new_width = self.crop_height * target_rel_aspect
+            self.crop_x = center_x - new_width / 2
+            self.crop_width = new_width
+        else:
+            new_height = self.crop_width / target_rel_aspect
+            self.crop_y = center_y - new_height / 2
+            self.crop_height = new_height
+
+        self._clamp_crop_rectangle()
 
     def do_snapshot(self, snapshot: Gtk.Snapshot) -> None:
         if not self.picture_widget or not self.picture_widget.get_paintable():
@@ -84,12 +129,12 @@ class CropOverlay(Gtk.Widget):
 
         self._draw_background_overlay(snapshot, img_x, img_y, img_w, img_h, crop_x, crop_y, crop_w, crop_h)
 
-        if self.interaction_enabled:
+        if self.interactive:
             self._draw_inner_border(snapshot, crop_x, crop_y, crop_w, crop_h)
             self._draw_corner_lines(snapshot, crop_x, crop_y, crop_w, crop_h)
 
     def _draw_background_overlay(self, snapshot: Gtk.Snapshot, img_x: float, img_y: float, img_w: float, img_h: float,
-                               crop_x: float, crop_y: float, crop_w: float, crop_h: float) -> None:
+                                 crop_x: float, crop_y: float, crop_w: float, crop_h: float) -> None:
         overlay_color = Gdk.RGBA(red=0.2, green=0.2, blue=0.2, alpha=0.6)
 
         if crop_y > img_y:
@@ -172,7 +217,7 @@ class CropOverlay(Gtk.Widget):
         snapshot.append_color(corner_color, bottom_right_v)
 
     def _get_handle_at_point(self, x: float, y: float) -> str | None:
-        if not self.interaction_enabled or not self.picture_widget or not self.picture_widget.get_paintable():
+        if not self.interactive or not self.picture_widget or not self.picture_widget.get_paintable():
             return None
 
         img_x, img_y, img_w, img_h = self._get_image_bounds()
@@ -199,7 +244,7 @@ class CropOverlay(Gtk.Widget):
         return None
 
     def _get_edge_at_point(self, x: float, y: float) -> str | None:
-        if not self.interaction_enabled or not self.picture_widget or not self.picture_widget.get_paintable():
+        if not self.interactive or not self.picture_widget or not self.picture_widget.get_paintable():
             return None
 
         img_x, img_y, img_w, img_h = self._get_image_bounds()
@@ -209,42 +254,34 @@ class CropOverlay(Gtk.Widget):
         crop_w = self.crop_width * img_w
         crop_h = self.crop_height * img_h
 
-        half_handle = self.handle_size / 2
+        if self.aspect_ratio <= 0:
+            edges = {
+                "top": (crop_x + crop_w/2, crop_y),
+                "right": (crop_x + crop_w, crop_y + crop_h/2),
+                "bottom": (crop_x + crop_w/2, crop_y + crop_h),
+                "left": (crop_x, crop_y + crop_h/2),
+            }
 
-        edges = {
-            "top": (crop_x + crop_w/2, crop_y),
-            "right": (crop_x + crop_w, crop_y + crop_h/2),
-            "bottom": (crop_x + crop_w/2, crop_y + crop_h),
-            "left": (crop_x, crop_y + crop_h/2),
-        }
-
-        for edge_name, (edge_x, edge_y) in edges.items():
-            if (abs(x - edge_x) <= half_handle and
-                abs(y - edge_y) <= half_handle):
-                return edge_name
+            half_handle = self.handle_size / 2
+            for edge_name, (edge_x, edge_y) in edges.items():
+                if (abs(x - edge_x) <= half_handle and abs(y - edge_y) <= half_handle):
+                    return edge_name
 
         grab_distance = self.edge_grab_distance
 
-        if (crop_x <= x <= crop_x + crop_w and
-            abs(y - crop_y) <= grab_distance):
+        if (crop_x <= x <= crop_x + crop_w and abs(y - crop_y) <= grab_distance):
             return "top"
-
-        if (crop_x <= x <= crop_x + crop_w and
-            abs(y - (crop_y + crop_h)) <= grab_distance):
+        if (crop_x <= x <= crop_x + crop_w and abs(y - (crop_y + crop_h)) <= grab_distance):
             return "bottom"
-
-        if (crop_y <= y <= crop_y + crop_h and
-            abs(x - crop_x) <= grab_distance):
+        if (crop_y <= y <= crop_y + crop_h and abs(x - crop_x) <= grab_distance):
             return "left"
-
-        if (crop_y <= y <= crop_y + crop_h and
-            abs(x - (crop_x + crop_w)) <= grab_distance):
+        if (crop_y <= y <= crop_y + crop_h and abs(x - (crop_x + crop_w)) <= grab_distance):
             return "right"
 
         return None
 
     def _is_point_in_crop_area(self, x: float, y: float) -> bool:
-        if not self.interaction_enabled or not self.picture_widget or not self.picture_widget.get_paintable():
+        if not self.interactive or not self.picture_widget or not self.picture_widget.get_paintable():
             return False
 
         img_x, img_y, img_w, img_h = self._get_image_bounds()
@@ -256,47 +293,36 @@ class CropOverlay(Gtk.Widget):
 
         if (crop_x <= x <= crop_x + crop_w and crop_y <= y <= crop_y + crop_h):
             return (self._get_handle_at_point(x, y) is None and
-                   self._get_edge_at_point(x, y) is None)
+                    self._get_edge_at_point(x, y) is None)
 
         return False
 
     def _on_button_pressed(self, gesture: Gtk.GestureClick, n_press: int, x: float, y: float) -> None:
-        if not self.interaction_enabled:
+        if not self.interactive:
             return
 
         handle = self._get_handle_at_point(x, y)
         if handle:
             self.dragging_handle = handle
-            self.dragging_edge = None
-            self.dragging_area = False
-            self.drag_start_x = x
-            self.drag_start_y = y
             self.drag_start_crop = (self.crop_x, self.crop_y, self.crop_width, self.crop_height)
             gesture.set_state(Gtk.EventSequenceState.CLAIMED)
-            return
+        else:
+            edge = self._get_edge_at_point(x, y)
+            if edge:
+                self.dragging_edge = edge
+                self.drag_start_crop = (self.crop_x, self.crop_y, self.crop_width, self.crop_height)
+                gesture.set_state(Gtk.EventSequenceState.CLAIMED)
+            elif self._is_point_in_crop_area(x, y):
+                self.dragging_area = True
+                self.drag_start_crop = (self.crop_x, self.crop_y, self.crop_width, self.crop_height)
+                gesture.set_state(Gtk.EventSequenceState.CLAIMED)
 
-        edge = self._get_edge_at_point(x, y)
-        if edge:
-            self.dragging_edge = edge
-            self.dragging_handle = None
-            self.dragging_area = False
+        if self.dragging_handle or self.dragging_edge or self.dragging_area:
             self.drag_start_x = x
             self.drag_start_y = y
-            self.drag_start_crop = (self.crop_x, self.crop_y, self.crop_width, self.crop_height)
-            gesture.set_state(Gtk.EventSequenceState.CLAIMED)
-            return
-
-        if self._is_point_in_crop_area(x, y):
-            self.dragging_area = True
-            self.dragging_handle = None
-            self.dragging_edge = None
-            self.drag_start_x = x
-            self.drag_start_y = y
-            self.drag_start_crop = (self.crop_x, self.crop_y, self.crop_width, self.crop_height)
-            gesture.set_state(Gtk.EventSequenceState.CLAIMED)
 
     def _on_button_released(self, gesture: Gtk.GestureClick, n_press: int, x: float, y: float) -> None:
-        if not self.interaction_enabled:
+        if not self.interactive:
             return
 
         self.dragging_handle = None
@@ -305,11 +331,10 @@ class CropOverlay(Gtk.Widget):
         self.set_cursor_from_name("crosshair")
 
     def _on_motion(self, controller: Gtk.EventControllerMotion, x: float, y: float) -> None:
-        if not self.interaction_enabled:
+        if not self.interactive:
             return
 
-        if ((self.dragging_handle or self.dragging_edge or self.dragging_area) and
-            self.drag_start_crop):
+        if (self.dragging_handle or self.dragging_edge or self.dragging_area) and self.drag_start_crop:
             if self.dragging_handle:
                 self._update_crop_from_handle_drag(x, y)
             elif self.dragging_edge:
@@ -318,126 +343,145 @@ class CropOverlay(Gtk.Widget):
                 self._update_crop_from_area_drag(x, y)
             self.queue_draw()
         else:
-            handle = self._get_handle_at_point(x, y)
-            if handle:
-                if handle == "top-left":
-                    self.set_cursor_from_name("nw-resize")
-                elif handle == "top-right":
-                    self.set_cursor_from_name("ne-resize")
-                elif handle == "bottom-right":
-                    self.set_cursor_from_name("se-resize")
-                elif handle == "bottom-left":
-                    self.set_cursor_from_name("sw-resize")
+            self._update_cursor(x, y)
+
+    def _update_cursor(self, x: float, y: float):
+        handle = self._get_handle_at_point(x, y)
+        if handle:
+            if handle == "top-left":
+                self.set_cursor_from_name("nw-resize")
+            if handle == "top-right":
+                self.set_cursor_from_name("ne-resize")
+            if handle == "bottom-right":
+                self.set_cursor_from_name("se-resize")
+            if handle == "bottom-left":
+                self.set_cursor_from_name("sw-resize")
+            return
+
+        edge = self._get_edge_at_point(x, y)
+        if edge:
+            if edge in ["top", "bottom"]:
+                self.set_cursor_from_name("ns-resize")
             else:
-                edge = self._get_edge_at_point(x, y)
-                if edge:
-                    if edge in ["top", "bottom"]:
-                        self.set_cursor_from_name("ns-resize")
-                    elif edge in ["left", "right"]:
-                        self.set_cursor_from_name("ew-resize")
-                elif self._is_point_in_crop_area(x, y):
-                    self.set_cursor_from_name("move")
-                else:
-                    self.set_cursor_from_name("crosshair")
+                self.set_cursor_from_name("ew-resize")
+        elif self._is_point_in_crop_area(x, y):
+            self.set_cursor_from_name("move")
+        else:
+            self.set_cursor_from_name("crosshair")
 
     def _update_crop_from_handle_drag(self, x: float, y: float) -> None:
-        if not self.drag_start_crop:
-            return
-
+        if not self.drag_start_crop: return
         img_x, img_y, img_w, img_h = self._get_image_bounds()
+        if img_w <= 0 or img_h <= 0: return
 
         dx = (x - self.drag_start_x) / img_w
         dy = (y - self.drag_start_y) / img_h
-
         start_x, start_y, start_w, start_h = self.drag_start_crop
 
-        if self.dragging_handle == "top-left":
-            new_x = max(0, min(start_x + dx, start_x + start_w - 0.1))
-            new_y = max(0, min(start_y + dy, start_y + start_h - 0.1))
-            self.crop_x = new_x
-            self.crop_y = new_y
-            self.crop_width = start_w - (new_x - start_x)
-            self.crop_height = start_h - (new_y - start_y)
-        elif self.dragging_handle == "top-right":
-            new_y = max(0, min(start_y + dy, start_y + start_h - 0.1))
-            new_w = max(0.1, min(1 - start_x, start_w + dx))
-            self.crop_y = new_y
-            self.crop_width = new_w
-            self.crop_height = start_h - (new_y - start_y)
-        elif self.dragging_handle == "bottom-right":
-            new_w = max(0.1, min(1 - start_x, start_w + dx))
-            new_h = max(0.1, min(1 - start_y, start_h + dy))
-            self.crop_width = new_w
-            self.crop_height = new_h
-        elif self.dragging_handle == "bottom-left":
-            new_x = max(0, min(start_x + dx, start_x + start_w - 0.1))
-            new_h = max(0.1, min(1 - start_y, start_h + dy))
-            self.crop_x = new_x
-            self.crop_width = start_w - (new_x - start_x)
-            self.crop_height = new_h
+        if self.aspect_ratio > 0.0:
+            target_rel_aspect = (self.aspect_ratio * img_h) / img_w
 
-        self.crop_x = max(0, min(1 - self.crop_width, self.crop_x))
-        self.crop_y = max(0, min(1 - self.crop_height, self.crop_y))
-        self.crop_width = max(0.1, min(1 - self.crop_x, self.crop_width))
-        self.crop_height = max(0.1, min(1 - self.crop_y, self.crop_height))
+            if self.dragging_handle == "top-left":
+                anchor_x, anchor_y = start_x + start_w, start_y + start_h
+                new_w = start_w - dx
+                new_h = new_w / target_rel_aspect
+                self.crop_x, self.crop_y = anchor_x - new_w, anchor_y - new_h
+                self.crop_width, self.crop_height = new_w, new_h
+            elif self.dragging_handle == "top-right":
+                anchor_x, anchor_y = start_x, start_y + start_h
+                new_w = start_w + dx
+                new_h = new_w / target_rel_aspect
+                self.crop_x, self.crop_y = anchor_x, anchor_y - new_h
+                self.crop_width, self.crop_height = new_w, new_h
+            elif self.dragging_handle == "bottom-left":
+                anchor_x, anchor_y = start_x + start_w, start_y
+                new_w = start_w - dx
+                new_h = new_w / target_rel_aspect
+                self.crop_x, self.crop_y = anchor_x - new_w, anchor_y
+                self.crop_width, self.crop_height = new_w, new_h
+            elif self.dragging_handle == "bottom-right":
+                new_w = start_w + dx
+                new_h = new_w / target_rel_aspect
+                self.crop_width, self.crop_height = new_w, new_h
+        else:
+            if self.dragging_handle == "top-left": self.crop_x, self.crop_y, self.crop_width, self.crop_height = start_x + dx, start_y + dy, start_w - dx, start_h - dy
+            elif self.dragging_handle == "top-right": self.crop_y, self.crop_width, self.crop_height = start_y + dy, start_w + dx, start_h - dy
+            elif self.dragging_handle == "bottom-right": self.crop_width, self.crop_height = start_w + dx, start_h + dy
+            elif self.dragging_handle == "bottom-left": self.crop_x, self.crop_width, self.crop_height = start_x + dx, start_w - dx, start_h + dy
+
+        self._clamp_crop_rectangle()
 
     def _update_crop_from_edge_drag(self, x: float, y: float) -> None:
-        if not self.drag_start_crop:
-            return
-
+        if not self.drag_start_crop: return
         img_x, img_y, img_w, img_h = self._get_image_bounds()
+        if img_w <= 0 or img_h <= 0: return
 
         dx = (x - self.drag_start_x) / img_w
         dy = (y - self.drag_start_y) / img_h
-
         start_x, start_y, start_w, start_h = self.drag_start_crop
 
-        if self.dragging_edge == "top":
-            new_y = max(0, min(start_y + dy, start_y + start_h - 0.1))
-            self.crop_y = new_y
-            self.crop_height = start_h - (new_y - start_y)
-        elif self.dragging_edge == "bottom":
-            new_h = max(0.1, min(1 - start_y, start_h + dy))
-            self.crop_height = new_h
-        elif self.dragging_edge == "left":
-            new_x = max(0, min(start_x + dx, start_x + start_w - 0.1))
-            self.crop_x = new_x
-            self.crop_width = start_w - (new_x - start_x)
-        elif self.dragging_edge == "right":
-            new_w = max(0.1, min(1 - start_x, start_w + dx))
-            self.crop_width = new_w
+        if self.aspect_ratio > 0.0:
+            target_rel_aspect = (self.aspect_ratio * img_h) / img_w
+            center_x, center_y = start_x + start_w / 2, start_y + start_h / 2
+
+            if self.dragging_edge == "top":
+                new_h = start_h - dy
+                new_w = new_h * target_rel_aspect
+                self.crop_x, self.crop_y = center_x - new_w / 2, start_y + dy
+                self.crop_width, self.crop_height = new_w, new_h
+            elif self.dragging_edge == "bottom":
+                new_h = start_h + dy
+                new_w = new_h * target_rel_aspect
+                self.crop_x = center_x - new_w / 2
+                self.crop_width, self.crop_height = new_w, new_h
+            elif self.dragging_edge == "left":
+                new_w = start_w - dx
+                new_h = new_w / target_rel_aspect
+                self.crop_x, self.crop_y = start_x + dx, center_y - new_h / 2
+                self.crop_width, self.crop_height = new_w, new_h
+            elif self.dragging_edge == "right":
+                new_w = start_w + dx
+                new_h = new_w / target_rel_aspect
+                self.crop_y = center_y - new_h / 2
+                self.crop_width, self.crop_height = new_w, new_h
+        else:
+            if self.dragging_edge == "top": self.crop_y, self.crop_height = start_y + dy, start_h - dy
+            elif self.dragging_edge == "bottom": self.crop_height = start_h + dy
+            elif self.dragging_edge == "left": self.crop_x, self.crop_width = start_x + dx, start_w - dx
+            elif self.dragging_edge == "right": self.crop_width = start_w + dx
+
+        self._clamp_crop_rectangle()
+
+    def _update_crop_from_area_drag(self, x: float, y: float) -> None:
+        if not self.drag_start_crop: return
+        img_x, img_y, img_w, img_h = self._get_image_bounds()
+        if img_w <= 0 or img_h <= 0: return
+
+        dx = (x - self.drag_start_x) / img_w
+        dy = (y - self.drag_start_y) / img_h
+        start_x, start_y, _, _ = self.drag_start_crop
+
+        self.crop_x = start_x + dx
+        self.crop_y = start_y + dy
+
+        self._clamp_crop_rectangle()
+
+    def _clamp_crop_rectangle(self):
+        min_dim = 0.2
+        self.crop_width = max(min_dim, self.crop_width)
+        self.crop_height = max(min_dim, self.crop_height)
+
+        if self.crop_width > 1.0: self.crop_width = 1.0
+        if self.crop_height > 1.0: self.crop_height = 1.0
 
         self.crop_x = max(0, min(1 - self.crop_width, self.crop_x))
         self.crop_y = max(0, min(1 - self.crop_height, self.crop_y))
-        self.crop_width = max(0.1, min(1 - self.crop_x, self.crop_width))
-        self.crop_height = max(0.1, min(1 - self.crop_y, self.crop_height))
-
-    def _update_crop_from_area_drag(self, x: float, y: float) -> None:
-        if not self.drag_start_crop:
-            return
-
-        img_x, img_y, img_w, img_h = self._get_image_bounds()
-
-        dx = (x - self.drag_start_x) / img_w
-        dy = (y - self.drag_start_y) / img_h
-
-        start_x, start_y, start_w, start_h = self.drag_start_crop
-
-        new_x = start_x + dx
-        new_y = start_y + dy
-
-        new_x = max(0, min(1 - start_w, new_x))
-        new_y = max(0, min(1 - start_h, new_y))
-
-        self.crop_x = new_x
-        self.crop_y = new_y
-        self.crop_width = start_w
-        self.crop_height = start_h
 
     def set_picture_reference(self, picture: Gtk.Picture) -> None:
         self.picture_widget = picture
         if picture:
             picture.connect("notify::paintable", lambda *args: self.queue_draw())
+            picture.connect("notify::paintable", lambda *args: self._apply_aspect_ratio())
 
     def _get_image_bounds(self) -> tuple[float, float, float, float]:
         if not self.picture_widget or not self.picture_widget.get_paintable():
@@ -445,8 +489,9 @@ class CropOverlay(Gtk.Widget):
 
         widget_width = self.picture_widget.get_width()
         widget_height = self.picture_widget.get_height()
-        image_width = self.picture_widget.get_paintable().get_intrinsic_width()
-        image_height = self.picture_widget.get_paintable().get_intrinsic_height()
+        paintable = self.picture_widget.get_paintable()
+        image_width = paintable.get_intrinsic_width()
+        image_height = paintable.get_intrinsic_height()
 
         if image_width <= 0 or image_height <= 0:
             return 0, 0, widget_width, widget_height
@@ -464,8 +509,10 @@ class CropOverlay(Gtk.Widget):
         return self.crop_x, self.crop_y, self.crop_width, self.crop_height
 
     def set_crop_rectangle(self, x: float, y: float, width: float, height: float) -> None:
-        self.crop_x = max(0, min(1 - width, x))
-        self.crop_y = max(0, min(1 - height, y))
-        self.crop_width = max(0.1, min(1 - self.crop_x, width))
-        self.crop_height = max(0.1, min(1 - self.crop_y, height))
+        self.crop_x = x
+        self.crop_y = y
+        self.crop_width = width
+        self.crop_height = height
+        self._clamp_crop_rectangle()
         self.queue_draw()
+

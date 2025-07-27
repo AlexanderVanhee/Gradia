@@ -71,9 +71,18 @@ template $GradiaImageStack : Adw.Bin {
               ]
             }
 
+            Gtk.Revealer aspect_crop_revealer {
+              transition-type: crossfade;
+              transition-duration: 300;
+              overflow: visible;
+
+              $GradiaAspectRatioButton{}
+            }
+
             Gtk.Revealer reset_crop_revealer {
               transition-type: crossfade;
               transition-duration: 300;
+              overflow: visible;
 
               Gtk.Button reset_crop_button {
                 icon-name: "crop-reset-symbolic";
