@@ -29,7 +29,7 @@ headerbar.desktop windowcontrols button:active image {
 }
 
 .drawing_tool_entry_box {
-  border-bottom: 1px solid var(--secondary-sidebar-border-color);
+  border-bottom: 1px solid var(--card-shade-color);
 }
 
 /* Gradient Preview Box */
@@ -154,7 +154,7 @@ GtkSourceStyleSchemePreview .selected {
 
 /* background selectors */
 .color-button {
-    border-radius: 50%;
+    border-radius: 9999px;
     border: 1px solid @borders;
     padding: 0;
     transition: filter 0.3s ease, outline 0.15s ease, outline-offset 0.15s ease;
@@ -189,13 +189,24 @@ GtkSourceStyleSchemePreview .selected {
 }
 
 .transparent-color-button {
-    background-image:
-        linear-gradient(45deg, #545454 25%, transparent 25%, transparent 75%, #545454 75%),
-        linear-gradient(45deg, #545454 25%, transparent 25%, transparent 75%, #545454 75%);
-    background-color: #a8a8a8;
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h10v10H0zM10 10h10v10H10z' fill='%23e5e5e5'/%3E%3C/svg%3E");
+    background-color: #b2b2b2;
     background-size: 20px 20px;
-    background-position: 0 0, 10px 10px;
 }
+
+button.color-picker-button {
+    background: conic-gradient(
+        #ffb3ba 0%,
+        #ffeaa7 16.66%,
+        #b8e994 33.33%,
+        #a0f0ed 50%,
+        #a3cbf5 66.66%,
+        #d4a5f9 83.33%,
+        #ffb3ba 100%
+    );
+    border: none;
+}
+
 
 /*drop_overlay.py*/
 .drop-overlay-status-page{
@@ -203,3 +214,6 @@ GtkSourceStyleSchemePreview .selected {
   color: @accent_fg_color;
 }
 
+.osd.pill {
+   padding: 2px 20px;
+}

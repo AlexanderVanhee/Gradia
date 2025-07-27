@@ -9,29 +9,24 @@
 		<control>touch</control>
 	</supports>
 	<name>Gradia</name>
-	<summary>Make your screenshots ready for all</summary>
+	<summary>Annotate your screenshots</summary>
   <launchable type="desktop-id">@APP_ID@.desktop</launchable>
 	<description>
-		<p>Gradia helps you quickly prepare your screenshots for sharing by fixing common issues like transparency and awkward sizing. With simple tools to add backgrounds, adjust aspect ratios, and annotate images, you can enhance your screenshots to look professional and consistent across social media, blogs, and other platforms on the internet.</p>
-		<p>Key features:</p>
-		<ul>
-			<li>Add optional image and gradient backgrounds to your images</li>
-			<li>Adjust aspect ratios and padding to fit different platforms</li>
-			<li>Ten annotation modes, including text, arrow, and censor</li>
-			<li>Multiple ways to import and export screenshots</li>
-		  <li>Quick upload button for image services like Imgur</li>
+    <p>Gradia helps you get your screenshots ready for sharing, whether quickly with friends or colleagues, or professionally with the entire world.</p>
+    <p>Key features:</p>
+    <ul>
+      <li>Ten annotation modes, including text, arrow, and censor</li>
+      <li>Optional image and gradient backgrounds</li>
+      <li>Image settings like shadow, padding, and auto-balance</li>
+      <li>Quick upload flow to easily share images via services like Imgur</li>
+		  <li>Convert code snippets into clean high-resolution images</li>
 		</ul>
-		<!-- Package maintainers, please replace with correct command -->
-		<p>Want a keyboard shortcut on GNOME? Simply go to Settings → Keyboard → View and Customize Shortcuts → Custom Shortcuts.
-    Then create a shortcut that runs
-			<code>flatpak run be.alexandervanhee.gradia --screenshot=INTERACTIVE</code>.
-		</p>
 	</description>
 	<developer id="io.github.alexandervanhee">
 		<name>Alexander Vanhee</name>
 	</developer>
 	<url type="homepage">@PROJECT_URL@</url>
-	<url type="vcs-browser">@PROJECT_URL@</url>
+	<url type="vcs-browser">@VCS_URL@</url>
 	<url type="bugtracker">@BUGTRACKER_URL@</url>
 	<url type="translate">https://github.com/AlexanderVanhee/Gradia/blob/master/TRANSLATING.md</url>
 	<translation type="gettext">gradia</translation>

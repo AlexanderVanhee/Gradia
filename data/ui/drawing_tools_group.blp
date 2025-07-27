@@ -54,13 +54,9 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
               spacing: 6;
               valign: center;
 
-              Gtk.ColorDialogButton stroke_color_button {
+              $QuickColorPicker stroke_color_button {
                 valign: center;
-                dialog: Gtk.ColorDialog {
-                modal: false;
-                };
-
-                notify::rgba => $_on_pen_color_set();
+                color-changed => $_on_pen_color_set();
               }
             }
           }
@@ -100,15 +96,11 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
               spacing: 6;
               valign: center;
 
-              Gtk.ColorDialogButton highlighter_color_button {
+              $QuickColorPicker highlighter_color_button {
                 valign: center;
-                dialog: Gtk.ColorDialog {
-                  with-alpha: true;
-                  modal: false;
-                  title: _("Pick the Highlighter Color");
-                };
-
-                notify::rgba => $_on_highlighter_color_set();
+                quick-colors-alpha:0.5;
+                show-black-white: false;
+                color-changed => $_on_highlighter_color_set();
               }
             }
           }
@@ -158,14 +150,8 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
                 ]
               }
 
-              Gtk.ColorDialogButton fill_color_button {
-                dialog: Gtk.ColorDialog {
-                  with-alpha: true;
-                  modal: false;
-                  title: _("Pick the Fill Color");
-                };
-
-                notify::rgba => $_on_fill_color_set();
+              $QuickColorPicker fill_color_button {
+                color-changed => $_on_fill_color_set();
               }
             }
           }
@@ -216,14 +202,8 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
                 ]
               }
 
-              Gtk.ColorDialogButton outline_color_button {
-                dialog: Gtk.ColorDialog {
-                  with-alpha: true;
-                  modal: false;
-                  title: _("Pick the Outline Color");
-                };
-
-                notify::rgba => $_on_outline_color_set();
+              $QuickColorPicker outline_color_button {
+                color-changed => $_on_outline_color_set();
               }
             }
           }

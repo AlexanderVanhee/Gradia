@@ -73,105 +73,103 @@ class CropOverlay(Gtk.Widget):
 
         width = self.get_width()
         height = self.get_height()
-
         if width <= 0 or height <= 0:
             return
 
         img_x, img_y, img_w, img_h = self._get_image_bounds()
-
         crop_x = img_x + (self.crop_x * img_w)
         crop_y = img_y + (self.crop_y * img_h)
         crop_w = self.crop_width * img_w
         crop_h = self.crop_height * img_h
 
-        overlay_rect = Graphene.Rect.alloc()
-        overlay_rect.init(img_x, img_y, img_w, img_h)
+        self._draw_background_overlay(snapshot, img_x, img_y, img_w, img_h, crop_x, crop_y, crop_w, crop_h)
 
-        crop_rect = Graphene.Rect.alloc()
-        crop_rect.init(crop_x, crop_y, crop_w, crop_h)
+        if self.interaction_enabled:
+            self._draw_inner_border(snapshot, crop_x, crop_y, crop_w, crop_h)
+            self._draw_corner_lines(snapshot, crop_x, crop_y, crop_w, crop_h)
 
-        overlay_color = Gdk.RGBA()
-        overlay_color.red = 0.2
-        overlay_color.green = 0.2
-        overlay_color.blue = 0.2
-        overlay_color.alpha = 0.6
+    def _draw_background_overlay(self, snapshot: Gtk.Snapshot, img_x: float, img_y: float, img_w: float, img_h: float,
+                               crop_x: float, crop_y: float, crop_w: float, crop_h: float) -> None:
+        overlay_color = Gdk.RGBA(red=0.2, green=0.2, blue=0.2, alpha=0.6)
 
-        # Top overlay
         if crop_y > img_y:
             top_overlay = Graphene.Rect.alloc()
-            top_overlay.init(img_x, img_y-1, img_w, crop_y - img_y +1)
+            top_overlay.init(img_x-1, img_y-1, img_w+1, crop_y - img_y +1)
             snapshot.append_color(overlay_color, top_overlay)
 
-        # Bottom overlay
         if crop_y + crop_h < img_y + img_h:
             bottom_overlay = Graphene.Rect.alloc()
-            bottom_overlay.init(img_x, crop_y + crop_h, img_w, (img_y + img_h) - (crop_y + crop_h))
+            bottom_overlay.init(img_x-1, crop_y + crop_h, img_w +1, (img_y + img_h) - (crop_y + crop_h))
             snapshot.append_color(overlay_color, bottom_overlay)
 
-        # Left overlay
         if crop_x > img_x:
             left_overlay = Graphene.Rect.alloc()
-            left_overlay.init(img_x, crop_y - 0.20, crop_x - img_x, crop_h + 0.4)
+            left_overlay.init(img_x-1, crop_y - 0.20, crop_x - img_x +1, crop_h + 0.4)
             snapshot.append_color(overlay_color, left_overlay)
 
-       # Right overlay
         if crop_x + crop_w < img_x + img_w:
             right_overlay = Graphene.Rect.alloc()
             right_overlay.init(crop_x + crop_w, crop_y - 0.20, (img_x + img_w) - (crop_x + crop_w), crop_h + 0.4)
             snapshot.append_color(overlay_color, right_overlay)
 
-        if self.interaction_enabled:
-            border_color = Gdk.RGBA()
-            border_color.red = 1.0
-            border_color.green = 1.0
-            border_color.blue = 1.0
-            border_color.alpha = 0.8
+    def _draw_inner_border(self, snapshot: Gtk.Snapshot, crop_x: float, crop_y: float, crop_w: float, crop_h: float) -> None:
+        border_color = Gdk.RGBA(red=1.0, green=1.0, blue=1.0, alpha=0.8)
+        border_width = 2.0
 
-            border_width = 2.0
+        top_border = Graphene.Rect.alloc()
+        top_border.init(crop_x, crop_y - border_width/2, crop_w, border_width)
+        snapshot.append_color(border_color, top_border)
 
-            top_border = Graphene.Rect.alloc()
-            top_border.init(crop_x, crop_y - border_width/2, crop_w, border_width)
-            snapshot.append_color(border_color, top_border)
+        bottom_border = Graphene.Rect.alloc()
+        bottom_border.init(crop_x, crop_y + crop_h - border_width/2, crop_w, border_width)
+        snapshot.append_color(border_color, bottom_border)
 
-            bottom_border = Graphene.Rect.alloc()
-            bottom_border.init(crop_x, crop_y + crop_h - border_width/2, crop_w, border_width)
-            snapshot.append_color(border_color, bottom_border)
+        left_border = Graphene.Rect.alloc()
+        left_border.init(crop_x - border_width/2, crop_y, border_width, crop_h)
+        snapshot.append_color(border_color, left_border)
 
-            left_border = Graphene.Rect.alloc()
-            left_border.init(crop_x - border_width/2, crop_y, border_width, crop_h)
-            snapshot.append_color(border_color, left_border)
+        right_border = Graphene.Rect.alloc()
+        right_border.init(crop_x + crop_w - border_width/2, crop_y, border_width, crop_h)
+        snapshot.append_color(border_color, right_border)
 
-            right_border = Graphene.Rect.alloc()
-            right_border.init(crop_x + crop_w - border_width/2, crop_y, border_width, crop_h)
-            snapshot.append_color(border_color, right_border)
+    def _draw_corner_lines(self, snapshot: Gtk.Snapshot, crop_x: float, crop_y: float, crop_w: float, crop_h: float) -> None:
+        corner_color = Gdk.RGBA(red=1.0, green=1.0, blue=1.0, alpha=1.0)
+        corner_line_width = 4.0
+        corner_line_length = 25.0
+        border_width = 0.0
+        offset = border_width
 
-            self._draw_corner_handles(snapshot, crop_x, crop_y, crop_w, crop_h)
+        top_left_h = Graphene.Rect.alloc()
+        top_left_h.init(crop_x - corner_line_width - offset, crop_y - offset - corner_line_width, corner_line_length + corner_line_width + offset, corner_line_width)
+        snapshot.append_color(corner_color, top_left_h)
 
+        top_left_v = Graphene.Rect.alloc()
+        top_left_v.init(crop_x - offset - corner_line_width, crop_y - corner_line_width - offset, corner_line_width, corner_line_length + corner_line_width + offset)
+        snapshot.append_color(corner_color, top_left_v)
 
-    def _draw_corner_handles(self, snapshot: Gtk.Snapshot, x: float, y: float, w: float, h: float) -> None:
-        handle_size = self.handle_size
-        radius = handle_size / 2.0
-        corners = [
-            (x, y),
-            (x + w, y),
-            (x + w, y + h),
-            (x, y + h),
-        ]
-        color = Gdk.RGBA(red=1, green=1, blue=1, alpha=1.0)
-        for cx, cy in corners:
-            rect = Graphene.Rect()
-            rect.init(
-                cx - radius,
-                cy - radius,
-                handle_size,
-                handle_size
-            )
-            rounded_rect = Gsk.RoundedRect()
-            rounded_rect.init_from_rect(rect, radius)
-            snapshot.push_rounded_clip(rounded_rect)
-            snapshot.append_color(color, rect)
-            snapshot.pop()
+        top_right_h = Graphene.Rect.alloc()
+        top_right_h.init(crop_x + crop_w - corner_line_length, crop_y - offset - corner_line_width, corner_line_length + corner_line_width + offset, corner_line_width)
+        snapshot.append_color(corner_color, top_right_h)
 
+        top_right_v = Graphene.Rect.alloc()
+        top_right_v.init(crop_x + crop_w + offset, crop_y - corner_line_width - offset, corner_line_width, corner_line_length + corner_line_width + offset)
+        snapshot.append_color(corner_color, top_right_v)
+
+        bottom_left_h = Graphene.Rect.alloc()
+        bottom_left_h.init(crop_x - corner_line_width - offset, crop_y + crop_h + offset, corner_line_length + corner_line_width + offset, corner_line_width)
+        snapshot.append_color(corner_color, bottom_left_h)
+
+        bottom_left_v = Graphene.Rect.alloc()
+        bottom_left_v.init(crop_x - offset - corner_line_width, crop_y + crop_h - corner_line_length, corner_line_width, corner_line_length + corner_line_width + offset)
+        snapshot.append_color(corner_color, bottom_left_v)
+
+        bottom_right_h = Graphene.Rect.alloc()
+        bottom_right_h.init(crop_x + crop_w - corner_line_length, crop_y + crop_h + offset, corner_line_length + corner_line_width + offset, corner_line_width)
+        snapshot.append_color(corner_color, bottom_right_h)
+
+        bottom_right_v = Graphene.Rect.alloc()
+        bottom_right_v.init(crop_x + crop_w + offset, crop_y + crop_h - corner_line_length, corner_line_width, corner_line_length + corner_line_width + offset)
+        snapshot.append_color(corner_color, bottom_right_v)
 
     def _get_handle_at_point(self, x: float, y: float) -> str | None:
         if not self.interaction_enabled or not self.picture_widget or not self.picture_widget.get_paintable():

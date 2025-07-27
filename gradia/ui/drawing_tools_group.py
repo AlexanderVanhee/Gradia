@@ -23,6 +23,7 @@ from gradia.backend.settings import Settings
 from gradia.constants import rootdir  # pyright: ignore
 from gradia.overlay.drawing_actions import DrawingMode
 from gradia.ui.font_dropdown_controller import FontDropdownController
+from gradia.ui.widget.quick_color_picker import QuickColorPicker
 
 class ToolConfig:
     def __init__(
@@ -72,10 +73,10 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
     size_revealer: Gtk.Revealer = Gtk.Template.Child()
     number_radius_revealer: Gtk.Revealer = Gtk.Template.Child()
 
-    stroke_color_button: Gtk.ColorDialogButton = Gtk.Template.Child()
-    highlighter_color_button: Gtk.ColorDialogButton = Gtk.Template.Child()
-    fill_color_button: Gtk.ColorDialogButton = Gtk.Template.Child()
-    outline_color_button: Gtk.ColorDialogButton = Gtk.Template.Child()
+    stroke_color_button: QuickColorPicker = Gtk.Template.Child()
+    highlighter_color_button: QuickColorPicker = Gtk.Template.Child()
+    fill_color_button: QuickColorPicker = Gtk.Template.Child()
+    outline_color_button: QuickColorPicker = Gtk.Template.Child()
 
     size_scale: Gtk.Scale = Gtk.Template.Child()
     highlighter_scale: Gtk.Scale = Gtk.Template.Child()
@@ -193,33 +194,33 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
 
     @Gtk.Template.Callback()
     def _on_reset_fill_clicked(self, _button: Gtk.Button, *args) -> None:
-        self.fill_color_button.set_rgba(Gdk.RGBA(0, 0, 0, 0))
+        self.fill_color_button.set_color(Gdk.RGBA(0, 0, 0, 0))
 
     @Gtk.Template.Callback()
     def _on_reset_outline_clicked(self, _button: Gtk.Button, *args) -> None:
-        self.outline_color_button.set_rgba(Gdk.RGBA(0, 0, 0, 0))
+        self.outline_color_button.set_color(Gdk.RGBA(0, 0, 0, 0))
 
     @Gtk.Template.Callback()
-    def _on_pen_color_set(self, button: Gtk.ColorDialogButton, *args) -> None:
-        rgba = button.get_rgba()
+    def _on_pen_color_set(self, button: QuickColorPicker, *args) -> None:
+        rgba = button.get_color()
         self.settings.pen_color = rgba
         self._activate_color_action("pen-color", rgba)
 
     @Gtk.Template.Callback()
-    def _on_highlighter_color_set(self, button: Gtk.ColorDialogButton, *args) -> None:
-        rgba = button.get_rgba()
+    def _on_highlighter_color_set(self, button: QuickColorPicker, *args) -> None:
+        rgba = button.get_color()
         self.settings.highlighter_color = rgba
         self._activate_color_action("highlighter-color", rgba)
 
     @Gtk.Template.Callback()
-    def _on_fill_color_set(self, button: Gtk.ColorDialogButton, *args) -> None:
-        rgba = button.get_rgba()
+    def _on_fill_color_set(self, button: QuickColorPicker, *args) -> None:
+        rgba = button.get_color()
         self.settings.fill_color = rgba
         self._activate_color_action("fill-color", rgba)
 
     @Gtk.Template.Callback()
-    def _on_outline_color_set(self, button: Gtk.ColorDialogButton, *args) -> None:
-        rgba = button.get_rgba()
+    def _on_outline_color_set(self, button: QuickColorPicker, *args) -> None:
+        rgba = button.get_color()
         self.settings.outline_color = rgba
         self._activate_color_action("outline-color", rgba)
 
@@ -311,13 +312,14 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
 
     def _restore_settings(self) -> None:
         """Restore all settings from persistent storage."""
-        self.stroke_color_button.set_rgba(self.settings.pen_color)
-        self.highlighter_color_button.set_rgba(self.settings.highlighter_color)
-        self.fill_color_button.set_rgba(self.settings.fill_color)
-        self.outline_color_button.set_rgba(self.settings.outline_color)
+        self.stroke_color_button.set_color(self.settings.pen_color)
+        self.highlighter_color_button.set_color(self.settings.highlighter_color)
+        self.fill_color_button.set_color(self.settings.fill_color)
+        self.outline_color_button.set_color(self.settings.outline_color)
 
         self.size_scale.set_value(self.settings.pen_size)
         self.highlighter_scale.set_value(self.settings.highlighter_size)
         self.number_radius_scale.set_value(self.settings.number_radius)
 
         self.font_dropdown_controller.restore_font_selection(self.font_dropdown)
+

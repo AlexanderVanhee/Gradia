@@ -44,6 +44,7 @@ metainfo_file = i18n.merge_file(
     configuration: configuration_data({
       'APP_ID': APPLICATION_ID,
       'PROJECT_URL': PROJECT_URL,
+      'VCS_URL': VCS_URL,
       'BUGTRACKER_URL': BUGTRACKER_URL,
       'HELP_URL': HELP_URL,
     })

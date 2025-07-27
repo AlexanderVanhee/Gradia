@@ -4,25 +4,14 @@ using Adw 1;
 template $GradiaSolidSelector : Adw.PreferencesGroup {
   title: _("Solid Color Background");
 
-  Adw.ActionRow color_row {
-    title: _("Color");
-
-    [suffix]
-    Gtk.ColorDialogButton color_button {
-      valign: center;
-      dialog: Gtk.ColorDialog {
-        with-alpha: true;
-      };
-
-      notify::rgba => $_on_color_changed();
-    }
-  }
 
   Adw.ActionRow color_presets_row {
     activatable: false;
     selectable: false;
 
     child: Gtk.Grid color_presets_grid {
+      margin-top:3;
+      margin-bottom:3;
       valign: center;
       halign: center;
     };
