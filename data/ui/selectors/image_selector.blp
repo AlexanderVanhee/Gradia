@@ -6,7 +6,7 @@ template $GradiaImageSelector : Adw.PreferencesGroup {
 
   [header-suffix]
   Gtk.MenuButton {
-    icon-name: "columns-symbolic";
+    icon-name: "view-grid-symbolic";
     tooltip-text: _("Image Presets");
     popover: image_popover;
     valign: center;
@@ -15,8 +15,6 @@ template $GradiaImageSelector : Adw.PreferencesGroup {
       "flat"
     ]
   }
-
-
 
   Adw.ButtonRow select_image_button_row {
     title: _("Select Image");

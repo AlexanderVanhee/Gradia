@@ -65,3 +65,11 @@ def is_light_color(hex_color: str) -> bool:
     r, g, b = [int(hex_color[i:i + 2], 16) for i in (0, 2, 4)]
     luminance = 0.299 * r + 0.587 * g + 0.114 * b
     return luminance > 200
+
+def is_light_color_rgba(rgba: Gdk.RGBA) -> bool:
+    luminance = (
+        0.299 * rgba.red +
+        0.587 * rgba.green +
+        0.114 * rgba.blue
+    )
+    return luminance > 0.784
