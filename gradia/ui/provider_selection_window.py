@@ -122,13 +122,10 @@ class ProviderListPage(Adw.NavigationPage):
         content = Adw.ToolbarView()
         content.add_top_bar(header_bar)
 
-        scrolled = Gtk.ScrolledWindow(
-            hscrollbar_policy=Gtk.PolicyType.NEVER,
-            vscrollbar_policy=Gtk.PolicyType.AUTOMATIC
-        )
+        providers_page = Adw.PreferencesPage()
+        providers_group = Adw.PreferencesGroup()
 
-        list_box = Gtk.ListBox(valign=Gtk.Align.START, selection_mode=Gtk.SelectionMode.NONE)
-        list_box.add_css_class("boxed-list")
+        providers_page.add(providers_group)
 
         for provider_id, provider_data in self.providers_data.items():
             row = Adw.ActionRow(
@@ -144,7 +141,7 @@ class ProviderListPage(Adw.NavigationPage):
             row.add_suffix(Gtk.Image.new_from_icon_name("go-next-symbolic"))
             row.provider_id = provider_id
             row.connect("activated", self._on_provider_selected)
-            list_box.append(row)
+            providers_group.add(row)
 
         custom_row = Adw.ActionRow(
             title=_("Custom Provider"),
@@ -159,21 +156,9 @@ class ProviderListPage(Adw.NavigationPage):
         custom_row.add_suffix(Gtk.Image.new_from_icon_name("go-next-symbolic"))
         custom_row.provider_id = "custom"
         custom_row.connect("activated", self._on_provider_selected)
-        list_box.append(custom_row)
+        providers_group.add(custom_row)
 
-        scrolled.set_child(list_box)
-
-        clamp = Adw.Clamp(
-            maximum_size=600,
-            tightening_threshold=400,
-            child=scrolled,
-            margin_top=24,
-            margin_bottom=24,
-            margin_start=12,
-            margin_end=12
-        )
-
-        content.set_content(clamp)
+        content.set_content(providers_page)
         self.view_stack.add_named(content, "content")
         self.view_stack.set_visible_child_name("content")
 
