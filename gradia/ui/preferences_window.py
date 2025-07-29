@@ -139,7 +139,7 @@ class PreferencesWindow(Adw.Window):
         if provider_name:
             self.provider_name.set_text(provider_name)
         else:
-            self.provider_name.set_text(_("None selected"))
+            self.provider_name.set_text(_("None Selected"))
 
     def _setup_command_entries(self):
         interactive_command = get_command_for_screenshot_type("INTERACTIVE")
