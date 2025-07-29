@@ -83,6 +83,7 @@ template GradiaGradientSelector : Adw.PreferencesGroup {
                     transition-duration: 300;
                     child:Button remove_button {
                       valign: center;
+                      tooltip-text: _("Remove Color Step");
                       icon-name: "user-trash-symbolic";
                       styles ["destructive-action", "circular"]
                     };
@@ -95,7 +96,7 @@ template GradiaGradientSelector : Adw.PreferencesGroup {
       }
 
       $GradientEditor gradient_editor {
-        height-request: 34;
+        height-request: 36;
         width-request: 240;
         valign: end;
         margin-top:6;

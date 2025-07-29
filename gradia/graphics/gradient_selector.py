@@ -68,7 +68,7 @@ class GradientColorButton(Gtk.Box):
         self._update_color_css()
 
     def _on_step_changed(self, *_):
-        self.set_tooltip_text(f"Step: {self.step:.0%}")
+        self.set_tooltip_text(f"{self.step:.0%}")
         if self.editor:
             self.editor._update_ui_for_selected_button()
 
@@ -181,14 +181,14 @@ class GradientEditor(Gtk.Box):
 
         self.button_container = Gtk.Fixed(overflow=Gtk.Overflow.VISIBLE)
         self.button_container.set_hexpand(True)
-        self.button_container.set_size_request(-1, 34)
+        self.button_container.set_size_request(-1, 36)
 
         self.overlay.set_child(self.gradient_background)
         self.overlay.add_overlay(self.button_container)
 
         self.click_controller = Gtk.GestureClick()
         self.click_controller.connect("pressed", self._on_background_clicked)
-        self.gradient_background.add_controller(self.click_controller)
+        self.button_container.add_controller(self.click_controller)
 
         self._create_initial_buttons()
 
@@ -198,19 +198,19 @@ class GradientEditor(Gtk.Box):
     def _create_initial_buttons(self):
         button1 = GradientColorButton()
         button1.set_step(0.0)
-        button1.set_color("#0000ff")
+        button1.set_color("#4facfe")
 
         button2 = GradientColorButton()
-        button2.set_step(1.0)
-        button2.set_color("#ff0000")
+        button2.set_step(0.33)
+        button2.set_color("#00f2fe")
 
         button3 = GradientColorButton()
-        button3.set_step(0.33)
-        button3.set_color("#00ff00")
+        button3.set_step(0.66)
+        button3.set_color("#43e97b")
 
         button4 = GradientColorButton()
-        button4.set_step(0.66)
-        button4.set_color("#8132a8")
+        button4.set_step(1.0)
+        button4.set_color("#38f9d7")
 
         self._add_color_button(button1)
         self._add_color_button(button2)
@@ -236,7 +236,7 @@ class GradientEditor(Gtk.Box):
         drag_controller.connect("drag-end", self._on_drag_end)
         button.add_controller(drag_controller)
 
-        self.button_container.put(button, 0, 0)
+        self.button_container.put(button, 0, -2)
 
     def _on_button_pressed(self, controller, n_press, x, y):
         print("pressed")
@@ -251,13 +251,9 @@ class GradientEditor(Gtk.Box):
             self.color_buttons.remove(button)
             self.button_container.remove(button)
             button.editor = None
-
-            if was_selected and self.color_buttons:
-                self.color_buttons[0].set_selected(True)
+            self._update_ui_for_selected_button()
 
             self._update_gradient_css()
-            #self._update_button_positions()
-
     def _get_container_pos(self, button):
         pointer = self.get_display().get_default_seat().get_pointer()
         _, px, py, _ = self.button_container.get_native().get_surface().get_device_position(pointer)
@@ -301,7 +297,7 @@ class GradientEditor(Gtk.Box):
 
         if not self._check_overlap_at_step(button, new_step):
             button.set_step(new_step)
-            self.button_container.move(button, int(clamped_x), -2)
+            self.button_container.move(button, int(clamped_x), 0)
             self._update_gradient_css()
 
     def _on_drag_end(self, controller, offset_x, offset_y):
@@ -318,7 +314,7 @@ class GradientEditor(Gtk.Box):
 
         distance = math.hypot(end_x - start_x, end_y - start_y)
         print( time.time() -self.drag_start_time)
-        if distance < 5 and time.time() -self.drag_start_time  < 0.2 :
+        if distance < 5 and time.time() -self.drag_start_time < 0.2 :
             button.open_color_picker()
 
     def _check_overlap_at_step(self, moving_button: GradientColorButton, step: float) -> bool:
@@ -353,16 +349,17 @@ class GradientEditor(Gtk.Box):
         return False
 
     def _on_background_clicked(self, gesture, n_press, x, y):
+        print("background clicked")
         if n_press == 1:
             width = self.gradient_background.get_allocated_width()
 
             if width == 0:
                 return
-
-            step = x / width
+            x = x -16
+            step = (x / width)
             step = max(0.0, min(1.0, step))
 
-            min_distance = 0.03
+            min_distance = 0.13
             is_near_existing = any(abs(btn.get_step() - step) < min_distance for btn in self.color_buttons)
 
             if not is_near_existing:
@@ -426,7 +423,7 @@ class GradientEditor(Gtk.Box):
             x = max(0, min(width - button_width, x))
 
             x = int(x)
-            self.button_container.move(button, x, -2)
+            self.button_container.move(button, x, 0)
 
         self.button_container.queue_draw()
 
