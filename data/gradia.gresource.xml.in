@@ -56,6 +56,13 @@
     <file preprocess="xml-stripblanks">icons/scalable/actions/house-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/crop-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/crop-reset-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/aspect-ratio-16to9-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/aspect-ratio-3to2-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/aspect-ratio-4to3-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/aspect-ratio-5to4-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/aspect-ratio-free-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/aspect-ratio-square-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/aspect-ratio-symbolic.svg</file>
   </gresource>
 </gresources>
 

@@ -63,8 +63,8 @@ class ColorPresetButton(Gtk.Button):
             height_request=40,
             margin_top=6,
             margin_bottom=6,
-            margin_start=7,
-            margin_end=7,
+            margin_start=6,
+            margin_end=6,
             **kwargs
         )
         self.set_focusable(True)
@@ -124,8 +124,8 @@ class ColorPickerButton(Gtk.Button):
             height_request=30,
             margin_top=6,
             margin_bottom=6,
-            margin_start=7,
-            margin_end=7,
+            margin_start=6,
+            margin_end=6,
             **kwargs
         )
         self.set_focusable(True)

@@ -202,7 +202,7 @@ class QuickColorPicker(Gtk.Box):
         color_dialog.set_title(_("Choose Color"))
         color_dialog.set_with_alpha(self.with_alpha)
 
-        toplevel = self.get_root()
+        toplevel = None
 
         color_dialog.choose_rgba(
             toplevel,

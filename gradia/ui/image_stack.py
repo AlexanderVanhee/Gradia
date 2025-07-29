@@ -22,6 +22,7 @@ from gradia.overlay.drawing_overlay import DrawingOverlay
 from gradia.overlay.transparency_overlay import TransparencyBackground
 from gradia.overlay.crop_overlay import CropOverlay
 from gradia.overlay.drop_overlay import DropOverlay
+from gradia.ui.widget.aspect_ratio_button import AspectRatioButton
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/image_stack.ui")
 class ImageStack(Adw.Bin):
@@ -46,6 +47,7 @@ class ImageStack(Adw.Bin):
 
     reset_crop_revealer: Gtk.Revealer = Gtk.Template.Child()
     confirm_crop_revealer: Gtk.Revealer = Gtk.Template.Child()
+    aspect_crop_revealer: Gtk.Revealer = Gtk.Template.Child()
 
     crop_enabled: bool = False
     crop_has_been_enabled: bool = False
@@ -93,24 +95,31 @@ class ImageStack(Adw.Bin):
 
     def reset_crop_selection(self) -> None:
         self.crop_overlay.set_crop_rectangle(0.0, 0.0, 1, 1)
+        self.crop_overlay.aspect_ratio = 0
         self.crop_has_been_enabled = False
         self.on_toggle_crop()
 
     def on_toggle_crop(self) -> None:
         self.crop_enabled = not self.crop_enabled
-        self.crop_overlay.set_interaction_enabled(self.crop_enabled)
+        self.crop_overlay.interactive = self.crop_enabled
         self.crop_overlay.set_can_target(self.crop_enabled)
         self.right_controls_revealer.set_reveal_child(not self.crop_enabled)
         self.confirm_crop_revealer.set_reveal_child(self.crop_enabled)
 
         if self.crop_enabled:
             self.reset_crop_revealer.set_visible(True)
+            self.aspect_crop_revealer.set_visible(True)
 
         self.emit("crop-toggled", self.crop_enabled)
 
         self.reset_crop_revealer.set_reveal_child(self.crop_enabled)
+        self.aspect_crop_revealer.set_reveal_child(self.crop_enabled)
 
         if self.crop_enabled and not self.crop_has_been_enabled:
             self.crop_overlay.set_crop_rectangle(0.1, 0.1, 0.8, 0.8)
             self.crop_has_been_enabled = True
+
+    def set_aspect_ratio(self, ratio: float) -> None:
+        if self.crop_enabled:
+            self.crop_overlay.aspect_ratio = ratio
 

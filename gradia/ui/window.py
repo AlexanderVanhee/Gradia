@@ -135,6 +135,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.create_action("copy", lambda *_: self.export_manager.copy_to_clipboard(), ["<Primary>c"], enabled=False)
         self.create_action("command", lambda *_: self._run_custom_command(), ["<Primary>m"], enabled=False)
 
+        self.create_action("aspect-ratio-crop",lambda _, variant: self.image_bin.set_aspect_ratio(variant.get_double()), vt="d")
         self.create_action("crop", lambda *_: self.image_bin.on_toggle_crop(), ["<Primary>r"])
         self.create_action("reset-crop", lambda *_: self.image_bin.reset_crop_selection(), ["<Primary><Shift>r"])
 
@@ -255,7 +256,6 @@ class GradiaMainWindow(Adw.ApplicationWindow):
     def on_rotation_changed(self, value: int) -> None:
         self.processor.rotation = value
         self._trigger_processing()
-
 
     def _on_about_activated(self, action: Gio.SimpleAction, param: GObject.ParamSpec) -> None:
         about = AboutDialog(version=self.version)
