@@ -39,14 +39,12 @@ class ColorStop(Structure):
 
 @dataclass
 class Gradient:
-    mode: Literal["linear", "conic"] = "linear"
-    steps: Sequence[Step] = (
-        (0.0, "rgb(79,172,254)"),
-        (0.33, "rgb(0,242,254)"),
-        (0.66, "rgb(67,233,123)"),
-        (1.0, "rgb(56,249,215)"),
-    )
-    angle: float = 0.0
+    mode: Literal["linear", "conic", "radial"] = "linear"
+    steps: Sequence[Step] = field(default_factory=lambda: [
+        (0.0, "rgb(87,227,137)"),
+        (1.0, "rgb(53,132,228)"),
+    ])
+    angle: float = 135.0
 
     def to_json(self) -> str:
         return json.dumps({
@@ -57,23 +55,30 @@ class Gradient:
 
     @classmethod
     def from_json(cls, json_str: str) -> 'Gradient':
-        data = json.loads(json_str)
-        return cls(
-            mode=data.get("mode", "linear"),
-            steps=data.get("steps", []),
-            angle=data.get("angle", 0.0),
-        )
+        try:
+            data = json.loads(json_str)
+            return cls(
+                mode=data.get("mode", "linear"),
+                steps=data.get("steps", [
+                    (0.0, "rgb(87,227,137)"),
+                    (1.0, "rgb(53,132,228)"),
+                ]),
+                angle=data.get("angle", 135.0),
+            )
+        except Exception:
+            return cls()
 
     def to_css(self) -> str:
         steps_str = ", ".join(
-            f"{color} {step * 100:.2f}%"
-            for step, color in self.steps
+            f"{color} {step * 100:.2f}%" for step, color in self.steps
         )
 
         if self.mode == "linear":
             return f"linear-gradient({self.angle:.2f}deg, {steps_str})"
         elif self.mode == "conic":
             return f"conic-gradient(from {self.angle:.2f}deg, {steps_str})"
+        elif self.mode == "radial":
+            return f"radial-gradient(circle, {steps_str})"
         else:
             return ""
 
@@ -135,11 +140,19 @@ class GradientBackground(Background):
 
         stop_array = (ColorStop * len(parsed_stops))(*parsed_stops)
 
+        mode_map = {
+            "linear": 0,
+            "conic": 1,
+            "radial": 2,
+        }
+
+        mode = mode_map.get(self.gradient.mode, 0)
+
         self._c_lib.generate_gradient(
             pixel_buffer, width, height,
             stop_array, len(parsed_stops),
             float(self.gradient.angle),
-            0 if self.gradient.mode == "linear" else 1
+            mode
         )
 
         return Image.frombytes("RGBA", (width, height), bytes(pixel_buffer))

@@ -63,6 +63,9 @@
     <file preprocess="xml-stripblanks">icons/scalable/actions/aspect-ratio-free-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/aspect-ratio-square-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/aspect-ratio-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/linear-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/radial-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/conic-symbolic.svg</file>
   </gresource>
 </gresources>
 

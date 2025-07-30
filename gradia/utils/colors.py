@@ -66,13 +66,6 @@ def is_light_color(hex_color: str) -> bool:
     luminance = 0.299 * r + 0.587 * g + 0.114 * b
     return luminance > 200
 
-def is_light_color_rgba(rgba: Gdk.RGBA) -> bool:
-    luminance = (
-        0.299 * rgba.red +
-        0.587 * rgba.green +
-        0.114 * rgba.blue
-    )
-    return luminance > 0.784
 
 def parse_rgb_string(s: str) -> tuple[int, int, int]:
     s = s.strip().lower()

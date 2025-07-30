@@ -38,12 +38,19 @@ template GradiaGradientSelector : Adw.PreferencesGroup {
               width-request: 160;
               notify::active-name => $on_toggle_changed();
               Adw.Toggle{
-                label: "Linear";
+                icon-name: "linear-symbolic";
                 name: "linear";
+                tooltip: _("Lineair");
               }
               Adw.Toggle{
-                label: "Conic";
+                icon-name: "radial-symbolic";
+                name: "radial";
+                tooltip: _("Radial");
+              }
+              Adw.Toggle{
+                icon-name: "conic-symbolic";
                 name: "conic";
+                tooltip: _("Conic");
               }
             }
           }

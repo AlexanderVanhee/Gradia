@@ -18,7 +18,6 @@
 from gi.repository import Adw, Gtk, GObject, Gdk, Gsk, Graphene, GLib
 from gradia.ui.widget.angle_selector import AngleSelector
 from gradia.constants import rootdir
-from gradia.utils.colors import is_light_color_rgba
 from typing import Optional, Callable, List, Tuple
 import operator
 import time
@@ -62,6 +61,7 @@ class GradientColorButton(Gtk.Box):
         self._icon = Gtk.Image.new_from_icon_name("edit-symbolic")
         self._icon.set_pixel_size(18)
         self._icon.set_size_request(30,-1)
+        self._icon.get_style_context().add_class("gradient-color-button")
         box.append(self._icon)
 
         self.append(box)
@@ -111,7 +111,7 @@ class GradientColorButton(Gtk.Box):
         """
         self._css_provider.load_from_string(css)
 
-        if (rgba.red * 0.299 + rgba.green * 0.587 + rgba.blue * 0.114) > 0.6:
+        if (rgba.red * 0.299 + rgba.green * 0.587 + rgba.blue * 0.114) > 0.8:
             self._icon.get_style_context().add_class("dark")
         else:
             self._icon.get_style_context().remove_class("dark")
@@ -366,7 +366,7 @@ class GradientEditor(Gtk.Box):
 
             if width == 0:
                 return
-            x = x -16
+
             step = (x / width)
             step = max(0.0, min(1.0, step))
 
@@ -424,11 +424,7 @@ class GradientEditor(Gtk.Box):
 
         for button in self.color_buttons:
             step = button.get_step()
-            button_width = button.get_allocated_width()
-
-            if button_width <= 0:
-                button_width = 32
-
+            button_width = 34
             center_x = step * width
             x = center_x - (button_width / 2.0)
             x = max(0, min(width - button_width, x))

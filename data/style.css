@@ -52,12 +52,12 @@ headerbar.desktop windowcontrols button:active image {
     filter: brightness(1.1);
 }
 
-.dark {
+.gradient-color-button.dark{
     color: black;
 }
-
-.gradient-color-picker image {
+.gradient-color-button{
     color: white;
+    border: none;
 }
 
 .gradient-editor {

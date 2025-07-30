@@ -31,7 +31,7 @@ static void interpolate_color(double t, const ColorStop* stops, int num_stops, u
 void generate_gradient(
     uint8_t* pixels, int width, int height,
     const ColorStop* stops, int num_stops,
-    double angle, int mode // 0 = linear, 1 = conic
+    double angle, int mode // 0 = linear, 1 = conic, 2 = radial
 ) {
     double cos_angle = cos(angle * M_PI / 180.0);
     double sin_angle = sin(angle * M_PI / 180.0);
@@ -40,9 +40,9 @@ void generate_gradient(
     if (mode == 0) {
         double corners[4];
         corners[0] = 0 * cos_angle + 0 * sin_angle;
-        corners[1] = (width-1) * cos_angle + 0 * sin_angle;
-        corners[2] = 0 * cos_angle + (height-1) * sin_angle;
-        corners[3] = (width-1) * cos_angle + (height-1) * sin_angle;
+        corners[1] = (width - 1) * cos_angle + 0 * sin_angle;
+        corners[2] = 0 * cos_angle + (height - 1) * sin_angle;
+        corners[3] = (width - 1) * cos_angle + (height - 1) * sin_angle;
 
         min_coord = corners[0];
         max_coord = corners[0];
@@ -55,16 +55,28 @@ void generate_gradient(
     double range = max_coord - min_coord;
     if (range == 0) range = 1.0;
 
+    double cx = width / 2.0;
+    double cy = height / 2.0;
+    double max_radius = sqrt(cx * cx + cy * cy);
+
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             double t;
+
             if (mode == 0) { // Linear
                 double coord = x * cos_angle + y * sin_angle;
                 t = (coord - min_coord) / range;
-            } else { // Conic
-                double dx = x - width / 2.0;
-                double dy = y - height / 2.0;
+
+            } else if (mode == 1) { // Conic
+                double dx = x - cx;
+                double dy = y - cy;
                 t = (atan2(dy, dx) + M_PI) / (2 * M_PI);
+
+            } else { // Radial
+                double dx = x - cx;
+                double dy = y - cy;
+                double dist = sqrt(dx * dx + dy * dy);
+                t = dist / max_radius;
             }
 
             if (t < 0) t = 0;
@@ -81,4 +93,3 @@ void generate_gradient(
         }
     }
 }
-

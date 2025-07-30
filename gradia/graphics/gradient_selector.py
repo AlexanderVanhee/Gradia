@@ -137,6 +137,10 @@ class GradientSelector(Adw.PreferencesGroup):
 
     @Gtk.Template.Callback()
     def on_toggle_changed(self, toggle_group, param_spec):
+        isradial = toggle_group.get_active_name() == "radial"
+        self.angle_selector.set_sensitive(not isradial)
+        self.angle_entry.set_sensitive(not isradial)
+        self.angle_selector.set_opacity(0.30 if isradial else 1)
         self._notify()
 
     def on_gradient_colors_changed(self, gradient_data: List[Tuple[float, str]]):
