@@ -14,125 +14,133 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
-from collections.abc import Callable
-import ctypes
+from typing import Literal, Optional, Sequence
+from dataclasses import dataclass, field
+from ctypes import CDLL, POINTER, Structure, c_double, c_int, c_uint8
 import json
-from ctypes import CDLL, POINTER, c_double, c_int, c_uint8
-from typing import Optional
 
 from PIL import Image
-from gi.repository import Adw, Gtk
 
-from gradia.app_constants import PREDEFINED_GRADIENTS
 from gradia.graphics.background import Background
-from gradia.utils.colors import HexColor, hex_to_rgb, rgba_to_hex, hex_to_rgba, is_light_color
-
-CacheKey = tuple[str, str, int, int, int]
-GradientPreset = tuple[str, str, int]
-CacheInfo = dict[str, int | list[CacheKey] | bool]
+from gradia.utils.colors import parse_rgb_string
 
 
-class GradientBackground(Background):
-    _MAX_CACHE_SIZE: int = 100
-    _gradient_cache: dict[CacheKey, Image.Image] = {}
-    _c_lib: Optional[CDLL | bool] = None
+Step = tuple[float, str]  # (position, "rgb(r,g,b)")
+
+
+class ColorStop(Structure):
+    _fields_ = [
+        ("position", c_double),
+        ("r", c_uint8),
+        ("g", c_uint8),
+        ("b", c_uint8),
+    ]
+
+
+@dataclass
+class Gradient:
+    mode: Literal["linear", "conic"] = "linear"
+    steps: Sequence[Step] = (
+        (0.0, "rgb(79,172,254)"),
+        (0.33, "rgb(0,242,254)"),
+        (0.66, "rgb(67,233,123)"),
+        (1.0, "rgb(56,249,215)"),
+    )
+    angle: float = 0.0
+
+    def to_json(self) -> str:
+        return json.dumps({
+            "mode": self.mode,
+            "steps": self.steps,
+            "angle": self.angle,
+        })
 
     @classmethod
-    def _load_c_lib(cls) -> None:
-        if cls._c_lib:
-            return
+    def from_json(cls, json_str: str) -> 'Gradient':
+        data = json.loads(json_str)
+        return cls(
+            mode=data.get("mode", "linear"),
+            steps=data.get("steps", []),
+            angle=data.get("angle", 0.0),
+        )
 
-        try:
-            from importlib.resources import files
-            gradia_path = files('gradia').joinpath('libgradient_gen.so')
-            cls._c_lib = ctypes.CDLL(str(gradia_path))
+    def to_css(self) -> str:
+        steps_str = ", ".join(
+            f"{color} {step * 100:.2f}%"
+            for step, color in self.steps
+        )
 
-            cls._c_lib.generate_gradient.argtypes = [
-                POINTER(c_uint8), c_int, c_int,
-                c_int, c_int, c_int,
-                c_int, c_int, c_int,
-                c_double
-            ]
-            cls._c_lib.generate_gradient.restype = None
-        except Exception:
-            cls._c_lib = False
+        if self.mode == "linear":
+            return f"linear-gradient({self.angle:.2f}deg, {steps_str})"
+        elif self.mode == "conic":
+            return f"conic-gradient(from {self.angle:.2f}deg, {steps_str})"
+        else:
+            return ""
 
-    def __init__(
-        self,
-        start_color: HexColor = "#4A90E2",
-        end_color: HexColor = "#50E3C2",
-        angle: int = 0
-    ) -> None:
-        self.start_color: HexColor = start_color
-        self.end_color: HexColor = end_color
-        self.angle: int = angle
+
+@dataclass
+class GradientBackground(Background):
+    gradient: Gradient = field(default_factory=Gradient)
+    _c_lib: Optional[CDLL] = None
+
+    def __init__(self, gradient: Optional[Gradient] = None):
+        self.gradient = gradient or Gradient()
         self._load_c_lib()
 
     @classmethod
+    def _load_c_lib(cls) -> None:
+        if cls._c_lib is not None:
+            return
+
+        from importlib.resources import files
+        gradia_path = files("gradia").joinpath("libgradient_gen.so")
+        cls._c_lib = CDLL(str(gradia_path))
+        cls._c_lib.generate_gradient.argtypes = [
+            POINTER(c_uint8), c_int, c_int,
+            POINTER(ColorStop), c_int,
+            c_double, c_int
+        ]
+        cls._c_lib.generate_gradient.restype = None
+
+    @classmethod
     def from_json(cls, json_str: str) -> 'GradientBackground':
-        data = json.loads(json_str)
-        return cls(
-            start_color=data.get('start_color', "#4A90E2"),
-            end_color=data.get('end_color', "#50E3C2"),
-            angle=data.get('angle', 0)
-        )
+        return cls(gradient=Gradient.from_json(json_str))
+
+    def to_json(self) -> str:
+        return self.gradient.to_json()
 
     def get_name(self) -> str:
-        return f"gradient-{self.start_color}-{self.end_color}-{self.angle}"
+        return "Gradient"
+
+    def prepare_image(self, width: int, height: int) -> Image.Image:
+        if self._c_lib is None:
+            raise RuntimeError("C gradient library not loaded")
+        return self._generate_gradient_c(width, height)
 
     def _generate_gradient_c(self, width: int, height: int) -> Image.Image:
-        if not self._c_lib or self._c_lib is False:
-            raise RuntimeError("C gradient library not loaded")
-
-        start_rgb = hex_to_rgb(self.start_color)
-        end_rgb = hex_to_rgb(self.end_color)
         pixel_count = width * height * 4
         pixel_buffer = (c_uint8 * pixel_count)()
 
+        steps = self.gradient.steps
+        if self.gradient.mode == "conic":
+            offset = (self.gradient.angle % 360.0) / 360.0
+            steps = [((pos + offset) % 1.0, color) for pos, color in steps]
+            steps.sort(key=lambda s: s[0])
+            steps.append((1.0, steps[0][1]))
+
+        parsed_stops = []
+        for pos, color_str in steps:
+            r, g, b = parse_rgb_string(color_str)
+            parsed_stops.append(ColorStop(pos, r, g, b))
+
+        stop_array = (ColorStop * len(parsed_stops))(*parsed_stops)
+
         self._c_lib.generate_gradient(
             pixel_buffer, width, height,
-            start_rgb[0], start_rgb[1], start_rgb[2],
-            end_rgb[0], end_rgb[1], end_rgb[2],
-            float(self.angle)
+            stop_array, len(parsed_stops),
+            float(self.gradient.angle),
+            0 if self.gradient.mode == "linear" else 1
         )
 
-        return Image.frombytes('RGBA', (width, height), bytes(pixel_buffer))
-
-    def prepare_image(self, width: int, height: int) -> Image.Image:
-        cache_key: CacheKey = (self.start_color, self.end_color, self.angle, width, height)
-
-        if cache_key in self._gradient_cache:
-            return self._gradient_cache[cache_key].copy()
-
-        self._evict_cache_if_needed()
-
-        image = self._generate_gradient_c(width, height)
-        self._gradient_cache[cache_key] = image.copy()
-        return image
-
-    def _evict_cache_if_needed(self) -> None:
-        if len(self._gradient_cache) >= self._MAX_CACHE_SIZE:
-            keys_to_remove = list(self._gradient_cache.keys())[:self._MAX_CACHE_SIZE // 2]
-            for key in keys_to_remove:
-                del self._gradient_cache[key]
-
-    @classmethod
-    def clear_cache(cls) -> None:
-        cls._gradient_cache.clear()
-
-    @classmethod
-    def get_cache_info(cls) -> CacheInfo:
-        return {
-            'cache_size': len(cls._gradient_cache),
-            'max_cache_size': cls._MAX_CACHE_SIZE,
-            'cached_gradients': list(cls._gradient_cache.keys()),
-            'c_lib_loaded': cls._c_lib is not None and cls._c_lib is not False
-        }
-    def to_json(self) -> str:
-        return json.dumps({
-            'start_color': self.start_color,
-            'end_color': self.end_color,
-            'angle': self.angle
-        })
+        return Image.frombytes("RGBA", (width, height), bytes(pixel_buffer))
 

@@ -1,3 +1,20 @@
+# Copyright (C) 2025 Alexander Vanhee
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 from gi.repository import Gtk, Gdk, Graphene, Gsk, GObject, Adw
 import math
 
@@ -45,7 +62,8 @@ class AngleSelector(Gtk.Widget):
 
     def _get_handle_position(self):
         cx, cy = self._get_center()
-        rad = math.radians(self.angle)
+        adjusted_angle = self.angle - 90
+        rad = math.radians(adjusted_angle)
         x = cx + self._inner_radius * math.cos(rad)
         y = cy + self._inner_radius * math.sin(rad)
         return x, y
@@ -55,9 +73,13 @@ class AngleSelector(Gtk.Widget):
         dx = x - cx
         dy = y - cy
         angle_rad = math.atan2(dy, dx)
-        if angle_rad < 0:
-            angle_rad += 2 * math.pi
-        return angle_rad
+        angle_degrees = math.degrees(angle_rad)
+        angle_degrees = (angle_degrees + 90) % 360
+
+        if angle_degrees < 0:
+            angle_degrees += 360
+
+        return math.radians(angle_degrees)
 
     def _is_point_in_handle(self, x, y):
         hx, hy = self._get_handle_position()

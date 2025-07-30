@@ -6,7 +6,7 @@ template GradiaGradientSelector : Adw.PreferencesGroup {
   title: _("Gradient Background");
 
   [header-suffix]
-  $GradiaGradientPresetButton {}
+  $GradiaGradientPresetButton preset_button {}
 
   Adw.ActionRow gradient_preview_row {
     child: Gtk.Box {
@@ -17,9 +17,11 @@ template GradiaGradientSelector : Adw.PreferencesGroup {
       height-request: 165;
       vexpand: true;
       Box {
+        margin-top:5;
         height-request: 100;
-        $GradiaAngleSelector {
-          angle-changed => $on_angle_changed();
+        $GradiaAngleSelector angle_selector {
+          angle-changed => $on_angle_set();
+          notify::angle => $on_angle_changed();
         }
 
         Box {
@@ -30,19 +32,19 @@ template GradiaGradientSelector : Adw.PreferencesGroup {
             width-request:160;
             height-request:50;
 
-            Adw.ToggleGroup {
-              active-name: "lineair";
+            Adw.ToggleGroup type_group {
+              active-name: "linear";
               valign: center;
               width-request: 160;
+              notify::active-name => $on_toggle_changed();
               Adw.Toggle{
-                label: "Lineair";
-                name: "lineair";
+                label: "Linear";
+                name: "linear";
               }
               Adw.Toggle{
                 label: "Conic";
                 name: "conic";
               }
-
             }
           }
 
@@ -55,7 +57,7 @@ template GradiaGradientSelector : Adw.PreferencesGroup {
               height-request:50;
               Entry angle_entry {
                 valign: center;
-                text:"165°";
+                text:"0°";
                 max-length:4;
                 halign: start;
                 margin-end:10;
@@ -75,6 +77,7 @@ template GradiaGradientSelector : Adw.PreferencesGroup {
                   spacing: 12;
                   Label  step_label {
                     label: "100%";
+                    width-request:40;
                     styles ["heading"]
                   }
                   Revealer remove_button_revealer{
@@ -97,11 +100,11 @@ template GradiaGradientSelector : Adw.PreferencesGroup {
 
       $GradientEditor gradient_editor {
         height-request: 36;
-        width-request: 240;
+        width-request: 234;
         valign: end;
-        margin-top:6;
+        margin-top:0;
         margin-end:12;
-        margin-start:6;
+        margin-start:12;
 
       }
     };

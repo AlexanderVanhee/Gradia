@@ -73,3 +73,11 @@ def is_light_color_rgba(rgba: Gdk.RGBA) -> bool:
         0.114 * rgba.blue
     )
     return luminance > 0.784
+
+def parse_rgb_string(s: str) -> tuple[int, int, int]:
+    s = s.strip().lower()
+    if s.startswith("rgb(") and s.endswith(")"):
+        parts = s[4:-1].split(",")
+        return tuple(int(p.strip()) for p in parts)
+    raise ValueError(f"Invalid rgb string: {s}")
+
