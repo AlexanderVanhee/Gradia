@@ -23,7 +23,7 @@ from gradia.backend.settings import Settings
 from gradia.constants import rootdir  # pyright: ignore
 from gradia.overlay.drawing_actions import DrawingMode
 from gradia.ui.font_dropdown_controller import FontDropdownController
-from gradia.ui.provider_selection_window import ProviderSelectionWindow
+from gradia.ui.widget.quick_color_picker import QuickColorPicker
 
 class ToolConfig:
     def __init__(
@@ -47,14 +47,14 @@ class ToolConfig:
         return [
             ToolConfig(DrawingMode.SELECT, "pointer-primary-click-symbolic", 0, 0, []),
             ToolConfig(DrawingMode.PEN, "edit-symbolic", 1, 0, ["stroke_color", "size"]),
-            ToolConfig(DrawingMode.TEXT, "text-insert2-symbolic", 2, 0, ["stroke_color","fill_color", "font"]),
+            ToolConfig(DrawingMode.TEXT, "text-insert2-symbolic", 2, 0, ["stroke_color","fill_color",  "outline_color","font"]),
             ToolConfig(DrawingMode.LINE, "draw-line-symbolic", 3, 0, ["stroke_color", "size"]),
             ToolConfig(DrawingMode.ARROW, "arrow1-top-right-symbolic", 4, 0, ["stroke_color", "size"]),
             ToolConfig(DrawingMode.SQUARE, "box-small-outline-symbolic", 0, 1, ["stroke_color", "fill_color", "size"]),
             ToolConfig(DrawingMode.CIRCLE, "circle-outline-thick-symbolic", 1, 1, ["stroke_color", "fill_color", "size"]),
             ToolConfig(DrawingMode.HIGHLIGHTER, "marker-symbolic", 2, 1, ["highlighter_color", "highlighter_size"]),
             ToolConfig(DrawingMode.CENSOR, "checkerboard-big-symbolic", 3, 1, []),
-            ToolConfig(DrawingMode.NUMBER, "one-circle-symbolic", 4, 1, ["stroke_color","fill_color", "number_radius"]),
+            ToolConfig(DrawingMode.NUMBER, "one-circle-symbolic", 4, 1, ["stroke_color","fill_color", "outline_color", "number_radius"]),
         ]
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/drawing_tools_group.ui")
@@ -68,13 +68,15 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
     highlighter_color_revealer: Gtk.Revealer = Gtk.Template.Child()
     highlighter_size_revealer: Gtk.Revealer = Gtk.Template.Child()
     fill_color_revealer: Gtk.Revealer = Gtk.Template.Child()
+    outline_color_revealer: Gtk.Revealer = Gtk.Template.Child()
     font_revealer: Gtk.Revealer = Gtk.Template.Child()
     size_revealer: Gtk.Revealer = Gtk.Template.Child()
     number_radius_revealer: Gtk.Revealer = Gtk.Template.Child()
 
-    stroke_color_button: Gtk.ColorDialogButton = Gtk.Template.Child()
-    highlighter_color_button: Gtk.ColorDialogButton = Gtk.Template.Child()
-    fill_color_button: Gtk.ColorDialogButton = Gtk.Template.Child()
+    stroke_color_button: QuickColorPicker = Gtk.Template.Child()
+    highlighter_color_button: QuickColorPicker = Gtk.Template.Child()
+    fill_color_button: QuickColorPicker = Gtk.Template.Child()
+    outline_color_button: QuickColorPicker = Gtk.Template.Child()
 
     size_scale: Gtk.Scale = Gtk.Template.Child()
     highlighter_scale: Gtk.Scale = Gtk.Template.Child()
@@ -98,6 +100,7 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
             "highlighter_color": self.highlighter_color_revealer,
             "highlighter_size" : self.highlighter_size_revealer,
             "fill_color": self.fill_color_revealer,
+            "outline_color": self.outline_color_revealer,
             "font": self.font_revealer,
             "size": self.size_revealer,
             "number_radius": self.number_radius_revealer,
@@ -152,6 +155,7 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
         self._activate_color_action("pen-color", self.settings.pen_color)
         self._activate_color_action("highlighter-color", self.settings.highlighter_color)
         self._activate_color_action("fill-color", self.settings.fill_color)
+        self._activate_color_action("outline-color", self.settings.outline_color)
 
         self._activate_double_action("pen-size", self.settings.pen_size)
         self._activate_double_action("highlighter-size", self.settings.highlighter_size)
@@ -190,26 +194,35 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
 
     @Gtk.Template.Callback()
     def _on_reset_fill_clicked(self, _button: Gtk.Button, *args) -> None:
-        self.fill_color_button.set_rgba(Gdk.RGBA(0, 0, 0, 0))
-        self.fill_color_button.emit("color-set")
+        self.fill_color_button.set_color(Gdk.RGBA(0, 0, 0, 0))
 
     @Gtk.Template.Callback()
-    def _on_pen_color_set(self, button: Gtk.ColorDialogButton, *args) -> None:
-        rgba = button.get_rgba()
+    def _on_reset_outline_clicked(self, _button: Gtk.Button, *args) -> None:
+        self.outline_color_button.set_color(Gdk.RGBA(0, 0, 0, 0))
+
+    @Gtk.Template.Callback()
+    def _on_pen_color_set(self, button: QuickColorPicker, *args) -> None:
+        rgba = button.get_color()
         self.settings.pen_color = rgba
         self._activate_color_action("pen-color", rgba)
 
     @Gtk.Template.Callback()
-    def _on_highlighter_color_set(self, button: Gtk.ColorDialogButton, *args) -> None:
-        rgba = button.get_rgba()
+    def _on_highlighter_color_set(self, button: QuickColorPicker, *args) -> None:
+        rgba = button.get_color()
         self.settings.highlighter_color = rgba
         self._activate_color_action("highlighter-color", rgba)
 
     @Gtk.Template.Callback()
-    def _on_fill_color_set(self, button: Gtk.ColorDialogButton, *args) -> None:
-        rgba = button.get_rgba()
+    def _on_fill_color_set(self, button: QuickColorPicker, *args) -> None:
+        rgba = button.get_color()
         self.settings.fill_color = rgba
         self._activate_color_action("fill-color", rgba)
+
+    @Gtk.Template.Callback()
+    def _on_outline_color_set(self, button: QuickColorPicker, *args) -> None:
+        rgba = button.get_color()
+        self.settings.outline_color = rgba
+        self._activate_color_action("outline-color", rgba)
 
     @Gtk.Template.Callback()
     def _on_size_changed(self, scale: Gtk.Scale, *args) -> None:
@@ -299,13 +312,14 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
 
     def _restore_settings(self) -> None:
         """Restore all settings from persistent storage."""
-        self.stroke_color_button.set_rgba(self.settings.pen_color)
-        self.highlighter_color_button.set_rgba(self.settings.highlighter_color)
-        self.fill_color_button.set_rgba(self.settings.fill_color)
+        self.stroke_color_button.set_color(self.settings.pen_color)
+        self.highlighter_color_button.set_color(self.settings.highlighter_color)
+        self.fill_color_button.set_color(self.settings.fill_color)
+        self.outline_color_button.set_color(self.settings.outline_color)
 
         self.size_scale.set_value(self.settings.pen_size)
         self.highlighter_scale.set_value(self.settings.highlighter_size)
         self.number_radius_scale.set_value(self.settings.number_radius)
 
-
         self.font_dropdown_controller.restore_font_selection(self.font_dropdown)
+

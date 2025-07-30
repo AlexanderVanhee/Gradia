@@ -1,5 +1,5 @@
 project('gradia', 'c',
-            version: '1.6.1',
+            version: '1.7.1',
       meson_version: '>= 1.0.0',
     default_options: ['warning_level=2',
                       'werror=false'
@@ -12,7 +12,8 @@ gnome = import('gnome')
 python = import('python')
 
 # Project information
-PROJECT_URL = 'https://github.com/AlexanderVanhee/Gradia'
+PROJECT_URL = 'https://gradia.alexandervanhee.be/'
+VCS_URL = 'https://github.com/AlexanderVanhee/Gradia'
 BUGTRACKER_URL = 'https://github.com/AlexanderVanhee/Gradia/issues'
 HELP_URL = 'https://github.com/AlexanderVanhee/Gradia/discussions'
 
@@ -56,6 +57,7 @@ conf.set('BUILD_DIR', meson.current_build_dir())
 # Install project information
 conf.set('RELEASE_VER', meson.project_version())
 conf.set('PROJECT_URL', PROJECT_URL)
+conf.set('VCS_URL', VCS_URL)
 conf.set('BUGTRACKER_URL', BUGTRACKER_URL)
 conf.set('HELP_URL', HELP_URL)
 

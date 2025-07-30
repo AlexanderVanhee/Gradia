@@ -1,13 +1,14 @@
 import sys
 import os
-import tempfile
 import shutil
+from pathlib import Path
 
 from PIL import Image
 from io import BytesIO
 
 from typing import Optional
 from gradia.backend.logger import Logger
+from gradia.utils.timestamp_filename import TimestampedFilenameGenerator
 logging = Logger()
 
 class StdinImageLoader:
@@ -34,10 +35,14 @@ class StdinImageLoader:
             image.load()
 
             temp_dir = self.get_flatpak_safe_temp_dir()
-            with tempfile.NamedTemporaryFile(suffix=".png", dir=temp_dir, delete=False) as tmp_file:
-                image.save(tmp_file.name)
-                self.temp_path = tmp_file.name
-                logging.info(f"Temporary image file written to: {self.temp_path}")
+            filename = TimestampedFilenameGenerator().generate(_("Edited Image From %Y-%m-%d %H-%M-%S")) + ".png"
+            temp_path = os.path.join(temp_dir, filename)
+            Path(temp_dir).mkdir(parents=True, exist_ok=True)
+
+            image.save(temp_path)
+            self.temp_path = temp_path
+
+            logging.info(f"Temporary image file written to: {self.temp_path}")
 
             return self.temp_path
 

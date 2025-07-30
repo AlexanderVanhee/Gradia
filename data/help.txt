@@ -5,9 +5,9 @@ Usage: gradia [OPTIONS] [FILES...]
 Options:
   -h, --help                    Show this help message and exit
   --screenshot[=MODE]           Take a screenshot on startup
-                               MODE can be:
-                                 INTERACTIVE (default) - Interactive screenshot
-                                 FULL - Full screen screenshot
+                                MODE can be:
+                                  INTERACTIVE (default) - Interactive screenshot
+                                  FULL - Full screen screenshot
 
 Arguments:
   FILES...                     Image files to open
@@ -17,5 +17,6 @@ Examples:
   gradia image.png             Open image.png in Gradia
   gradia --screenshot          Take an interactive screenshot
   gradia --screenshot=FULL     Take a full screen screenshot
+  cat image.png | gradia       Open image from standard input (stdin)
 
 Report bugs to: https://github.com/alexandervanhee/gradia

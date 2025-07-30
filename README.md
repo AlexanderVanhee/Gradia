@@ -16,17 +16,23 @@
   while also offering options to enhance their overall appearance.
 </p>
 
-<p align="center">
-  <a href="https://flathub.org/apps/be.alexandervanhee.gradia">
-    <img width="190" alt="Download on Flathub" src="https://flathub.org/api/badge?locale=en" />
-  </a>
-</p>
+<div align="center">
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1em;">
+    <a href="https://flathub.org/apps/be.alexandervanhee.gradia">
+      <img width="190" alt="Download on Flathub" src="https://flathub.org/api/badge?locale=en" />
+    </a>
+    <a href="https://snapcraft.io/gradia">
+      <img alt="Get it from the Snap Store" src="https://snapcraft.io/en/dark/install.svg" />
+    </a>
+  </div>
+</div>
 
 
 ---
 <p align="center" style="display: flex; justify-content: center; gap: 1em; flex-wrap: wrap;">
   <img alt="Flathub Downloads" src="https://img.shields.io/flathub/downloads/be.alexandervanhee.gradia?logoColor=%234ec9a2&label=Flathub%20installs" />
   <img alt="Flathub Version" src="https://img.shields.io/flathub/v/be.alexandervanhee.gradia?label=Flathub%20version" />
+  <img alt="gradia" src="https://snapcraft.io/gradia/badge.svg" />
   <img alt="GitHub License" src="https://img.shields.io/github/license/AlexanderVanhee/Gradia" />
 </p>
 
@@ -61,7 +67,7 @@ If you'd like Gradia to **open automatically** after taking a screenshot, you ca
 > [!WARNING]
 > These methods are not officially supported. Issues related to packaging in these methods should be reported outside this project's bug tracker.
 
-[![Packaging status](https://repology.org/badge/vertical-allrepos/gradia.svg)](https://repology.org/project/gradia/versions)
+[![Packaging status](https://repology.org/badge/vertical-allrepos/gradia.svg?columns=3)](https://repology.org/project/gradia/versions)
 
 ## How to build
 

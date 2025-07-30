@@ -2,20 +2,17 @@ using Gtk 4.0;
 using Adw 1;
 
 template $GradiaImageStack : Adw.Bin {
-  child: Adw.ToolbarView toolbar_view {
+  child: $DropOverlay drop_overlay {
+    title: _("Drop Image Here");
+    child-widget:Adw.ToolbarView toolbar_view {
     top-bar-style: flat;
     extend-content-to-top-edge: true;
 
-    Gtk.DropTarget drop_target {
-      actions: copy;
-      preload: true;
-    }
 
     [top]
     Adw.HeaderBar headerbar {
       show-title: false;
       show-start-title-buttons: false;
-
       styles [
         "desktop"
       ]
@@ -29,7 +26,6 @@ template $GradiaImageStack : Adw.Bin {
 
       Gtk.StackPage loading_page {
         name: "loading";
-
         child: Gtk.Box spinner_box {
           orientation: vertical;
           halign: center;
@@ -44,7 +40,6 @@ template $GradiaImageStack : Adw.Bin {
 
       Gtk.StackPage image_page {
         name: "image";
-
         child: Gtk.Overlay picture_overlay {
           [overlay]
           $GradiaDrawingOverlay drawing_overlay {
@@ -52,38 +47,105 @@ template $GradiaImageStack : Adw.Bin {
           }
 
           [overlay]
-          Gtk.Box controls_box {
+          $GradiaCropOverlay crop_overlay {
+            visible: true;
+          }
+
+          [overlay]
+          Gtk.Box left_controls_container {
             orientation: horizontal;
             spacing: 6;
-
-            halign: fill;
+            halign: start;
             valign: end;
             margin-bottom: 12;
             margin-start: 12;
-            margin-end: 12;
+            hexpand: false;
 
-            Gtk.Box left_controls_box {
-              orientation: horizontal;
-              spacing: 6;
-              hexpand: true;
-              halign: start;
+            Gtk.Button crop_button {
+              icon-name: "crop-symbolic";
+              tooltip-text: _("Toggle Crop Mode");
+              action-name: "app.crop";
+              styles [
+                "osd",
+                "circular"
+              ]
+            }
 
-              Gtk.Revealer erase_selected_revealer {
-                transition-type: crossfade;
-                transition-duration: 300;
+            Gtk.Revealer aspect_crop_revealer {
+              transition-type: crossfade;
+              transition-duration: 300;
+              overflow: visible;
 
-                Gtk.Button back_button {
-                  icon-name: "eraser4-symbolic";
-                  tooltip-text: _("Erase Selected");
-                  action-name: "app.del-selected";
+              $GradiaAspectRatioButton{}
+            }
 
-                  styles [
-                    "osd",
-                    "circular"
-                  ]
-                }
+            Gtk.Revealer reset_crop_revealer {
+              transition-type: crossfade;
+              transition-duration: 300;
+              overflow: visible;
+
+              Gtk.Button reset_crop_button {
+                icon-name: "crop-reset-symbolic";
+                tooltip-text: _("Reset Crop Selection");
+                action-name: "app.reset-crop";
+                styles [
+                  "osd",
+                  "circular"
+                ]
               }
             }
+
+            Gtk.Revealer erase_selected_revealer {
+              transition-type: crossfade;
+              transition-duration: 300;
+
+              Gtk.Button back_button {
+                icon-name: "eraser4-symbolic";
+                tooltip-text: _("Erase Selected");
+                action-name: "app.del-selected";
+                styles [
+                  "osd",
+                  "circular"
+                ]
+              }
+            }
+          }
+
+          [overlay]
+          Gtk.Box middle_controls_container {
+            orientation: horizontal;
+            spacing: 6;
+            halign: center;
+            valign: end;
+            margin-bottom: 12;
+            margin-start: 12;
+            hexpand: false;
+
+            Gtk.Revealer confirm_crop_revealer {
+              transition-type: crossfade;
+              transition-duration: 300;
+
+              Gtk.Button {
+                label: _("Confirm");
+                tooltip-text: _("Confirm Crop Selection");
+                action-name: "app.crop";
+                styles [
+                  "pill", "osd"
+                ]
+              }
+            }
+
+          }
+
+          [overlay]
+          Gtk.Revealer right_controls_revealer {
+            transition-type: crossfade;
+            transition-duration: 300;
+            halign: end;
+            valign: end;
+            margin-bottom: 12;
+            margin-end: 12;
+            overflow: visible;
 
             Gtk.Box right_controls_box {
               orientation: horizontal;
@@ -94,7 +156,6 @@ template $GradiaImageStack : Adw.Bin {
                 icon-name: "edit-undo-symbolic";
                 tooltip-text: _("Undo");
                 action-name: "app.undo";
-
                 styles [
                   "osd",
                   "circular"
@@ -105,7 +166,6 @@ template $GradiaImageStack : Adw.Bin {
                 icon-name: "edit-redo-symbolic";
                 tooltip-text: _("Redo");
                 action-name: "app.redo";
-
                 styles [
                   "osd",
                   "circular"
@@ -116,7 +176,6 @@ template $GradiaImageStack : Adw.Bin {
                 icon-name: "user-trash-symbolic";
                 tooltip-text: _("Clear All");
                 action-name: "app.clear";
-
                 styles [
                   "osd",
                   "circular"
@@ -140,5 +199,6 @@ template $GradiaImageStack : Adw.Bin {
         };
       }
     };
+  };
   };
 }

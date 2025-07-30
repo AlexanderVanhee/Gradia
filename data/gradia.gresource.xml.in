@@ -14,18 +14,26 @@
     <file preprocess="xml-stripblanks">ui/welcome_page.ui</file>
     <file preprocess="xml-stripblanks">ui/preferences_window.ui</file>
     <file preprocess="xml-stripblanks">ui/confirm_close_dialog.ui</file>
+    <file preprocess="xml-stripblanks">ui/image_generator_window.ui</file>
     <file>style.css</file>
     <file>help.txt</file>
+  </gresource>
+  <gresource prefix="/be/alexandervanhee/gradia">
+    <file>source-styles/builder-dark.xml</file>
+    <file>source-styles/ubuntu.xml</file>
+    <file>source-styles/vscode-dark.xml</file>
   </gresource>
   <gresource prefix="/be/alexandervanhee/gradia">
     <file>images/preset1.webp</file>
     <file>images/preset2.webp</file>
     <file>images/preset3.webp</file>
     <file>images/preset4.webp</file>
-    <file>images/preset5.webp</file>
+    <file>images/preset5.png</file>
     <file>images/preset6.webp</file>
   </gresource>
   <gresource prefix="/be/alexandervanhee/gradia">
+    <file preprocess="xml-stripblanks">icons/scalable/actions/color-picker-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/color-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/image-alt-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/arrow1-top-right-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/clipboard-symbolic.svg</file>
@@ -39,12 +47,22 @@
     <file preprocess="xml-stripblanks">icons/scalable/actions/screenshooter-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/marker-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/checkerboard-big-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/checkerboard-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/one-circle-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/eraser4-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/settings-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/line-large-circle-outline-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/share-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/house-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/crop-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/crop-reset-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/aspect-ratio-16to9-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/aspect-ratio-3to2-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/aspect-ratio-4to3-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/aspect-ratio-5to4-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/aspect-ratio-free-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/aspect-ratio-square-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/aspect-ratio-symbolic.svg</file>
   </gresource>
 </gresources>
 

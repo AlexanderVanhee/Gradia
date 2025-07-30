@@ -17,14 +17,13 @@
 
 GradientPreset = tuple[str, str, int]
 PREDEFINED_GRADIENTS: list[GradientPreset] = [
-    ("#36d1dc", "#5b86e5", 90),
+    ("#f66151", "#ed333b", 45),
     ("#ff5f6d", "#ffc371", 45),
-    ("#453383", "#5494e8", 0),
-    ("#00c6ff", "#0072ff", 180),
+    ("#ffd200","#f7971e", 135),
     ("#8ff0a4", "#2ec27e", 135),
-    ("#f6f5f4", "#5e5c64", 135),
+    ("#57e389", "#3584e4", 135),
+    ("#453383", "#5494e8", 0),
 ]
-
 
 SUPPORTED_EXPORT_FORMATS = {
     'png': {

@@ -19,7 +19,7 @@ import random
 import re
 from typing import Callable, Optional
 from pathlib import Path
-from gi.repository import Adw, Gtk, GLib
+from gi.repository import Adw, Gtk, GLib, Gdk, GdkPixbuf, Graphene, Gsk
 
 from gradia.app_constants import PREDEFINED_GRADIENTS
 from gradia.backend.settings import Settings
@@ -41,9 +41,9 @@ class RecentImageGetter:
 
     def get_recent_screenshot_files(self) -> list[RecentFile]:
         screenshots_dir = self._get_screenshots_directory()
-        if not screenshots_dir.exists():
+        if not screenshots_dir or not screenshots_dir.exists():
             print(f"Screenshots directory does not exist: {screenshots_dir}")
-            return []
+            return None
 
         image_extensions = {'.png', '.jpg', '.jpeg', '.webp', '.avif'}
         all_files = [f for f in screenshots_dir.iterdir()
@@ -56,29 +56,65 @@ class RecentImageGetter:
 
     def _get_screenshots_directory(self) -> Path | None:
         """
-        Get screenshots directory with fallback logic:
-        1. XDG_PICTURES_DIR/(configured folder from preferences)
-        2. XDG_PICTURES_DIR/Screenshots
-        3. XDG_PICTURES_DIR
+        Return XDG_PICTURES_DIR/(configured folder from preferences), or the XDG_PICTURES_DIR itself
+        if no subfolder is configured. Returns None if the base pictures directory doesn't exist.
         """
         xdg_pictures = GLib.get_user_special_dir(GLib.USER_DIRECTORY_PICTURES)
-
         if not xdg_pictures:
             return None
 
-        xdg_pictures_path = Path(xdg_pictures)
-
         configured_subfolder = Settings().screenshot_subfolder
-        if configured_subfolder:
-            subfolder_path = xdg_pictures_path / configured_subfolder
-            if subfolder_path.exists():
-                return subfolder_path
+        if not configured_subfolder:
+            path = Path(xdg_pictures)
+            return path if path.exists() else None
 
-        screenshots_path = xdg_pictures_path / "Screenshots"
-        if screenshots_path.exists():
-            return screenshots_path
+        path = Path(xdg_pictures) / configured_subfolder
+        return path if path.exists() else None
 
-        return xdg_pictures_path
+
+class RoundedImage(Gtk.Widget):
+    def __init__(self, path: str, radius: float = 4.0, padding: int=16):
+        super().__init__()
+        self.radius = radius
+        self.texture = None
+        self.padding = padding
+
+        try:
+            pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(path, 260, 160)
+            self.texture = Gdk.Texture.new_for_pixbuf(pixbuf)
+        except Exception as e:
+            print(f"Failed to load image {path}: {e}")
+
+    def do_snapshot(self, snapshot: Gtk.Snapshot) -> None:
+        if not self.texture:
+            return
+
+        widget_width = self.get_width()
+        widget_height = self.get_height()
+
+        texture_width = self.texture.get_width()
+        texture_height = self.texture.get_height()
+
+        available_width = widget_width - (self.padding * 2)
+        available_height = widget_height - (self.padding * 2)
+
+        scale_x = available_width / texture_width
+        scale_y = available_height / texture_height
+        scale = min(scale_x, scale_y)
+
+        scaled_width = texture_width * scale
+        scaled_height = texture_height * scale
+
+        x_offset = self.padding + (available_width - scaled_width) / 2
+        y_offset = self.padding + (available_height - scaled_height) / 2
+
+        image_rect = Graphene.Rect().init(x_offset, y_offset, scaled_width, scaled_height)
+        rounded_rect = Gsk.RoundedRect()
+        rounded_rect.init_from_rect(image_rect, self.radius)
+
+        snapshot.push_rounded_clip(rounded_rect)
+        snapshot.append_texture(self.texture, image_rect)
+        snapshot.pop()
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/recent_picker.ui")
 class RecentPicker(Adw.Bin):
@@ -95,7 +131,10 @@ class RecentPicker(Adw.Bin):
 
     item_grid: Gtk.Grid = Gtk.Template.Child()
 
-    def __init__(self, callback: Optional[Callable]=None, **kwargs) -> None:
+    recent_overlay: Gtk.Overlay= Gtk.Template.Child()
+    error_overlay: Adw.StatusPage = Gtk.Template.Child()
+
+    def __init__(self, callback: Optional[Callable] = None, **kwargs) -> None:
         super().__init__(**kwargs)
 
         self.image_getter = RecentImageGetter()
@@ -108,7 +147,6 @@ class RecentPicker(Adw.Bin):
         self.gradient_colors = PREDEFINED_GRADIENTS
         self.original_gradient_indexes = list(range(len(self.gradient_colors)))
         combined = list(zip(self.gradient_colors, self.original_gradient_indexes))
-        random.shuffle(combined)
         self.gradient_colors, self.original_gradient_indexes = zip(*combined)
         self.gradient_colors = list(self.gradient_colors)
         self.original_gradient_indexes = list(self.original_gradient_indexes)
@@ -154,7 +192,6 @@ class RecentPicker(Adw.Bin):
                 container.append(name_label)
 
                 self.item_grid.attach(container, column, row, 1, 1)
-
     """
     Callbacks
     """
@@ -173,7 +210,6 @@ class RecentPicker(Adw.Bin):
 
     def refresh(self) -> None:
         self._load_images()
-
     """
     Private Methods
     """
@@ -208,20 +244,21 @@ class RecentPicker(Adw.Bin):
     def _update_display(self, recent_files: list[RecentFile]) -> None:
         self.recent_files = recent_files
 
+        if self.recent_files is None:
+            self.error_overlay.set_visible(True)
+            self.item_grid.set_opacity(0.25)
+            recent_files = []
+        else:
+            self.error_overlay.set_visible(False)
+            self.item_grid.set_opacity(1)
         for i in range(self.GRID_ROWS * self.GRID_COLUMNS):
             if i < len(recent_files):
                 file = recent_files[i]
 
                 try:
-                    picture = Gtk.Picture.new_for_filename(str(file.path))
-                    picture.set_margin_top(10)
-                    picture.set_margin_bottom(10)
-                    picture.set_margin_start(10)
-                    picture.set_margin_end(10)
-                    self.image_buttons[i].set_child(picture)
+                    rounded = RoundedImage(str(file.path))
+                    self.image_buttons[i].set_child(rounded)
                     self.image_buttons[i].set_sensitive(True)
-
-
                 except Exception as e:
                     filename = file.path.name
                     if len(filename) > self.MAX_FILENAME_LENGTH:
@@ -231,7 +268,7 @@ class RecentPicker(Adw.Bin):
                     self.image_buttons[i].set_child(error_label)
                     self.image_buttons[i].set_sensitive(False)
                     self.name_labels[i].set_text("")
-                    print(f"Error loading image {file_obj.path}: {e}")
+                    print(f"Error loading image {file.path}: {e}")
             else:
                 icon = Gtk.Image.new_from_icon_name("image-missing-symbolic")
                 self.image_buttons[i].set_child(icon)

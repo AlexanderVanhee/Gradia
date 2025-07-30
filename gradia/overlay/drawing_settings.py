@@ -11,6 +11,7 @@ class DrawingSettings:
     pen_color: Tuple[float, float, float, float] = (0.0, 0.0, 0.0, 1.0)
     pen_size: float = 3.0
     fill_color: Optional[Tuple[float, float, float, float]] = None
+    outline_color: Optional[Tuple[float, float, float, float]] = None
     highlighter_color: Tuple[float, float, float, float] = (1.0, 1.0, 0.0, 0.5)
     highlighter_size: float = DEFAULT_HIGHLIGHTER_SIZE
     arrow_head_size: float = DEFAULT_ARROW_HEAD_SIZE
@@ -25,6 +26,9 @@ class DrawingSettings:
 
     def set_fill_color(self, r: float, g: float, b: float, a: float=1) -> None:
         self.fill_color = (r, g, b, a)
+
+    def set_outline_color(self, r: float, g: float, b: float, a: float=1) -> None:
+        self.outline_color = (r, g, b, a)
 
     def set_highlighter_color(self, r: float, g: float, b: float, a: float=1) -> None:
         self.highlighter_color = (r, g, b, a)
@@ -59,6 +63,7 @@ class DrawingSettings:
             pen_color=self.pen_color,
             pen_size=self.pen_size,
             fill_color=self.fill_color,
+            outline_color=self.outline_color,
             highlighter_color=self.highlighter_color,
             highlighter_size=self.highlighter_size,
             arrow_head_size=self.arrow_head_size,

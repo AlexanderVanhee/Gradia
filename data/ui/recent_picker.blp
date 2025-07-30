@@ -2,12 +2,40 @@ using Gtk 4.0;
 using Adw 1;
 
 template $GradiaRecentPicker : Adw.Bin {
-  child: Gtk.Grid item_grid {
-    row-spacing: 10;
-    column-spacing: 30;
-    halign: center;
-    margin-start: 50;
-    margin-end: 50;
-  };
-}
+  child: Gtk.Overlay recent_overlay {
+     child:Gtk.Grid item_grid {
+        row-spacing: 10;
+        column-spacing: 30;
+        halign: center;
+        margin-start: 50;
+        margin-end: 50;
+      };
 
+      [overlay]
+      Gtk.Box error_overlay {
+        valign: center;
+        orientation: vertical;
+        spacing:12;
+
+        Label {
+         label: _("Screenshot Folder Not Found");
+         styles [
+            "title-2",
+          ]
+        }
+
+        Label {
+         label: _("Please set it in the Preferences menu.");
+         margin-bottom:12;
+        }
+
+         Gtk.Button preferences_button {
+          label: "Open Preferences";
+          action-name: "app.preferences";
+          halign: center;
+          styles [
+            "pill",
+          ]
+        }
+      }
+    };}

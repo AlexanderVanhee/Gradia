@@ -20,7 +20,9 @@ gradia/overlay/drawing_actions.py
 gradia/ui/preferences_window.py
 gradia/ui/dialog/confirm_close_dialog.py
 gradia/ui/dialog/delete_screenshots_dialog.py
+gradia/ui/image_creation/source_image_generator.py
 gradia/app_constants.py
+gradia/utils/std_image_loader.py
 
 data/ui/selectors/gradient_selector.blp
 data/ui/selectors/image_selector.blp
@@ -36,3 +38,4 @@ data/ui/welcome_page.blp
 data/ui/welcome_page.blp
 data/ui/preferences_window.blp
 data/ui/confirm_close_dialog.blp
+data/ui/image_generator_window.blp

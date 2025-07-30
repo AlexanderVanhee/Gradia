@@ -36,7 +36,8 @@ class ImageProcessor:
         aspect_ratio: Optional[str | float] = None,
         corner_radius: int = 0,
         shadow_strength: float = 0,
-        auto_balance: bool = False
+        auto_balance: bool = False,
+        rotation: int = 0
     ) -> None:
         self.background: Optional[Background] = background
         self.padding: int = padding
@@ -44,6 +45,7 @@ class ImageProcessor:
         self.aspect_ratio: Optional[str | float] = aspect_ratio
         self.corner_radius: int = corner_radius
         self.auto_balance: bool = auto_balance
+        self.rotation: int = rotation
         self.source_img: Optional[Image.Image] = None
         self._loaded_image_path: Optional[str] = None
         self._balanced_padding: Optional[dict] = None
@@ -69,6 +71,10 @@ class ImageProcessor:
             raise ValueError("No image loaded to process")
 
         source_img = self.source_img.copy()
+
+        if self.rotation != 0:
+            source_img = self._apply_rotation(source_img)
+
         width, height = source_img.size
 
         if self.auto_balance and self._balanced_padding:
@@ -98,11 +104,28 @@ class ImageProcessor:
     Private Methods
     """
 
+
+    def _apply_rotation(self, image: Image.Image) -> Image.Image:
+        if self.rotation == 0:
+            return image
+        elif self.rotation == 90:
+            return image.transpose(Image.ROTATE_90)
+        elif self.rotation == 180:
+            return image.transpose(Image.ROTATE_180)
+        elif self.rotation == 270:
+            return image.transpose(Image.ROTATE_270)
+        else:
+            return image
+
     def get_balanced_padding(self, tolerance: int = 5) -> dict[str, int | tuple[int, int, int, int]]:
         if not self.source_img:
             raise ValueError("No image loaded to analyze padding")
 
-        img = self.source_img.convert("RGBA")
+        img = self.source_img.copy()
+        if self.rotation != 0:
+            img = self._apply_rotation(img)
+
+        img = img.convert("RGBA")
         pixels = img.load()
         width, height = img.size
 

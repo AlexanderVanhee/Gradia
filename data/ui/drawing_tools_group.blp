@@ -54,11 +54,9 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
               spacing: 6;
               valign: center;
 
-              Gtk.ColorDialogButton stroke_color_button {
+              $QuickColorPicker stroke_color_button {
                 valign: center;
-                dialog: Gtk.ColorDialog {};
-
-                notify::rgba => $_on_pen_color_set();
+                color-changed => $_on_pen_color_set();
               }
             }
           }
@@ -98,13 +96,11 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
               spacing: 6;
               valign: center;
 
-              Gtk.ColorDialogButton highlighter_color_button {
+              $QuickColorPicker highlighter_color_button {
                 valign: center;
-                dialog: Gtk.ColorDialog {
-                  with-alpha: true;
-                };
-
-                notify::rgba => $_on_highlighter_color_set();
+                quick-colors-alpha:0.5;
+                show-black-white: false;
+                color-changed => $_on_highlighter_color_set();
               }
             }
           }
@@ -154,12 +150,60 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
                 ]
               }
 
-              Gtk.ColorDialogButton fill_color_button {
-                dialog: Gtk.ColorDialog {
-                  with-alpha: true;
-                };
+              $QuickColorPicker fill_color_button {
+                color-changed => $_on_fill_color_set();
+              }
+            }
+          }
 
-                notify::rgba => $_on_fill_color_set();
+        };
+      }
+
+      Gtk.Revealer outline_color_revealer {
+        reveal-child: false;
+        transition-type: swing_down;
+        transition-duration: 300;
+
+        child: Gtk.Box {
+          orientation: vertical;
+          spacing: 0;
+
+          styles [
+            "drawing_tool_entry_box"
+          ]
+
+          Gtk.Box outline_color_container {
+            orientation: horizontal;
+            spacing: 6;
+            margin-top: 8;
+            margin-bottom: 8;
+            margin-start: 12;
+            margin-end: 12;
+
+            Gtk.Label outline_color_label {
+              label: _("Outline Color");
+              halign: start;
+              hexpand: true;
+            }
+
+            Gtk.Box outline_color_suffix_box {
+              orientation: horizontal;
+              spacing: 6;
+              valign: center;
+
+              Gtk.Button outline_reset_button {
+                icon-name: "edit-clear-symbolic";
+                tooltip-text: _("Reset Outline");
+
+                clicked => $_on_reset_outline_clicked();
+
+                styles [
+                  "flat"
+                ]
+              }
+
+              $QuickColorPicker outline_color_button {
+                color-changed => $_on_outline_color_set();
               }
             }
           }
@@ -255,7 +299,7 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
 
                 adjustment: Gtk.Adjustment size_adjustment {
                   lower: 1;
-                  upper: 10;
+                  upper: 15;
                   value: 3;
                   step-increment: 1;
                   page-increment: 5;
@@ -307,7 +351,7 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
 
               adjustment: Gtk.Adjustment number_radius_adjustment {
                 lower: 10;
-                upper: 40;
+                upper: 60;
                 value: 15;
                 step-increment: 5;
                 page-increment: 5;
@@ -362,7 +406,7 @@ template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
 
                 adjustment: Gtk.Adjustment highlighter_size_adjustment {
                   lower: 3;
-                  upper: 30;
+                  upper: 45;
                   value: 3;
                   step-increment: 1;
                   page-increment: 5;

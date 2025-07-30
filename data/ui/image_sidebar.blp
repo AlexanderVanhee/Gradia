@@ -7,7 +7,7 @@ template $GradiaImageSidebar : Adw.Bin {
 
     [top]
     Adw.HeaderBar {
-      centering-policy: strict;
+      centering-policy: loose;
       show-end-title-buttons: false;
       show-start-title-buttons: true;
 
@@ -58,7 +58,7 @@ template $GradiaImageSidebar : Adw.Bin {
           numeric: true;
           adjustment: Gtk.Adjustment padding_adjustment {
             value: 5;
-            lower: -25;
+            lower: 0;
             upper: 75;
             step-increment: 5;
             page-increment: 5;
@@ -84,6 +84,7 @@ template $GradiaImageSidebar : Adw.Bin {
           Gtk.MenuButton aspect_ratio_button {
             label: "Auto";
             valign: center;
+            styles ["flat-dropdown"]
           }
         }
 
@@ -107,15 +108,37 @@ template $GradiaImageSidebar : Adw.Bin {
             };
           }
         }
-        Adw.ComboRow auto_balance_row {
+        Adw.SwitchRow auto_balance_toggle {
           title: _("Auto Balance");
-          activatable-widget: auto_balance_toggle;
+          activatable: true;
+        }
+
+        Adw.ActionRow rotation_row {
+          title: _("Rotation");
 
           [suffix]
-          Gtk.Switch auto_balance_toggle {
-            valign: center;
+          Box {
+            orientation: horizontal;
+            spacing: 10;
+
+            Button rotate_left_button {
+              icon-name: "object-rotate-left-symbolic";
+              tooltip-text: _("Rotate Anticlockwise");
+              valign: center;
+
+              styles ["circular", "rotate"]
+            }
+
+            Button rotate_right_button {
+              icon-name: "object-rotate-right-symbolic";
+              tooltip-text: _("Rotate Clockwise");
+              valign: center;
+
+              styles ["circular", "rotate"]
+            }
           }
         }
+
       }
 
       Adw.PreferencesGroup file_info_group {
@@ -208,10 +231,15 @@ Gtk.Popover gradient_popover {
 menu app_menu {
   section {
     item {
+      label: _("Source Snippets");
+      action: "app.create-source-image";
+    }
+    item {
       label: _("Delete Taken Screenshot(s)");
       action: "app.delete-screenshots";
     }
   }
+
   section {
     item {
       label: _("Preferences");

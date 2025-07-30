@@ -35,7 +35,12 @@ class BaseImageExporter:
         self.temp_dir: str = temp_dir
 
     def get_processed_pixbuf(self):
-        return self.overlay_pixbuffs(self.window.processed_pixbuf, self.window.drawing_overlay.export_to_pixbuf())
+        composited = self.overlay_pixbuffs(
+            self.window.processed_pixbuf,
+            self.window.drawing_overlay.export_to_pixbuf()
+        )
+        crop_rect = self.window.image_bin.crop_overlay.get_crop_rectangle()
+        return self.crop_pixbuf(composited, crop_rect)
 
     def overlay_pixbuffs(self, bottom: GdkPixbuf.Pixbuf, top: GdkPixbuf.Pixbuf, alpha: float = 1) -> GdkPixbuf.Pixbuf:
         if bottom.get_width() != top.get_width() or bottom.get_height() != top.get_height():
@@ -66,10 +71,33 @@ class BaseImageExporter:
         return result
 
     def _get_dynamic_filename(self, extension: str = ".png") -> str:
-       if self.window.image_path:
-           original_name = os.path.splitext(os.path.basename(self.window.image_path))[0]
-           return f"{original_name} ({_('Edit')}){extension}"
-       return f"{_('Enhanced Screenshot')}{extension}"
+        if self.window.image_path:
+            original_name = os.path.splitext(os.path.basename(self.window.image_path))[0]
+            if getattr(self.window, "image_has_actual_filename", False):
+                return f"{original_name} ({_('Edit')}){extension}"
+            else:
+                return f"{original_name}{extension}"
+        return f"{_('Enhanced Screenshot')}{extension}"
+
+
+    def crop_pixbuf(self, pixbuf: GdkPixbuf.Pixbuf, crop: tuple[float, float, float, float]) -> GdkPixbuf.Pixbuf:
+        crop_x, crop_y, crop_w, crop_h = crop
+
+        if (crop_x, crop_y, crop_w, crop_h) == (0.0, 0.0, 1.0, 1.0):
+            return pixbuf
+
+        width = pixbuf.get_width()
+        height = pixbuf.get_height()
+
+        crop_px = int(crop_x * width)
+        crop_py = int(crop_y * height)
+        crop_pw = int(crop_w * width)
+        crop_ph = int(crop_h * height)
+
+        crop_pw = max(1, min(crop_pw, width - crop_px))
+        crop_ph = max(1, min(crop_ph, height - crop_py))
+
+        return GdkPixbuf.Pixbuf.new_subpixbuf(pixbuf, crop_px, crop_py, crop_pw, crop_ph)
 
     def _ensure_processed_image_available(self) -> bool:
         """Ensure processed image is available for export"""
@@ -124,6 +152,7 @@ class FileDialogExporter(BaseImageExporter):
                 save_path = self._ensure_correct_extension(save_path, format_type)
                 logger.debug(f"Saving to: {save_path} as {format_type}")
                 self._save_image(save_path, format_type)
+                self.window.show_close_confirmation = False
                 self.window._show_notification(_("Image saved successfully"))
 
         dialog.destroy()
@@ -202,6 +231,7 @@ class ClipboardExporter(BaseImageExporter):
                 raise Exception("Failed to create temporary file for clipboard")
 
             copy_file_to_clipboard(temp_path)
+            self.window.show_close_confirmation = False
             self.window._show_notification(_("Image copied to clipboard"))
 
         except Exception as e:
@@ -245,12 +275,10 @@ class CommandLineExporter(BaseImageExporter):
 
             logger.info("running custom command: " + command)
             process = subprocess.Popen(
-                command,
-                shell=True,
-                executable="/bin/bash",
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE
-            )
+                    ["/usr/bin/env", "bash", "-c", command],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE
+                )
             stdout, stderr = process.communicate()
 
             logger.info("stderr:" + (stderr.decode('utf-8') if stderr else "None"))
@@ -270,7 +298,7 @@ class CommandLineExporter(BaseImageExporter):
             output_text = stdout.decode('utf-8').strip()
             if output_text:
                 logger.info("output: " + output_text)
-
+                self.window.show_close_confirmation = False
                 if self._is_valid_url(output_text):
                     copy_text_to_clipboard(output_text)
                     self._show_link_notification(output_text)

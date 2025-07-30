@@ -17,6 +17,7 @@
 
 from collections.abc import Callable
 import ctypes
+import json
 from ctypes import CDLL, POINTER, c_double, c_int, c_uint8
 from typing import Optional
 
@@ -25,7 +26,7 @@ from gi.repository import Adw, Gtk
 
 from gradia.app_constants import PREDEFINED_GRADIENTS
 from gradia.graphics.background import Background
-from gradia.utils.colors import HexColor, hex_to_rgb, rgba_to_hex, hex_to_rgba
+from gradia.utils.colors import HexColor, hex_to_rgb, rgba_to_hex, hex_to_rgba, is_light_color
 from gradia.constants import rootdir  # pyright: ignore
 
 
@@ -71,11 +72,13 @@ class GradientBackground(Background):
         self._load_c_lib()
 
     @classmethod
-    def fromIndex(cls, index: int) -> 'GradientBackground':
-        if not (0 <= index < len(PREDEFINED_GRADIENTS)):
-            raise IndexError(f"Gradient index {index} is out of range.")
-        start_color, end_color, angle = PREDEFINED_GRADIENTS[index]
-        return cls(start_color=start_color, end_color=end_color, angle=angle)
+    def from_json(cls, json_str: str) -> 'GradientBackground':
+        data = json.loads(json_str)
+        return cls(
+            start_color=data.get('start_color', "#4A90E2"),
+            end_color=data.get('end_color', "#50E3C2"),
+            angle=data.get('angle', 0)
+        )
 
     def get_name(self) -> str:
         return f"gradient-{self.start_color}-{self.end_color}-{self.angle}"
@@ -128,13 +131,60 @@ class GradientBackground(Background):
             'cached_gradients': list(cls._gradient_cache.keys()),
             'c_lib_loaded': cls._c_lib is not None and cls._c_lib is not False
         }
+    def to_json(self) -> str:
+        return json.dumps({
+            'start_color': self.start_color,
+            'end_color': self.end_color,
+            'angle': self.angle
+        })
+
+class GradientColorButton(Gtk.Button):
+
+    __gtype_name__ = "GradientColorButton"
+
+    def __init__(self, tooltip_text: str = "", **kwargs):
+        super().__init__(**kwargs)
+
+        self.set_tooltip_text(tooltip_text)
+        self.add_css_class("gradient-color-picker")
+        self.add_css_class("circular")
+
+        icon = Gtk.Image.new_from_icon_name("edit-symbolic")
+        icon.set_icon_size(Gtk.IconSize.LARGE)
+        icon.set_pixel_size(17) # seems blurry on some sizes for some reason.
+        self.set_child(icon)
+
+        self._color = "#000000"
+        self._css_provider = Gtk.CssProvider()
+        self.get_style_context().add_provider(
+            self._css_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 2
+        )
+
+    def set_color(self, color: str, button_index: int = 1) -> None:
+        self._color = color
+
+        css = f"""
+            button.gradient-color-picker:nth-child({button_index}) {{
+                background-color: {color};
+            }}
+        """
+
+        self._css_provider.load_from_string(css)
+
+        context = self.get_style_context()
+        if is_light_color(color):
+            context.add_class("dark")
+        else:
+            context.remove_class("dark")
+
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/selectors/gradient_selector.ui")
 class GradientSelector(Adw.PreferencesGroup):
     __gtype_name__ = "GradiaGradientSelector"
 
-    start_color_button: Gtk.Button = Gtk.Template.Child()
-    end_color_button: Gtk.Button = Gtk.Template.Child()
+    start_color_button: GradientColorButton = Gtk.Template.Child()
+    end_color_button: GradientColorButton = Gtk.Template.Child()
     gradient_preview_box: Gtk.Box = Gtk.Template.Child()
 
     angle_spin_row: Adw.SpinRow = Gtk.Template.Child()
@@ -215,41 +265,14 @@ class GradientSelector(Adw.PreferencesGroup):
         )
 
     def _update_color_button_styles(self) -> None:
-        start_css = f"""
-            button.gradient-color-picker:nth-child(1) {{
-                background-color: {self.gradient.start_color};
-            }}
-        """
-        start_css_provider = Gtk.CssProvider()
-        start_css_provider.load_from_string(start_css)
-        start_context = self.start_color_button.get_style_context()
-        start_context.add_provider(start_css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 2)
-
-        if self.is_light_color(self.gradient.start_color):
-            start_context.add_class("dark")
-        else:
-            start_context.remove_class("dark")
-
-        end_css = f"""
-            button.gradient-color-picker:nth-child(2) {{
-                background-color: {self.gradient.end_color};
-            }}
-        """
-        end_css_provider = Gtk.CssProvider()
-        end_css_provider.load_from_string(end_css)
-        end_context = self.end_color_button.get_style_context()
-        end_context.add_provider(end_css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 2)
-
-        if self.is_light_color(self.gradient.end_color):
-            end_context.add_class("dark")
-        else:
-            end_context.remove_class("dark")
+        self.start_color_button.set_color(self.gradient.start_color, 1)
+        self.end_color_button.set_color(self.gradient.end_color, 2)
 
     """
     Callbacks
     """
     @Gtk.Template.Callback()
-    def _on_start_color_button_clicked(self, button: Gtk.Button) -> None:
+    def _on_start_color_button_clicked(self, button: GradientColorButton) -> None:
         self.start_color_dialog.choose_rgba(
             parent=self.get_root(),
             initial_color=hex_to_rgba(self.gradient.start_color),
@@ -257,7 +280,7 @@ class GradientSelector(Adw.PreferencesGroup):
         )
 
     @Gtk.Template.Callback()
-    def _on_end_color_button_clicked(self, button: Gtk.Button) -> None:
+    def _on_end_color_button_clicked(self, button: GradientColorButton) -> None:
         self.end_color_dialog.choose_rgba(
             parent=self.get_root(),
             initial_color=hex_to_rgba(self.gradient.end_color),
@@ -284,12 +307,6 @@ class GradientSelector(Adw.PreferencesGroup):
         except Exception:
             pass
 
-    def is_light_color(self, hex_color: str) -> bool:
-        hex_color = hex_color.lstrip("#")
-        r, g, b = [int(hex_color[i:i + 2], 16) for i in (0, 2, 4)]
-        luminance = 0.299 * r + 0.587 * g + 0.114 * b
-        return luminance > 200
-
     @Gtk.Template.Callback()
     def _on_angle_output(self, row: Adw.SpinRow, *args) -> None:
         self.gradient.angle = int(row.get_value())
@@ -309,12 +326,9 @@ class GradientSelector(Adw.PreferencesGroup):
 
         self.gradient_popover.popdown()
 
-
     """
     Internal Methods
     """
-
     def _notify(self) -> None:
         if self.callback:
             self.callback(self.gradient)
-

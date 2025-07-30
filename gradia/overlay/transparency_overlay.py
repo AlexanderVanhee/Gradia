@@ -14,67 +14,87 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from typing import Any
+from gi.repository import Gtk, Gdk, Graphene
 
-import cairo
-from gi.repository import Gtk
-
-class TransparencyBackground(Gtk.DrawingArea):
+class TransparencyBackground(Gtk.Widget):
     __gtype_name__ = "GradiaTransparencyBackground"
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-
-        self.set_draw_func(self._on_draw, None)
-
         self.picture_widget: Gtk.Picture | None = None
         self.square_size = 20
 
-    """
-    Callbacks
-    """
-
-    def _on_draw(self, _area: Gtk.DrawingArea, context: cairo.Context, _width: int, _height: int, _user_data: Any) -> None:
-        """Draw checkerboard pattern only within image bounds"""
-
+    def do_snapshot(self, snapshot: Gtk.Snapshot) -> None:
         offset_x, offset_y, display_width, display_height = self._get_image_bounds()
 
-        light_gray = (0.9, 0.9, 0.9)
-        dark_gray = (0.7, 0.7, 0.7)
+        light_gray = Gdk.RGBA()
+        light_gray.red = 0.9
+        light_gray.green = 0.9
+        light_gray.blue = 0.9
+        light_gray.alpha = 1.0
+
+        dark_gray = Gdk.RGBA()
+        dark_gray.red = 0.7
+        dark_gray.green = 0.7
+        dark_gray.blue = 0.7
+        dark_gray.alpha = 1.0
 
         start_x = int(offset_x)
         start_y = int(offset_y)
         end_x = int(offset_x + display_width)
         end_y = int(offset_y + display_height)
 
-        for y in range(start_y, end_y, self.square_size):
-            for x in range(start_x, end_x, self.square_size):
-                square_x = (x - start_x) // self.square_size
-                square_y = (y - start_y) // self.square_size
-                is_light = (square_x + square_y) % 2 == 0
+        bg_rect = Graphene.Rect.alloc()
+        bg_rect.init(start_x, start_y, display_width, display_height)
+        snapshot.append_color(light_gray, bg_rect)
 
-                color = light_gray if is_light else dark_gray
-                context.set_source_rgb(*color)
+        if self.picture_widget and self.picture_widget.get_paintable():
+            image_width = self.picture_widget.get_paintable().get_intrinsic_width()
+            image_height = self.picture_widget.get_paintable().get_intrinsic_height()
+            if image_width > 0 and image_height > 0:
+                scale = min(display_width / image_width, display_height / image_height)
+            else:
+                scale = 1.0
+        else:
+            scale = 1.0
 
-                square_w = min(self.square_size, end_x - x)
-                square_h = min(self.square_size, end_y - y)
+        y = start_y
+        image_y = 0
+        while y < end_y:
+            x = start_x
+            image_x = 0
+            while x < end_x:
+                square_x = int(image_x // self.square_size)
+                square_y = int(image_y // self.square_size)
+                is_dark = (square_x + square_y) % 2 == 1
 
-                context.rectangle(x, y, square_w, square_h)
-                context.fill()
+                next_image_x = (square_x + 1) * self.square_size
+                next_image_y = (square_y + 1) * self.square_size
+                next_x = min(start_x + next_image_x * scale, end_x)
+                next_y = min(start_y + next_image_y * scale, end_y)
 
-    """
-    Public Methods
-    """
+                square_w = next_x - x
+                square_h = next_y - y
+
+                if is_dark and square_w > 0 and square_h > 0:
+                    square_rect = Graphene.Rect.alloc()
+                    square_rect.init(x, y, square_w, square_h)
+                    snapshot.append_color(dark_gray, square_rect)
+
+                x = next_x
+                image_x = next_image_x
+
+            square_y = int(image_y // self.square_size)
+            next_image_y = (square_y + 1) * self.square_size
+            next_y = min(start_y + next_image_y * scale, end_y)
+            y = next_y
+            image_y = next_image_y
 
     def set_picture_reference(self, picture: Gtk.Picture) -> None:
         self.picture_widget = picture
         if picture:
             picture.connect("notify::paintable", lambda *args: self.queue_draw())
-
-    """
-    Private Methods
-    """
 
     def _get_image_bounds(self) -> tuple[float, float, float, float]:
         if not self.picture_widget or not self.picture_widget.get_paintable():
@@ -91,6 +111,7 @@ class TransparencyBackground(Gtk.DrawingArea):
         scale = min(widget_width / image_width, widget_height / image_height)
         display_width = image_width * scale
         display_height = image_height * scale
+
         offset_x = (widget_width - display_width) / 2
         offset_y = (widget_height - display_height) / 2
 

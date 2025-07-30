@@ -7,85 +7,139 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from typing import Optional
-
 from gi.repository import Adw, Gtk
 
-def create_about_dialog(version: str) -> Adw.AboutDialog:
-    dialog = Adw.AboutDialog(
-        application_name="Gradia",
-        version=version,
-        comments=_("Make your images ready for the world"),
-        website="https://github.com/AlexanderVanhee/Gradia",
-        issue_url="https://github.com/AlexanderVanhee/Gradia/issues",
-        developer_name="Alexander Vanhee",
-        developers=[
-            "Alexander Vanhee https://github.com/AlexanderVanhee",
-            "tfuxu https://github.com/tfuxu",
-        ],
-        designers=[
-            "drpetrikov https://github.com/drpetrikov"
-        ],
-        application_icon="be.alexandervanhee.gradia",
-        # Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
-        translator_credits=_("translator-credits"),
-        copyright="Copyright © 2025 Alexander Vanhee",
-        license_type=Gtk.License.GPL_3_0
-    )
 
-    return dialog
+class AboutDialog:
+    def __init__(self, version: str):
+        self.version = version
+        self.dialog = None
 
-def create_shortcuts_dialog(parent: Optional[Gtk.Window] = None) -> Gtk.ShortcutsWindow:
-    SHORTCUT_GROUPS = [
-        {
-            "title": _("File Actions"),
-            "shortcuts": [
-                (_("Open File"), "<Ctrl>O"),
-                (_("Save to File"), "<Ctrl>S"),
-                (_("Copy Image to Clipboard"), "<Ctrl>C"),
-                (_("Paste From Clipboard"), "<Ctrl>V"),
-                (_("Share Image"), "<Ctrl>M"),
+    def create(self) -> Adw.AboutDialog:
+        self.dialog = Adw.AboutDialog(
+            application_name="Gradia",
+            version=self.version,
+            comments=_("Make your images ready for all"),
+            website="https://github.com/AlexanderVanhee/Gradia",
+            issue_url="https://github.com/AlexanderVanhee/Gradia/issues",
+            developer_name="Alexander Vanhee",
+            developers=[
+                "Alexander Vanhee https://github.com/AlexanderVanhee",
+                "tfuxu https://github.com/tfuxu",
+            ],
+            designers=[
+                "drpetrikov https://github.com/drpetrikov"
+            ],
+            application_icon="be.alexandervanhee.gradia",
+            # Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
+            translator_credits=_("translator-credits"),
+            copyright="Copyright © 2025 Alexander Vanhee",
+            license_type=Gtk.License.GPL_3_0
+        )
+
+        self.dialog.add_acknowledgement_section(
+            _("Code and Design Borrowed from"),
+            [
+                "Switcheroo https://apps.gnome.org/en-GB/Converter/",
+                "Halftone https://github.com/tfuxu/Halftone",
+                "Gradience https://github.com/GradienceTeam/Gradience",
+                "Emblem https://apps.gnome.org/en-GB/Emblem/",
+                "Builder https://apps.gnome.org/en-GB/Builder/",
+                None
             ]
-        },
-        {
-            "title": _("Annotations"),
-            "shortcuts": [
-                (_("Undo"), "<Ctrl>Z"),
-                (_("Redo"), "<Ctrl><Shift>Z"),
-                (_("Erase Selected"), "Delete")
+        )
+
+        self.dialog.add_acknowledgement_section(
+            _("Image Sources"),
+            [
+                "GNOME backgrounds https://gitlab.gnome.org/GNOME/gnome-backgrounds",
+                "Fruit Basket https://unsplash.com/photos/background-pattern-oWr5S1bO2ak",
+                None
             ]
-        },
-        {
-            "title": _("General"),
-            "shortcuts": [
-                (_("Keyboard Shortcuts"), "<Ctrl>question"),
-                (_("Preferences"), "<Ctrl>comma"),
-                (_("Toggle Utility Pane"), "F9"),
-            ]
-        }
-    ]
+        )
 
-    dialog = Gtk.ShortcutsWindow(transient_for=parent, modal=True)
-    section = Gtk.ShortcutsSection()
 
-    for group_data in SHORTCUT_GROUPS:
-        group = Gtk.ShortcutsGroup(title=group_data["title"], visible=True)
-        for title, accel in group_data["shortcuts"]:
-            group.add_shortcut(Gtk.ShortcutsShortcut(
-                title=title,
-                accelerator=accel
-            ))
-        section.add_group(group)
+        return self.dialog
 
-    dialog.add_section(section)
-    dialog.connect("close-request", lambda dialog: dialog.destroy())
+    def show(self, parent: Optional[Gtk.Window] = None):
+        if not self.dialog:
+            self.create()
+        self.dialog.present(parent)
 
-    return dialog
+
+class ShortcutsDialog:
+    def __init__(self, parent: Optional[Gtk.Window] = None):
+        self.parent = parent
+        self.dialog = None
+        self.shortcut_groups = [
+            {
+                "title": _("File Actions"),
+                "shortcuts": [
+                    (_("Open File"), "<Ctrl>O"),
+                    (_("Save to File"), "<Ctrl>S"),
+                    (_("Copy Image to Clipboard"), "<Ctrl>C"),
+                    (_("Paste From Clipboard"), "<Ctrl>V"),
+                    (_("Share Image"), "<Ctrl>M"),
+                ]
+            },
+            {
+                "title": _("Annotations"),
+                "shortcuts": [
+                    (_("Undo"), "<Ctrl>Z"),
+                    (_("Redo"), "<Ctrl><Shift>Z"),
+                    (_("Erase Selected"), "Delete")
+                ]
+            },
+            {
+                "title": _("Cropping"),
+                "shortcuts": [
+                    (_("Toggle Crop Mode"), "<Ctrl>R"),
+                    (_("Reset Crop"), "<Ctrl><Shift>R")
+                ]
+            },
+            {
+                "title": _("General"),
+                "shortcuts": [
+                    (_("Keyboard Shortcuts"), "<Ctrl>question"),
+                    (_("Preferences"), "<Ctrl>comma"),
+                    (_("Open Source Snippets"), "<Ctrl>P"),
+                ]
+            }
+        ]
+
+    def create(self) -> Gtk.ShortcutsWindow:
+        self.dialog = Gtk.ShortcutsWindow(transient_for=self.parent, modal=True)
+        section = Gtk.ShortcutsSection()
+
+        for group_data in self.shortcut_groups:
+            group = Gtk.ShortcutsGroup(title=group_data["title"], visible=True)
+            for title, accel in group_data["shortcuts"]:
+                group.add_shortcut(Gtk.ShortcutsShortcut(
+                    title=title,
+                    accelerator=accel
+                ))
+            section.add_group(group)
+
+        self.dialog.add_section(section)
+        self.dialog.connect("close-request", lambda dialog: dialog.destroy())
+        return self.dialog
+
+    def show(self):
+        if not self.dialog:
+            self.create()
+        self.dialog.present()
+
+    def set_parent(self, parent: Gtk.Window):
+        self.parent = parent
+        if self.dialog:
+            self.dialog.set_transient_for(parent)
+

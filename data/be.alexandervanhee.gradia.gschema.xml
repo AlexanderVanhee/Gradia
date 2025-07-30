@@ -21,6 +21,10 @@
       <default>'0.000,0.000,0.000,0.000'</default>
       <summary>Fill color in rgba</summary>
     </key>
+    <key name="outline-color" type="s">
+      <default>'0.000,0.000,0.000,0.000'</default>
+      <summary>Text outline color in rgba</summary>
+    </key>
     <key name="pen-size" type="d">
       <default>3.0</default>
       <summary>Pen size</summary>
@@ -53,6 +57,28 @@
     <key name="image-auto-balance" type="b">
       <default>false</default>
       <summary>If images with same colored edges should be balanced</summary>
+    </key>
+    <key name="image-rotation" type="i">
+      <default>0</default>
+      <summary>Rotation of the the inner image</summary>
+    </key>
+
+    <key name="background-mode" type="s">
+      <default>'gradient'</default>
+      <summary>The selected background mode</summary>
+    </key>
+    <key name="solid-state" type="s">
+      <default>"{\"color\": \"#4A90E2\", \"alpha\": 1.0}"</default>
+      <summary>Serialized state of the solid background</summary>
+    </key>
+
+    <key name="gradient-state" type="s">
+      <default>"{\"start_color\": \"#57e389\", \"end_color\": \"#3584e4\", \"angle\": 135}"</default>
+      <summary>Serialized state of the gradient background</summary>
+    </key>
+    <key name="image-state" type="s">
+      <default>''</default>
+      <summary>Serialized state of the image background</summary>
     </key>
 
    <key name="screenshot-subfolder" type="s">
@@ -92,6 +118,32 @@
       <default>true</default>
       <summary>Whether to ask before running the export command.</summary>
     </key>
+
+    <key name="source-snippet-show-frame" type="b">
+      <default>true</default>
+      <summary>Whether to have a window frame for the source snippet.</summary>
+    </key>
+    <key name="source-snippet-show-line-numbers" type="b">
+      <default>true</default>
+      <summary>Whether to show a number before each line of code of the source snippet.</summary>
+    </key>
+    <key name="source-snippet-language" type="s">
+      <default>'c'</default>
+      <summary>Chosen programming language of the source snippet</summary>
+    </key>
+    <key name="source-snippet-code-text" type="s">
+      <default>'// Gradia&#10;#include &lt;pthread.h&gt;&#10;#include &lt;stdio.h&gt;&#10;&#10;void* say_hello(void* arg) {&#10;    puts("Hello from thread!");&#10;    return NULL;&#10;}&#10;&#10;int main() {&#10;    pthread_t t;&#10;    pthread_create(&amp;t, NULL, say_hello, NULL);&#10;    pthread_join(t, NULL);&#10;}'</default>
+      <summary>Code of the source snippet</summary>
+    </key>
+      <key name="source-snippet-title" type="s">
+      <default>'My Code'</default>
+      <summary>Title bar text of the source snippet</summary>
+    </key>
+    <key name="source-snippet-style-scheme" type="s">
+      <default>'Adwaita'</default>
+      <summary>Color scheme of the source snippet</summary>
+    </key>
+
   </schema>
 </schemalist>
 

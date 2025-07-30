@@ -17,12 +17,12 @@
 
 from collections.abc import Callable
 from typing import Optional
-
+import json
 from PIL import Image
-from gi.repository import Adw, Gtk
+from gi.repository import Adw, Gtk, Gio, Gdk
 
 from gradia.graphics.background import Background
-from gradia.utils.colors import hex_to_rgb, hex_to_rgba, rgba_to_hex
+from gradia.utils.colors import hex_to_rgb, hex_to_rgba, rgba_to_hex, is_light_color
 from gradia.constants import rootdir  # pyright: ignore
 
 
@@ -30,6 +30,21 @@ class SolidBackground(Background):
     def __init__(self, color: str = "#4A90E2", alpha: float = 1.0) -> None:
         self.color = color
         self.alpha = alpha
+
+    @classmethod
+    def from_json(cls, json_str: str) -> 'SolidBackground':
+        data = json.loads(json_str)
+        return cls(
+            color=data.get("color", "#4A90E2"),
+            alpha=data.get("alpha", 1.0)
+        )
+
+    def to_json(self) -> str:
+        return json.dumps({
+            "type": "solid",
+            "color": self.color,
+            "alpha": self.alpha
+        })
 
     def get_name(self) -> str:
         return f"solid-{self.color}-{self.alpha}"
@@ -40,25 +55,155 @@ class SolidBackground(Background):
         return Image.new('RGBA', (width, height), (*rgb, alpha_value))
 
 
+class ColorPresetButton(Gtk.Button):
+    def __init__(self, color: str, alpha: float = 1.0, **kwargs) -> None:
+        super().__init__(
+            valign=Gtk.Align.CENTER,
+            width_request=40,
+            height_request=40,
+            margin_top=6,
+            margin_bottom=6,
+            margin_start=6,
+            margin_end=6,
+            **kwargs
+        )
+        self.set_focusable(True)
+        self.set_can_focus(True)
+        self.color = color
+        self.alpha = alpha
+        self.is_selected = False
+        self._apply_style()
+        self._setup_checkmark()
+
+    def _apply_style(self) -> None:
+        context = self.get_style_context()
+        context.add_class("color-button")
+        if self.alpha == 0.0:
+            context.add_class("transparent-color-button")
+        else:
+            rgba = hex_to_rgba(self.color, self.alpha)
+            provider = Gtk.CssProvider()
+            provider.load_from_string(f"""
+                button {{
+                    background-color: {rgba.to_string()};
+                }}
+            """)
+            context.add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+
+    def _setup_checkmark(self) -> None:
+        self.checkmark = Gtk.Image.new_from_icon_name("object-select-symbolic")
+        self.checkmark.set_pixel_size(16)
+        self.checkmark.add_css_class("checkmark-icon")
+
+        if is_light_color(self.color):
+            self.checkmark.add_css_class("dark")
+        else:
+             self.checkmark.remove_css_class("dark")
+
+        overlay = Gtk.Overlay(width_request=16, height_request=16)
+        overlay.set_child(Gtk.Box())
+        overlay.add_overlay(self.checkmark)
+        overlay.set_halign(Gtk.Align.CENTER)
+        overlay.set_valign(Gtk.Align.CENTER)
+
+        self.set_child(overlay)
+
+    def set_selected(self, selected: bool) -> None:
+        self.is_selected = selected
+        if selected:
+             self.checkmark.add_css_class("visible")
+        else:
+            self.checkmark.remove_css_class("visible")
+
+
+class ColorPickerButton(Gtk.Button):
+    def __init__(self, callback: Optional[Callable[[str, float], None]] = None, **kwargs) -> None:
+        super().__init__(
+            valign=Gtk.Align.CENTER,
+            width_request=30,
+            height_request=30,
+            margin_top=6,
+            margin_bottom=6,
+            margin_start=6,
+            margin_end=6,
+            **kwargs
+        )
+        self.set_focusable(True)
+        self.set_can_focus(True)
+        self.callback = callback
+        self.is_selected = False
+        self._setup_icon()
+        self._apply_style()
+
+    def _setup_icon(self) -> None:
+        self.checkmark = Gtk.Image.new_from_icon_name("object-select-symbolic")
+        self.checkmark.set_pixel_size(16)
+        self.checkmark.add_css_class("checkmark-icon")
+
+
+        overlay = Gtk.Overlay(width_request=40, height_request=40)
+        overlay.add_overlay(self.checkmark)
+        overlay.set_halign(Gtk.Align.CENTER)
+        overlay.set_valign(Gtk.Align.CENTER)
+
+        self.set_child(overlay)
+
+    def _apply_style(self) -> None:
+        context = self.get_style_context()
+        context.add_class("color-button")
+        context.add_class("color-picker-button")
+
+    def set_selected(self, selected: bool) -> None:
+        self.is_selected = selected
+        if selected:
+            self.checkmark.add_css_class("visible")
+        else:
+            self.checkmark.remove_css_class("visible")
+
+    def open_color_picker(self) -> None:
+        dialog = Gtk.ColorDialog()
+        dialog.choose_rgba(
+            parent=self.get_root(),
+            initial_color=Gdk.RGBA(red=0.5, green=0.5, blue=0.5, alpha=1.0),
+            cancellable=None,
+            callback=self._on_color_chosen
+        )
+
+    def _on_color_chosen(self, dialog: Gtk.ColorDialog, result: Gio.AsyncResult) -> None:
+        try:
+            rgba = dialog.choose_rgba_finish(result)
+            color_hex = rgba_to_hex(rgba)
+            alpha = rgba.alpha
+
+            if self.callback:
+                self.callback(color_hex, alpha)
+        except Exception as e:
+            print(f"Color picker cancelled or error: {e}")
+
+
 @Gtk.Template(resource_path=f"{rootdir}/ui/selectors/solid_selector.ui")
 class SolidSelector(Adw.PreferencesGroup):
     __gtype_name__ = "GradiaSolidSelector"
-
-    CHECKER_LIGHT = "#a8a8a8"
-    CHECKER_DARK = "#545454"
-
     COMMON_COLORS = [
-        "#ffffffff",
-        "#ff000000",
-        "#fff66151",
-        "#ff33d17a",
-        "#ff3584e4",
-        "#fff6d32d",
-        "#ffc061cb",
-        "#00000000"
+        "#fff66151",  # Red
+        "#ffe66100",  # Orange
+        "#fff6d32d",  # Yellow
+        "#ff33d17a",  # Green
+        "#ff3584e4",  # Blue
+
+        "#ffc061cb",  # Purple
+        "#ffffd1dc",  # Pastel Pink
+        "#fffff4d1",  # Pastel Yellow
+        "#ffd1ffd1",  # Pastel Green
+        "#ffd1f0ff",  # Pastel Cyan
+
+        "#ffffffff",  # White
+        "#ff000000",  # Black
+        "#ff77767b",  # Gray
+        "#00000000",  # Transparent
+        "#00000000",  # Custom
     ]
 
-    color_button: Gtk.ColorDialogButton = Gtk.Template.Child()
     color_presets_grid: Gtk.Grid = Gtk.Template.Child()
 
     def __init__(
@@ -68,33 +213,28 @@ class SolidSelector(Adw.PreferencesGroup):
         **kwargs
     ) -> None:
         super().__init__(**kwargs)
-
         self.solid = solid
         self.callback = callback
-
-        self._setup_color_row()
+        self.preset_buttons = []
+        self.color_picker_button = None
+        self.custom_color = None
+        self.custom_alpha = 1.0
         self._setup_color_presets_row()
-
-    """
-    Setup Methods
-    """
-
-    def _setup_color_row(self) -> None:
-        self.color_button.set_rgba(hex_to_rgba(self.solid.color, self.solid.alpha))
+        self._update_selected_preset()
 
     def _setup_color_presets_row(self) -> None:
-        columns = 4
+        columns = 5
         for index, color in enumerate(self.COMMON_COLORS):
-            button = Gtk.Button(
-                valign=Gtk.Align.CENTER,
-                width_request=32,
-                height_request=32,
-                margin_top=7,
-                margin_bottom=7
-            )
+            if index == 14:
+                self.color_picker_button = ColorPickerButton(self._on_custom_color_picked)
+                self.color_picker_button.connect("clicked", self._on_color_picker_clicked)
+
+                row_pos = index // columns
+                col_pos = index % columns
+                self.color_presets_grid.attach(self.color_picker_button, col_pos, row_pos, 1, 1)
+                continue
 
             hex_color = color.lstrip('#')
-
             if len(hex_color) == 8:
                 alpha_from_hex = int(hex_color[:2], 16) / 255.0
                 rgb_hex = hex_color[2:]
@@ -102,65 +242,45 @@ class SolidSelector(Adw.PreferencesGroup):
                 alpha_from_hex = 1.0
                 rgb_hex = hex_color
 
-            if alpha_from_hex == 0.0:
-                css = f"""
-                button {{
-                    background: linear-gradient(45deg, {self.CHECKER_DARK} 25%, transparent 25%),
-                                linear-gradient(-45deg, {self.CHECKER_DARK} 25%, transparent 25%),
-                                linear-gradient(45deg, transparent 75%, {self.CHECKER_DARK} 75%),
-                                linear-gradient(-45deg, transparent 75%, {self.CHECKER_DARK} 75%);
-                    background-size: 20px 20px;
-                    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-                    border-radius: 50%;
-                    border: 1px solid @borders;
-                }}
-                """
-            else:
-                rgba = hex_to_rgba(f"#{rgb_hex}", alpha_from_hex)
-                css = f"""
-                button {{
-                    background-color: {rgba.to_string()};
-                    border-radius: 50%;
-                    border: 1px solid @borders;
-                }}
-                """
-
-            style_provider = Gtk.CssProvider()
-            style_provider.load_from_string(css)
-            button.get_style_context().add_provider(
-                style_provider,
-                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-            )
-
-            button.connect("clicked", self._on_common_color_clicked, f"#{rgb_hex}", alpha_from_hex)
+            full_color = f"#{rgb_hex}"
+            button = ColorPresetButton(full_color, alpha_from_hex)
+            button.connect("clicked", self._on_common_color_clicked, full_color, alpha_from_hex)
 
             row_pos = index // columns
             col_pos = index % columns
             self.color_presets_grid.attach(button, col_pos, row_pos, 1, 1)
+            self.preset_buttons.append(button)
 
-    """
-    Callbacks
-    """
+    def _update_selected_preset(self) -> None:
+        current_color = self.solid.color.lower()
+        current_alpha = self.solid.alpha
 
-    @Gtk.Template.Callback()
-    def _on_color_changed(self, button: Gtk.ColorDialogButton, *args) -> None:
-        rgba = button.get_rgba()
+        for button in self.preset_buttons:
+            is_match = (button.color.lower() == current_color and
+                       abs(button.alpha - current_alpha) < 0.01)
+            button.set_selected(is_match)
 
-        self.solid.color = rgba_to_hex(rgba)
-        self.solid.alpha = rgba.alpha
+        if self.color_picker_button:
+            is_custom_match = (self.custom_color and
+                             self.custom_color.lower() == current_color and
+                             abs(self.custom_alpha - current_alpha) < 0.01)
+            self.color_picker_button.set_selected(is_custom_match)
 
+    def _on_color_picker_clicked(self, button: ColorPickerButton) -> None:
+        button.open_color_picker()
+
+    def _on_custom_color_picked(self, color: str, alpha: float) -> None:
+        self.custom_color = color
+        self.custom_alpha = alpha
+        self.solid.color = color
+        self.solid.alpha = alpha
+        self._update_selected_preset()
         if self.callback:
             self.callback(self.solid)
 
     def _on_common_color_clicked(self, _button: Gtk.Button, color: str, alpha: float) -> None:
         self.solid.color = color
         self.solid.alpha = alpha
-
-        self.color_button.set_rgba(hex_to_rgba(color, alpha))
-
+        self._update_selected_preset()
         if self.callback:
             self.callback(self.solid)
-
-    """
-    Internal Methods
-    """
