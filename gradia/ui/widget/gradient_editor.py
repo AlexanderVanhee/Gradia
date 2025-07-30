@@ -502,6 +502,7 @@ class GradientEditor(Gtk.Box):
         self.color_buttons.clear()
 
         for i, (step, color_string) in enumerate(data):
+            step = max(min(step, 0.93), 0.07)
             button = GradientColorButton()
             button.set_step(step)
             button.set_color(color_string)
