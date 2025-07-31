@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-21 12:24+0300\n"
-"PO-Revision-Date: 2025-07-22 21:41+0800\n"
+"PO-Revision-Date: 2025-07-31 21:22+0800\n"
 "Last-Translator: G-Src <gsrc@fsfans.club>\n"
 "Language-Team: Chinese <>\n"
 "Language: zh_CN\n"
@@ -75,7 +75,7 @@ msgstr "对于像Imgur等服务的快速上传按钮"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:27
 msgid "flatpak run be.alexandervanhee.gradia --screenshot=INTERACTIVE"
-msgstr ""
+msgstr "flatpak run be.alexandervanhee.gradia --screenshot=INTERACTIVE"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:197
 msgid "Edited screenshot"
@@ -98,7 +98,7 @@ msgstr "UI 元素展示"
 #: data/ui/image_sidebar.blp:234 data/ui/welcome_page.blp:72
 #: data/ui/image_generator_window.blp:6
 msgid "Source Snippets"
-msgstr ""
+msgstr "源码片段"
 
 #: gradia/ui/ui_parts.py:31
 msgid "Make your images ready for all"
@@ -151,11 +151,11 @@ msgstr "擦除所选"
 
 #: gradia/ui/ui_parts.py:80
 msgid "Cropping"
-msgstr ""
+msgstr "裁剪"
 
 #: gradia/ui/ui_parts.py:82 data/ui/image_stack.blp:68
 msgid "Toggle Crop Mode"
-msgstr ""
+msgstr "切换裁剪模式"
 
 #: gradia/ui/ui_parts.py:83
 msgid "Reset Crop"
@@ -177,7 +177,7 @@ msgstr "偏好"
 
 #: gradia/ui/ui_parts.py:91
 msgid "Open Source Snippets"
-msgstr ""
+msgstr "打开源码片段"
 
 #: gradia/ui/window.py:399
 msgid "Unknown"
@@ -304,7 +304,7 @@ msgstr "截图已取消"
 
 #: gradia/ui/image_loaders.py:253
 msgid "Edited Screenshot From %Y-%m-%d %H-%M-%S"
-msgstr ""
+msgstr "来自 %Y-%m-%d %H-%M-%S 的已编辑截图"
 
 #: gradia/ui/image_loaders.py:259 gradia/ui/image_loaders.py:260
 msgid "Screenshot"
@@ -324,11 +324,11 @@ msgstr "生成的图片"
 
 #: gradia/ui/image_loaders.py:342
 msgid "Source"
-msgstr ""
+msgstr "源码"
 
 #: gradia/ui/image_loaders.py:345
 msgid "Source snippet Generated!"
-msgstr ""
+msgstr "源码片段已生成！"
 
 #: gradia/ui/provider_selection_window.py:38
 #: gradia/ui/provider_selection_window.py:133
@@ -478,7 +478,7 @@ msgstr "截图已移至回收站"
 
 #: gradia/ui/image_creation/source_image_generator.py:539
 msgid "Source Snippet From %Y-%m-%d %H-%M-%S"
-msgstr ""
+msgstr "来自 %Y-%m-%d %H-%M-%S 的源码片段"
 
 #: gradia/app_constants.py:32
 msgid "PNG Image (*.png)"
@@ -494,7 +494,7 @@ msgstr "WebP 图片 (*.webp)"
 
 #: gradia/utils/std_image_loader.py:38
 msgid "Edited Image From %Y-%m-%d %H-%M-%S"
-msgstr ""
+msgstr "来自 %Y-%m-%d %H-%M-%S 的已编辑图片"
 
 #: data/ui/selectors/gradient_selector.blp:4
 msgid "Gradient Background"
@@ -590,7 +590,7 @@ msgstr "重置轮廓"
 
 #: data/ui/drawing_tools_group.blp:223
 msgid "Pick the Outline Color"
-msgstr ""
+msgstr "选择轮廓颜色"
 
 #: data/ui/drawing_tools_group.blp:252
 msgid "Font"
@@ -650,11 +650,11 @@ msgstr "旋转"
 
 #: data/ui/image_sidebar.blp:126
 msgid "Rotate Anticlockwise"
-msgstr ""
+msgstr "逆时针旋转"
 
 #: data/ui/image_sidebar.blp:134
 msgid "Rotate Clockwise"
-msgstr ""
+msgstr "顺时针旋转"
 
 #: data/ui/image_sidebar.blp:145
 msgid "Current File"
@@ -698,11 +698,11 @@ msgstr "关于 Gradia"
 
 #: data/ui/image_stack.blp:82
 msgid "Reset Crop Selection"
-msgstr ""
+msgstr "重置截断选择"
 
 #: data/ui/image_stack.blp:144
 msgid "Clear All"
-msgstr ""
+msgstr "清除全部"
 
 #: data/ui/text_entry_popover.blp:12
 msgid "Enter text…"
@@ -738,11 +738,11 @@ msgstr "选择图片"
 
 #: data/ui/preferences_window.blp:19
 msgid "What folder to use for the home page"
-msgstr ""
+msgstr "使用哪个文件夹作为主页展示"
 
 #: data/ui/preferences_window.blp:24
 msgid "Test"
-msgstr ""
+msgstr "测试"
 
 #: data/ui/preferences_window.blp:31
 msgid "Save Settings"
@@ -802,7 +802,7 @@ msgstr "连接到您最爱的上传提供商，或自行创建链接"
 
 #: data/ui/preferences_window.blp:71
 msgid "Learn More..."
-msgstr ""
+msgstr "学习更多..."
 
 #: data/ui/preferences_window.blp:73
 msgid "Learn more about providers"
@@ -898,39 +898,39 @@ msgstr "不再询问"
 
 #: data/ui/image_generator_window.blp:30
 msgid "Language"
-msgstr ""
+msgstr "语言"
 
 #: data/ui/image_generator_window.blp:40
 msgid "Style Scheme"
-msgstr ""
+msgstr "风格"
 
 #: data/ui/image_generator_window.blp:46
 msgid "Choose a color scheme for syntax highlighting"
-msgstr ""
+msgstr "选择一个颜色主题用于语法加亮"
 
 #: data/ui/image_generator_window.blp:56
 msgid "Default"
-msgstr ""
+msgstr "默认"
 
 #: data/ui/image_generator_window.blp:71
 msgid "Window Frame"
-msgstr ""
+msgstr "窗口边框"
 
 #: data/ui/image_generator_window.blp:76
 msgid "Add a window frame around the code"
-msgstr ""
+msgstr "在代码周围添加边框"
 
 #: data/ui/image_generator_window.blp:83
 msgid "Show Line Numbers"
-msgstr ""
+msgstr "显示行数"
 
 #: data/ui/image_generator_window.blp:88
 msgid "Add a number before each new line of code"
-msgstr ""
+msgstr "在每行代码前添加数字"
 
 #: data/ui/image_generator_window.blp:115
 msgid "Export"
-msgstr ""
+msgstr "导出"
 
 #~ msgid ""
 #~ "Want a keyboard shortcut on GNOME? Simply go to Settings → Keyboard → "
