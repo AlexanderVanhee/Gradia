@@ -85,7 +85,7 @@ class GradientColorButton(Gtk.Box):
         self._update_color_css()
 
     def _on_step_changed(self, *_):
-        self.set_tooltip_text(f"{self.step:.0%}")
+        self.set_tooltip_text(f"{scale_correction(self.step):.0%}")
         if self.editor:
             self.editor._update_ui_for_selected_button()
 
@@ -364,8 +364,8 @@ class GradientEditor(Gtk.Box):
         if n_press == 1:
             width = self.gradient_background.get_allocated_width()
 
-            if width == 0:
-                return
+            if len(self.color_buttons) >= 5:
+                return;
 
             step = (x / width)
             step = max(0.0, min(1.0, step))
@@ -475,7 +475,7 @@ class GradientEditor(Gtk.Box):
 
         if selected_button:
             step = selected_button.get_step()
-            self.selector.step_label.set_label(f"{step:.0%}")
+            self.selector.step_label.set_label(f"{scale_correction(step):.0%}")
             self.selector.button_revealer.set_reveal_child(True)
             self.selector.remove_button_revealer.set_reveal_child(len(self.color_buttons) > 2)
         else:
@@ -494,7 +494,7 @@ class GradientEditor(Gtk.Box):
 
     def get_gradient_data(self) -> List[Tuple[float, str]]:
         sorted_buttons = sorted(self.color_buttons, key=lambda b: b.get_step())
-        return [(btn.get_step(), btn.get_color_string()) for btn in sorted_buttons]
+        return [(scale_correction(btn.get_step()), btn.get_color_string()) for btn in sorted_buttons]
 
     def set_gradient_data(self, data: List[Tuple[float, str]]):
         for button in self.color_buttons[:]:
@@ -502,15 +502,18 @@ class GradientEditor(Gtk.Box):
         self.color_buttons.clear()
 
         for i, (step, color_string) in enumerate(data):
-            step = max(min(step, 0.93), 0.07)
+            step = reverse_scale_correction(step)
             button = GradientColorButton()
             button.set_step(step)
             button.set_color(color_string)
             button.add_css_class("gradient-editor-button")
             self._add_color_button(button)
 
-            if i == 0:
-                button.set_selected(True)
-
         self._update_button_positions()
         self._update_gradient_css()
+
+def scale_correction(value: float) -> float:
+    return (value - 0.07) / (0.93 - 0.07)
+
+def reverse_scale_correction(value: float) -> float:
+    return value * (0.93 - 0.07) + 0.07
