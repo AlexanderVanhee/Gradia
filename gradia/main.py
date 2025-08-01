@@ -35,30 +35,34 @@ logging = Logger()
 class GradiaApp(Adw.Application):
     __gtype_name__ = "GradiaApp"
 
-    def __init__(self, version: str, start_screenshot: str = None):
+    def __init__(self, version: str):
         super().__init__(
             application_id=app_id,
             flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE | Gio.ApplicationFlags.HANDLES_OPEN
         )
         self.version = version
-        self.start_screenshot = start_screenshot
         self.temp_dirs: list[str] = []
         self._stdin_image_path: Optional[str] = None
+
 
         self.connect("shutdown", self.on_shutdown)
 
     def do_command_line(self, command_line: Gio.ApplicationCommandLine) -> int:
         args = command_line.get_arguments()[1:]
-        logging.debug(f"Command line arguments: {args}")
+        logging.info(f"Command line arguments: {args}")
 
         if "--help" in args or "-h" in args:
             self._print_help()
             return 0
 
         files_to_open = []
+        screenshot_file = None
 
         for arg in args:
-            if not arg.startswith("--"):
+            if arg.startswith("--screenshot-file="):
+                screenshot_file = arg.split("=", 1)[1]
+                logging.info(f"Screenshot file detected: {screenshot_file}")
+            elif not arg.startswith("--"):
                 try:
                     file = Gio.File.new_for_commandline_arg(arg)
                     path = file.get_path()
@@ -72,7 +76,9 @@ class GradiaApp(Adw.Application):
 
         if files_to_open:
             for path in files_to_open:
-                self._open_window(path)
+                self._open_window(file_path=path)
+        elif screenshot_file:
+            self._open_window(start_screenshot=screenshot_file)
         else:
             self.activate()
 
@@ -94,14 +100,16 @@ class GradiaApp(Adw.Application):
     def do_activate(self):
         logging.debug("do_activate called")
 
-        if self._stdin_image_path:
-            logging.debug(f"Opening window with stdin image path: {self._stdin_image_path}")
-            self._open_window(self._stdin_image_path)
-            self._stdin_image_path = None
+        stdin_path = self._stdin_image_path
+        self._stdin_image_path = None
+
+        if stdin_path:
+            logging.debug(f"Opening window with stdin image path: {stdin_path}")
+            self._open_window(stdin_path)
         else:
             self._open_window(None)
 
-    def _open_window(self, file_path: Optional[str]):
+    def _open_window(self, file_path: Optional[str] = None, start_screenshot: Optional[str] = None):
         logging.info(f"Opening window with file_path={file_path}")
         temp_dir = tempfile.mkdtemp()
         logging.debug(f"Created temp directory: {temp_dir}")
@@ -112,7 +120,7 @@ class GradiaApp(Adw.Application):
             version=self.version,
             application=self,
             file_path=file_path,
-            start_screenshot=self.start_screenshot
+            start_screenshot=start_screenshot
         )
         window.show()
 
@@ -127,13 +135,13 @@ class GradiaApp(Adw.Application):
                 logging.warning(f"Failed to clean up temp dir {temp_dir}.", exception=e, show_exception=True)
         logging.info("Cleanup complete.")
 
-def main(version: str, start_screenshot: str = None ) -> int:
+def main(version: str) -> int:
     try:
         logging.info("Application starting...")
         loader = StdinImageLoader()
         image_path = loader.read_from_stdin()
 
-        app = GradiaApp(version=version, start_screenshot=start_screenshot)
+        app = GradiaApp(version=version)
         app._stdin_image_path = image_path
 
         return app.run(sys.argv)
@@ -141,4 +149,3 @@ def main(version: str, start_screenshot: str = None ) -> int:
     except Exception as e:
         logging.critical("Application closed with an exception.", exception=e, show_exception=True)
         return 1
-

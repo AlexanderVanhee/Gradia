@@ -225,8 +225,8 @@ class PreferencesWindow(Adw.Window):
 
         self.folder_expander.set_expanded(False)
 
-        app = Gio.Application.get_default()
-        action = app.lookup_action("set-screenshot-folder") if app else None
+        window = self.parent_window
+        action = window.lookup_action("set-screenshot-folder") if window else None
         if action:
             action.activate(GLib.Variant('s', folder_name))
 

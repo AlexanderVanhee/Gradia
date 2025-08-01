@@ -232,10 +232,10 @@ class ScreenshotImageLoader(BaseImageLoader):
         self._error_callback: Optional[Callable[[str], None]] = None
         self._success_callback: Optional[Callable[[], None]] = None
         self._screenshot_uris: list[str] = []  # Store URIs of taken screenshots
-        self.app = app
+        self.window = window
 
     def _update_delete_action_state(self) -> None:
-        action = self.app.lookup_action("delete-screenshots")
+        action = self.window.lookup_action("delete-screenshots")
         if action:
             action.set_enabled(bool(self._screenshot_uris))
 

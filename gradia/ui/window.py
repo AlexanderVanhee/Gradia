@@ -272,14 +272,13 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         vt: Optional[str] = None
     ) -> None:
         variant_type = GLib.VariantType.new(vt) if vt is not None else None
-
         action: Gio.SimpleAction = Gio.SimpleAction.new(name, variant_type)
         action.connect("activate", callback)
         action.set_enabled(enabled)
-        self.app.add_action(action)
+        self.add_action(action)
 
         if shortcuts:
-            self.app.set_accels_for_action(f"app.{name}", shortcuts)
+            self.app.set_accels_for_action(f"win.{name}", shortcuts)
 
     def show(self) -> None:
         self.present()
@@ -396,13 +395,13 @@ class GradiaMainWindow(Adw.ApplicationWindow):
     def _set_export_ready(self, enabled: bool) -> None:
         self.image_ready = True
         for action_name in ["save", "copy"]:
-            action = self.app.lookup_action(action_name)
+            action = self.lookup_action(action_name)
             if action:
                 action.set_enabled(enabled)
         self.update_command_ready()
 
     def update_command_ready(self) -> None:
-        action = self.app.lookup_action('command')
+        action = self.lookup_action('command')
         if action:
             action.set_enabled(self.image_ready)
             self.share_button.set_visible(bool(Settings().custom_export_command.strip()))

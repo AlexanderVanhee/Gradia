@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 # gradia.in
 #
 # Copyright (C) 2025 Alexander Vanhee
@@ -28,7 +27,6 @@ from datetime import datetime
 import gi
 gi.require_version('Xdp', '1.0')
 from gi.repository import Xdp, GLib
-
 logging.getLogger("PIL").setLevel(logging.WARNING)
 
 VERSION = '@VERSION@'
@@ -65,7 +63,6 @@ class QuickStartScreenshotTaker:
                 if self._loop:
                     self._loop.quit()
 
-
         self._loop = GLib.MainLoop()
         self.portal.take_screenshot(None, flags, None, on_finish, None)
         self._loop.run()
@@ -74,7 +71,6 @@ class QuickStartScreenshotTaker:
 if __name__ == '__main__':
     # handle screenshots on open
     mode = None
-    start_screenshot = None
     for arg in sys.argv[1:]:
         if arg.startswith('--screenshot'):
             parts = arg.split('=', 1)
@@ -84,11 +80,13 @@ if __name__ == '__main__':
     if mode in ('INTERACTIVE', 'FULL'):
         flags = Xdp.ScreenshotFlags.INTERACTIVE if mode == 'INTERACTIVE' else Xdp.ScreenshotFlags.NONE
         screenshotter = QuickStartScreenshotTaker()
-        start_screenshot = screenshotter.take_screenshot(flags=flags)
-        if start_screenshot is None:
+        screenshot_path = screenshotter.take_screenshot(flags=flags)
+        if screenshot_path is None:
             print("Screenshot was cancelled or failed. Exiting.")
             sys.exit(1)
 
+        # Add the screenshot path to command line arguments
+        sys.argv.append(f"--screenshot-file={screenshot_path}")
 
     gi.require_version('Gtk', '4.0')
     gi.require_version('Adw', '1')
@@ -98,5 +96,4 @@ if __name__ == '__main__':
     resource._register()
 
     from gradia import main
-    sys.exit(main.main(VERSION, start_screenshot=start_screenshot ))
-
+    sys.exit(main.main(VERSION))

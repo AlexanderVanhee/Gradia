@@ -80,10 +80,10 @@ class AspectRatioButton(Gtk.Button):
 
     def _on_aspect_ratio_selected(self, button: Gtk.Button, ratio_value: float, icon_name: str) -> None:
         self.icon.set_from_icon_name(icon_name)
-        app = self.get_root().get_application()
-        if app and hasattr(app, 'activate_action'):
+        window = self.get_root()
+        if window and hasattr(window, 'activate_action'):
             variant = GLib.Variant('d', ratio_value)
-            app.activate_action('aspect-ratio-crop', variant)
+            window.activate_action('aspect-ratio-crop', variant)
 
         self.popover.popdown()
 

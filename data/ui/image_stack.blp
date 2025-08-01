@@ -64,7 +64,7 @@ template $GradiaImageStack : Adw.Bin {
             Gtk.Button crop_button {
               icon-name: "crop-symbolic";
               tooltip-text: _("Toggle Crop Mode");
-              action-name: "app.crop";
+              action-name: "win.crop";
               styles [
                 "osd",
                 "circular"
@@ -87,7 +87,7 @@ template $GradiaImageStack : Adw.Bin {
               Gtk.Button reset_crop_button {
                 icon-name: "crop-reset-symbolic";
                 tooltip-text: _("Reset Crop Selection");
-                action-name: "app.reset-crop";
+                action-name: "win.reset-crop";
                 styles [
                   "osd",
                   "circular"
@@ -102,7 +102,7 @@ template $GradiaImageStack : Adw.Bin {
               Gtk.Button back_button {
                 icon-name: "eraser4-symbolic";
                 tooltip-text: _("Erase Selected");
-                action-name: "app.del-selected";
+                action-name: "win.del-selected";
                 styles [
                   "osd",
                   "circular"
@@ -128,7 +128,7 @@ template $GradiaImageStack : Adw.Bin {
               Gtk.Button {
                 label: _("Confirm");
                 tooltip-text: _("Confirm Crop Selection");
-                action-name: "app.crop";
+                action-name: "win.crop";
                 styles [
                   "pill", "osd"
                 ]
@@ -155,7 +155,7 @@ template $GradiaImageStack : Adw.Bin {
               Gtk.Button undo_button {
                 icon-name: "edit-undo-symbolic";
                 tooltip-text: _("Undo");
-                action-name: "app.undo";
+                action-name: "win.undo";
                 styles [
                   "osd",
                   "circular"
@@ -165,7 +165,7 @@ template $GradiaImageStack : Adw.Bin {
               Gtk.Button redo_button {
                 icon-name: "edit-redo-symbolic";
                 tooltip-text: _("Redo");
-                action-name: "app.redo";
+                action-name: "win.redo";
                 styles [
                   "osd",
                   "circular"
@@ -175,7 +175,7 @@ template $GradiaImageStack : Adw.Bin {
               Gtk.Button reset_button {
                 icon-name: "user-trash-symbolic";
                 tooltip-text: _("Clear All");
-                action-name: "app.clear";
+                action-name: "win.clear";
                 styles [
                   "osd",
                   "circular"
