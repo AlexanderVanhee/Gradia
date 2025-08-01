@@ -65,3 +65,12 @@ def is_light_color(hex_color: str) -> bool:
     r, g, b = [int(hex_color[i:i + 2], 16) for i in (0, 2, 4)]
     luminance = 0.299 * r + 0.587 * g + 0.114 * b
     return luminance > 200
+
+
+def parse_rgb_string(s: str) -> tuple[int, int, int]:
+    s = s.strip().lower()
+    if s.startswith("rgb(") and s.endswith(")"):
+        parts = s[4:-1].split(",")
+        return tuple(int(p.strip()) for p in parts)
+    raise ValueError(f"Invalid rgb string: {s}")
+

@@ -24,6 +24,8 @@ from gi.repository import Adw, Gtk, GLib, Gdk, GdkPixbuf, Graphene, Gsk
 from gradia.app_constants import PREDEFINED_GRADIENTS
 from gradia.backend.settings import Settings
 from gradia.constants import rootdir  # pyright: ignore
+from gradia.graphics.gradient import Gradient
+
 
 class RecentFile:
     def __init__(self, path: Path) -> None:
@@ -154,10 +156,6 @@ class RecentPicker(Adw.Bin):
         self._setup_cards()
         self._load_images()
 
-    """
-    Setup Methods
-    """
-
     def _setup_cards(self) -> None:
         for row in range(self.GRID_ROWS):
             for column in range(self.GRID_COLUMNS):
@@ -192,9 +190,6 @@ class RecentPicker(Adw.Bin):
                 container.append(name_label)
 
                 self.item_grid.attach(container, column, row, 1, 1)
-    """
-    Callbacks
-    """
 
     def _on_image_clicked(self, index: int, *args) -> None:
         if index < len(self.recent_files):
@@ -204,15 +199,8 @@ class RecentPicker(Adw.Bin):
             if self.callback:
                 self.callback(str(file_path), original_gradient_index)
 
-    """
-    Public Methods
-    """
-
     def refresh(self) -> None:
         self._load_images()
-    """
-    Private Methods
-    """
 
     def _apply_gradient_to_button(self, button: Gtk.Button, index: int) -> None:
         gradient_name = f"gradient-button-{index}"
@@ -220,11 +208,11 @@ class RecentPicker(Adw.Bin):
         button.add_css_class("recent-button")
 
         color_index = index % len(self.gradient_colors)
-        start_color, end_color, angle = self.gradient_colors[color_index]
+        gradient = self.gradient_colors[color_index]
 
         css = f"""
             button#{gradient_name} {{
-                background-image: linear-gradient({angle}deg, {start_color}, {end_color});
+                background-image: {gradient.to_css()};
                 min-width: {self.IMAGE_WIDTH}px;
                 min-height: {self.IMAGE_HEIGHT}px;
             }}

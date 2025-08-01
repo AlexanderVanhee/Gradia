@@ -7,11 +7,11 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 from typing import Any
@@ -28,68 +28,41 @@ class TransparencyBackground(Gtk.Widget):
     def do_snapshot(self, snapshot: Gtk.Snapshot) -> None:
         offset_x, offset_y, display_width, display_height = self._get_image_bounds()
 
-        light_gray = Gdk.RGBA()
-        light_gray.red = 0.9
-        light_gray.green = 0.9
-        light_gray.blue = 0.9
-        light_gray.alpha = 1.0
-
-        dark_gray = Gdk.RGBA()
-        dark_gray.red = 0.7
-        dark_gray.green = 0.7
-        dark_gray.blue = 0.7
-        dark_gray.alpha = 1.0
+        light_gray = Gdk.RGBA(red=0.9, green=0.9, blue=0.9, alpha=1.0)
+        dark_gray = Gdk.RGBA(red=0.7, green=0.7, blue=0.7, alpha=1.0)
 
         start_x = int(offset_x)
         start_y = int(offset_y)
         end_x = int(offset_x + display_width)
         end_y = int(offset_y + display_height)
 
-        bg_rect = Graphene.Rect.alloc()
-        bg_rect.init(start_x, start_y, display_width, display_height)
+        bg_rect = Graphene.Rect.alloc().init(start_x, start_y, display_width, display_height)
         snapshot.append_color(light_gray, bg_rect)
 
+        scale = 1.0
         if self.picture_widget and self.picture_widget.get_paintable():
             image_width = self.picture_widget.get_paintable().get_intrinsic_width()
             image_height = self.picture_widget.get_paintable().get_intrinsic_height()
             if image_width > 0 and image_height > 0:
                 scale = min(display_width / image_width, display_height / image_height)
-            else:
-                scale = 1.0
-        else:
-            scale = 1.0
 
-        y = start_y
-        image_y = 0
-        while y < end_y:
-            x = start_x
-            image_x = 0
-            while x < end_x:
-                square_x = int(image_x // self.square_size)
-                square_y = int(image_y // self.square_size)
-                is_dark = (square_x + square_y) % 2 == 1
+        if scale > 0:
+            square_size_scaled = self.square_size * scale
+            num_cols = int(display_width // square_size_scaled) + 1
+            num_rows = int(display_height // square_size_scaled) + 1
 
-                next_image_x = (square_x + 1) * self.square_size
-                next_image_y = (square_y + 1) * self.square_size
-                next_x = min(start_x + next_image_x * scale, end_x)
-                next_y = min(start_y + next_image_y * scale, end_y)
+            for row in range(num_rows):
+                for col in range(num_cols):
+                    if (row + col) % 2 == 1:
+                        square_x = start_x + col * square_size_scaled
+                        square_y = start_y + row * square_size_scaled
+                        square_w = min(square_size_scaled, end_x - square_x)
+                        square_h = min(square_size_scaled, end_y - square_y)
 
-                square_w = next_x - x
-                square_h = next_y - y
+                        if square_w > 0 and square_h > 0:
+                            square_rect = Graphene.Rect.alloc().init(square_x, square_y, square_w, square_h)
+                            snapshot.append_color(dark_gray, square_rect)
 
-                if is_dark and square_w > 0 and square_h > 0:
-                    square_rect = Graphene.Rect.alloc()
-                    square_rect.init(x, y, square_w, square_h)
-                    snapshot.append_color(dark_gray, square_rect)
-
-                x = next_x
-                image_x = next_image_x
-
-            square_y = int(image_y // self.square_size)
-            next_image_y = (square_y + 1) * self.square_size
-            next_y = min(start_y + next_image_y * scale, end_y)
-            y = next_y
-            image_y = next_image_y
 
     def set_picture_reference(self, picture: Gtk.Picture) -> None:
         self.picture_widget = picture

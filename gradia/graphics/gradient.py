@@ -14,321 +14,146 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
-from collections.abc import Callable
-import ctypes
+from typing import Literal, Optional, Sequence
+from dataclasses import dataclass, field
+from ctypes import CDLL, POINTER, Structure, c_double, c_int, c_uint8
 import json
-from ctypes import CDLL, POINTER, c_double, c_int, c_uint8
-from typing import Optional
 
 from PIL import Image
-from gi.repository import Adw, Gtk
 
-from gradia.app_constants import PREDEFINED_GRADIENTS
 from gradia.graphics.background import Background
-from gradia.utils.colors import HexColor, hex_to_rgb, rgba_to_hex, hex_to_rgba, is_light_color
-from gradia.constants import rootdir  # pyright: ignore
+from gradia.utils.colors import parse_rgb_string
 
 
-CacheKey = tuple[str, str, int, int, int]
-GradientPreset = tuple[str, str, int]
-CacheInfo = dict[str, int | list[CacheKey] | bool]
+Step = tuple[float, str]  # (position, "rgb(r,g,b)")
 
 
-class GradientBackground(Background):
-    _MAX_CACHE_SIZE: int = 100
-    _gradient_cache: dict[CacheKey, Image.Image] = {}
-    _c_lib: Optional[CDLL | bool] = None
+class ColorStop(Structure):
+    _fields_ = [
+        ("position", c_double),
+        ("r", c_uint8),
+        ("g", c_uint8),
+        ("b", c_uint8),
+    ]
+
+
+@dataclass
+class Gradient:
+    mode: Literal["linear", "conic", "radial"] = "linear"
+    steps: Sequence[Step] = field(default_factory=lambda: [
+        (0.0, "rgb(87,227,137)"),
+        (1.0, "rgb(53,132,228)"),
+    ])
+    angle: float = 135.0
+
+    def to_json(self) -> str:
+        return json.dumps({
+            "mode": self.mode,
+            "steps": self.steps,
+            "angle": self.angle,
+        })
 
     @classmethod
-    def _load_c_lib(cls) -> None:
-        if cls._c_lib:
-            return
-
+    def from_json(cls, json_str: str) -> 'Gradient':
         try:
-            from importlib.resources import files
-            gradia_path = files('gradia').joinpath('libgradient_gen.so')
-            cls._c_lib = ctypes.CDLL(str(gradia_path))
-
-            cls._c_lib.generate_gradient.argtypes = [
-                POINTER(c_uint8), c_int, c_int,
-                c_int, c_int, c_int,
-                c_int, c_int, c_int,
-                c_double
-            ]
-            cls._c_lib.generate_gradient.restype = None
+            data = json.loads(json_str)
+            return cls(
+                mode=data.get("mode", "linear"),
+                steps=data.get("steps", [
+                    (0.0, "rgb(87,227,137)"),
+                    (1.0, "rgb(53,132,228)"),
+                ]),
+                angle=data.get("angle", 135.0),
+            )
         except Exception:
-            cls._c_lib = False
+            return cls()
 
-    def __init__(
-        self,
-        start_color: HexColor = "#4A90E2",
-        end_color: HexColor = "#50E3C2",
-        angle: int = 0
-    ) -> None:
-        self.start_color: HexColor = start_color
-        self.end_color: HexColor = end_color
-        self.angle: int = angle
+    def to_css(self) -> str:
+        steps_str = ", ".join(
+            f"{color} {step * 100:.2f}%" for step, color in self.steps
+        )
+
+        if self.mode == "linear":
+            return f"linear-gradient({self.angle:.2f}deg, {steps_str})"
+        elif self.mode == "conic":
+            return f"conic-gradient(from {self.angle:.2f}deg, {steps_str})"
+        elif self.mode == "radial":
+            return f"radial-gradient(circle, {steps_str})"
+        else:
+            return ""
+
+
+@dataclass
+class GradientBackground(Background):
+    gradient: Gradient = field(default_factory=Gradient)
+    _c_lib: Optional[CDLL] = None
+
+    def __init__(self, gradient: Optional[Gradient] = None):
+        self.gradient = gradient or Gradient()
         self._load_c_lib()
 
     @classmethod
+    def _load_c_lib(cls) -> None:
+        if cls._c_lib is not None:
+            return
+
+        from importlib.resources import files
+        gradia_path = files("gradia").joinpath("libgradient_gen.so")
+        cls._c_lib = CDLL(str(gradia_path))
+        cls._c_lib.generate_gradient.argtypes = [
+            POINTER(c_uint8), c_int, c_int,
+            POINTER(ColorStop), c_int,
+            c_double, c_int
+        ]
+        cls._c_lib.generate_gradient.restype = None
+
+    @classmethod
     def from_json(cls, json_str: str) -> 'GradientBackground':
-        data = json.loads(json_str)
-        return cls(
-            start_color=data.get('start_color', "#4A90E2"),
-            end_color=data.get('end_color', "#50E3C2"),
-            angle=data.get('angle', 0)
-        )
+        return cls(gradient=Gradient.from_json(json_str))
+
+    def to_json(self) -> str:
+        return self.gradient.to_json()
 
     def get_name(self) -> str:
-        return f"gradient-{self.start_color}-{self.end_color}-{self.angle}"
+        return "Gradient"
+
+    def prepare_image(self, width: int, height: int) -> Image.Image:
+        if self._c_lib is None:
+            raise RuntimeError("C gradient library not loaded")
+        return self._generate_gradient_c(width, height)
 
     def _generate_gradient_c(self, width: int, height: int) -> Image.Image:
-        if not self._c_lib or self._c_lib is False:
-            raise RuntimeError("C gradient library not loaded")
-
-        start_rgb = hex_to_rgb(self.start_color)
-        end_rgb = hex_to_rgb(self.end_color)
         pixel_count = width * height * 4
         pixel_buffer = (c_uint8 * pixel_count)()
 
+        steps = self.gradient.steps
+        if self.gradient.mode == "conic":
+            offset = (self.gradient.angle % 360.0) / 360.0
+            steps = [((pos + offset) % 1.0, color) for pos, color in steps]
+            steps.sort(key=lambda s: s[0])
+            steps.append((1.0, steps[0][1]))
+
+        parsed_stops = []
+        for pos, color_str in steps:
+            r, g, b = parse_rgb_string(color_str)
+            parsed_stops.append(ColorStop(pos, r, g, b))
+
+        stop_array = (ColorStop * len(parsed_stops))(*parsed_stops)
+
+        mode_map = {
+            "linear": 0,
+            "conic": 1,
+            "radial": 2,
+        }
+
+        mode = mode_map.get(self.gradient.mode, 0)
+
         self._c_lib.generate_gradient(
             pixel_buffer, width, height,
-            start_rgb[0], start_rgb[1], start_rgb[2],
-            end_rgb[0], end_rgb[1], end_rgb[2],
-            float(self.angle)
+            stop_array, len(parsed_stops),
+            float(self.gradient.angle),
+            mode
         )
 
-        return Image.frombytes('RGBA', (width, height), bytes(pixel_buffer))
+        return Image.frombytes("RGBA", (width, height), bytes(pixel_buffer))
 
-    def prepare_image(self, width: int, height: int) -> Image.Image:
-        cache_key: CacheKey = (self.start_color, self.end_color, self.angle, width, height)
-
-        if cache_key in self._gradient_cache:
-            return self._gradient_cache[cache_key].copy()
-
-        self._evict_cache_if_needed()
-
-        image = self._generate_gradient_c(width, height)
-        self._gradient_cache[cache_key] = image.copy()
-        return image
-
-    def _evict_cache_if_needed(self) -> None:
-        if len(self._gradient_cache) >= self._MAX_CACHE_SIZE:
-            keys_to_remove = list(self._gradient_cache.keys())[:self._MAX_CACHE_SIZE // 2]
-            for key in keys_to_remove:
-                del self._gradient_cache[key]
-
-    @classmethod
-    def clear_cache(cls) -> None:
-        cls._gradient_cache.clear()
-
-    @classmethod
-    def get_cache_info(cls) -> CacheInfo:
-        return {
-            'cache_size': len(cls._gradient_cache),
-            'max_cache_size': cls._MAX_CACHE_SIZE,
-            'cached_gradients': list(cls._gradient_cache.keys()),
-            'c_lib_loaded': cls._c_lib is not None and cls._c_lib is not False
-        }
-    def to_json(self) -> str:
-        return json.dumps({
-            'start_color': self.start_color,
-            'end_color': self.end_color,
-            'angle': self.angle
-        })
-
-class GradientColorButton(Gtk.Button):
-
-    __gtype_name__ = "GradientColorButton"
-
-    def __init__(self, tooltip_text: str = "", **kwargs):
-        super().__init__(**kwargs)
-
-        self.set_tooltip_text(tooltip_text)
-        self.add_css_class("gradient-color-picker")
-        self.add_css_class("circular")
-
-        icon = Gtk.Image.new_from_icon_name("edit-symbolic")
-        icon.set_icon_size(Gtk.IconSize.LARGE)
-        icon.set_pixel_size(17) # seems blurry on some sizes for some reason.
-        self.set_child(icon)
-
-        self._color = "#000000"
-        self._css_provider = Gtk.CssProvider()
-        self.get_style_context().add_provider(
-            self._css_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 2
-        )
-
-    def set_color(self, color: str, button_index: int = 1) -> None:
-        self._color = color
-
-        css = f"""
-            button.gradient-color-picker:nth-child({button_index}) {{
-                background-color: {color};
-            }}
-        """
-
-        self._css_provider.load_from_string(css)
-
-        context = self.get_style_context()
-        if is_light_color(color):
-            context.add_class("dark")
-        else:
-            context.remove_class("dark")
-
-
-@Gtk.Template(resource_path=f"{rootdir}/ui/selectors/gradient_selector.ui")
-class GradientSelector(Adw.PreferencesGroup):
-    __gtype_name__ = "GradiaGradientSelector"
-
-    start_color_button: GradientColorButton = Gtk.Template.Child()
-    end_color_button: GradientColorButton = Gtk.Template.Child()
-    gradient_preview_box: Gtk.Box = Gtk.Template.Child()
-
-    angle_spin_row: Adw.SpinRow = Gtk.Template.Child()
-    angle_adjustment: Gtk.Adjustment = Gtk.Template.Child()
-
-    gradient_popover: Gtk.Popover = Gtk.Template.Child()
-    popover_flowbox: Gtk.FlowBox = Gtk.Template.Child()
-
-    def __init__(
-        self,
-        gradient: GradientBackground,
-        callback: Optional[Callable[[GradientBackground], None]] = None,
-        **kwargs
-    ) -> None:
-        super().__init__(**kwargs)
-
-        self.gradient: GradientBackground = gradient
-        self.callback: Optional[Callable[[GradientBackground], None]] = callback
-
-        self.start_color_dialog = Gtk.ColorDialog()
-        self.end_color_dialog = Gtk.ColorDialog()
-
-        self._setup_popover()
-        self._setup()
-
-    """
-    Setup Methods
-    """
-    def _setup_popover(self) -> None:
-        for i, (start, end, angle) in enumerate(PREDEFINED_GRADIENTS):
-            gradient_name = f"gradient-preview-{i}"
-
-            button = Gtk.Button(
-                name=gradient_name,
-                focusable=False,
-                can_focus=False,
-                width_request=60,
-                height_request=40
-            )
-            button.add_css_class("gradient-preset")
-
-            self._apply_gradient_to_preset_button(button, start, end, angle)
-
-            button.connect("clicked", self._on_gradient_selected, start, end, angle)
-            self.popover_flowbox.append(button)
-            self.gradient_popover.set_position(Gtk.PositionType.TOP)
-
-    def _apply_gradient_to_preset_button(self, button: Gtk.Button, start: str, end: str, angle: int) -> None:
-        css = f"""
-            button.gradient-preset {{
-                background-image: linear-gradient({angle}deg, {start}, {end});
-            }}
-        """
-
-        css_provider = Gtk.CssProvider()
-        css_provider.load_from_string(css)
-        button.get_style_context().add_provider(
-            css_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 3
-        )
-
-    def _setup(self) -> None:
-        self.angle_adjustment.set_value(self.gradient.angle)
-        self._update_gradient_preview()
-        self._update_color_button_styles()
-
-    def _update_gradient_preview(self) -> None:
-        css = f"""
-            .gradient-preview {{
-                background-image: linear-gradient({self.gradient.angle}deg, {self.gradient.start_color}, {self.gradient.end_color});
-            }}
-        """
-        css_provider = Gtk.CssProvider()
-        css_provider.load_from_string(css)
-        self.gradient_preview_box.get_style_context().add_provider(
-            css_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1
-        )
-
-    def _update_color_button_styles(self) -> None:
-        self.start_color_button.set_color(self.gradient.start_color, 1)
-        self.end_color_button.set_color(self.gradient.end_color, 2)
-
-    """
-    Callbacks
-    """
-    @Gtk.Template.Callback()
-    def _on_start_color_button_clicked(self, button: GradientColorButton) -> None:
-        self.start_color_dialog.choose_rgba(
-            parent=self.get_root(),
-            initial_color=hex_to_rgba(self.gradient.start_color),
-            callback=self._on_start_color_selected
-        )
-
-    @Gtk.Template.Callback()
-    def _on_end_color_button_clicked(self, button: GradientColorButton) -> None:
-        self.end_color_dialog.choose_rgba(
-            parent=self.get_root(),
-            initial_color=hex_to_rgba(self.gradient.end_color),
-            callback=self._on_end_color_selected
-        )
-
-    def _on_start_color_selected(self, dialog: Gtk.ColorDialog, result) -> None:
-        try:
-            rgba = dialog.choose_rgba_finish(result)
-            self.gradient.start_color = rgba_to_hex(rgba)
-            self._update_gradient_preview()
-            self._update_color_button_styles()
-            self._notify()
-        except Exception:
-            pass
-
-    def _on_end_color_selected(self, dialog: Gtk.ColorDialog, result) -> None:
-        try:
-            rgba = dialog.choose_rgba_finish(result)
-            self.gradient.end_color = rgba_to_hex(rgba)
-            self._update_gradient_preview()
-            self._update_color_button_styles()
-            self._notify()
-        except Exception:
-            pass
-
-    @Gtk.Template.Callback()
-    def _on_angle_output(self, row: Adw.SpinRow, *args) -> None:
-        self.gradient.angle = int(row.get_value())
-        self._update_gradient_preview()
-        self._notify()
-
-    def _on_gradient_selected(self, _button: Gtk.Button, start: HexColor, end: HexColor, angle: int) -> None:
-        self.gradient.start_color = start
-        self.gradient.end_color = end
-        self.gradient.angle = angle
-
-        self.angle_spin_row.set_value(angle)
-
-        self._update_gradient_preview()
-        self._update_color_button_styles()
-        self._notify()
-
-        self.gradient_popover.popdown()
-
-    """
-    Internal Methods
-    """
-    def _notify(self) -> None:
-        if self.callback:
-            self.callback(self.gradient)

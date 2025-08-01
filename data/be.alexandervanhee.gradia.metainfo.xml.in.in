@@ -37,6 +37,20 @@
 		<color type="primary" scheme_preference="dark">#073c6f</color>
 	</branding>
 	<releases>
+      <release version="1.8.0" date="2025-07-31">
+        <description translate="no">
+            <p>This feature release includes:</p>
+            <ul>
+                <li>A redesigned gradient and solid color selector.</li>
+                <li>Support for up to 5 movable steps in a gradient.</li>
+                <li>Radial and conic gradient support.</li>
+                <li>Quick color selection for annotation tools.</li>
+                <li>A reworked preferences flow.</li>
+                <li>Improved drag-and-drop support for loading from URLs.</li>
+                <li>A fix for an issue where changing the padding didn't correctly move annotations with the image.</li>
+            </ul>
+        </description>
+      </release>
       <release version="1.7.1" date="2025-07-18">
         <description translate="no">
             <p>This minor release includes:</p>
@@ -188,23 +202,23 @@
 	</releases>
 	<screenshots>
 		<screenshot type="default">
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/e6494a703012893752950ccf7cf206701cb132b9/screenshots/showcase.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/a37ecdcf257708a5ba32e4162d02315bbfa7b377/screenshots/showcase.webp</image>
 			<caption>Edited screenshot</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/e6494a703012893752950ccf7cf206701cb132b9/screenshots/dark.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/a37ecdcf257708a5ba32e4162d02315bbfa7b377/screenshots/dark.webp</image>
 			<caption>Edited picture</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/e6494a703012893752950ccf7cf206701cb132b9/screenshots/home.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/a37ecdcf257708a5ba32e4162d02315bbfa7b377/screenshots/home.webp</image>
 			<caption>Startup view</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/e6494a703012893752950ccf7cf206701cb132b9/screenshots/element.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/a37ecdcf257708a5ba32e4162d02315bbfa7b377/screenshots/element.webp</image>
 			<caption>UI element showcase</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/7cad3da3bddfea7ca8f6d304da2cf145896d87a6/screenshots/snippets.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/a37ecdcf257708a5ba32e4162d02315bbfa7b377/screenshots/snippets.webp</image>
 			<caption>Source Snippets</caption>
 		</screenshot>
 	</screenshots>

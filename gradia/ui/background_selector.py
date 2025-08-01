@@ -20,7 +20,8 @@ from typing import Optional
 
 from gi.repository import GObject, Gtk, Adw
 
-from gradia.graphics.gradient import GradientSelector, GradientBackground
+from gradia.graphics.gradient import GradientBackground
+from gradia.graphics.gradient_selector import GradientSelector
 from gradia.graphics.solid import SolidSelector, SolidBackground
 from gradia.graphics.image import ImageSelector, ImageBackground
 from gradia.graphics.background import Background

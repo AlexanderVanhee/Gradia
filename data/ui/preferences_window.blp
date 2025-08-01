@@ -46,7 +46,7 @@ template $GradiaPreferencesWindow : Adw.Window {
 
                 Adw.PreferencesGroup  {
                   Adw.ButtonRow help_button {
-                    title: _("Screenshot Shortkey");
+                    title: _("Screenshot Shortcut");
                      styles ["accent"]
                   }
                 }
@@ -68,7 +68,7 @@ template $GradiaPreferencesWindow : Adw.Window {
                   */
 
                   Adw.SwitchRow confirm_close_switch {
-                    title: _("Confirm on close");
+                    title: _("Confirm on Close");
                     subtitle: _("Ask for confirmation before closing the app");
                     tooltip-text: _("Ask for confirmation before closing the app");
                     activatable: true;
@@ -79,7 +79,7 @@ template $GradiaPreferencesWindow : Adw.Window {
                   title: _("Screenshot Management");
 
                   Adw.SwitchRow delete_screenshot_switch {
-                    title: _("Trash screenshots on close");
+                    title: _("Trash Screenshots on Close");
                     subtitle: _("Automatically move screenshots taken from within the app to trash");
                     tooltip-text: _("Trash screenshots on app close");
                     activatable: true;
@@ -120,7 +120,7 @@ template $GradiaPreferencesWindow : Adw.Window {
                   }
 
                   Adw.SwitchRow confirm_upload_switch {
-                    title: _("Confirm on upload");
+                    title: _("Confirm on Upload");
                     subtitle: _("Ask for confirmation before running the upload command");
                     tooltip-text: _("Ask for confirmation before running the upload command");
                     activatable: true;
@@ -155,7 +155,7 @@ template $GradiaPreferencesWindow : Adw.Window {
                 margin-end: 12;
 
                 Adw.PreferencesGroup instructions_group {
-                  title: _("Shortcut setup Instructions");
+                  title: _("Shortcut Setup Instructions");
 
                   Gtk.Box content_box {
                     orientation: vertical;

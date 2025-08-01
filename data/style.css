@@ -41,34 +41,39 @@ headerbar.desktop windowcontrols button:active image {
 
 /* Circular color picker*/
 .gradient-color-picker {
-    border-radius: 50%;
-    min-width: 35px;
-    min-height: 35px;
-    border: 1px solid rgba(255, 255, 255, 1);
+    border-radius: 9999px;
+    min-width: 32px;
+    min-height: 32px;
+    border: 2px solid rgba(255, 255, 255, 0.25);
     transition: all 0.2s ease;
 }
 
 .gradient-color-picker:hover {
     filter: brightness(1.1);
-    border-color: white;
 }
 
-.gradient-color-picker.dark {
-    border: 1px solid black;
-}
-
-.gradient-color-picker.dark:hover {
-    border-color: black;
-}
-
-.gradient-color-picker image {
-    color: white;
-}
-
-.gradient-color-picker.dark image {
+.gradient-color-button.dark{
     color: black;
 }
+.gradient-color-button{
+    color: white;
+    border: none;
+}
 
+.gradient-editor {
+  border-radius: 40px;
+  background: none;
+  min-height: 34px;
+}
+
+.gradient-background {
+  border-radius: 34px;
+  min-height: 34px;
+}
+
+.angle-entry {
+  border-radius: 6px;
+}
 
 .gradient-preset {
     min-width: 60px;
@@ -217,3 +222,4 @@ button.color-picker-button {
 .osd.pill {
    padding: 2px 20px;
 }
+

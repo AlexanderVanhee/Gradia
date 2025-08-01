@@ -73,7 +73,7 @@
     </key>
 
     <key name="gradient-state" type="s">
-      <default>"{\"start_color\": \"#57e389\", \"end_color\": \"#3584e4\", \"angle\": 135}"</default>
+      <default>"{\"mode\": \"linear\", \"steps\": [[0.0, \"rgb(87,227,137)\"], [1.0, \"rgb(53,132,228)\"]], \"angle\": 135}"</default>
       <summary>Serialized state of the gradient background</summary>
     </key>
     <key name="image-state" type="s">

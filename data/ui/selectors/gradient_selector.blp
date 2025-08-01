@@ -1,96 +1,119 @@
+
 using Gtk 4.0;
 using Adw 1;
 
-template $GradiaGradientSelector : Adw.PreferencesGroup {
+template GradiaGradientSelector : Adw.PreferencesGroup {
   title: _("Gradient Background");
 
   [header-suffix]
-  Gtk.MenuButton {
-    icon-name: "columns-symbolic";
-    tooltip-text: _("Gradient Presets");
-    popover: gradient_popover;
-    valign: center;
-    styles [
-      "flat"
-    ]
-  }
-
-  Adw.SpinRow angle_spin_row {
-    title: _("Angle");
-    numeric: true;
-    adjustment: Gtk.Adjustment angle_adjustment {
-      lower: 0;
-      upper: 360;
-      step-increment: 45;
-    };
-    output => $_on_angle_output();
-  }
+  $GradiaGradientPresetButton preset_button {}
 
   Adw.ActionRow gradient_preview_row {
     child: Gtk.Box {
       orientation: vertical;
       valign: center;
       halign: center;
+      spacing: 12;
+      height-request: 165;
+      vexpand: true;
+      Box {
+        margin-top:5;
+        height-request: 100;
+        $GradiaAngleSelector angle_selector {
+          angle-changed => $on_angle_set();
+          notify::angle => $on_angle_changed();
+        }
 
-      Gtk.Frame gradient_preview_frame {
-        margin-top: 8;
-        margin-bottom: 8;
-        styles [
-          "view"
-        ]
+        Box {
+          width-request:160;
+          height-request:100;
+          orientation: vertical;
+          Box {
+            width-request:160;
+            height-request:50;
 
-        Gtk.Box gradient_preview_box {
-          orientation: horizontal;
-          width-request: 250;
-          height-request: 88;
-          styles [
-            "gradient-preview"
-          ]
-
-          Gtk.Overlay {
-            Gtk.Box {
-            }
-
-            [overlay]
-            Gtk.Box button_container {
-              orientation: horizontal;
-              halign: fill;
+            Adw.ToggleGroup type_group {
+              active-name: "linear";
               valign: center;
-              homogeneous: true;
-              margin-start: 25;
-              margin-end: 25;
-
-              $GradientColorButton start_color_button {
-                margin-end: 62;
-                tooltip-text: _("Start Color");
-                clicked => $_on_start_color_button_clicked();
+              width-request: 160;
+              notify::active-name => $on_toggle_changed();
+              Adw.Toggle{
+                icon-name: "linear-symbolic";
+                name: "linear";
+                tooltip: _("Lineair");
               }
-
-              $GradientColorButton end_color_button {
-                margin-start: 62;
-                tooltip-text: _("End Color");
-                clicked => $_on_end_color_button_clicked();
+              Adw.Toggle{
+                icon-name: "radial-symbolic";
+                name: "radial";
+                tooltip: _("Radial");
+              }
+              Adw.Toggle{
+                icon-name: "conic-symbolic";
+                name: "conic";
+                tooltip: _("Conic");
               }
             }
           }
+
+          Box {
+            width-request:160;
+            height-request:50;
+
+            Box {
+              width-request:60;
+              height-request:50;
+              Entry angle_entry {
+                valign: center;
+                text:"0°";
+                max-length:4;
+                halign: start;
+                margin-end:10;
+                xalign:0.5;
+
+                styles ["heading", "angle-entry", "view"]
+              }
+            }
+            Revealer button_revealer {
+              reveal-child: false;
+              transition-type: crossfade;
+              transition-duration: 300;
+              child: Box {
+                  width-request:100;
+                  height-request:50;
+                  valign: center;
+                  spacing: 12;
+                  Label  step_label {
+                    label: "100%";
+                    width-request:40;
+                    styles ["heading"]
+                  }
+                  Revealer remove_button_revealer{
+                    reveal-child: false;
+                    transition-type: crossfade;
+                    transition-duration: 300;
+                    child:Button remove_button {
+                      valign: center;
+                      tooltip-text: _("Remove Selected Color Step");
+                      icon-name: "user-trash-symbolic";
+                      styles ["destructive-action", "circular"]
+                    };
+                  }
+                };
+            }
+
+          }
         }
+      }
+
+      $GradientEditor gradient_editor {
+        height-request: 36;
+        width-request: 234;
+        valign: end;
+        margin-top:0;
+        margin-end:12;
+        margin-start:12;
+
       }
     };
   }
-}
-
-Gtk.Popover gradient_popover {
-  autohide: true;
-  child: Gtk.FlowBox popover_flowbox {
-    max-children-per-line: 3;
-    selection-mode: none;
-    row-spacing: 10;
-    column-spacing: 10;
-    homogeneous: true;
-    valign: center;
-    margin-top: 10;
-    margin-bottom: 10;
-    margin-start: 10;
-    margin-end: 10;
-  };
 }
