@@ -207,6 +207,14 @@ class Settings:
         self._settings.set_int("image-rotation", value)
 
     @property
+    def image_options_lock(self) -> bool:
+        return self._settings.get_boolean("image-options-lock")
+
+    @image_options_lock.setter
+    def image_options_lock(self, value: bool) -> None:
+        self._settings.set_boolean("image-options-lock", value)
+
+    @property
     def background_mode(self) -> str:
         return self._settings.get_string("background-mode")
 
