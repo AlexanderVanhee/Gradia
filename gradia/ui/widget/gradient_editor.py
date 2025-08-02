@@ -416,11 +416,7 @@ class GradientEditor(Gtk.Box):
         self._update_gradient_css()
 
     def _update_button_positions(self):
-        width = self.gradient_background.get_allocated_width()
-
-        if width <= 0:
-            GLib.idle_add(self._update_button_positions)
-            return
+        width = 248
 
         for button in self.color_buttons:
             step = button.get_step()
