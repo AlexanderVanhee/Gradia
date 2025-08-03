@@ -9,7 +9,6 @@ template $GradiaImageStack : Adw.Bin {
     top-bar-style: flat;
     extend-content-to-top-edge: true;
 
-
     [top]
     Adw.HeaderBar headerbar {
       show-title: false;
@@ -41,17 +40,7 @@ template $GradiaImageStack : Adw.Bin {
 
       Gtk.StackPage image_page {
         name: "image";
-        child: Gtk.Overlay picture_overlay {
-          [overlay]
-          $GradiaDrawingOverlay drawing_overlay {
-            visible: true;
-          }
-
-          [overlay]
-          $GradiaCropOverlay crop_overlay {
-            visible: true;
-          }
-
+        child: Gtk.Overlay main_overlay {
           [overlay]
           Gtk.Box left_controls_container {
             orientation: horizontal;
@@ -62,60 +51,65 @@ template $GradiaImageStack : Adw.Bin {
             margin-start: 12;
             hexpand: false;
 
-            Gtk.Button crop_button {
-              icon-name: "crop-symbolic";
-              tooltip-text: _("Toggle Crop Mode");
-              action-name: "win.crop";
-              styles [
-                "osd",
-                "circular"
-              ]
-            }
-
-            Gtk.Revealer aspect_crop_revealer {
-              transition-type: crossfade;
+            Gtk.Revealer crop_controls_revealer {
+              transition-type: slide_right;
               transition-duration: 300;
               overflow: visible;
+              reveal-child:true;
 
-              $GradiaAspectRatioButton{}
-            }
-
-            Gtk.Revealer reset_crop_revealer {
-              transition-type: crossfade;
-              transition-duration: 300;
-              overflow: visible;
-
-              Gtk.Button reset_crop_button {
-                icon-name: "crop-reset-symbolic";
-                tooltip-text: _("Reset Crop Selection");
-                action-name: "win.reset-crop";
+              Gtk.Box crop_controls {
+                orientation: horizontal;
                 styles [
-                  "osd",
-                  "circular"
+                  "osd-box"
                 ]
+
+                Gtk.Button crop_button {
+                  icon-name: "crop-symbolic";
+                  tooltip-text: _("Toggle Crop Mode");
+                  action-name: "win.crop";
+                  styles [
+                    "flat"
+                  ]
+                }
+
+              Gtk.Revealer erase_controls_revealer {
+              transition-type: slide_left;
+              transition-duration: 300;
+                Gtk.Button back_button {
+                  icon-name: "eraser4-symbolic";
+                  tooltip-text: _("Erase Selected");
+                  action-name: "win.del-selected";
+                  styles [
+                    "flat"
+                  ]
+                }
+                }
+
+                Gtk.Revealer crop_options_revealer {
+                  transition-type: slide_left;
+                  transition-duration: 300;
+                  Box {
+                    $GradiaAspectRatioButton{
+                    }
+
+                    Gtk.Button reset_crop_button {
+                      icon-name: "crop-reset-symbolic";
+                      tooltip-text: _("Reset Crop Selection");
+                      action-name: "win.reset-crop";
+                      styles [
+                        "flat"
+                      ]
+                    }
+                  }
+                }
               }
             }
 
-            Gtk.Revealer erase_selected_revealer {
-              transition-type: crossfade;
-              transition-duration: 300;
-
-              Gtk.Button back_button {
-                icon-name: "eraser4-symbolic";
-                tooltip-text: _("Erase Selected");
-                action-name: "win.del-selected";
-                styles [
-                  "osd",
-                  "circular"
-                ]
-              }
-            }
           }
 
           [overlay]
           Gtk.Box middle_controls_container {
             orientation: horizontal;
-            spacing: 6;
             halign: center;
             valign: end;
             margin-bottom: 12;
@@ -131,11 +125,10 @@ template $GradiaImageStack : Adw.Bin {
                 tooltip-text: _("Confirm Crop Selection");
                 action-name: "win.crop";
                 styles [
-                  "pill", "osd"
+                  "osd"
                 ]
               }
             }
-
           }
 
           [overlay]
@@ -150,52 +143,124 @@ template $GradiaImageStack : Adw.Bin {
 
             Gtk.Box right_controls_box {
               orientation: horizontal;
-              spacing: 6;
+              spacing: 12;
               halign: end;
 
-              Gtk.Button undo_button {
-                icon-name: "edit-undo-symbolic";
-                tooltip-text: _("Undo");
-                action-name: "win.undo";
-                styles [
-                  "osd",
-                  "circular"
-                ]
-              }
+               Gtk.Box zoom_controls {
+                  orientation: horizontal;
+                  styles [
+                      "osd-box",
+                    ]
 
-              Gtk.Button redo_button {
-                icon-name: "edit-redo-symbolic";
-                tooltip-text: _("Redo");
-                action-name: "win.redo";
-                styles [
-                  "osd",
-                  "circular"
-                ]
-              }
+                  Revealer zoom_info_revealer{
 
-              Gtk.Button reset_button {
-                icon-name: "user-trash-symbolic";
-                tooltip-text: _("Clear All");
-                action-name: "win.clear";
-                styles [
-                  "osd",
-                  "circular"
-                ]
+                    transition-type: slide_right;
+                    transition-duration: 300;
+                    Box {
+                      Gtk.Button reset_zoom_button {
+                        icon-name: "zoom-original-symbolic";
+                        tooltip-text: _("Reset Zoom");
+                        action-name: "win.reset-zoom";
+                        styles [
+                          "flat",
+                        ]
+                      }
+
+                      Gtk.Label zoom_label {
+                        label: "100%";
+                        margin-start:4;
+                        margin-end:4;
+                        width-chars: 5;
+                        xalign: 0.5;
+                        styles [
+                          "flat",
+                        ]
+                      }
+                    }
+                  }
+
+                  Gtk.Button zoom_out_button {
+                    icon-name: "zoom-minus-symbolic";
+                    tooltip-text: _("Zoom Out");
+                    action-name: "win.zoom-out";
+                    styles [
+                      "flat",
+                    ]
+                  }
+
+
+                  Gtk.Button zoom_in_button {
+                    icon-name: "zoom-plus-symbolic";
+                    tooltip-text: _("Zoom In");
+                    action-name: "win.zoom-in";
+                    styles [
+                      "flat",
+                    ]
+                  }
+                }
+              Gtk.Box {
+                  styles [
+                    "osd-box",
+                  ]
+
+                Gtk.Button undo_button {
+                  icon-name: "edit-undo-symbolic";
+                  tooltip-text: _("Undo");
+                  action-name: "win.undo";
+                  styles [
+                    "flat"
+                  ]
+                }
+
+                Gtk.Button redo_button {
+                  icon-name: "edit-redo-symbolic";
+                  tooltip-text: _("Redo");
+                  action-name: "win.redo";
+                  styles [
+                    "flat"
+                  ]
+                }
+
+                Gtk.Button reset_button {
+                  icon-name: "user-trash-symbolic";
+                  tooltip-text: _("Clear All");
+                  action-name: "win.clear";
+                  styles [
+                    "flat"
+                  ]
+                }
               }
             }
           }
 
-          child: Gtk.Overlay background_overlay {
-            [overlay]
-            Gtk.Picture picture {
-              content-fit: contain;
-              can-shrink: true;
-            }
+          child: $GradiaZoomController zoomable_widget {
+            hexpand: true;
+            vexpand: true;
 
-            child: $GradiaTransparencyBackground transparency_background {
-              hexpand: true;
-              vexpand: true;
-            };
+            Gtk.Overlay picture_overlay {
+              [overlay]
+              $GradiaDrawingOverlay drawing_overlay {
+                visible: true;
+              }
+
+              [overlay]
+              $GradiaCropOverlay crop_overlay {
+                visible: true;
+              }
+
+              child: Gtk.Overlay background_overlay {
+                [overlay]
+                Gtk.Picture picture {
+                  content-fit: contain;
+                  can-shrink: true;
+                }
+
+                child: $GradiaTransparencyBackground transparency_background {
+                  hexpand: true;
+                  vexpand: true;
+                };
+              };
+            }
           };
         };
       }

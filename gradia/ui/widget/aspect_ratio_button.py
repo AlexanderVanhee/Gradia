@@ -24,8 +24,7 @@ class AspectRatioButton(Gtk.Button):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
         self.set_tooltip_text(_("Aspect Ratio"))
-        self.add_css_class("osd")
-        self.add_css_class("circular")
+        self.add_css_class("flat")
 
         self.default_icon_name = "aspect-ratio-symbolic"
         self.icon = Gtk.Image.new_from_icon_name(self.default_icon_name)

@@ -1,3 +1,7 @@
+:root {
+  --osd-background-color: rgba(240, 240, 240, 0.75);
+}
+
 headerbar.desktop windowcontrols button image {
     color: alpha(white, 0.9);
     background: alpha(black, 0.6);
@@ -219,7 +223,10 @@ button.color-picker-button {
   color: @accent_fg_color;
 }
 
-.osd.pill {
-   padding: 2px 20px;
+.osd-box {
+  border-radius: 12px;
+  background-color: var(--osd-background-color);
+  padding: 6px;
 }
+
 
