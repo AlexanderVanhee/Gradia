@@ -52,8 +52,8 @@ class WelcomePage(Adw.Bin):
     def _on_file_dropped(self, _target: Gtk.DropTarget, value: Gio.File, _x: int, _y: int) -> bool:
         uri = value.get_uri()
         if uri:
-            app = Gio.Application.get_default()
-            action = app.lookup_action("load-drop") if app else None
+            window = self.get_root()
+            action = window.lookup_action("load-drop") if window else None
             if action:
                 action.activate(GLib.Variant('s', uri))
                 return True
@@ -66,9 +66,9 @@ class WelcomePage(Adw.Bin):
     Callbacks
     """
     def _on_recent_image_click(self, path: str, gradient_index: int) -> None:
-        app = Gio.Application.get_default()
-        if app:
-            action = app.lookup_action("open-path")
+        window = self.get_root()
+        if window:
+            action = window.lookup_action("open-path")
             if action:
                 param = GLib.Variant('s', path)
                 action.activate(param)

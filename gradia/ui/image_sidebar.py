@@ -89,7 +89,6 @@ class ImageSidebar(Adw.Bin):
         self.background_selector_group.add(background_selector_widget)
         self._setup_widgets()
         self._setup_aspect_ratio_popover()
-        self._bind_settings()
         self._connect_signals()
 
     def _setup_widgets(self) -> None:
@@ -99,13 +98,7 @@ class ImageSidebar(Adw.Bin):
         self.auto_balance_toggle.set_active(self.settings.image_auto_balance)
         self.aspect_ratio_button.set_label(self._label_for_ratio_value(self.settings.image_aspect_ratio))
         self._current_rotation = self.settings.image_rotation
-
-    def _bind_settings(self) -> None:
-        self.settings.bind_switch(self.disable_button, "image-options-lock")
-        self.settings.bind_switch(self.auto_balance_toggle, "image-auto-balance")
-        self.settings.bind_spin_row(self.padding_row, "image-padding")
-        self.settings.bind_spin_row(self.corner_radius_row, "image-corner-radius")
-        self.settings.bind_scale(self.shadow_strength_scale, "image-shadow-strength")
+        self.disable_button.set_active(self.settings.image_options_lock)
 
     def _setup_aspect_ratio_popover(self) -> None:
         self.aspect_ratio_popover = Gtk.Popover()
@@ -207,19 +200,27 @@ class ImageSidebar(Adw.Bin):
 
     def _on_padding_changed(self, widget) -> None:
         if not self._updating_widgets:
-            self._handle_change('padding', int(widget.get_value()))
+            value = int(widget.get_value())
+            self.settings.image_padding = value
+            self._handle_change('padding', value)
 
     def _on_corner_radius_changed(self, widget) -> None:
         if not self._updating_widgets:
-            self._handle_change('corner_radius', int(widget.get_value()))
+            value = int(widget.get_value())
+            self.settings.image_corner_radius = value
+            self._handle_change('corner_radius', value)
 
     def _on_shadow_strength_changed(self, widget) -> None:
         if not self._updating_widgets:
-            self._handle_change('shadow_strength', int(widget.get_value()))
+            value = int(widget.get_value())
+            self.settings.image_shadow_strength = value
+            self._handle_change('shadow_strength', value)
 
     def _on_auto_balance_changed(self, widget, pspec) -> None:
         if not self._updating_widgets:
-            self._handle_change('auto_balance', widget.get_active())
+            value = widget.get_active()
+            self.settings.image_auto_balance = value
+            self._handle_change('auto_balance', value)
 
     def _on_rotate_left_clicked(self, button: Gtk.Button) -> None:
         if not self._updating_widgets:
@@ -249,6 +250,7 @@ class ImageSidebar(Adw.Bin):
 
     def _on_disable_toggled(self, switch: Gtk.Switch) -> None:
         is_disabled = switch.get_active()
+        self.settings.image_options_lock = is_disabled
         self._updating_widgets = True
 
         self.image_options_group_content.set_sensitive(not is_disabled)
@@ -272,4 +274,3 @@ class ImageSidebar(Adw.Bin):
 
     def _label_for_ratio_value(self, value: str) -> str:
         return PRESET_RATIOS_DICT.get(value, value if value else "Auto")
-

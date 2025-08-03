@@ -3,9 +3,27 @@ Name=Gradia
 Comment=Make your images ready for the world
 Exec=gradia %U
 Icon=@APP_ID@
+StartupNotify=true
 Terminal=false
 Type=Application
 Categories=Graphics;
 Keywords=Image;Gradient;Background;Screenshot;Edit;
 StartupNotify=true
 MimeType=image/png;image/jpeg;image/webp;
+Actions=new-window;take-screenshot;take-fullscreen-screenshot;
+
+[Desktop Action new-window]
+Name=New Window
+Exec=gradia --new-window
+Icon=application-new-window
+
+[Desktop Action take-screenshot]
+Name=Take Screenshot
+Exec=gradia --screenshot
+Icon=camera-photo
+
+[Desktop Action take-fullscreen-screenshot]
+Name=Take Fullscreen Screenshot
+Exec=gradia --screenshot=full
+Icon=camera-photo
+

@@ -15,14 +15,14 @@ template $GradiaImageSidebar : Adw.Bin {
       Gtk.Button open_image_button {
         icon-name: "document-open-symbolic";
         tooltip-text: _("Open Image");
-        action-name: "app.open";
+        action-name: "win.open";
       }
 
       [start]
       Gtk.Button screenshot_button {
         icon-name: "screenshooter-symbolic";
         tooltip-text: _("Take a Screenshot");
-        action-name: "app.screenshot";
+        action-name: "win.screenshot";
       }
 
       [end]
@@ -172,7 +172,7 @@ template $GradiaImageSidebar : Adw.Bin {
       Gtk.Button save_button {
         icon-name: "document-save-symbolic";
         tooltip-text: _("Save Image");
-        action-name: "app.save";
+        action-name: "win.save";
 
         styles [
           "suggested-action",
@@ -183,7 +183,7 @@ template $GradiaImageSidebar : Adw.Bin {
       Gtk.Button copy_button {
         icon-name: "edit-copy-symbolic";
         tooltip-text: _("Copy to Clipboard");
-        action-name: "app.copy";
+        action-name: "win.copy";
 
         styles [
           "raised",
@@ -193,7 +193,7 @@ template $GradiaImageSidebar : Adw.Bin {
       Gtk.Button share_button {
         icon-name: "share-symbolic";
         tooltip-text: _("Share Image");
-        action-name: "app.command";
+        action-name: "win.command";
         width-request: 45;
 
         styles [
@@ -232,26 +232,26 @@ menu app_menu {
   section {
     item {
       label: _("Source Snippets");
-      action: "app.create-source-image";
+      action: "win.create-source-image";
     }
     item {
       label: _("Delete Taken Screenshot(s)");
-      action: "app.delete-screenshots";
+      action: "win.delete-screenshots";
     }
   }
 
   section {
     item {
       label: _("Preferences");
-      action: "app.preferences";
+      action: "win.preferences";
     }
     item {
       label: _("Keyboard Shortcuts");
-      action: "app.shortcuts";
+      action: "win.shortcuts";
     }
     item {
       label: _("About Gradia");
-      action: "app.about";
+      action: "win.about";
     }
   }
 }

@@ -41,25 +41,28 @@ class GradiaApp(Adw.Application):
             flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE | Gio.ApplicationFlags.HANDLES_OPEN
         )
         self.version = version
-        self.screenshot_flags: Optional[Xdp.ScreenshotFlags] = None
         self.temp_dirs: list[str] = []
         self._stdin_image_path: Optional[str] = None
+
 
         self.connect("shutdown", self.on_shutdown)
 
     def do_command_line(self, command_line: Gio.ApplicationCommandLine) -> int:
         args = command_line.get_arguments()[1:]
-        logging.debug(f"Command line arguments: {args}")
+        logging.info(f"Command line arguments: {args}")
 
         if "--help" in args or "-h" in args:
             self._print_help()
             return 0
 
-        self.screenshot_flags = self._parse_screenshot_flag(args)
         files_to_open = []
+        screenshot_file = None
 
         for arg in args:
-            if not arg.startswith("--"):
+            if arg.startswith("--screenshot-file="):
+                screenshot_file = arg.split("=", 1)[1]
+                logging.info(f"Screenshot file detected: {screenshot_file}")
+            elif not arg.startswith("--"):
                 try:
                     file = Gio.File.new_for_commandline_arg(arg)
                     path = file.get_path()
@@ -73,7 +76,9 @@ class GradiaApp(Adw.Application):
 
         if files_to_open:
             for path in files_to_open:
-                self._open_window(path)
+                self._open_window(file_path=path)
+        elif screenshot_file:
+            self._open_window(start_screenshot=screenshot_file)
         else:
             self.activate()
 
@@ -85,16 +90,6 @@ class GradiaApp(Adw.Application):
         contents = stream.read_bytes(4096, None).get_data().decode("utf-8")
         print(contents)
 
-    def _parse_screenshot_flag(self, args: list[str]) -> Optional[Xdp.ScreenshotFlags]:
-        for arg in args:
-            if arg.startswith("--screenshot"):
-                mode = arg.split("=", 1)[1].strip().upper() if "=" in arg else "INTERACTIVE"
-                return {
-                    "INTERACTIVE": Xdp.ScreenshotFlags.INTERACTIVE,
-                    "FULL": Xdp.ScreenshotFlags.NONE
-                }.get(mode, Xdp.ScreenshotFlags.INTERACTIVE)
-        return None
-
     def do_open(self, files: Sequence[Gio.File], hint: str):
         logging.debug(f"do_open called with files: {[file.get_path() for file in files]} and hint: {hint}")
         for file in files:
@@ -105,15 +100,17 @@ class GradiaApp(Adw.Application):
     def do_activate(self):
         logging.debug("do_activate called")
 
-        if self._stdin_image_path:
-            logging.debug(f"Opening window with stdin image path: {self._stdin_image_path}")
-            self._open_window(self._stdin_image_path)
-            self._stdin_image_path = None
+        stdin_path = self._stdin_image_path
+        self._stdin_image_path = None
+
+        if stdin_path:
+            logging.debug(f"Opening window with stdin image path: {stdin_path}")
+            self._open_window(stdin_path)
         else:
             self._open_window(None)
 
-    def _open_window(self, file_path: Optional[str]):
-        logging.info(f"Opening window with file_path={file_path}, screenshot_flags={self.screenshot_flags}")
+    def _open_window(self, file_path: Optional[str] = None, start_screenshot: Optional[str] = None):
+        logging.info(f"Opening window with file_path={file_path}")
         temp_dir = tempfile.mkdtemp()
         logging.debug(f"Created temp directory: {temp_dir}")
         self.temp_dirs.append(temp_dir)
@@ -122,11 +119,10 @@ class GradiaApp(Adw.Application):
             temp_dir=temp_dir,
             version=self.version,
             application=self,
-            init_screenshot_mode=self.screenshot_flags,
-            file_path=file_path
+            file_path=file_path,
+            start_screenshot=start_screenshot
         )
-        if not self.screenshot_flags:
-            window.show()
+        window.show()
 
     def on_shutdown(self, application):
         logging.info("Application shutdown started, cleaning temp directories...")
@@ -153,4 +149,3 @@ def main(version: str) -> int:
     except Exception as e:
         logging.critical("Application closed with an exception.", exception=e, show_exception=True)
         return 1
-

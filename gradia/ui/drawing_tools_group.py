@@ -113,7 +113,8 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
         self.font_dropdown_controller = FontDropdownController(
             self.font_string_list,
             self.settings,
-            self._on_font_changed
+            self.get_root(),
+            self._on_font_changed,
         )
 
         self._setup_annotation_tools_group()
@@ -129,6 +130,9 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
         else:
             self.tool_buttons[DrawingMode.PEN].set_active(True)
 
+        self.connect("realize", self._on_realize)
+
+    def _on_realize(self, widget):
         self._initialize_all_actions()
 
     """
@@ -282,9 +286,9 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
                 self.revealers[entry].set_reveal_child(True)
 
     def _activate_draw_mode_action(self, drawing_mode: DrawingMode) -> None:
-        app = Gio.Application.get_default()
-        if app:
-            action = app.lookup_action("draw-mode")
+        window = self.get_root()
+        if window:
+            action = window.lookup_action("draw-mode")
             if action:
                 action.activate(GLib.Variant('s', drawing_mode.value))
 
@@ -296,17 +300,17 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
             button.set_active(True)
 
     def _activate_color_action(self, action_name: str, rgba: Gdk.RGBA) -> None:
-        app = Gio.Application.get_default()
-        if app:
-            action = app.lookup_action(action_name)
+        window = self.get_root()
+        if window:
+            action = window.lookup_action(action_name)
             if action:
                 color_str = f"{rgba.red:.3f},{rgba.green:.3f},{rgba.blue:.3f},{rgba.alpha:.3f}"
                 action.activate(GLib.Variant('s', color_str))
 
     def _activate_double_action(self, action_name: str, size_value: float) -> None:
-        app = Gio.Application.get_default()
-        if app:
-            action = app.lookup_action(action_name)
+        window = self.get_root()
+        if window:
+            action = window.lookup_action(action_name)
             if action:
                 action.activate(GLib.Variant('d', size_value))
 

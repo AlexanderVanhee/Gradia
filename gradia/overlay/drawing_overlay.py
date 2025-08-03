@@ -595,7 +595,7 @@ class DrawingOverlay(Gtk.DrawingArea):
         if self.selected_action:
             self._draw_selection_box(cr, scale)
 
-    def export_to_pixbuf(self) -> GdkPixbuf.Pixbuf | None:
+    def export_to_pixbuf(self, requested_width, requested_height) -> GdkPixbuf.Pixbuf | None:
         if not self.picture_widget or not self.picture_widget.get_paintable():
             return None
 
@@ -603,7 +603,11 @@ class DrawingOverlay(Gtk.DrawingArea):
         img_w = paintable.get_intrinsic_width()
         img_h = paintable.get_intrinsic_height()
 
-        return render_actions_to_pixbuf(self.actions, img_w, img_h)
+        scale_factor_x = requested_width / img_w
+        scale_factor_y = requested_height / img_h
+
+        return render_actions_to_pixbuf(self.actions, requested_width, requested_height, scale_factor_x, scale_factor_y)
+
 
     def clear_drawing(self) -> None:
         self._close_text_entry()
@@ -642,7 +646,7 @@ class DrawingOverlay(Gtk.DrawingArea):
         return self.get_visible()
 
 
-def render_actions_to_pixbuf(actions: list[DrawingAction], width: int, height: int) -> GdkPixbuf.Pixbuf | None:
+def render_actions_to_pixbuf(actions: list[DrawingAction], width: int, height: int, scale_factor_x: float = 1.0, scale_factor_y: float = 1.0) -> GdkPixbuf.Pixbuf | None:
     if width <= 0 or height <= 0:
         return None
 
@@ -656,13 +660,15 @@ def render_actions_to_pixbuf(actions: list[DrawingAction], width: int, height: i
     def image_coords_to_intrinsic_pixels(x_image: int, y_image: int) -> Tuple[float, float]:
         center_x_intrinsic = width / 2.0
         center_y_intrinsic = height / 2.0
-        return (center_x_intrinsic + x_image, center_y_intrinsic + y_image)
+        return (center_x_intrinsic + x_image * scale_factor_x, center_y_intrinsic + y_image * scale_factor_y)
 
     cr.set_line_cap(cairo.LineCap.ROUND)
     cr.set_line_join(cairo.LineJoin.ROUND)
 
+    scale_factor = (scale_factor_x + scale_factor_y) / 2.0
+
     for action in actions:
-        action.draw(cr, image_coords_to_intrinsic_pixels, 1.0)
+        action.draw(cr, image_coords_to_intrinsic_pixels, scale_factor)
 
     surface.flush()
 

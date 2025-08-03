@@ -17,6 +17,7 @@
 
 import os
 import mimetypes
+import shutil
 from urllib.parse import urlparse, unquote
 import urllib.request
 from datetime import datetime
@@ -221,8 +222,6 @@ class ClipboardImageLoader(BaseImageLoader):
                 self.window._show_notification(_("Failed to load image from clipboard."))
                 logger.error(f"Error processing clipboard image: {e}")
 
-        finally:
-            self.window._set_loading_state(False)
 
 class ScreenshotImageLoader(BaseImageLoader):
     """Handles loading images through screenshot capture"""
@@ -233,10 +232,10 @@ class ScreenshotImageLoader(BaseImageLoader):
         self._error_callback: Optional[Callable[[str], None]] = None
         self._success_callback: Optional[Callable[[], None]] = None
         self._screenshot_uris: list[str] = []  # Store URIs of taken screenshots
-        self.app = app
+        self.window = window
 
     def _update_delete_action_state(self) -> None:
-        action = self.app.lookup_action("delete-screenshots")
+        action = self.window.lookup_action("delete-screenshots")
         if action:
             action.set_enabled(bool(self._screenshot_uris))
 
@@ -318,8 +317,31 @@ class ScreenshotImageLoader(BaseImageLoader):
         except Exception as e:
             logger.error(f"Error processing screenshot: {e}")
             self.window._show_notification(_("Failed to process screenshot"))
-        finally:
-            self.window._set_loading_state(False)
+
+    def load_path_as_screenshot(self, file_path: str) -> None:
+        try:
+            file = Gio.File.new_for_path(file_path)
+            uri = file.get_uri()
+            self._screenshot_uris.append(uri)
+            self._update_delete_action_state()
+
+            filename = TimestampedFilenameGenerator().generate(_("Edited Screenshot From %Y-%m-%d %H-%M-%S")) + ".png"
+            new_path = os.path.join(self.temp_dir, filename)
+
+            shutil.copy(file_path, new_path)
+
+            self._set_image_and_update_ui(
+                new_path,
+                _("Screenshot"),
+                _("Screenshot"),
+                has_actual_filename=False
+            )
+
+            self.window._show_notification(_("Screenshot captured!"))
+
+        except Exception as e:
+            logger.error(f"Error loading screenshot from path: {e}")
+            self.window._show_notification(_("Failed to load screenshot"))
 
     def get_screenshot_uris(self) -> list[str]:
         return self._screenshot_uris.copy()
@@ -427,6 +449,9 @@ class ImportManager:
         on_success: Optional[Callable[[], None]] = None
     ) -> None:
         self.screenshot_loader.take_screenshot(flags, on_error_or_cancel, on_success)
+
+    def load_as_screenshot(self, file_path: str):
+        self.screenshot_loader.load_path_as_screenshot(file_path)
 
     def get_screenshot_uris(self) -> list[str]:
         return self.screenshot_loader.get_screenshot_uris()

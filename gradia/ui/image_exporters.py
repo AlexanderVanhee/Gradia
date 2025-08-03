@@ -35,10 +35,16 @@ class BaseImageExporter:
         self.temp_dir: str = temp_dir
 
     def get_processed_pixbuf(self):
+        full_res_pixbuf = self.window.processor.process_full_resolution()
+        width = full_res_pixbuf.get_width()
+        height = full_res_pixbuf.get_height()
+        drawing_pixbuf = self.window.drawing_overlay.export_to_pixbuf(width, height)
+
         composited = self.overlay_pixbuffs(
-            self.window.processed_pixbuf,
-            self.window.drawing_overlay.export_to_pixbuf()
+            full_res_pixbuf,
+            drawing_pixbuf,
         )
+
         crop_rect = self.window.image_bin.crop_overlay.get_crop_rectangle()
         return self.crop_pixbuf(composited, crop_rect)
 

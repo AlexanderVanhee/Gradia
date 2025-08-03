@@ -66,8 +66,8 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self,
         temp_dir: str,
         version: str,
-        init_screenshot_mode: Optional[Xdp.ScreenshotFlags],
         file_path: Optional[str] = None,
+        start_screenshot: Optional[str] = None,
         **kwargs
     ) -> None:
         super().__init__(**kwargs)
@@ -75,9 +75,9 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.app: Adw.Application = kwargs['application']
         self.temp_dir: str = temp_dir
         self.version: str = version
+        self.start_screenshot = start_screenshot
         self.file_path: Optional[str] = file_path
         self.image_path: Optional[str] = None
-        self.processed_path: Optional[str] = None
         self.processed_pixbuf: Optional[Gdk.Pixbuf] = None
         self.image_ready = False
         self.show_close_confirmation = False
@@ -94,20 +94,6 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             padding=5,
             background=self.background_selector.get_current_background()
         )
-
-        if init_screenshot_mode is not None:
-            def screenshot_error_callback(_error_message: str) -> None:
-                 self.app.quit()
-
-            def screenshot_success_callback() -> None:
-                self.show()
-
-            self.import_manager.take_screenshot(
-                init_screenshot_mode,
-                screenshot_error_callback,
-                screenshot_success_callback
-            )
-
         self._setup_actions()
         self._setup_image_stack()
         self._setup_sidebar()
@@ -117,6 +103,8 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
         if self.file_path:
             self.import_manager.load_from_file(self.file_path)
+        if self.start_screenshot:
+            self.import_manager.load_as_screenshot(self.start_screenshot)
 
     def _setup_actions(self) -> None:
         self.create_action("shortcuts", self._on_shortcuts_activated)
@@ -284,14 +272,13 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         vt: Optional[str] = None
     ) -> None:
         variant_type = GLib.VariantType.new(vt) if vt is not None else None
-
         action: Gio.SimpleAction = Gio.SimpleAction.new(name, variant_type)
         action.connect("activate", callback)
         action.set_enabled(enabled)
-        self.app.add_action(action)
+        self.add_action(action)
 
         if shortcuts:
-            self.app.set_accels_for_action(f"app.{name}", shortcuts)
+            self.app.set_accels_for_action(f"win.{name}", shortcuts)
 
     def show(self) -> None:
         self.present()
@@ -334,6 +321,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
     def _show_loading_state(self) -> None:
         self.main_stack.set_visible_child_name("main")
+        self.welcome_content.recent_picker.set_visible(False)
         self.image_stack.set_visible_child_name(self.PAGE_LOADING)
 
     def _hide_loading_state(self) -> None:
@@ -367,10 +355,10 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         try:
             if self.image_path is not None:
                 self.processor.set_image_path(self.image_path)
-                pixbuf: Gdk.Pixbuf = self.processor.process()
+                pixbuf, true_width, true_height = self.processor.process()
+                self._update_processed_image_size(true_width, true_height)
                 self.processed_pixbuf = pixbuf
-                self.processed_path = os.path.join(self.temp_dir, self.TEMP_PROCESSED_FILENAME)
-                pixbuf.savev(self.processed_path, "png", [], [])
+
             else:
                 print("No image path set for processing.")
 
@@ -382,22 +370,13 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         if self.processed_pixbuf:
             paintable: Gdk.Paintable = Gdk.Texture.new_for_pixbuf(self.processed_pixbuf)
             self.picture.set_paintable(paintable)
-            self._update_processed_image_size()
             self._hide_loading_state()
         return False
 
-    def _update_processed_image_size(self) -> None:
-        try:
-            if self.processed_pixbuf:
-                width: int = self.processed_pixbuf.get_width()
-                height: int = self.processed_pixbuf.get_height()
-                size_str: str = f"{width}×{height}"
-                self.sidebar.processed_size_row.set_subtitle(size_str)
-            else:
-                self.sidebar.processed_size_row.set_subtitle(_("Unknown"))
-        except Exception as e:
-            self.sidebar.processed_size_row.set_subtitle(_("Error"))
-            print(f"Error getting processed image size: {e}")
+    def _update_processed_image_size(self, width, height) -> None:
+        size_str: str = f"{width}×{height}"
+        self.sidebar.processed_size_row.set_subtitle(size_str)
+
 
     def _show_notification(self, message: str,action_label: str | None = None,action_callback: Callable[[], None] | None = None) -> None:
         if self.toast_overlay:
@@ -417,13 +396,13 @@ class GradiaMainWindow(Adw.ApplicationWindow):
     def _set_export_ready(self, enabled: bool) -> None:
         self.image_ready = True
         for action_name in ["save", "copy"]:
-            action = self.app.lookup_action(action_name)
+            action = self.lookup_action(action_name)
             if action:
                 action.set_enabled(enabled)
         self.update_command_ready()
 
     def update_command_ready(self) -> None:
-        action = self.app.lookup_action('command')
+        action = self.lookup_action('command')
         if action:
             action.set_enabled(self.image_ready)
             self.share_button.set_visible(bool(Settings().custom_export_command.strip()))
