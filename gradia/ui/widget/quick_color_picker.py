@@ -61,10 +61,10 @@ class QuickColorPicker(Gtk.Box):
         self.main_button.add_css_class('flat')
         self.main_button.add_css_class('color-hover-bg')
 
-        self.main_icon = Gtk.Image()
-        self.main_icon.set_icon_size(Gtk.IconSize.NORMAL)
-        self.main_icon.set_pixel_size(20)
-        self.main_button.set_child(self.main_icon)
+        self.main_color_box = Gtk.Box()
+        self.main_color_box.add_css_class('color-button')
+        self.main_color_box.set_size_request(24, 24)
+        self.main_button.set_child(self.main_color_box)
 
         self.popover = Gtk.Popover()
         self.popover.set_parent(self.main_button)
@@ -75,7 +75,7 @@ class QuickColorPicker(Gtk.Box):
         self.main_button.connect('clicked', self._on_main_button_clicked)
         self._apply_hover_background(self.main_button, self.color)
         self.append(self.main_button)
-        self._update_icon_color()
+        self._update_color_box()
 
     def _setup_popover_content(self):
         popover_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
@@ -122,11 +122,12 @@ class QuickColorPicker(Gtk.Box):
         button.add_css_class('flat')
         button.add_css_class('color-hover-bg')
 
-        icon = Gtk.Image()
-        icon.set_icon_size(Gtk.IconSize.NORMAL)
-        button.set_child(icon)
+        color_box = Gtk.Box()
+        color_box.add_css_class('color-button')
+        color_box.set_size_request(24, 24)
+        button.set_child(color_box)
 
-        self._apply_color_to_icon(icon, color)
+        self._apply_color_to_box(color_box, color)
         self._apply_hover_background(button, color)
 
         button.connect('clicked', lambda btn, c=color: self._on_color_selected(c))
@@ -134,35 +135,28 @@ class QuickColorPicker(Gtk.Box):
 
         return button
 
-    def _apply_color_to_icon(self, icon, color):
-        if color.alpha == 0.0:
-            icon.set_from_icon_name('checkerboard-symbolic')
-            css_provider = Gtk.CssProvider()
-            css = """
-            image {
-                color: unset;
-                opacity: 1.0;
-            }
-            """
-            css_provider.load_from_data(css.encode())
-            icon.get_style_context().add_provider(
-                css_provider,
-                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-            )
+    def _apply_color_to_box(self, box, color):
+        ctx = box.get_style_context()
+        if hasattr(box, "_color_css_provider"):
+            ctx.remove_provider(box._color_css_provider)
+
+        if color.alpha == 0:
+            css = ".color-button { background-color: #b2b2b2; }"
+        elif color.alpha < 1.0:
+            red = int((color.red * color.alpha + 1.0 * (1.0 - color.alpha)) * 255)
+            green = int((color.green * color.alpha + 1.0 * (1.0 - color.alpha)) * 255)
+            blue = int((color.blue * color.alpha + 1.0 * (1.0 - color.alpha)) * 255)
+            css = f".color-button {{ background-color: rgb({red}, {green}, {blue}); }}"
         else:
-            icon.set_from_icon_name('color-picker-symbolic')
-            css_provider = Gtk.CssProvider()
-            css = f"""
-            image {{
-                color: rgba({int(color.red * 255)}, {int(color.green * 255)}, {int(color.blue * 255)}, {color.alpha});
-                opacity: 1.0;
-            }}
-            """
-            css_provider.load_from_data(css.encode())
-            icon.get_style_context().add_provider(
-                css_provider,
-                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-            )
+            css = f".color-button {{ background-color: rgb({int(color.red * 255)}, {int(color.green * 255)}, {int(color.blue * 255)}); }}"
+
+        provider = Gtk.CssProvider()
+        provider.load_from_data(css.encode())
+        ctx.add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+
+        box._color_css_provider = provider
+        ctx.remove_class("transparent-color-button") if color.alpha > 0 else ctx.add_class("transparent-color-button")
+
 
     def _apply_hover_background(self, widget, color):
         if color.alpha == 0.0:
@@ -220,7 +214,7 @@ class QuickColorPicker(Gtk.Box):
             pass
 
     def _on_color_property_changed(self, widget, pspec):
-        self._update_icon_color()
+        self._update_color_box()
 
     def _on_quick_colors_alpha_changed(self, widget, pspec):
         self._setup_popover_content()
@@ -228,9 +222,9 @@ class QuickColorPicker(Gtk.Box):
     def _on_show_black_white_changed(self, widget, pspec):
         self._setup_popover_content()
 
-    def _update_icon_color(self):
+    def _update_color_box(self):
         color = self.get_property('color')
-        self._apply_color_to_icon(self.main_icon, color)
+        self._apply_color_to_box(self.main_color_box, color)
         self._apply_hover_background(self.main_button, color)
 
     def get_color(self):

@@ -169,6 +169,10 @@ GtkSourceStyleSchemePreview .selected {
     transition: filter 0.3s ease, outline 0.15s ease, outline-offset 0.15s ease;
 }
 
+.color-hover-bg {
+    padding:6px;
+}
+
 .checkmark-icon {
     color: white;
     opacity: 0;
@@ -233,3 +237,4 @@ button.color-picker-button {
   background-color: var(--osd-background-color);
   background-image: none;
 }
+

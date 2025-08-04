@@ -113,6 +113,14 @@ class ShortcutsDialog:
                     (_("Preferences"), "<Ctrl>comma"),
                     (_("Open Source Snippets"), "<Ctrl>P"),
                 ]
+            },
+            {
+                "title": _("Zoom Image"),
+                "shortcuts": [
+                    (_("Zoom In"), "<Ctrl>plus plus"),
+                    (_("Zoom Out"), "<Ctrl>minus minus"),
+                    (_("Reset Zoom"), "<Ctrl>0 equal"),
+                ]
             }
         ]
 
