@@ -15,7 +15,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from gi.repository import Adw, Gio, Gtk, Gdk, GLib, GObject
+from gi.repository import Adw, Gio, Gtk, Gdk, GLib, GObject, Graphene
 
 from gradia.constants import rootdir  # pyright: ignore
 from gradia.overlay.drawing_overlay import DrawingOverlay
@@ -23,16 +23,20 @@ from gradia.overlay.transparency_overlay import TransparencyBackground
 from gradia.overlay.crop_overlay import CropOverlay
 from gradia.overlay.drop_overlay import DropOverlay
 from gradia.ui.widget.aspect_ratio_button import AspectRatioButton
+from gradia.overlay.zoom_controller import ZoomController
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/image_stack.ui")
 class ImageStack(Adw.Bin):
     __gtype_name__ = "GradiaImageStack"
     __gsignals__ = {
-        "crop-toggled": (GObject.SignalFlags.RUN_FIRST, None, (bool,))
+        "crop-toggled": (GObject.SignalFlags.RUN_FIRST, None, (bool,)),
+        "zoom-changed": (GObject.SignalFlags.RUN_FIRST, None, (float,))
     }
 
     stack: Gtk.Stack = Gtk.Template.Child()
 
+    main_overlay: Gtk.Overlay = Gtk.Template.Child()
+    zoomable_widget: ZoomController = Gtk.Template.Child()
     picture_overlay: Gtk.Overlay = Gtk.Template.Child()
     drawing_overlay: DrawingOverlay = Gtk.Template.Child()
 
@@ -40,44 +44,64 @@ class ImageStack(Adw.Bin):
     transparency_background: TransparencyBackground = Gtk.Template.Child()
     crop_overlay: CropOverlay = Gtk.Template.Child()
 
-    erase_selected_revealer: Gtk.Revealer = Gtk.Template.Child()
+    erase_controls_revealer: Gtk.Revealer = Gtk.Template.Child()
+    crop_controls_revealer: Gtk.Revealer = Gtk.Template.Child()
     right_controls_revealer: Gtk.Revealer = Gtk.Template.Child()
 
     drop_overlay: DropOverlay = Gtk.Template.Child()
 
-    reset_crop_revealer: Gtk.Revealer = Gtk.Template.Child()
+    crop_options_revealer: Gtk.Revealer = Gtk.Template.Child()
     confirm_crop_revealer: Gtk.Revealer = Gtk.Template.Child()
-    aspect_crop_revealer: Gtk.Revealer = Gtk.Template.Child()
+
+    zoom_label: Gtk.Label = Gtk.Template.Child()
+    zoom_out_button: Gtk.Button = Gtk.Template.Child()
+    zoom_in_button: Gtk.Button = Gtk.Template.Child()
+    reset_zoom_button: Gtk.Button = Gtk.Template.Child()
+    zoom_info_revealer: Gtk.Revealer = Gtk.Template.Child()
 
     crop_enabled: bool = False
     crop_has_been_enabled: bool = False
-
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
         self._setup()
 
     def set_erase_selected_visible(self, show: bool) -> None:
-        self.erase_selected_revealer.set_reveal_child(show)
+        self.erase_controls_revealer.set_reveal_child(show)
 
     def _setup(self) -> None:
         self.transparency_background.set_picture_reference(self.picture)
         self.crop_overlay.set_picture_reference(self.picture)
         self.crop_overlay.set_can_target(False)
         self.drawing_overlay.set_picture_reference(self.picture)
-        self.drawing_overlay.set_erase_selected_revealer(self.erase_selected_revealer)
+        self.drawing_overlay.set_erase_selected_revealer(self.erase_controls_revealer)
         self.right_controls_revealer.set_reveal_child(True)
-        self.reset_crop_revealer.set_visible(False)
+
+        self.zoomable_widget.set_child_widgets(
+            self.picture_overlay,
+            self.drawing_overlay,
+            self.crop_overlay,
+            self.transparency_background,
+            self.picture
+        )
+
+        self.zoomable_widget.connect("notify::zoom-level", self._on_zoom_level_changed)
 
         drop_target = Gtk.DropTarget.new(Gio.File, Gdk.DragAction.COPY)
         drop_target.set_preload(True)
-
         drop_target.connect("drop", self._on_file_dropped)
-        drop_target.set_preload(True)
-
         self.drop_overlay.drop_target = drop_target
 
-        self.reset_crop_revealer.connect("notify::reveal-child", self._on_reset_crop_reveal_changed)
+    def _on_zoom_level_changed(self, widget, pspec) -> None:
+        zoom_level = widget.get_property("zoom-level")
+        percentage = int(zoom_level * 100)
+        self.zoom_label.set_text(f"{percentage}%")
+        self.emit("zoom-changed", zoom_level)
+
+        self.zoom_out_button.set_sensitive(zoom_level > widget.min_zoom)
+        self.zoom_in_button.set_sensitive(zoom_level < widget.max_zoom)
+
+        self.zoom_info_revealer.set_reveal_child(zoom_level != 1)
 
     def _on_file_dropped(self, _target: Gtk.DropTarget, value: Gio.File, _x: int, _y: int) -> bool:
         uri = value.get_uri()
@@ -89,9 +113,6 @@ class ImageStack(Adw.Bin):
                 return True
         return False
 
-    def _on_reset_crop_reveal_changed(self, revealer: Gtk.Revealer, _pspec: GObject.ParamSpec) -> None:
-        if not revealer.get_reveal_child():
-            GLib.timeout_add(300, lambda: revealer.set_visible(False))
 
     def reset_crop_selection(self) -> None:
         self.crop_overlay.set_crop_rectangle(0.0, 0.0, 1, 1)
@@ -105,15 +126,10 @@ class ImageStack(Adw.Bin):
         self.crop_overlay.set_can_target(self.crop_enabled)
         self.right_controls_revealer.set_reveal_child(not self.crop_enabled)
         self.confirm_crop_revealer.set_reveal_child(self.crop_enabled)
-
-        if self.crop_enabled:
-            self.reset_crop_revealer.set_visible(True)
-            self.aspect_crop_revealer.set_visible(True)
-
+        self.zoomable_widget.disable_zoom = self.crop_enabled
         self.emit("crop-toggled", self.crop_enabled)
 
-        self.reset_crop_revealer.set_reveal_child(self.crop_enabled)
-        self.aspect_crop_revealer.set_reveal_child(self.crop_enabled)
+        self.crop_options_revealer.set_reveal_child(self.crop_enabled)
 
         if self.crop_enabled and not self.crop_has_been_enabled:
             self.crop_overlay.set_crop_rectangle(0.1, 0.1, 0.8, 0.8)
@@ -121,5 +137,24 @@ class ImageStack(Adw.Bin):
 
     def set_aspect_ratio(self, ratio: float) -> None:
         if self.crop_enabled:
+            print(ratio)
             self.crop_overlay.aspect_ratio = ratio
 
+    def zoom_in(self, factor: float = 1.2) -> None:
+        self.zoomable_widget.zoom_in(factor)
+
+    def zoom_out(self, factor: float = 0.8) -> None:
+        self.zoomable_widget.zoom_out(factor)
+
+    def reset_zoom(self) -> None:
+        self.zoomable_widget.reset_zoom()
+
+    def set_zoom_level(self, zoom_level: float) -> None:
+        self.zoomable_widget.zoom_level = zoom_level
+
+    def get_zoom_level(self) -> float:
+        return self.zoomable_widget.zoom_level
+
+    def on_image_loaded(self) -> None:
+        self.reset_zoom()
+        self._on_zoom_level_changed(self.zoomable_widget, None)

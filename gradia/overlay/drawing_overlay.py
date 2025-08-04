@@ -34,6 +34,9 @@ class DrawingOverlay(Gtk.DrawingArea):
 
         self.set_draw_func(self._on_draw)
 
+        self.coordinate_transform = None
+        self.delta_transform = None
+
         self.picture_widget = None
         self.drawing_mode = DrawingMode.PEN
         self.settings = DrawingSettings()
@@ -266,10 +269,12 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.add_controller(motion)
 
     def _on_click(self, gesture, n_press, x_widget, y_widget):
+        original_x, original_y = x_widget, y_widget
+        x_widget, y_widget = self.coordinate_transform(x_widget, y_widget)
         if self.drawing_mode == DrawingMode.TEXT and self._is_point_in_image(x_widget, y_widget):
             self.grab_focus()
             if n_press == 1:
-                self._show_text_entry(x_widget, y_widget)
+                self._show_text_entry(original_x,original_y)
         elif self.drawing_mode == DrawingMode.NUMBER and self._is_point_in_image(x_widget, y_widget) and n_press == 1:
             self.grab_focus()
             img_x, img_y = self._widget_to_image_coords(x_widget, y_widget)
@@ -292,7 +297,7 @@ class DrawingOverlay(Gtk.DrawingArea):
                 self.selected_action and
                 isinstance(self.selected_action, TextAction) and
                 self.selected_action.contains_point(img_x, img_y)):
-                self._start_text_edit(self.selected_action, x_widget, y_widget)
+                self._start_text_edit(self.selected_action,original_x,original_y)
                 return
 
             if n_press == 1:
@@ -313,7 +318,6 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.text_position = text_action.position
         self.is_text_editing = True
         self.live_text = text_action.text
-
         self.text_entry_popup = TextEntryPopover(
             parent=self,
             on_text_activate=self._on_text_entry_activate,
@@ -326,6 +330,9 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.text_entry_popup.popup_at_widget_coords(self, widget_x, widget_y)
 
     def _show_text_entry(self, x_widget, y_widget):
+        original_x, original_y = x_widget, y_widget
+        x_widget, y_widget = self.coordinate_transform(x_widget, y_widget)
+
         if self.text_entry_popup:
             self.text_entry_popup.popdown()
             self.text_entry_popup = None
@@ -334,7 +341,6 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.is_text_editing = True
         self.live_text = ""
         self.editing_text_action = None
-
         self.text_entry_popup = TextEntryPopover(
             parent=self,
             on_text_activate=self._on_text_entry_activate,
@@ -343,7 +349,7 @@ class DrawingOverlay(Gtk.DrawingArea):
             font_size=self.settings.font_size
         )
         self.text_entry_popup.connect("closed", self._on_text_entry_popover_closed)
-        self.text_entry_popup.popup_at_widget_coords(self, x_widget, y_widget)
+        self.text_entry_popup.popup_at_widget_coords(self, original_x, original_y)
 
     def _on_font_size_changed(self, spin_button):
         font_size = spin_button.get_value()
@@ -425,6 +431,7 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.editing_text_action = None
 
     def _on_drag_begin(self, gesture, x_widget, y_widget):
+        x_widget, y_widget = self.coordinate_transform(x_widget, y_widget)
         if self.drawing_mode == DrawingMode.TEXT or self.drawing_mode == DrawingMode.NUMBER or self.text_entry_popup:
             return
         if not self._is_point_in_image(x_widget, y_widget):
@@ -453,10 +460,12 @@ class DrawingOverlay(Gtk.DrawingArea):
             self.end_point = (img_x, img_y)
 
     def _on_drag_update(self, gesture, dx_widget, dy_widget):
+        dx_widget, dy_widget = self.delta_transform(dx_widget, dy_widget)
         if self.drawing_mode == DrawingMode.TEXT or self.drawing_mode == DrawingMode.NUMBER:
             return
 
-        start_x_widget, start_y_widget = gesture.get_start_point().x, gesture.get_start_point().y
+        start_x_raw, start_y_raw = gesture.get_start_point().x, gesture.get_start_point().y
+        start_x_widget, start_y_widget = self.coordinate_transform(start_x_raw, start_y_raw)
         cur_x_widget, cur_y_widget = start_x_widget + dx_widget, start_y_widget + dy_widget
         img_x, img_y = self._widget_to_image_coords(cur_x_widget, cur_y_widget)
 
@@ -479,6 +488,7 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.queue_draw()
 
     def _on_drag_end(self, gesture, dx_widget, dy_widget):
+        dx_widget, dy_widget = self.delta_transform(dx_widget, dy_widget)
         if self.drawing_mode == DrawingMode.TEXT or self.drawing_mode == DrawingMode.NUMBER:
             return
 
@@ -517,6 +527,7 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.queue_draw()
 
     def _on_motion(self, controller, x_widget, y_widget):
+        x_widget, y_widget = self.coordinate_transform(x_widget, y_widget)
         if self.drawing_mode == DrawingMode.TEXT:
             name = "text" if self._is_point_in_image(x_widget, y_widget) else "default"
         elif self.drawing_mode == DrawingMode.NUMBER:
