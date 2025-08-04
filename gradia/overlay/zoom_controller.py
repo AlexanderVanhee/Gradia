@@ -107,7 +107,7 @@ class ZoomController(Gtk.Widget):
     def _on_zoom_changed(self, gesture, scale):
         if self._disable_zoom:
             return
-        center_x, center_y = gesture.get_bounding_box_center()
+        _ , center_x, center_y = gesture.get_bounding_box_center()
         self._debug_print(f"Gesture zoom at {center_x:.1f}, {center_y:.1f} with scale {scale:.3f}")
         self._zoom_at_point(scale, center_x, center_y)
 
