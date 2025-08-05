@@ -32,13 +32,13 @@ logging = Logger()
 start_time_seed = int(time.time())
 
 class DrawingMode(Enum):
+    SELECT = "SELECT"
     PEN = "PEN"
-    ARROW = "ARROW"
+    TEXT = "TEXT"
     LINE = "LINE"
+    ARROW = "ARROW"
     SQUARE = "SQUARE"
     CIRCLE = "CIRCLE"
-    TEXT = "TEXT"
-    SELECT = "SELECT"
     HIGHLIGHTER = "HIGHLIGHTER"
     CENSOR = "CENSOR"
     NUMBER = "NUMBER"

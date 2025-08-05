@@ -169,6 +169,10 @@ class DrawingToolsGroup(Adw.PreferencesGroup):
 
         self._activate_draw_mode_action(DrawingMode(self.settings.draw_mode))
 
+    def set_drawing_mode(self, mode: DrawingMode) -> None:
+        if mode in self.tool_buttons:
+            self.tool_buttons[mode].set_active(True)
+
     """
     Callbacks
     """

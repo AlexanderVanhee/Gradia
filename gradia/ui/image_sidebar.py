@@ -40,7 +40,7 @@ PRESET_RATIOS_DICT = dict((v, l) for l, v in PRESET_RATIOS)
 class ImageSidebar(Adw.Bin):
     __gtype_name__ = "GradiaImageSidebar"
 
-    annotation_tools_group: DrawingToolsGroup = Gtk.Template.Child()
+    drawing_tools_group: DrawingToolsGroup = Gtk.Template.Child()
     background_selector_group: Adw.PreferencesGroup = Gtk.Template.Child()
     image_options_group = Gtk.Template.Child()
     disable_button: Gtk.Switch = Gtk.Template.Child()
@@ -274,3 +274,6 @@ class ImageSidebar(Adw.Bin):
 
     def _label_for_ratio_value(self, value: str) -> str:
         return PRESET_RATIOS_DICT.get(value, value if value else "Auto")
+
+    def set_drawing_mode(self, mode):
+        self.drawing_tools_group.set_drawing_mode(mode)
