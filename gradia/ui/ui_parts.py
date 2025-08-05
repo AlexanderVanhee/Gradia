@@ -96,7 +96,17 @@ class ShortcutsDialog:
                 "shortcuts": [
                     (_("Undo"), "<Ctrl>Z"),
                     (_("Redo"), "<Ctrl><Shift>Z"),
-                    (_("Erase Selected"), "Delete")
+                    (_("Erase Selected"), "Delete"),
+                    (_("Select"),      "0 S"),
+                    (_("Pen"),         "1 P"),
+                    (_("Text"),        "2 T"),
+                    (_("Line"),        "3 L"),
+                    (_("Arrow"),       "4 A"),
+                    (_("Rectangle"),   "5 R"),
+                    (_("Oval"),        "6 O"),
+                    (_("Highlighter"), "7 H"),
+                    (_("Censor"),      "8 C"),
+                    (_("Number"),      "9 N"),
                 ]
             },
             {
