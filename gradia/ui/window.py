@@ -31,7 +31,7 @@ from gradia.graphics.solid import SolidBackground
 from gradia.overlay.drawing_actions import DrawingMode
 from gradia.ui.background_selector import BackgroundSelector
 from gradia.ui.image_exporters import ExportManager
-from gradia.ui.image_loaders import ImportManager
+from gradia.ui.image_loaders import ImportManager, LoadedImage
 from gradia.ui.image_sidebar import ImageSidebar
 from gradia.ui.image_stack import ImageStack
 from gradia.ui.ui_parts import *
@@ -71,13 +71,13 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         **kwargs
     ) -> None:
         super().__init__(**kwargs)
-
+        self._setup_accelerator_handling()
         self.app: Adw.Application = kwargs['application']
         self.temp_dir: str = temp_dir
         self.version: str = version
         self.start_screenshot = start_screenshot
         self.file_path: Optional[str] = file_path
-        self.image_path: Optional[str] = None
+        self.image: Optional[LoadedImage] = None
         self.processed_pixbuf: Optional[Gdk.Pixbuf] = None
         self.image_ready = False
         self.show_close_confirmation = False
@@ -119,6 +119,8 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.create_action("screenshot", lambda *_: self.import_manager.take_screenshot(), ["<Primary>a"])
         self.create_action("open-path", lambda action, param: self.import_manager.load_from_file(param.get_string()), vt="s")
 
+
+        self.create_action("open-folder", lambda *_: self.open_loaded_image_folder(), enabled=False)
         self.create_action("save", lambda *_: self.export_manager.save_to_file(), ["<Primary>s"], enabled=False)
         self.create_action("copy", lambda *_: self.export_manager.copy_to_clipboard(), ["<Primary>c"], enabled=False)
         self.create_action("command", lambda *_: self._run_custom_command(), ["<Primary>m"], enabled=False)
@@ -131,6 +133,14 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.create_action("zoom-in", lambda *_: self.image_bin.zoom_in(), ["<Control>plus", "<Control>equal", "<Control>KP_Add"])
         self.create_action("zoom-out", lambda *_: self.image_bin.zoom_out(), ["<Control>minus", "<Control>KP_Subtract"])
         self.create_action("reset-zoom", lambda *_: self.image_bin.reset_zoom(), ["<Control>0", "<Control>KP_0"])
+
+        for mode in DrawingMode:
+            self.create_action(
+                f"set-drawing-mode-{mode.name.lower()}",
+                lambda *_, m=mode: self.sidebar.set_drawing_mode(m),
+                mode.shortcuts,
+                disable_on_entry_focus=True
+            )
 
         self.create_action("undo", lambda *_: self.drawing_overlay.undo(), ["<Primary>z"])
         self.create_action("redo", lambda *_: self.drawing_overlay.redo(), ["<Primary><Shift>z"])
@@ -274,22 +284,52 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         callback: Callable[..., Any],
         shortcuts: Optional[list[str]] = None,
         enabled: bool = True,
-        vt: Optional[str] = None
+        vt: Optional[str] = None,
+        disable_on_entry_focus: bool = False
     ) -> None:
         variant_type = GLib.VariantType.new(vt) if vt is not None else None
         action: Gio.SimpleAction = Gio.SimpleAction.new(name, variant_type)
+
         action.connect("activate", callback)
         action.set_enabled(enabled)
         self.add_action(action)
 
         if shortcuts:
             self.app.set_accels_for_action(f"win.{name}", shortcuts)
+            if disable_on_entry_focus:
+                if not hasattr(self, '_entry_disabled_actions'):
+                    self._entry_disabled_actions = {}
+                self._entry_disabled_actions[name] = shortcuts
+
+    def _setup_accelerator_handling(self) -> None:
+        if not hasattr(self, '_entry_disabled_actions'):
+            self._entry_disabled_actions = {}
+
+        def on_focus_changed(window, pspec):
+            widget = self.get_focus()
+            is_editable = False
+            if widget:
+                if isinstance(widget, (Gtk.Entry, Gtk.TextView, Gtk.SearchEntry)):
+                    is_editable = True
+                elif type(widget).__name__ == 'Text':
+                    parent = widget.get_parent()
+                    if isinstance(parent, (Gtk.Entry, Gtk.SearchEntry)):
+                        is_editable = True
+
+            if is_editable:
+                for action_name in self._entry_disabled_actions:
+                    self.app.set_accels_for_action(f"win.{action_name}", [])
+            else:
+                for action_name, shortcuts in self._entry_disabled_actions.items():
+                    self.app.set_accels_for_action(f"win.{action_name}", shortcuts)
+
+        self.connect("notify::focus-widget", on_focus_changed)
 
     def show(self) -> None:
         self.present()
 
     def process_image(self) -> None:
-        if not self.image_path:
+        if not self.image:
             return
 
         threading.Thread(target=self._process_in_background, daemon=True).start()
@@ -316,13 +356,17 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
         return handler
 
-    def _start_processing(self) -> None:
+    def set_image(self, image: LoadedImage):
+        self.image = image
+        self.drawing_overlay.clear_drawing()
+        self._update_sidebar_file_info(image)
+        self.show_close_confirmation = True
         self.toolbar_view.set_top_bar_style(Adw.ToolbarStyle.RAISED)
-
         self.image_stack.get_style_context().add_class("view")
         self._show_loading_state()
         self.process_image()
         self._set_export_ready(True)
+        self.lookup_action("open-folder").set_enabled(image.has_proper_folder())
 
     def _show_loading_state(self) -> None:
         self.main_stack.set_visible_child_name("main")
@@ -332,9 +376,9 @@ class GradiaMainWindow(Adw.ApplicationWindow):
     def _hide_loading_state(self) -> None:
         self.image_stack.set_visible_child_name(self.PAGE_IMAGE)
 
-    def _update_sidebar_file_info(self, filename: str, location: str) -> None:
-        self.sidebar.filename_row.set_subtitle(filename)
-        self.sidebar.location_row.set_subtitle(location)
+    def _update_sidebar_file_info(self, image: LoadedImage) -> None:
+        self.sidebar.filename_row.set_subtitle(image.get_proper_name())
+        self.sidebar.location_row.set_subtitle(image.get_proper_folder())
         self.sidebar.set_visible(True)
 
     def _parse_rgba(self, color_string: str) -> list[float]:
@@ -353,13 +397,13 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.drawing_overlay.settings.set_highlighter_color(*self._parse_rgba(color_string))
 
     def _trigger_processing(self) -> None:
-        if self.image_path:
+        if self.image:
             self.process_image()
 
     def _process_in_background(self) -> None:
         try:
-            if self.image_path is not None:
-                self.processor.set_image_path(self.image_path)
+            if self.image is not None:
+                self.processor.set_image(self.image)
                 pixbuf, true_width, true_height = self.processor.process()
                 self._update_processed_image_size(true_width, true_height)
                 self.processed_pixbuf = pixbuf
@@ -405,6 +449,13 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             if action:
                 action.set_enabled(enabled)
         self.update_command_ready()
+
+    def open_loaded_image_folder(self):
+        folder_uri = GLib.filename_to_uri(self.image.get_folder_path())
+        try:
+            Gio.AppInfo.launch_default_for_uri(folder_uri, None)
+        except Exception as e:
+            print("Failed to open folder:", e)
 
     def update_command_ready(self) -> None:
         action = self.lookup_action('command')

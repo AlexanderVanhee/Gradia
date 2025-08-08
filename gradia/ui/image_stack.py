@@ -137,7 +137,6 @@ class ImageStack(Adw.Bin):
 
     def set_aspect_ratio(self, ratio: float) -> None:
         if self.crop_enabled:
-            print(ratio)
             self.crop_overlay.aspect_ratio = ratio
 
     def zoom_in(self, factor: float = 1.2) -> None:

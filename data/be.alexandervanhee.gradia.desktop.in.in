@@ -8,7 +8,6 @@ Terminal=false
 Type=Application
 Categories=Graphics;
 Keywords=Image;Gradient;Background;Screenshot;Edit;
-StartupNotify=true
 MimeType=image/png;image/jpeg;image/webp;
 Actions=new-window;take-screenshot;take-fullscreen-screenshot;
 

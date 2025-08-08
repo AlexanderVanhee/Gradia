@@ -24,13 +24,14 @@ from PIL import Image, ImageChops, ImageDraw, ImageFilter
 from gi.repository import GdkPixbuf
 
 from gradia.graphics.background import Background
+from gradia.ui.image_loaders import LoadedImage
 
 class ImageProcessor:
     MAX_PIXEL_AMOUNT = 1024*1024
 
     def __init__(
         self,
-        image_path: Optional[str] = None,
+        image: Optional[LoadedImage] = None,
         background: Optional[Background] = None,
         padding: int = 0,
         aspect_ratio: Optional[str | float] = None,
@@ -47,25 +48,25 @@ class ImageProcessor:
         self.auto_balance: bool = auto_balance
         self.rotation: int = rotation
         self.source_img: Optional[Image.Image] = None
-        self._loaded_image_path: Optional[str] = None
+        self._loaded_image: Optional[LoadedImage] = None
         self._balanced_padding: Optional[dict] = None
         self._full_res_img: Optional[Image.Image] = None
 
-        if image_path:
-            self.set_image_path(image_path)
+        if image:
+            self.set_image(image)
 
     """
     Public Methods
     """
 
-    def set_image_path(self, image_path: str) -> None:
-        if image_path != self._loaded_image_path:
-            if not os.path.exists(image_path):
-                raise FileNotFoundError(f"Input image not found: {image_path}")
+    def set_image(self, image: Image) -> None:
+        if self._loaded_image is None or image.image_path != self._loaded_image.image_path:
+            if not os.path.exists(image.image_path):
+                raise FileNotFoundError(f"Input image not found: {image.image_path}")
 
-            self._full_res_img = Image.open(image_path).convert("RGBA")
-            self.source_img = self._load_and_downscale_image(image_path)
-            self._loaded_image_path = image_path
+            self._full_res_img = Image.open(image.image_path).convert("RGBA")
+            self.source_img = self._load_and_downscale_image(image.image_path)
+            self._loaded_image = image
             self._balanced_padding = self.get_balanced_padding()
 
     def process(self) -> GdkPixbuf.Pixbuf:

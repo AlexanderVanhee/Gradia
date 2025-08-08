@@ -40,7 +40,7 @@ PRESET_RATIOS_DICT = dict((v, l) for l, v in PRESET_RATIOS)
 class ImageSidebar(Adw.Bin):
     __gtype_name__ = "GradiaImageSidebar"
 
-    annotation_tools_group: DrawingToolsGroup = Gtk.Template.Child()
+    drawing_tools_group: DrawingToolsGroup = Gtk.Template.Child()
     background_selector_group: Adw.PreferencesGroup = Gtk.Template.Child()
     image_options_group = Gtk.Template.Child()
     disable_button: Gtk.Switch = Gtk.Template.Child()
@@ -137,14 +137,14 @@ class ImageSidebar(Adw.Bin):
         inputs_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10, homogeneous=True)
 
         width_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
-        width_label = Gtk.Label(label="Width", halign=Gtk.Align.START)
+        width_label = Gtk.Label(label=_("Width"), halign=Gtk.Align.START)
         self.width_input = Gtk.Entry(input_purpose=Gtk.InputPurpose.NUMBER)
         self.width_input.set_max_length(4)
         width_box.append(width_label)
         width_box.append(self.width_input)
 
         height_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
-        height_label = Gtk.Label(label="Height", halign=Gtk.Align.START)
+        height_label = Gtk.Label(label=_("Height"), halign=Gtk.Align.START)
         self.height_input = Gtk.Entry(input_purpose=Gtk.InputPurpose.NUMBER)
         self.height_input.set_max_length(4)
         height_box.append(height_label)
@@ -154,7 +154,7 @@ class ImageSidebar(Adw.Bin):
         inputs_box.append(height_box)
         bottom_box.append(inputs_box)
 
-        self.set_button = Gtk.Button(label="Set")
+        self.set_button = Gtk.Button(label=_("Set"))
         self.set_button.add_css_class("suggested-action")
         self.set_button.connect("clicked", self._on_custom_ratio_set)
         bottom_box.append(self.set_button)
@@ -274,3 +274,6 @@ class ImageSidebar(Adw.Bin):
 
     def _label_for_ratio_value(self, value: str) -> str:
         return PRESET_RATIOS_DICT.get(value, value if value else "Auto")
+
+    def set_drawing_mode(self, mode):
+        self.drawing_tools_group.set_drawing_mode(mode)

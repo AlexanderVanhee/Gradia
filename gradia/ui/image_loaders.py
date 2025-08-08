@@ -28,9 +28,63 @@ from gradia.clipboard import save_texture_to_file
 from gradia.ui.image_creation.source_image_generator import SourceImageGeneratorWindow
 from gradia.utils.timestamp_filename import TimestampedFilenameGenerator
 from gradia.backend.logger import Logger
+from enum import Enum, auto
 ImportFormat = tuple[str, str]
 
 logger = Logger()
+
+class ImageOrigin(Enum):
+        FileDialog = auto()
+        DragDrop = auto()
+        Clipboard = auto()
+        Screenshot = auto()
+        FakeScreenshot = auto()
+        CommandLine = auto()
+        SourceImage = auto()
+
+class LoadedImage:
+    def __init__(self, image_path: str, origin: ImageOrigin):
+        self.image_path: str = image_path
+        self.origin: ImageOrigin = origin
+
+    def get_proper_name(self) -> str:
+        if self.origin == ImageOrigin.Clipboard:
+            return _("Clipboard Image")
+        elif self.origin == ImageOrigin.Screenshot or self.origin == ImageOrigin.FakeScreenshot:
+            return _("Screenshot")
+        elif self.origin == ImageOrigin.SourceImage:
+            return _("Generated Image")
+        else:
+            return os.path.basename(self.image_path)
+
+    def get_proper_folder(self) -> str:
+        if self.origin == ImageOrigin.Clipboard:
+            return _("From clipboard")
+        elif self.origin == ImageOrigin.Screenshot or self.origin == ImageOrigin.FakeScreenshot:
+            return _("Screenshot")
+        elif self.origin == ImageOrigin.SourceImage:
+            return _("Source")
+        else:
+            return os.path.dirname(self.image_path)
+
+    def has_proper_name(self) -> bool:
+        return self.origin not in {
+            ImageOrigin.Clipboard,
+            ImageOrigin.Screenshot,
+            ImageOrigin.FakeScreenshot,
+            ImageOrigin.SourceImage,
+        }
+
+    def has_proper_folder(self) -> bool:
+        return self.origin not in {
+            ImageOrigin.Clipboard,
+            ImageOrigin.Screenshot,
+            ImageOrigin.FakeScreenshot,
+            ImageOrigin.SourceImage,
+        }
+
+    def get_folder_path(self) -> str:
+        return os.path.dirname(self.image_path)
 
 class BaseImageLoader:
     """Base class for image loading handlers"""
@@ -52,15 +106,9 @@ class BaseImageLoader:
         supported_extensions = [ext for ext, _mime in self.SUPPORTED_INPUT_FORMATS]
         return any(lower_path.endswith(ext) for ext in supported_extensions)
 
-    def _set_image_and_update_ui(self, image_path: str, filename: str, location: str, has_actual_filename: bool = True) -> None:
+    def _set_image_and_update_ui(self, image: LoadedImage) -> None:
         """Common method to set image and update UI"""
-        self.window.image_path = image_path
-        if hasattr(self.window, 'drawing_overlay') and self.window.drawing_overlay:
-            self.window.drawing_overlay.clear_drawing()
-        self.window._update_sidebar_file_info(filename, location)
-        self.window.image_has_actual_filename = has_actual_filename
-        self.window.show_close_confirmation = True
-        self.window._start_processing()
+        self.window.set_image(image)
 
 
 class FileDialogImageLoader(BaseImageLoader):
@@ -99,10 +147,7 @@ class FileDialogImageLoader(BaseImageLoader):
                 logger.info(f"Unsupported file format: {file_path}")
                 return
 
-            filename = os.path.basename(file_path)
-            directory = os.path.dirname(file_path)
-
-            self._set_image_and_update_ui(file_path, filename, directory)
+            self._set_image_and_update_ui(LoadedImage(file_path, ImageOrigin.FileDialog))
 
         except Exception as e:
             logger.error(f"Error opening file: {e}")
@@ -135,9 +180,8 @@ class DragDropImageLoader(BaseImageLoader):
                     self.window._show_notification(_("Not a supported image format."))
                     return False
 
-                filename = os.path.basename(file_path)
-                directory = os.path.dirname(file_path)
-                self._set_image_and_update_ui(file_path, filename, directory)
+                self._set_image_and_update_ui(LoadedImage(temp_path, ImageOrigin.DragDrop))
+
                 return True
 
             elif uri.startswith(("http://", "https://")):
@@ -174,7 +218,7 @@ class DragDropImageLoader(BaseImageLoader):
                 os.remove(temp_path)
                 return False
 
-            self._set_image_and_update_ui(temp_path, filename, self.temp_dir)
+            self._set_image_and_update_ui(LoadedImage(file_path, ImageOrigin.DragDrop))
             return True
 
         except Exception as e:
@@ -209,10 +253,7 @@ class ClipboardImageLoader(BaseImageLoader):
             if not image_path:
                 raise Exception("Failed to save clipboard image to file")
 
-            filename = _("Clipboard Image")
-            location = _("From clipboard")
-
-            self._set_image_and_update_ui(image_path, filename, location)
+            self._set_image_and_update_ui(LoadedImage(file_path, ImageOrigin.Clipboard))
 
         except Exception as e:
             error_msg = str(e)
@@ -305,10 +346,7 @@ class ScreenshotImageLoader(BaseImageLoader):
             with open(temp_path, 'wb') as f:
                 f.write(contents)
 
-            filename = _("Screenshot")
-            location = _("Screenshot")
-
-            self._set_image_and_update_ui(temp_path, filename, location, has_actual_filename=False)
+            self._set_image_and_update_ui(LoadedImage(temp_path, ImageOrigin.Screenshot))
             self.window._show_notification(_("Screenshot captured!"))
 
             if self._success_callback:
@@ -330,12 +368,7 @@ class ScreenshotImageLoader(BaseImageLoader):
 
             shutil.copy(file_path, new_path)
 
-            self._set_image_and_update_ui(
-                new_path,
-                _("Screenshot"),
-                _("Screenshot"),
-                has_actual_filename=False
-            )
+            self._set_image_and_update_ui(LoadedImage(file_path, ImageOrigin.FakeScreenshot))
 
             self.window._show_notification(_("Screenshot captured!"))
 
@@ -377,10 +410,7 @@ class CommandlineLoader(BaseImageLoader):
                 logger.info(f"Unsupported file format: {file_path}")
                 return
 
-            filename = os.path.basename(file_path)
-            directory = os.path.dirname(file_path)
-
-            self._set_image_and_update_ui(file_path, filename, directory, has_actual_filename=False)
+            self._set_image_and_update_ui(LoadedImage(file_path, ImageOrigin.CommandLine))
 
         except Exception as e:
             logger.error(f"Error loading file from command line: {e}")
@@ -410,10 +440,7 @@ class SourceImageLoader(BaseImageLoader):
             logger.warning(f"Invalid generated image path: {image_path}")
             return
 
-        filename = _("Generated Image")
-        location = _("Source")
-
-        self._set_image_and_update_ui(image_path, filename, location, has_actual_filename=False)
+        self._set_image_and_update_ui(LoadedImage(image_path, ImageOrigin.SourceImage))
         self.window._show_notification(_("Source snippet Generated!"))
 
 class ImportManager:

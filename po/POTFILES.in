@@ -18,9 +18,14 @@ gradia/ui/provider_selection_window.py
 gradia/overlay/drawing_overlay.py
 gradia/overlay/drawing_actions.py
 gradia/ui/preferences_window.py
+gradia/ui/image_sidebar.py
 gradia/ui/dialog/confirm_close_dialog.py
 gradia/ui/dialog/delete_screenshots_dialog.py
 gradia/ui/image_creation/source_image_generator.py
+gradia/ui/widget/gradient_preset_button.py
+gradia/ui/widget/quick_color_picker.py
+gradia/ui/widget/aspect_ratio_button.py
+
 gradia/app_constants.py
 gradia/utils/std_image_loader.py
 

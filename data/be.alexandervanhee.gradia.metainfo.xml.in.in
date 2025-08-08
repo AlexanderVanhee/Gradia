@@ -37,6 +37,19 @@
 		<color type="primary" scheme_preference="dark">#073c6f</color>
 	</branding>
 	<releases>
+      <release version="1.9.0" date="2025-08-04">
+      <description translate="no">
+          <p>This feature release includes:</p>
+          <ul>
+              <li>Zoom in/out functionality.</li>
+              <li>Improved quick color selector.</li>
+              <li>Fix for the app not properly closing from the start screen.</li>
+              <li>Redesigned on-screen display.</li>
+              <li>Proper support for multiple instances of the app.</li>
+              <li>Faster activating screenshot shortcut.</li>
+          </ul>
+      </description>
+      </release>
       <release version="1.8.0" date="2025-07-31">
         <description translate="no">
             <p>This feature release includes:</p>
@@ -202,23 +215,23 @@
 	</releases>
 	<screenshots>
 		<screenshot type="default">
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/a37ecdcf257708a5ba32e4162d02315bbfa7b377/screenshots/showcase.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/084b8509d6630f4d48310304eb5bbdcd61a0d382/screenshots/showcase.webp</image>
 			<caption>Edited screenshot</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/a37ecdcf257708a5ba32e4162d02315bbfa7b377/screenshots/dark.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/084b8509d6630f4d48310304eb5bbdcd61a0d382/screenshots/dark.webp</image>
 			<caption>Edited picture</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/a37ecdcf257708a5ba32e4162d02315bbfa7b377/screenshots/home.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/084b8509d6630f4d48310304eb5bbdcd61a0d382/screenshots/home.webp</image>
 			<caption>Startup view</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/a37ecdcf257708a5ba32e4162d02315bbfa7b377/screenshots/element.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/084b8509d6630f4d48310304eb5bbdcd61a0d382/screenshots/element.webp</image>
 			<caption>UI element showcase</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/a37ecdcf257708a5ba32e4162d02315bbfa7b377/screenshots/snippets.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/084b8509d6630f4d48310304eb5bbdcd61a0d382/screenshots/snippets.webp</image>
 			<caption>Source Snippets</caption>
 		</screenshot>
 	</screenshots>

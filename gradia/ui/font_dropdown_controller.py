@@ -21,7 +21,7 @@ from gradia.backend.settings import Settings
 
 
 class FontDropdownController:
-    def __init__(self, font_string_list: Gtk.StringList, settings: Settings, window,
+    def __init__(self, font_string_list: Gtk.StringList, settings: Settings,
                  font_change_callback: Optional[Callable[[str], None]] = None):
         self.font_string_list = font_string_list
         self.settings = settings
@@ -29,7 +29,7 @@ class FontDropdownController:
         self.fonts = self._get_available_fonts()
         self.font_dropdown = None
         self._setup_font_dropdown()
-        self.window = window
+        self.window = None
 
     def _get_available_fonts(self) -> list[str]:
         widget = Gtk.Label()
@@ -83,11 +83,9 @@ class FontDropdownController:
         if 0 <= selected_index < len(self.fonts):
             font_name = self.fonts[selected_index]
             self.settings.font = font_name
-
             if self.window:
                 action = self.window.lookup_action("font")
-                if action:
-                    action.activate(GLib.Variant('s', font_name))
+                action.activate(GLib.Variant('s', font_name))
 
             if self.font_change_callback:
                 self.font_change_callback(font_name)
@@ -105,10 +103,8 @@ class FontDropdownController:
         return False
 
     def initialize_font_action(self) -> None:
-        if self.window:
-            action = self.window.lookup_action("font")
-            if action:
-                action.activate(GLib.Variant('s', self.settings.font))
+        action = self.window.lookup_action("font")
+        action.activate(GLib.Variant('s', self.settings.font))
 
     def get_selected_font(self) -> Optional[str]:
         if self.font_dropdown:
