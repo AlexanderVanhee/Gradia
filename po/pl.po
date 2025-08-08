@@ -116,7 +116,7 @@ msgstr "Twórz obrazy gotowe do publikacji"
 #. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
 #: gradia/ui/ui_parts.py:44
 msgid "translator-credits"
-msgstr "tłumacze"
+msgstr "Adam lewicki <a.lewicki95@gmail.com"
 
 #: gradia/ui/ui_parts.py:50
 msgid "Code and Design Borrowed from"
