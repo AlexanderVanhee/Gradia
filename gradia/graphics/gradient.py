@@ -129,7 +129,7 @@ class GradientBackground(Background):
         steps = self.gradient.steps
         if self.gradient.mode == "conic":
             offset = (self.gradient.angle % 360.0) / 360.0
-            steps = [((pos + offset) % 1.0, color) for pos, color in steps]
+            steps = [(((pos * 0.9) + 0.05 + offset) % 1.0, color) for pos, color in steps]
             steps.sort(key=lambda s: s[0])
             steps.append((1.0, steps[0][1]))
 

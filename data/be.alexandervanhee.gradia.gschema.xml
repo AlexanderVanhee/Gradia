@@ -64,7 +64,7 @@
     </key>
 
     <key name="background-mode" type="s">
-      <default>'gradient'</default>
+      <default>'none'</default>
       <summary>The selected background mode</summary>
     </key>
     <key name="solid-state" type="s">

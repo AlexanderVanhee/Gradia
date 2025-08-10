@@ -32,7 +32,7 @@ from gradia.overlay.drawing_actions import DrawingMode
 from gradia.ui.background_selector import BackgroundSelector
 from gradia.ui.image_exporters import ExportManager
 from gradia.ui.image_loaders import ImportManager, LoadedImage
-from gradia.ui.image_sidebar import ImageSidebar
+from gradia.ui.image_sidebar import ImageSidebar, ImageOptions
 from gradia.ui.image_stack import ImageStack
 from gradia.ui.ui_parts import *
 from gradia.ui.welcome_page import WelcomePage
@@ -178,12 +178,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
     def _setup_sidebar(self) -> None:
         self.sidebar = ImageSidebar(
             background_selector_widget=self.background_selector,
-            on_padding_changed=self.on_padding_changed,
-            on_corner_radius_changed=self.on_corner_radius_changed,
-            on_aspect_ratio_changed=self.on_aspect_ratio_changed,
-            on_shadow_strength_changed=self.on_shadow_strength_changed,
-            on_auto_balance_changed=self.on_auto_balance_changed,
-            on_rotation_changed=self.on_rotation_changed
+            on_image_options_changed=self.on_image_options_changed,
         )
 
         self.sidebar.set_size_request(self.SIDEBAR_WIDTH, -1)
@@ -223,41 +218,24 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             self.processor.background = updated_background
             self._trigger_processing()
 
-    def on_padding_changed(self, value: int) -> None:
-        setattr(self.processor, "padding", value)
-        self._trigger_processing()
+    def on_image_options_changed(self, options: ImageOptions):
+        self.processor.padding = options.padding
+        self.processor.corner_radius = options.corner_radius
 
-    def on_corner_radius_changed(self, value: int) -> None:
-        setattr(self.processor, "corner_radius", value)
-        self._trigger_processing()
-
-    def on_aspect_ratio_changed(self, text: str) -> None:
         try:
-            ratio: Optional[float] = parse_aspect_ratio(text)
+            ratio: Optional[float] = parse_aspect_ratio(options.aspect_ratio)
             if ratio is None:
                 self.processor.aspect_ratio = None
-                self._trigger_processing()
-                return
-
-            if not check_aspect_ratio_bounds(ratio):
-                raise ValueError(f"Aspect ratio must be between 0.2 and 5 (got {ratio})")
-
-            self.processor.aspect_ratio = ratio
-            self._trigger_processing()
-
+            else:
+                if not check_aspect_ratio_bounds(ratio):
+                    raise ValueError(f"Aspect ratio must be between 0.2 and 5 (got {ratio})")
+                self.processor.aspect_ratio = ratio
         except Exception as e:
-            print(f"Invalid aspect ratio: {text} ({e})")
+            print(f"Invalid aspect ratio: {options.aspect_ratio} ({e})")
 
-    def on_shadow_strength_changed(self, value: int) -> None:
-        self.processor.shadow_strength = value
-        self._trigger_processing()
-
-    def on_auto_balance_changed(self, value: bool) -> None:
-        self.processor.auto_balance = value
-        self._trigger_processing()
-
-    def on_rotation_changed(self, value: int) -> None:
-        self.processor.rotation = value
+        self.processor.shadow_strength = options.shadow_strength
+        self.processor.auto_balance = options.auto_balance
+        self.processor.rotation = options.rotation
         self._trigger_processing()
 
     def _on_about_activated(self, action: Gio.SimpleAction, param: GObject.ParamSpec) -> None:
@@ -312,9 +290,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
                 if isinstance(widget, (Gtk.Entry, Gtk.TextView, Gtk.SearchEntry)):
                     is_editable = True
                 elif type(widget).__name__ == 'Text':
-                    parent = widget.get_parent()
-                    if isinstance(parent, (Gtk.Entry, Gtk.SearchEntry)):
-                        is_editable = True
+                    is_editable = widget.get_editable()
 
             if is_editable:
                 for action_name in self._entry_disabled_actions:
@@ -337,24 +313,6 @@ class GradiaMainWindow(Adw.ApplicationWindow):
     """
     Private Methods
     """
-
-    def _update_and_process(
-        self,
-        obj: Any,
-        attr: str,
-        transform: Callable[[Any], Any] = lambda x: x,
-        assign_to: Optional[str] = None
-    ) -> Callable[[Any], None]:
-        def handler(widget: Any) -> None:
-            value = transform(widget)
-            setattr(obj, attr, value)
-
-            if assign_to:
-                setattr(self.processor, assign_to, obj)
-
-            self._trigger_processing()
-
-        return handler
 
     def set_image(self, image: LoadedImage):
         self.image = image
@@ -462,7 +420,6 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         if action:
             action.set_enabled(self.image_ready)
             self.share_button.set_visible(bool(Settings().custom_export_command.strip()))
-
 
     def _create_delete_screenshots_dialog(self) -> None:
         dialog = DeleteScreenshotsDialog(self)

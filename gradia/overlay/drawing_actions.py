@@ -165,13 +165,20 @@ class StrokeAction(DrawingAction):
         self.stroke = [(x + dx, y + dy) for x, y in self.stroke]
 
 class ArrowAction(DrawingAction):
-    def __init__(self, start: tuple[int, int], end: tuple[int, int], settings):
+    def __init__(self, start: tuple[int, int], end: tuple[int, int], shift: bool, settings):
         self.start = start
-        self.end = end
+        if shift:
+            dx = abs(end[0] - start[0])
+            dy = abs(end[1] - start[1])
+            if dx > dy:
+                self.end = (end[0], start[1])
+            else:
+                self.end = (start[0], end[1])
+        else:
+            self.end = end
         self.color = settings.pen_color
         self.arrow_head_size = settings.arrow_head_size
         self.width = settings.pen_size
-
     def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
         start_x, start_y = image_to_widget_coords(*self.start)
         end_x, end_y = image_to_widget_coords(*self.end)
@@ -195,14 +202,12 @@ class ArrowAction(DrawingAction):
         cr.move_to(end_x, end_y)
         cr.line_to(x2, y2)
         cr.stroke()
-
     def get_bounds(self) -> tuple[int, int, int, int]:
         min_x = min(self.start[0], self.end[0])
         max_x = max(self.start[0], self.end[0])
         min_y = min(self.start[1], self.end[1])
         max_y = max(self.start[1], self.end[1])
         return self.apply_padding((min_x, min_y, max_x, max_y), extra_padding_img=self.arrow_head_size)
-
     def translate(self, dx: int, dy: int):
         self.start = (self.start[0] + dx, self.start[1] + dy)
         self.end = (self.end[0] + dx, self.end[1] + dy)
@@ -324,57 +329,86 @@ class LineAction(ArrowAction):
         cr.stroke()
 
 class RectAction(DrawingAction):
-    def __init__(self, start: tuple[int, int], end: tuple[int, int], settings):
-        self.start = start
-        self.end = end
-        self.color = settings.pen_color
-        self.width = settings.pen_size
-        self.fill_color = settings.fill_color
+   def __init__(self, start: tuple[int, int], end: tuple[int, int], shift: bool, settings):
+       self.start = start
+       self.end = end
+       self.shift = shift
+       self.color = settings.pen_color
+       self.width = settings.pen_size
+       self.fill_color = settings.fill_color
 
-    def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
-        x1_widget, y1_widget = image_to_widget_coords(*self.start)
-        x2_widget, y2_widget = image_to_widget_coords(*self.end)
-        x, y = min(x1_widget, x2_widget), min(y1_widget, y2_widget)
-        w, h = abs(x2_widget - x1_widget), abs(y2_widget - y1_widget)
-        if self.fill_color:
-            cr.set_source_rgba(*self.fill_color)
-            cr.rectangle(x, y, w, h)
-            cr.fill()
-        cr.set_source_rgba(*self.color)
-        cr.set_line_width(self.width * scale)
-        cr.rectangle(x, y, w, h)
-        cr.stroke()
+   def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
+       x1_widget, y1_widget = image_to_widget_coords(*self.start)
+       x2_widget, y2_widget = image_to_widget_coords(*self.end)
 
-    def get_bounds(self) -> tuple[int, int, int, int]:
-        min_x = min(self.start[0], self.end[0])
-        max_x = max(self.start[0], self.end[0])
-        min_y = min(self.start[1], self.end[1])
-        max_y = max(self.start[1], self.end[1])
-        return self.apply_padding((min_x, min_y, max_x, max_y), extra_padding_img=self.width)
+       if self.shift:
+           size = max(abs(x2_widget - x1_widget), abs(y2_widget - y1_widget))
+           if x2_widget < x1_widget:
+               x2_widget = x1_widget - size
+           else:
+               x2_widget = x1_widget + size
+           if y2_widget < y1_widget:
+               y2_widget = y1_widget - size
+           else:
+               y2_widget = y1_widget + size
 
-    def translate(self, dx: int, dy: int):
-        self.start = (self.start[0] + dx, self.start[1] + dy)
-        self.end = (self.end[0] + dx, self.end[1] + dy)
+       x, y = min(x1_widget, x2_widget), min(y1_widget, y2_widget)
+       w, h = abs(x2_widget - x1_widget), abs(y2_widget - y1_widget)
+
+       if self.fill_color:
+           cr.set_source_rgba(*self.fill_color)
+           cr.rectangle(x, y, w, h)
+           cr.fill()
+       cr.set_source_rgba(*self.color)
+       cr.set_line_width(self.width * scale)
+       cr.rectangle(x, y, w, h)
+       cr.stroke()
+
+   def get_bounds(self) -> tuple[int, int, int, int]:
+       min_x = min(self.start[0], self.end[0])
+       max_x = max(self.start[0], self.end[0])
+       min_y = min(self.start[1], self.end[1])
+       max_y = max(self.start[1], self.end[1])
+       return self.apply_padding((min_x, min_y, max_x, max_y), extra_padding_img=self.width)
+
+   def translate(self, dx: int, dy: int):
+       self.start = (self.start[0] + dx, self.start[1] + dy)
+       self.end = (self.end[0] + dx, self.end[1] + dy)
 
 class CircleAction(RectAction):
-    def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
-        x1_widget, y1_widget = image_to_widget_coords(*self.start)
-        x2_widget, y2_widget = image_to_widget_coords(*self.end)
-        cx, cy = (x1_widget + x2_widget) / 2, (y1_widget + y2_widget) / 2
-        rx, ry = abs(x2_widget - x1_widget) / 2, abs(y2_widget - y1_widget) / 2
-        if rx < 1e-3 or ry < 1e-3:
-            return
-        cr.save()
-        cr.translate(cx, cy)
-        cr.scale(rx, ry)
-        cr.arc(0, 0, 1, 0, 2 * math.pi)
-        cr.restore()
-        if self.fill_color:
-            cr.set_source_rgba(*self.fill_color)
-            cr.fill_preserve()
-        cr.set_source_rgba(*self.color)
-        cr.set_line_width(self.width * scale)
-        cr.stroke()
+   def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
+       x1_widget, y1_widget = image_to_widget_coords(*self.start)
+       x2_widget, y2_widget = image_to_widget_coords(*self.end)
+
+       if self.shift:
+           size = max(abs(x2_widget - x1_widget), abs(y2_widget - y1_widget))
+           if x2_widget < x1_widget:
+               x2_widget = x1_widget - size
+           else:
+               x2_widget = x1_widget + size
+           if y2_widget < y1_widget:
+               y2_widget = y1_widget - size
+           else:
+               y2_widget = y1_widget + size
+
+       cx, cy = (x1_widget + x2_widget) / 2, (y1_widget + y2_widget) / 2
+       rx, ry = abs(x2_widget - x1_widget) / 2, abs(y2_widget - y1_widget) / 2
+
+       if rx < 1e-3 or ry < 1e-3:
+           return
+
+       cr.save()
+       cr.translate(cx, cy)
+       cr.scale(rx, ry)
+       cr.arc(0, 0, 1, 0, 2 * math.pi)
+       cr.restore()
+
+       if self.fill_color:
+           cr.set_source_rgba(*self.fill_color)
+           cr.fill_preserve()
+       cr.set_source_rgba(*self.color)
+       cr.set_line_width(self.width * scale)
+       cr.stroke()
 
 class HighlighterAction(StrokeAction):
     def __init__(self, stroke: list[tuple[int, int]], settings):
@@ -399,7 +433,7 @@ class HighlighterAction(StrokeAction):
 
 class CensorAction(RectAction):
     def __init__(self, start: tuple[int, int], end: tuple[int, int], background_pixbuf: GdkPixbuf.Pixbuf, settings):
-        super().__init__(start, end, settings)
+        super().__init__(start, end, False ,settings)
         self.pixelation_level = settings.pixelation_level
         self.background_pixbuf = background_pixbuf
 

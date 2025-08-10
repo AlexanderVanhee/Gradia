@@ -245,3 +245,7 @@ button.color-picker-button {
   background-image: none;
 }
 
+toggle-group toggle  {
+    padding-left:9px;
+    padding-right:9px;
+}

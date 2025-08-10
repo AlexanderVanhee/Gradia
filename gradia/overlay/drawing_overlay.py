@@ -52,6 +52,7 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.selection_start_pos = None
         self.is_moving_selection = False
         self.move_start_point = None
+        self.current_shift_pressed = False
 
         self.text_entry_popup = None
         self.text_position = None
@@ -268,6 +269,11 @@ class DrawingOverlay(Gtk.DrawingArea):
         motion.connect("motion", self._on_motion)
         self.add_controller(motion)
 
+    def update_shift_state(self, gesture):
+        state = gesture.get_current_event_state()
+        shift_pressed = bool(state & Gdk.ModifierType.SHIFT_MASK)
+        self.current_shift_pressed = shift_pressed
+
     def _on_click(self, gesture, n_press, x_widget, y_widget):
         original_x, original_y = x_widget, y_widget
         x_widget, y_widget = self.coordinate_transform(x_widget, y_widget)
@@ -440,6 +446,8 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.grab_focus()
         img_x, img_y = self._widget_to_image_coords(x_widget, y_widget)
 
+        self.update_shift_state(gesture)
+
         if self.drawing_mode == DrawingMode.SELECT:
             if self.selected_action and self._is_point_in_selection_bounds(img_x, img_y):
                 self.is_moving_selection = True
@@ -468,6 +476,8 @@ class DrawingOverlay(Gtk.DrawingArea):
         start_x_widget, start_y_widget = self.coordinate_transform(start_x_raw, start_y_raw)
         cur_x_widget, cur_y_widget = start_x_widget + dx_widget, start_y_widget + dy_widget
         img_x, img_y = self._widget_to_image_coords(cur_x_widget, cur_y_widget)
+
+        self.update_shift_state(gesture)
 
         if self.drawing_mode == DrawingMode.SELECT and self.is_moving_selection and self.selected_action and self.move_start_point:
             old_x_img, old_y_img = self.move_start_point
@@ -500,6 +510,8 @@ class DrawingOverlay(Gtk.DrawingArea):
         if not self.is_drawing:
             return
 
+        self.update_shift_state(gesture)
+
         self.is_drawing = False
         mode = self.drawing_mode
         if (mode == DrawingMode.PEN or mode == DrawingMode.HIGHLIGHTER) and len(self.current_stroke) > 1:
@@ -510,13 +522,13 @@ class DrawingOverlay(Gtk.DrawingArea):
             self.current_stroke.clear()
         elif self.start_point and self.end_point:
             if mode == DrawingMode.ARROW:
-                self.actions.append(ArrowAction(self.start_point, self.end_point, self.settings.copy()))
+                self.actions.append(ArrowAction(self.start_point, self.end_point,self.current_shift_pressed, self.settings.copy()))
             elif mode == DrawingMode.LINE:
-                self.actions.append(LineAction(self.start_point, self.end_point, self.settings.copy()))
+                self.actions.append(LineAction(self.start_point, self.end_point,self.current_shift_pressed, self.settings.copy()))
             elif mode == DrawingMode.SQUARE:
-                self.actions.append(RectAction(self.start_point, self.end_point, self.settings.copy()))
+                self.actions.append(RectAction(self.start_point, self.end_point,self.current_shift_pressed, self.settings.copy()))
             elif mode == DrawingMode.CIRCLE:
-                self.actions.append(CircleAction(self.start_point, self.end_point, self.settings.copy()))
+                self.actions.append(CircleAction(self.start_point, self.end_point,self.current_shift_pressed, self.settings.copy()))
             elif mode == DrawingMode.CENSOR:
                 censor_action = CensorAction(self.start_point, self.end_point, self._get_background_pixbuf(), self.settings.copy())
                 self.actions.append(censor_action)
@@ -570,13 +582,13 @@ class DrawingOverlay(Gtk.DrawingArea):
                 HighlighterAction(self.current_stroke, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
             elif self.start_point and self.end_point:
                 if self.drawing_mode == DrawingMode.ARROW:
-                    ArrowAction(self.start_point, self.end_point, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
+                    ArrowAction(self.start_point, self.end_point,self.current_shift_pressed, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
                 elif self.drawing_mode == DrawingMode.LINE:
-                    LineAction(self.start_point, self.end_point, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
+                    LineAction(self.start_point, self.end_point,self.current_shift_pressed, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
                 elif self.drawing_mode == DrawingMode.SQUARE:
-                    RectAction(self.start_point, self.end_point, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
+                    RectAction(self.start_point, self.end_point, self.current_shift_pressed, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
                 elif self.drawing_mode == DrawingMode.CIRCLE:
-                    CircleAction(self.start_point, self.end_point, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
+                    CircleAction(self.start_point, self.end_point, self.current_shift_pressed, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
                 elif self.drawing_mode == DrawingMode.CENSOR:
                     cr.set_source_rgba(0.5, 0.5, 0.5, 0.5)
                     x1_widget, y1_widget = self._image_to_widget_coords(*self.start_point)

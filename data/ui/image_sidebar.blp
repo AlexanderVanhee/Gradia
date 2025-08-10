@@ -42,17 +42,6 @@ template $GradiaImageSidebar : Adw.Bin {
       Adw.PreferencesGroup image_options_group {
         title: _("Image Options");
 
-        [header-suffix]
-        Gtk.ToggleButton disable_button {
-          icon-name: "line-large-circle-outline-symbolic";
-          tooltip-text: _("Disable all options");
-          valign: center;
-          styles [
-            "image-button",
-            "flat"
-          ]
-        }
-
         Adw.SpinRow padding_row {
           title: _("Padding");
           numeric: true;
