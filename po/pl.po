@@ -349,7 +349,7 @@ msgstr "Anulowano wykonywanie zrzutu ekranu"
 
 #: gradia/ui/image_loaders.py:302 gradia/ui/image_loaders.py:328
 msgid "Edited Screenshot From %Y-%m-%d %H-%M-%S"
-msgstr "Edytowane zrzutu ekranu z %Y-%m-%d %H-%M-%S"
+msgstr "Edytowany zrzut ekranu z %Y-%m-%d %H-%M-%S"
 
 #: gradia/ui/image_loaders.py:308 gradia/ui/image_loaders.py:309
 #: gradia/ui/image_loaders.py:335 gradia/ui/image_loaders.py:336
@@ -403,19 +403,19 @@ msgstr "Własny dostawca"
 
 #: gradia/ui/provider_selection_window.py:148
 msgid "Create your own custom upload command"
-msgstr "Stwórz swoją własną komendę do przesłania"
+msgstr "Stwórz swoją własną komendę do przesyłania"
 
 #: gradia/ui/provider_selection_window.py:272
 #: gradia/ui/provider_selection_window.py:451
 msgid "Upload Command"
-msgstr "Komenda do przesłania"
+msgstr "Komenda do przesyłania"
 
 #: gradia/ui/provider_selection_window.py:273
 msgid ""
 "Enter a custom command to upload files. Use $1 as a placeholder for the file "
 "path."
 msgstr ""
-"Wprowadź własną komendę do przesłania plików. Użyj $1 jako wypełniacz dla "
+"Wprowadź własną komendę do przesyłania plików. Użyj $1 jako wypełniacz dla "
 "ścieżki do pliku."
 
 #: gradia/ui/provider_selection_window.py:277
@@ -586,7 +586,7 @@ msgstr "Proporcje"
 
 #: gradia/ui/widget/aspect_ratio_button.py:38
 msgid "Free"
-msgstr "Darmowe"
+msgstr "Dowolne"
 
 #: gradia/app_constants.py:56
 msgid "PNG Image (*.png)"
@@ -897,12 +897,12 @@ msgstr "Usuń zrzuty ekranu przy zamykaniu programu"
 
 #: data/ui/preferences_window.blp:90
 msgid "Image Upload Providers"
-msgstr "Dostawcy serwisów do przesłania obrazów"
+msgstr "Dostawcy serwisów do przesyłania obrazów"
 
 #: data/ui/preferences_window.blp:91
 msgid "Connect to your favorite upload providers, or create a link yourself"
 msgstr ""
-"Połącz z ulubionym serwisem do przesłania obrazów, lub samodzielnie utwórz "
+"Połącz z ulubionym serwisem do przesyłania obrazów, lub samodzielnie utwórz "
 "łącze"
 
 #: data/ui/preferences_window.blp:95
@@ -919,11 +919,11 @@ msgstr "Dostawca"
 
 #: data/ui/preferences_window.blp:123
 msgid "Confirm on Upload"
-msgstr "Potwierdzenie przy przesłaniu"
+msgstr "Potwierdzenie przy przesyłaniu"
 
 #: data/ui/preferences_window.blp:124 data/ui/preferences_window.blp:125
 msgid "Ask for confirmation before running the upload command"
-msgstr "Zapytaj przez uruchomieniem komendy przesłania"
+msgstr "Zapytaj przez uruchomieniem komendy przesyłania"
 
 #: data/ui/preferences_window.blp:137
 msgid "Screenshot Shortcut Guide"
@@ -975,7 +975,7 @@ msgstr "Zrzut całego ekranu"
 
 #: data/ui/preferences_window.blp:202
 msgid "Takes a screenshot of all screens instantly"
-msgstr "Wykonanie zrzut ekranu wszystkich ekranów natychmiast"
+msgstr "Wykonaj zrzut wszystkich ekranów natychmiast"
 
 #: data/ui/preferences_window.blp:230
 msgid ""
