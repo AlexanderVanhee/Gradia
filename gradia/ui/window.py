@@ -42,6 +42,7 @@ from gradia.backend.settings import Settings
 from gradia.constants import rootdir  # pyright: ignore
 from gradia.ui.dialog.delete_screenshots_dialog import DeleteScreenshotsDialog
 from gradia.ui.dialog.confirm_close_dialog import ConfirmCloseDialog
+from gradia.backend.tool_config import ToolOption
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/main_window.ui")
 class GradiaMainWindow(Adw.ApplicationWindow):
@@ -119,6 +120,12 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.create_action("screenshot", lambda *_: self.import_manager.take_screenshot(), ["<Primary>a"])
         self.create_action("open-path", lambda action, param: self.import_manager.load_from_file(param.get_string()), vt="s")
 
+        self.create_action(
+            "tool-option-changed",
+            lambda action, param: setattr(self.drawing_overlay, "options", ToolOption.deserialize(param.get_string())),
+            vt="s",
+        )
+        self.create_action("del-selected", lambda *_: self.drawing_overlay.remove_selected_action(), ["<Primary>x", "Delete"])
 
         self.create_action("open-folder", lambda *_: self.open_loaded_image_folder(), enabled=False)
         self.create_action("save", lambda *_: self.export_manager.save_to_file(), ["<Primary>s"], enabled=False)
@@ -147,15 +154,6 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.create_action("clear", lambda *_: self.drawing_overlay.clear_drawing())
         self.create_action("draw-mode", lambda action, param: self.drawing_overlay.set_drawing_mode(DrawingMode(param.get_string())), vt="s")
 
-        self.create_action("pen-color", lambda action, param: self._set_pen_color_from_string(param.get_string()), vt="s")
-        self.create_action("fill-color", lambda action, param: self._set_fill_color_from_string(param.get_string()), vt="s")
-        self.create_action("outline-color", lambda action, param: self._set_outline_color_from_string(param.get_string()), vt="s")
-        self.create_action("highlighter-color", lambda action, param: self._set_highlighter_color_from_string(param.get_string()), vt="s")
-        self.create_action("del-selected", lambda *_: self.drawing_overlay.remove_selected_action(), ["<Primary>x", "Delete"])
-        self.create_action("font", lambda action, param: self.drawing_overlay.settings.set_font_family(param.get_string()), vt="s")
-        self.create_action("pen-size", lambda action, param: self.drawing_overlay.settings.set_pen_size(param.get_double()), vt="d")
-        self.create_action("highlighter-size", lambda action, param: self.drawing_overlay.settings.set_highlighter_size(param.get_double()), vt="d")
-        self.create_action("number-radius", lambda action, param: self.drawing_overlay.settings.set_number_radius(param.get_double()), vt="d")
 
         self.create_action("delete-screenshots", lambda *_: self._create_delete_screenshots_dialog(), enabled=False)
 
@@ -338,21 +336,6 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.sidebar.filename_row.set_subtitle(image.get_proper_name())
         self.sidebar.location_row.set_subtitle(image.get_proper_folder())
         self.sidebar.set_visible(True)
-
-    def _parse_rgba(self, color_string: str) -> list[float]:
-        return list(map(float, color_string.split(',')))
-
-    def _set_pen_color_from_string(self, color_string: str) -> None:
-        self.drawing_overlay.settings.set_pen_color(*self._parse_rgba(color_string))
-
-    def _set_fill_color_from_string(self, color_string: str) -> None:
-        self.drawing_overlay.settings.set_fill_color(*self._parse_rgba(color_string))
-
-    def _set_outline_color_from_string(self, color_string: str) -> None:
-        self.drawing_overlay.settings.set_outline_color(*self._parse_rgba(color_string))
-
-    def _set_highlighter_color_from_string(self, color_string: str) -> None:
-        self.drawing_overlay.settings.set_highlighter_color(*self._parse_rgba(color_string))
 
     def _trigger_processing(self) -> None:
         if self.image:

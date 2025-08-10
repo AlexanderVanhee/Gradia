@@ -18,12 +18,13 @@
 from gi.repository import Gdk
 from gradia.overlay.drawing_actions import DrawingMode
 import re
+import json
 
 class ToolOption:
     def __init__(
         self,
         mode: DrawingMode,
-        size: int = 0,
+        size: int = 10,
         primary_color: Gdk.RGBA = None,
         fill_color: Gdk.RGBA = None,
         border_color: Gdk.RGBA = None,
@@ -70,14 +71,44 @@ class ToolOption:
     def border_color(self, value: Gdk.RGBA):
         self._border_color_str = self._rgba_to_str(value)
 
-    def __repr__(self):
-        return (
-            f"<ToolStyle size={self.size}, font='{self.font}', "
-            f"primary_color={self._primary_color_str}, "
-            f"fill_color={self._fill_color_str}, "
-            f"border_color={self._border_color_str}>"
+    def serialize(self) -> str:
+        data = {
+            "mode": self.mode.name,
+            "size": self.size,
+            "primary_color": (self.primary_color.red, self.primary_color.green, self.primary_color.blue, self.primary_color.alpha),
+            "fill_color": (self.fill_color.red, self.fill_color.green, self.fill_color.blue, self.fill_color.alpha),
+            "border_color": (self.border_color.red, self.border_color.green, self.border_color.blue, self.border_color.alpha),
+            "font": self.font,
+        }
+        return json.dumps(data)
+
+    @classmethod
+    def deserialize(cls, json_str: str) -> "ToolOption":
+        def tuple_to_rgba(t):
+            if not t or len(t) != 4:
+                return Gdk.RGBA(0, 0, 0, 1)
+            return Gdk.RGBA(t[0], t[1], t[2], t[3])
+
+        data = json.loads(json_str)
+        mode = DrawingMode[data.get("mode", "PEN")]
+        return cls(
+            mode=mode,
+            size=data.get("size", 0),
+            primary_color=tuple_to_rgba(data.get("primary_color")),
+            fill_color=tuple_to_rgba(data.get("fill_color")),
+            border_color=tuple_to_rgba(data.get("border_color")),
+            font=data.get("font", "Adwaita Sans"),
         )
 
+    def copy(self) -> "ToolOption":
+        return ToolOption(
+            mode=self.mode,
+            size=self.size,
+            primary_color=self.primary_color,
+            fill_color=self.fill_color,
+            border_color=self.border_color,
+            font=self.font,
+        )
 
 
 class ToolOptionsManager:
@@ -165,7 +196,7 @@ class ToolConfig:
                 icon="box-small-outline-symbolic",
                 column=0,
                 row=1,
-                shown_stack="fill-border",
+                shown_stack="fill",
                 has_scale=True,
                 has_primary_color=True,
             ),
@@ -174,7 +205,7 @@ class ToolConfig:
                 icon="circle-outline-thick-symbolic",
                 column=1,
                 row=1,
-                shown_stack="fill-border",
+                shown_stack="fill",
                 has_scale=True,
                 has_primary_color=True,
             ),

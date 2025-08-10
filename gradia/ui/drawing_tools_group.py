@@ -14,9 +14,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
 from typing import Optional
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk, Gdk, GObject, GLib
 from gradia.overlay.drawing_actions import DrawingMode
 from gradia.ui.widget.quick_color_picker import QuickColorPicker, SimpleColorPicker
 from gradia.ui.widget.drawing_tools_grid import DrawingToolsGrid
@@ -33,6 +32,7 @@ class DrawingToolsGroup(Gtk.Box):
     color_picker = Gtk.Template.Child()
     extra_stack = Gtk.Template.Child()
     extra_stack_revealer = Gtk.Template.Child()
+    fill_0 = Gtk.Template.Child()
     fill_1 = Gtk.Template.Child()
     fill_2 = Gtk.Template.Child()
     outline_1 = Gtk.Template.Child()
@@ -49,10 +49,10 @@ class DrawingToolsGroup(Gtk.Box):
 
     @Gtk.Template.Callback()
     def on_tool_changed(self, grid: DrawingToolsGrid, tool_config: ToolConfig):
-        print("tool changed")
         self.current_tool_config = tool_config
         self.current_tool_option = self.tool_manager.get_tool(tool_config.mode)
         self._update_ui_for_tool(tool_config, self.current_tool_option)
+        self.trigger_action()
 
     def _update_ui_for_tool(self, tool_config: ToolConfig, tool_option: ToolOption):
         self._updating_ui = True
@@ -73,6 +73,7 @@ class DrawingToolsGroup(Gtk.Box):
         if tool_config.has_primary_color:
             self.color_picker.set_color(tool_option.primary_color)
 
+        self.fill_0.set_color(tool_option.fill_color, emit=False)
         self.fill_1.set_color(tool_option.fill_color, emit=False)
         self.fill_2.set_color(tool_option.fill_color, emit=False)
         self.outline_1.set_color(tool_option.border_color, emit=False)
@@ -87,8 +88,10 @@ class DrawingToolsGroup(Gtk.Box):
             return
 
         self.current_tool_option.fill_color = color
+        self.fill_0.set_color(color, emit=False)
         self.fill_1.set_color(color, emit=False)
         self.fill_2.set_color(color, emit=False)
+        self.trigger_action()
 
     @Gtk.Template.Callback()
     def on_outline_color_changed(self, button: SimpleColorPicker, color: Gdk.RGBA):
@@ -98,6 +101,7 @@ class DrawingToolsGroup(Gtk.Box):
         self.current_tool_option.border_color = color
         self.outline_1.set_color(color, emit=False)
         self.outline_2.set_color(color, emit=False)
+        self.trigger_action()
 
     @Gtk.Template.Callback()
     def on_size_scale_changed(self, adjustment: Gtk.Adjustment):
@@ -105,6 +109,7 @@ class DrawingToolsGroup(Gtk.Box):
             return
 
         self.current_tool_option.size = int(adjustment.get_value())
+        self.trigger_action()
 
     @Gtk.Template.Callback()
     def on_primary_color_changed(self, picker: QuickColorPicker, color: Gdk.RGBA):
@@ -112,6 +117,7 @@ class DrawingToolsGroup(Gtk.Box):
             return
 
         self.current_tool_option.primary_color = color
+        self.trigger_action()
 
     @Gtk.Template.Callback()
     def on_font_changed(self, dropdown: FontDropdown, font: str):
@@ -119,6 +125,7 @@ class DrawingToolsGroup(Gtk.Box):
             return
 
         self.current_tool_option.font = font
+        self.trigger_action()
 
     def get_current_tool(self) -> Optional[ToolOption]:
         if self.current_tool_config is None:
@@ -133,4 +140,16 @@ class DrawingToolsGroup(Gtk.Box):
         if self.current_tool_config:
             self.current_tool_option = self.tool_manager.get_tool(mode)
             self._update_ui_for_tool(self.current_tool_config, self.current_tool_option)
+            self.trigger_action()
+
+    def trigger_action(self):
+        window = self.get_root()
+        if window:
+            action = window.lookup_action("tool-option-changed")
+            if action and self.current_tool_option:
+                data_json = self.current_tool_option.serialize()
+                param = GLib.Variant('s', data_json)
+                action.activate(param)
+
+
 

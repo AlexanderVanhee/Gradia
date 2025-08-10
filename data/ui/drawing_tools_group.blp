@@ -27,9 +27,9 @@ template $GradiaDrawingToolsGroup : Box {
       margin-top: 6;
       adjustment: Adjustment {
         value-changed => $on_size_scale_changed();
-        lower: 0;
-        upper: 100;
-        value: 50;
+        lower: 3;
+        upper: 25;
+        value: 14;
       };
   }
   Revealer extra_stack_revealer {
@@ -44,6 +44,21 @@ template $GradiaDrawingToolsGroup : Box {
           name: "empty";
           child: Box {
             visible: true;
+          };
+      }
+
+      StackPage {
+          name: "fill";
+          child:Box {
+            spacing: 6;
+            homogeneous: true;
+
+            $GradiaSimpleColorPicker fill_0 {
+              icon-name: "fill-symbolic";
+              text: _("Fill");
+              hexpand: true;
+              color-changed => $on_fill_color_changed();
+            }
           };
       }
 

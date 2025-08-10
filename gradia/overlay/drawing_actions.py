@@ -111,10 +111,10 @@ class DrawingAction:
         raise NotImplementedError
 
 class StrokeAction(DrawingAction):
-    def __init__(self, stroke: list[tuple[int, int]], settings):
+    def __init__(self, stroke: list[tuple[int, int]], options):
         self.stroke = stroke
-        self.color = settings.pen_color
-        self.pen_size = settings.pen_size
+        self.color = options.primary_color
+        self.pen_size = options.size
 
     def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
         if len(self.stroke) < 2:
@@ -165,7 +165,7 @@ class StrokeAction(DrawingAction):
         self.stroke = [(x + dx, y + dy) for x, y in self.stroke]
 
 class ArrowAction(DrawingAction):
-    def __init__(self, start: tuple[int, int], end: tuple[int, int], shift: bool, settings):
+    def __init__(self, start: tuple[int, int], end: tuple[int, int], shift: bool, options):
         self.start = start
         if shift:
             dx = abs(end[0] - start[0])
@@ -176,9 +176,9 @@ class ArrowAction(DrawingAction):
                 self.end = (start[0], end[1])
         else:
             self.end = end
-        self.color = settings.pen_color
-        self.arrow_head_size = settings.arrow_head_size
-        self.width = settings.pen_size
+        self.color = options.primary_color
+        self.arrow_head_size = 25
+        self.width = options.size
     def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
         start_x, start_y = image_to_widget_coords(*self.start)
         end_x, end_y = image_to_widget_coords(*self.end)
@@ -216,16 +216,16 @@ class TextAction(DrawingAction):
     PADDING_X_IMG = 4
     PADDING_Y_IMG = 2
 
-    def __init__(self, position: tuple[int, int], text: str, intrinsic_image_bounds: tuple[int, int], settings):
-        self.settings = settings
+    def __init__(self, position: tuple[int, int], text: str, intrinsic_image_bounds: tuple[int, int], options, font_size):
+        self.options = options
         self.position = position
         self.text = text
         self.intrinsic_image_bounds = intrinsic_image_bounds
-        self.color = settings.pen_color
-        self.font_size = settings.font_size
-        self.font_family = settings.font_family
-        self.background_color = settings.fill_color
-        self.outline_color = settings.outline_color
+        self.color = options.primary_color
+        self.font_size = font_size
+        self.font_family = options.font
+        self.background_color = options.fill_color
+        self.outline_color = options.border_color
 
     def contains_emoji(self) -> bool:
         for char in self.text:
@@ -329,13 +329,13 @@ class LineAction(ArrowAction):
         cr.stroke()
 
 class RectAction(DrawingAction):
-   def __init__(self, start: tuple[int, int], end: tuple[int, int], shift: bool, settings):
+   def __init__(self, start: tuple[int, int], end: tuple[int, int], shift: bool, options):
        self.start = start
        self.end = end
        self.shift = shift
-       self.color = settings.pen_color
-       self.width = settings.pen_size
-       self.fill_color = settings.fill_color
+       self.color = options.primary_color
+       self.width = options.size
+       self.fill_color = options.fill_color
 
    def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
        x1_widget, y1_widget = image_to_widget_coords(*self.start)
@@ -411,10 +411,10 @@ class CircleAction(RectAction):
        cr.stroke()
 
 class HighlighterAction(StrokeAction):
-    def __init__(self, stroke: list[tuple[int, int]], settings):
+    def __init__(self, stroke: list[tuple[int, int]], options):
         self.stroke = stroke
-        self.color = settings.highlighter_color
-        self.pen_size = settings.highlighter_size
+        self.color = options.primary_color
+        self.pen_size = options.size
 
     def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
         if len(self.stroke) < 2:
@@ -432,9 +432,9 @@ class HighlighterAction(StrokeAction):
         cr.set_line_cap(cairo.LineCap.ROUND)
 
 class CensorAction(RectAction):
-    def __init__(self, start: tuple[int, int], end: tuple[int, int], background_pixbuf: GdkPixbuf.Pixbuf, settings):
-        super().__init__(start, end, False ,settings)
-        self.pixelation_level = settings.pixelation_level
+    def __init__(self, start: tuple[int, int], end: tuple[int, int], background_pixbuf: GdkPixbuf.Pixbuf, options):
+        super().__init__(start, end, False ,options)
+        self.pixelation_level = 8
         self.background_pixbuf = background_pixbuf
 
     def set_background(self, pixbuf: GdkPixbuf.Pixbuf):
@@ -562,14 +562,14 @@ class CensorAction(RectAction):
         cr.restore()
 
 class NumberStampAction(DrawingAction):
-    def __init__(self, position: tuple[int, int], number: int, settings):
+    def __init__(self, position: tuple[int, int], number: int, options):
         super().__init__()
         self.position = position
         self.number = number
-        self.radius = settings.number_radius
-        self.fill_color = settings.fill_color
-        self.text_color = settings.pen_color
-        self.outline_color = settings.outline_color
+        self.radius = options.size
+        self.fill_color = options.fill_color
+        self.text_color = options.primary_color
+        self.outline_color = options.border_color
         self.creation_time = time.time()
 
     def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):

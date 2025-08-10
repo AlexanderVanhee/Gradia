@@ -22,7 +22,7 @@ from typing import Tuple, Optional
 
 from gradia.overlay.drawing_actions import *
 from gradia.overlay.text_entry_popover import TextEntryPopover
-from gradia.overlay.drawing_settings import DrawingSettings
+from gradia.backend.tool_config import ToolOption
 
 SELECTION_BOX_PADDING = 0
 
@@ -38,8 +38,8 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.delta_transform = None
 
         self.picture_widget = None
-        self.drawing_mode = DrawingMode.PEN
-        self.settings = DrawingSettings()
+        self.options = None
+        self.font_size = 22
         self.is_drawing = False
         self.current_stroke = []
         self.start_point = None
@@ -208,7 +208,7 @@ class DrawingOverlay(Gtk.DrawingArea):
         if mode != DrawingMode.SELECT:
             self.selected_action = None
 
-        self.drawing_mode = mode
+        self.options.mode = mode
         self.is_drawing = False
         self.is_moving_selection = False
         self.current_stroke.clear()
@@ -227,7 +227,7 @@ class DrawingOverlay(Gtk.DrawingArea):
             return False
 
         min_x, min_y, max_x, max_y = self.selected_action.get_bounds()
-        padding_img = max(self.settings.pen_size, self.settings.arrow_head_size, self.settings.font_size / 2)
+        padding_img = max(self.options.size, self.font_size / 2)
 
         return min_x - padding_img <= x_image <= max_x + padding_img and \
                min_y - padding_img <= y_image <= max_y + padding_img
@@ -277,17 +277,17 @@ class DrawingOverlay(Gtk.DrawingArea):
     def _on_click(self, gesture, n_press, x_widget, y_widget):
         original_x, original_y = x_widget, y_widget
         x_widget, y_widget = self.coordinate_transform(x_widget, y_widget)
-        if self.drawing_mode == DrawingMode.TEXT and self._is_point_in_image(x_widget, y_widget):
+        if self.options.mode == DrawingMode.TEXT and self._is_point_in_image(x_widget, y_widget):
             self.grab_focus()
             if n_press == 1:
                 self._show_text_entry(original_x,original_y)
-        elif self.drawing_mode == DrawingMode.NUMBER and self._is_point_in_image(x_widget, y_widget) and n_press == 1:
+        elif self.options.mode == DrawingMode.NUMBER and self._is_point_in_image(x_widget, y_widget) and n_press == 1:
             self.grab_focus()
             img_x, img_y = self._widget_to_image_coords(x_widget, y_widget)
             number_action = NumberStampAction(
                 position=(img_x, img_y),
                 number=self._next_number,
-                settings=self.settings.copy()
+                options=self.options.copy()
             )
 
             self.actions.append(number_action)
@@ -295,7 +295,7 @@ class DrawingOverlay(Gtk.DrawingArea):
             self.redo_stack.clear()
             self.queue_draw()
 
-        elif self.drawing_mode == DrawingMode.SELECT and self._is_point_in_image(x_widget, y_widget):
+        elif self.options.mode == DrawingMode.SELECT and self._is_point_in_image(x_widget, y_widget):
             self.grab_focus()
             img_x, img_y = self._widget_to_image_coords(x_widget, y_widget)
 
@@ -329,7 +329,7 @@ class DrawingOverlay(Gtk.DrawingArea):
             on_text_activate=self._on_text_entry_activate,
             on_text_changed=self._on_text_entry_changed,
             on_font_size_changed=self._on_font_size_changed,
-            font_size=text_action.settings.font_size,
+            font_size=text_action.font_size,
             initial_text=text_action.text
         )
         self.text_entry_popup.connect("closed", self._on_text_entry_popover_closed)
@@ -352,7 +352,7 @@ class DrawingOverlay(Gtk.DrawingArea):
             on_text_activate=self._on_text_entry_activate,
             on_text_changed=self._on_text_entry_changed,
             on_font_size_changed=self._on_font_size_changed,
-            font_size=self.settings.font_size
+            font_size=self.font_size
         )
         self.text_entry_popup.connect("closed", self._on_text_entry_popover_closed)
         self.text_entry_popup.popup_at_widget_coords(self, original_x, original_y)
@@ -360,12 +360,12 @@ class DrawingOverlay(Gtk.DrawingArea):
     def _on_font_size_changed(self, spin_button):
         font_size = spin_button.get_value()
         if self.editing_text_action:
-            self.editing_text_action.settings.font_size = font_size
+            self.editing_text_action.font_size = font_size
             self.editing_text_action.font_size = font_size
             if self.selected_action == self.editing_text_action:
                 self.queue_draw()
         else:
-            self.settings.font_size = font_size
+            self.font_size = font_size
 
         if self.live_text:
             self.queue_draw()
@@ -383,7 +383,6 @@ class DrawingOverlay(Gtk.DrawingArea):
                             self.editing_text_action.text = text
                             if hasattr(self.text_entry_popup, 'font_size_spin'):
                                 self.editing_text_action.font_size = self.text_entry_popup.font_size_spin.get_value()
-                                self.editing_text_action.settings.font_size = self.text_entry_popup.font_size_spin.get_value()
                         else:
                             if self.editing_text_action in self.actions:
                                 self.actions.remove(self.editing_text_action)
@@ -392,7 +391,7 @@ class DrawingOverlay(Gtk.DrawingArea):
                         self.redo_stack.clear()
                     else:
                         if text:
-                            current_settings = self.settings.copy()
+                            current_settings = self.options.copy()
                             if hasattr(self.text_entry_popup, 'font_size_spin'):
                                 current_settings.font_size = self.text_entry_popup.font_size_spin.get_value()
 
@@ -400,7 +399,8 @@ class DrawingOverlay(Gtk.DrawingArea):
                                 self.text_position,
                                 text,
                                 self._get_modified_image_bounds(),
-                                current_settings
+                                current_settings,
+                                self.font_size
                             )
                             self.actions.append(action)
                             self.redo_stack.clear()
@@ -438,7 +438,7 @@ class DrawingOverlay(Gtk.DrawingArea):
 
     def _on_drag_begin(self, gesture, x_widget, y_widget):
         x_widget, y_widget = self.coordinate_transform(x_widget, y_widget)
-        if self.drawing_mode == DrawingMode.TEXT or self.drawing_mode == DrawingMode.NUMBER or self.text_entry_popup:
+        if self.options.mode == DrawingMode.TEXT or self.options.mode == DrawingMode.NUMBER or self.text_entry_popup:
             return
         if not self._is_point_in_image(x_widget, y_widget):
             return
@@ -448,7 +448,7 @@ class DrawingOverlay(Gtk.DrawingArea):
 
         self.update_shift_state(gesture)
 
-        if self.drawing_mode == DrawingMode.SELECT:
+        if self.options.mode == DrawingMode.SELECT:
             if self.selected_action and self._is_point_in_selection_bounds(img_x, img_y):
                 self.is_moving_selection = True
                 self.move_start_point = (img_x, img_y)
@@ -461,7 +461,7 @@ class DrawingOverlay(Gtk.DrawingArea):
             return
 
         self.is_drawing = True
-        if self.drawing_mode == DrawingMode.PEN or self.drawing_mode == DrawingMode.HIGHLIGHTER:
+        if self.options.mode == DrawingMode.PEN or self.options.mode == DrawingMode.HIGHLIGHTER:
             self.current_stroke = [(img_x, img_y)]
         else:
             self.start_point = (img_x, img_y)
@@ -469,7 +469,7 @@ class DrawingOverlay(Gtk.DrawingArea):
 
     def _on_drag_update(self, gesture, dx_widget, dy_widget):
         dx_widget, dy_widget = self.delta_transform(dx_widget, dy_widget)
-        if self.drawing_mode == DrawingMode.TEXT or self.drawing_mode == DrawingMode.NUMBER:
+        if self.options.mode == DrawingMode.TEXT or self.options.mode == DrawingMode.NUMBER:
             return
 
         start_x_raw, start_y_raw = gesture.get_start_point().x, gesture.get_start_point().y
@@ -479,7 +479,7 @@ class DrawingOverlay(Gtk.DrawingArea):
 
         self.update_shift_state(gesture)
 
-        if self.drawing_mode == DrawingMode.SELECT and self.is_moving_selection and self.selected_action and self.move_start_point:
+        if self.options.mode == DrawingMode.SELECT and self.is_moving_selection and self.selected_action and self.move_start_point:
             old_x_img, old_y_img = self.move_start_point
             delta_x_img = img_x - old_x_img
             delta_y_img = img_y - old_y_img
@@ -491,7 +491,7 @@ class DrawingOverlay(Gtk.DrawingArea):
         if not self.is_drawing:
             return
 
-        if self.drawing_mode == DrawingMode.PEN or self.drawing_mode == DrawingMode.HIGHLIGHTER:
+        if self.options.mode == DrawingMode.PEN or self.options.mode == DrawingMode.HIGHLIGHTER:
             self.current_stroke.append((img_x, img_y))
         else:
             self.end_point = (img_x, img_y)
@@ -499,10 +499,10 @@ class DrawingOverlay(Gtk.DrawingArea):
 
     def _on_drag_end(self, gesture, dx_widget, dy_widget):
         dx_widget, dy_widget = self.delta_transform(dx_widget, dy_widget)
-        if self.drawing_mode == DrawingMode.TEXT or self.drawing_mode == DrawingMode.NUMBER:
+        if self.options.mode == DrawingMode.TEXT or self.options.mode == DrawingMode.NUMBER:
             return
 
-        if self.drawing_mode == DrawingMode.SELECT:
+        if self.options.mode == DrawingMode.SELECT:
             self.is_moving_selection = False
             self.move_start_point = None
             return
@@ -513,24 +513,24 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.update_shift_state(gesture)
 
         self.is_drawing = False
-        mode = self.drawing_mode
+        mode = self.options.mode
         if (mode == DrawingMode.PEN or mode == DrawingMode.HIGHLIGHTER) and len(self.current_stroke) > 1:
             if mode == DrawingMode.PEN:
-                self.actions.append(StrokeAction(self.current_stroke.copy(), self.settings.copy()))
+                self.actions.append(StrokeAction(self.current_stroke.copy(), self.options.copy()))
             else:
-                self.actions.append(HighlighterAction(self.current_stroke.copy(), self.settings.copy()))
+                self.actions.append(HighlighterAction(self.current_stroke.copy(), self.options.copy()))
             self.current_stroke.clear()
         elif self.start_point and self.end_point:
             if mode == DrawingMode.ARROW:
-                self.actions.append(ArrowAction(self.start_point, self.end_point,self.current_shift_pressed, self.settings.copy()))
+                self.actions.append(ArrowAction(self.start_point, self.end_point,self.current_shift_pressed, self.options.copy()))
             elif mode == DrawingMode.LINE:
-                self.actions.append(LineAction(self.start_point, self.end_point,self.current_shift_pressed, self.settings.copy()))
+                self.actions.append(LineAction(self.start_point, self.end_point,self.current_shift_pressed, self.options.copy()))
             elif mode == DrawingMode.SQUARE:
-                self.actions.append(RectAction(self.start_point, self.end_point,self.current_shift_pressed, self.settings.copy()))
+                self.actions.append(RectAction(self.start_point, self.end_point,self.current_shift_pressed, self.options.copy()))
             elif mode == DrawingMode.CIRCLE:
-                self.actions.append(CircleAction(self.start_point, self.end_point,self.current_shift_pressed, self.settings.copy()))
+                self.actions.append(CircleAction(self.start_point, self.end_point,self.current_shift_pressed, self.options.copy()))
             elif mode == DrawingMode.CENSOR:
-                censor_action = CensorAction(self.start_point, self.end_point, self._get_background_pixbuf(), self.settings.copy())
+                censor_action = CensorAction(self.start_point, self.end_point, self._get_background_pixbuf(), self.options.copy())
                 self.actions.append(censor_action)
 
         self.start_point = None
@@ -540,11 +540,11 @@ class DrawingOverlay(Gtk.DrawingArea):
 
     def _on_motion(self, controller, x_widget, y_widget):
         x_widget, y_widget = self.coordinate_transform(x_widget, y_widget)
-        if self.drawing_mode == DrawingMode.TEXT:
+        if self.options.mode == DrawingMode.TEXT:
             name = "text" if self._is_point_in_image(x_widget, y_widget) else "default"
-        elif self.drawing_mode == DrawingMode.NUMBER:
+        elif self.options.mode == DrawingMode.NUMBER:
             name = "crosshair" if self._is_point_in_image(x_widget, y_widget) else "default"
-        elif self.drawing_mode == DrawingMode.SELECT:
+        elif self.options.mode == DrawingMode.SELECT:
             img_x, img_y = self._widget_to_image_coords(x_widget, y_widget)
             if self.selected_action and self._is_point_in_selection_bounds(img_x, img_y):
                 name = "grab"
@@ -552,10 +552,10 @@ class DrawingOverlay(Gtk.DrawingArea):
                 name = "pointer"
             else:
                 name = "default"
-        elif self.drawing_mode == DrawingMode.CENSOR:
+        elif self.options.mode == DrawingMode.CENSOR:
             name = "crosshair" if self._is_point_in_image(x_widget, y_widget) else "default"
         else:
-            name = "crosshair" if self.drawing_mode == DrawingMode.PEN or self.drawing_mode == DrawingMode.HIGHLIGHTER else "cell"
+            name = "crosshair" if self.options.mode == DrawingMode.PEN or self.options.mode == DrawingMode.HIGHLIGHTER else "cell"
             if not self._is_point_in_image(x_widget, y_widget):
                 name = "default"
         self.set_cursor(Gdk.Cursor.new_from_name(name, None))
@@ -574,22 +574,22 @@ class DrawingOverlay(Gtk.DrawingArea):
                 continue
             action.draw(cr, self._image_to_widget_coords, scale)
 
-        if self.is_drawing and self.drawing_mode != DrawingMode.TEXT and self.drawing_mode != DrawingMode.NUMBER:
-            cr.set_source_rgba(*self.settings.pen_color)
-            if self.drawing_mode == DrawingMode.PEN and len(self.current_stroke) > 1:
-                StrokeAction(self.current_stroke, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
-            elif self.drawing_mode == DrawingMode.HIGHLIGHTER and len(self.current_stroke) > 1:
-                HighlighterAction(self.current_stroke, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
+        if self.is_drawing and self.options.mode != DrawingMode.TEXT and self.options.mode != DrawingMode.NUMBER:
+            cr.set_source_rgba(*self.options.primary_color)
+            if self.options.mode == DrawingMode.PEN and len(self.current_stroke) > 1:
+                StrokeAction(self.current_stroke, self.options.copy()).draw(cr, self._image_to_widget_coords, scale)
+            elif self.options.mode == DrawingMode.HIGHLIGHTER and len(self.current_stroke) > 1:
+                HighlighterAction(self.current_stroke, self.options.copy()).draw(cr, self._image_to_widget_coords, scale)
             elif self.start_point and self.end_point:
-                if self.drawing_mode == DrawingMode.ARROW:
-                    ArrowAction(self.start_point, self.end_point,self.current_shift_pressed, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
-                elif self.drawing_mode == DrawingMode.LINE:
-                    LineAction(self.start_point, self.end_point,self.current_shift_pressed, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
-                elif self.drawing_mode == DrawingMode.SQUARE:
-                    RectAction(self.start_point, self.end_point, self.current_shift_pressed, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
-                elif self.drawing_mode == DrawingMode.CIRCLE:
-                    CircleAction(self.start_point, self.end_point, self.current_shift_pressed, self.settings.copy()).draw(cr, self._image_to_widget_coords, scale)
-                elif self.drawing_mode == DrawingMode.CENSOR:
+                if self.options.mode == DrawingMode.ARROW:
+                    ArrowAction(self.start_point, self.end_point,self.current_shift_pressed, self.options.copy()).draw(cr, self._image_to_widget_coords, scale)
+                elif self.options.mode == DrawingMode.LINE:
+                    LineAction(self.start_point, self.end_point,self.current_shift_pressed, self.options.copy()).draw(cr, self._image_to_widget_coords, scale)
+                elif self.options.mode == DrawingMode.SQUARE:
+                    RectAction(self.start_point, self.end_point, self.current_shift_pressed, self.options.copy()).draw(cr, self._image_to_widget_coords, scale)
+                elif self.options.mode == DrawingMode.CIRCLE:
+                    CircleAction(self.start_point, self.end_point, self.current_shift_pressed, self.options.copy()).draw(cr, self._image_to_widget_coords, scale)
+                elif self.options.mode == DrawingMode.CENSOR:
                     cr.set_source_rgba(0.5, 0.5, 0.5, 0.5)
                     x1_widget, y1_widget = self._image_to_widget_coords(*self.start_point)
                     x2_widget, y2_widget = self._image_to_widget_coords(*self.end_point)
@@ -604,14 +604,16 @@ class DrawingOverlay(Gtk.DrawingArea):
                     self.text_position,
                     self.live_text,
                     self._get_modified_image_bounds(),
-                    self.editing_text_action.settings.copy()
+                    self.editing_text_action.options.copy(),
+                    self.editing_text_action.font_size
                 )
             else:
                 preview = TextAction(
                     self.text_position,
                     self.live_text,
                     self._get_modified_image_bounds(),
-                    self.settings.copy()
+                    self.options.copy(),
+                    self.font_size
                 )
             preview.draw(cr, self._image_to_widget_coords, scale)
 
