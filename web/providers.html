@@ -23,8 +23,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Providers</title>
     <meta name="description" content="Learn how to upload images using Gradia's predefined or custom upload providers, with step-by-step setup instructions.">
+
+    <title>Providers</title>
 
     <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="styles/base.css">
@@ -38,6 +39,7 @@
                 <img src="assets/logo.svg" alt="Gradia Logo" class="logo-image">
                 <span>Gradia</span>
             </div>
+
             <h1 class="title">Providers</h1>
             <p class="subtitle">Quickly upload an edited image to your favorite providers</p>
             <p style="padding-top: 1rem;">
@@ -46,7 +48,6 @@
                 This page explains the basic idea behind this system, provides some explanation for popular providers,
                 and includes information on how to craft commands for your own setup.
             </p>
-
         </header>
 
         <!-- Introduction -->
@@ -67,7 +68,8 @@
 
             <p><strong>Note:</strong> Not all commands or functions are available in the Flatpak or the Snap by default. You may need to modify
                 permissions. For Flatpak, this can be done via <a
-                    href="https://flathub.org/apps/com.github.tchx84.Flatseal"><strong>Flatseal</strong></a>.</p>
+                    href="https://flathub.org/apps/com.github.tchx84.Flatseal"><strong>Flatseal</strong></a>.
+            </p>
         </section>
 
         <!-- Setup -->
@@ -104,19 +106,20 @@
                 </li>
             </ol>
         </section>
-        <script>
-            function copy(btn) {
-                const code = btn.parentElement.querySelector('code').textContent;
-                navigator.clipboard.writeText(code).then(() => {
-                    btn.textContent = 'Copied!';
-                    btn.classList.add('copied');
-                    setTimeout(() => {
-                        btn.textContent = 'Copy';
-                        btn.classList.remove('copied');
-                    }, 2000);
-                });
-            }
-        </script>
+    </div>
+    <script>
+        function copy(btn) {
+            const code = btn.parentElement.querySelector('code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = 'Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'Copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
 </body>
 
 </html>
