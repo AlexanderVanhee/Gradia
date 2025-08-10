@@ -47,15 +47,18 @@ class LoadedImage:
         self.image_path: str = image_path
         self.origin: ImageOrigin = origin
 
-    def get_proper_name(self) -> str:
+    def get_proper_name(self, with_extension: bool = True) -> str:
         if self.origin == ImageOrigin.Clipboard:
             return _("Clipboard Image")
-        elif self.origin == ImageOrigin.Screenshot or self.origin == ImageOrigin.FakeScreenshot:
+        elif self.origin in (ImageOrigin.Screenshot, ImageOrigin.FakeScreenshot):
             return _("Screenshot")
         elif self.origin == ImageOrigin.SourceImage:
             return _("Generated Image")
         else:
-            return os.path.basename(self.image_path)
+            filename = os.path.basename(self.image_path)
+            if not with_extension:
+                filename, _ = os.path.splitext(filename)
+            return filename
 
     def get_proper_folder(self) -> str:
         if self.origin == ImageOrigin.Clipboard:

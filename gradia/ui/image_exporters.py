@@ -77,12 +77,11 @@ class BaseImageExporter:
         return result
 
     def _get_dynamic_filename(self, extension: str = ".png") -> str:
-        if self.window.image_path:
-            original_name = os.path.splitext(os.path.basename(self.window.image_path))[0]
-            if getattr(self.window, "image_has_actual_filename", False):
-                return f"{original_name} ({_('Edit')}){extension}"
-            else:
-                return f"{original_name}{extension}"
+        original_name = self.window.image.get_proper_name(with_extension=False)
+        if self.window.image.has_proper_name():
+            return f"{original_name} ({_('Edit')}){extension}"
+        else:
+            return f"{original_name}{extension}"
         return f"{_('Enhanced Screenshot')}{extension}"
 
 

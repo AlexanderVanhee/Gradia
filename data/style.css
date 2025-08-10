@@ -56,9 +56,13 @@ headerbar.desktop windowcontrols button:active image {
     filter: brightness(1.1);
 }
 
-.gradient-color-button.dark{
+.gradient-color-button.dark,
+image.dark,
+label.dark {
     color: black;
 }
+
+
 .gradient-color-button{
     color: white;
     border: none;

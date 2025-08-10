@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   height="16px"
+   viewBox="0 0 16 16"
+   width="16px"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="color-picker-symbolic.svg"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="36.769553"
+     inkscape:cx="10.511414"
+     inkscape:cy="9.1923882"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <path
+     d="m 13.563513,1.2005956 c -0.311242,0.00936 -0.606104,0.1404419 -0.823739,0.3628085 L 11.789665,2.5137278 11.139097,1.8630136 c -0.05616,-0.056177 -0.133389,-0.088947 -0.215296,-0.088947 -0.07723,0.00234 -0.15211,0.03277 -0.208274,0.088947 L 9.4448147,3.1340129 c -0.117009,0.1170348 -0.117009,0.3066317 0,0.4236666 L 9.8332826,3.9462358 6.4868402,7.2910951 c -0.056164,0.058518 -0.088926,0.1334203 -0.088926,0.2130038 v 1.074382 L 5.8877568,9.0887531 c -0.1170091,0.117036 -0.1170091,0.3089724 0,0.4260071 L 6.4868401,10.11398 c 0.117009,0.114694 0.3065624,0.114694 0.4235706,0 L 7.420568,9.6013662 h 1.0741381 c 0.079565,0 0.1567908,-0.030432 0.2129549,-0.086606 l 3.346443,-3.347201 0.386128,0.3862153 c 0.117009,0.1170347 0.306562,0.1170347 0.423571,0 l 1.270712,-1.2709993 c 0.117007,-0.117036 0.117007,-0.3066318 0,-0.4236666 L 13.483948,4.2083942 14.434056,3.2580698 C 15.218014,2.4950021 14.656374,1.1678255 13.563513,1.2005956 Z M 10.556395,4.6695117 11.330991,5.4442835 9.5688436,7.2044894 H 8.0196515 Z m 0,0"
+     fill="#222222"
+     id="path1"
+     style="stroke-width:0.59915" />
+  <rect
+     style="fill:#2e3436;fill-opacity:0.34999999;stroke-width:1.51641;stroke-linejoin:bevel"
+     id="rect442"
+     width="12"
+     height="9.198019"
+     x="-0.40134913"
+     y="5.9276128"
+     ry="2.0440044"
+     transform="matrix(1,0,0.20638194,0.97847151,0,0)" />
+</svg>

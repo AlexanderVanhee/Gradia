@@ -34,7 +34,16 @@ template $GradiaImageSidebar : Adw.Bin {
       }
     }
 
-    content: Adw.PreferencesPage {
+    content: ScrolledWindow {
+
+    child:Box {
+      orientation: vertical;
+      margin-start: 12;
+      margin-end: 12;
+      margin-top: 12;
+      margin-bottom: 12;
+      spacing:12;
+
       $GradiaDrawingToolsGroup drawing_tools_group {}
 
       Adw.PreferencesGroup background_selector_group {}
@@ -160,7 +169,9 @@ template $GradiaImageSidebar : Adw.Bin {
           subtitle: _("N/A");
         }
       }
+      };
     };
+
 
     [bottom]
     Gtk.Box {

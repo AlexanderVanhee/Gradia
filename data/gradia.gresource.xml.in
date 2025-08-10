@@ -69,6 +69,8 @@
     <file preprocess="xml-stripblanks">icons/scalable/actions/conic-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/zoom-plus-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/zoom-minus-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/fill-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/outline-color-symbolic.svg</file>
   </gresource>
 </gresources>
 
