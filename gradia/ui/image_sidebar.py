@@ -300,4 +300,4 @@ class ImageSidebar(Adw.Bin):
         return label if label != "Auto" else ""
 
     def set_drawing_mode(self, mode):
-        self.drawing_tools_group.set_drawing_mode(mode)
+        self.drawing_tools_group.set_current_tool(mode)

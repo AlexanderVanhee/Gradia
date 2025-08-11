@@ -444,6 +444,8 @@ class SimpleColorPicker(Gtk.Button, ColorPickerMixin):
         self._setup_popover_content()
 
     def set_color_by_index(self, index, emit=True):
+        if index == None:
+            return
         palette = self._custom_colors if self._custom_colors is not None else self._get_base_colors(secondary=True)
         if 0 <= index < len(palette):
             color, _ = palette[index]

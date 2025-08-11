@@ -37,6 +37,7 @@ class FontDropdown(Gtk.Box):
         self.font_string_list = Gtk.StringList()
         self.font_dropdown = None
         self._updating = False
+        self._selected_font_value = ""
         self._setup_font_dropdown()
         self._create_widget()
 
@@ -94,38 +95,22 @@ class FontDropdown(Gtk.Box):
         selected_index = dropdown.get_selected()
         if 0 <= selected_index < len(self.fonts):
             font_name = self.fonts[selected_index]
-            self._updating = True
-            self.set_property("selected-font", font_name)
-            self._updating = False
+            self._selected_font_value = font_name
             self.emit("font-changed", font_name)
 
     def do_get_property(self, pspec):
         if pspec.name == "selected-font":
-            selected_index = self.font_dropdown.get_selected() if self.font_dropdown else 0
-            if 0 <= selected_index < len(self.fonts):
-                return self.fonts[selected_index]
-            return ""
-
-    def do_set_property(self, pspec, value):
-        if pspec.name == "selected-font":
-            if not self._updating and self.font_dropdown and value in self.fonts:
-                font_index = self.fonts.index(value)
-                GLib.idle_add(self._set_font_selection, font_index)
-
-    def _set_font_selection(self, index: int) -> bool:
-        if self.font_dropdown:
-            self._updating = True
-            self.font_dropdown.set_selected(index)
-            self._updating = False
-        return False
+            return self._selected_font_value
 
     def get_selected_font(self) -> Optional[str]:
-        if self.font_dropdown:
-            selected_index = self.font_dropdown.get_selected()
-            if 0 <= selected_index < len(self.fonts):
-                return self.fonts[selected_index]
-        return None
+        return self._selected_font_value if self._selected_font_value else None
 
     def set_selected_font(self, font_name: str) -> None:
-        self.set_property("selected-font", font_name)
-
+        if font_name in self.fonts and self._selected_font_value != font_name:
+            self._selected_font_value = font_name
+            if self.font_dropdown:
+                font_index = self.fonts.index(font_name)
+                self._updating = True
+                self.font_dropdown.set_selected(font_index)
+                self._updating = False
+            self.notify("selected-font")

@@ -118,11 +118,11 @@ class DrawingToolsGroup(Gtk.Box):
             return
 
         selected_index = picker.get_selected_index()
-
-        for picker in (self.fill_0, self.fill_1, self.fill_2):
-            picker.set_color_by_index(selected_index)
-        for picker in (self.outline_1, self.outline_2):
-            picker.set_color(Gdk.RGBA(0, 0, 0, 0))
+        if self.current_tool_config.match_primary_to_secondary:
+            for picker in (self.fill_0, self.fill_1, self.fill_2):
+                picker.set_color_by_index(selected_index)
+            for picker in (self.outline_1, self.outline_2):
+                picker.set_color(Gdk.RGBA(0, 0, 0, 0))
 
         self.current_tool_option.primary_color = color
         self.trigger_action()

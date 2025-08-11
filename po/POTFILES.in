@@ -25,6 +25,7 @@ gradia/ui/image_creation/source_image_generator.py
 gradia/ui/widget/gradient_preset_button.py
 gradia/ui/widget/quick_color_picker.py
 gradia/ui/widget/aspect_ratio_button.py
+gradia/backend/tool_config.py
 
 gradia/app_constants.py
 gradia/utils/std_image_loader.py

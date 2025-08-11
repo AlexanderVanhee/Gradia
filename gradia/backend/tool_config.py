@@ -26,7 +26,7 @@ class ToolOption:
     def __init__(
         self,
         mode: DrawingMode,
-        size: int = 10,
+        size: int = 14,
         primary_color: Gdk.RGBA = None,
         fill_color: Gdk.RGBA = None,
         border_color: Gdk.RGBA = None,
@@ -37,7 +37,7 @@ class ToolOption:
         self._size = size
         self._primary_color_str = self._rgba_to_str(primary_color or Gdk.RGBA(0,0,0,1))
         self._fill_color_str = self._rgba_to_str(fill_color or Gdk.RGBA(1,1,1,1))
-        self._border_color_str = self._rgba_to_str(border_color or Gdk.RGBA(0,0,0,1))
+        self._border_color_str = self._rgba_to_str(border_color or Gdk.RGBA(0,0,0,0))
         self._font = font or "Adwaita Sans"
         self._on_change_callback = on_change_callback
 
@@ -205,9 +205,27 @@ class ToolOptionsManager:
             for mode, tool in self._tool_configs.items()
         }
 
-
-
 class ToolConfig:
+
+    TEXT_COLORS = [
+        (Gdk.RGBA(0.65,0.11,0.18, 1), _("Red")),
+        (Gdk.RGBA(0.15,0.64,0.41, 1), _("Green")),
+        (Gdk.RGBA(0.1,0.37,0.71, 1), _("Blue")),
+        (Gdk.RGBA(0.9,0.65,0.04, 1), _("Yellow")),
+        (Gdk.RGBA(0,0,0, 1), _("Black")),
+        (Gdk.RGBA(1.0, 1.0, 1.0, 1), _("White")),
+    ]
+
+    TEXT_BACKGROUND_COLORS = [
+        (Gdk.RGBA(0.96,0.38,0.32, 1), _("Red")),
+        (Gdk.RGBA(0.56,0.94,0.64, 1), _("Green")),
+        (Gdk.RGBA(0.6,0.76,0.95, 1), _("Blue")),
+        (Gdk.RGBA(0.98,0.94,0.42, 1), _("Yellow")),
+        (Gdk.RGBA(1.0, 1.0, 1.0, 1), _("White")),
+        (Gdk.RGBA(0,0,0, 1), _("Black")),
+        (Gdk.RGBA(0, 0, 0, 0), _("Transparent"))
+    ]
+
     def __init__(
         self,
         mode: DrawingMode,
@@ -264,6 +282,8 @@ class ToolConfig:
                 row=0,
                 shown_stack="text",
                 has_primary_color=True,
+                primary_color_list=ToolConfig.TEXT_COLORS,
+                secondary_color_list=ToolConfig.TEXT_BACKGROUND_COLORS
             ),
             ToolConfig(
                 mode=DrawingMode.LINE,
@@ -333,22 +353,8 @@ class ToolConfig:
                 has_scale=True,
                 has_primary_color=True,
                 match_primary_to_secondary=True,
-                primary_color_list=[
-                    (Gdk.RGBA(0.65,0.11,0.18, 1), _("Red")),
-                    (Gdk.RGBA(0.15,0.64,0.41, 1), _("Green")),
-                    (Gdk.RGBA(0.1,0.37,0.71, 1), _("Blue")),
-                    (Gdk.RGBA(0.9,0.65,0.04, 1), _("Yellow")),
-                    (Gdk.RGBA(0,0,0, 1), _("Black")),
-                    (Gdk.RGBA(1.0, 1.0, 1.0, 1), _("White")),
-                ],
-                secondary_color_list=[
-                    (Gdk.RGBA(0.96,0.38,0.32, 1), _("Red")),
-                    (Gdk.RGBA(0.56,0.94,0.64, 1), _("Green")),
-                    (Gdk.RGBA(0.6,0.76,0.95, 1), _("Blue")),
-                    (Gdk.RGBA(0.98,0.94,0.42, 1), _("Yellow")),
-                    (Gdk.RGBA(1.0, 1.0, 1.0, 1), _("White")),
-                    (Gdk.RGBA(0,0,0, 1), _("Black")),
-                ]
+                primary_color_list=ToolConfig.TEXT_COLORS,
+                secondary_color_list=ToolConfig.TEXT_BACKGROUND_COLORS
             ),
         ]
 

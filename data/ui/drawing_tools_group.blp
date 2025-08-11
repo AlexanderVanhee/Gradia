@@ -36,6 +36,7 @@ template $GradiaDrawingToolsGroup : Box {
     reveal-child: true;
     transition-type: slide_up;
     transition-duration: 200;
+    margin-bottom:6;
     child: Stack extra_stack {
       transition-type: crossfade;
       transition-duration: 200;
@@ -93,12 +94,14 @@ template $GradiaDrawingToolsGroup : Box {
               icon-name: "fill-symbolic";
               hexpand: true;
               color-changed => $on_fill_color_changed();
+              tooltip-text: _("Fill Color Picker");
             }
 
             $GradiaSimpleColorPicker  outline_2 {
               icon-name: "outline-color-symbolic";
               hexpand: true;
               color-changed => $on_outline_color_changed();
+              tooltip-text: _("Outline Color Picker");
             }
 
             $GradiaFontDropdown font_dropdown {
