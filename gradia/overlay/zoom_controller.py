@@ -127,6 +127,9 @@ class ZoomController(Gtk.Widget):
 
         modifiers = controller.get_current_event_state()
 
+        if (modifiers & Gdk.ModifierType.SHIFT_MASK) and (modifiers & Gdk.ModifierType.CONTROL_MASK):
+            return Gdk.EVENT_PROPAGATE
+
         if modifiers & Gdk.ModifierType.CONTROL_MASK:
             zoom_factor = 1.1 if dy < 0 else 0.9
             self._zoom_at_point(zoom_factor, self._mouse_x, self._mouse_y)
@@ -147,7 +150,7 @@ class ZoomController(Gtk.Widget):
             self._constrain_pan()
             self.queue_draw()
             self._update_drawing_overlay_transform()
-            return Gdk.EVENT_STOP
+            return Gdk.EVENT_PROPAGATE
 
     def _on_drag_begin(self, gesture, start_x, start_y):
         if self._disable_zoom:

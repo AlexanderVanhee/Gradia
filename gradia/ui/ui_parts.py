@@ -107,6 +107,7 @@ class ShortcutsDialog:
                     (_("Highlighter"), "7 H"),
                     (_("Censor"),      "8 C"),
                     (_("Number"),      "9 N"),
+                    (_("Adjust Tool Size"), _("Ctrl + Shift + Mouse Wheel")),
                 ]
             },
             {
@@ -141,10 +142,18 @@ class ShortcutsDialog:
         for group_data in self.shortcut_groups:
             group = Gtk.ShortcutsGroup(title=group_data["title"], visible=True)
             for title, accel in group_data["shortcuts"]:
-                group.add_shortcut(Gtk.ShortcutsShortcut(
-                    title=title,
-                    accelerator=accel
-                ))
+                if any(word in accel for word in ["Mouse", "Wheel", "Scroll"]) and not accel.startswith("<"):
+                    shortcut = Gtk.ShortcutsShortcut(
+                        title=title,
+                        subtitle=accel
+                    )
+                else:
+                    shortcut = Gtk.ShortcutsShortcut(
+                        title=title,
+                        accelerator=accel
+                    )
+
+                group.add_shortcut(shortcut)
             section.add_group(group)
 
         self.dialog.add_section(section)
@@ -160,4 +169,3 @@ class ShortcutsDialog:
         self.parent = parent
         if self.dialog:
             self.dialog.set_transient_for(parent)
-

@@ -22,6 +22,7 @@ from gradia.ui.widget.drawing_tools_grid import DrawingToolsGrid
 from gradia.backend.tool_config import ToolOption, ToolOptionsManager, ToolConfig
 from gradia.ui.widget.font_dropdown import FontDropdown
 from gradia.constants import rootdir
+import math
 
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/drawing_tools_group.ui")
@@ -46,6 +47,16 @@ class DrawingToolsGroup(Gtk.Box):
         self.current_tool_config: Optional[ToolConfig] = None
         self.current_tool_option: Optional[ToolOption] = None
         self._updating_ui = False
+
+        self.connect("realize", self._on_realize)
+
+    def _on_realize(self, *args):
+        self._scroll_controller = Gtk.EventControllerScroll.new(
+            Gtk.EventControllerScrollFlags.VERTICAL |
+            Gtk.EventControllerScrollFlags.HORIZONTAL
+        )
+        self._scroll_controller.connect("scroll", self._on_scroll)
+        self.get_root().add_controller(self._scroll_controller)
 
     @Gtk.Template.Callback()
     def on_tool_changed(self, grid: DrawingToolsGrid, tool_config: ToolConfig):
@@ -82,6 +93,29 @@ class DrawingToolsGroup(Gtk.Box):
         self.font_dropdown.set_selected_font(tool_option.font)
 
         self._updating_ui = False
+
+    def _on_scroll(self, controller, dx, dy):
+        modifiers = controller.get_current_event_state()
+        if (modifiers & Gdk.ModifierType.SHIFT_MASK) and (modifiers & Gdk.ModifierType.CONTROL_MASK):
+            adjustment = self.size_scale.get_adjustment()
+            min_value = adjustment.get_lower()
+            max_value = adjustment.get_upper()
+
+            step = math.copysign(1, -dy) if -dy != 0 else 0
+            if dy < 0:
+                new_size = self.current_tool_option.size + step
+            else:
+                new_size = self.current_tool_option.size + step
+
+            new_size = max(min_value, min(max_value, new_size))
+
+            self.current_tool_option.size = new_size
+            self.size_scale.set_value(new_size)
+            self.trigger_action()
+            return Gdk.EVENT_STOP
+
+        return Gdk.EVENT_PROPAGATE
+
 
     @Gtk.Template.Callback()
     def on_fill_color_changed(self, button: SimpleColorPicker, color: Gdk.RGBA):
