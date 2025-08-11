@@ -5,39 +5,10 @@
       <default>'SELECT'</default>
       <summary>Current drawing mode</summary>
     </key>
-    <key name="pen-color" type="s">
-      <default>'1.000,1.000,1.000,1.000'</default>
-      <summary>Pen color in rgba</summary>
+    <key name="tool-config" type="a{ss}">
+      <default>{}</default>
+      <summary>Dictionary of tool configuration strings</summary>
     </key>
-    <key name="highlighter-color" type="s">
-      <default>'1.000,1.000,0.000,0.500'</default>
-      <summary>Highlighter color in rgba</summary>
-    </key>
-    <key name="highlighter-size" type="d">
-      <default>5.0</default>
-      <summary>Highlighter size</summary>
-    </key>
-    <key name="fill-color" type="s">
-      <default>'0.000,0.000,0.000,0.000'</default>
-      <summary>Fill color in rgba</summary>
-    </key>
-    <key name="outline-color" type="s">
-      <default>'0.000,0.000,0.000,0.000'</default>
-      <summary>Text outline color in rgba</summary>
-    </key>
-    <key name="pen-size" type="d">
-      <default>3.0</default>
-      <summary>Pen size</summary>
-    </key>
-    <key name="number-radius" type="d">
-      <default>10.0</default>
-      <summary>Number radius size</summary>
-    </key>
-    <key name="font" type="s">
-      <default>'Adwaita Sans'</default>
-      <summary>Selected font name</summary>
-    </key>
-
     <key name="image-padding" type="i">
       <default>5</default>
       <summary>Padding percentage around the image</summary>

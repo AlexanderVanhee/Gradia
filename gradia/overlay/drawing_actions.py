@@ -414,7 +414,7 @@ class HighlighterAction(StrokeAction):
     def __init__(self, stroke: list[tuple[int, int]], options):
         self.stroke = stroke
         self.color = options.primary_color
-        self.pen_size = options.size
+        self.pen_size = options.size * 2
 
     def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
         if len(self.stroke) < 2:
@@ -566,7 +566,7 @@ class NumberStampAction(DrawingAction):
         super().__init__()
         self.position = position
         self.number = number
-        self.radius = options.size
+        self.radius = options.size * 2
         self.fill_color = options.fill_color
         self.text_color = options.primary_color
         self.outline_color = options.border_color
@@ -580,7 +580,7 @@ class NumberStampAction(DrawingAction):
         cr.arc(x_widget, y_widget, r_widget, 0, 2 * math.pi)
         cr.fill_preserve()
 
-        if has_visible_color(self.outline_color) and has_visible_color(self.fill_color):
+        if self.outline_color.alpha != 0  and self.fill_color.alpha != 0:
             cr.set_source_rgba(*self.outline_color)
             cr.set_line_width(2.0 * scale)
             cr.stroke()

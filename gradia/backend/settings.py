@@ -15,7 +15,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from gi.repository import Gio, Gdk, Gtk
+from gi.repository import Gio, Gdk, Gtk, GLib
 
 class Settings:
     def __init__(self) -> None:
@@ -33,82 +33,33 @@ class Settings:
     def draw_mode(self, value: str) -> None:
         self._settings.set_string("draw-mode", value)
 
-    @property
-    def pen_color(self) -> Gdk.RGBA:
-        return self._parse_rgba(
-            self._settings.get_string("pen-color"),
-            fallback=(1.0, 1.0, 1.0, 1.0)
-        )
+    def get_tool_config_item(self, key: str) -> str | None:
+        tool_config = self.get_tool_config()
+        return tool_config.get(key)
 
-    @pen_color.setter
-    def pen_color(self, value: Gdk.RGBA) -> None:
-        self._settings.set_string("pen-color", self._rgba_to_string(value))
+    def set_tool_config_item(self, key: str, value: str) -> None:
+        tool_config = self.get_tool_config()
+        tool_config[key] = value
+        variant = GLib.Variant("a{ss}", tool_config)
+        self._settings.set_value("tool-config", variant)
 
-    @property
-    def highlighter_color(self) -> Gdk.RGBA:
-        return self._parse_rgba(
-            self._settings.get_string("highlighter-color"),
-            fallback=(1.0, 1.0, 0.0, 0.5)
-        )
+    def get_tool_config(self) -> dict[str, str]:
+        variant = self._settings.get_value("tool-config")
+        result = {}
 
-    @highlighter_color.setter
-    def highlighter_color(self, value: Gdk.RGBA) -> None:
-        self._settings.set_string("highlighter-color", self._rgba_to_string(value))
+        for i in range(variant.n_children()):
+            entry = variant.get_child_value(i)
 
-    @property
-    def highlighter_size(self) -> float:
-        return self._settings.get_double("highlighter-size")
+            key_variant = entry.get_child_value(0)
+            value_variant = entry.get_child_value(1)
 
-    @highlighter_size.setter
-    def highlighter_size(self, value: float) -> None:
-        self._settings.set_double("highlighter-size", value)
+            key = key_variant.unpack()
+            value = value_variant.unpack()
 
-    @property
-    def fill_color(self) -> Gdk.RGBA:
-        return self._parse_rgba(
-            self._settings.get_string("fill-color"),
-            fallback=(0.0, 0.0, 0.0, 0.0)
-        )
+            result[key] = value
 
-    @fill_color.setter
-    def fill_color(self, value: Gdk.RGBA) -> None:
-        self._settings.set_string("fill-color", self._rgba_to_string(value))
+        return result
 
-
-    @property
-    def outline_color(self) -> Gdk.RGBA:
-        return self._parse_rgba(
-            self._settings.get_string("outline-color"),
-            fallback=(0.0, 0.0, 0.0, 0.0)
-        )
-
-    @outline_color.setter
-    def outline_color(self, value: Gdk.RGBA) -> None:
-        self._settings.set_string("outline-color", self._rgba_to_string(value))
-
-    @property
-    def pen_size(self) -> float:
-        return self._settings.get_double("pen-size")
-
-    @pen_size.setter
-    def pen_size(self, value: float) -> None:
-        self._settings.set_double("pen-size", value)
-
-    @property
-    def number_radius(self) -> float:
-        return self._settings.get_double("number-radius")
-
-    @number_radius.setter
-    def number_radius(self, value: float) -> None:
-        self._settings.set_double("number-radius", value)
-
-    @property
-    def font(self) -> str:
-        return self._settings.get_string("font")
-
-    @font.setter
-    def font(self, value: str) -> None:
-        self._settings.set_string("font", value)
 
     @property
     def screenshot_subfolder(self) -> str:

@@ -18,90 +18,22 @@
 from gi.repository import Gtk, Adw, Gdk, GObject, Gio
 from gradia.utils.colors import is_light_color, rgba_to_hex
 
-class QuickColorPicker(Gtk.Box):
-    __gtype_name__ = 'GradiaQuickColorPicker'
-
-    color = GObject.Property(
-        type=Gdk.RGBA,
-        default=Gdk.RGBA(0.2, 0.4, 1.0, 1.0),
-        flags=GObject.ParamFlags.READWRITE
-    )
-
-    with_alpha = GObject.Property(
-        type=bool,
-        default=True,
-        flags=GObject.ParamFlags.READWRITE
-    )
-
-    quick_colors_alpha = GObject.Property(
-        type=float,
-        default=1.0,
-        minimum=0.0,
-        maximum=1.0,
-        flags=GObject.ParamFlags.READWRITE
-    )
-
-    show_black_white = GObject.Property(
-        type=bool,
-        default=True,
-        flags=GObject.ParamFlags.READWRITE
-    )
-
-    __gsignals__ = {
-        'color-changed': (GObject.SignalFlags.RUN_FIRST, None, (Gdk.RGBA,))
-    }
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.set_orientation(Gtk.Orientation.HORIZONTAL)
-        self.set_spacing(4)
-        self._selected_button = None
-        self._setup_ui()
-        self._setup_bindings()
-
-    def _setup_ui(self):
-        self._create_color_row()
-
-    def _create_color_row(self):
-        while self.get_first_child():
-            self.remove(self.get_first_child())
-
-        self._selected_button = None
-
+class ColorPickerMixin:
+    def _get_base_colors(self, alpha=1.0, secondary=False):
         base_colors = [
-            ((0.88, 0.11, 0.14), _("Red")),
-            ((0.18, 0.76, 0.49), _("Green")),
-            ((0.21, 0.52, 0.89), _("Blue")),
-            ((0.96, 0.83, 0.18), _("Yellow")),
-        ]
+            (Gdk.RGBA(0.88, 0.11, 0.14, alpha), _("Red")),
+            (Gdk.RGBA(0.18, 0.76, 0.49, alpha), _("Green")),
+            (Gdk.RGBA(0.21, 0.52, 0.89, alpha), _("Blue")),
+            (Gdk.RGBA(0.96, 0.83, 0.18, alpha), _("Yellow")),
+            (Gdk.RGBA(0.0, 0.0, 0.0, alpha), _("Black")),
+            (Gdk.RGBA(1.0, 1.0, 1.0, alpha), _("White")),
+            ]
 
-        if self.show_black_white:
-            base_colors.extend([
-                ((0.0, 0.0, 0.0), _("Black")),
-                ((1.0, 1.0, 1.0), _("White")),
-            ])
+        if secondary:
+            base_colors.append((Gdk.RGBA(0, 0, 0, 0), _("Transparent")))
 
-        self.color_palette = [
-            (Gdk.RGBA(r, g, b, self.quick_colors_alpha), name)
-            for (r, g, b), name in base_colors
-        ]
 
-        for color, name in self.color_palette:
-            color_button = self._create_color_button(color, name)
-            self.append(color_button)
-
-        more_colors_button = Gtk.Button()
-        more_colors_button.set_has_frame(False)
-        more_colors_button.add_css_class('flat')
-        more_colors_button.add_css_class('color-hover-bg')
-        more_colors_icon = Gtk.Image.new_from_icon_name('color-symbolic')
-        more_colors_icon.set_icon_size(Gtk.IconSize.NORMAL)
-        more_colors_button.set_child(more_colors_icon)
-        more_colors_button.connect('clicked', self._on_more_colors_clicked)
-        more_colors_button.set_tooltip_text(_('More colors...'))
-        self.append(more_colors_button)
-
-        self._update_selection()
+        return base_colors
 
     def _create_color_button(self, color, name):
         button = Gtk.Button()
@@ -109,34 +41,15 @@ class QuickColorPicker(Gtk.Box):
         button.add_css_class('flat')
         button.add_css_class('color-hover-bg')
 
-        checkmark = Gtk.Image.new_from_icon_name("object-select-symbolic")
-        checkmark.set_pixel_size(12)
-        checkmark.add_css_class("checkmark-icon")
-
-        if is_light_color(rgba_to_hex(color)):
-            checkmark.add_css_class("dark")
-
-        overlay = Gtk.Overlay(width_request=20, height_request=20)
-        overlay.add_overlay(checkmark)
-        overlay.set_halign(Gtk.Align.CENTER)
-        overlay.set_valign(Gtk.Align.CENTER)
-
         color_box = Gtk.Box()
         color_box.add_css_class('color-button')
         color_box.set_size_request(24, 24)
-        overlay.set_child(color_box)
-
-        button.set_child(overlay)
+        button.set_child(color_box)
 
         self._apply_color_to_box(color_box, color)
         self._apply_hover_background(button, color)
 
-        button._color = color
-        button._checkmark = checkmark
-        button._color_box = color_box
-        button.connect('clicked', lambda btn, c=color: self._on_color_selected(c, btn))
         button.set_tooltip_text(name)
-
         return button
 
     def _apply_color_to_box(self, box, color):
@@ -179,43 +92,122 @@ class QuickColorPicker(Gtk.Box):
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
 
-    def _setup_bindings(self):
-        self.connect('notify::color', self._on_color_property_changed)
-        self.connect('notify::quick-colors-alpha', self._on_quick_colors_alpha_changed)
-        self.connect('notify::show-black-white', self._on_show_black_white_changed)
+    def _create_more_colors_button(self):
+        more_colors_button = Gtk.Button()
+        more_colors_button.set_has_frame(False)
+        more_colors_button.add_css_class('flat')
+        more_colors_button.add_css_class('color-hover-bg')
+        more_colors_icon = Gtk.Image.new_from_icon_name('color-symbolic')
+        more_colors_icon.set_icon_size(Gtk.IconSize.NORMAL)
+        more_colors_button.set_child(more_colors_icon)
+        more_colors_button.set_tooltip_text(_('More colors...'))
+        return more_colors_button
 
-    def _on_color_selected(self, color, button):
-        if self._selected_button:
-            self._selected_button._checkmark.remove_css_class("visible")
-
-        self._selected_button = button
-        button._checkmark.add_css_class("visible")
-
-        self.set_property('color', color)
-        self.emit('color-changed', color)
-
-    def _on_more_colors_clicked(self, button):
+    def _show_color_dialog(self, callback):
         color_dialog = Gtk.ColorDialog()
         color_dialog.set_title(_("Choose Color"))
         color_dialog.set_with_alpha(self.with_alpha)
-
         toplevel = None
-
         color_dialog.choose_rgba(
             toplevel,
             self.get_property('color'),
             None,
-            self._on_color_dialog_response
+            callback
         )
+    def get_selected_index(self):
+        if not self._selected_button:
+            return None
+        return list(self).index(self._selected_button)
+
+class QuickColorPicker(Gtk.Box, ColorPickerMixin):
+    __gtype_name__ = 'GradiaQuickColorPicker'
+
+    color = GObject.Property(
+        type=Gdk.RGBA,
+        default=Gdk.RGBA(0.2, 0.4, 1.0, 1.0),
+        flags=GObject.ParamFlags.READWRITE
+    )
+
+    with_alpha = GObject.Property(
+        type=bool,
+        default=True,
+        flags=GObject.ParamFlags.READWRITE
+    )
+
+    __gsignals__ = {
+        'color-changed': (GObject.SignalFlags.RUN_FIRST, None, (Gdk.RGBA,))
+    }
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.set_orientation(Gtk.Orientation.HORIZONTAL)
+        self.set_spacing(4)
+        self._selected_button = None
+        self._custom_colors = None
+        self._setup_ui()
+        self._setup_bindings()
+
+    def _setup_ui(self):
+        self._create_color_row()
+
+    def _create_color_row(self):
+        while self.get_first_child():
+            self.remove(self.get_first_child())
+        self._selected_button = None
+
+        if self._custom_colors is not None:
+            self.color_palette = self._custom_colors
+        else:
+            self.color_palette = self._get_base_colors()
+
+        for color, name in self.color_palette:
+            color_button = self._create_color_button(color, name or rgba_to_hex(color))
+            checkmark = Gtk.Image.new_from_icon_name("object-select-symbolic")
+            checkmark.set_pixel_size(12)
+            checkmark.add_css_class("checkmark-icon")
+            if is_light_color(rgba_to_hex(color)):
+                checkmark.add_css_class("dark")
+
+            color_box = color_button.get_child()
+            color_button.set_child(None)
+
+            overlay = Gtk.Overlay(width_request=20, height_request=20)
+            overlay.add_overlay(checkmark)
+            overlay.set_halign(Gtk.Align.CENTER)
+            overlay.set_valign(Gtk.Align.CENTER)
+            overlay.set_child(color_box)
+            color_button.set_child(overlay)
+
+            color_button._color = color
+            color_button._checkmark = checkmark
+            color_button.connect('clicked', lambda btn, c=color: self._on_color_selected(c, btn))
+            self.append(color_button)
+
+        more_colors_button = self._create_more_colors_button()
+        more_colors_button.connect('clicked', self._on_more_colors_clicked)
+        self.append(more_colors_button)
+        self._update_selection()
+
+    def _setup_bindings(self):
+        self.connect('notify::color', self._on_color_property_changed)
+
+    def _on_color_selected(self, color, button):
+        if self._selected_button:
+            self._selected_button._checkmark.remove_css_class("visible")
+        self._selected_button = button
+        button._checkmark.add_css_class("visible")
+        self.set_property('color', color)
+        self.emit('color-changed', color)
+
+    def _on_more_colors_clicked(self, button):
+        self._show_color_dialog(self._on_color_dialog_response)
 
     def _on_color_dialog_response(self, dialog, result):
         try:
             color = dialog.choose_rgba_finish(result)
-
             if self._selected_button:
                 self._selected_button._checkmark.remove_css_class("visible")
                 self._selected_button = None
-
             self.set_property('color', color)
             self.emit('color-changed', color)
         except Exception:
@@ -224,15 +216,8 @@ class QuickColorPicker(Gtk.Box):
     def _on_color_property_changed(self, widget, pspec):
         self._update_selection()
 
-    def _on_quick_colors_alpha_changed(self, widget, pspec):
-        self._create_color_row()
-
-    def _on_show_black_white_changed(self, widget, pspec):
-        self._create_color_row()
-
     def _update_selection(self):
         current_color = self.get_property('color')
-
         for child in self:
             if hasattr(child, '_color'):
                 if self._colors_match(child._color, current_color):
@@ -256,15 +241,11 @@ class QuickColorPicker(Gtk.Box):
         self.set_property('color', color)
         self.emit('color-changed', color)
 
-    def get_show_black_white(self):
-        return self.get_property('show-black-white')
+    def set_color_list(self, colors):
+        self._custom_colors = colors
+        self._create_color_row()
 
-    def set_show_black_white(self, show):
-        self.set_property('show-black-white', show)
-
-
-
-class SimpleColorPicker(Gtk.Button):
+class SimpleColorPicker(Gtk.Button, ColorPickerMixin):
     __gtype_name__ = 'GradiaSimpleColorPicker'
 
     color = GObject.Property(
@@ -299,6 +280,7 @@ class SimpleColorPicker(Gtk.Button):
         super().__init__(**kwargs)
         self.set_has_frame(False)
         self.add_css_class('flat')
+        self._custom_colors = None
         self._setup_ui()
         self._setup_bindings()
         self.connect('clicked', self._on_clicked)
@@ -318,8 +300,33 @@ class SimpleColorPicker(Gtk.Button):
         self.content_box.append(self.label)
 
         self.set_child(self.content_box)
+
+        self.popover = Gtk.Popover()
+        self.popover.set_parent(self)
+        self.popover.set_position(Gtk.PositionType.BOTTOM)
+        self._setup_popover_content()
+
         self._update_content()
         self._update_color_style()
+
+    def _setup_popover_content(self):
+        popover_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+
+        if self._custom_colors is not None:
+            color_palette = self._custom_colors
+        else:
+            color_palette = self._get_base_colors(secondary=True)
+
+        for color, name in color_palette:
+            color_button = self._create_color_button(color, name)
+            color_button.connect('clicked', lambda btn, c=color: self._on_color_selected(c))
+            popover_box.append(color_button)
+
+        more_colors_button = self._create_more_colors_button()
+        more_colors_button.connect('clicked', self._on_more_colors_clicked)
+        popover_box.append(more_colors_button)
+
+        self.popover.set_child(popover_box)
 
     def _setup_bindings(self):
         self.connect('notify::color', self._on_color_property_changed)
@@ -342,6 +349,11 @@ class SimpleColorPicker(Gtk.Button):
         else:
             self.label.set_visible(False)
 
+        if not icon_name and not text:
+            self.content_box.set_size_request(24, 24)
+        else:
+            self.content_box.set_size_request(-1, -1)
+
     def _update_color_style(self):
         color = self.get_property('color')
 
@@ -349,18 +361,27 @@ class SimpleColorPicker(Gtk.Button):
         if hasattr(self, "_color_css_provider"):
             ctx.remove_provider(self._color_css_provider)
 
-        css = f"""
-        button {{
-            background-color: rgb({int(color.red * 255)}, {int(color.green * 255)}, {int(color.blue * 255)});
-            border-radius: 9px;
-            padding: 8px 12px;
-        }}
-        """
+        if color.alpha == 0:
+            css = """
+                button {
+                    background-color: #b2b2b2;
+                }
+                """
+            self.remove_css_class("transparent-simple-color-picker")
+            self.add_css_class("transparent-simple-color-picker")
+        else:
+            css = f"""
+                button {{
+                    background-color: rgba({int(color.red * 255)}, {int(color.green * 255)}, {int(color.blue * 255)}, {color.alpha});
+                }}
+                """
+            self.remove_css_class("transparent-simple-color-picker")
 
         provider = Gtk.CssProvider()
         provider.load_from_data(css.encode())
         ctx.add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
         self._color_css_provider = provider
+        self.add_css_class("simple-color-picker")
 
         if is_light_color(rgba_to_hex(color)):
             self.icon.add_css_class("dark")
@@ -370,18 +391,16 @@ class SimpleColorPicker(Gtk.Button):
             self.label.remove_css_class("dark")
 
     def _on_clicked(self, button):
-        color_dialog = Gtk.ColorDialog()
-        color_dialog.set_title(_("Choose Color"))
-        color_dialog.set_with_alpha(self.with_alpha)
+        self.popover.popup()
 
-        toplevel = None
+    def _on_color_selected(self, color):
+        self.set_property('color', color)
+        self.popover.popdown()
+        self.emit('color-changed', color)
 
-        color_dialog.choose_rgba(
-            toplevel,
-            self.get_property('color'),
-            None,
-            self._on_color_dialog_response
-        )
+    def _on_more_colors_clicked(self, button):
+        self.popover.popdown()
+        self._show_color_dialog(self._on_color_dialog_response)
 
     def _on_color_dialog_response(self, dialog, result):
         try:
@@ -419,3 +438,19 @@ class SimpleColorPicker(Gtk.Button):
 
     def set_text(self, text):
         self.set_property('text', text)
+
+    def set_color_list(self, colors):
+        self._custom_colors = colors
+        self._setup_popover_content()
+
+    def set_color_by_index(self, index, emit=True):
+        palette = self._custom_colors if self._custom_colors is not None else self._get_base_colors(secondary=True)
+        if 0 <= index < len(palette):
+            color, _ = palette[index]
+            self.set_color(color, emit=emit)
+
+    def do_dispose(self):
+        if self.popover:
+            self.popover.unparent()
+        super().do_dispose()
+

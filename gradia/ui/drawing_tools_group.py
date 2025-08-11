@@ -62,10 +62,11 @@ class DrawingToolsGroup(Gtk.Box):
         self.extra_stack.set_visible_child_name(tool_config.shown_stack)
         self.extra_stack_revealer.set_reveal_child(tool_config.shown_stack != "empty")
 
-        if tool_config.mode == DrawingMode.HIGHLIGHTER:
-            self.color_picker.quick_colors_alpha = 0.7
-        else:
-            self.color_picker.quick_colors_alpha = 1.0
+        self.color_picker.set_color_list(tool_config.primary_color_list)
+
+        for picker in (self.fill_0, self.fill_1, self.fill_2, self.outline_1, self.outline_2):
+            picker.set_color_list(tool_config.secondary_color_list)
+
 
         if tool_config.has_scale:
             self.size_scale.set_value(tool_option.size)
@@ -115,6 +116,13 @@ class DrawingToolsGroup(Gtk.Box):
     def on_primary_color_changed(self, picker: QuickColorPicker, color: Gdk.RGBA):
         if self._updating_ui or self.current_tool_option is None:
             return
+
+        selected_index = picker.get_selected_index()
+
+        for picker in (self.fill_0, self.fill_1, self.fill_2):
+            picker.set_color_by_index(selected_index)
+        for picker in (self.outline_1, self.outline_2):
+            picker.set_color(Gdk.RGBA(0, 0, 0, 0))
 
         self.current_tool_option.primary_color = color
         self.trigger_action()
