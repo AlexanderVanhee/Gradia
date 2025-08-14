@@ -9,4 +9,4 @@ To get changes imported from `base.css` to the base stylesheet in real time duri
 npx @tailwindcss/cli -i assets/styles/base.css -o assets/styles/base-tailwind.css --watch
 ```
 
-You can also import changes after working on the stylesheet, by typing the same command without the `--watch` option.
+You can also import changes without having to run a watcher constantly in the background, just run the above command without the `--watch` option.
