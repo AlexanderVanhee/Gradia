@@ -1,0 +1,40 @@
+@import "base-tailwind.css";
+
+.bg-drool {
+    background-image: url("../images/drool-l.svg");
+}
+
+.text-secondary {
+    color: #d3d7cf;
+}
+
+.github-icon {
+    filter: invert(100%);
+}
+
+.bullet-point::before {
+    content: "•";
+    margin-right: 0.75rem;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.bg-adw-footer {
+    background-color: var(--adw-footer);
+}
+
+.bg-card {
+    background-color: var(--adw-card);
+}
+
+.button {
+    padding: 0.6rem 1.4rem;
+    border-radius: 0.8rem;
+    background-color: var(--adw-button);
+    position: relative;
+
+    &:hover {
+        box-shadow: 0 0 0 2px var(--adw-button);
+        text-decoration: none;
+    }
+}

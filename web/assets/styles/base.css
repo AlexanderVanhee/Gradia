@@ -1,14 +1,67 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import "tailwindcss";
 
 :root {
-    --adw-bg: #1a1622;
+    --blue1: rgb(153, 193, 241);
+    --blue2: rgb(98, 160, 234);
+    --blue3: rgb(53, 132, 228);
+    --blue4: rgb(28, 113, 216);
+    --blue5: rgb(26, 95, 180);
+    --green1: rgb(143, 240, 164);
+    --green2: rgb(87, 227, 137);
+    --green3: rgb(51, 209, 122);
+    --green4: rgb(46, 194, 126);
+    --green5: rgb(38, 162, 105);
+    --yellow1: rgb(249, 240, 107);
+    --yellow2: rgb(248, 228, 92);
+    --yellow3: rgb(246, 211, 45);
+    --yellow4: rgb(245, 194, 17);
+    --yellow5: rgb(229, 165, 10);
+    --orange1: rgb(255, 190, 111);
+    --orange2: rgb(255, 163, 72);
+    --orange3: rgb(255, 120, 0);
+    --orange4: rgb(230, 97, 0);
+    --orange5: rgb(198, 70, 0);
+    --red1: rgb(246, 97, 81);
+    --red2: rgb(237, 51, 59);
+    --red3: rgb(224, 27, 36);
+    --red4: rgb(192, 28, 40);
+    --red5: rgb(165, 29, 45);
+    --purple1: rgb(220, 138, 221);
+    --purple2: rgb(192, 97, 203);
+    --purple3: rgb(145, 65, 172);
+    --purple4: rgb(129, 61, 156);
+    --purple5: rgb(97, 53, 131);
+    --brown1: rgb(205, 171, 143);
+    --brown2: rgb(181, 131, 90);
+    --brown3: rgb(152, 106, 68);
+    --brown4: rgb(134, 94, 60);
+    --brown5: rgb(99, 69, 44);
+    --light1: rgb(255, 255, 255);
+    --light2: rgb(246, 245, 244);
+    --light3: rgb(222, 221, 218);
+    --light4: rgb(192, 191, 188);
+    --light5: rgb(154, 153, 150);
+    --dark1: rgb(119, 118, 123);
+    --dark2: rgb(94, 92, 100);
+    --dark3: rgb(61, 56, 70);
+    --dark4: rgb(36, 31, 49);
+    --dark5: rgb(0, 0, 0);
+
+    --adw-bg: #111111;
     --adw-card: #3d3846;
+    --adw-button: #55505c;
     --adw-border: #4a4a50;
     --adw-blue: #3581de;
     --text-primary: #f5f5f5;
     --text-secondary: #d1d1d1;
     --text-muted: #b5b5b5;
     --code-bg: rgba(255, 255, 255, 0.1);
+    --adw-footer: #1a1622;
+    --slickease: cubic-bezier(.17, .89, .32, 1.28);
+    --default-font-size: 16px;
+    --inter: InterVariable, "Inter Variable", Inter, sans-serif;
+    --monospace: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+    font-feature-settings: 'liga' 1, 'calt' 1; /* Inter fix for Chrome */
 }
 
 @font-face {
@@ -19,229 +72,25 @@
     font-display: swap;
 }
 
-/* Reset and Base Styles */
-* {
-    box-sizing: border-box;
+html, body {
     margin: 0;
     padding: 0;
+    font-size: var(--default-font-size);
+    font-family: var(--inter);
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+    word-spacing: -0.01em;
+    scroll-behavior: smooth;
 }
 
 body {
-    background: var(--adw-bg);
     color: var(--text-secondary);
-    font-family: "Inter", sans-serif;
-    line-height: 1.6;
+    background-color: var(--adw-bg);
     min-height: 100vh;
 }
 
-/* Layout */
-.container {
-    max-width: 64rem;
-    margin: 0 auto;
-    padding: 1.5rem;
-}
-
-/* Header */
-header {
-    margin-bottom: 2rem;
-}
-
-h1 {
-    font-size: 1.875rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-    margin-top: 0.5rem;
-}
-
-.subtitle {
-    color: var(--text-muted);
-}
-
-.card {
-    background: var(--adw-card);
-    border-radius: 0.5rem;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-/* Section Titles */
-.section-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 1rem;
-}
-
-.inline-code {
-    background: var(--code-bg);
-    color: var(--text-secondary);
-    padding: 0.125rem 0.5rem;
-    border-radius: 0.25rem;
-    font-size: 0.875rem;
-    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: 'Adwaita Sans', sans-serif;
-}
-
-.logo img {
-    height: 64px;
-    width: 64px;
-    object-fit: contain;
-}
-
-.logo span {
-    font-size: 1.5rem;
-    font-weight: 900;
-    color: var(--adw-fg, #ffffff);
-    line-height: 1;
-}
-
-
-.provider-name {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-.provider-description {
-    color: var(--text-muted);
-    font-size: 0.875rem;
-    margin-bottom: 0.75rem;
-}
-
-/* Code Containers */
-.cmd-container {
-    position: relative;
-}
-
-.code-block {
-    background: rgba(0, 0, 0, 0.3);
-    padding: 0.75rem;
-    border-radius: 0.375rem;
-    font-size: 0.875rem;
-    overflow-x: auto;
-    margin: 0;
-}
-
-.code-block code {
-    background: transparent;
-    color: var(--text-secondary);
-    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-}
-
-/* Copy Button */
-.copy-btn {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    background: #55505c;
-    color: white;
-    border: none;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    font-size: 0.75rem;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.2s ease, background-color 0.2s ease;
-}
-
-.copy-btn:hover {
-    background: #241f31;
-}
-
-.copy-btn.copied {
-    background: #26a269;
-}
-
-.cmd-container:hover .copy-btn {
-    opacity: 1;
-}
-
-a {
-    color: #3584df;
-    text-decoration: none;
-}
-
-a:hover {
+footer a:hover {
     text-decoration: underline;
-}
-
-a:visited {
-    color: #3584df;
-}
-
-a[href^="http"]:not([href*="gradia.alexandervanhee.be"]):not(.no-external)::after {
-    content: "";
-    display: inline-block;
-    width: 0.6em;
-    height: 0.6em;
-    background-image: url('../icons/extlink.svg');
-    background-size: contain;
-    background-repeat: no-repeat;
-    margin-left: 0.2em;
-    vertical-align: middle;
-}
-
-.setup-steps {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.setup-step {
-    display: flex;
-    align-items: flex-start;
-}
-
-.step-number {
-    background: #55505c;
-    color: white;
-    border-radius: 50%;
-    width: 1.5rem;
-    height: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.875rem;
-    font-weight: 600;
-    margin-right: 0.75rem;
-    margin-top: 0.125rem;
-    flex-shrink: 0;
-}
-
-.step-content {
-    flex: 1;
-}
-
-.step-title {
-    color: var(--text-primary);
-}
-
-.step-description {
-    color: var(--text-secondary);
-}
-
-
-/* Accessibility */
-@media (prefers-reduced-motion: reduce) {
-    .copy-btn {
-        transition: none;
-    }
-}
-
-.copy-btn:focus {
-    outline: 2px solid var(--adw-blue);
-    outline-offset: 2px;
-}
-
-button:focus-visible {
-    outline: 2px solid var(--adw-blue);
-    outline-offset: 2px;
 }
