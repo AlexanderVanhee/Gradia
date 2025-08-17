@@ -1,14 +1,15 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# Polish translation for Gradia.
+# Copyright (C) 2025 Alexander Vanhee
 # This file is distributed under the same license as the gradia package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Adam Lewicki <a.lewicki95@gmail.com>, 2025.
+# tfuxu, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-21 12:24+0300\n"
-"PO-Revision-Date: 2025-07-22 17:52+0200\n"
+"POT-Creation-Date: 2025-08-04 15:56+0200\n"
+"PO-Revision-Date: 2025-08-08 13:03+0200\n"
 "Last-Translator: Adam Lewicki <a.lewicki95@gmail.com>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -19,86 +20,93 @@ msgstr ""
 "|| n%100>14) ? 1 : 2);\n"
 "X-Generator: Poedit 3.6\n"
 
-#: data/be.alexandervanhee.gradia.desktop.in.in:3
+#: data/be.alexandervanhee.gradia.desktop.in.in:2
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:11
 msgid "Gradia"
-msgstr "Zaawansowany zrzut ekranu"
+msgstr "Gradia"
 
-#: data/be.alexandervanhee.gradia.desktop.in.in:4
+#: data/be.alexandervanhee.gradia.desktop.in.in:3
 msgid "Make your images ready for the world"
 msgstr "Twórz obrazy gotowe do publikacji"
 
 #: data/be.alexandervanhee.gradia.desktop.in.in:10
 msgid "Image;Gradient;Background;Screenshot;Edit;"
-msgstr "Obraz;Gradient;Tło;Zrzut ekranu;Edycja;Gradia;"
+msgstr "Obraz;Gradient;Tło;Zrzut ekranu;Edycja;"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:16
+msgid "New Window"
+msgstr "Nowe okno"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:21
+msgid "Take Screenshot"
+msgstr "Wykonaj zrzut ekranu"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:26
+msgid "Take Fullscreen Screenshot"
+msgstr "Wykonaj zrzut całego ekranu"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:12
-msgid "Make your screenshots ready for all"
-msgstr "Twórz obrazy gotowe do udostępnienia"
+msgid "Annotate your screenshots"
+msgstr "Dodaj adnotacje do zrzutów ekranu"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:15
 msgid ""
-"Gradia helps you quickly prepare your screenshots for sharing by fixing "
-"common issues like transparency and awkward sizing. With simple tools to add "
-"backgrounds, adjust aspect ratios, and annotate images, you can enhance your "
-"screenshots to look professional and consistent across social media, blogs, "
-"and other platforms on the internet."
+"Gradia helps you get your screenshots ready for sharing, whether quickly "
+"with friends or colleagues, or professionally with the entire world."
 msgstr ""
-"Zaawansowany zrzut ekranu pomaga Ci szybko przygotować zrzuty ekranu do "
-"udostępnienia, naprawiając typowe problemy, takie jak przezroczystość i "
-"niezręczne rozmiary. Dzięki prostym narzędziom do dodawania tła, "
-"dostosowywania proporcji i dodawania adnotacji do obrazów, możesz ulepszyć "
-"swoje zrzuty ekranu, aby wyglądały profesjonalnie i spójnie w mediach "
-"społecznościowych, na blogach i innych platformach w internecie."
+"Program pomaga przygotować zrzuty ekranu do udostępniania, niezależnie od "
+"tego, czy robisz to szybko ze znajomymi lub współpracownikami, czy "
+"profesjonalnie z całym światem."
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:16
 msgid "Key features:"
 msgstr "Funkcje:"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:18
-msgid "Add optional image and gradient backgrounds to your images"
-msgstr "Dodaj opcjonalny obraz oraz tło jako gradient do Twoich obrazów"
-
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:19
-msgid "Adjust aspect ratios and padding to fit different platforms"
-msgstr "Dostosuj proporcje oraz wypełnienie, aby dopasować do różnych platform"
-
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:20
 msgid "Ten annotation modes, including text, arrow, and censor"
 msgstr "Dziesięć trybów adnotacji, zawierających tekst, strzałkę, oraz cenzurę"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:21
-msgid "Multiple ways to import and export screenshots"
-msgstr "Wiele możliwości importu oraz eksportu zrzutów ekranu"
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:19
+msgid "Optional image and gradient backgrounds"
+msgstr "Opcjonalny obraz oraz gradient tła"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:22
-msgid "Quick upload button for image services like Imgur"
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:20
+msgid "Image settings like shadow, padding, and auto-balance"
+msgstr "Ustawienia obrazu, takie jak cień, dopełnienie i automatyczny balans"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:21
+msgid "Quick upload flow to easily share images via services like Imgur"
 msgstr "Przycisk szybkiego udostępniania obrazu do serwisu np. Imgur"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:27
-msgid "flatpak run be.alexandervanhee.gradia --screenshot=INTERACTIVE"
-msgstr "flatpak run be.alexandervanhee.gradia --screenshot=INTERACTIVE"
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:22
+msgid "Convert code snippets into clean high-resolution images"
+msgstr ""
+"Konwertuj fragmenty kodu na przejrzyste obrazy w wysokiej rozdzielczości"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:197
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:26
+msgid "Alexander Vanhee"
+msgstr "Alexander Vanhee"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:206
 msgid "Edited screenshot"
 msgstr "Edytowany zrzut ekranu"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:201
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:210
 msgid "Edited picture"
 msgstr "Edytowane zdjęcie"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:205
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:214
 msgid "Startup view"
 msgstr "Widok początkowy"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:209
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:218
 msgid "UI element showcase"
 msgstr "Prezentacja elementów interfejsu użytkownika"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:213
-#: gradia/ui/image_creation/source_image_generator.py:393
-#: data/ui/image_sidebar.blp:234 data/ui/welcome_page.blp:72
-#: data/ui/image_generator_window.blp:6
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:222
+#: gradia/ui/image_creation/source_image_generator.py:397
+#: data/ui/image_sidebar.blp:234 data/ui/welcome_page.blp:70
+#: data/ui/image_generator_window.blp:5
 msgid "Source Snippets"
 msgstr "Fragmenty źródłowe"
 
@@ -109,296 +117,335 @@ msgstr "Twórz obrazy gotowe do publikacji"
 #. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
 #: gradia/ui/ui_parts.py:44
 msgid "translator-credits"
-msgstr "tłumacze"
+msgstr "Adam Lewicki <a.lewicki95@gmail.com>"
+
+#: gradia/ui/ui_parts.py:50
+msgid "Code and Design Borrowed from"
+msgstr "Kod oraz styl zapożyczone z"
 
 #: gradia/ui/ui_parts.py:62
+msgid "Image Sources"
+msgstr "Źródła obrazu"
+
+#: gradia/ui/ui_parts.py:85
 msgid "File Actions"
 msgstr "Akcje na plikach"
 
-#: gradia/ui/ui_parts.py:64
+#: gradia/ui/ui_parts.py:87
 msgid "Open File"
 msgstr "Otwórz plik"
 
-#: gradia/ui/ui_parts.py:65
+#: gradia/ui/ui_parts.py:88
 msgid "Save to File"
 msgstr "Zapisz do pliku"
 
-#: gradia/ui/ui_parts.py:66
+#: gradia/ui/ui_parts.py:89
 msgid "Copy Image to Clipboard"
 msgstr "Skopiuj obraz do schowka"
 
-#: gradia/ui/ui_parts.py:67
+#: gradia/ui/ui_parts.py:90
 msgid "Paste From Clipboard"
 msgstr "Wklej ze schowka"
 
-#: gradia/ui/ui_parts.py:68 data/ui/image_sidebar.blp:195
+#: gradia/ui/ui_parts.py:91 data/ui/image_sidebar.blp:195
 msgid "Share Image"
 msgstr "Udostępnij obraz"
 
-#: gradia/ui/ui_parts.py:72
+#: gradia/ui/ui_parts.py:95
 msgid "Annotations"
 msgstr "Adnotacje"
 
-#: gradia/ui/ui_parts.py:74 data/ui/image_stack.blp:124
+#: gradia/ui/ui_parts.py:97 data/ui/image_stack.blp:208
 msgid "Undo"
 msgstr "Cofnij"
 
-#: gradia/ui/ui_parts.py:75 data/ui/image_stack.blp:134
+#: gradia/ui/ui_parts.py:98 data/ui/image_stack.blp:217
 msgid "Redo"
 msgstr "Ponów"
 
-#: gradia/ui/ui_parts.py:76 data/ui/image_stack.blp:97
+#: gradia/ui/ui_parts.py:99 data/ui/image_stack.blp:80
 msgid "Erase Selected"
 msgstr "Wyczyść wybrane"
 
-#: gradia/ui/ui_parts.py:80
+#: gradia/ui/ui_parts.py:103
 msgid "Cropping"
 msgstr "Kadrowanie"
 
-#: gradia/ui/ui_parts.py:82 data/ui/image_stack.blp:68
+#: gradia/ui/ui_parts.py:105 data/ui/image_stack.blp:68
 msgid "Toggle Crop Mode"
 msgstr "Włącz tryb kadrowania"
 
-#: gradia/ui/ui_parts.py:83
+#: gradia/ui/ui_parts.py:106
 msgid "Reset Crop"
 msgstr "Zresetuj kadrowanie"
 
-#: gradia/ui/ui_parts.py:87
+#: gradia/ui/ui_parts.py:110
 msgid "General"
 msgstr "Ogólne"
 
-#: gradia/ui/ui_parts.py:89 data/ui/image_sidebar.blp:249
-#: data/ui/welcome_page.blp:82
+#: gradia/ui/ui_parts.py:112 data/ui/image_sidebar.blp:249
+#: data/ui/welcome_page.blp:80
 msgid "Keyboard Shortcuts"
 msgstr "Skróty klawiszowe"
 
-#: gradia/ui/ui_parts.py:90 data/ui/image_sidebar.blp:245
-#: data/ui/welcome_page.blp:78
+#: gradia/ui/ui_parts.py:113 data/ui/image_sidebar.blp:245
+#: data/ui/welcome_page.blp:76 data/ui/preferences_window.blp:14
 msgid "Preferences"
 msgstr "Preferencje"
 
-#: gradia/ui/ui_parts.py:91
+#: gradia/ui/ui_parts.py:114
 msgid "Open Source Snippets"
 msgstr "Otwórz fragmenty źródłowe"
 
-#: gradia/ui/window.py:399
-msgid "Unknown"
-msgstr "Nieznane"
+#: gradia/ui/ui_parts.py:118
+msgid "Zoom Image"
+msgstr "Przybliż obraz"
 
-#: gradia/ui/window.py:401 gradia/ui/provider_selection_window.py:79
-msgid "Error"
-msgstr "Błąd"
+#: gradia/ui/ui_parts.py:120 data/ui/image_stack.blp:194
+msgid "Zoom In"
+msgstr "Przybliż"
 
-#: gradia/ui/window.py:459
+#: gradia/ui/ui_parts.py:121 data/ui/image_stack.blp:184
+msgid "Zoom Out"
+msgstr "Oddal"
+
+#: gradia/ui/ui_parts.py:122 data/ui/image_stack.blp:162
+msgid "Reset Zoom"
+msgstr "Zresetuj przybliżenie"
+
+#: gradia/ui/window.py:441
 msgid "Confirm Upload"
-msgstr "Potwierdź, aby wczytać"
+msgstr "Potwierdź, aby przesłać"
 
-#: gradia/ui/window.py:460
-#, python-brace-format
-msgid "Are you sure you want to upload this image to {provider_name}?"
-msgstr "Czy na pewno chcesz wczytać ten plik na {provider_name}?"
-
-#: gradia/ui/window.py:462 gradia/ui/image_exporters.py:123
+#: gradia/ui/window.py:444 gradia/ui/image_exporters.py:129
 #: gradia/ui/dialog/delete_screenshots_dialog.py:54
 #: data/ui/confirm_close_dialog.blp:10
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: gradia/ui/window.py:463
+#: gradia/ui/window.py:445
 msgid "Upload"
-msgstr "Wczytaj"
+msgstr "Prześlij"
 
-#: gradia/ui/image_exporters.py:119
+#: gradia/ui/image_exporters.py:83
+msgid "Edit"
+msgstr "Edycja"
+
+#: gradia/ui/image_exporters.py:86
+msgid "Enhanced Screenshot"
+msgstr "Ulepszony zrzut ekranu"
+
+#: gradia/ui/image_exporters.py:125
 msgid "Save Image As"
 msgstr "Zapisz obraz jako"
 
-#: gradia/ui/image_exporters.py:122 gradia/ui/provider_selection_window.py:203
+#: gradia/ui/image_exporters.py:128 gradia/ui/provider_selection_window.py:242
 msgid "Save"
 msgstr "Zapisz"
 
-#: gradia/ui/image_exporters.py:148
+#: gradia/ui/image_exporters.py:154
 msgid "Unsupported image file extension."
 msgstr "Niewspierane rozszerzenie pliku obrazu."
 
-#: gradia/ui/image_exporters.py:156
+#: gradia/ui/image_exporters.py:162
 msgid "Image saved successfully"
 msgstr "Pomyślnie zapisano obraz"
 
-#: gradia/ui/image_exporters.py:212
+#: gradia/ui/image_exporters.py:218
 msgid "No processed image available"
 msgstr "Brak dostępnych przetworzonych obrazów"
 
-#: gradia/ui/image_exporters.py:235
+#: gradia/ui/image_exporters.py:241
 msgid "Image copied to clipboard"
 msgstr "Obraz skopiowany do schowka"
 
-#: gradia/ui/image_exporters.py:238
+#: gradia/ui/image_exporters.py:244
 msgid "Failed to copy image to clipboard"
 msgstr "Błąd podczas kopiowania obrazu do schowka"
 
-#: gradia/ui/image_exporters.py:252
+#: gradia/ui/image_exporters.py:258
 msgid "Link generated successfully"
-msgstr "Pomyślnie wygenerowano dowiązanie"
+msgstr "Pomyślnie wygenerowano odnośnik"
 
-#: gradia/ui/image_exporters.py:253
+#: gradia/ui/image_exporters.py:259
 msgid "Open Link"
-msgstr "Otwórz dowiązanie"
+msgstr "Otwórz odnośnik"
 
-#: gradia/ui/image_exporters.py:292
+#: gradia/ui/image_exporters.py:296
 msgid "Custom command failed: "
 msgstr "Błąd własnej komendy: "
 
-#: gradia/ui/image_exporters.py:298
+#: gradia/ui/image_exporters.py:302
 msgid "Warning: "
 msgstr "Ostrzeżenie: "
 
-#: gradia/ui/image_exporters.py:309
+#: gradia/ui/image_exporters.py:313
 msgid "Result copied to clipboard"
 msgstr "Wynik końcowy skopiowano do schowka"
 
-#: gradia/ui/image_exporters.py:311
+#: gradia/ui/image_exporters.py:315
 msgid "No output from command"
 msgstr "Brak wyjścia dla komendy"
 
-#: gradia/ui/image_exporters.py:314
+#: gradia/ui/image_exporters.py:318
 msgid "Failed to run custom export command"
 msgstr "Błąd podczas uruchamiania własnej komendy do eksportowania"
 
-#: gradia/ui/image_loaders.py:67 data/ui/image_sidebar.blp:17
+#: gradia/ui/image_loaders.py:74 data/ui/image_sidebar.blp:17
 msgid "Open Image"
 msgstr "Otwórz obraz"
 
-#: gradia/ui/image_loaders.py:70
+#: gradia/ui/image_loaders.py:77
 msgid "Image Files"
 msgstr "Pliki obrazów"
 
-#: gradia/ui/image_loaders.py:124
+#: gradia/ui/image_loaders.py:135
 msgid "Not a supported image format."
 msgstr "To nie jest wspierany format obrazu."
 
-#: gradia/ui/image_loaders.py:154
+#: gradia/ui/image_loaders.py:148
+msgid "Unsupported file drop."
+msgstr "Przeciąganie pliku jest niewspierane."
+
+#: gradia/ui/image_loaders.py:162
+msgid "URL is not a valid image format."
+msgstr "Pod tym URL jest nieprawidłowy format obrazu."
+
+#: gradia/ui/image_loaders.py:173
+msgid "URL is not a supported image format."
+msgstr "Pod tym URL jest niewspierany format obrazu."
+
+#: gradia/ui/image_loaders.py:182
+msgid "Failed to load image from URL."
+msgstr "Błąd podczas ładowania obrazu z URL."
+
+#: gradia/ui/image_loaders.py:205
 msgid "No image found in clipboard"
 msgstr "Nie znaleziono żadnego obrazu w schowku"
 
-#: gradia/ui/image_loaders.py:161
+#: gradia/ui/image_loaders.py:212
 msgid "Clipboard Image"
 msgstr "Obraz ze schowka"
 
-#: gradia/ui/image_loaders.py:162
+#: gradia/ui/image_loaders.py:213
 msgid "From clipboard"
 msgstr "Ze schowka"
 
-#: gradia/ui/image_loaders.py:169
+#: gradia/ui/image_loaders.py:220
 msgid "Clipboard does not contain an image."
 msgstr "Schowek nie zawiera żadnego obrazu."
 
-#: gradia/ui/image_loaders.py:171
+#: gradia/ui/image_loaders.py:222
 msgid "Failed to load image from clipboard."
 msgstr "Błąd podczas ładowania obrazu ze schowka."
 
-#: gradia/ui/image_loaders.py:206 gradia/ui/image_loaders.py:221
+#: gradia/ui/image_loaders.py:255 gradia/ui/image_loaders.py:270
 msgid "Failed to take screenshot"
 msgstr "Błąd wykonywania zrzutu ekranu"
 
-#: gradia/ui/image_loaders.py:237
+#: gradia/ui/image_loaders.py:286
 msgid "Screenshot cancelled"
 msgstr "Anulowano wykonywanie zrzutu ekranu"
 
-#: gradia/ui/image_loaders.py:253
+#: gradia/ui/image_loaders.py:302 gradia/ui/image_loaders.py:328
 msgid "Edited Screenshot From %Y-%m-%d %H-%M-%S"
-msgstr "Edycja zrzutu ekranu od %Y-%m-%d %H-%M-%S"
+msgstr "Edytowany zrzut ekranu z %Y-%m-%d %H-%M-%S"
 
-#: gradia/ui/image_loaders.py:259 gradia/ui/image_loaders.py:260
+#: gradia/ui/image_loaders.py:308 gradia/ui/image_loaders.py:309
+#: gradia/ui/image_loaders.py:335 gradia/ui/image_loaders.py:336
 msgid "Screenshot"
 msgstr "Zrzut ekranu"
 
-#: gradia/ui/image_loaders.py:263
+#: gradia/ui/image_loaders.py:312 gradia/ui/image_loaders.py:340
 msgid "Screenshot captured!"
 msgstr "Przechwycono zrzut ekranu!"
 
-#: gradia/ui/image_loaders.py:270
+#: gradia/ui/image_loaders.py:319
 msgid "Failed to process screenshot"
 msgstr "Błąd przetwarzania zrzutu ekranu"
 
-#: gradia/ui/image_loaders.py:341
+#: gradia/ui/image_loaders.py:344
+msgid "Failed to load screenshot"
+msgstr "Błąd ładowania zrzutu ekranu"
+
+#: gradia/ui/image_loaders.py:413
 msgid "Generated Image"
 msgstr "Wygenerowany obraz"
 
-#: gradia/ui/image_loaders.py:342
+#: gradia/ui/image_loaders.py:414
 msgid "Source"
 msgstr "Źródło"
 
-#: gradia/ui/image_loaders.py:345
+#: gradia/ui/image_loaders.py:417
 msgid "Source snippet Generated!"
 msgstr "Wygenerowano fragmenty źródłowe!"
 
-#: gradia/ui/provider_selection_window.py:38
-#: gradia/ui/provider_selection_window.py:133
+#: gradia/ui/provider_selection_window.py:37
 msgid "Choose Provider"
 msgstr "Wybierz dostawcę"
 
-#: gradia/ui/provider_selection_window.py:70
+#: gradia/ui/provider_selection_window.py:66
 msgid "Loading providers data..."
 msgstr "Ładowanie danych dostawcy..."
 
-#: gradia/ui/provider_selection_window.py:85
+#: gradia/ui/provider_selection_window.py:81
 msgid "An error occurred"
 msgstr "Wystąpił problem"
 
-#: gradia/ui/provider_selection_window.py:86
+#: gradia/ui/provider_selection_window.py:82
 msgid "Please try again later."
 msgstr "Spróbuj ponownie później."
 
-#: gradia/ui/provider_selection_window.py:166
-#: gradia/ui/provider_selection_window.py:200
+#: gradia/ui/provider_selection_window.py:147
+#: gradia/ui/provider_selection_window.py:236
 msgid "Custom Provider"
 msgstr "Własny dostawca"
 
-#: gradia/ui/provider_selection_window.py:167
+#: gradia/ui/provider_selection_window.py:148
 msgid "Create your own custom upload command"
-msgstr "Stwórz swoją własną komendę do wczytania"
+msgstr "Stwórz swoją własną komendę do przesyłania"
 
-#: gradia/ui/provider_selection_window.py:233
-#: gradia/ui/provider_selection_window.py:386
+#: gradia/ui/provider_selection_window.py:272
+#: gradia/ui/provider_selection_window.py:451
 msgid "Upload Command"
-msgstr "Komenda do wczytania"
+msgstr "Komenda do przesyłania"
 
-#: gradia/ui/provider_selection_window.py:234
+#: gradia/ui/provider_selection_window.py:273
 msgid ""
 "Enter a custom command to upload files. Use $1 as a placeholder for the file "
 "path."
 msgstr ""
-"Wprowadź własną komendę do wczytania plików. Użyj $1 jako wypełniacz dla "
+"Wprowadź własną komendę do przesyłania plików. Użyj $1 jako wypełniacz dla "
 "ścieżki do pliku."
 
-#: gradia/ui/provider_selection_window.py:238
+#: gradia/ui/provider_selection_window.py:277
 msgid "Command"
 msgstr "Komenda"
 
-#: gradia/ui/provider_selection_window.py:289
+#: gradia/ui/provider_selection_window.py:335
+msgid "Custom"
+msgstr "Własne"
+
+#: gradia/ui/provider_selection_window.py:354
 #: gradia/overlay/drawing_actions.py:54
 msgid "Select"
 msgstr "Wybierz"
 
-#: gradia/ui/provider_selection_window.py:340
+#: gradia/ui/provider_selection_window.py:405
 msgid "About"
 msgstr "O programie"
 
-#: gradia/ui/provider_selection_window.py:343
+#: gradia/ui/provider_selection_window.py:408
 msgid "Homepage"
 msgstr "Strona domowa"
 
-#: gradia/ui/provider_selection_window.py:354
+#: gradia/ui/provider_selection_window.py:419
 msgid "Terms of Service"
 msgstr "Warunki korzystania z usługi"
 
-#: gradia/ui/provider_selection_window.py:365
+#: gradia/ui/provider_selection_window.py:430
 msgid "Features"
 msgstr "Funkcje"
-
-#: gradia/ui/provider_selection_window.py:451
-msgid "Custom"
-msgstr "Własne"
 
 #: gradia/overlay/drawing_actions.py:48
 msgid "Pen"
@@ -413,6 +460,7 @@ msgid "Line"
 msgstr "Linia"
 
 #: gradia/overlay/drawing_actions.py:51
+#: gradia/ui/widget/aspect_ratio_button.py:39
 msgid "Square"
 msgstr "Kwadrat"
 
@@ -436,17 +484,29 @@ msgstr "Cenzura"
 msgid "Number"
 msgstr "Numer"
 
-#: gradia/ui/preferences_window.py:39 gradia/ui/preferences_window.py:146
+#: gradia/ui/preferences_window.py:38 gradia/ui/preferences_window.py:159
 msgid "Root"
 msgstr "Katalog domowy"
 
-#: gradia/ui/preferences_window.py:129
-msgid "None selected"
+#: gradia/ui/preferences_window.py:142 data/ui/preferences_window.blp:112
+msgid "None Selected"
 msgstr "Nic nie wybrano"
 
-#: gradia/ui/preferences_window.py:227
+#: gradia/ui/preferences_window.py:245
 msgid "Copied!"
 msgstr "Skopiowano!"
+
+#: gradia/ui/image_sidebar.py:140
+msgid "Width"
+msgstr "Szerokość"
+
+#: gradia/ui/image_sidebar.py:147
+msgid "Height"
+msgstr "Wysokość"
+
+#: gradia/ui/image_sidebar.py:157
+msgid "Set"
+msgstr "Ustaw"
 
 #: gradia/ui/dialog/delete_screenshots_dialog.py:33
 msgid "No screenshots to delete"
@@ -480,45 +540,89 @@ msgstr "Przeniesiono zrzut ekranu do kosza"
 msgid "Screenshots moved to trash"
 msgstr "Przeniesiono zrzuty ekranu do kosza"
 
-#: gradia/ui/image_creation/source_image_generator.py:539
+#: gradia/ui/image_creation/source_image_generator.py:554
 msgid "Source Snippet From %Y-%m-%d %H-%M-%S"
-msgstr "Fragmenty źródłowe od %Y-%m-%d %H-%M-%S"
+msgstr "Fragmenty źródłowe z %Y-%m-%d %H-%M-%S"
 
-#: gradia/app_constants.py:32
+#: gradia/ui/widget/quick_color_picker.py:84
+msgid "Red"
+msgstr "Czerwony"
+
+#: gradia/ui/widget/quick_color_picker.py:85
+msgid "Green"
+msgstr "Zielony"
+
+#: gradia/ui/widget/quick_color_picker.py:86
+msgid "Blue"
+msgstr "Niebieski"
+
+#: gradia/ui/widget/quick_color_picker.py:87
+msgid "Yellow"
+msgstr "Żółty"
+
+#: gradia/ui/widget/quick_color_picker.py:88
+msgid "Purple"
+msgstr "Fioletowy"
+
+#: gradia/ui/widget/quick_color_picker.py:93
+msgid "Black"
+msgstr "Czarny"
+
+#: gradia/ui/widget/quick_color_picker.py:94
+msgid "White"
+msgstr "Biały"
+
+#: gradia/ui/widget/quick_color_picker.py:114
+msgid "More colors..."
+msgstr "Więcej kolorów..."
+
+#: gradia/ui/widget/quick_color_picker.py:196
+msgid "Choose Color"
+msgstr "Wybierz kolor"
+
+#: gradia/ui/widget/aspect_ratio_button.py:26 data/ui/image_sidebar.blp:81
+msgid "Aspect Ratio"
+msgstr "Proporcje"
+
+#: gradia/ui/widget/aspect_ratio_button.py:38
+msgid "Free"
+msgstr "Dowolne"
+
+#: gradia/app_constants.py:56
 msgid "PNG Image (*.png)"
 msgstr "Obraz PNG (*.png)"
 
-#: gradia/app_constants.py:39
+#: gradia/app_constants.py:63
 msgid "JPEG Image (*.jpg)"
 msgstr "Obraz JPEG (*.jpeg)"
 
-#: gradia/app_constants.py:46
+#: gradia/app_constants.py:70
 msgid "WebP Image (*.webp)"
 msgstr "Obraz WebP (*.webp)"
 
 #: gradia/utils/std_image_loader.py:38
 msgid "Edited Image From %Y-%m-%d %H-%M-%S"
-msgstr "Edytowany obraz od %Y-%m-%d %H-%M-%S"
+msgstr "Edytowany obraz z %Y-%m-%d %H-%M-%S"
 
-#: data/ui/selectors/gradient_selector.blp:4
+#: data/ui/selectors/gradient_selector.blp:6
 msgid "Gradient Background"
 msgstr "Gradient tła"
 
-#: data/ui/selectors/gradient_selector.blp:8
-msgid "Gradient Presets"
-msgstr "Wstępne ustawienia gradientu"
+#: data/ui/selectors/gradient_selector.blp:43
+msgid "Lineair"
+msgstr "Liniowy"
 
-#: data/ui/selectors/gradient_selector.blp:16
-msgid "Angle"
-msgstr "Kąt"
+#: data/ui/selectors/gradient_selector.blp:48
+msgid "Radial"
+msgstr "Okrągły"
 
-#: data/ui/selectors/gradient_selector.blp:56
-msgid "Start Color"
-msgstr "Kolor początkowy"
+#: data/ui/selectors/gradient_selector.blp:53
+msgid "Conic"
+msgstr "Stożkowo"
 
-#: data/ui/selectors/gradient_selector.blp:68
-msgid "End Color"
-msgstr "Kolor końcowy"
+#: data/ui/selectors/gradient_selector.blp:96
+msgid "Remove Selected Color Step"
+msgstr "Usuń wybrany krok koloru"
 
 #: data/ui/selectors/image_selector.blp:5
 msgid "Image Background"
@@ -528,15 +632,15 @@ msgstr "Obraz tła"
 msgid "Image Presets"
 msgstr "Wstępne ustawienia obrazu"
 
-#: data/ui/selectors/image_selector.blp:22
+#: data/ui/selectors/image_selector.blp:20
 msgid "Select Image"
 msgstr "Wybierz zdjęcie"
 
-#: data/ui/selectors/image_selector.blp:51
+#: data/ui/selectors/image_selector.blp:49
 msgid "Select an Image"
 msgstr "Wybierz obraz"
 
-#: data/ui/selectors/image_selector.blp:56
+#: data/ui/selectors/image_selector.blp:54
 msgid "Supported Image Formats"
 msgstr "Wspierane formaty obrazu"
 
@@ -544,18 +648,17 @@ msgstr "Wspierane formaty obrazu"
 msgid "Solid Color Background"
 msgstr "Pełny kolor tła"
 
-#: data/ui/selectors/solid_selector.blp:8 data/ui/drawing_tools_group.blp:47
-msgid "Color"
-msgstr "Kolor"
-
+#. Translators: Please keep this as short as possible to fit the limited space given
 #: data/ui/background_selector.blp:16
 msgid "Solid"
 msgstr "Pełny"
 
+#. Translators: Please keep this as short as possible to fit the limited space given
 #: data/ui/background_selector.blp:21
 msgid "Gradient"
 msgstr "Gradient"
 
+#. Translators: Please keep this as short as possible to fit the limited space given
 #: data/ui/background_selector.blp:26
 msgid "Image"
 msgstr "Obraz"
@@ -564,51 +667,43 @@ msgstr "Obraz"
 msgid "Annotation Tools"
 msgstr "Narzędzia adnotacji"
 
-#: data/ui/drawing_tools_group.blp:93
+#: data/ui/drawing_tools_group.blp:47
+msgid "Color"
+msgstr "Kolor"
+
+#: data/ui/drawing_tools_group.blp:89
 msgid "Highlighter Color"
 msgstr "Kolor zakreślacza"
 
-#: data/ui/drawing_tools_group.blp:108
-msgid "Pick the Highlighter Color"
-msgstr "Kolor zakreślacza"
-
-#: data/ui/drawing_tools_group.blp:140
+#: data/ui/drawing_tools_group.blp:132
 msgid "Fill Color"
 msgstr "Kolor wypełnienia"
 
-#: data/ui/drawing_tools_group.blp:152
+#: data/ui/drawing_tools_group.blp:144
 msgid "Reset Fill"
 msgstr "Zresetuj wypełnienie"
 
-#: data/ui/drawing_tools_group.blp:165
-msgid "Pick the Fill Color"
-msgstr "Kolor wypełnienia"
-
-#: data/ui/drawing_tools_group.blp:198
+#: data/ui/drawing_tools_group.blp:184
 msgid "Outline Color"
 msgstr "Kolor obramowania"
 
-#: data/ui/drawing_tools_group.blp:210
+#: data/ui/drawing_tools_group.blp:196
 msgid "Reset Outline"
 msgstr "Zresetuj kontur"
 
-#: data/ui/drawing_tools_group.blp:223
-msgid "Pick the Outline Color"
-msgstr "Kolor konturu"
-
-#: data/ui/drawing_tools_group.blp:252
+#: data/ui/drawing_tools_group.blp:232
 msgid "Font"
 msgstr "Czcionka"
 
-#: data/ui/drawing_tools_group.blp:302
+#: data/ui/drawing_tools_group.blp:282
 msgid "Size"
 msgstr "Rozmiar"
 
-#: data/ui/drawing_tools_group.blp:354
+#: data/ui/drawing_tools_group.blp:334
 msgid "Radius"
 msgstr "Promień"
 
-#: data/ui/drawing_tools_group.blp:409
+#: data/ui/drawing_tools_group.blp:389
 msgid "Pressure"
 msgstr "Nacisk"
 
@@ -616,7 +711,7 @@ msgstr "Nacisk"
 msgid "Take a Screenshot"
 msgstr "Wykonaj zrzut ekranu"
 
-#: data/ui/image_sidebar.blp:31 data/ui/welcome_page.blp:18
+#: data/ui/image_sidebar.blp:31 data/ui/welcome_page.blp:15
 msgid "Main Menu"
 msgstr "Menu główne"
 
@@ -635,10 +730,6 @@ msgstr "Wypełnienie"
 #: data/ui/image_sidebar.blp:69
 msgid "Corner Radius"
 msgstr "Promień narożnika"
-
-#: data/ui/image_sidebar.blp:81
-msgid "Aspect Ratio"
-msgstr "Proporcje"
 
 #: data/ui/image_sidebar.blp:92
 msgid "Shadow"
@@ -696,149 +787,153 @@ msgstr "Skopiuj do schowka"
 msgid "Delete Taken Screenshot(s)"
 msgstr "Usuń wykonany(e) zrzut(y) ekranu"
 
-#: data/ui/image_sidebar.blp:253 data/ui/welcome_page.blp:86
+#: data/ui/image_sidebar.blp:253 data/ui/welcome_page.blp:84
 msgid "About Gradia"
 msgstr "O programie"
 
-#: data/ui/image_stack.blp:82
+#: data/ui/image_stack.blp:7 data/ui/welcome_page.blp:6
+msgid "Drop Image Here"
+msgstr "Upuść obraz tutaj"
+
+#: data/ui/image_stack.blp:97
 msgid "Reset Crop Selection"
 msgstr "Zresetuj zaznaczenie kadrowania"
 
-#: data/ui/image_stack.blp:144
+#: data/ui/image_stack.blp:124
+msgid "Confirm"
+msgstr "Potwierdź"
+
+#: data/ui/image_stack.blp:125
+msgid "Confirm Crop Selection"
+msgstr "Potwierdź zaznaczenie kadrowania"
+
+#: data/ui/image_stack.blp:226
 msgid "Clear All"
 msgstr "Wyczyść wszystko"
+
+#: data/ui/recent_picker.blp:21
+msgid "Screenshot Folder Not Found"
+msgstr "Nie odnaleziono katalogu zrzutów ekranu"
+
+#: data/ui/recent_picker.blp:28
+msgid "Please set it in the Preferences menu."
+msgstr "Ustaw w preferencjach."
 
 #: data/ui/text_entry_popover.blp:12
 msgid "Enter text…"
 msgstr "Wprowadź tekst…"
 
-#: data/ui/welcome_page.blp:25
+#: data/ui/welcome_page.blp:22
 msgid "Enhance an Image"
 msgstr "Ulepsz obraz"
 
-#: data/ui/welcome_page.blp:26
+#: data/ui/welcome_page.blp:23
 msgid "Drag and drop one here"
 msgstr "Przeciągnij i upuść tutaj"
 
-#: data/ui/welcome_page.blp:42
+#: data/ui/welcome_page.blp:39
 msgid "_Take a Screenshot…"
 msgstr "_Wykonaj zrzut ekranu…"
 
-#: data/ui/welcome_page.blp:54
+#: data/ui/welcome_page.blp:51
 msgid "_Open Image…"
 msgstr "_Otwórz obraz…"
 
-#: data/ui/preferences_window.blp:7 data/ui/preferences_window.blp:11
-msgid "Options"
-msgstr "Opcje"
+#: data/ui/preferences_window.blp:32
+msgid "Screenshots Folder"
+msgstr "Katalog zrzutów ekranu"
 
-#: data/ui/preferences_window.blp:15
-msgid "Recent Screenshots"
-msgstr "Ostatnie zrzuty ekranu"
-
-#: data/ui/preferences_window.blp:18
+#: data/ui/preferences_window.blp:35
 msgid "Select Folder"
 msgstr "Wybierz katalog"
 
-#: data/ui/preferences_window.blp:19
+#: data/ui/preferences_window.blp:36
 msgid "What folder to use for the home page"
 msgstr "Katalog domowy"
 
-#: data/ui/preferences_window.blp:24
+#: data/ui/preferences_window.blp:41
 msgid "Test"
 msgstr "Test"
 
-#: data/ui/preferences_window.blp:31
+#: data/ui/preferences_window.blp:49
+msgid "Screenshot Shortcut"
+msgstr "Skrót klawiszowy zrzutu ekranu"
+
+#: data/ui/preferences_window.blp:55
 msgid "Save Settings"
 msgstr "Zapisz ustawienia"
 
-#: data/ui/preferences_window.blp:34
+#: data/ui/preferences_window.blp:58
 msgid "Image Format"
 msgstr "Format obrazu"
 
-#: data/ui/preferences_window.blp:35
+#: data/ui/preferences_window.blp:59
 msgid "Default format for saved screenshots"
 msgstr "Domyślny format zapisywanych zrzutów ekranu"
 
-#: data/ui/preferences_window.blp:39
-msgid "Compress image"
-msgstr "Skompresuj obraz"
+#: data/ui/preferences_window.blp:71
+msgid "Confirm on Close"
+msgstr "Potwierdź przy zamknieciu"
 
-#: data/ui/preferences_window.blp:40
-msgid "On supported formats"
-msgstr "Wspierane formaty obrazu"
-
-#: data/ui/preferences_window.blp:41
-msgid "Compress images to reduce file size"
-msgstr "Skompresuj obraz, aby zredukować rozmiar pliku"
-
-#: data/ui/preferences_window.blp:46
-msgid "Confirm on close"
-msgstr "Potwierdź, aby zamknąć"
-
-#: data/ui/preferences_window.blp:47 data/ui/preferences_window.blp:48
+#: data/ui/preferences_window.blp:72 data/ui/preferences_window.blp:73
 msgid "Ask for confirmation before closing the app"
 msgstr "Zapytaj przez zamknięciem programu"
 
-#: data/ui/preferences_window.blp:55
+#: data/ui/preferences_window.blp:79
 msgid "Screenshot Management"
 msgstr "Zarządzanie zrzutami ekranu"
 
-#: data/ui/preferences_window.blp:58
-msgid "Trash screenshots on close"
+#: data/ui/preferences_window.blp:82
+msgid "Trash Screenshots on Close"
 msgstr "Usuń zrzuty ekranu przy zamykaniu"
 
-#: data/ui/preferences_window.blp:59
+#: data/ui/preferences_window.blp:83
 msgid "Automatically move screenshots taken from within the app to trash"
 msgstr "Automatycznie przenieś zrzuty ekranu wykonane w programie do kosza"
 
-#: data/ui/preferences_window.blp:60
+#: data/ui/preferences_window.blp:84
 msgid "Trash screenshots on app close"
 msgstr "Usuń zrzuty ekranu przy zamykaniu programu"
 
-#: data/ui/preferences_window.blp:66
+#: data/ui/preferences_window.blp:90
 msgid "Image Upload Providers"
-msgstr "Dostawcy serwisów do wczytania obrazów"
+msgstr "Dostawcy serwisów do przesyłania obrazów"
 
-#: data/ui/preferences_window.blp:67
+#: data/ui/preferences_window.blp:91
 msgid "Connect to your favorite upload providers, or create a link yourself"
 msgstr ""
-"Połącz z ulubionym serwisem do wczytania obrazów, lub samodzielnie utwórz "
+"Połącz z ulubionym serwisem do przesyłania obrazów, lub samodzielnie utwórz "
 "łącze"
 
-#: data/ui/preferences_window.blp:71
+#: data/ui/preferences_window.blp:95
 msgid "Learn More..."
 msgstr "Dowiedz się więcej..."
 
-#: data/ui/preferences_window.blp:73
+#: data/ui/preferences_window.blp:97
 msgid "Learn more about providers"
 msgstr "Dowiedz się więcej o dostawcach"
 
-#: data/ui/preferences_window.blp:78
+#: data/ui/preferences_window.blp:102
 msgid "Provider"
 msgstr "Dostawca"
 
-#: data/ui/preferences_window.blp:88
-msgid "None Selected"
-msgstr "Nic nie wybrano"
+#: data/ui/preferences_window.blp:123
+msgid "Confirm on Upload"
+msgstr "Potwierdzenie przy przesyłaniu"
 
-#: data/ui/preferences_window.blp:99
-msgid "Confirm on upload"
-msgstr "Potwierdź, aby wczytać"
-
-#: data/ui/preferences_window.blp:100 data/ui/preferences_window.blp:101
+#: data/ui/preferences_window.blp:124 data/ui/preferences_window.blp:125
 msgid "Ask for confirmation before running the upload command"
-msgstr "Zapytaj przez uruchomieniem komendy wczytania"
+msgstr "Zapytaj przez uruchomieniem komendy przesyłania"
 
-#: data/ui/preferences_window.blp:110
-msgid "Shortcut"
-msgstr "Skrót klawiszowy"
+#: data/ui/preferences_window.blp:137
+msgid "Screenshot Shortcut Guide"
+msgstr "Przewodnik tworzenia skrótu klawiszowego"
 
-#: data/ui/preferences_window.blp:114
-msgid "Shortcut setup Instructions"
+#: data/ui/preferences_window.blp:158
+msgid "Shortcut Setup Instructions"
 msgstr "Instrukcja ustawiania skrótu klawiszowego"
 
-#: data/ui/preferences_window.blp:121
+#: data/ui/preferences_window.blp:165
 msgid ""
 "If you'd like the app to <b>open automatically</b> after taking a "
 "screenshot, you can set up a custom keyboard shortcut:\n"
@@ -858,31 +953,31 @@ msgstr ""
 "1. Przejdź do <b>Ustawień</b> → <b>Klawiatura</b> → <b>Wyświetl i dostosuj "
 "skróty</b> → <b>Własne skróty</b>.\n"
 "2. Kliknij przycisk <b>+</b>, aby utworzyć nowy skrót.\n"
-"3. Ustaw <b>Nazwę</b> na coś w rodzaju <i>Otwórz Zaawansowany zrzut ekranu</"
+"3. Ustaw <b>Nazwę</b> na coś w rodzaju <i>Otwórz Gradia</"
 "i>.\n"
 "4. Dla <b>Polecenia</b> skopiuj jedno z poniższych poleceń:"
 
-#: data/ui/preferences_window.blp:129
+#: data/ui/preferences_window.blp:173
 msgid "Interactive Screenshot"
 msgstr "Interaktywny zrzut ekranu"
 
-#: data/ui/preferences_window.blp:130
+#: data/ui/preferences_window.blp:174
 msgid "Allows you to select an area to screenshot"
 msgstr "Umożliwia wybranie obszaru do zrobienia zrzutu ekranu"
 
-#: data/ui/preferences_window.blp:148 data/ui/preferences_window.blp:177
+#: data/ui/preferences_window.blp:192 data/ui/preferences_window.blp:220
 msgid "Copy to clipboard"
 msgstr "Skopiuj do schowka"
 
-#: data/ui/preferences_window.blp:158
+#: data/ui/preferences_window.blp:201
 msgid "Full Screen Screenshot"
-msgstr "Zrzut ekranu całego okna"
+msgstr "Zrzut całego ekranu"
 
-#: data/ui/preferences_window.blp:159
+#: data/ui/preferences_window.blp:202
 msgid "Takes a screenshot of all screens instantly"
-msgstr "Wykonanie zrzut ekranu wszystkich ekranów natychmiast"
+msgstr "Wykonaj zrzut wszystkich ekranów natychmiast"
 
-#: data/ui/preferences_window.blp:186
+#: data/ui/preferences_window.blp:230
 msgid ""
 "5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should "
 "be free by default)."
@@ -908,245 +1003,34 @@ msgstr "Zamknij"
 msgid "Don't Ask Again"
 msgstr "Nie pytaj ponownie"
 
-#: data/ui/image_generator_window.blp:30
+#: data/ui/image_generator_window.blp:29
 msgid "Language"
 msgstr "Język"
 
-#: data/ui/image_generator_window.blp:40
+#: data/ui/image_generator_window.blp:39
 msgid "Style Scheme"
 msgstr "Styl"
 
-#: data/ui/image_generator_window.blp:46
-msgid "Choose a color scheme for syntax highlighting"
-msgstr "Wybierz styl kolorowania składni"
-
-#: data/ui/image_generator_window.blp:56
+#: data/ui/image_generator_window.blp:54
 msgid "Default"
 msgstr "Domyślny"
 
-#: data/ui/image_generator_window.blp:71
+#: data/ui/image_generator_window.blp:69
 msgid "Window Frame"
 msgstr "Ramka okna"
 
-#: data/ui/image_generator_window.blp:76
+#: data/ui/image_generator_window.blp:74
 msgid "Add a window frame around the code"
 msgstr "Dodaj obramowanie wokół kodu"
 
-#: data/ui/image_generator_window.blp:83
+#: data/ui/image_generator_window.blp:81
 msgid "Show Line Numbers"
 msgstr "Pokaż numery linii"
 
-#: data/ui/image_generator_window.blp:88
+#: data/ui/image_generator_window.blp:86
 msgid "Add a number before each new line of code"
 msgstr "Dodaj numer na początku każdej linii"
 
-#: data/ui/image_generator_window.blp:115
+#: data/ui/image_generator_window.blp:113
 msgid "Export"
 msgstr "Eksportuj"
-
-#~ msgid ""
-#~ "Want a keyboard shortcut on GNOME? Simply go to Settings → Keyboard → "
-#~ "View and Customize Shortcuts → Custom Shortcuts. Then create a shortcut "
-#~ "that runs <code>flatpak run be.alexandervanhee.gradia --"
-#~ "screenshot=INTERACTIVE</code>."
-#~ msgstr ""
-#~ "Chcesz dodać skrót klawiszowy do powłoki GNOME? Po prostu przejdź do "
-#~ "Ustawienia -> Klawiatura -> Wyświetl i dopasuj skróty. Następnie utwórz "
-#~ "skrót klawiszowy który uruchomi <code>flatpak run "
-#~ "be.alexandervanhee.gradia --screenshot=INTERACTIVE</code>."
-
-#~ msgid "Alexander Vanhee"
-#~ msgstr "Alexander Vanhee"
-
-#~ msgid "Toggle Utility Pane"
-#~ msgstr "Przełącz pasek narzędzi"
-
-#, python-brace-format
-#~ msgid "Selected: {folder}"
-#~ msgstr "Zaznaczono: {folder}"
-
-#~ msgid "Click to change folder"
-#~ msgstr "Kliknij, aby zmienić katalog"
-
-#~ msgid ""
-#~ "Configure which subfolder of Pictures to use to display recent "
-#~ "screenshots on the home page"
-#~ msgstr ""
-#~ "Skonfiguruj, którego podkatalogu katalogu \"Obrazy\" używać do "
-#~ "wyświetlania ostatnich zrzutów ekranu na stronie głównej"
-
-#~ msgid "More info"
-#~ msgstr "Więcej informacji"
-
-#~ msgid "Choose a provider"
-#~ msgstr "Wybierz dostawcę"
-
-#~ msgid "Remove Selected"
-#~ msgstr "Usuń wybrane"
-
-#~ msgid "Confirm Upload Command"
-#~ msgstr "Komenda potwierdzająca wczytanie"
-
-#~ msgid ""
-#~ "Are you sure you want to\n"
-#~ " run the upload command?"
-#~ msgstr ""
-#~ "Czy na pewno chcesz\n"
-#~ " uruchomić komendę do wczytania?"
-
-#~ msgid "Run"
-#~ msgstr "Uruchom"
-
-#~ msgid "Edit"
-#~ msgstr "Edycja"
-
-#~ msgid "Enhanced Screenshot"
-#~ msgstr "Ulepszony zrzut ekranu"
-
-#~ msgid "Undo the last action"
-#~ msgstr "Cofnij ostatnią akcję"
-
-#~ msgid "Redo the last undone action"
-#~ msgstr "Przywróć ostatnią akcję"
-
-#~ msgid "Clear all annotations"
-#~ msgstr "Wyczyść wszystkie adnotacje"
-
-#~ msgid "Run Upload Command"
-#~ msgstr "Uruchom komendę do wczytania"
-
-#~ msgid "Current drawing mode"
-#~ msgstr "Aktualny tryb rysowania"
-
-#~ msgid "Pen color in rgba"
-#~ msgstr "Kolor pióra w rgba"
-
-#~ msgid "Highlighter color in rgba"
-#~ msgstr "Kolor zakreślacza w rgba"
-
-#~ msgid "Highlighter size"
-#~ msgstr "Rozmiar zakreślacza"
-
-#~ msgid "Fill color in rgba"
-#~ msgstr "Kolor wypełnienia w rgba"
-
-#~ msgid "Pen size"
-#~ msgstr "Rozmiar pióra"
-
-#~ msgid "Number radius size"
-#~ msgstr "Rozmiar promienia"
-
-#~ msgid "Selected font name"
-#~ msgstr "Nazwa wybranej czcionki"
-
-#~ msgid "Radius of the rounded corners"
-#~ msgstr "Promień zaokrąglenia rogu"
-
-#~ msgid "Aspect ratio of the final image"
-#~ msgstr "Proporcje finalnego obrazu"
-
-#~ msgid "Intensity of the shadow behind the image"
-#~ msgstr "Intensywność cienia za obrazem"
-
-#~ msgid "If images with same colored edges should be balanced"
-#~ msgstr "Równoważenie obrazów z tym samym kolorem krawędzi"
-
-#~ msgid "Screenshot subdirectory"
-#~ msgstr "Podkatalog zrzutu ekranu"
-
-#~ msgid "The export format for the Save button"
-#~ msgstr "Format dla przycisku Zapisz"
-
-#~ msgid "Whether to compress the exported file (if supported)"
-#~ msgstr "Kompresowanie eksportowanego pliku (jeśli dostępne)"
-
-#~ msgid ""
-#~ "Whether to trash all taken screenshots from the current session on close."
-#~ msgstr ""
-#~ "Usuwanie wszystkich wykonanych zrzutów ekranu z aktualnej sesji po "
-#~ "zamknięciu."
-
-#~ msgid "Whether to ask before closing the app with content open."
-#~ msgstr "Zapytaj przed zamknięciem programu z otwartą zawartością."
-
-#~ msgid "Custom command to run when pressing its button"
-#~ msgstr "Komenda uruchomienia po wciśnięciu przycisku jej wywołania"
-
-#~ msgid ""
-#~ "Command that receives the edited file path as stdin and returns clipboard "
-#~ "output"
-#~ msgstr ""
-#~ "Polecenie, które odbiera edytowaną ścieżkę pliku jako stdin i zwraca "
-#~ "wyjście schowka"
-
-#~ msgid "Name associated with the custom command"
-#~ msgstr "Nazwa powiązanej własnej komendy"
-
-#~ msgid "Whether to ask before running the export command."
-#~ msgstr "Zapytaj przed uruchomieniem komendy eksportu."
-
-#~ msgid "Settings"
-#~ msgstr "Ustawienia"
-
-#~ msgid "Delete"
-#~ msgstr "Usuń"
-
-#~ msgid "Image files"
-#~ msgstr "Pliki obrazów"
-
-#~ msgid "Fill"
-#~ msgstr "Wypełnienie"
-
-#~ msgid ""
-#~ "On social media, it's often hard to control how your images appear to "
-#~ "others. Transparent or oddly sized images, like screenshots often don't "
-#~ "display well. Fixing these issues can feel like more trouble than it's "
-#~ "worth."
-#~ msgstr ""
-#~ "W mediach społecznościowych często trudno jest kontrolować to, jak Twoje "
-#~ "obrazy wyświetlają się innym. Przezroczyste lub te o nietypowych "
-#~ "rozmiarach, takie jak zrzuty ekranu, często nie wyświetlają się dobrze. "
-#~ "Rozwiązywanie tych problemów może wydawać się grą niewartą świeczki."
-
-#~ msgid ""
-#~ "This tool aims to alleviate that problem by allowing you to quickly edit "
-#~ "images to address these issues, while also offering options to enhance "
-#~ "their overall appearance."
-#~ msgstr ""
-#~ "Ten program ma na celu złagodzenie tego problemu, umożliwiając szybką "
-#~ "edycję obrazów w celu rozwiązania tych kwestii, jednocześnie oferując "
-#~ "opcje poprawy ich ogólnego wyglądu."
-
-#~ msgid "Save Processed Image"
-#~ msgstr "Zapisz przetworzony obraz"
-
-#~ msgid "Failed to save image"
-#~ msgstr "Błąd podczas zapisywania obrazu"
-
-#, python-format
-#~ msgid "%d second ago"
-#~ msgid_plural "%d seconds ago"
-#~ msgstr[0] "%d sekunda temu"
-#~ msgstr[1] "%d sekundy temu"
-#~ msgstr[2] "%d sekund temu"
-
-#, python-format
-#~ msgid "%d minute ago"
-#~ msgid_plural "%d minutes ago"
-#~ msgstr[0] "%d minuta temu"
-#~ msgstr[1] "%d minuty temu"
-#~ msgstr[2] "%d minut temu"
-
-#, python-format
-#~ msgid "%d hour ago"
-#~ msgid_plural "%d hours ago"
-#~ msgstr[0] "%d godzina temu"
-#~ msgstr[1] "%d godziny temu"
-#~ msgstr[2] "%d godzin temu"
-
-#, python-format
-#~ msgid "%d day ago"
-#~ msgid_plural "%d days ago"
-#~ msgstr[0] "%d dzień temu"
-#~ msgstr[1] "%d dni temu"
-#~ msgstr[2] "%d dni temu"

@@ -1,0 +1,77 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $ProviderListPage : Adw.NavigationPage {
+  title: _("Choose a Provider");
+
+  child: Adw.ViewStack view_stack {
+    enable-transitions: true;
+
+    Adw.ViewStackPage loading_page {
+      name: "loading";
+      title: _("Loading");
+      child: Adw.ToolbarView loading_content {
+        [top]
+        Adw.HeaderBar loading_header {}
+
+        content: Box loading_box {
+          orientation: vertical;
+          spacing: 12;
+          halign: center;
+          valign: center;
+
+          Adw.Spinner loading_spinner {
+            width-request: 32;
+            height-request: 32;
+          }
+
+          Label loading_label {
+            label: _("Loading providers data…");
+            vexpand: true;
+            hexpand: true;
+          }
+        };
+      };
+    }
+
+    Adw.ViewStackPage error_page {
+      name: "error";
+      title: _("Error");
+      child: Adw.ToolbarView error_content {
+        [top]
+        Adw.HeaderBar error_header {}
+
+        content: Adw.Clamp error_clamp {
+          maximum-size: 600;
+          tightening-threshold: 400;
+          margin-top: 24;
+          margin-bottom: 24;
+          margin-start: 12;
+          margin-end: 12;
+
+          child: Adw.StatusPage error_status {
+            title: _("An error occurred");
+            description: _("Please try again later.");
+            icon-name: "dialog-error-symbolic";
+          };
+        };
+      };
+    }
+
+    Adw.ViewStackPage content_page {
+      name: "content";
+      title: _("Providers");
+      child: Adw.ToolbarView main_content {
+        [top]
+        Adw.HeaderBar main_header {}
+
+        content: Adw.PreferencesPage providers_page {
+          Adw.PreferencesGroup providers_group {
+            description: _("Select a third party image upload provider.");
+
+          }
+        };
+      };
+    }
+  };
+}

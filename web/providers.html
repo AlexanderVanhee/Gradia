@@ -23,11 +23,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Providers</title>
     <meta name="description" content="Learn how to upload images using Gradia's predefined or custom upload providers, with step-by-step setup instructions.">
 
-    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="styles/base.css">
+    <title>Providers</title>
+
+    <link rel="icon" href="assets/favicons/favicon.ico" type="image/x-icon">
+
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link rel="stylesheet" href="assets/styles/providers.css">
 </head>
 
 <body>
@@ -35,9 +39,10 @@
         <!-- Header -->
         <header>
             <div class="logo">
-                <img src="assets/logo.svg" alt="Gradia Logo" class="logo-image">
+                <img src="assets/images/logo.svg" alt="Gradia Logo" class="logo-image">
                 <span>Gradia</span>
             </div>
+
             <h1 class="title">Providers</h1>
             <p class="subtitle">Quickly upload an edited image to your favorite providers</p>
             <p style="padding-top: 1rem;">
@@ -46,7 +51,6 @@
                 This page explains the basic idea behind this system, provides some explanation for popular providers,
                 and includes information on how to craft commands for your own setup.
             </p>
-
         </header>
 
         <!-- Introduction -->
@@ -61,20 +65,19 @@
 
             <div style="margin-top: 1rem; margin-bottom: 1rem;">
                 <strong class="example-label">Example:</strong>
-                <pre
-                    class="code-block"><code>curl -F "file=@$1" https://api.service.com/upload | jq -r '.url'</code></pre>
+                <pre class="code-block"><code>curl -F "file=@$1" https://api.service.com/upload | jq -r '.url'</code></pre>
             </div>
 
             <p><strong>Note:</strong> Not all commands or functions are available in the Flatpak or the Snap by default. You may need to modify
-                permissions. For Flatpak, this can be done via <a
-                    href="https://flathub.org/apps/com.github.tchx84.Flatseal"><strong>Flatseal</strong></a>.</p>
+                permissions. For Flatpak, this can be done via <a href="https://flathub.org/apps/com.github.tchx84.Flatseal"><strong>Flatseal</strong></a>.
+            </p>
         </section>
 
         <!-- Setup -->
         <section class=" setup-section">
             <h2 class="section-title">Basic Setup</h2>
             <ol class="setup-steps card">
-                <li class="setup-step ">
+                <li class="setup-step">
                     <span class="step-number">1</span>
                     <div class="step-content">
                         <strong class="step-title">Press the <strong>Select</strong> button in the "Image Upload Providers" section.</strong>
@@ -104,19 +107,20 @@
                 </li>
             </ol>
         </section>
-        <script>
-            function copy(btn) {
-                const code = btn.parentElement.querySelector('code').textContent;
-                navigator.clipboard.writeText(code).then(() => {
-                    btn.textContent = 'Copied!';
-                    btn.classList.add('copied');
-                    setTimeout(() => {
-                        btn.textContent = 'Copy';
-                        btn.classList.remove('copied');
-                    }, 2000);
-                });
-            }
-        </script>
+    </div>
+    <script>
+        function copy(btn) {
+            const code = btn.parentElement.querySelector('code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = 'Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'Copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
 </body>
 
 </html>

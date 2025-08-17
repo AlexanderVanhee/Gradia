@@ -26,8 +26,7 @@ if desktop_utils.found()
 endif
 
 # Compile resources
-gnome.compile_resources(
-  'gradia',
+gnome.compile_resources('gradia',
   'gradia.gresource.xml.in',
   gresource_bundle: true,
   dependencies: blueprints,

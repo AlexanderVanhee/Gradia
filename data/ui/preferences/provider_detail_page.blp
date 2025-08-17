@@ -1,0 +1,131 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $ProviderDetailPage : Adw.NavigationPage {
+  child: Adw.ToolbarView content {
+    [top]
+    Adw.HeaderBar header_bar {
+      [end]
+      Gtk.Button select_button {
+        label: _("Select");
+        styles ["suggested-action"]
+        clicked => $_on_select_provider();
+      }
+    }
+
+    content: Gtk.ScrolledWindow {
+      hscrollbar-policy: never;
+      vscrollbar-policy: automatic;
+
+      child: Adw.Clamp {
+        maximum-size: 600;
+        tightening-threshold: 400;
+
+        child: Gtk.Box main_box {
+          orientation: vertical;
+          spacing: 24;
+          margin-top: 24;
+          margin-bottom: 24;
+          margin-start: 24;
+          margin-end: 24;
+
+          Gtk.Box header_box {
+            orientation: horizontal;
+            spacing: 12;
+            halign: start;
+
+            Gtk.Picture provider_picture {
+              width-request: 48;
+              height-request: 48;
+              content-fit: cover;
+            }
+
+            Gtk.Box title_box {
+              orientation: vertical;
+              halign: start;
+              valign: center;
+
+              Gtk.Label title_label {
+                halign: start;
+                styles ["title-2"]
+              }
+
+              Gtk.Label subtitle_label {
+                halign: start;
+                styles ["dim-label"]
+              }
+            }
+          }
+
+          Adw.PreferencesGroup details_group {
+            title: _("About");
+
+            Adw.ActionRow homepage_row {
+              title: _("Homepage");
+              activatable: true;
+              visible: false;
+              activated => $_on_link_activated();
+
+              [prefix]
+              Gtk.Image {
+                icon-name: "house-symbolic";
+              }
+
+              [suffix]
+              Gtk.Image {
+                icon-name: "adw-external-link-symbolic";
+              }
+            }
+
+            Adw.ActionRow tos_row {
+              title: _("Terms of Service");
+              activatable: true;
+              visible: false;
+              activated => $_on_link_activated();
+
+              [prefix]
+              Gtk.Image {
+                icon-name: "text-x-generic-symbolic";
+              }
+
+              [suffix]
+              Gtk.Image {
+                icon-name: "adw-external-link-symbolic";
+              }
+            }
+          }
+
+          Adw.PreferencesGroup features_group {
+            title: _("Features");
+          }
+
+          Adw.PreferencesGroup command_group {
+            title: _("Upload Command");
+            visible: false;
+
+            Adw.ActionRow command_row {
+              activatable: false;
+              selectable: false;
+
+              child: Gtk.ScrolledWindow {
+                hscrollbar-policy: automatic;
+                vscrollbar-policy: never;
+                hexpand: true;
+
+                child: Gtk.Label command_label {
+                  xalign: 0;
+                  wrap: false;
+                  margin-top: 10;
+                  margin-bottom: 10;
+                  margin-start: 10;
+                  margin-end: 10;
+                  styles ["monospace"]
+                };
+              };
+            }
+          }
+        };
+      };
+    };
+  };
+}

@@ -35,10 +35,16 @@ class BaseImageExporter:
         self.temp_dir: str = temp_dir
 
     def get_processed_pixbuf(self):
+        full_res_pixbuf = self.window.processor.process_full_resolution()
+        width = full_res_pixbuf.get_width()
+        height = full_res_pixbuf.get_height()
+        drawing_pixbuf = self.window.drawing_overlay.export_to_pixbuf(width, height)
+
         composited = self.overlay_pixbuffs(
-            self.window.processed_pixbuf,
-            self.window.drawing_overlay.export_to_pixbuf()
+            full_res_pixbuf,
+            drawing_pixbuf,
         )
+
         crop_rect = self.window.image_bin.crop_overlay.get_crop_rectangle()
         return self.crop_pixbuf(composited, crop_rect)
 
@@ -71,12 +77,11 @@ class BaseImageExporter:
         return result
 
     def _get_dynamic_filename(self, extension: str = ".png") -> str:
-        if self.window.image_path:
-            original_name = os.path.splitext(os.path.basename(self.window.image_path))[0]
-            if getattr(self.window, "image_has_actual_filename", False):
-                return f"{original_name} ({_('Edit')}){extension}"
-            else:
-                return f"{original_name}{extension}"
+        original_name = self.window.image.get_proper_name(with_extension=False)
+        if self.window.image.has_proper_name():
+            return f"{original_name} ({_('Edit')}){extension}"
+        else:
+            return f"{original_name}{extension}"
         return f"{_('Enhanced Screenshot')}{extension}"
 
 
@@ -215,24 +220,36 @@ class FileDialogExporter(BaseImageExporter):
 class ClipboardExporter(BaseImageExporter):
     """Handles exporting images to clipboard"""
 
-    TEMP_CLIPBOARD_EXPORT_FILENAME: str = "clipboard_export.png"
-
-    def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str) -> None:
-        super().__init__(window, temp_dir)
-
-
-    def copy_to_clipboard(self) -> None:
-        """Copy processed image to system clipboard"""
+    def copy_to_clipboard(self, silent=False) -> None:
         try:
             self._ensure_processed_image_available()
 
-            temp_path = save_pixbuff_to_path(self.temp_dir, self.get_processed_pixbuf())
-            if not temp_path or not os.path.exists(temp_path):
-                raise Exception("Failed to create temporary file for clipboard")
+            def _task_thread_func(task, source_object, task_data, cancellable):
+                try:
+                    temp_path = save_pixbuff_to_path(self.temp_dir, self.get_processed_pixbuf())
+                    task.return_value(temp_path)
+                except Exception as e:
+                    task.return_error(GLib.Error(str(e)))
 
-            copy_file_to_clipboard(temp_path)
-            self.window.show_close_confirmation = False
-            self.window._show_notification(_("Image copied to clipboard"))
+            def _on_task_complete(source_object, result, user_data):
+                try:
+                    temp_path = result.propagate_value().value
+
+                    if not temp_path or not os.path.exists(temp_path):
+                        raise Exception("Failed to create temporary file for clipboard")
+
+                    copy_file_to_clipboard(temp_path)
+
+                    if not silent:
+                        self.window.show_close_confirmation = False
+                        self.window._show_notification(_("Image copied to clipboard"))
+
+                except Exception as e:
+                    self.window._show_notification(_("Failed to copy image to clipboard"))
+                    print(f"Error copying to clipboard: {e}")
+
+            task = Gio.Task.new(None, None, _on_task_complete, None)
+            task.run_in_thread(_task_thread_func)
 
         except Exception as e:
             self.window._show_notification(_("Failed to copy image to clipboard"))
@@ -330,9 +347,9 @@ class ExportManager:
         """Export to file using file dialog"""
         self.file_exporter.save_to_file()
 
-    def copy_to_clipboard(self) -> None:
+    def copy_to_clipboard(self, silent = False) -> None:
         """Export to clipboard"""
-        self.clipboard_exporter.copy_to_clipboard()
+        self.clipboard_exporter.copy_to_clipboard(silent=silent)
 
     def run_custom_command(self) -> None:
         """Run custom export command"""

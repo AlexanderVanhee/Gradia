@@ -17,6 +17,7 @@
 
 from typing import Optional
 from gi.repository import Adw, Gtk
+from gradia import constants
 
 
 class AboutDialog:
@@ -39,7 +40,7 @@ class AboutDialog:
             designers=[
                 "drpetrikov https://github.com/drpetrikov"
             ],
-            application_icon="be.alexandervanhee.gradia",
+            application_icon=constants.app_id,
             # Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
             translator_credits=_("translator-credits"),
             copyright="Copyright © 2025 Alexander Vanhee",
@@ -96,7 +97,18 @@ class ShortcutsDialog:
                 "shortcuts": [
                     (_("Undo"), "<Ctrl>Z"),
                     (_("Redo"), "<Ctrl><Shift>Z"),
-                    (_("Erase Selected"), "Delete")
+                    (_("Erase Selected"), "Delete"),
+                    (_("Select"),      "0 S"),
+                    (_("Pen"),         "1 P"),
+                    (_("Text"),        "2 T"),
+                    (_("Line"),        "3 L"),
+                    (_("Arrow"),       "4 A"),
+                    (_("Rectangle"),   "5 R"),
+                    (_("Oval"),        "6 O"),
+                    (_("Highlighter"), "7 H"),
+                    (_("Censor"),      "8 C"),
+                    (_("Number"),      "9 N"),
+                    (_("Adjust Tool Size"), _("Ctrl + Shift + Mouse Wheel")),
                 ]
             },
             {
@@ -113,6 +125,14 @@ class ShortcutsDialog:
                     (_("Preferences"), "<Ctrl>comma"),
                     (_("Open Source Snippets"), "<Ctrl>P"),
                 ]
+            },
+            {
+                "title": _("Zoom Image"),
+                "shortcuts": [
+                    (_("Zoom In"), "<Ctrl>plus plus"),
+                    (_("Zoom Out"), "<Ctrl>minus minus"),
+                    (_("Reset Zoom"), "<Ctrl>0 equal"),
+                ]
             }
         ]
 
@@ -123,10 +143,18 @@ class ShortcutsDialog:
         for group_data in self.shortcut_groups:
             group = Gtk.ShortcutsGroup(title=group_data["title"], visible=True)
             for title, accel in group_data["shortcuts"]:
-                group.add_shortcut(Gtk.ShortcutsShortcut(
-                    title=title,
-                    accelerator=accel
-                ))
+                if any(word in accel for word in ["Mouse", "Wheel", "Scroll"]) and not accel.startswith("<"):
+                    shortcut = Gtk.ShortcutsShortcut(
+                        title=title,
+                        subtitle=accel
+                    )
+                else:
+                    shortcut = Gtk.ShortcutsShortcut(
+                        title=title,
+                        accelerator=accel
+                    )
+
+                group.add_shortcut(shortcut)
             section.add_group(group)
 
         self.dialog.add_section(section)
@@ -142,4 +170,3 @@ class ShortcutsDialog:
         self.parent = parent
         if self.dialog:
             self.dialog.set_transient_for(parent)
-

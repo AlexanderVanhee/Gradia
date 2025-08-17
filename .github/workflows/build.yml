@@ -6,6 +6,11 @@ on:
   pull_request:
 
 jobs:
+  codespell:
+    name: Check for spelling errors
+    runs-on: ubuntu-latest
+    steps:
+      - uses: codespell-project/actions-codespell@v2
   flatpak:
     name: Build Flatpak Package
     runs-on: ubuntu-latest

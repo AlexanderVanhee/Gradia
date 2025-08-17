@@ -106,14 +106,13 @@ class ImageSelector(Adw.PreferencesGroup):
         self,
         image_background: ImageBackground,
         callback: Optional[Callable[[ImageBackground], None]] = None,
-        parent_window: Optional[Gtk.Window] = None,
         **kwargs
     ) -> None:
         super().__init__(**kwargs)
 
         self.image_background = image_background
         self.callback = callback
-        self.parent_window = parent_window
+
 
         self._setup_file_dialog()
         self._setup_drag_and_drop()
@@ -194,7 +193,7 @@ class ImageSelector(Adw.PreferencesGroup):
 
     @Gtk.Template.Callback()
     def _on_select_clicked(self, _button: Gtk.Button, *args) -> None:
-        self.open_image_dialog.open(self.parent_window, None, self._on_file_dialog_ready)
+        self.open_image_dialog.open(self.get_root(), None, self._on_file_dialog_ready)
 
     def _on_preset_image_loaded(self, picture: Gtk.Picture, stack: Gtk.Stack, pixbuf: GdkPixbuf.Pixbuf) -> bool:
         try:
@@ -233,7 +232,7 @@ class ImageSelector(Adw.PreferencesGroup):
         self.image_popover.popdown()
 
     def _on_preview_clicked(self, _gesture: Gtk.GestureClick, _n_press: int, _x: float, _y: float) -> None:
-        self.open_image_dialog.open(self.parent_window, None, self._on_file_dialog_ready)
+        self.open_image_dialog.open(self.get_root(), None, self._on_file_dialog_ready)
 
     def _on_image_drop(self, _drop_target: Gtk.DropTarget, file: Gio.File, _x: int, _y: int) -> bool:
         file_path = file.get_path()

@@ -1,43 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
-  <schema id="be.alexandervanhee.gradia" path="/be/alexandervanhee/gradia/">
+  <schema id="@APP_ID@" path="@ROOT_PATH@/">
      <key name="draw-mode" type="s">
       <default>'SELECT'</default>
       <summary>Current drawing mode</summary>
     </key>
-    <key name="pen-color" type="s">
-      <default>'1.000,1.000,1.000,1.000'</default>
-      <summary>Pen color in rgba</summary>
+    <key name="tool-config" type="a{ss}">
+      <default>{'tool_highlighter': "{\"mode\": \"HIGHLIGHTER\", \"size\": 14, \"primary_color\": [0.9599999785423279, 0.8299999833106995, 0.18000000715255737, 0.699999988079071], \"fill_color\": [1.0, 1.0, 1.0, 1.0], \"border_color\": [0.0, 0.0, 0.0, 1.0]}", 'tool_number': "{\"mode\": \"NUMBER\", \"size\": 14, \"primary_color\": [0.0, 0.0, 0.0, 1.0], \"fill_color\": [1.0, 1.0, 1.0, 1.0], \"border_color\": [0.0, 0.0, 0.0, 0.0]}", 'tool_circle': "{\"mode\": \"CIRCLE\", \"size\": 14, \"primary_color\": [1.0, 1.0, 1.0, 1.0], \"fill_color\": [1.0, 1.0, 1.0, 1.0], \"border_color\": [0.0, 0.0, 0.0, 1.0]}", 'tool_square': "{\"mode\": \"SQUARE\", \"size\": 14, \"primary_color\": [1.0, 1.0, 1.0, 1.0], \"fill_color\": [1.0, 1.0, 1.0, 1.0], \"border_color\": [0.0, 0.0, 0.0, 1.0]}", 'tool_arrow': "{\"mode\": \"ARROW\", \"size\": 14, \"primary_color\": [0.0, 0.0, 0.0, 1.0], \"fill_color\": [1.0, 1.0, 1.0, 1.0], \"border_color\": [0.0, 0.0, 0.0, 1.0]}", 'tool_line': "{\"mode\": \"LINE\", \"size\": 14, \"primary_color\": [0.0, 0.0, 0.0, 1.0], \"fill_color\": [1.0, 1.0, 1.0, 1.0], \"border_color\": [0.0, 0.0, 0.0, 1.0]}", 'tool_pen': "{\"mode\": \"PEN\", \"size\": 14, \"primary_color\": [0.0, 0.0, 0.0, 1.0], \"fill_color\": [1.0, 1.0, 1.0, 1.0], \"border_color\": [0.0, 0.0, 0.0, 1.0]}"}</default>
+      <summary>Dictionary of tool configuration strings</summary>
     </key>
-    <key name="highlighter-color" type="s">
-      <default>'1.000,1.000,0.000,0.500'</default>
-      <summary>Highlighter color in rgba</summary>
-    </key>
-    <key name="highlighter-size" type="d">
-      <default>5.0</default>
-      <summary>Highlighter size</summary>
-    </key>
-    <key name="fill-color" type="s">
-      <default>'0.000,0.000,0.000,0.000'</default>
-      <summary>Fill color in rgba</summary>
-    </key>
-    <key name="outline-color" type="s">
-      <default>'0.000,0.000,0.000,0.000'</default>
-      <summary>Text outline color in rgba</summary>
-    </key>
-    <key name="pen-size" type="d">
-      <default>3.0</default>
-      <summary>Pen size</summary>
-    </key>
-    <key name="number-radius" type="d">
-      <default>10.0</default>
-      <summary>Number radius size</summary>
-    </key>
-    <key name="font" type="s">
-      <default>'Adwaita Sans'</default>
-      <summary>Selected font name</summary>
-    </key>
-
     <key name="image-padding" type="i">
       <default>5</default>
       <summary>Padding percentage around the image</summary>
@@ -64,7 +35,7 @@
     </key>
 
     <key name="background-mode" type="s">
-      <default>'gradient'</default>
+      <default>'none'</default>
       <summary>The selected background mode</summary>
     </key>
     <key name="solid-state" type="s">
@@ -73,7 +44,7 @@
     </key>
 
     <key name="gradient-state" type="s">
-      <default>"{\"start_color\": \"#57e389\", \"end_color\": \"#3584e4\", \"angle\": 135}"</default>
+      <default>"{\"mode\": \"linear\", \"steps\": [[0.0, \"rgb(87,227,137)\"], [1.0, \"rgb(53,132,228)\"]], \"angle\": 135}"</default>
       <summary>Serialized state of the gradient background</summary>
     </key>
     <key name="image-state" type="s">

@@ -39,7 +39,7 @@ template $GradiaWelcomePage : Adw.Bin {
               label: _("_Take a Screenshot…");
               use-underline: true;
               halign: center;
-              action-name: "app.screenshot";
+              action-name: "win.screenshot";
               styles [
                 "pill",
                 "text-button",
@@ -51,7 +51,7 @@ template $GradiaWelcomePage : Adw.Bin {
               label: _("_Open Image…");
               use-underline: true;
               halign: center;
-              action-name: "app.open";
+              action-name: "win.open";
               styles [
                 "pill",
                 "text-button"
@@ -68,21 +68,21 @@ menu app_menu {
   section {
     item {
       label: _("Source Snippets");
-      action: "app.create-source-image";
+      action: "win.create-source-image";
     }
   }
   section {
     item {
       label: _("Preferences");
-      action: "app.preferences";
+      action: "win.preferences";
     }
     item {
       label: _("Keyboard Shortcuts");
-      action: "app.shortcuts";
+      action: "win.shortcuts";
     }
     item {
       label: _("About Gradia");
-      action: "app.about";
+      action: "win.about";
     }
   }
 }

@@ -1,426 +1,116 @@
 using Gtk 4.0;
-using Adw 1;
 
-template $GradiaDrawingToolsGroup : Adw.PreferencesGroup {
-  title: _("Annotation Tools");
+template $GradiaDrawingToolsGroup : Box {
+  orientation: vertical;
 
-  Adw.ActionRow tools_row {
-    child: Gtk.Grid tools_grid {
-      row-spacing: 6;
-      column-spacing: 6;
-      margin-top: 6;
-      margin-bottom: 6;
-      margin-start: 6;
-      margin-end: 6;
-      halign: center;
-      valign: center;
-    };
+  Text {
+    text: _("Annotation Tools");
+    margin-bottom:12;
+    sensitive:false;
+
+    styles ["heading", "h4"]
+
   }
 
-  Adw.ActionRow options_row {
-    child: Gtk.Box options_container {
-      orientation: vertical;
-      spacing: 0;
+  $GradiaDrawingToolsGrid drawing_tools_grid {
+    tool-changed => $on_tool_changed();
+  }
 
-      Gtk.Revealer stroke_color_revealer {
-        reveal-child: false;
-        transition-type: swing_down;
-        transition-duration: 300;
+  $GradiaQuickColorPicker color_picker {
+    margin-top:6;
+    color-changed => $on_primary_color_changed();
+  }
 
-        child: Gtk.Box {
-          orientation: vertical;
-          spacing: 0;
+  Scale size_scale {
+      orientation: horizontal;
+      margin-bottom: 6;
+      margin-top: 6;
+      adjustment: Adjustment {
+        value-changed => $on_size_scale_changed();
+        lower: 3;
+        upper: 25;
+        value: 14;
+      };
+  }
+  Revealer extra_stack_revealer {
+    reveal-child: true;
+    transition-type: slide_up;
+    transition-duration: 200;
+    margin-bottom:6;
+    valign: start;
+    child: Stack extra_stack {
+      transition-type: crossfade;
+      transition-duration: 200;
 
-          styles [
-            "drawing_tool_entry_box"
-          ]
-
-          Gtk.Box stroke_color_container {
-            orientation: horizontal;
-            spacing: 6;
-            margin-top: 8;
-            margin-bottom: 8;
-            margin-start: 12;
-            margin-end: 12;
-
-            Gtk.Label stroke_color_label {
-              label: _("Color");
-              halign: start;
-              hexpand: true;
-            }
-
-            Gtk.Box stroke_color_suffix_box {
-              orientation: horizontal;
-              spacing: 6;
-              valign: center;
-
-              $QuickColorPicker stroke_color_button {
-                valign: center;
-                color-changed => $_on_pen_color_set();
-              }
-            }
-          }
-        };
+      StackPage {
+          name: "empty";
+          child: Box {
+            visible: true;
+          };
       }
 
-      Gtk.Revealer highlighter_color_revealer {
-        reveal-child: false;
-        transition-type: swing_down;
-        transition-duration: 300;
-
-        child: Gtk.Box {
-          orientation: vertical;
-          spacing: 0;
-
-          styles [
-              "drawing_tool_entry_box"
-          ]
-
-
-          Gtk.Box highlighter_color_container {
-            orientation: horizontal;
+      StackPage {
+          name: "fill";
+          child:Box {
             spacing: 6;
-            margin-top: 8;
-            margin-bottom: 8;
-            margin-start: 12;
-            margin-end: 12;
+            homogeneous: true;
 
-            Gtk.Label highlighter_color_label {
-              label: _("Highlighter Color");
-              halign: start;
+            $GradiaSimpleColorPicker fill_0 {
+              icon-name: "fill-symbolic";
+              text: _("Fill");
               hexpand: true;
+              color-changed => $on_fill_color_changed();
             }
-
-            Gtk.Box highlighter_color_suffix_box {
-              orientation: horizontal;
-              spacing: 6;
-              valign: center;
-
-              $QuickColorPicker highlighter_color_button {
-                valign: center;
-                quick-colors-alpha:0.5;
-                show-black-white: false;
-                color-changed => $_on_highlighter_color_set();
-              }
-            }
-          }
-        };
+          };
       }
 
-      Gtk.Revealer fill_color_revealer {
-        reveal-child: false;
-        transition-type: swing_down;
-        transition-duration: 300;
-
-        child: Gtk.Box {
-          orientation: vertical;
-          spacing: 0;
-
-          styles [
-            "drawing_tool_entry_box"
-          ]
-
-          Gtk.Box fill_color_container {
-            orientation: horizontal;
+      StackPage {
+          name: "fill-border";
+          child:Box {
             spacing: 6;
-            margin-top: 8;
-            margin-bottom: 8;
-            margin-start: 12;
-            margin-end: 12;
+            homogeneous: true;
 
-            Gtk.Label fill_color_label {
-              label: _("Fill Color");
-              halign: start;
+            $GradiaSimpleColorPicker fill_1 {
+              icon-name: "fill-symbolic";
+              text: _("Fill");
               hexpand: true;
+              color-changed => $on_fill_color_changed();
             }
 
-            Gtk.Box fill_color_suffix_box {
-              orientation: horizontal;
-              spacing: 6;
-              valign: center;
-
-              Gtk.Button reset_button {
-                icon-name: "edit-clear-symbolic";
-                tooltip-text: _("Reset Fill");
-
-                clicked => $_on_reset_fill_clicked();
-
-                styles [
-                  "flat"
-                ]
-              }
-
-              $QuickColorPicker fill_color_button {
-                color-changed => $_on_fill_color_set();
-              }
+            $GradiaSimpleColorPicker  outline_1 {
+              icon-name: "outline-color-symbolic";
+              text: _("Border");
+              hexpand: true;
+              color-changed => $on_outline_color_changed();
             }
-          }
-
-        };
+          };
       }
 
-      Gtk.Revealer outline_color_revealer {
-        reveal-child: false;
-        transition-type: swing_down;
-        transition-duration: 300;
-
-        child: Gtk.Box {
-          orientation: vertical;
-          spacing: 0;
-
-          styles [
-            "drawing_tool_entry_box"
-          ]
-
-          Gtk.Box outline_color_container {
-            orientation: horizontal;
+      StackPage {
+          name: "text";
+          child: Box {
             spacing: 6;
-            margin-top: 8;
-            margin-bottom: 8;
-            margin-start: 12;
-            margin-end: 12;
 
-            Gtk.Label outline_color_label {
-              label: _("Outline Color");
-              halign: start;
+            $GradiaSimpleColorPicker fill_2 {
+              icon-name: "fill-symbolic";
               hexpand: true;
+              color-changed => $on_fill_color_changed();
+              tooltip-text: _("Fill Color Picker");
             }
 
-            Gtk.Box outline_color_suffix_box {
-              orientation: horizontal;
-              spacing: 6;
-              valign: center;
-
-              Gtk.Button outline_reset_button {
-                icon-name: "edit-clear-symbolic";
-                tooltip-text: _("Reset Outline");
-
-                clicked => $_on_reset_outline_clicked();
-
-                styles [
-                  "flat"
-                ]
-              }
-
-              $QuickColorPicker outline_color_button {
-                color-changed => $_on_outline_color_set();
-              }
-            }
-          }
-
-        };
-      }
-
-      Gtk.Revealer font_revealer {
-        reveal-child: false;
-        transition-type: swing_down;
-        transition-duration: 300;
-
-        child: Gtk.Box {
-          orientation: vertical;
-          spacing: 0;
-
-          Gtk.Box font_container {
-            orientation: horizontal;
-            spacing: 6;
-            margin-top: 8;
-            margin-bottom: 8;
-            margin-start: 12;
-            margin-end: 12;
-
-            Gtk.Label font_label {
-              label: _("Font");
-              halign: start;
+            $GradiaSimpleColorPicker  outline_2 {
+              icon-name: "outline-color-symbolic";
               hexpand: true;
+              color-changed => $on_outline_color_changed();
+              tooltip-text: _("Outline Color Picker");
             }
 
-            Gtk.Box font_suffix_box {
-              orientation: horizontal;
-              spacing: 6;
-              valign: center;
-
-              Gtk.DropDown font_dropdown {
-                selected: 0;
-                width-request: 150;
-                model: Gtk.StringList font_string_list {};
-
-                factory: Gtk.SignalListItemFactory font_factory {
-                  setup => $_font_factory_setup();
-                  bind => $_font_factory_bind();
-                };
-
-                notify::selected => $_on_font_selected();
-              }
+            $GradiaFontDropdown font_dropdown {
+              width-request:160;
+              font-changed => $on_font_changed();
             }
-          }
-
-        };
+          };
       }
-
-      Gtk.Revealer size_revealer {
-        reveal-child: false;
-        transition-type: swing_down;
-        transition-duration: 300;
-
-        styles [
-          "drawing_revealer"
-        ]
-
-        child: Gtk.Box {
-          orientation: vertical;
-          spacing: 0;
-
-          Gtk.Box size_container {
-            orientation: horizontal;
-            spacing: 6;
-            margin-top: 8;
-            margin-bottom: 8;
-            margin-start: 12;
-            margin-end: 12;
-
-            Gtk.Label size_label {
-              label: _("Size");
-              halign: start;
-              hexpand: true;
-            }
-
-            Gtk.Box size_suffix_box {
-              orientation: horizontal;
-              spacing: 6;
-              valign: center;
-
-              Gtk.Scale size_scale {
-                orientation: horizontal;
-                width-request: 50;
-                hexpand: true;
-                draw-value: true;
-                value-pos: right;
-                digits: 0;
-
-                adjustment: Gtk.Adjustment size_adjustment {
-                  lower: 1;
-                  upper: 15;
-                  value: 3;
-                  step-increment: 1;
-                  page-increment: 5;
-                };
-
-                value-changed => $_on_size_changed();
-              }
-            }
-          }
-
-        };
-      }
-
-      Gtk.Revealer number_radius_revealer {
-        reveal-child: false;
-        transition-type: swing_down;
-        transition-duration: 300;
-
-        styles [
-          "drawing_revealer"
-        ]
-
-        child: Gtk.Box number_radius_container {
-          orientation: horizontal;
-          spacing: 6;
-          margin-top: 8;
-          margin-bottom: 8;
-          margin-start: 12;
-          margin-end: 12;
-
-          Gtk.Label number_radius_label {
-            label: _("Radius");
-            halign: start;
-            hexpand: true;
-          }
-
-          Gtk.Box number_radius_suffix_box {
-            orientation: horizontal;
-            spacing: 6;
-            valign: center;
-
-            Gtk.Scale number_radius_scale {
-              orientation: horizontal;
-              width-request: 50;
-              hexpand: true;
-              draw-value: true;
-              value-pos: right;
-              digits: 0;
-
-              adjustment: Gtk.Adjustment number_radius_adjustment {
-                lower: 10;
-                upper: 60;
-                value: 15;
-                step-increment: 5;
-                page-increment: 5;
-              };
-
-              value-changed => $_on_number_radius_changed();
-            }
-          }
-        };
-      }
-
-
-      Gtk.Revealer highlighter_size_revealer {
-        reveal-child: false;
-        transition-type: swing_down;
-        transition-duration: 300;
-
-        styles [
-          "drawing_revealer"
-        ]
-
-        child: Gtk.Box {
-          orientation: vertical;
-          spacing: 0;
-
-          Gtk.Box  {
-            orientation: horizontal;
-            spacing: 6;
-            margin-top: 8;
-            margin-bottom: 8;
-            margin-start: 12;
-            margin-end: 12;
-
-            Gtk.Label {
-              label: _("Pressure");
-              halign: start;
-              hexpand: true;
-            }
-
-            Gtk.Box {
-              orientation: horizontal;
-              spacing: 6;
-              valign: center;
-
-              Gtk.Scale highlighter_scale {
-                orientation: horizontal;
-                width-request: 50;
-                hexpand: true;
-                draw-value: true;
-                value-pos: right;
-                digits: 0;
-
-                adjustment: Gtk.Adjustment highlighter_size_adjustment {
-                  lower: 3;
-                  upper: 45;
-                  value: 3;
-                  step-increment: 1;
-                  page-increment: 5;
-                };
-
-                value-changed => $_on_highlighter_size_changed();
-              }
-            }
-          }
-
-        };
-      }
-
-
     };
   }
 }

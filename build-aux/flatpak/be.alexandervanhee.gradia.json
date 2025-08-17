@@ -34,7 +34,7 @@
       "sources": [
         {
           "type": "git",
-          "url": "https://gitlab.gnome.org/jwestman/blueprint-compiler",
+          "url": "https://gitlab.gnome.org/GNOME/blueprint-compiler",
           "tag": "v0.18.0"
         }
       ]
@@ -64,7 +64,7 @@
       "builddir": true,
       "buildsystem": "meson",
       "config-opts": [
-        "-Dbuildtype=release"
+        "-Dbuildtype=debug"
       ],
       "sources": [
         {

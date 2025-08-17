@@ -24,8 +24,7 @@ class AspectRatioButton(Gtk.Button):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
         self.set_tooltip_text(_("Aspect Ratio"))
-        self.add_css_class("osd")
-        self.add_css_class("circular")
+        self.add_css_class("flat")
 
         self.default_icon_name = "aspect-ratio-symbolic"
         self.icon = Gtk.Image.new_from_icon_name(self.default_icon_name)
@@ -80,11 +79,10 @@ class AspectRatioButton(Gtk.Button):
 
     def _on_aspect_ratio_selected(self, button: Gtk.Button, ratio_value: float, icon_name: str) -> None:
         self.icon.set_from_icon_name(icon_name)
-        app = self.get_root().get_application()
-        if app and hasattr(app, 'activate_action'):
-            variant = GLib.Variant('d', ratio_value)
-            app.activate_action('aspect-ratio-crop', variant)
-
+        window = self.get_root()
+        action = window.lookup_action('aspect-ratio-crop')
+        variant = GLib.Variant('d', ratio_value)
+        action.activate(variant)
         self.popover.popdown()
 
     def do_dispose(self) -> None:

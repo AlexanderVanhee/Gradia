@@ -18,9 +18,10 @@
 from collections.abc import Callable
 from typing import Optional
 
-from gi.repository import GObject, Gtk, Adw
+from gi.repository import GObject, Gtk, Adw, GLib
 
-from gradia.graphics.gradient import GradientSelector, GradientBackground
+from gradia.graphics.gradient import GradientBackground
+from gradia.graphics.gradient_selector import GradientSelector
 from gradia.graphics.solid import SolidSelector, SolidBackground
 from gradia.graphics.image import ImageSelector, ImageBackground
 from gradia.graphics.background import Background
@@ -28,7 +29,7 @@ from gradia.constants import rootdir  # pyright: ignore
 from gradia.backend.settings import Settings
 
 
-MODES = ["solid", "gradient", "image"]
+MODES = ["none", "solid", "gradient", "image"]
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/background_selector.ui")
 class BackgroundSelector(Adw.Bin):
@@ -36,11 +37,11 @@ class BackgroundSelector(Adw.Bin):
 
     toggle_group: Adw.ToggleGroup = Gtk.Template.Child()
     stack: Gtk.Stack = Gtk.Template.Child()
+    stack_revealer: Gtk.Revealer = Gtk.Template.Child()
 
     def __init__(
         self,
         callback: Optional[Callable[[Background], None]] = None,
-        window: Optional[Gtk.Window] = None,
         **kwargs
     ) -> None:
         super().__init__(**kwargs)
@@ -50,12 +51,13 @@ class BackgroundSelector(Adw.Bin):
         self.gradient = GradientBackground.from_json(self.settings.gradient_state or '{}')
         self.image = ImageBackground()
         self.callback = callback
+        self.current_mode_callback = None
         self.current_mode = self.settings.background_mode if self.settings.background_mode in MODES else "gradient"
         self.initial_mode = self.current_mode
 
         self.gradient_selector = GradientSelector(self.gradient, self._on_gradient_changed)
         self.solid_selector = SolidSelector(self.solid, self._on_solid_changed)
-        self.image_selector = ImageSelector(self.image, self._on_image_changed, window)
+        self.image_selector = ImageSelector(self.image, self._on_image_changed)
 
         self._setup()
 
@@ -69,7 +71,9 @@ class BackgroundSelector(Adw.Bin):
         self.stack.add_named(self.solid_selector, "solid")
         self.stack.add_named(self.gradient_selector, "gradient")
         self.stack.add_named(self.image_selector, "image")
-        self.stack.set_visible_child_name(self.current_mode)
+        if self.current_mode != "none":
+            self.stack.set_visible_child_name(self.current_mode)
+        self._update_revealer_visibility()
 
     """
     Callbacks
@@ -81,7 +85,9 @@ class BackgroundSelector(Adw.Bin):
         if active_name in MODES and active_name != self.current_mode:
             self.current_mode = active_name
             self.settings.background_mode = active_name
-            self.stack.set_visible_child_name(active_name)
+            if self.current_mode != "none":
+                self.stack.set_visible_child_name(active_name)
+            self._update_revealer_visibility()
             self._notify_current()
 
     def _on_gradient_changed(self, gradient: GradientBackground) -> None:
@@ -98,15 +104,36 @@ class BackgroundSelector(Adw.Bin):
         if self.current_mode == "image":
             self._notify_current()
 
+    def set_current_mode_callback(self, callback: Callable[[str], None]) -> None:
+        self.current_mode_callback = callback
+        self.current_mode_callback(self.current_mode)
+
     """
     Internal Methods
     """
+
+    def _update_revealer_visibility(self) -> None:
+        should_reveal = self.current_mode != "none"
+        currently_revealed = self.stack_revealer.get_child_revealed()
+        self.stack_revealer.set_reveal_child(should_reveal)
+
+        if should_reveal:
+            if not currently_revealed:
+                GLib.timeout_add(300, lambda: (
+                    self.stack_revealer.set_overflow(Gtk.Overflow.VISIBLE), False
+                )[1])
+            else:
+                self.stack_revealer.set_overflow(Gtk.Overflow.VISIBLE)
+        else:
+            self.stack_revealer.set_overflow(Gtk.Overflow.HIDDEN)
 
     # TODO: Fix callback type error
     def _notify_current(self) -> None:
         if self.callback:
             current_background = self.get_current_background()
             self.callback(current_background)
+        if self.current_mode_callback:
+            self.current_mode_callback(self.current_mode)
 
     def get_current_background(self) -> GradientBackground | SolidBackground | ImageBackground | None:
         backgrounds: dict[str, GradientBackground | SolidBackground | ImageBackground] = {

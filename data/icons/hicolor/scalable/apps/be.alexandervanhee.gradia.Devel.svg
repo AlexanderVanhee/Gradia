@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   height="128px"
+   viewBox="0 0 128 128"
+   width="128px"
+   version="1.1"
+   id="svg36"
+   sodipodi:docname="be.alexandervanhee.gradia.Devel.svg"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs36" />
+  <sodipodi:namedview
+     id="namedview36"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="4.4194174"
+     inkscape:cx="41.973859"
+     inkscape:cy="55.88972"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg36" />
+  <filter
+     id="a"
+     height="1"
+     width="1"
+     x="0"
+     y="0">
+    <feColorMatrix
+       color-interpolation-filters="sRGB"
+       values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0"
+       id="feColorMatrix1" />
+  </filter>
+  <linearGradient
+     id="b"
+     gradientUnits="userSpaceOnUse"
+     x1="11.99973"
+     x2="115.99973"
+     y1="63.999893"
+     y2="63.999893">
+    <stop
+       offset="0"
+       stop-color="#1c71d8"
+       id="stop1" />
+    <stop
+       offset="0.05"
+       stop-color="#3584e4"
+       id="stop2" />
+    <stop
+       offset="0.1"
+       stop-color="#1c71d8"
+       id="stop3" />
+    <stop
+       offset="0.9"
+       stop-color="#1c71d8"
+       id="stop4" />
+    <stop
+       offset="0.95"
+       stop-color="#3584e4"
+       id="stop5" />
+    <stop
+       offset="1"
+       stop-color="#1c71d8"
+       id="stop6" />
+  </linearGradient>
+  <linearGradient
+     id="c"
+     gradientUnits="userSpaceOnUse"
+     x1="63.99973"
+     x2="63.99973"
+     y1="11.999893"
+     y2="111.999893">
+    <stop
+       offset="0"
+       stop-color="#57e389"
+       id="stop7" />
+    <stop
+       offset="1"
+       stop-color="#3584e4"
+       id="stop8" />
+  </linearGradient>
+  <clipPath
+     id="d">
+    <path
+       d="m 0 3 h 61 v 62 h -61 z m 0 0"
+       id="path8" />
+  </clipPath>
+  <clipPath
+     id="e">
+    <path
+       d="m 67 3 h 61 v 62 h -61 z m 0 0"
+       id="path9" />
+  </clipPath>
+  <clipPath
+     id="f">
+    <path
+       d="m 0 59 h 61 v 62 h -61 z m 0 0"
+       id="path10" />
+  </clipPath>
+  <clipPath
+     id="g">
+    <path
+       d="m 67 59 h 61 v 62 h -61 z m 0 0"
+       id="path11" />
+  </clipPath>
+  <clipPath
+     id="h">
+    <rect
+       height="128"
+       width="128"
+       id="rect11" />
+  </clipPath>
+  <clipPath
+     id="i">
+    <rect
+       height="128"
+       width="128"
+       id="rect12" />
+  </clipPath>
+  <mask
+     id="j">
+    <g
+       filter="url(#a)"
+       id="g21">
+      <g
+         clip-path="url(#i)"
+         filter="url(#a)"
+         id="g20">
+        <g
+           clip-path="url(#h)"
+           id="g19">
+          <path
+             d="m 20 12 h 88 c 4.417969 0 8 3.582031 8 8 v 88 c 0 4.417969 -3.582031 8 -8 8 h -88 c -4.417969 0 -8 -3.582031 -8 -8 v -88 c 0 -4.417969 3.582031 -8 8 -8 z m 0 0"
+             fill="url(#b)"
+             fill-rule="evenodd"
+             id="path12" />
+          <path
+             d="m 20 12 h 88 c 4.417969 0 8 3.582031 8 8 v 84 c 0 4.417969 -3.582031 8 -8 8 h -88 c -4.417969 0 -8 -3.582031 -8 -8 v -84 c 0 -4.417969 3.582031 -8 8 -8 z m 0 0"
+             fill="url(#c)"
+             fill-rule="evenodd"
+             id="path13" />
+          <path
+             d="m 34 32 h 60 c 3.3125 0 6 2.6875 6 6 v 48 c 0 3.3125 -2.6875 6 -6 6 h -60 c -3.3125 0 -6 -2.6875 -6 -6 v -48 c 0 -3.3125 2.6875 -6 6 -6 z m 0 0"
+             fill="#ffffff"
+             fill-rule="evenodd"
+             id="path14" />
+          <g
+             clip-path="url(#d)"
+             id="g15">
+            <path
+               d="m 22.00027 42.000107 v -4 c 0 -6.628906 5.371094 -12 12 -12 h 4"
+               fill="none"
+               stroke="#ffffff"
+               stroke-linecap="round"
+               stroke-opacity="0.5"
+               stroke-width="4"
+               transform="matrix(1 0 0 1 -0.00027 -0.000107)"
+               id="path15" />
+          </g>
+          <g
+             clip-path="url(#e)"
+             id="g16">
+            <path
+               d="m 21.99973 42.000107 v -4 c 0 -6.628906 5.371094 -12 12 -12 h 4"
+               fill="none"
+               stroke="#ffffff"
+               stroke-linecap="round"
+               stroke-opacity="0.5"
+               stroke-width="4"
+               transform="matrix(-1 0 0 1 127.99973 -0.000107)"
+               id="path16" />
+          </g>
+          <g
+             clip-path="url(#f)"
+             id="g17">
+            <path
+               d="m 22.00027 41.999893 v -4 c 0 -6.628906 5.371094 -12 12 -12 h 4"
+               fill="none"
+               stroke="#ffffff"
+               stroke-linecap="round"
+               stroke-opacity="0.5"
+               stroke-width="4"
+               transform="matrix(1 0 0 -1 -0.00027 123.999893)"
+               id="path17" />
+          </g>
+          <g
+             clip-path="url(#g)"
+             id="g18">
+            <path
+               d="m 21.99973 41.999893 v -4 c 0 -6.628906 5.371094 -12 12 -12 h 4"
+               fill="none"
+               stroke="#ffffff"
+               stroke-linecap="round"
+               stroke-opacity="0.5"
+               stroke-width="4"
+               transform="matrix(-1 0 -0 -1 127.99973 123.999893)"
+               id="path18" />
+          </g>
+          <path
+             d="m 96 39 c 0 1.65625 -1.34375 3 -3 3 s -3 -1.34375 -3 -3 s 1.34375 -3 3 -3 s 3 1.34375 3 3 z m 0 0"
+             fill="#dcdcdc"
+             fill-rule="evenodd"
+             id="path19" />
+        </g>
+      </g>
+    </g>
+  </mask>
+  <mask
+     id="k">
+    <g
+       filter="url(#a)"
+       id="g22">
+      <rect
+         fill-opacity="0.8"
+         height="184.32"
+         width="184.32"
+         x="-28.16"
+         y="-28.16"
+         id="rect21" />
+    </g>
+  </mask>
+  <linearGradient
+     id="l"
+     gradientTransform="matrix(0 0.37 -0.98462 0 295.38501 -30.360001)"
+     gradientUnits="userSpaceOnUse"
+     x1="300"
+     x2="428"
+     y1="235"
+     y2="235">
+    <stop
+       offset="0"
+       stop-color="#f9f06b"
+       id="stop22" />
+    <stop
+       offset="1"
+       stop-color="#f5c211"
+       id="stop23" />
+  </linearGradient>
+  <clipPath
+     id="m">
+    <rect
+       height="128"
+       width="128"
+       id="rect23" />
+  </clipPath>
+  <clipPath
+     id="n">
+    <rect
+       height="128"
+       width="128"
+       id="rect24" />
+  </clipPath>
+  <path
+     d="m 20 12 h 88 c 4.417969 0 8 3.582031 8 8 v 88 c 0 4.417969 -3.582031 8 -8 8 h -88 c -4.417969 0 -8 -3.582031 -8 -8 v -88 c 0 -4.417969 3.582031 -8 8 -8 z m 0 0"
+     fill="url(#b)"
+     fill-rule="evenodd"
+     id="path24" />
+  <path
+     d="m 20 12 h 88 c 4.417969 0 8 3.582031 8 8 v 84 c 0 4.417969 -3.582031 8 -8 8 h -88 c -4.417969 0 -8 -3.582031 -8 -8 v -84 c 0 -4.417969 3.582031 -8 8 -8 z m 0 0"
+     fill="url(#c)"
+     fill-rule="evenodd"
+     id="path25" />
+  <path
+     d="m 96 39 c 0 1.65625 -1.34375 3 -3 3 s -3 -1.34375 -3 -3 s 1.34375 -3 3 -3 s 3 1.34375 3 3 z m 0 0"
+     fill="#dcdcdc"
+     fill-rule="evenodd"
+     id="path31" />
+  <g
+     mask="url(#j)"
+     id="g36">
+    <g
+       clip-path="url(#n)"
+       id="g35">
+      <g
+         mask="url(#k)"
+         id="g34">
+        <g
+           clip-path="url(#m)"
+           id="g33">
+          <path
+             d="m 128 80.640625 v 47.359375 h -128 v -47.359375 z m 0 0"
+             fill="url(#l)"
+             id="path32" />
+          <path
+             d="m 13.308594 80.640625 l 47.355468 47.359375 h 21.214844 l -47.359375 -47.359375 z m 42.421875 0 l 47.363281 47.359375 h 21.214844 l -47.363282 -47.359375 z m 42.429687 0 l 29.839844 29.839844 v -21.210938 l -8.628906 -8.628906 z m -98.160156 7.90625 v 21.214844 l 18.238281 18.238281 h 21.214844 z m 0 0"
+             id="path33" />
+        </g>
+      </g>
+    </g>
+  </g>
+  <g
+     fill="none"
+     stroke="#ffffff"
+     stroke-linecap="round"
+     stroke-opacity="0.5"
+     stroke-width="4"
+     id="g30">
+    <path
+       d="m 22 42 v -4 c 0 -6.628906 5.371094 -12 12 -12 h 4"
+       id="path27" />
+    <path
+       d="m 21.99973 42.000107 v -4 c 0 -6.628906 5.371094 -12 12 -12 h 4"
+       transform="matrix(-1 0 0 1 127.99973 -0.000107)"
+       id="path28" />
+    <path
+       d="m 22.00027 41.999893 v -4 c 0 -6.628906 5.371094 -12 12 -12 h 4"
+       transform="matrix(1 0 0 -1 -0.00027 123.999893)"
+       id="path29" />
+    <path
+       d="m 21.99973 41.999893 v -4 c 0 -6.628906 5.371094 -12 12 -12 h 4"
+       transform="matrix(-1 0 -0 -1 127.99973 123.999893)"
+       id="path30" />
+  </g>
+  <path
+     d="m 34 32 h 60 c 3.3125 0 6 2.6875 6 6 v 48 c 0 3.3125 -2.6875 6 -6 6 h -60 c -3.3125 0 -6 -2.6875 -6 -6 v -48 c 0 -3.3125 2.6875 -6 6 -6 z m 0 0"
+     fill="#ffffff"
+     fill-rule="evenodd"
+     id="path26" />
+</svg>

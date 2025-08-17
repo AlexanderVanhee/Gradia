@@ -4,12 +4,16 @@ using Adw 1;
 template $GradiaBackgroundSelector : Adw.Bin {
   child: Gtk.Box container {
     orientation: vertical;
-    spacing: 12;
 
     Adw.ToggleGroup toggle_group {
       homogeneous: false;
 
       notify::active-name => $_on_group_changed();
+
+      Adw.Toggle none_toggle {
+        name: "none";
+        label: _("None");
+      }
 
       Adw.Toggle solid_toggle {
         name: "solid";
@@ -30,12 +34,16 @@ template $GradiaBackgroundSelector : Adw.Bin {
         "round"
       ]
     }
-    
-    Gtk.Stack stack {
-      transition-type: crossfade;
+    Revealer stack_revealer {
+      transition-type: slide_up;
       transition-duration: 250;
-      hexpand: true;
-      valign: start;
+      Gtk.Stack stack {
+        margin-top:12;
+        transition-type: crossfade;
+        transition-duration: 250;
+        hexpand: true;
+        valign: start;
+      }
     }
   };
 }

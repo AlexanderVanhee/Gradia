@@ -1,14 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import "base-tailwind.css";
 
 :root {
     --adw-bg: #1a1622;
-    --adw-card: #3d3846;
-    --adw-border: #4a4a50;
-    --adw-blue: #3581de;
-    --text-primary: #f5f5f5;
-    --text-secondary: #d1d1d1;
-    --text-muted: #b5b5b5;
-    --code-bg: rgba(255, 255, 255, 0.1);
 }
 
 /* Reset and Base Styles */
@@ -19,11 +12,7 @@
 }
 
 body {
-    background: var(--adw-bg);
-    color: var(--text-secondary);
-    font-family: "Inter", sans-serif;
-    line-height: 1.6;
-    min-height: 100vh;
+    background-color: var(--adw-bg);
 }
 
 /* Layout */
@@ -71,14 +60,13 @@ h1 {
     padding: 0.125rem 0.5rem;
     border-radius: 0.25rem;
     font-size: 0.875rem;
-    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+    font-family: var(--monospace);
 }
 
 .logo {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-family: 'AdwaitaSans-Regular', sans-serif;
 }
 
 .logo img {
@@ -93,7 +81,6 @@ h1 {
     color: var(--adw-fg, #ffffff);
     line-height: 1;
 }
-
 
 .provider-name {
     font-size: 1.125rem;
@@ -124,7 +111,7 @@ h1 {
 .code-block code {
     background: transparent;
     color: var(--text-secondary);
-    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+    font-family: var(--monospace);
 }
 
 /* Copy Button */
@@ -173,7 +160,7 @@ a[href^="http"]:not([href*="gradia.alexandervanhee.be"]):not(.no-external)::afte
     display: inline-block;
     width: 0.6em;
     height: 0.6em;
-    background-image: url('../assets/extlink.svg');
+    background-image: url('../icons/extlink.svg');
     background-size: contain;
     background-repeat: no-repeat;
     margin-left: 0.2em;

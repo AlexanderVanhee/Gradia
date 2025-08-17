@@ -1,0 +1,60 @@
+using Gtk 4.0;
+using Adw 1;
+using GtkSource 5;
+
+template $CustomProviderPage : Adw.NavigationPage {
+  title: _("Custom Provider");
+  child: Adw.ToolbarView {
+
+    [top]
+    Adw.HeaderBar header_bar {
+      [end]
+      Gtk.Button custom_save_button {
+        label: _("Save");
+        sensitive: false;
+        clicked => $_on_save_custom_provider();
+      }
+    }
+
+    content: Gtk.ScrolledWindow {
+      hscrollbar-policy: never;
+      vscrollbar-policy: automatic;
+
+      child: Adw.Clamp {
+        maximum-size: 600;
+        tightening-threshold: 400;
+        margin-top: 24;
+        margin-bottom: 24;
+        margin-start: 12;
+        margin-end: 12;
+
+        child: Gtk.Box main_box {
+          orientation: vertical;
+          spacing: 24;
+
+          Adw.PreferencesGroup {
+            title: _("Upload Command");
+            description: _("Enter a custom command to upload files. Use $1 as a placeholder for the file path.");
+          }
+
+          Box source_box{
+            GtkSource.View source_view {
+              auto-indent: true;
+              indent-width: 2;
+              show-line-numbers: true;
+              monospace: true;
+              hexpand:true;
+              vexpand:true;
+              top-margin:5;
+              left-margin:5;
+              right-margin:5;
+              bottom-margin:5;
+              buffer: GtkSource.Buffer buffer {};
+              styles ["provider-source-view"]
+            }
+          }
+        };
+      };
+    };
+  };
+}

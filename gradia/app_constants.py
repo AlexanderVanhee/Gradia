@@ -14,15 +14,41 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from gradia.graphics.gradient import Gradient
 
 GradientPreset = tuple[str, str, int]
-PREDEFINED_GRADIENTS: list[GradientPreset] = [
-    ("#f66151", "#ed333b", 45),
-    ("#ff5f6d", "#ffc371", 45),
-    ("#ffd200","#f7971e", 135),
-    ("#8ff0a4", "#2ec27e", 135),
-    ("#57e389", "#3584e4", 135),
-    ("#453383", "#5494e8", 0),
+
+PREDEFINED_GRADIENTS: list[Gradient] = [
+    Gradient(
+        mode="linear",
+        steps=[(0.0, "#f66151"), (1.0, "#ed333b")],
+        angle=45
+    ),
+    Gradient(
+        mode="linear",
+        steps=[(0.0, "#ff5f6d"), (1.0, "#ffc371")],
+        angle=45
+    ),
+    Gradient(
+        mode="linear",
+        steps=[(0.0, "#ffd200"), (1.0, "#f7971e")],
+        angle=135
+    ),
+    Gradient(
+        mode="linear",
+        steps=[(0.0, "#DFFFCD"), (0.48, "#90F9C4"), (1.0, "#39F3BB")],
+        angle=135
+    ),
+    Gradient(
+        mode="linear",
+        steps=[(0.0, "#57e389"), (1.0, "#3584e4")],
+        angle=135
+    ),
+    Gradient(
+        mode="linear",
+        steps=[(0.0, "#23d4fd"), (0.5, "#3a98f0"), (1.0, "#b721ff")],
+        angle=45
+    ),
 ]
 
 SUPPORTED_EXPORT_FORMATS = {

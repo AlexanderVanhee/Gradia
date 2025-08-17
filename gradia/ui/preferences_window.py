@@ -58,54 +58,26 @@ class ScreenshotFolderFinder:
     def get_current_folder(self):
         return Settings().screenshot_subfolder
 
-def is_running_in_flatpak() -> bool:
-    if os.getenv('FLATPAK_ID'):
-        return True
-    if Path('/.flatpak-info').exists():
-        return True
-    if '/app/' in str(Path(__file__).resolve()):
-        return True
-
-    return False
-
-
-def get_command_for_screenshot_type(screenshot_type: str) -> str:
-    if is_running_in_flatpak():
-        return f"flatpak run be.alexandervanhee.gradia --screenshot={screenshot_type}"
-    else:
-        return f"gradia --screenshot={screenshot_type}"
-
-
 @Gtk.Template(resource_path=f"{rootdir}/ui/preferences_window.ui")
-class PreferencesWindow(Adw.Window):
+class PreferencesWindow(Adw.PreferencesDialog):
     __gtype_name__ = 'GradiaPreferencesWindow'
-
-    view_stack: Adw.NavigationView = Gtk.Template.Child()
     help_button: Gtk.Button = Gtk.Template.Child()
 
-    screenshot_guide_page : Adw.NavigationPage =  Gtk.Template.Child()
 
-    location_group: Adw.PreferencesGroup = Gtk.Template.Child()
     folder_expander: Adw.ExpanderRow = Gtk.Template.Child()
     folder_label: Gtk.Label = Gtk.Template.Child()
     save_format_group: Adw.PreferencesGroup = Gtk.Template.Child()
-    #compress_switch: Adw.SwitchRow = Gtk.Template.Child()
     delete_screenshot_switch: Adw.SwitchRow = Gtk.Template.Child()
     confirm_close_switch: Adw.SwitchRow = Gtk.Template.Child()
     confirm_upload_switch: Adw.SwitchRow = Gtk.Template.Child()
     save_format_combo: Adw.ComboRow = Gtk.Template.Child()
     provider_name: Gtk.Label = Gtk.Template.Child()
 
-    interactive_entry: Gtk.Entry = Gtk.Template.Child()
-    interactive_copy_btn: Gtk.Button = Gtk.Template.Child()
-    fullscreen_entry: Gtk.Entry = Gtk.Template.Child()
-    fullscreen_copy_btn: Gtk.Button = Gtk.Template.Child()
 
     def __init__(self, parent_window: Adw.ApplicationWindow, **kwargs):
         super().__init__(**kwargs)
 
         self.parent_window = parent_window
-        self.set_transient_for(parent_window)
 
         self.settings = Settings()
         self.folder_finder = ScreenshotFolderFinder()
@@ -130,7 +102,6 @@ class PreferencesWindow(Adw.Window):
         self._update_expander_title()
         self._create_folder_rows()
         self._create_save_format_toggle_group()
-        self._setup_command_entries()
         self._setup_provider_display()
         self._bind_settings()
 
@@ -139,14 +110,7 @@ class PreferencesWindow(Adw.Window):
         if provider_name:
             self.provider_name.set_text(provider_name)
         else:
-            self.provider_name.set_text(_("None selected"))
-
-    def _setup_command_entries(self):
-        interactive_command = get_command_for_screenshot_type("INTERACTIVE")
-        fullscreen_command = get_command_for_screenshot_type("FULL")
-
-        self.interactive_entry.set_text(interactive_command)
-        self.fullscreen_entry.set_text(fullscreen_command)
+            self.provider_name.set_text(_("None Selected"))
 
     def _update_expander_title(self):
         if self.current_selected_folder:
@@ -209,15 +173,10 @@ class PreferencesWindow(Adw.Window):
             self.settings.export_format = active_name
 
     def _connect_signals(self):
-        self.interactive_copy_btn.connect("clicked",
-            lambda btn: self._copy_to_clipboard(self.interactive_entry.get_text()))
-        self.fullscreen_copy_btn.connect("clicked",
-            lambda btn: self._copy_to_clipboard(self.fullscreen_entry.get_text()))
-
         self.help_button.connect("activated", self._on_help_button_clicked)
 
     def _on_help_button_clicked(self, button: Gtk.Button) -> None:
-        self.view_stack.push(self.screenshot_guide_page)
+        self.push_subpage(ScreenshotGuidePage(self))
 
     def _on_folder_row_activated(self, row: Adw.ActionRow) -> None:
         folder_name = row.folder_name
@@ -225,8 +184,8 @@ class PreferencesWindow(Adw.Window):
 
         self.folder_expander.set_expanded(False)
 
-        app = Gio.Application.get_default()
-        action = app.lookup_action("set-screenshot-folder") if app else None
+        window = self.parent_window
+        action = window.lookup_action("set-screenshot-folder") if window else None
         if action:
             action.activate(GLib.Variant('s', folder_name))
 
@@ -266,5 +225,51 @@ class PreferencesWindow(Adw.Window):
             self.settings.provider_name = name
             self.settings.custom_export_command = command
             self.parent_window.update_command_ready()
-        self.view_stack.push(ProviderListPage(self.view_stack, on_provider_selected=handle_selection))
+        self.push_subpage(ProviderListPage(preferences_dialog=self,on_provider_selected=handle_selection))
 
+@Gtk.Template(resource_path=f"{rootdir}/ui/preferences/screenshot_guide_page.ui")
+class ScreenshotGuidePage(Adw.NavigationPage):
+   __gtype_name__ = 'GradiaScreenshotGuidePage'
+   interactive_entry: Gtk.Entry = Gtk.Template.Child()
+   interactive_copy_btn: Gtk.Button = Gtk.Template.Child()
+   fullscreen_entry: Gtk.Entry = Gtk.Template.Child()
+   fullscreen_copy_btn: Gtk.Button = Gtk.Template.Child()
+
+   def __init__(self, preferences_dialog, **kwargs):
+       super().__init__(**kwargs)
+       self.preferences_dialog = preferences_dialog
+       self._connect_signals()
+       self._setup_command_entries()
+
+   def _is_running_in_flatpak(self) -> bool:
+       if os.getenv('FLATPAK_ID'):
+           return True
+       if Path('/.flatpak-info').exists():
+           return True
+       if '/app/' in str(Path(__file__).resolve()):
+           return True
+       return False
+
+   def _get_command_for_screenshot_type(self, screenshot_type: str) -> str:
+       if self._is_running_in_flatpak():
+           return f"flatpak run be.alexandervanhee.gradia --screenshot={screenshot_type}"
+       else:
+           return f"gradia --screenshot={screenshot_type}"
+
+   def _connect_signals(self):
+       self.interactive_copy_btn.connect("clicked",
+           lambda btn: self._copy_to_clipboard(self.interactive_entry.get_text()))
+       self.fullscreen_copy_btn.connect("clicked",
+           lambda btn: self._copy_to_clipboard(self.fullscreen_entry.get_text()))
+
+   def _copy_to_clipboard(self, text: str) -> None:
+       clipboard = self.get_clipboard()
+       clipboard.set(text)
+       toast = Adw.Toast.new(_("Copied!"))
+       self.preferences_dialog.add_toast(toast)
+
+   def _setup_command_entries(self):
+       interactive_command = self._get_command_for_screenshot_type("INTERACTIVE")
+       fullscreen_command = self._get_command_for_screenshot_type("FULL")
+       self.interactive_entry.set_text(interactive_command)
+       self.fullscreen_entry.set_text(fullscreen_command)

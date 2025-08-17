@@ -21,6 +21,16 @@ Thank you for your interest in translating Gradia! This guide will help you cont
 * Use Poedit's interface to translate each message carefully, some entries will have notes/comments attached to them.
 * Poedit may sometimes generate a `.mo` file, but this file is not needed because it is already generated when building the app.
 
+## Testing
+
+If your system is not set to the target language or you want to preview the English version for reference, 
+you can force the app to run in English using the following environment variable:
+
+```json
+"--env=LANGUAGE=en"
+```
+
+To apply this in a more permanent fashion, add it under the `finish-args` section of `build-aux/be.alexandervanhee.gradia.json` before building the app.
 
 ## Submitting Your Translation
 
