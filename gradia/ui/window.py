@@ -188,18 +188,43 @@ class GradiaMainWindow(Adw.ApplicationWindow):
     Shutdown
     """
     def _on_close_request(self, window) -> bool:
-        if Settings().show_close_confirm_dialog and self.show_close_confirmation:
+        exit_method = Settings().exit_method
+
+        if exit_method == "confirm" and self.show_close_confirmation:
             confirm_dialog = ConfirmCloseDialog(self)
-            confirm_dialog.show_dialog(self._on_confirm_close_ok)
+            confirm_dialog.show_dialog(self._on_confirm_close_ok, self._on_confirm_close_copy)
             return True
-        else:
+        elif exit_method == "copy":
+            self._on_confirm_close_copy()
+            return True
+        else:  # "none"
             self._on_confirm_close_ok()
             return True
 
-    def _on_confirm_close_ok(self) -> None:
+    def _finalize_close(self, copy: bool) -> None:
         if Settings().delete_screenshots_on_close:
             self.import_manager.delete_screenshots()
-        self.destroy()
+
+        self.hide()
+
+        if self.image_ready:
+            self.export_manager.close_handler(
+                copy=copy,
+                save=not Settings().delete_screenshots_on_close,
+                callback=self._on_close_finished
+            )
+        else:
+            self._on_close_finished()
+
+
+    def _on_close_finished(self) -> None:
+            self.destroy()
+
+    def _on_confirm_close_ok(self) -> None:
+        self._finalize_close(copy=False)
+
+    def _on_confirm_close_copy(self) -> None:
+        self._finalize_close(copy=True)
 
     """
     Callbacks

@@ -87,8 +87,17 @@ class Settings:
         return self._settings.get_boolean("trash-screenshots-on-close")
 
     @property
-    def show_close_confirm_dialog(self) -> bool:
-        return self._settings.get_boolean("show-close-confirm-dialog")
+    def exit_method(self) -> str:
+        value = self._settings.get_string("exit-method")
+        if value in ("confirm", "copy", "none"):
+            return value
+        return "confirm"
+
+    @exit_method.setter
+    def exit_method(self, value: str) -> None:
+        if value not in ("confirm", "copy", "none"):
+            value = "confirm"
+        self._settings.set_string("exit-method", value)
 
     @property
     def custom_export_command(self) -> str:
@@ -295,3 +304,16 @@ class Settings:
             )
         else:
             print(f"Warning: GSettings key '{key}' not found in schema.")
+
+    def bind_toggle_group(self, toggle_group, key: str):
+        if key not in self._settings.list_keys():
+            print(f"Warning: GSettings key '{key}' not found in schema.")
+            return
+
+        current = self._settings.get_string(key)
+        toggle_group.set_active_name(current)
+
+        def on_toggle_group_changed(toggle_group):
+            self._settings.set_string(key, toggle_group.get_active_name())
+
+        toggle_group.connect("notify::active-name", lambda w, p: on_toggle_group_changed(w))

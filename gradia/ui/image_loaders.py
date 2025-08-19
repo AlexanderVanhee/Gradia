@@ -43,9 +43,10 @@ class ImageOrigin(Enum):
         SourceImage = auto()
 
 class LoadedImage:
-    def __init__(self, image_path: str, origin: ImageOrigin):
+    def __init__(self, image_path: str, origin: ImageOrigin, screenshot_path: str = None):
         self.image_path: str = image_path
         self.origin: ImageOrigin = origin
+        self.screenshot_path: str | None = screenshot_path
 
     def get_proper_name(self, with_extension: bool = True) -> str:
         if self.origin == ImageOrigin.Clipboard:
@@ -88,6 +89,10 @@ class LoadedImage:
 
     def get_folder_path(self) -> str:
         return os.path.dirname(self.image_path)
+
+
+    def is_screenshot(self) -> bool:
+        return self.origin in (ImageOrigin.Screenshot, ImageOrigin.FakeScreenshot)
 
 class BaseImageLoader:
     """Base class for image loading handlers"""
@@ -338,6 +343,7 @@ class ScreenshotImageLoader(BaseImageLoader):
         """Process the screenshot URI and convert to local file"""
         try:
             file = Gio.File.new_for_uri(uri)
+            original_path = file.get_path()
             success, contents, _unused = file.load_contents(None)
             if not success or not contents:
                 raise Exception("Failed to load screenshot data")
@@ -349,7 +355,7 @@ class ScreenshotImageLoader(BaseImageLoader):
             with open(temp_path, 'wb') as f:
                 f.write(contents)
 
-            self._set_image_and_update_ui(LoadedImage(temp_path, ImageOrigin.Screenshot), copy_after_processing=True)
+            self._set_image_and_update_ui(LoadedImage(temp_path, ImageOrigin.Screenshot, screenshot_path=original_path), copy_after_processing=True)
             self.window._show_notification(_("Screenshot captured!"))
 
             if self._success_callback:
@@ -371,7 +377,7 @@ class ScreenshotImageLoader(BaseImageLoader):
 
             shutil.copy(file_path, new_path)
 
-            self._set_image_and_update_ui(LoadedImage(file_path, ImageOrigin.FakeScreenshot), copy_after_processing=True)
+            self._set_image_and_update_ui(LoadedImage(file_path, ImageOrigin.FakeScreenshot, screenshot_path=file_path), copy_after_processing=True)
 
             self.window._show_notification(_("Screenshot captured!"))
 

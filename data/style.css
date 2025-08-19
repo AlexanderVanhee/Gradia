@@ -263,6 +263,8 @@ image.symbolic-circular {
 }
 
 .rounded-top {
+    background-color: #d9d9da;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
+

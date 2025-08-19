@@ -1,3 +1,7 @@
 :root {
   --osd-background-color: rgba(0, 0, 0, 0.65);
 }
+
+.rounded-top {
+    background-color: #3d3d41;
+}

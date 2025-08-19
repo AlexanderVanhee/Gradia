@@ -34,23 +34,44 @@ template $GradiaPreferencesWindow : Adw.PreferencesDialog {
     }
 
     Adw.PreferencesGroup save_format_group {
-      title: _("Save Settings");
+      title: _("Save Options");
 
       Adw.ComboRow save_format_combo {
         title: _("Image Format");
         subtitle: _("Default format for saved screenshots");
       }
-
-      Adw.SwitchRow confirm_close_switch {
-        title: _("Confirm on Close");
-        subtitle: _("Ask for confirmation before closing the app");
-        tooltip-text: _("Ask for confirmation before closing the app");
-        activatable: true;
-      }
     }
 
     Adw.PreferencesGroup {
-      title: _("Screenshot Management");
+      title: _("Closing");
+
+      Adw.ActionRow {
+          title: _("When Exiting");
+          subtitle: _("Hover over an option for details.");
+
+          [suffix]
+          Adw.ToggleGroup exiting_toggle_group {
+              valign: center;
+
+              Adw.Toggle {
+                  name: "confirm";
+                  label: _("Ask");
+                  tooltip: _("Prompt if the image hasn't been saved yet");
+              }
+              Adw.Toggle {
+                  name: "copy";
+                  label: _("Copy");
+                  tooltip: _("Copy the image to the clipboard before closing");
+              }
+              Adw.Toggle {
+                  name: "none";
+                  label: _("Close");
+                  tooltip: _("Exit without asking for confirmation");
+              }
+
+              styles ["round"]
+          }
+      }
 
       Adw.SwitchRow delete_screenshot_switch {
         title: _("Trash Screenshots on Close");
