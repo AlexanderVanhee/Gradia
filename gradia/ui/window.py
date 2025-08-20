@@ -205,20 +205,21 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         if Settings().delete_screenshots_on_close:
             self.import_manager.delete_screenshots()
 
-        self.hide()
+        if not copy:
+            self.hide()
 
+        save = not Settings().delete_screenshots_on_close
         if self.image_ready:
             self.export_manager.close_handler(
                 copy=copy,
-                save=not Settings().delete_screenshots_on_close,
+                save=save,
                 callback=self._on_close_finished
             )
         else:
             self._on_close_finished()
 
-
     def _on_close_finished(self) -> None:
-            self.destroy()
+        self.destroy()
 
     def _on_confirm_close_ok(self) -> None:
         self._finalize_close(copy=False)

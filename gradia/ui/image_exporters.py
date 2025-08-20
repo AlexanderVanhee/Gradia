@@ -18,7 +18,7 @@
 import os
 import subprocess
 
-from gi.repository import Gtk, Gio, GdkPixbuf, GLib
+from gi.repository import Gtk, Gio, GdkPixbuf, GLib, Gdk
 from gradia.clipboard import copy_file_to_clipboard, copy_text_to_clipboard, save_pixbuff_to_path
 from gradia.backend.logger import Logger
 from gradia.app_constants import SUPPORTED_EXPORT_FORMATS, DEFAULT_EXPORT_FORMAT
@@ -350,7 +350,6 @@ class CommandLineExporter(BaseImageExporter):
             import traceback
             traceback.print_exc()
 
-
 class CloseHandlerExporter(BaseImageExporter):
     """Handles close operations with copy and save functionality"""
 
@@ -379,33 +378,67 @@ class CloseHandlerExporter(BaseImageExporter):
                         results['saved'] = True
 
             if copy:
-                temp_path = save_pixbuff_to_path(self.temp_dir, pixbuf)
-                if not temp_path or not os.path.exists(temp_path):
-                    raise Exception("Failed to create temporary file for clipboard")
-                copy_file_to_clipboard(temp_path)
-                results['copied'] = True
-
-            saved, copied = results['saved'], results['copied']
-            if saved and copied:
-                message = _("Screenshot updated and copied to clipboard")
-            elif saved:
-                message = _("Screenshot updated")
-            elif copied:
-                message = _("Image copied to clipboard")
+                self._handle_clipboard_copy(pixbuf, results, callback)
             else:
-                message = None
-
-            if message:
-                SystemNotifier.send_notification(_("Close Operation Successful"), message)
-                self.window.show_close_confirmation = False
+                self._finish_close_operation(results, callback)
 
         except Exception as e:
             SystemNotifier.send_notification(_("Close Operation Failed"), _("Failed to export image"), "dialog-error")
             logger.error(f"Error in close handler: {e}")
-
-        finally:
             if callback:
                 callback()
+
+    def _handle_clipboard_copy(self, pixbuf: GdkPixbuf.Pixbuf, results: dict, callback: callable):
+        def _do_clipboard_copy():
+            try:
+                temp_path = save_pixbuff_to_path(self.temp_dir, pixbuf)
+                if temp_path and os.path.exists(temp_path):
+                    with open(temp_path, "rb") as f:
+                        png_data = f.read()
+
+                    display = Gdk.Display.get_default()
+                    if display:
+                        bytes_data = GLib.Bytes.new(png_data)
+                        clipboard = display.get_clipboard()
+                        content_provider = Gdk.ContentProvider.new_for_bytes("image/png", bytes_data)
+                        clipboard.set_content(content_provider)
+                        results['copied'] = True
+
+                        def _delayed_finish():
+                            self._finish_close_operation(results, callback)
+                            return False
+
+                        GLib.timeout_add(50, _delayed_finish)
+                    else:
+                        self._finish_close_operation(results, callback)
+                else:
+                    self._finish_close_operation(results, callback)
+
+            except Exception as e:
+                logger.error(f"Error copying to clipboard in close handler: {e}")
+                self._finish_close_operation(results, callback)
+
+            return False
+
+        GLib.timeout_add(100, _do_clipboard_copy)
+
+    def _finish_close_operation(self, results: dict, callback: callable):
+        saved, copied = results['saved'], results['copied']
+
+        if saved and copied:
+            message = _("Screenshot updated and copied to clipboard")
+        elif saved:
+            message = _("Screenshot updated")
+        elif copied:
+            message = _("Image copied to clipboard")
+        else:
+            message = None
+        if message:
+            SystemNotifier.send_notification(_("Close Operation Successful"), message)
+            self.window.show_close_confirmation = False
+
+        if callback:
+            callback()
 
 class ExportManager:
     """Coordinates export functionality"""
