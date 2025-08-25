@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-16 00:21+0200\n"
-"PO-Revision-Date: 2025-06-04 18:48+0200\n"
+"PO-Revision-Date: 2025-08-26 00:14+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -43,26 +43,31 @@ msgid ""
 "screenshots to look professional and consistent across social media, blogs, "
 "and other platforms on the internet."
 msgstr ""
+"Gradia vous aide à préparer rapidement vos captures d'écran pour les partager en corrigeant "
+"les problèmes courrants tels que la transparence et les dimensions inappropriées. Grâce à des outils simples permettant d'ajouter "
+"des arrière-plans, d'ajuster les proportions et d'annoter les images, vous pouvez améliorer vos "
+"captures d'écran pour leur donner un aspect professionnel et cohérent sur les réseaux sociaux, les blogs "
+"et autres plateformes sur Internet "
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:16
 msgid "Key features:"
-msgstr ""
+msgstr "Fonctionnalités clés:"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:18
 msgid "Add optional image and gradient backgrounds to your images"
-msgstr ""
+msgstr "Ajoutez des arrière-plans optionnels avec images et dégradés à vos images."
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:19
 msgid "Adjust aspect ratios and padding to fit different platforms"
-msgstr ""
+msgstr "Ajustez les proportions et les marges pour s'adapter à différentes plateformes."
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:20
 msgid "Ten annotation modes, including text, arrow, and censor"
-msgstr ""
+msgstr "Dix modes d'annotation, dont texte, flèche et censure"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:21
 msgid "Multiple ways to import and export screenshots"
-msgstr ""
+msgstr "Plusieurs façons d'importer et d'exporter des captures d'écran"
 
 #. Package maintainers, please replace with correct command
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:24
@@ -71,6 +76,9 @@ msgid ""
 "and Customize Shortcuts → Custom Shortcuts. Then create a shortcut that runs "
 "<code>flatpak run be.alexandervanhee.gradia --screenshot=INTERACTIVE</code>."
 msgstr ""
+"Vous voulez un raccourci clavier sur GNOME ? Il suffit d'aller dans Paramètres → Clavier → Afficher "
+"et Personnaliser les raccourcis → Raccourcis personnalisés. Créez ensuite un raccourci qui exécute "
+"<code>flatpak run be.alexandervanhee.gradia --screenshot=INTERACTIVE</code>. " 
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:30
 msgid "Alexander Vanhee"
@@ -95,7 +103,7 @@ msgstr "Fichier courant"
 
 #: data/be.alexandervanhee.gradia.gschema.xml:10
 msgid "Pen color in rgba"
-msgstr ""
+msgstr "Couleur du stylo en rgba"
 
 #: data/be.alexandervanhee.gradia.gschema.xml:14
 #, fuzzy
@@ -109,11 +117,11 @@ msgstr "Couleur de remplissage"
 
 #: data/be.alexandervanhee.gradia.gschema.xml:22
 msgid "Pen size"
-msgstr ""
+msgstr "Taille du stylo"
 
 #: data/be.alexandervanhee.gradia.gschema.xml:26
 msgid "Number radius size"
-msgstr ""
+msgstr "Taille du rayon du nombre"
 
 #: data/be.alexandervanhee.gradia.gschema.xml:30
 #, fuzzy
@@ -226,7 +234,7 @@ msgstr "Captures d'écran supprimées."
 
 #: gradia/ui/image_exporters.py:75
 msgid "Edit"
-msgstr ""
+msgstr "Modifier"
 
 #: gradia/ui/image_exporters.py:76
 msgid "Enhanced Screenshot"
@@ -234,15 +242,15 @@ msgstr "Capture d'écran éditée"
 
 #: gradia/ui/image_exporters.py:87
 msgid "PNG Image (*.png)"
-msgstr ""
+msgstr "Image PNG (*.png)"
 
 #: gradia/ui/image_exporters.py:93
 msgid "JPEG Image (*.jpg)"
-msgstr ""
+msgstr "Image JPEG (*.jpg)"
 
 #: gradia/ui/image_exporters.py:99
 msgid "WebP Image (*.webp)"
-msgstr ""
+msgstr "Image WebP (*.webp)"
 
 #: gradia/ui/image_exporters.py:116
 msgid "Save Image As"
@@ -250,11 +258,11 @@ msgstr "Enregistrer l'image"
 
 #: gradia/ui/image_exporters.py:119
 msgid "Save"
-msgstr ""
+msgstr "Enregistrer"
 
 #: gradia/ui/image_exporters.py:142
 msgid "Unsupported image file extension."
-msgstr ""
+msgstr "Extension de fichier d'image non supporté."
 
 #: gradia/ui/image_exporters.py:149
 msgid "Image saved successfully"
@@ -282,7 +290,7 @@ msgstr "Fichiers image"
 
 #: gradia/ui/image_loaders.py:120
 msgid "Not a supported image format."
-msgstr ""
+msgstr "Format d'image non pris en charge."
 
 #: gradia/ui/image_loaders.py:150
 msgid "No image found in clipboard"
@@ -404,7 +412,7 @@ msgstr "Sélectionner une image"
 
 #: data/ui/selectors/image_selector.blp:56
 msgid "Supported Image Formats"
-msgstr ""
+msgstr "Formats d'image supportés"
 
 #: data/ui/selectors/solid_selector.blp:5
 msgid "Solid Color Background"
@@ -461,11 +469,11 @@ msgstr "Réinitialiser la couleur de remplissage"
 
 #: data/ui/drawing_tools_group.blp:143
 msgid "Font"
-msgstr ""
+msgstr "Police d'écriture"
 
 #: data/ui/drawing_tools_group.blp:177
 msgid "Size"
-msgstr ""
+msgstr "Taille"
 
 #: data/ui/drawing_tools_group.blp:217
 #, fuzzy
