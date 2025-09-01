@@ -45,7 +45,7 @@ from gradia.ui.dialog.delete_screenshots_dialog import DeleteScreenshotsDialog
 from gradia.ui.dialog.confirm_close_dialog import ConfirmCloseDialog
 from gradia.backend.tool_config import ToolOption
 from gradia.backend.tool_config import ToolOption
-from gradia.backend.background import BackgroundPortalRequest
+from gradia.backend.background import Portal
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/main_window.ui")
 class GradiaMainWindow(Adw.ApplicationWindow):
@@ -118,12 +118,13 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             print(f"Autostart: {autostart_granted}")
             print(f"Message: {message}")
 
-        portal = BackgroundPortalRequest()
+        portal = Portal()
 
         portal.request_background_permission(
-            autostart=True,
+            autostart=False,
             callback=permission_callback
         )
+
 
     def _setup_actions(self) -> None:
         self.create_action("shortcuts", self._on_shortcuts_activated)

@@ -1,8 +1,8 @@
 from gi.repository import Gio, GLib
 import uuid
 
-class BackgroundPortalRequest:
-    def __init__(self, app_id="be.alexandervanhee.gradia", reason="Allow app to run in background"):
+class Portal:
+    def __init__(self, app_id="be.alexandervanhee.gradia", reason="Allows Gradia to run in background and listen for it's global screenshot shortcut"):
         self.app_id = app_id
         self.reason = reason
         self.connection = Gio.bus_get_sync(Gio.BusType.SESSION, None)
@@ -27,7 +27,7 @@ class BackgroundPortalRequest:
             "handle_token": GLib.Variant("s", handle_token),
             "reason": GLib.Variant("s", self.reason),
             "autostart": GLib.Variant("b", autostart),
-            "dbus-activatable": GLib.Variant("b", True)
+            "dbus-activatable": GLib.Variant("b", False)
         }
 
         params = GLib.Variant("(sa{sv})", ("", options_dict))
