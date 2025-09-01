@@ -17,6 +17,7 @@
 
 from collections.abc import Callable
 import os
+import sys
 import threading
 from typing import Any, Optional
 
@@ -43,6 +44,8 @@ from gradia.constants import rootdir, build_type # pyright: ignore
 from gradia.ui.dialog.delete_screenshots_dialog import DeleteScreenshotsDialog
 from gradia.ui.dialog.confirm_close_dialog import ConfirmCloseDialog
 from gradia.backend.tool_config import ToolOption
+from gradia.backend.tool_config import ToolOption
+from gradia.backend.background import BackgroundPortalRequest
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/main_window.ui")
 class GradiaMainWindow(Adw.ApplicationWindow):
@@ -109,6 +112,18 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         else:
             self.welcome_content = WelcomePage()
             self.welcome_page.set_child(self.welcome_content)
+
+        def permission_callback(background_granted, autostart_granted, message):
+            print(f"Background: {background_granted}")
+            print(f"Autostart: {autostart_granted}")
+            print(f"Message: {message}")
+
+        portal = BackgroundPortalRequest()
+
+        portal.request_background_permission(
+            autostart=True,
+            callback=permission_callback
+        )
 
     def _setup_actions(self) -> None:
         self.create_action("shortcuts", self._on_shortcuts_activated)
