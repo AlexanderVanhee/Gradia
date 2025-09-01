@@ -528,7 +528,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
 
         self.portal.request_background_permission(
-            autostart=False,
+            autostart=True,
             callback=permission_callback,
             force_dialog=True
         )
