@@ -45,7 +45,7 @@ from gradia.ui.dialog.delete_screenshots_dialog import DeleteScreenshotsDialog
 from gradia.ui.dialog.confirm_close_dialog import ConfirmCloseDialog
 from gradia.backend.tool_config import ToolOption
 from gradia.backend.tool_config import ToolOption
-from gradia.backend.background import Portal
+from gradia.backend.portal import XdgPortal
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/main_window.ui")
 class GradiaMainWindow(Adw.ApplicationWindow):
@@ -113,20 +113,11 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             self.welcome_content = WelcomePage()
             self.welcome_page.set_child(self.welcome_content)
 
-        def permission_callback(background_granted, autostart_granted, message):
-            print(f"Background: {background_granted}")
-            print(f"Autostart: {autostart_granted}")
-            print(f"Message: {message}")
-
-        portal = Portal()
-
-        portal.request_background_permission(
-            autostart=False,
-            callback=permission_callback
-        )
+        self.portal = XdgPortal()
 
 
     def _setup_actions(self) -> None:
+        self.create_action("portal-test", lambda *_: self.portal_test(), ['<primary>t'])
         self.create_action("shortcuts", self._on_shortcuts_activated)
         self.create_action("about", self._on_about_activated)
         self.create_action("quit", lambda *_: self.close(),  ['<primary>q', '<primary>w'])
@@ -492,3 +483,66 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             dialog.present(self.get_root())
         else:
             self.export_manager.run_custom_command()
+
+    def portal_test(self):
+        def permission_callback(background_granted, autostart_granted, message):
+            print(f"Background: {background_granted}")
+            print(f"Autostart: {autostart_granted}")
+            print(f"Message: {message}")
+
+        def session_callback(success, session_handle):
+            if success:
+                print(f"Session created: {session_handle}")
+                shortcuts = {
+                    "screenshot": {
+                        "description": "Take a screenshot",
+                        "preferred_trigger": "<Control>Print"
+                    }
+                }
+                self.portal.bind_shortcuts(
+                    shortcuts,
+                    callback=bind_callback,
+                    force_dialog=True
+                )
+            else:
+                print(f"Session creation failed: {session_handle}")
+
+        def bind_callback(success, shortcuts):
+            if success:
+                print(f"Shortcuts bound successfully: {shortcuts}")
+                self.portal.list_shortcuts(callback=list_callback)
+            else:
+                print(f"Failed to bind shortcuts: {shortcuts}")
+
+        def list_callback(success, shortcuts):
+            if success:
+                print(f"Available shortcuts: {shortcuts}")
+            else:
+                print(f"Failed to list shortcuts: {shortcuts}")
+
+        def shortcut_activated_handler(event_type, shortcut_id, timestamp):
+            if event_type == "activated":
+                if shortcut_id == "screenshot":
+                    print("Taking screenshot via global shortcut...")
+                    self.import_manager.take_screenshot()
+
+
+        self.portal.request_background_permission(
+            autostart=False,
+            callback=permission_callback,
+            force_dialog=True
+        )
+        self.portal.create_session(callback=session_callback)
+        self.portal.set_shortcut_activated_callback(shortcut_activated_handler)
+
+    def reconfigure_shortcuts(self):
+        def configure_callback(success, shortcuts, message):
+            if success:
+                print(f"Shortcuts reconfigured successfully")
+                print(f"New shortcuts: {shortcuts}")
+            else:
+                print(f"Configuration failed or was cancelled: {message}")
+        self.portal.configure_shortcuts(
+            callback=configure_callback
+        )
+        print("Opening shortcut configuration dialog...")
