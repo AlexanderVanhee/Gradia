@@ -1,4 +1,4 @@
-from gi.repository import Gio, GLib, Gtk, Gdk
+from gi.repository import Gio, GLib
 import uuid
 
 class XdgPortal:
@@ -31,6 +31,7 @@ class XdgPortal:
         self._shortcut_callback = None
 
     def request_background_permission(self, autostart=True, callback=None, force_dialog=True):
+        print("permission ran")
         handle_token = str(uuid.uuid4()).replace('-', '')
         options_dict = {
             "handle_token": GLib.Variant("s", handle_token),
@@ -45,6 +46,9 @@ class XdgPortal:
 
         params = GLib.Variant("(sa{sv})", ("", options_dict))
         self._pending_callbacks[handle_token] = ("background", callback)
+
+        print(f"new autostart: {autostart}")
+
         self.connection.call(
             "org.freedesktop.portal.Desktop",
             "/org/freedesktop/portal/desktop",

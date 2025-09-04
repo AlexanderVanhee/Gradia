@@ -17,6 +17,7 @@
 
 import re
 import os
+import sys
 from pathlib import Path
 from gi.repository import Gtk, Adw, GLib, Gio
 from typing import Optional
@@ -61,15 +62,15 @@ class ScreenshotFolderFinder:
 @Gtk.Template(resource_path=f"{rootdir}/ui/preferences_window.ui")
 class PreferencesWindow(Adw.PreferencesDialog):
     __gtype_name__ = 'GradiaPreferencesWindow'
+
     help_button: Gtk.Button = Gtk.Template.Child()
-
-
     folder_expander: Adw.ExpanderRow = Gtk.Template.Child()
     folder_label: Gtk.Label = Gtk.Template.Child()
     save_format_group: Adw.PreferencesGroup = Gtk.Template.Child()
     delete_screenshot_switch: Adw.SwitchRow = Gtk.Template.Child()
     overwrite_screenshot_switch: Adw.SwitchRow = Gtk.Template.Child()
     confirm_upload_switch: Adw.SwitchRow = Gtk.Template.Child()
+    background_switch: Adw.SwitchRow = Gtk.Template.Child()
     save_format_combo: Adw.ComboRow = Gtk.Template.Child()
     provider_name: Gtk.Label = Gtk.Template.Child()
     exiting_combo: Adw.ComboRow = Gtk.Template.Child()
@@ -96,6 +97,9 @@ class PreferencesWindow(Adw.PreferencesDialog):
         )
         shortcut_controller.add_shortcut(shortcut)
         self.add_controller(shortcut_controller)
+
+        main_module = sys.modules.get('__main__')
+        self.portal = main_module._app_portal
 
     def _setup_widgets(self):
         self._update_expander_title()
@@ -244,6 +248,7 @@ class PreferencesWindow(Adw.PreferencesDialog):
         self.settings.bind_switch(self.delete_screenshot_switch,"trash-screenshots-on-close")
         self.settings.bind_switch(self.confirm_upload_switch,"show-export-confirm-dialog")
         self.settings.bind_switch(self.overwrite_screenshot_switch,"overwrite-screenshot")
+        self.settings.bind_switch(self.background_switch,"run-in-background-state")
 
     @Gtk.Template.Callback()
     def on_choose_provider_clicked(self, button: Gtk.Button) -> None:
@@ -253,6 +258,25 @@ class PreferencesWindow(Adw.PreferencesDialog):
             self.settings.custom_export_command = command
             self.parent_window.update_command_ready()
         self.push_subpage(ProviderListPage(preferences_dialog=self,on_provider_selected=handle_selection))
+
+    @Gtk.Template.Callback()
+    def on_run_in_background_toggled(self, switch_row: Adw.SwitchRow) -> None:
+        is_enabled = switch_row.get_active()
+
+        def on_permission_result(background_allowed, autostart_allowed, message):
+            if autostart_allowed:
+                self.settings.run_in_background_state = True
+                self.show_toast(_("Background permission granted"))
+            if not autostart_allowed:
+                switch_row.set_active(False)
+                self.settings.run_in_background_state = False
+                self.show_toast(_("Background mode turned off"))
+
+        self.portal.request_background_permission(
+            autostart= not is_enabled,
+            callback=on_permission_result,
+            force_dialog=True
+        )
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/preferences/screenshot_guide_page.ui")
 class ScreenshotGuidePage(Adw.NavigationPage):

@@ -44,8 +44,6 @@ from gradia.constants import rootdir, build_type # pyright: ignore
 from gradia.ui.dialog.delete_screenshots_dialog import DeleteScreenshotsDialog
 from gradia.ui.dialog.confirm_close_dialog import ConfirmCloseDialog
 from gradia.backend.tool_config import ToolOption
-from gradia.backend.tool_config import ToolOption
-from gradia.backend.portal import XdgPortal
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/main_window.ui")
 class GradiaMainWindow(Adw.ApplicationWindow):
@@ -114,9 +112,6 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         else:
             self.welcome_content = WelcomePage()
             self.welcome_page.set_child(self.welcome_content)
-
-        self.portal = XdgPortal()
-
 
     def _setup_actions(self) -> None:
         self.create_action("portal-test", lambda *_: self.portal_test(), ['<primary>t'])

@@ -24,6 +24,11 @@ template $GradiaPreferencesWindow : Adw.PreferencesDialog {
       Adw.ButtonRow help_button {
         title: _("Screenshot Shortcut");
       }
+      Adw.SwitchRow background_switch {
+        title: _("Run in background");
+        activatable: true;
+        activated => $on_run_in_background_toggled();
+      }
     }
     Adw.PreferencesGroup save_format_group {
       title: _("Save Options");

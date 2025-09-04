@@ -118,7 +118,10 @@
       <default>'Adwaita'</default>
       <summary>Color scheme of the source snippet</summary>
     </key>
-
+    <key name="run-in-background-state" type="b">
+      <default>false</default>
+      <summary>Maintains the state of the background permission.</summary>
+    </key>
   </schema>
 </schemalist>
 
