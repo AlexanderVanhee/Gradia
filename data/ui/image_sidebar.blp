@@ -75,15 +75,8 @@ template $GradiaImageSidebar : Adw.Bin {
           };
         }
 
-        Adw.ActionRow aspect_ratio_row {
-          title: _("Aspect Ratio");
-          activatable-widget: aspect_ratio_button;
-          [suffix]
-          Gtk.MenuButton aspect_ratio_button {
-            label: "Auto";
-            valign: center;
-            styles ["flat-dropdown"]
-          }
+        $GradiaAspectRatioSelector aspect_ratio_selector {
+          ratio-changed => $_on_aspect_ratio_changed();
         }
 
         Adw.ActionRow shadow_strength_row {
@@ -144,18 +137,21 @@ template $GradiaImageSidebar : Adw.Bin {
 
         Adw.ActionRow filename_row {
           title: _("Name");
-          subtitle: _("No file loaded");
+          subtitle: _("N/A");
+          styles ["property"]
         }
 
         Adw.ActionRow location_row {
           title: _("Location");
-          subtitle: _("No file loaded");
-
+          subtitle: _("N/A");
+          activatable: true;
+          activatable-widget: open_folder_button;
+          styles ["property"]
 
           [suffix]
-          Button {
+          Button open_folder_button {
             valign: center;
-            icon-name: "folder-symbolic";
+            icon-name: "folder-open-symbolic";
             action-name: "win.open-folder";
             tooltip-text: _("Open Folder");
             styles [
@@ -167,6 +163,7 @@ template $GradiaImageSidebar : Adw.Bin {
         Adw.ActionRow processed_size_row {
           title: _("Modified image size");
           subtitle: _("N/A");
+          styles ["property"]
         }
       }
       };
@@ -218,25 +215,6 @@ template $GradiaImageSidebar : Adw.Bin {
         "toolbar"
       ]
     }
-  };
-}
-
-Gtk.Popover gradient_popover {
-  autohide: true;
-  has-arrow: true;
-
-  child: Gtk.FlowBox popover_flowbox {
-    max-children-per-line: 3;
-    selection-mode: none;
-    row-spacing: 10;
-    column-spacing: 10;
-    homogeneous: true;
-
-    valign: center;
-    margin-top: 10;
-    margin-bottom: 10;
-    margin-start: 10;
-    margin-end: 10;
   };
 }
 

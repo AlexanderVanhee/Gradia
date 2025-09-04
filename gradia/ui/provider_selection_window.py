@@ -39,14 +39,24 @@ class ProviderListPage(Adw.NavigationPage):
 
     PROVIDERS_DATA_URL = f"https://gradia.alexandervanhee.be/upload-providers/{rel_ver}.json"
 
-    def __init__(self, preferences_dialog=None,on_provider_selected=None, **kwargs):
+    def __init__(self, preferences_dialog=None, on_provider_selected=None, **kwargs):
         super().__init__(**kwargs)
 
         self.preferences_dialog = preferences_dialog
         self.on_provider_selected = on_provider_selected
-        self.session = Soup.Session()
+        self.session = None
         self.providers_data = None
+        self.pending_images = 0
+        self.providers_populated = False
+
+        self.view_stack.set_visible_child_name("loading")
+        GLib.idle_add(self._start_loading)
+
+    def _start_loading(self):
+        if not self.session:
+            self.session = Soup.Session()
         self._load_providers_data()
+        return False
 
     def _show_error_message(self, message: str):
         self.error_status.set_description(message)
@@ -72,7 +82,6 @@ class ProviderListPage(Adw.NavigationPage):
         self.session.send_and_read_async(message, GLib.PRIORITY_DEFAULT, None, on_response, message)
 
     def _populate_providers_list(self):
-
         for provider_id, provider_data in self.providers_data.items():
             row = self._create_provider_row(provider_id, provider_data)
             self.providers_group.add(row)
@@ -80,7 +89,21 @@ class ProviderListPage(Adw.NavigationPage):
         custom_row = self._create_custom_provider_row()
         self.providers_group.add(custom_row)
 
-        self.view_stack.set_visible_child_name("content")
+        self.providers_populated = True
+        self._check_if_ready_to_show()
+
+    def _check_if_ready_to_show(self):
+        if self.providers_populated and self.pending_images == 0:
+            self.view_stack.set_visible_child_name("content")
+
+    def _increment_pending_images(self):
+        self.pending_images += 1
+
+    def _decrement_pending_images(self):
+        self.pending_images -= 1
+        if self.pending_images < 0:
+            self.pending_images = 0
+        self._check_if_ready_to_show()
 
     def _create_provider_row(self, provider_id: str, provider_data: dict) -> Adw.ActionRow:
         row = Adw.ActionRow(
@@ -148,6 +171,7 @@ class ProviderListPage(Adw.NavigationPage):
             GLib.idle_add(self._set_fallback_icon, picture, fallback_icon_name)
             return
 
+        self._increment_pending_images()
         message = Soup.Message.new("GET", url)
 
         def on_response(session, result, msg):
@@ -175,6 +199,8 @@ class ProviderListPage(Adw.NavigationPage):
             except Exception as e:
                 logger.warning(f"Failed to load image from {url}: {e}")
                 GLib.idle_add(self._set_fallback_icon, picture, fallback_icon_name)
+            finally:
+                GLib.idle_add(self._decrement_pending_images)
 
         self.session.send_and_read_async(message, GLib.PRIORITY_DEFAULT, None, on_response, message)
 

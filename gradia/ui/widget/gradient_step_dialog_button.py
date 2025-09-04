@@ -126,10 +126,6 @@ class GradientStepRow(Adw.ActionRow):
         b = int(rgba.blue * 255)
         return f"rgb({r},{g},{b})"
 
-    def set_step_index(self, index: int):
-        self.step_index = index
-        self.set_title(f"Step {index + 1}")
-
     def update_remove_button_sensitivity(self, can_remove: bool):
         self.remove_button.set_sensitive(can_remove)
 
@@ -186,9 +182,6 @@ class CssGradientDialog(Adw.Dialog):
                 row_to_remove = self._step_rows[remove_index]
                 self.steps_group.remove(row_to_remove)
                 self._step_rows.remove(row_to_remove)
-
-                for i, row in enumerate(self._step_rows):
-                    row.set_step_index(i)
 
         steps = []
         for row in self._step_rows:

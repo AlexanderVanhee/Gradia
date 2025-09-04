@@ -69,7 +69,7 @@ class LoadedImage:
         elif self.origin == ImageOrigin.SourceImage:
             return _("Source")
         else:
-            return os.path.dirname(self.image_path)
+            return os.path.basename(os.path.dirname(self.image_path))
 
     def has_proper_name(self) -> bool:
         return self.origin not in {
@@ -111,13 +111,71 @@ class BaseImageLoader:
     def _is_supported_format(self, file_path: str) -> bool:
         """Check if file format is supported"""
         lower_path = file_path.lower()
-        supported_extensions = [ext for ext, _mime in self.SUPPORTED_INPUT_FORMATS]
+        supported_extensions = [ext for ext, _ in self.SUPPORTED_INPUT_FORMATS]
         return any(lower_path.endswith(ext) for ext in supported_extensions)
 
     def _set_image_and_update_ui(self, image: LoadedImage, copy_after_processing=False) -> None:
         """Common method to set image and update UI"""
         self.window.set_image(image, copy_after_processing=copy_after_processing)
 
+    def _handle_uri(self, uri: str, origin: ImageOrigin) -> bool:
+        """Handle URI loading for both file and web URIs"""
+        logger.info(f"Processing URI: {uri}")
+
+        if uri.startswith("file://"):
+            file_path = unquote(urlparse(uri).path)
+
+            if not os.path.isfile(file_path):
+                logger.error("File does not exist:", file_path)
+                return False
+
+            if not self._is_supported_format(file_path):
+                self.window._show_notification(_("Not a supported image format"))
+                return False
+
+            self._set_image_and_update_ui(LoadedImage(file_path, origin))
+            return True
+
+        elif uri.startswith(("http://", "https://")):
+            return self._handle_image_url(uri, origin)
+
+        else:
+            logger.info("Unsupported URI scheme:", uri)
+            self.window._show_notification(_("Not a supported image format"))
+            return False
+
+    def _handle_image_url(self, url: str, origin: ImageOrigin) -> bool:
+        try:
+            path = urlparse(url).path
+            mime_type, _unused = mimetypes.guess_type(path)
+            logger.info(f"mime type from guess_type: {mime_type}")
+
+            if not (mime_type and mime_type.startswith("image/")):
+                lower_path = path.lower()
+                supported_extensions = [ext for ext, _ in self.SUPPORTED_INPUT_FORMATS]
+                if not any(lower_path.endswith(ext) for ext in supported_extensions):
+                    self.window._show_notification(_("Not a supported image format"))
+                    return False
+                else:
+                    logger.info("Fallback: file extension matches supported image format.")
+
+            filename = os.path.basename(path) or "downloaded_image"
+            temp_path = os.path.join(self.temp_dir, filename)
+
+            urllib.request.urlretrieve(url, temp_path)
+
+            if not self._is_supported_format(temp_path):
+                self.window._show_notification(_("URL is not a supported image format"))
+                os.remove(temp_path)
+                return False
+
+            self._set_image_and_update_ui(LoadedImage(temp_path, origin))
+            return True
+
+        except Exception as e:
+            logger.error("Error downloading image:", e)
+            self.window._show_notification(_("Failed to load image from URL."))
+            return False
 
 class FileDialogImageLoader(BaseImageLoader):
     """Handles loading images through file dialog"""
@@ -175,101 +233,37 @@ class DragDropImageLoader(BaseImageLoader):
 
         if isinstance(value, Gio.File):
             uri = value.get_uri()
-            logger.info(f"Dropped URI: {uri}")
+            return self._handle_uri(uri, ImageOrigin.DragDrop)
 
-            if uri.startswith("file://"):
-                file_path = unquote(urlparse(uri).path)
-
-                if not os.path.isfile(file_path):
-                    ("File does not exist:", file_path)
-                    return False
-
-                if not self._is_supported_format(file_path):
-                    self.window._show_notification(_("Not a supported image format"))
-                    return False
-
-                self._set_image_and_update_ui(LoadedImage(file_path, ImageOrigin.DragDrop))
-
-                return True
-
-            elif uri.startswith(("http://", "https://")):
-                return self._handle_image_url(uri)
-
-            else:
-                logger.info("Unsupported URI scheme:", uri)
-                self.window._show_notification(_("Unsupported file drop"))
-                return False
         return False
 
-    def _handle_image_url(self, url: str) -> bool:
-        try:
-            path = urlparse(url).path
-            mime_type, _unused = mimetypes.guess_type(path)
-            logger.info(f"mime type from guess_type: {mime_type}")
-
-            if not (mime_type and mime_type.startswith("image/")):
-                lower_path = path.lower()
-                supported_extensions = [ext for ext, _ in self.SUPPORTED_INPUT_FORMATS]
-                if not any(lower_path.endswith(ext) for ext in supported_extensions):
-                    self.window._show_notification(_("URL is not a valid image format"))
-                    return False
-                else:
-                    logger.info("Fallback: file extension matches supported image format.")
-
-            filename = os.path.basename(path) or "downloaded_image"
-            temp_path = os.path.join(self.temp_dir, filename)
-
-            urllib.request.urlretrieve(url, temp_path)
-
-            if not self._is_supported_format(temp_path):
-                self.window._show_notification(_("URL is not a supported image format"))
-                os.remove(temp_path)
-                return False
-
-            self._set_image_and_update_ui(LoadedImage(file_path, ImageOrigin.DragDrop))
-            return True
-
-        except Exception as e:
-            logger.error("Error downloading image:", e)
-            self.window._show_notification(_("Failed to load image from URL."))
-            return False
 
 class ClipboardImageLoader(BaseImageLoader):
-    TEMP_CLIPBOARD_FILENAME: str = "clipboard_image.png"
-
     def __init__(self, window: Gtk.ApplicationWindow, temp_dir: str) -> None:
         super().__init__(window, temp_dir)
 
     def load_from_clipboard(self) -> None:
-        clipboard = self.window.get_clipboard()
-        clipboard.read_texture_async(None, self._handle_clipboard_texture)
+        display = Gdk.Display.get_default()
+        clipboard = display.get_clipboard()
 
-    def _handle_clipboard_texture(
-        self,
-        clipboard: Gdk.Clipboard,
-        result: Gio.AsyncResult
-    ) -> None:
-        """Handle clipboard texture data"""
+        clipboard.read_value_async(
+            Gdk.FileList,
+            0,
+            None,
+            self._on_uris_get
+        )
+
+    def _on_uris_get(self, clipboard, result, user_data=None) -> None:
         try:
-            texture = clipboard.read_texture_finish(result)
-            if not texture:
-                logger.info("No image found in clipboard")
-                self.window._show_notification(_("No image found in clipboard"))
-                return
-
-            image_path = save_texture_to_file(texture, self.temp_dir)
-            if not image_path:
-                raise Exception("Failed to save clipboard image to file")
-
-            self._set_image_and_update_ui(LoadedImage(file_path, ImageOrigin.Clipboard))
-
-        except Exception as e:
-            error_msg = str(e)
-            if "No compatible transfer format found" in error_msg:
-                self.window._show_notification(_("Clipboard does not contain an image"))
-            else:
-                self.window._show_notification(_("Failed to load image from clipboard"))
-                logger.error(f"Error processing clipboard image: {e}")
+            file_list = clipboard.read_value_finish(result)
+            if file_list:
+                files = file_list.get_files()
+                if files:
+                    file_obj = files[0]
+                    uri = file_obj.get_uri()
+                    self._handle_uri(uri, ImageOrigin.Clipboard)
+        except GLib.GError as e:
+            print(f"Error reading URIs: {e}")
 
 
 class ScreenshotImageLoader(BaseImageLoader):

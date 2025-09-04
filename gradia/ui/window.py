@@ -66,6 +66,8 @@ class GradiaMainWindow(Adw.ApplicationWindow):
     main_stack: Gtk.Stack = Gtk.Template.Child()
     split_view: Gtk.Box = Gtk.Template.Child()
 
+    breakpoint: Adw.Breakpoint = Gtk.Template.Child()
+
     def __init__(
         self,
         temp_dir: str,
@@ -181,6 +183,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.image_stack = self.image_bin.stack
         self.picture = self.image_bin.picture
         self.drawing_overlay = self.image_bin.drawing_overlay
+        self.breakpoint.add_setter(self.image_bin, "compact", True)
 
     def _setup_sidebar(self) -> None:
         self.sidebar = ImageSidebar(

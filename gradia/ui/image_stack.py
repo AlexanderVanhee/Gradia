@@ -66,9 +66,23 @@ class ImageStack(Adw.Bin):
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-        self._compact_mode = False
-        self._width_threshold = 695
+        self._compact = False
         self._setup()
+
+    @GObject.Property(type=bool, default=False)
+    def compact(self) -> bool:
+        return self._compact
+
+    @compact.setter
+    def compact(self, value: bool) -> None:
+        if self._compact != value:
+            self._compact = value
+            self._update_compact_ui()
+
+    def _update_compact_ui(self) -> None:
+        self.sidebar_button.set_visible(self._compact)
+        zoom_level = self.zoomable_widget.get_property("zoom-level")
+        self.zoom_label.set_visible(not self._compact)
 
     def set_erase_selected_visible(self, show: bool) -> None:
         self.erase_controls_revealer.set_reveal_child(show)
@@ -96,39 +110,13 @@ class ImageStack(Adw.Bin):
         drop_target.connect("drop", self._on_file_dropped)
         self.drop_overlay.drop_target = drop_target
 
-        self._setup_width_monitoring()
-
-    def _setup_width_monitoring(self) -> None:
-        GLib.idle_add(self._setup_window_monitoring)
-
-    def _setup_window_monitoring(self) -> bool:
-        window = self.get_root()
-        if window:
-            window.connect("notify::default-width", self._on_window_size_changed)
-        return False
-
-    def _on_window_size_changed(self, window, pspec) -> None:
-        self._update_compact_mode()
-
-    def _update_compact_mode(self) -> None:
-        window = self.get_root()
-        if not window:
-            return
-
-        width = window.get_width()
-        new_compact_mode = width <= self._width_threshold
-
-        if new_compact_mode != self._compact_mode:
-            self._compact_mode = new_compact_mode
-            self.sidebar_button.set_visible(self._compact_mode)
-
-    def is_compact_mode(self) -> bool:
-        return self._compact_mode
+    def is_compact(self) -> bool:
+        return self._compact
 
     def _on_zoom_level_changed(self, widget, pspec) -> None:
         zoom_level = widget.get_property("zoom-level")
         percentage = int(zoom_level * 100)
-        self.zoom_label.set_visible(not self._compact_mode)
+        self.zoom_label.set_visible(not self._compact)
         self.zoom_label.set_text(f"{percentage}%")
         self.emit("zoom-changed", zoom_level)
 
@@ -163,7 +151,7 @@ class ImageStack(Adw.Bin):
         self.sidebar_revealer.set_reveal_child(not self.crop_enabled)
         self.zoomable_widget.disable_zoom = self.crop_enabled
         self.sidebar_button.set_sensitive(not self.crop_enabled)
-        if not self._compact_mode:
+        if not self._compact:
             self._show_sidebar(not self.crop_enabled)
         self.crop_options_revealer.set_reveal_child(self.crop_enabled)
 

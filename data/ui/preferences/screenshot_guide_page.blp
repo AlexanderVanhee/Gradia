@@ -110,10 +110,12 @@ template $GradiaScreenshotGuidePage : Adw.NavigationPage {
                     Gtk.Separator {
                       orientation: horizontal;
                       hexpand: true;
+                      visible: false;
                     }
                     Gtk.Box {
                       orientation: vertical;
                       spacing: 12;
+                      visible: false;
 
                       Gtk.Label {
                         label: _("Delayed Screenshot");

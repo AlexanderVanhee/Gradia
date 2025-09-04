@@ -37,6 +37,20 @@
 		<color type="primary" scheme_preference="dark">#073c6f</color>
 	</branding>
 	<releases>
+      <release version="1.10.1" date="2025-09-04">
+          <description translate="no">
+              <p>This minor release includes:</p>
+              <ul>
+                  <li>Support for mobile-sized windows.</li>
+                  <li>Redesigned arrow tool shape.</li>
+                  <li>Updated screenshot guide page.</li>
+                  <li>Numerous HIG improvements.</li>
+                  <li>Fixed paste shortcut issue.</li>
+                  <li>Added manual editor for gradient steps.</li>
+                  <li>Updated aspect ratio popover.</li>
+              </ul>
+          </description>
+      </release>
       <release version="1.10.0" date="2025-08-21">
           <description translate="no">
               <p>This feature release includes:</p>

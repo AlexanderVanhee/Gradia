@@ -5,12 +5,6 @@ template $ProviderDetailPage : Adw.NavigationPage {
   child: Adw.ToolbarView content {
     [top]
     Adw.HeaderBar header_bar {
-      [end]
-      Gtk.Button select_button {
-        label: _("Select");
-        styles ["suggested-action"]
-        clicked => $_on_select_provider();
-      }
     }
 
     content: Gtk.ScrolledWindow {
@@ -54,6 +48,14 @@ template $ProviderDetailPage : Adw.NavigationPage {
                 wrap: true;
                 styles ["dim-label"]
               }
+            }
+
+            Gtk.Button select_button {
+              vexpand: false;
+              valign: center;
+              label: _("Select");
+              styles ["suggested-action", "pill"]
+              clicked => $_on_select_provider();
             }
           }
 

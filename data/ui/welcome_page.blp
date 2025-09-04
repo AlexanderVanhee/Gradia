@@ -8,6 +8,7 @@ template $GradiaWelcomePage : Adw.BreakpointBin {
     condition ("max-width: 600sp")
     setters {
       recent_picker.compact:  true;
+      button_box.orientation: vertical;
     }
   }
   child: $DropOverlay drop_overlay {
@@ -39,33 +40,32 @@ template $GradiaWelcomePage : Adw.BreakpointBin {
             compact: false;
           }
 
-          Gtk.FlowBox button_box {
-            row-spacing: 12;
-            margin-top: 10;
-            halign: center;
-
-            Gtk.Button screenshot_button {
-              label: _("_Take a Screenshot…");
-              use-underline: true;
-              halign: center;
-              action-name: "win.screenshot";
-              styles [
-                "pill",
-                "text-button",
-                "suggested-action"
-              ]
-            }
-
-            Gtk.Button open_image_button {
-              label: _("_Open Image…");
-              use-underline: true;
-              halign: center;
-              action-name: "win.open";
-              styles [
-                "pill",
-                "text-button"
-              ]
-            }
+          Gtk.Box button_box {
+           orientation: horizontal;
+           spacing: 12;
+           margin-top: 10;
+           halign: center;
+           Gtk.Button screenshot_button {
+             label: _("Take a Screenshot…");
+             use-underline: true;
+             halign: center;
+             action-name: "win.screenshot";
+             styles [
+               "pill",
+               "text-button",
+               "suggested-action"
+             ]
+           }
+           Gtk.Button open_image_button {
+             label: _("Open Image…");
+             use-underline: true;
+             halign: center;
+             action-name: "win.open";
+             styles [
+               "pill",
+               "text-button"
+             ]
+           }
           }
         };
       };
