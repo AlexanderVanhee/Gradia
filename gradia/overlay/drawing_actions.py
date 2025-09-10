@@ -43,6 +43,7 @@ class DrawingMode(Enum):
     HIGHLIGHTER = "HIGHLIGHTER"
     CENSOR = "CENSOR"
     NUMBER = "NUMBER"
+    PARSER = "PARSER"
 
     def label(self):
         return {
@@ -56,6 +57,7 @@ class DrawingMode(Enum):
             "HIGHLIGHTER": _("Highlighter"),
             "CENSOR": _("Censor"),
             "NUMBER": _("Number"),
+            "PARSER": _("Parser"),
         }[self.value]
 
     @property
@@ -73,6 +75,7 @@ DrawingMode._shortcuts = {
     DrawingMode.HIGHLIGHTER:  ["7", "KP_7", "h"],
     DrawingMode.CENSOR:       ["8", "KP_8", "c"],
     DrawingMode.NUMBER:       ["9", "KP_9", "n"],
+    DrawingMode.PARSER:       ["F7"],
 }
 
 
@@ -637,3 +640,47 @@ class NumberStampAction(DrawingAction):
 
     def translate(self, dx: int, dy: int):
         self.position = (self.position[0] + dx, self.position[1] + dy)
+
+class ParserAction(CensorAction):
+    def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
+        x1_widget, y1_widget = image_to_widget_coords(*self.start)
+        x2_widget, y2_widget = image_to_widget_coords(*self.end)
+
+        x, y = min(x1_widget, x2_widget), min(y1_widget, y2_widget)
+        w, h = abs(x2_widget - x1_widget), abs(y2_widget - y1_widget)
+
+        cr.set_source_rgba(*self.color)
+        cr.set_line_width(scale)
+        cr.rectangle(x, y, w, h)
+        cr.stroke()
+
+    def parse_text(self) -> str:
+        from PIL import Image
+        import pytesseract
+
+        crop = self._get_image_crop()
+        if not crop:
+            return ""
+
+        img_w = self.background_pixbuf.get_width()
+        img_h = self.background_pixbuf.get_height()
+        pixels = self.background_pixbuf.get_pixels()
+        stride = self.background_pixbuf.get_rowstride()
+        mode = "RGBA" if self.background_pixbuf.get_has_alpha() else "RGB"
+        pil_img = Image.frombuffer(
+            mode,
+            (img_w, img_h),
+            pixels,
+            "raw",
+            mode,
+            stride,
+            1
+        )
+        area = pil_img.crop((
+            crop["x"],
+            crop["y"],
+            crop["x"] + crop["width"],
+            crop["y"] + crop["height"]
+        ))
+        text = pytesseract.image_to_string(area, lang="eng", config="--psm 6 --oem 1")
+        return text.strip()

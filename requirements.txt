@@ -10,3 +10,4 @@
 # mv pypi-dependencies.json build-aux/flatpak/
 
 Pillow # Make sure to use a version that has webp, avif support included.
+pytesseract

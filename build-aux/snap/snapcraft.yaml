@@ -29,6 +29,7 @@ parts:
     python-packages:
       - Wand==0.6.13
       - Pillow
+      - pytesseract
     stage:
       - -bin/activate*
       - -bin/Activate.ps1

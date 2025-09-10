@@ -345,6 +345,14 @@ class ToolConfig:
                 has_primary_color=False,
             ),
             ToolConfig(
+                mode=DrawingMode.PARSER,
+                icon="text-parser-symbolic",
+                column=0,
+                row=3,
+                has_scale=False,
+                has_primary_color=False,
+            ),
+            ToolConfig(
                 mode=DrawingMode.NUMBER,
                 icon="one-circle-symbolic",
                 column=4,
