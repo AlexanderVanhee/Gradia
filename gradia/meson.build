@@ -33,6 +33,7 @@ gradia_sources = [
   'main.py',
   'clipboard.py',
   'app_constants.py',
+  'screenshot_dimension_window.py',
 ]
 
 # Install sources

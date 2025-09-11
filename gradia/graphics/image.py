@@ -19,25 +19,36 @@ import io
 import os
 import tempfile
 import threading
+import shutil
+from pathlib import Path
 from typing import Callable, Optional
 
 from PIL import Image
 from gi.repository import Adw, GLib, Gdk, GdkPixbuf, Gio, Gtk
 
-from gradia.constants import rootdir  # pyright: ignore
+from gradia.constants import rootdir
 from gradia.graphics.background import Background
 from gradia.ui.widget.preset_button import ImagePresetButton
 from gradia.app_constants import PRESET_IMAGES
 
 class ImageBackground(Background):
+    @property
+    def SAVED_IMAGE_PATH(self) -> Path:
+        cache_dir = GLib.get_user_cache_dir()
+        return Path(cache_dir) / 'gradia' / 'last_image.png'
+
     def __init__(self, file_path: Optional[str] = None) -> None:
         self.file_path: Optional[str] = file_path
         self.image: Optional[Image.Image] = None
 
+        self.SAVED_IMAGE_PATH.parent.mkdir(parents=True, exist_ok=True)
+
         if file_path:
             self.load_image(file_path)
         else:
-            if PRESET_IMAGES:
+            if self.SAVED_IMAGE_PATH.exists():
+                self.load_image(str(self.SAVED_IMAGE_PATH))
+            elif PRESET_IMAGES:
                 self.load_image(PRESET_IMAGES[0])
 
     def load_image(self, path: str) -> None:
@@ -54,6 +65,14 @@ class ImageBackground(Background):
             self.image = Image.open(byte_stream).convert("RGBA")
         else:
             self.image = Image.open(path).convert("RGBA")
+
+    def save_image_copy_async(self) -> None:
+        def save_in_background():
+            if self.image:
+                self.image.save(self.SAVED_IMAGE_PATH, 'PNG')
+
+        thread = threading.Thread(target=save_in_background, daemon=True)
+        thread.start()
 
     def prepare_image(self, width: int, height: int) -> Optional[Image.Image]:
         if not self.image:
@@ -156,6 +175,7 @@ class ImageSelector(Adw.PreferencesGroup):
 
     def _on_image_loaded(self) -> None:
         self._update_preview()
+        self.image_background.save_image_copy_async()
         if self.callback:
             self.callback(self.image_background)
 
