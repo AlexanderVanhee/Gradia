@@ -20,6 +20,7 @@ from gi.repository import Adw, Gdk, Gio, Gtk
 from dataclasses import dataclass
 from typing import Tuple, Optional
 
+from gradia.clipboard import copy_text_to_clipboard
 from gradia.overlay.drawing_actions import *
 from gradia.overlay.text_entry_popover import TextEntryPopover
 from gradia.backend.tool_config import ToolOption
@@ -530,6 +531,8 @@ class DrawingOverlay(Gtk.DrawingArea):
             elif mode == DrawingMode.CENSOR:
                 censor_action = CensorAction(self.start_point, self.end_point, self._get_background_pixbuf(), self.options.copy())
                 self.actions.append(censor_action)
+            elif mode == DrawingMode.PARSER:
+                copy_text_to_clipboard(ParserAction(self.start_point, self.end_point, self._get_background_pixbuf(), self.options.copy()).parse_text())
 
         self.start_point = None
         self.end_point = None
@@ -550,7 +553,7 @@ class DrawingOverlay(Gtk.DrawingArea):
                 name = "pointer"
             else:
                 name = "default"
-        elif self.options.mode == DrawingMode.CENSOR:
+        elif self.options.mode == DrawingMode.CENSOR or self.options.mode == DrawingMode.PARSER:
             name = "crosshair" if self._is_point_in_image(x_widget, y_widget) else "default"
         else:
             name = "crosshair" if self.options.mode == DrawingMode.PEN or self.options.mode == DrawingMode.HIGHLIGHTER else "cell"
@@ -589,6 +592,8 @@ class DrawingOverlay(Gtk.DrawingArea):
                     CircleAction(self.start_point, self.end_point, self.current_shift_pressed, self.options.copy()).draw(cr, self._image_to_widget_coords, scale)
                 elif self.options.mode == DrawingMode.CENSOR:
                     CensorAction(self.start_point, self.end_point, self._get_background_pixbuf(),self.options.copy()).draw(cr, self._image_to_widget_coords, scale)
+                elif self.options.mode == DrawingMode.PARSER:
+                    ParserAction(self.start_point, self.end_point, self._get_background_pixbuf(), self.options.copy()).draw(cr, self._image_to_widget_coords, scale)
         if self.is_text_editing and self.text_position and self.live_text:
             if self.editing_text_action:
                 preview = TextAction(
