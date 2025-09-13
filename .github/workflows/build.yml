@@ -1,30 +1,47 @@
 name: Build Flatpak
-
 on:
   push:
     branches: [master]
   pull_request:
-
 jobs:
   codespell:
     name: Check for spelling errors
     runs-on: ubuntu-latest
     steps:
       - uses: codespell-project/actions-codespell@v2
+
   flatpak:
     name: Build Flatpak Package
     runs-on: ubuntu-latest
     container:
       image: bilelmoussaoui/flatpak-github-actions:gnome-nightly
       options: --privileged
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build Flatpak bundle
+      - name: Build main Flatpak bundle
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: gradia.flatpak
           manifest-path: build-aux/flatpak/be.alexandervanhee.gradia.json
           cache-key: flatpak-builder-${{ github.sha }}
+
+      - name: Build OCR extension
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          bundle: gradia-ocr.flatpak
+          manifest-path: build-aux/flatpak/be.alexandervanhee.gradia.ocr.json
+          cache-key: flatpak-builder-ocr-${{ github.sha }}
+
+      - name: Upload main bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: gradia-flatpak
+          path: gradia.flatpak
+
+      - name: Upload OCR extension bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: gradia-ocr-flatpak
+          path: gradia-ocr.flatpak

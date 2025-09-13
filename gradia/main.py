@@ -140,6 +140,9 @@ class GradiaApp(Adw.Application):
 
 def main(version: str) -> int:
     try:
+        ocr_available = os.path.exists('/app/extensions/ocr/bin/tesseract')
+        logging.info(f"OCR files are {'available' if ocr_available else 'not available'}")
+
         logging.info("Application starting…")
         loader = StdinImageLoader()
         image_path = loader.read_from_stdin()

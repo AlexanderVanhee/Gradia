@@ -2,13 +2,18 @@
     "name": "python3-Pillow",
     "buildsystem": "simple",
     "build-commands": [
-        "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"Pillow\" --no-build-isolation"
+        "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"Pillow\" \"pytesseract\" --no-build-isolation"
     ],
     "sources": [
       {
         "type": "file",
         "url": "https://files.pythonhosted.org/packages/source/p/pillow/pillow-11.3.0.tar.gz",
         "sha256": "3828ee7586cd0b2091b6209e5ad53e20d0649bbe87164a459d0676e035e8f523"
+      },
+      {
+        "type": "file",
+        "url": "https://files.pythonhosted.org/packages/source/p/pytesseract/pytesseract-0.3.13.tar.gz",
+        "sha256": "4bf5f880c99406f52a3cfc2633e42d9dc67615e69d8a509d74867d3baddb5db9"
       }
     ]
 }

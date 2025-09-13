@@ -44,6 +44,7 @@ from gradia.constants import rootdir, build_type # pyright: ignore
 from gradia.ui.dialog.delete_screenshots_dialog import DeleteScreenshotsDialog
 from gradia.ui.dialog.confirm_close_dialog import ConfirmCloseDialog
 from gradia.backend.tool_config import ToolOption
+from gradia.ui.dialog.ocr_dialog import OCRDialog
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/main_window.ui")
 class GradiaMainWindow(Adw.ApplicationWindow):
@@ -142,6 +143,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.create_action("crop", lambda *_: self.image_bin.on_toggle_crop(), ["<Primary>r"])
         self.create_action("reset-crop", lambda *_: self.image_bin.reset_crop_selection(), ["<Primary><Shift>r"])
         self.create_action("sidebar-shown", lambda action, param: self.split_view.set_show_sidebar(param.get_boolean()), vt="b")
+        self.create_action("ocr", lambda *_: self.on_ocr(), ["<Primary>o"])
 
         self.create_action("zoom-in", lambda *_: self.image_bin.zoom_in(), ["<Control>plus", "<Control>equal", "<Control>KP_Add"])
         self.create_action("zoom-out", lambda *_: self.image_bin.zoom_out(), ["<Control>minus", "<Control>KP_Subtract"])
@@ -479,3 +481,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             dialog.present(self.get_root())
         else:
             self.export_manager.run_custom_command()
+
+    def on_ocr(self):
+        dialog = OCRDialog(self.image.full_res_image)
+        dialog.present(self)

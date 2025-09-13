@@ -13,6 +13,15 @@
     "--share=network",
     "--own-name=be.alexandervanhee.gradia"
   ],
+  "add-extensions": {
+    "be.alexandervanhee.gradia.ocr": {
+      "version": "1.0",
+      "directory": "extensions/ocr",
+      "subdirectories": true,
+      "no-autodownload": true,
+      "autodelete": true
+    }
+  },
   "cleanup": [
     "/include",
     "/lib/pkgconfig",
@@ -23,6 +32,9 @@
     "/share/pkgconfig",
     "*.la",
     "*.a"
+  ],
+  "cleanup-commands": [
+    "mkdir -p ${FLATPAK_DEST}/extensions/ocr"
   ],
   "modules": [
     "pypi-dependencies.json",
