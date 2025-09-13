@@ -1,9 +1,8 @@
 {
   "id": "be.alexandervanhee.gradia.ocr",
-  "branch": "1.0",
+  "branch": "stable",
   "runtime": "be.alexandervanhee.gradia",
-  "runtime-version": "master",
-  "sdk": "org.gnome.Sdk//48",
+  "sdk": "org.gnome.Sdk",
   "build-extension": true,
   "separate-locales": false,
   "build-options": {
