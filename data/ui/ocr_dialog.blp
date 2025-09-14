@@ -10,10 +10,21 @@ template $OCRDialog: Adw.Dialog {
     [top]
     Adw.HeaderBar {
       show-end-title-buttons: true;
+
       title-widget: Adw.WindowTitle {
         title: _("Text Recognition");
         subtitle: _("Crop image to adjust OCR area");
       };
+
+      [start]
+      MenuButton language_button {
+        icon-name: "preferences-desktop-locale-symbolic";
+        tooltip-text: _("Select Language");
+        direction: down;
+        primary: true;
+        label: _("English");
+        styles ["flat"]
+      }
     }
 
     content: Adw.ToastOverlay toast_overlay {
@@ -37,7 +48,7 @@ template $OCRDialog: Adw.Dialog {
 
         StackPage {
           name: "no-text";
-          child:Adw.StatusPage {
+          child: Adw.StatusPage {
             icon-name: "scanner-symbolic";
             title: _("No Text Found");
             description: _("Please make a new selection");

@@ -38,7 +38,7 @@ from gradia.ui.image_stack import ImageStack
 from gradia.ui.ui_parts import *
 from gradia.ui.welcome_page import WelcomePage
 from gradia.utils.aspect_ratio import *
-from gradia.ui.preferences_window import PreferencesWindow
+from gradia.ui.preferences.preferences_window import PreferencesWindow
 from gradia.backend.settings import Settings
 from gradia.constants import rootdir, build_type # pyright: ignore
 from gradia.ui.dialog.delete_screenshots_dialog import DeleteScreenshotsDialog

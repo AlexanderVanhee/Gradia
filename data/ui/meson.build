@@ -20,6 +20,7 @@ blueprints = custom_target('blueprints',
     'image_generator_window.blp',
     'gradient_step_dialog.blp',
     'ocr_dialog.blp',
+    'preferences/ocr_model_page.blp',
   ),
   output: '.',
   command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@']

@@ -120,8 +120,8 @@
       "sources": [
         {
           "type": "file",
-          "url": "https://github.com/tesseract-ocr/tessdata/raw/4.1.0/eng.traineddata",
-          "sha256": "daa0c97d651c19fba3b25e81317cd697e9908c8208090c94c3905381c23fc047",
+          "url": "https://github.com/tesseract-ocr/tessdata_best/raw/4.1.0/eng.traineddata",
+          "sha256": "8280aed0782fe27257a68ea10fe7ef324ca0f8d85bd2fd145d1c2b560bcb66ba",
           "dest-filename": "eng.traineddata"
         }
       ]
