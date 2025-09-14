@@ -483,5 +483,13 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             self.export_manager.run_custom_command()
 
     def on_ocr(self):
-        dialog = OCRDialog(self.image.full_res_image)
+        crop_x, crop_y, crop_w, crop_h = self.image_bin.crop_overlay.get_crop_rectangle()
+        img_width, img_height = self.image.full_res_image.size
+        left = int(crop_x * img_width)
+        top = int(crop_y * img_height)
+        right = int((crop_x + crop_w) * img_width)
+        bottom = int((crop_y + crop_h) * img_height)
+
+        cropped_image = self.image.full_res_image.crop((left, top, right, bottom))
+        dialog = OCRDialog(cropped_image)
         dialog.present(self)

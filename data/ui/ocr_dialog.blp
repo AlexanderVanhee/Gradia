@@ -10,33 +10,13 @@ template $OCRDialog: Adw.Dialog {
     [top]
     Adw.HeaderBar {
       show-end-title-buttons: true;
-
       title-widget: Adw.WindowTitle {
         title: _("Text Recognition");
         subtitle: _("Crop image to adjust OCR area");
       };
     }
 
-    content: Overlay {
-      [overlay]
-      Gtk.Button copy_ocr_button {
-        styles [
-          "suggested-action",
-          "circular",
-        ]
-
-        icon-name: "edit-copy-symbolic";
-        tooltip-text: _("Copy");
-        halign: end;
-        valign: end;
-        margin-bottom: 20;
-        margin-end: 20;
-        overflow: visible;
-        width-request: 48;
-        height-request: 48;
-        // clicked => $_on_copy_ocr_clicked();
-      }
-
+    content: Adw.ToastOverlay toast_overlay {
       child: Stack ocr_stack {
         transition-type: crossfade;
 
@@ -52,29 +32,53 @@ template $OCRDialog: Adw.Dialog {
               width-request: 48;
               height-request: 48;
             }
+          };
+        }
 
-            Gtk.Label {
-              label: _("Processing image...");
-
-              styles [
-                "title-4",
-              ]
-            }
+        StackPage {
+          name: "no-text";
+          child:Adw.StatusPage {
+            icon-name: "scanner-symbolic";
+            title: _("No Text Found");
+            description: _("Please make a new selection");
           };
         }
 
         StackPage {
           name: "text";
-          child: ScrolledWindow text_page {
-            hscrollbar-policy: never;
-            vscrollbar-policy: automatic;
+          child: Overlay text_overlay {
+            child: ScrolledWindow text_page {
+              hscrollbar-policy: never;
+              vscrollbar-policy: automatic;
 
-            Gtk.TextView ocr_text_view {
-              editable: false;
-              cursor-visible: false;
-              wrap-mode: word;
-              margin-start: 12;
-              margin-end: 60;
+              Gtk.TextView ocr_text_view {
+                editable: false;
+                cursor-visible: false;
+                wrap-mode: word;
+                margin-start: 24;
+                margin-end: 24;
+                top-margin: 12;
+                bottom-margin: 24;
+              }
+            };
+
+            [overlay]
+            Gtk.Button copy_ocr_button {
+              styles [
+                "suggested-action",
+                "circular",
+                "semi-transparent"
+              ]
+              icon-name: "edit-copy-symbolic";
+              tooltip-text: _("Copy");
+              halign: end;
+              valign: end;
+              margin-bottom: 20;
+              margin-end: 20;
+              overflow: visible;
+              width-request: 48;
+              height-request: 48;
+              clicked => $_on_copy_ocr_clicked();
             }
           };
         }
