@@ -1,5 +1,5 @@
 {
-  "id": "be.alexandervanhee.gradia.ocr",
+  "id": "be.alexandervanhee.gradia.Plugin.ocr",
   "branch": "stable",
   "runtime": "be.alexandervanhee.gradia",
   "sdk": "org.gnome.Sdk",
@@ -71,7 +71,7 @@
       "build-commands": [
         "mkdir -p ${FLATPAK_DEST}/share/tessdata",
         "install -Dm644 *.traineddata ${FLATPAK_DEST}/share/tessdata/",
-        "install -Dm644 be.alexandervanhee.gradia.ocr.metainfo.xml -t ${FLATPAK_DEST}/share/metainfo"
+        "install -Dm644 be.alexandervanhee.gradia.Plugin.ocr.metainfo.xml -t ${FLATPAK_DEST}/share/metainfo"
       ],
       "sources": [
         {
@@ -82,7 +82,7 @@
         },
         {
           "type": "file",
-          "path": "be.alexandervanhee.gradia.ocr.metainfo.xml"
+          "path": "be.alexandervanhee.gradia.Plugin.ocr.metainfo.xml"
         }
       ]
     }
