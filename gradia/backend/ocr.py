@@ -22,6 +22,7 @@ gi.require_version("Soup", "3.0")
 from gi.repository import Soup, GLib, Gio
 from pathlib import Path
 from gradia.backend.logger import Logger
+from gradia.backend.settings import Settings
 from gradia.constants import app_id
 
 logger = Logger()
@@ -33,16 +34,29 @@ class OCR:
         self.user_tessdata_dir = os.path.expanduser(f"~/.var/app/{app_id}/data/tessdata")
         pytesseract.pytesseract.tesseract_cmd = self.tesseract_cmd
         self._session = None
+        self.settings = Settings()
 
     @staticmethod
     def is_available():
         return os.path.exists("/app/extensions/ocr/bin/tesseract")
 
-    def extract_text(self, image, primary_lang="eng", secondary_lang=None):
+    def get_current_model(self):
+        return self.settings.trained_data
+
+    def set_current_model(self, model_code: str):
+        if self.is_model_installed(model_code):
+            self.settings.trained_data = model_code
+            logger.info(f"Set current OCR model to: {model_code}")
+        else:
+            logger.warning(f"Cannot set model {model_code}: not installed")
+            raise ValueError(f"Model {model_code} is not installed")
+
+    def extract_text(self, image, primary_lang="eng", secondary_lang="eng"):
+        self.set_current_model(primary_lang)
         try:
             tessdata_dir = self._get_tessdata_dir_for_lang(primary_lang)
             config = f'--tessdata-dir "{tessdata_dir}"'
-            lang = f"{primary_lang}+{secondary_lang}" if secondary_lang else primary_lang
+            lang = f"{primary_lang}+{secondary_lang}"
             extracted_text = pytesseract.image_to_string(
                 image,
                 lang=lang,
@@ -128,6 +142,8 @@ class OCR:
                     f.write(raw_bytes)
 
                 logger.info(f"Downloaded OCR model: {model_code}")
+                self.set_current_model(model_code)
+
                 if progress_callback:
                     GLib.idle_add(progress_callback, True, f"Downloaded {model_code}")
 
@@ -153,6 +169,10 @@ class OCR:
         if user_model_path.exists():
             user_model_path.unlink()
             logger.info(f"Deleted OCR model: {model_code}")
+
+            if self.get_current_model() == model_code:
+                self.set_current_model("eng")
+
             return True
         else:
             logger.warning(f"OCR model not found: {model_code}")

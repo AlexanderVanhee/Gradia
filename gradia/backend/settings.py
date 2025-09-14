@@ -244,6 +244,14 @@ class Settings:
     def source_snippet_style_scheme(self, value: str) -> None:
         self._settings.set_string("source-snippet-style-scheme", value)
 
+    @property
+    def trained_data(self) -> str:
+        return self._settings.get_string("trained-data")
+
+    @trained_data.setter
+    def trained_data(self, value: str) -> None:
+        self._settings.set_string("trained-data", value)
+
     """
     Internal Methods
     """

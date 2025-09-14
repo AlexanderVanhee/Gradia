@@ -45,6 +45,7 @@ class OCRDialog(Adw.Dialog):
     def _setup_language_button(self):
         available_models = self.ocr.get_downloadable_models()
         installed_models = self.ocr.get_installed_models()
+        current_model = self.ocr.get_current_model()
 
         menu = Gio.Menu()
 
@@ -58,15 +59,16 @@ class OCRDialog(Adw.Dialog):
         select_action = Gio.SimpleAction.new_stateful(
             "select_language",
             GLib.VariantType.new("s"),
-            GLib.Variant.new_string("eng")
+            GLib.Variant.new_string(current_model)
         )
         select_action.connect("activate", self._on_language_selected)
         action_group.add_action(select_action)
         self.insert_action_group("ocr", action_group)
 
         for model in available_models:
-            if model["code"] == "eng":
+            if model["code"] == current_model:
                 self.language_button.set_label(model["name"])
+                self.primary_lang = current_model
                 break
 
     def _on_language_selected(self, action, parameter):
@@ -88,7 +90,7 @@ class OCRDialog(Adw.Dialog):
 
     def _run_ocr(self):
         try:
-            text = self.ocr.extract_text(self.image, self.primary_lang, self.secondary_lang)
+            text = self.ocr.extract_text(self.image, self.primary_lang)
         except Exception as e:
             text = f"OCR failed:\n{e}"
 
