@@ -14,8 +14,7 @@
     "--own-name=be.alexandervanhee.gradia"
   ],
   "add-extensions": {
-    "be.alexandervanhee.gradia.ocr": {
-      "version": "1.0",
+    "be.alexandervanhee.gradia.Plugin.ocr": {
       "directory": "extensions/ocr",
       "subdirectories": true,
       "no-autodownload": true,
@@ -77,7 +76,7 @@
       "builddir": true,
       "buildsystem": "meson",
       "config-opts": [
-        "-Dbuildtype=debug"
+        "-Dbuildtype=release"
       ],
       "sources": [
         {

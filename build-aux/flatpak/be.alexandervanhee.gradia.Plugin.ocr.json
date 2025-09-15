@@ -1,13 +1,10 @@
 {
   "id": "be.alexandervanhee.gradia.Plugin.ocr",
-  "branch": "stable",
   "runtime": "be.alexandervanhee.gradia",
   "sdk": "org.gnome.Sdk",
   "build-extension": true,
-  "separate-locales": false,
   "build-options": {
     "prefix": "/app/extensions/ocr",
-    "prepend-path": "/app/extensions/ocr/bin",
     "prepend-pkg-config-path": "/app/extensions/ocr/lib/pkgconfig",
     "prepend-ld-library-path": "/app/extensions/ocr/lib",
     "env": {
@@ -23,10 +20,6 @@
     "/share/man",
     "/share/pkgconfig",
     "/lib/cmake",
-    "/lib/girepository-1.0",
-    "/share/gir-1.0",
-    "/share/vala",
-    "/share/aclocal",
     "*.la",
     "*.a"
   ],

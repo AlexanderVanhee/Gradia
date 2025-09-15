@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="addon">
-  <id>be.alexandervanhee.gradia.ocr</id>
+  <id>be.alexandervanhee.gradia.Plugin.ocr</id>
   <extends>be.alexandervanhee.gradia</extends>
   <name>Gradia OCR Extension</name>
   <summary>OCR extension for Gradia</summary>
