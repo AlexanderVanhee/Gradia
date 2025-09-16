@@ -18,6 +18,8 @@
 import pytesseract
 import os
 import gi
+from dataclasses import dataclass
+from typing import List, ClassVar
 gi.require_version("Soup", "3.0")
 from gi.repository import Soup, GLib, Gio
 from pathlib import Path
@@ -27,7 +29,35 @@ from gradia.constants import app_id
 
 logger = Logger()
 
+@dataclass(frozen=True)
+class OCRModel:
+    code: str
+    name: str
+    size: int
+
 class OCR:
+    DOWNLOADABLE_MODELS: ClassVar[List[OCRModel]] = [
+        OCRModel("eng", _("English"), 15400601),
+        OCRModel("chi_sim", _("Chinese Simplified"), 13077423),
+        OCRModel("chi_tra", _("Chinese Traditional"), 12985735),
+        OCRModel("spa", _("Spanish"), 13570187),
+        OCRModel("fra", _("French"), 3972885),
+        OCRModel("deu", _("German"), 8628461),
+        OCRModel("jpn", _("Japanese"), 14330109),
+        OCRModel("ara", _("Arabic"), 12603724),
+        OCRModel("rus", _("Russian"), 15301764),
+        OCRModel("por", _("Portuguese"), 8159939),
+        OCRModel("ita", _("Italian"), 8863635),
+        OCRModel("kor", _("Korean"), 12528128),
+        OCRModel("hin", _("Hindi"), 11895564),
+        OCRModel("nld", _("Dutch"), 8903736),
+        OCRModel("tur", _("Turkish"), 7456265),
+        OCRModel("kaz", _("Kazakh"), 7528853),
+        OCRModel("oci", _("Occitan"), 12917692),
+        OCRModel("pol", _("Polish"), 11978867),
+        OCRModel("ukr", _("Ukrainian"), 10859081),
+    ]
+
     def __init__(self):
         self.tesseract_cmd = "/app/extensions/ocr/bin/tesseract"
         self.original_tessdata_dir = "/app/extensions/ocr/share/tessdata"
@@ -93,28 +123,8 @@ class OCR:
 
         return sorted(list(installed))
 
-    def get_downloadable_models(self):
-        return [
-            {"code": "eng", "name": _("English")},
-            {"code": "chi_sim", "name": _("Chinese Simplified")},
-            {"code": "chi_tra", "name": _("Chinese Traditional")},
-            {"code": "spa", "name": _("Spanish")},
-            {"code": "fra", "name": _("French")},
-            {"code": "deu", "name": _("German")},
-            {"code": "jpn", "name": _("Japanese")},
-            {"code": "ara", "name": _("Arabic")},
-            {"code": "rus", "name": _("Russian")},
-            {"code": "por", "name": _("Portuguese")},
-            {"code": "ita", "name": _("Italian")},
-            {"code": "kor", "name": _("Korean")},
-            {"code": "hin", "name": _("Hindi")},
-            {"code": "nld", "name": _("Dutch")},
-            {"code": "tur", "name": _("Turkish")},
-            {"code": "kaz", "name": _("Kazakh")},
-            {"code": "oci", "name": _("Occitan")},
-            {"code": "pol", "name": _("Polish")},
-            {"code": "ukr", "name": _("Ukrainian")},
-        ]
+    def get_downloadable_models(self) -> List[OCRModel]:
+        return list(self.DOWNLOADABLE_MODELS)
 
     def is_model_installed(self, model_code: str):
         return model_code in self.get_installed_models()

@@ -40,15 +40,19 @@ class OCRModelPage(Adw.NavigationPage):
         installed_models = set(self.ocr.get_installed_models())
         downloadable_models = self.ocr.get_downloadable_models()
 
-        downloadable_models.sort(key=lambda x: (x["code"] not in installed_models, x["name"]))
+        downloadable_models.sort(key=lambda x: (x.code not in installed_models, x.name))
 
         for model in downloadable_models:
-            code = model["code"]
-            name = model["name"]
+            code = model.code
+            name = model.name
+            size = model.size
             is_installed = code in installed_models
+
+            formatted_size = GLib.format_size(size)
 
             row = Adw.ActionRow(
                 title=name,
+                subtitle=formatted_size,
                 activatable=True
             )
 

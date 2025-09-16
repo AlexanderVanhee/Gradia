@@ -50,8 +50,8 @@ class OCRDialog(Adw.Dialog):
         menu = Gio.Menu()
 
         for model in available_models:
-            if model["code"] in installed_models:
-                menu.append(model["name"], f"ocr.select_language::{model['code']}")
+            if model.code in installed_models:
+                menu.append(model.name, f"ocr.select_language::{model.code}")
 
         self.language_button.set_menu_model(menu)
 
@@ -66,8 +66,8 @@ class OCRDialog(Adw.Dialog):
         self.insert_action_group("ocr", action_group)
 
         for model in available_models:
-            if model["code"] == current_model:
-                self.language_button.set_label(model["name"])
+            if model.code == current_model:
+                self.language_button.set_label(model.name)
                 self.primary_lang = current_model
                 break
 
@@ -77,8 +77,8 @@ class OCRDialog(Adw.Dialog):
 
         available_models = self.ocr.get_downloadable_models()
         for model in available_models:
-            if model["code"] == lang_code:
-                self.language_button.set_label(model["name"])
+            if model.code == lang_code:
+                self.language_button.set_label(model.name)
                 break
 
         self.primary_lang = lang_code
