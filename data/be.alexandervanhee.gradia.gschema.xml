@@ -94,6 +94,15 @@
       <summary>Whether to ask before running the export command.</summary>
     </key>
 
+    <key name="image-options-expanded" type="b">
+      <default>true</default>
+      <summary>Whether the Image Options panel is expanded.</summary>
+    </key>
+    <key name="file-info-expanded" type="b">
+      <default>true</default>
+      <summary>Whether the Current File panel is expanded.</summary>
+    </key>
+
     <key name="source-snippet-show-frame" type="b">
       <default>true</default>
       <summary>Whether to have a window frame for the source snippet.</summary>
