@@ -47,6 +47,7 @@ class DrawingToolsGroup(Gtk.Box):
         self.current_tool_config: Optional[ToolConfig] = None
         self.current_tool_option: Optional[ToolOption] = None
         self._updating_ui = False
+        self._scroll_accum = 0.0
 
         self.connect("realize", self._on_realize)
 
@@ -56,7 +57,16 @@ class DrawingToolsGroup(Gtk.Box):
             Gtk.EventControllerScrollFlags.HORIZONTAL
         )
         self._scroll_controller.connect("scroll", self._on_scroll)
-        self.get_root().add_controller(self._scroll_controller)
+        self.size_scale.add_controller(self._scroll_controller)
+
+        self._global_scroll_controller = Gtk.EventControllerScroll.new(
+            Gtk.EventControllerScrollFlags.VERTICAL |
+            Gtk.EventControllerScrollFlags.HORIZONTAL
+        )
+        self._global_scroll_controller.connect("scroll", self._on_scroll)
+        root = self.get_root()
+        if root:
+            root.add_controller(self._global_scroll_controller)
 
     @Gtk.Template.Callback()
     def on_tool_changed(self, grid: DrawingToolsGrid, tool_config: ToolConfig):
@@ -95,25 +105,27 @@ class DrawingToolsGroup(Gtk.Box):
         self._updating_ui = False
 
     def _on_scroll(self, controller, dx, dy):
-        modifiers = controller.get_current_event_state()
-        if (modifiers & Gdk.ModifierType.SHIFT_MASK) and (modifiers & Gdk.ModifierType.CONTROL_MASK):
-            adjustment = self.size_scale.get_adjustment()
-            min_value = adjustment.get_lower()
-            max_value = adjustment.get_upper()
+        if self.current_tool_option is None:
+            return Gdk.EVENT_PROPAGATE
 
-            step = math.copysign(1, -dy) if -dy != 0 else 0
-            if dy < 0:
-                new_size = self.current_tool_option.size + step
-            else:
-                new_size = self.current_tool_option.size + step
+        adjustment = self.size_scale.get_adjustment()
+        min_value = int(adjustment.get_lower())
+        max_value = int(adjustment.get_upper())
 
+        if dy == 0:
+            return Gdk.EVENT_PROPAGATE
+
+        step_unit = 0.25
+        self._scroll_accum += (-step_unit if dy > 0 else step_unit)
+        delta = int(self._scroll_accum)
+        if delta != 0:
+            self._scroll_accum -= delta
+            new_size = self.current_tool_option.size + delta
             new_size = max(min_value, min(max_value, new_size))
-
-            self.current_tool_option.size = new_size
-            self.size_scale.set_value(new_size)
-            self.trigger_action()
-            return Gdk.EVENT_STOP
-
+            if new_size != self.current_tool_option.size:
+                self.current_tool_option.size = new_size
+                self.size_scale.set_value(new_size)
+                self.trigger_action()
         return Gdk.EVENT_PROPAGATE
 
 
