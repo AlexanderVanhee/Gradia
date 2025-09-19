@@ -152,24 +152,13 @@ class StrokeAction(DrawingAction):
         self.color = options.primary_color
         self.pen_size = options.size
         self._bounds = None
-        self.shadow_color = self._calculate_shadow_color(self.color)
 
     def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
         if len(self.stroke) < 2:
             return
         coords = [image_to_widget_coords(x, y) for x, y in self.stroke]
-        shadow_offset = 2 * scale
         line_width = self.pen_size * scale
         self._build_path(cr, coords)
-        path = cr.copy_path()
-        cr.save()
-        cr.translate(shadow_offset, shadow_offset)
-        cr.append_path(path)
-        cr.set_source_rgba(*self.shadow_color)
-        cr.set_line_width(line_width)
-        cr.stroke()
-        cr.restore()
-        cr.append_path(path)
         cr.set_source_rgba(*self.color)
         cr.set_line_width(line_width)
         cr.stroke()
@@ -197,13 +186,19 @@ class StrokeAction(DrawingAction):
                 self._bounds = QuadBounds.from_rect(0, 0, 0, 0)
             else:
                 xs, ys = zip(*self.stroke)
-                padding = self.pen_size // 2 + 5
-                self._bounds = QuadBounds.from_rect(min(xs) - padding, min(ys) - padding, max(xs) + padding, max(ys) + padding)
+                padding = self.pen_size // 2
+                self._bounds = QuadBounds.from_rect(
+                    min(xs) - padding,
+                    min(ys) - padding,
+                    max(xs) + padding,
+                    max(ys) + padding
+                )
         return self._bounds
 
     def translate(self, dx: int, dy: int):
         self.stroke = [(x + dx, y + dy) for x, y in self.stroke]
         self._bounds = None
+
 
 class ArrowAction(DrawingAction):
     ARROW_HEAD_SIZE_MULTIPLIER = 5
@@ -227,7 +222,6 @@ class ArrowAction(DrawingAction):
         self.color = options.primary_color
         self.arrow_head_size = options.size * self.ARROW_HEAD_SIZE_MULTIPLIER * 1.75
         self.width = options.size * 1.75
-        self.shadow_color = self._calculate_shadow_color(self.color)
 
     def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
         start_x, start_y = image_to_widget_coords(*self.start)
@@ -256,20 +250,12 @@ class ArrowAction(DrawingAction):
         shaft_end_half = shaft_width
         head_half = head_width
 
-        self._build_arrow_path(cr, adjusted_start_x, adjusted_start_y, shaft_end_x, shaft_end_y,
-                               end_x, end_y, angle, shaft_start_half, shaft_end_half,
-                               head_half, perp_cos, perp_sin)
-        path = cr.copy_path()
+        self._build_arrow_path(
+            cr, adjusted_start_x, adjusted_start_y, shaft_end_x, shaft_end_y,
+            end_x, end_y, angle, shaft_start_half, shaft_end_half,
+            head_half, perp_cos, perp_sin
+        )
 
-        shadow_offset = 3 * scale
-        cr.save()
-        cr.translate(shadow_offset, shadow_offset)
-        cr.append_path(path)
-        cr.set_source_rgba(*self.shadow_color)
-        cr.fill()
-        cr.restore()
-
-        cr.append_path(path)
         cr.set_source_rgba(*self.color)
         cr.fill()
 
@@ -313,6 +299,7 @@ class ArrowAction(DrawingAction):
     def translate(self, dx: int, dy: int):
         self.start = (self.start[0] + dx, self.start[1] + dy)
         self.end = (self.end[0] + dx, self.end[1] + dy)
+
 
 class TextAction(DrawingAction):
     PADDING_X_IMG = 4
@@ -503,22 +490,10 @@ class LineAction(ArrowAction):
         end_x -= half_width * math.cos(angle)
         end_y -= half_width * math.sin(angle)
 
-        shadow_offset = 2 * scale
         line_width = self.width * scale
-
         cr.set_line_width(line_width)
         cr.move_to(start_x, start_y)
         cr.line_to(end_x, end_y)
-        path = cr.copy_path()
-
-        cr.save()
-        cr.translate(shadow_offset, shadow_offset)
-        cr.append_path(path)
-        cr.set_source_rgba(*self.shadow_color)
-        cr.stroke()
-        cr.restore()
-
-        cr.append_path(path)
         cr.set_source_rgba(*self.color)
         cr.stroke()
 
@@ -541,6 +516,7 @@ class LineAction(ArrowAction):
         p4 = (start_x - half_width * perp_cos, start_y - half_width * perp_sin)
 
         return QuadBounds(p1, p2, p3, p4)
+
 
 class RectAction(DrawingAction):
     def __init__(self, start: tuple[int, int], end: tuple[int, int], shift: bool, options):

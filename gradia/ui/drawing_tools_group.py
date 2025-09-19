@@ -1,4 +1,4 @@
-# Copyright (C) 2025 Alexander Vanhee, tfuxu
+# Copyright (C) 2025 Alexander Vanhee, tfuxu, kjozsa
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -47,6 +47,7 @@ class DrawingToolsGroup(Gtk.Box):
         self.current_tool_config: Optional[ToolConfig] = None
         self.current_tool_option: Optional[ToolOption] = None
         self._updating_ui = False
+        self._scroll_accum = 0.0
 
         self.connect("realize", self._on_realize)
 
@@ -95,23 +96,38 @@ class DrawingToolsGroup(Gtk.Box):
         self._updating_ui = False
 
     def _on_scroll(self, controller, dx, dy):
+        if self.current_tool_option is None:
+            return Gdk.EVENT_PROPAGATE
+
         modifiers = controller.get_current_event_state()
-        if (modifiers & Gdk.ModifierType.SHIFT_MASK) and (modifiers & Gdk.ModifierType.CONTROL_MASK):
+        is_zoomed = self.get_root().image_bin.get_zoom_level() != 1
+
+        should_adjust_size = (
+            (modifiers & Gdk.ModifierType.SHIFT_MASK) and (modifiers & Gdk.ModifierType.CONTROL_MASK)
+        ) or not is_zoomed
+
+        if should_adjust_size:
             adjustment = self.size_scale.get_adjustment()
-            min_value = adjustment.get_lower()
-            max_value = adjustment.get_upper()
+            min_value = int(adjustment.get_lower())
+            max_value = int(adjustment.get_upper())
 
-            step = math.copysign(1, -dy) if -dy != 0 else 0
-            if dy < 0:
-                new_size = self.current_tool_option.size + step
-            else:
-                new_size = self.current_tool_option.size + step
+            if dy == 0:
+                return Gdk.EVENT_PROPAGATE
 
-            new_size = max(min_value, min(max_value, new_size))
+            step_unit = 0.35
+            self._scroll_accum += (-step_unit if dy > 0 else step_unit)
+            delta = int(self._scroll_accum)
 
-            self.current_tool_option.size = new_size
-            self.size_scale.set_value(new_size)
-            self.trigger_action()
+            if delta != 0:
+                self._scroll_accum -= delta
+                new_size = self.current_tool_option.size + delta
+                new_size = max(min_value, min(max_value, new_size))
+
+                if new_size != self.current_tool_option.size:
+                    self.current_tool_option.size = new_size
+                    self.size_scale.set_value(new_size)
+                    self.trigger_action()
+
             return Gdk.EVENT_STOP
 
         return Gdk.EVENT_PROPAGATE
@@ -192,6 +208,3 @@ class DrawingToolsGroup(Gtk.Box):
                 data_json = self.current_tool_option.serialize()
                 param = GLib.Variant('s', data_json)
                 action.activate(param)
-
-
-
