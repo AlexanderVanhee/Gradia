@@ -16,7 +16,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import cairo
-from gi.repository import Adw, Gdk, Gio, Gtk
+from gi.repository import Adw, Gdk, Gio, Gtk, GObject
 from typing import Tuple
 from enum import Enum
 
@@ -53,6 +53,10 @@ class ResizeHandle(Enum):
 
 class DrawingOverlay(Gtk.DrawingArea):
     __gtype_name__ = "GradiaDrawingOverlay"
+
+    __gsignals__ = {
+        'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, (object,))
+    }
 
     def __init__(self, **kwargs):
         super().__init__(can_focus=True, **kwargs)
@@ -107,6 +111,7 @@ class DrawingOverlay(Gtk.DrawingArea):
     def selected_action(self, action: DrawingAction | None) -> None:
         self._selected_action = action
         self.erase_selected_revealer.set_reveal_child(action is not None)
+        self.emit('selection-changed', action.options if action else None)
 
     def _can_resize_action(self, action: DrawingAction) -> bool:
         return isinstance(action, (RectAction, CircleAction, CensorAction, ArrowAction, LineAction))

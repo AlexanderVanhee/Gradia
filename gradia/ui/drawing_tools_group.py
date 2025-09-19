@@ -22,8 +22,6 @@ from gradia.ui.widget.drawing_tools_grid import DrawingToolsGrid
 from gradia.backend.tool_config import ToolOption, ToolOptionsManager, ToolConfig
 from gradia.ui.widget.font_dropdown import FontDropdown
 from gradia.constants import rootdir
-import math
-
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/drawing_tools_group.ui")
 class DrawingToolsGroup(Gtk.Box):
@@ -49,6 +47,10 @@ class DrawingToolsGroup(Gtk.Box):
         self._updating_ui = False
         self._scroll_accum = 0.0
 
+        self.is_temp_editing = False
+        self.temp_editing_tool_option: Optional[ToolOption] = None
+        self.temp_editing_tool_config: Optional[ToolConfig] = None
+
         self.connect("realize", self._on_realize)
 
     def _on_realize(self, *args):
@@ -58,13 +60,35 @@ class DrawingToolsGroup(Gtk.Box):
         )
         self._scroll_controller.connect("scroll", self._on_scroll)
         self.get_root().add_controller(self._scroll_controller)
+        self.get_root().drawing_overlay.connect('selection-changed', self.on_overlay_selected_changed)
+
+    def _get_active_tool_option(self) -> Optional[ToolOption]:
+        return self.temp_editing_tool_option if self.is_temp_editing else self.current_tool_option
+
+    def _get_active_tool_config(self) -> Optional[ToolConfig]:
+        return self.temp_editing_tool_config if self.is_temp_editing else self.current_tool_config
+
+    def apply_changes(self):
+        if self.is_temp_editing:
+            self.get_root().drawing_overlay.queue_draw()
+        else:
+            window = self.get_root()
+            if window:
+                action = window.lookup_action("tool-option-changed")
+                if action and self.current_tool_option:
+                    data_json = self.current_tool_option.serialize()
+                    param = GLib.Variant('s', data_json)
+                    action.activate(param)
 
     @Gtk.Template.Callback()
     def on_tool_changed(self, grid: DrawingToolsGrid, tool_config: ToolConfig):
+        self.get_root().drawing_overlay.selected_action = None
+        self.get_root().drawing_overlay.queue_draw()
+
         self.current_tool_config = tool_config
         self.current_tool_option = self.tool_manager.get_tool(tool_config.mode)
         self._update_ui_for_tool(tool_config, self.current_tool_option)
-        self.trigger_action()
+        self.apply_changes()
 
     def _update_ui_for_tool(self, tool_config: ToolConfig, tool_option: ToolOption):
         self._updating_ui = True
@@ -78,7 +102,6 @@ class DrawingToolsGroup(Gtk.Box):
 
         for picker in (self.fill_0, self.fill_1, self.fill_2, self.outline_1, self.outline_2):
             picker.set_color_list(tool_config.secondary_color_list)
-
 
         if tool_config.has_scale:
             self.size_scale.set_value(tool_option.size)
@@ -96,7 +119,8 @@ class DrawingToolsGroup(Gtk.Box):
         self._updating_ui = False
 
     def _on_scroll(self, controller, dx, dy):
-        if self.current_tool_option is None:
+        active_tool_option = self._get_active_tool_option()
+        if active_tool_option is None:
             return Gdk.EVENT_PROPAGATE
 
         modifiers = controller.get_current_event_state()
@@ -120,70 +144,90 @@ class DrawingToolsGroup(Gtk.Box):
 
             if delta != 0:
                 self._scroll_accum -= delta
-                new_size = self.current_tool_option.size + delta
+                new_size = active_tool_option.size + delta
                 new_size = max(min_value, min(max_value, new_size))
 
-                if new_size != self.current_tool_option.size:
-                    self.current_tool_option.size = new_size
+                if new_size != active_tool_option.size:
+                    active_tool_option.size = new_size
                     self.size_scale.set_value(new_size)
-                    self.trigger_action()
+                    self.apply_changes()
 
             return Gdk.EVENT_STOP
 
         return Gdk.EVENT_PROPAGATE
 
-
     @Gtk.Template.Callback()
     def on_fill_color_changed(self, button: SimpleColorPicker, color: Gdk.RGBA):
-        if self._updating_ui or self.current_tool_option is None:
+        if self._updating_ui:
             return
 
-        self.current_tool_option.fill_color = color
+        active_tool_option = self._get_active_tool_option()
+        if active_tool_option is None:
+            return
+
+        active_tool_option.fill_color = color
         self.fill_0.set_color(color, emit=False)
         self.fill_1.set_color(color, emit=False)
         self.fill_2.set_color(color, emit=False)
-        self.trigger_action()
+        self.apply_changes()
 
     @Gtk.Template.Callback()
     def on_outline_color_changed(self, button: SimpleColorPicker, color: Gdk.RGBA):
-        if self._updating_ui or self.current_tool_option is None:
+        if self._updating_ui:
             return
 
-        self.current_tool_option.border_color = color
+        active_tool_option = self._get_active_tool_option()
+        if active_tool_option is None:
+            return
+
+        active_tool_option.border_color = color
         self.outline_1.set_color(color, emit=False)
         self.outline_2.set_color(color, emit=False)
-        self.trigger_action()
+        self.apply_changes()
 
     @Gtk.Template.Callback()
     def on_size_scale_changed(self, adjustment: Gtk.Adjustment):
-        if self._updating_ui or self.current_tool_option is None:
+        if self._updating_ui:
             return
 
-        self.current_tool_option.size = int(adjustment.get_value())
-        self.trigger_action()
+        active_tool_option = self._get_active_tool_option()
+        if active_tool_option is None:
+            return
+
+        active_tool_option.size = int(adjustment.get_value())
+        self.apply_changes()
 
     @Gtk.Template.Callback()
     def on_primary_color_changed(self, picker: QuickColorPicker, color: Gdk.RGBA):
-        if self._updating_ui or self.current_tool_option is None:
+        if self._updating_ui:
+            return
+
+        active_tool_option = self._get_active_tool_option()
+        active_tool_config = self._get_active_tool_config()
+        if active_tool_option is None or active_tool_config is None:
             return
 
         selected_index = picker.get_selected_index()
-        if self.current_tool_config.match_primary_to_secondary:
+        if active_tool_config.match_primary_to_secondary:
             for picker in (self.fill_0, self.fill_1, self.fill_2):
                 picker.set_color_by_index(selected_index)
             for picker in (self.outline_1, self.outline_2):
                 picker.set_color(Gdk.RGBA(0, 0, 0, 0))
 
-        self.current_tool_option.primary_color = color
-        self.trigger_action()
+        active_tool_option.primary_color = color
+        self.apply_changes()
 
     @Gtk.Template.Callback()
     def on_font_changed(self, dropdown: FontDropdown, font: str):
-        if self._updating_ui or self.current_tool_option is None:
+        if self._updating_ui:
             return
 
-        self.current_tool_option.font = font
-        self.trigger_action()
+        active_tool_option = self._get_active_tool_option()
+        if active_tool_option is None:
+            return
+
+        active_tool_option.font = font
+        self.apply_changes()
 
     def get_current_tool(self) -> Optional[ToolOption]:
         if self.current_tool_config is None:
@@ -191,6 +235,9 @@ class DrawingToolsGroup(Gtk.Box):
         return self.tool_manager.get_tool(self.current_tool_config.mode)
 
     def set_current_tool(self, mode: DrawingMode):
+        if self.is_temp_editing:
+            return
+
         self.drawing_tools_grid.set_current_tool(mode)
         self.current_tool_config = next(
             (tc for tc in ToolConfig.get_all_tools_positions() if tc.mode == mode), None
@@ -198,13 +245,35 @@ class DrawingToolsGroup(Gtk.Box):
         if self.current_tool_config:
             self.current_tool_option = self.tool_manager.get_tool(mode)
             self._update_ui_for_tool(self.current_tool_config, self.current_tool_option)
-            self.trigger_action()
+            self.apply_changes()
 
-    def trigger_action(self):
-        window = self.get_root()
-        if window:
-            action = window.lookup_action("tool-option-changed")
-            if action and self.current_tool_option:
-                data_json = self.current_tool_option.serialize()
-                param = GLib.Variant('s', data_json)
-                action.activate(param)
+    def on_overlay_selected_changed(self, overlay, tool_option):
+        if tool_option is not None:
+            self._enter_temp_editing_mode(tool_option)
+        else:
+            self._exit_temp_editing_mode()
+
+    def _enter_temp_editing_mode(self, tool_option: ToolOption):
+        self.is_temp_editing = True
+        self.temp_editing_tool_option = tool_option
+        self.temp_editing_tool_config = next(
+            (tc for tc in ToolConfig.get_all_tools_positions() if tc.mode == tool_option.mode), None
+        )
+
+        if self.temp_editing_tool_config:
+            self._update_ui_for_tool(self.temp_editing_tool_config, self.temp_editing_tool_option)
+
+        self.drawing_tools_grid.set_secondary_highlight_tool(tool_option.mode)
+
+    def _exit_temp_editing_mode(self):
+        if not self.is_temp_editing:
+            return
+
+        self.is_temp_editing = False
+        self.temp_editing_tool_option = None
+        self.temp_editing_tool_config = None
+
+        self.drawing_tools_grid.set_secondary_highlight_tool(None)
+
+        if self.current_tool_config and self.current_tool_option:
+            self._update_ui_for_tool(self.current_tool_config, self.current_tool_option)
