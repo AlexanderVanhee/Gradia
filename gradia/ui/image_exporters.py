@@ -22,7 +22,7 @@ import time
 
 
 from gi.repository import Gtk, Gio, GdkPixbuf, GLib, Gdk
-from gradia.clipboard import copy_text_to_clipboard, save_pixbuff_to_path, copy_pixbuf_to_clipboard
+from gradia.clipboard import copy_text_to_clipboard, save_pixbuf_to_path, copy_pixbuf_to_clipboard
 from gradia.backend.logger import Logger
 from gradia.app_constants import SUPPORTED_EXPORT_FORMATS, DEFAULT_EXPORT_FORMAT
 from gradia.backend.settings import Settings
@@ -61,7 +61,7 @@ class BaseImageExporter:
         height = full_res_pixbuf.get_height()
         drawing_pixbuf = self.window.drawing_overlay.export_to_pixbuf(width, height)
 
-        composited = self.overlay_pixbuffs(
+        composited = self.overlay_pixbufs(
             full_res_pixbuf,
             drawing_pixbuf,
         )
@@ -69,7 +69,7 @@ class BaseImageExporter:
         crop_rect = self.window.image_bin.crop_overlay.get_crop_rectangle()
         return self.crop_pixbuf(composited, crop_rect)
 
-    def overlay_pixbuffs(self, bottom: GdkPixbuf.Pixbuf, top: GdkPixbuf.Pixbuf, alpha: float = 1) -> GdkPixbuf.Pixbuf:
+    def overlay_pixbufs(self, bottom: GdkPixbuf.Pixbuf, top: GdkPixbuf.Pixbuf, alpha: float = 1) -> GdkPixbuf.Pixbuf:
         if bottom.get_width() != top.get_width() or bottom.get_height() != top.get_height():
             raise ValueError("Pixbufs must be the same size to overlay")
 
@@ -306,7 +306,7 @@ class CommandLineExporter(BaseImageExporter):
     def run_custom_command(self) -> None:
         try:
             self._ensure_processed_image_available()
-            temp_path = save_pixbuff_to_path(self.temp_dir, self.get_processed_pixbuf())
+            temp_path = save_pixbuf_to_path(self.temp_dir, self.get_processed_pixbuf())
             if not temp_path or not os.path.exists(temp_path):
                 raise Exception("Failed to create temporary file for command")
 
