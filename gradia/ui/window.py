@@ -231,7 +231,11 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             self._on_close_finished()
 
     def _on_close_finished(self) -> None:
-        self.destroy()
+        def delayed_destroy():
+            self.destroy()
+            return False
+        self.hide()
+        GLib.timeout_add(1000, delayed_destroy) # Large images need the extra milliseconds to be fully copied.
 
     def _on_confirm_close_ok(self) -> None:
         self._finalize_close(copy=False)

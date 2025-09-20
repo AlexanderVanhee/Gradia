@@ -32,6 +32,7 @@ class ToolOption:
         border_color: Gdk.RGBA = None,
         font: str = None,
         on_change_callback: Optional[Callable[['ToolOption'], None]] = None,
+        is_temporary: bool = False,
     ) -> None:
         self.mode = mode
         self._size = size
@@ -40,6 +41,7 @@ class ToolOption:
         self._border_color_str = self._rgba_to_str(border_color or Gdk.RGBA(0,0,0,0))
         self._font = font or "Adwaita Sans"
         self._on_change_callback = on_change_callback
+        self._is_temporary = is_temporary
 
     def _rgba_to_str(self, rgba: Gdk.RGBA) -> str:
         return f"rgba({rgba.red:.2f}, {rgba.green:.2f}, {rgba.blue:.2f}, {rgba.alpha:.2f})"
@@ -52,7 +54,7 @@ class ToolOption:
         return Gdk.RGBA(r, g, b, a)
 
     def _notify_change(self):
-        if self._on_change_callback:
+        if self._on_change_callback and not self._is_temporary:
             self._on_change_callback(self)
 
     @property
@@ -138,7 +140,7 @@ class ToolOption:
             on_change_callback=on_change_callback,
         )
 
-    def copy(self) -> "ToolOption":
+    def copy(self, is_temporary: bool = False) -> "ToolOption":
         return ToolOption(
             mode=self.mode,
             size=self.size,
@@ -146,7 +148,8 @@ class ToolOption:
             fill_color=self.fill_color,
             border_color=self.border_color,
             font=self.font,
-            on_change_callback=self._on_change_callback,
+            on_change_callback=self._on_change_callback if not is_temporary else None,
+            is_temporary=is_temporary,
         )
 
     def update_without_notify(self, **kwargs):
@@ -357,5 +360,3 @@ class ToolConfig:
                 secondary_color_list=ToolConfig.TEXT_BACKGROUND_COLORS
             ),
         ]
-
-

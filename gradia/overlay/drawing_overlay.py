@@ -16,16 +16,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import cairo
-from gi.repository import Adw, Gdk, Gio, Gtk
+from gi.repository import Adw, Gdk, Gio, Gtk, GObject
 from typing import Tuple
 from enum import Enum
 
 from gradia.overlay.drawing_actions import *
 from gradia.overlay.text_entry_popover import TextEntryPopover
 
-SELECTION_BOX_PADDING = 0
 HANDLE_SIZE = 8
-HANDLE_PADDING = 20
 
 class ResizeHandle(Enum):
     NONE = "none"
@@ -55,6 +53,10 @@ class ResizeHandle(Enum):
 
 class DrawingOverlay(Gtk.DrawingArea):
     __gtype_name__ = "GradiaDrawingOverlay"
+
+    __gsignals__ = {
+        'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, (object,))
+    }
 
     def __init__(self, **kwargs):
         super().__init__(can_focus=True, **kwargs)
@@ -109,6 +111,7 @@ class DrawingOverlay(Gtk.DrawingArea):
     def selected_action(self, action: DrawingAction | None) -> None:
         self._selected_action = action
         self.erase_selected_revealer.set_reveal_child(action is not None)
+        self.emit('selection-changed', action.options if action else None)
 
     def _can_resize_action(self, action: DrawingAction) -> bool:
         return isinstance(action, (RectAction, CircleAction, CensorAction, ArrowAction, LineAction))
@@ -127,7 +130,7 @@ class DrawingOverlay(Gtk.DrawingArea):
             ]
             return handles
         else:
-            min_x_img, min_y_img, max_x_img, max_y_img = action.get_bounds()
+            min_x_img, min_y_img, max_x_img, max_y_img = action.get_bounds().get_bounding_rect()
             x1_widget, y1_widget = self._image_to_widget_coords(min_x_img, min_y_img)
             x2_widget, y2_widget = self._image_to_widget_coords(max_x_img, max_y_img)
 
@@ -152,7 +155,7 @@ class DrawingOverlay(Gtk.DrawingArea):
         if isinstance(self.selected_action, (ArrowAction, LineAction)):
             return ResizeHandle.NONE
 
-        min_x_img, min_y_img, max_x_img, max_y_img = self.selected_action.get_bounds()
+        min_x_img, min_y_img, max_x_img, max_y_img = self.selected_action.get_bounds().get_bounding_rect()
         x1_widget, y1_widget = self._image_to_widget_coords(min_x_img, min_y_img)
         x2_widget, y2_widget = self._image_to_widget_coords(max_x_img, max_y_img)
 
@@ -348,11 +351,12 @@ class DrawingOverlay(Gtk.DrawingArea):
                 return action
         return None
 
+
     def _is_point_in_selection_bounds(self, x_image: int, y_image: int) -> bool:
         if not self.selected_action:
             return False
 
-        min_x, min_y, max_x, max_y = self.selected_action.get_bounds()
+        min_x, min_y, max_x, max_y = self.selected_action.get_bounds().get_bounding_rect()
         padding_img = max(self.options.size, self.font_size / 2)
 
         return min_x - padding_img <= x_image <= max_x + padding_img and \
@@ -361,16 +365,17 @@ class DrawingOverlay(Gtk.DrawingArea):
     def _draw_selection_box(self, cr: cairo.Context, scale: float):
         if not self.selected_action:
             return
-        min_x_img, min_y_img, max_x_img, max_y_img = self.selected_action.get_bounds()
-        x1_widget, y1_widget = self._image_to_widget_coords(min_x_img, min_y_img)
-        x2_widget, y2_widget = self._image_to_widget_coords(max_x_img, max_y_img)
-        padding = SELECTION_BOX_PADDING
-        x, y = x1_widget - padding, y1_widget - padding
-        w, h = (x2_widget - x1_widget) + 2 * padding, (y2_widget - y1_widget) + 2 * padding
+
+        bounds = self.selected_action.get_bounds()
+        points = bounds.get_points()
+        widget_points = [self._image_to_widget_coords(int(p[0]), int(p[1])) for p in points]
         accent = Adw.StyleManager.get_default().get_accent_color_rgba()
         cr.set_source_rgba(*accent)
         cr.set_line_width(2)
-        cr.rectangle(x, y, w, h)
+        cr.move_to(*widget_points[0])
+        for point in widget_points[1:]:
+            cr.line_to(*point)
+        cr.close_path()
         cr.stroke()
         if self._can_resize_action(self.selected_action):
             handles = self._get_resize_handles(self.selected_action)
@@ -586,7 +591,7 @@ class DrawingOverlay(Gtk.DrawingArea):
                 if handle != ResizeHandle.NONE and self._can_resize_action(self.selected_action):
                     self.is_resizing = True
                     self.resize_handle = handle
-                    self.resize_start_bounds = self.selected_action.get_bounds()
+                    self.resize_start_bounds = self.selected_action.get_bounds().get_bounding_rect()
                     self.resize_start_mouse = (img_x, img_y)
                     return
                 elif self._is_point_in_selection_bounds(img_x, img_y):
@@ -694,35 +699,55 @@ class DrawingOverlay(Gtk.DrawingArea):
 
     def _on_motion(self, controller, x_widget, y_widget):
         x_widget, y_widget = self.coordinate_transform(x_widget, y_widget)
+
         if self.options.mode == DrawingMode.TEXT:
             name = "text" if self._is_point_in_image(x_widget, y_widget) else "default"
+
         elif self.options.mode == DrawingMode.NUMBER:
             name = "crosshair" if self._is_point_in_image(x_widget, y_widget) else "default"
-        elif self.options.mode == DrawingMode.SELECT:
-            if self.is_resizing or self.is_moving_selection:
-                if self.is_resizing:
-                    name = ResizeHandle.get_cursor_for_handle(self.resize_handle)
-                else:
-                    name = "grab"
-            else:
-                img_x, img_y = self._widget_to_image_coords(x_widget, y_widget)
-                if self.selected_action:
-                    handle = self._get_handle_at_point(x_widget, y_widget)
-                    if handle != ResizeHandle.NONE and self._can_resize_action(self.selected_action):
-                        name = ResizeHandle.get_cursor_for_handle(handle)
-                    elif self._is_point_in_selection_bounds(img_x, img_y):
-                        name = "grab"
-                    else:
-                        name = "pointer" if self._find_action_at_point(img_x, img_y) else "default"
-                else:
-                    name = "pointer" if self._find_action_at_point(img_x, img_y) else "default"
+
         elif self.options.mode == DrawingMode.CENSOR:
             name = "crosshair" if self._is_point_in_image(x_widget, y_widget) else "default"
+
+        elif self.options.mode == DrawingMode.SELECT:
+            name = self._get_select_mode_cursor(x_widget, y_widget)
+
         else:
-            name = "crosshair" if self.options.mode == DrawingMode.PEN or self.options.mode == DrawingMode.HIGHLIGHTER else "cell"
-            if not self._is_point_in_image(x_widget, y_widget):
+            if self._is_point_in_image(x_widget, y_widget):
+                if self.options.mode in [DrawingMode.PEN, DrawingMode.HIGHLIGHTER]:
+                    name = "crosshair"
+                else:
+                    name = "cell"
+            else:
                 name = "default"
+
         self.set_cursor(Gdk.Cursor.new_from_name(name, None))
+
+    def _get_select_mode_cursor(self, x_widget, y_widget):
+        if self.is_resizing or self.is_moving_selection:
+            if self.is_resizing:
+                if isinstance(self.selected_action, (ArrowAction, LineAction)):
+                    return "move"
+                else:
+                    return ResizeHandle.get_cursor_for_handle(self.resize_handle)
+            else:
+                return "grab"
+
+        img_x, img_y = self._widget_to_image_coords(x_widget, y_widget)
+
+        if self.selected_action:
+            handle = self._get_handle_at_point(x_widget, y_widget)
+            if handle != ResizeHandle.NONE and self._can_resize_action(self.selected_action):
+                if isinstance(self.selected_action, (ArrowAction, LineAction)):
+                    return "move"
+                else:
+                    return ResizeHandle.get_cursor_for_handle(handle)
+            elif self._is_point_in_selection_bounds(img_x, img_y):
+                return "grab"
+            else:
+                return "pointer" if self._find_action_at_point(img_x, img_y) else "default"
+        else:
+            return "pointer" if self._find_action_at_point(img_x, img_y) else "default"
 
     def _on_draw(self, area, cr: cairo.Context, width: int, height: int):
         scale = self._get_scale_factor()

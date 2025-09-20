@@ -107,3 +107,11 @@ class DrawingToolsGrid(Gtk.Grid):
 
     def set_current_tool(self, mode: DrawingMode):
         self._select_tool(mode)
+
+    def set_secondary_highlight_tool(self, mode: Optional[DrawingMode]):
+        for button in self._buttons.values():
+            button.add_css_class("flat")
+            button.remove_css_class("accent")
+        if mode and mode in self._buttons:
+            self._buttons[mode].remove_css_class("flat")
+            self._buttons[mode].add_css_class("accent")
