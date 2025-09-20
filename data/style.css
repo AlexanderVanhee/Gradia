@@ -260,3 +260,12 @@ image.symbolic-circular {
     border-top-right-radius: 8px;
 }
 
+.semi-transparent {
+  opacity: 0.8;
+  transition: opacity 200ms ease;
+}
+
+.semi-transparent:hover, .semi-transparent:active{
+  opacity: 1;
+}
+

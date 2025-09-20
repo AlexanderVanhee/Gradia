@@ -20,6 +20,8 @@
     <file preprocess="xml-stripblanks">ui/confirm_close_dialog.ui</file>
     <file preprocess="xml-stripblanks">ui/image_generator_window.ui</file>
     <file preprocess="xml-stripblanks">ui/gradient_step_dialog.ui</file>
+    <file preprocess="xml-stripblanks">ui/ocr_dialog.ui</file>
+    <file preprocess="xml-stripblanks">ui/preferences/ocr_model_page.ui</file>
     <file>style.css</file>
     <file>style-dark.css</file>
     <file>style-hc.css</file>
@@ -81,6 +83,7 @@
     <file preprocess="xml-stripblanks">icons/scalable/actions/fill-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/outline-color-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/engineering-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/scanner-symbolic.svg</file>
   </gresource>
 </gresources>
 

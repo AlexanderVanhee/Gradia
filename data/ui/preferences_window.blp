@@ -87,5 +87,19 @@ template $GradiaPreferencesWindow : Adw.PreferencesDialog {
         activatable: true;
       }
     }
+    Adw.PreferencesGroup {
+      title: _("Text Extraction");
+      visible: bind template.ocr_available;
+      Adw.ActionRow  {
+        title: _("Language Models");
+        subtitle: _("Download Models to improve per-language accuracy");
+        activatable: true;
+        activated => $on_manage_language_models_clicked();
+        [suffix]
+        Gtk.Image {
+          icon-name: "go-next-symbolic";
+        }
+      }
+    }
   }
 }

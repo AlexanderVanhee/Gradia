@@ -118,7 +118,10 @@
       <default>'Adwaita'</default>
       <summary>Color scheme of the source snippet</summary>
     </key>
-
+    <key name="trained-data" type="s">
+      <default>'eng'</default>
+      <summary>Last used OCR Language</summary>
+    </key>
   </schema>
 </schemalist>
 

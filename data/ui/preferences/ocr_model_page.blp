@@ -1,0 +1,40 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $OCRModelPage : Adw.NavigationPage {
+  title: _("Language Models");
+
+  child: Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar header_bar {}
+
+    content: Gtk.ScrolledWindow {
+      hscrollbar-policy: never;
+      vscrollbar-policy: automatic;
+
+      child: Adw.Clamp {
+        maximum-size: 600;
+        tightening-threshold: 400;
+        margin-top: 24;
+        margin-bottom: 24;
+        margin-start: 12;
+        margin-end: 12;
+
+        child: Gtk.Box main_box {
+          orientation: vertical;
+          spacing: 24;
+
+          Adw.PreferencesGroup {
+            title: _("Language Models");
+            description: _("Using the correct language model can improve OCR accuracy.");
+
+            Gtk.ListBox models_list {
+              selection-mode: none;
+              styles ["boxed-list"]
+            }
+          }
+        };
+      };
+    };
+  };
+}

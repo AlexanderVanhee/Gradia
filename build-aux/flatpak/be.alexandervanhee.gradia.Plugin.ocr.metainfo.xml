@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="addon">
+  <id>be.alexandervanhee.gradia.Plugin.ocr</id>
+  <extends>be.alexandervanhee.gradia</extends>
+  <name>Gradia OCR Extension</name>
+  <summary>OCR extension for Gradia</summary>
+  <description>
+    <p>
+      This extension adds OCR functionality to Gradia using Tesseract OCR engine. It includes English training data.
+    </p>
+  </description>
+  <project_license>Apache-2.0</project_license>
+  <metadata_license>CC0-1.0</metadata_license>
+  <developer id="be.alexandervanhee">
+    <name>Alexander Vanhee</name>
+  </developer>
+  <url type="homepage">https://github.com/alexandervanhee/gradia</url>
+</component>

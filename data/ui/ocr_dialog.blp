@@ -1,0 +1,98 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $OCRDialog: Adw.Dialog {
+  title: _("Text Extraction");
+  content-width: 700;
+  content-height: 500;
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      show-end-title-buttons: true;
+
+      title-widget: Adw.WindowTitle {
+        title: _("Text Extraction");
+        subtitle: _("Crop image to adjust OCR area");
+      };
+
+      [start]
+      MenuButton language_button {
+        icon-name: "preferences-desktop-locale-symbolic";
+        tooltip-text: _("Select Language");
+        direction: down;
+        primary: true;
+        styles ["flat"]
+      }
+    }
+
+    content: Adw.ToastOverlay toast_overlay {
+      child: Stack ocr_stack {
+        transition-type: crossfade;
+
+        StackPage {
+          name: "loading";
+          child: Gtk.Box loading_page {
+            orientation: vertical;
+            spacing: 12;
+            halign: center;
+            valign: center;
+
+            Adw.Spinner ocr_spinner {
+              width-request: 48;
+              height-request: 48;
+            }
+          };
+        }
+
+        StackPage {
+          name: "no-text";
+          child: Adw.StatusPage {
+            icon-name: "scanner-symbolic";
+            title: _("No Text Found");
+            description: _("Please make a new selection");
+          };
+        }
+
+        StackPage {
+          name: "text";
+          child: Overlay text_overlay {
+            child: ScrolledWindow text_page {
+              hscrollbar-policy: never;
+              vscrollbar-policy: automatic;
+
+              Gtk.TextView ocr_text_view {
+                editable: false;
+                cursor-visible: false;
+                wrap-mode: word;
+                margin-start: 24;
+                margin-end: 24;
+                top-margin: 12;
+                bottom-margin: 24;
+              }
+            };
+
+            [overlay]
+            Gtk.Button copy_ocr_button {
+              styles [
+                "suggested-action",
+                "circular",
+                "semi-transparent"
+              ]
+              icon-name: "edit-copy-symbolic";
+              tooltip-text: _("Copy");
+              halign: end;
+              valign: end;
+              margin-bottom: 20;
+              margin-end: 20;
+              overflow: visible;
+              width-request: 48;
+              height-request: 48;
+              clicked => $_on_copy_ocr_clicked();
+            }
+          };
+        }
+      };
+    };
+  }
+}

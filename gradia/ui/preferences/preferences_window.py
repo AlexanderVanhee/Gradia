@@ -15,17 +15,18 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import re
 import os
 from pathlib import Path
-from gi.repository import Gtk, Adw, GLib, Gio
+from gi.repository import Gtk, Adw, GLib, Gio, GObject
 from typing import Optional
 
 from gradia.constants import rootdir  # pyright: ignore
 from gradia.backend.settings import Settings
 from gradia.app_constants import SUPPORTED_EXPORT_FORMATS
 from gradia.backend.logger import Logger
-from gradia.ui.provider_selection_window import ProviderListPage
+from gradia.ui.preferences.provider_selection_window import ProviderListPage
+from gradia.ui.preferences.ocr_model_page import OCRModelPage
+from gradia.backend.ocr import OCR
 
 logger = Logger()
 
@@ -168,6 +169,10 @@ class PreferencesWindow(Adw.PreferencesDialog):
             self.parent_window.update_command_ready()
         self.push_subpage(ProviderListPage(preferences_dialog=self,on_provider_selected=handle_selection))
 
+    @GObject.Property(type=bool, default=False)
+    def ocr_available(self):
+        return OCR.is_available()
+
     @Gtk.Template.Callback()
     def on_folder_row_clicked(self, row: Adw.ActionRow) -> None:
         file_dialog = Gtk.FileDialog()
@@ -193,6 +198,10 @@ class PreferencesWindow(Adw.PreferencesDialog):
             cancellable=None,
             callback=on_folder_selected
         )
+
+    @Gtk.Template.Callback()
+    def on_manage_language_models_clicked(self, row: Adw.ActionRow) -> None:
+        self.push_subpage(OCRModelPage(preferences_dialog=self))
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/preferences/screenshot_guide_page.ui")
 class ScreenshotGuidePage(Adw.NavigationPage):
