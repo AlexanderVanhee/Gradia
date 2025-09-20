@@ -299,6 +299,17 @@ class Settings:
         else:
             print(f"Warning: GSettings key '{key}' not found in schema.")
 
+    def bind_property(self, widget: object, prop: str, key: str) -> None:
+        if key in self._settings.list_keys():
+            self._settings.bind(
+                key,
+                widget,
+                prop,
+                Gio.SettingsBindFlags.DEFAULT
+            )
+        else:
+            print(f"Warning: GSettings key '{key}' not found in schema.")
+
     def bind_spin_row(self, spin_row: object, key: str) -> None:
         if key in self._settings.list_keys():
             self._settings.bind(

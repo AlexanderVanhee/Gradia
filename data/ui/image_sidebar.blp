@@ -49,7 +49,8 @@ template $GradiaImageSidebar : Adw.Bin {
       Adw.PreferencesGroup background_selector_group {}
 
       Adw.PreferencesGroup image_options_group {
-        title: _("Image Options");
+        Adw.ExpanderRow image_options_expander {
+          title: _("Image Options");
 
         Adw.SpinRow padding_row {
           title: _("Padding");
@@ -129,11 +130,12 @@ template $GradiaImageSidebar : Adw.Bin {
             }
           }
         }
-
+        }
       }
 
       Adw.PreferencesGroup file_info_group {
-        title: _("Current File");
+        Adw.ExpanderRow file_info_expander {
+          title: _("Current File");
 
         Adw.ActionRow filename_row {
           title: _("Name");
@@ -164,6 +166,7 @@ template $GradiaImageSidebar : Adw.Bin {
           title: _("Modified image size");
           subtitle: _("N/A");
           styles ["property"]
+        }
         }
       }
       };
