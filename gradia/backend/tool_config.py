@@ -331,12 +331,12 @@ class ToolConfig:
                 has_scale=True,
                 has_primary_color=True,
                 primary_color_list=[
-                        (Gdk.RGBA(0.88, 0.11, 0.14, 0.7), _("Red")),
-                        (Gdk.RGBA(0.18, 0.76, 0.49, 0.7), _("Green")),
-                        (Gdk.RGBA(0.21, 0.52, 0.89, 0.7), _("Blue")),
-                        (Gdk.RGBA(0.96, 0.83, 0.18, 0.7), _("Yellow")),
-                        (Gdk.RGBA(0.51, 0.24, 0.61, 0.7), _("Purple")),
-                        (Gdk.RGBA(1.0, 1.0, 1.0, 0.7), _("White")),
+                        (Gdk.RGBA(0.88, 0.11, 0.14, 0.4), _("Red")),
+                        (Gdk.RGBA(0.18, 0.76, 0.49, 0.4), _("Green")),
+                        (Gdk.RGBA(0.21, 0.52, 0.89, 0.4), _("Blue")),
+                        (Gdk.RGBA(0.96, 0.83, 0.18, 0.4), _("Yellow")),
+                        (Gdk.RGBA(0.51, 0.24, 0.61, 0.4), _("Purple")),
+                        (Gdk.RGBA(1.0, 1.0, 1.0, 0.4), _("White")),
                     ]
             ),
             ToolConfig(

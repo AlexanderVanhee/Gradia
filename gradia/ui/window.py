@@ -274,10 +274,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         about.show(self)
 
     def _on_shortcuts_activated(self, action: Gio.SimpleAction, param: GObject.ParamSpec) -> None:
-        shortcuts = ShortcutsDialog(parent=self)
-        shortcuts.create()
-        shortcuts.dialog.connect("close-request", self._on_shortcuts_closed)
-        shortcuts.dialog.present()
+        shortcuts = ShortcutsDialog(self)
 
     def _on_shortcuts_closed(self, dialog: Adw.Window) -> bool:
         dialog.hide()

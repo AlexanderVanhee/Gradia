@@ -15,15 +15,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import cairo
-import math
 from typing import Callable, Optional
 from pathlib import Path
 from gi.repository import Adw, Gtk, GLib, Gdk, GdkPixbuf, Graphene, Gsk, GObject
 
 from gradia.app_constants import PREDEFINED_GRADIENTS
 from gradia.backend.settings import Settings
-from gradia.constants import rootdir  # pyright: ignore
+from gradia.constants import rootdir
 from gradia.graphics.gradient import Gradient
 
 
@@ -64,26 +62,21 @@ class RecentImageGetter:
             path = Path(screenshot_folder)
             return path if path.exists() else None
 
-
         if xdg_pictures:
             path = Path(xdg_pictures) / 'Screenshots'
             return path if path.exists() else None
         return None
 
-class RoundedImage(Gtk.Widget):
+class ShadowedImageCard(Gtk.Widget):
+    _shadows = None
+
     def __init__(self, path: str, radius: float = 4.0, padding: int = 8,
-                 compact: bool = False, shadow_offset: tuple = (5, 5),
-                 shadow_blur: float = 8, shadow_opacity: float = 0.3):
+                 compact: bool = False):
         super().__init__()
         self.radius = radius
         self.texture = None
-        self.shadow_texture = None
         self.padding = padding
-        self.shadow_offset = shadow_offset
-        self.shadow_blur = shadow_blur
-        self.shadow_opacity = shadow_opacity
         self._image_rect = Graphene.Rect()
-        self._shadow_rect = Graphene.Rect()
 
         width = 155 if compact else 260
         height = 120 if compact else 160
@@ -91,87 +84,25 @@ class RoundedImage(Gtk.Widget):
         try:
             pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(path, width, height)
             self.texture = Gdk.Texture.new_for_pixbuf(pixbuf)
-
-            if self.shadow_blur > 0 and self.shadow_opacity > 0:
-                self.shadow_texture = self._create_shadow_texture(pixbuf)
         except Exception as e:
             print(f"Failed to load image {path}: {e}")
 
-    def _create_shadow_texture(self, pixbuf: GdkPixbuf.Pixbuf) -> Gdk.Texture:
-        width = pixbuf.get_width()
-        height = pixbuf.get_height()
+    @classmethod
+    def _get_shadows(cls):
+        if cls._shadows is None:
+            def create_shadow(r, g, b, a, dx, dy, radius):
+                color = Gdk.RGBA()
+                color.red, color.green, color.blue, color.alpha = r, g, b, a
+                shadow = Gsk.Shadow()
+                shadow.color, shadow.dx, shadow.dy, shadow.radius = color, dx, dy, radius
+                return shadow
 
-        blur_padding = int(self.shadow_blur * 3)
-        shadow_width = width + blur_padding * 2
-        shadow_height = height + blur_padding * 2
-
-        surface = cairo.ImageSurface(cairo.FORMAT_A8, shadow_width, shadow_height)
-        cr = cairo.Context(surface)
-
-        cr.set_source_rgba(0, 0, 0, 0)
-        cr.paint()
-        cr.save()
-        cr.translate(blur_padding, blur_padding)
-
-        temp_surface = cairo.ImageSurface(cairo.FORMAT_A8, width, height)
-        temp_cr = cairo.Context(temp_surface)
-        Gdk.cairo_set_source_pixbuf(temp_cr, pixbuf, 0, 0)
-        temp_cr.paint()
-
-        cr.set_source_rgba(0, 0, 0, self.shadow_opacity)
-        cr.mask_surface(temp_surface, 0, 0)
-        cr.restore()
-
-        if self.shadow_blur > 0:
-            surface = self._apply_separable_blur(surface, self.shadow_blur)
-
-        shadow_pixbuf = Gdk.pixbuf_get_from_surface(surface, 0, 0,
-                                                      shadow_width, shadow_height)
-        return Gdk.Texture.new_for_pixbuf(shadow_pixbuf)
-
-    def _apply_separable_blur(self, surface: cairo.ImageSurface, radius: float) -> cairo.ImageSurface:
-        width = surface.get_width()
-        height = surface.get_height()
-
-        kernel_size = int(radius * 2) + 1
-        kernel = self._gaussian_kernel(kernel_size, radius / 3.0)
-
-        temp_surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
-        temp_cr = cairo.Context(temp_surface)
-
-        for i, weight in enumerate(kernel):
-            offset = i - kernel_size // 2
-            temp_cr.save()
-            temp_cr.translate(offset, 0)
-            temp_cr.set_source_surface(surface, 0, 0)
-            temp_cr.paint_with_alpha(weight)
-            temp_cr.restore()
-
-        final_surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
-        final_cr = cairo.Context(final_surface)
-
-        for i, weight in enumerate(kernel):
-            offset = i - kernel_size // 2
-            final_cr.save()
-            final_cr.translate(0, offset)
-            final_cr.set_source_surface(temp_surface, 0, 0)
-            final_cr.paint_with_alpha(weight)
-            final_cr.restore()
-
-        return final_surface
-
-    def _gaussian_kernel(self, size: int, sigma: float) -> list:
-        kernel = []
-        center = size // 2
-        total = 0
-
-        for i in range(size):
-            x = i - center
-            value = math.exp(-(x * x) / (2 * sigma * sigma))
-            kernel.append(value)
-            total += value
-
-        return [k / total for k in kernel]
+            cls._shadows = [
+                create_shadow(0, 0, 0, 0.16, 0, 0, 8),
+                create_shadow(0, 0, 0, 0.24, 0, 0, 16),
+                create_shadow(0, 0, 0, 0.32, 0, 0, 24)
+            ]
+        return cls._shadows
 
     def do_snapshot(self, snapshot: Gtk.Snapshot) -> None:
         if not self.texture:
@@ -195,29 +126,9 @@ class RoundedImage(Gtk.Widget):
         x_offset = self.padding + (available_width - scaled_width) / 2
         y_offset = self.padding + (available_height - scaled_height) / 2
 
-        if self.shadow_texture:
-            shadow_width = self.shadow_texture.get_width()
-            shadow_height = self.shadow_texture.get_height()
-            blur_padding = int(self.shadow_blur * 3)
-            shadow_scale_width = scaled_width + blur_padding * 2 * scale
-            shadow_scale_height = scaled_height + blur_padding * 2 * scale
-
-            shadow_x = x_offset - blur_padding * scale + self.shadow_offset[0]
-            shadow_y = y_offset - blur_padding * scale + self.shadow_offset[1]
-
-            self._shadow_rect.init(shadow_x, shadow_y, shadow_scale_width, shadow_scale_height)
-
-            if self.radius > 0:
-                rounded_shadow_rect = Gsk.RoundedRect()
-                rounded_shadow_rect.init_from_rect(self._shadow_rect, self.radius)
-                snapshot.push_rounded_clip(rounded_shadow_rect)
-
-            snapshot.append_texture(self.shadow_texture, self._shadow_rect)
-
-            if self.radius > 0:
-                snapshot.pop()
-
         self._image_rect.init(x_offset, y_offset, scaled_width, scaled_height)
+
+        snapshot.push_shadow(self._get_shadows())
 
         if self.radius > 0:
             rounded_rect = Gsk.RoundedRect()
@@ -228,6 +139,8 @@ class RoundedImage(Gtk.Widget):
 
         if self.radius > 0:
             snapshot.pop()
+
+        snapshot.pop()
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/recent_picker.ui")
 class RecentPicker(Adw.Bin):
@@ -344,15 +257,15 @@ class RecentPicker(Adw.Bin):
             self.item_grid.set_opacity(1)
 
         radius = 2.0 if self.compact else 4.0
-        padding = 4 if self.compact else 8
+        padding = 10
 
         for i in range(6):
             if i < len(recent_files):
                 file = recent_files[i]
 
                 try:
-                    rounded = RoundedImage(str(file.path), radius=radius, padding=padding, compact=self.compact)
-                    self.image_bins[i].set_child(rounded)
+                    shadowed = ShadowedImageCard(str(file.path), radius=radius, padding=padding, compact=self.compact)
+                    self.image_bins[i].set_child(shadowed)
                     self.image_bins[i].set_sensitive(True)
                 except Exception as e:
                     icon = Gtk.Image.new_from_icon_name("image-missing-symbolic")

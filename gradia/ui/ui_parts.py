@@ -82,92 +82,108 @@ class ShortcutsDialog:
     def __init__(self, parent: Optional[Gtk.Window] = None):
         self.parent = parent
         self.dialog = None
-        self.shortcut_groups = [
-            {
-                "title": _("File Actions"),
-                "shortcuts": [
-                    (_("Open File"), "<Ctrl>O"),
-                    (_("Save to File"), "<Ctrl>S"),
-                    (_("Copy Image to Clipboard"), "<Ctrl>C"),
-                    (_("Paste From Clipboard"), "<Ctrl>V"),
-                    (_("Share Image"), "<Ctrl>M"),
-                ]
-            },
-            {
-                "title": _("Annotations"),
-                "shortcuts": [
-                    (_("Undo"), "<Ctrl>Z"),
-                    (_("Redo"), "<Ctrl><Shift>Z"),
-                    (_("Erase Selected"), "Delete"),
-                    (_("Select"),      "0 S"),
-                    (_("Pen"),         "1 P"),
-                    (_("Text"),        "2 T"),
-                    (_("Line"),        "3 L"),
-                    (_("Arrow"),       "4 A"),
-                    (_("Rectangle"),   "5 R"),
-                    (_("Oval"),        "6 O"),
-                    (_("Highlighter"), "7 H"),
-                    (_("Censor"),      "8 C"),
-                    (_("Number"),      "9 N"),
-                    (_("Adjust Tool Size"), _("Ctrl + Shift + Mouse Wheel")),
-                ]
-            },
-            {
-                "title": _("Cropping"),
-                "shortcuts": [
-                    (_("Toggle Crop Mode"), "<Ctrl>R"),
-                    (_("Reset Crop"), "<Ctrl><Shift>R")
-                ]
-            },
-            {
-                "title": _("General"),
-                "shortcuts": [
-                    (_("Keyboard Shortcuts"), "<Ctrl>question"),
-                    (_("Preferences"), "<Ctrl>comma"),
-                    (_("Open Source Snippets"), "<Ctrl>P"),
-                ]
-            },
-            {
-                "title": _("Zoom Image"),
-                "shortcuts": [
-                    (_("Zoom In"), "<Ctrl>plus plus"),
-                    (_("Zoom Out"), "<Ctrl>minus minus"),
-                    (_("Reset Zoom"), "<Ctrl>0 equal"),
-                ]
-            }
+        self.create()
+        self.show()
+
+    def _has_adw_shortcuts_dialog(self):
+        try:
+            return (hasattr(Adw, 'ShortcutsDialog') and
+                    Adw.get_major_version() >= 1 and
+                    Adw.get_minor_version() >= 9)
+        except (NameError, AttributeError):
+            return False
+
+    def create(self):
+        sections_data = [
+            (_("File Actions"), [
+                (_("Open File"), "<Ctrl>O"),
+                (_("Save to File"), "<Ctrl>S"),
+                (_("Copy Image to Clipboard"), "<Ctrl>C"),
+                (_("Paste From Clipboard"), "<Ctrl>V"),
+                (_("Share Image"), "<Ctrl>M"),
+            ]),
+            (_("Annotations"), [
+                (_("Undo"), "<Ctrl>Z"),
+                (_("Redo"), "<Ctrl><Shift>Z"),
+                (_("Erase Selected"), "Delete"),
+                (_("Select"), "0 S"),
+                (_("Pen"), "1 P"),
+                (_("Text"), "2 T"),
+                (_("Line"), "3 L"),
+                (_("Arrow"), "4 A"),
+                (_("Rectangle"), "5 R"),
+                (_("Oval"), "6 O"),
+                (_("Highlighter"), "7 H"),
+                (_("Censor"), "8 C"),
+                (_("Number"), "9 N"),
+            ]),
+            (_("Cropping"), [
+                (_("Toggle Crop Mode"), "<Ctrl>R"),
+                (_("Reset Crop"), "<Ctrl><Shift>R")
+            ]),
+            (_("Zooming"), [
+                (_("Zoom In"), "<Ctrl>plus"),
+                (_("Zoom Out"), "<Ctrl>minus"),
+                (_("Reset Zoom"), "<Ctrl>0"),
+            ]),
+            (_("General"), [
+                (_("Keyboard Shortcuts"), "<Ctrl>question"),
+                (_("Preferences"), "<Ctrl>comma"),
+                (_("Open Source Snippets"), "<Ctrl>P"),
+            ])
         ]
 
-    def create(self) -> Gtk.ShortcutsWindow:
-        self.dialog = Gtk.ShortcutsWindow(transient_for=self.parent, modal=True)
-        section = Gtk.ShortcutsSection()
+        if self._has_adw_shortcuts_dialog():
+            self.dialog = self._create_adw_dialog(sections_data)
+        else:
+            self.dialog = self._create_gtk_window(sections_data)
 
-        for group_data in self.shortcut_groups:
-            group = Gtk.ShortcutsGroup(title=group_data["title"], visible=True)
-            for title, accel in group_data["shortcuts"]:
-                if any(word in accel for word in ["Mouse", "Wheel", "Scroll"]) and not accel.startswith("<"):
-                    shortcut = Gtk.ShortcutsShortcut(
-                        title=title,
-                        subtitle=accel
-                    )
-                else:
-                    shortcut = Gtk.ShortcutsShortcut(
-                        title=title,
-                        accelerator=accel
-                    )
+    def _create_adw_dialog(self, sections_data):
+        dialog = Adw.ShortcutsDialog()
 
+        for section_title, shortcuts in sections_data:
+            section = Adw.ShortcutsSection(title=section_title)
+            for title, accel in shortcuts:
+                section.add(Adw.ShortcutsItem(title=title, accelerator=accel))
+            dialog.add(section)
+
+        return dialog
+
+    def _create_gtk_window(self, sections_data):
+        window = Gtk.ShortcutsWindow()
+
+        main_section = Gtk.ShortcutsSection()
+        main_section.set_visible(True)
+
+        for section_title, shortcuts in sections_data:
+            group = Gtk.ShortcutsGroup(title=section_title)
+
+            for title, accel in shortcuts:
+                shortcut = Gtk.ShortcutsShortcut(title=title, accelerator=accel)
                 group.add_shortcut(shortcut)
-            section.add_group(group)
 
-        self.dialog.add_section(section)
-        self.dialog.connect("close-request", lambda dialog: dialog.destroy())
-        return self.dialog
+            main_section.add_group(group)
+
+        window.add_section(main_section)
+
+        if self.parent:
+            window.set_transient_for(self.parent)
+            window.set_modal(True)
+
+        return window
 
     def show(self):
         if not self.dialog:
             self.create()
-        self.dialog.present()
+
+        if self._has_adw_shortcuts_dialog() and hasattr(self.dialog, 'present'):
+            self.dialog.present(self.parent)
+        else:
+            self.dialog.show()
 
     def set_parent(self, parent: Gtk.Window):
         self.parent = parent
-        if self.dialog:
+        if self.dialog and hasattr(self.dialog, 'set_transient_for'):
             self.dialog.set_transient_for(parent)
+            if hasattr(self.dialog, 'set_modal'):
+                self.dialog.set_modal(True)
