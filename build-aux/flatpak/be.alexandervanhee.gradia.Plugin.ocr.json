@@ -1,7 +1,9 @@
 {
   "id": "be.alexandervanhee.gradia.Plugin.ocr",
   "runtime": "be.alexandervanhee.gradia",
-  "sdk": "org.gnome.Sdk",
+  "sdk": "org.gnome.Sdk//48",
+  "separate-locales": false,
+  "appstream-compose": false,
   "build-extension": true,
   "build-options": {
     "prefix": "/app/extensions/ocr",
@@ -81,3 +83,4 @@
     }
   ]
 }
+
