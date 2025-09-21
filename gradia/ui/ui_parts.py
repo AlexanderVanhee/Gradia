@@ -89,7 +89,7 @@ class ShortcutsDialog:
         try:
             return (hasattr(Adw, 'ShortcutsDialog') and
                     Adw.get_major_version() >= 1 and
-                    Adw.get_minor_version() >= 9)
+                    Adw.get_minor_version() >= 8)
         except (NameError, AttributeError):
             return False
 
