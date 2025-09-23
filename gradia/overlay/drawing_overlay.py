@@ -690,6 +690,8 @@ class DrawingOverlay(Gtk.DrawingArea):
                 self.actions.append(CircleAction(self.start_point, self.end_point,self.current_shift_pressed, self.options.copy()))
             elif mode == DrawingMode.CENSOR:
                 censor_action = CensorAction(self.start_point, self.end_point, self._get_background_pixbuf(), self.options.copy())
+                current_scale = self._get_scale_factor()
+                censor_action.set_original_scale(current_scale)
                 self.actions.append(censor_action)
 
         self.start_point = None
@@ -779,7 +781,10 @@ class DrawingOverlay(Gtk.DrawingArea):
                 elif self.options.mode == DrawingMode.CIRCLE:
                     CircleAction(self.start_point, self.end_point, self.current_shift_pressed, self.options.copy()).draw(cr, self._image_to_widget_coords, scale)
                 elif self.options.mode == DrawingMode.CENSOR:
-                    CensorAction(self.start_point, self.end_point, self._get_background_pixbuf(),self.options.copy()).draw(cr, self._image_to_widget_coords, scale)
+                    temp_censor = CensorAction(self.start_point, self.end_point, self._get_background_pixbuf(), self.options.copy())
+                    temp_censor.set_original_scale(scale)
+                    temp_censor.draw(cr, self._image_to_widget_coords, scale)
+
         if self.is_text_editing and self.text_position and self.live_text:
             if self.editing_text_action:
                 preview = TextAction(

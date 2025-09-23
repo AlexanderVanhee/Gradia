@@ -655,8 +655,17 @@ class HighlighterAction(StrokeAction):
 class CensorAction(RectAction):
     def __init__(self, start: tuple[int, int], end: tuple[int, int], background_pixbuf: GdkPixbuf.Pixbuf, options):
         super().__init__(start, end, False, options)
-        self.block_size = 8
+
+        self.original_scale = 1.0
+        self.base_block_size = 8
         self.background_pixbuf = background_pixbuf
+
+    def set_original_scale(self, scale: float):
+        self.original_scale = scale
+
+    def _get_scaled_block_size(self, current_scale: float) -> float:
+        scale_ratio = current_scale / self.original_scale
+        return self.base_block_size * scale_ratio
 
     def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
         x1, y1 = image_to_widget_coords(*self.start)
@@ -668,15 +677,17 @@ class CensorAction(RectAction):
         crop = self._get_image_crop()
         if not crop:
             return
-        self._draw_pixelation(cr, crop, x, y, width, height)
 
-    def _draw_pixelation(self, cr: cairo.Context, crop: dict, x: float, y: float, width: float, height: float):
+        scaled_block_size = self._get_scaled_block_size(scale)
+        self._draw_pixelation(cr, crop, x, y, width, height, scaled_block_size)
+
+    def _draw_pixelation(self, cr: cairo.Context, crop: dict, x: float, y: float, width: float, height: float, block_size: float):
         cr.save()
         cr.rectangle(x, y, width, height)
         cr.clip()
 
-        blocks_x = max(1, int(width / self.block_size))
-        blocks_y = max(1, int(height / self.block_size))
+        blocks_x = max(1, int(width / block_size))
+        blocks_y = max(1, int(height / block_size))
 
         tiny_surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, blocks_x, blocks_y)
         tiny_cr = cairo.Context(tiny_surface)
