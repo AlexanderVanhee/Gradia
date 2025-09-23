@@ -29,6 +29,7 @@ from gradia.constants import app_id, rootdir  # pyright: ignore
 from gradia.ui.window import GradiaMainWindow
 from gradia.backend.logger import Logger
 from gradia.utils.std_image_loader import StdinImageLoader
+from gradia.backend.ocr import OCR
 logging = Logger()
 
 
@@ -140,8 +141,8 @@ class GradiaApp(Adw.Application):
 
 def main(version: str) -> int:
     try:
-        ocr_available = os.path.exists('/app/extensions/ocr/bin/tesseract')
-        logging.info(f"OCR files are {'available' if ocr_available else 'not available'}")
+        ocr_available = OCR.is_available()
+        logging.info(f"OCR files are seemingly {'available' if ocr_available else 'not available'}")
 
         logging.info("Application starting…")
         loader = StdinImageLoader()

@@ -26,6 +26,8 @@ from pathlib import Path
 from gradia.backend.logger import Logger
 from gradia.backend.settings import Settings
 from gradia.constants import app_id
+from gradia.constants import ocr_tesseract_cmd, ocr_original_tessdata, ocr_user_tessdata
+
 
 logger = Logger()
 
@@ -59,16 +61,17 @@ class OCR:
     ]
 
     def __init__(self):
-        self.tesseract_cmd = "/app/extensions/ocr/bin/tesseract"
-        self.original_tessdata_dir = "/app/extensions/ocr/share/tessdata"
-        self.user_tessdata_dir = os.path.expanduser(f"~/.var/app/{app_id}/data/tessdata")
+        self.tesseract_cmd = ocr_tesseract_cmd
+        self.original_tessdata_dir = ocr_original_tessdata
+        self.user_tessdata_dir = ocr_user_tessdata
+
         pytesseract.pytesseract.tesseract_cmd = self.tesseract_cmd
         self._session = None
         self.settings = Settings()
 
     @staticmethod
     def is_available():
-        return os.path.exists("/app/extensions/ocr/bin/tesseract")
+        return Path(ocr_tesseract_cmd).exists()
 
     def get_current_model(self):
         return self.settings.trained_data
@@ -76,7 +79,7 @@ class OCR:
     def set_current_model(self, model_code: str):
         if self.is_model_installed(model_code):
             self.settings.trained_data = model_code
-            logger.info(f"Set current OCR model to: {model_code}")
+            logger.info(f"Setting current OCR model to: {model_code}")
         else:
             logger.warning(f"Cannot set model {model_code}: not installed")
             raise ValueError(f"Model {model_code} is not installed")
@@ -107,19 +110,12 @@ class OCR:
     def get_installed_models(self):
         installed = set()
 
-        original_path = Path(self.original_tessdata_dir)
-        if original_path.exists():
-            for file in original_path.glob("*.traineddata"):
-                model_code = file.stem
-                if model_code != "osd":
-                    installed.add(model_code)
-
-        user_path = Path(self.user_tessdata_dir)
-        if user_path.exists():
-            for file in user_path.glob("*.traineddata"):
-                model_code = file.stem
-                if model_code != "osd":
-                    installed.add(model_code)
+        for path in [self.original_tessdata_dir, self.user_tessdata_dir]:
+            p = Path(path)
+            if p.exists():
+                for file in p.glob("*.traineddata"):
+                    if file.stem != "osd":
+                        installed.add(file.stem)
 
         return sorted(list(installed))
 

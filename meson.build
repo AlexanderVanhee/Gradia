@@ -61,6 +61,11 @@ else
   APPLICATION_ID = PROJECT_RDNN_NAME
 endif
 
+# OCR Directories
+OCR_TESSERACT_CMD = '/app/extensions/ocr/bin/tesseract'
+OCR_ORIGINAL_TESSDATA_DIR = '/app/extensions/ocr/share/tessdata'
+OCR_USER_TESSDATA_DIR = '~/.var/app' / APPLICATION_ID / 'data' / 'tessdata'
+
 # Install configuration data
 conf = configuration_data()
 conf.set('APP_ID', APPLICATION_ID)
@@ -74,6 +79,10 @@ conf.set('BUILD_TYPE', get_option('buildtype'))
 conf.set('SCHEMAS_DIR', PKGDATA_DIR)
 conf.set('SOURCE_DIR', meson.current_source_dir())
 conf.set('BUILD_DIR', meson.current_build_dir())
+
+conf.set('OCR_TESSERACT_CMD', OCR_TESSERACT_CMD)
+conf.set('OCR_ORIGINAL_TESSDATA_DIR', OCR_ORIGINAL_TESSDATA_DIR)
+conf.set('OCR_USER_TESSDATA_DIR', OCR_USER_TESSDATA_DIR)
 
 # Install project information
 conf.set('RELEASE_VER', meson.project_version())
