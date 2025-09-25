@@ -16,24 +16,28 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+import tempfile
 from gi.repository import Gdk, GLib, GdkPixbuf
+from gradia.backend.logger import Logger
+
+logger = Logger()
 
 def save_texture_to_file(texture, temp_dir: str) -> str:
     temp_path: str = os.path.join(temp_dir, f"clipboard_image_{os.urandom(6).hex()}.png")
     texture.save_to_png(temp_path)
     return temp_path
 
-def save_pixbuff_to_path(temp_dir: str, pixbuff: GdkPixbuf.Pixbuf) -> str:
+def save_pixbuf_to_path(temp_dir: str, pixbuf: GdkPixbuf.Pixbuf) -> str:
     TEMP_FILE_NAME: str = "clipboard_temp.png"
     temp_path: str = os.path.join(temp_dir, TEMP_FILE_NAME)
-    pixbuff.savev(temp_path, "png", [], [])
+    pixbuf.savev(temp_path, "png", [], [])
     return temp_path
 
 
 def copy_text_to_clipboard(text: str) -> None:
     display = Gdk.Display.get_default()
     if not display:
-        print("Warning: Failed to retrieve `Gdk.Display` object.")
+        logger.warning("Failed to retrieve `Gdk.Display` object.")
         return
 
     clipboard: Gdk.Clipboard = display.get_clipboard()
@@ -45,9 +49,54 @@ def copy_text_to_clipboard(text: str) -> None:
 def copy_pixbuf_to_clipboard(pixbuf: GdkPixbuf.Pixbuf) -> None:
     display = Gdk.Display.get_default()
     if not display:
-        print("Warning: Failed to retrieve `Gdk.Display` object.")
+        logger.warning("Failed to retrieve `Gdk.Display` object.")
         return
 
+    image_bytes: bytes | None = None
+    tmp_path: str | None = None
+    try:
+        image_bytes = save_pixbuf_in_memory(pixbuf)
+    except Exception as e:
+        logger.warning(f"Failed to encode pixbuf to PNG bytes: {e}")
+        try:
+            image_bytes, tmp_path = save_pixbuf_with_tmpfile(pixbuf)
+        except Exception as e2:
+            logger.warning(f"Failed to use temp file to save pixbuf: {e2}, falling back to Gdk.ContentProvider")
+        finally:
+            try:
+                if tmp_path and os.path.exists(tmp_path):
+                    os.unlink(tmp_path)
+            except Exception:
+                pass
+
     clipboard: Gdk.Clipboard = display.get_clipboard()
-    content_provider: Gdk.ContentProvider = Gdk.ContentProvider.new_for_value(pixbuf)
-    clipboard.set_content(content_provider)
+    if image_bytes is not None:
+        provider = Gdk.ContentProvider.new_for_bytes("image/png", GLib.Bytes.new(image_bytes))
+    else:
+        provider: Gdk.ContentProvider = Gdk.ContentProvider.new_for_value(pixbuf)
+    clipboard.set_content(provider)
+
+
+def save_pixbuf_in_memory(pixbuf: GdkPixbuf.Pixbuf) -> bytes | None:
+    ret = pixbuf.save_to_bufferv("png", [], [])
+    if isinstance(ret, (bytes, bytearray)):
+        image_bytes = bytes(ret)
+    elif isinstance(ret, tuple):
+        candidates = [x for x in ret if isinstance(x, (bytes, bytearray))]
+        if candidates:
+            image_bytes = bytes(candidates[0])
+        else:
+            raise RuntimeError("Unexpected return from save_to_bufferv")
+    else:
+        raise RuntimeError("Unexpected return from save_to_bufferv")
+    return image_bytes
+
+def save_pixbuf_with_tmpfile(pixbuf: GdkPixbuf.Pixbuf) -> tuple[bytes, str]:
+    fd, tmp_path = tempfile.mkstemp(prefix="gradia_clip_", suffix=".png")
+    os.close(fd)
+    pixbuf.savev(tmp_path, "png", [], [])
+    with open(tmp_path, "rb") as f:
+        image_bytes = f.read()
+    return image_bytes, tmp_path
+
+
