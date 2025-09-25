@@ -1,0 +1,86 @@
+{
+  "id": "be.alexandervanhee.gradia.Plugin.ocr",
+  "runtime": "be.alexandervanhee.gradia",
+  "sdk": "org.gnome.Sdk//49",
+  "separate-locales": false,
+  "appstream-compose": false,
+  "build-extension": true,
+  "build-options": {
+    "prefix": "/app/extensions/ocr",
+    "prepend-pkg-config-path": "/app/extensions/ocr/lib/pkgconfig",
+    "prepend-ld-library-path": "/app/extensions/ocr/lib",
+    "env": {
+      "TESSDATA_PREFIX": "/app/extensions/ocr/share/tessdata"
+    }
+  },
+  "cleanup": [
+    "/include",
+    "/lib/pkgconfig",
+    "/man",
+    "/share/doc",
+    "/share/gtk-doc",
+    "/share/man",
+    "/share/pkgconfig",
+    "/lib/cmake",
+    "*.la",
+    "*.a"
+  ],
+  "modules": [
+    {
+      "name": "leptonica",
+      "buildsystem": "autotools",
+      "config-opts": [
+        "--disable-programs",
+        "--disable-static"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/DanBloomberg/leptonica/releases/download/1.85.0/leptonica-1.85.0.tar.gz",
+          "sha256": "3745ae3bf271a6801a2292eead83ac926e3a9bc1bf622e9cd4dd0f3786e17205"
+        }
+      ]
+    },
+    {
+      "name": "tesseract",
+      "buildsystem": "cmake-ninja",
+      "builddir": true,
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_TRAINING_TOOLS=OFF",
+        "-DUSE_SYSTEM_ICU=ON",
+        "-DCMAKE_INSTALL_PREFIX=/app/extensions/ocr",
+        "-DCMAKE_INSTALL_RPATH=/app/extensions/ocr/lib"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/tesseract-ocr/tesseract/archive/5.5.1.tar.gz",
+          "sha256": "a7a3f2a7420cb6a6a94d80c24163e183cf1d2f1bed2df3bbc397c81808a57237"
+        }
+      ]
+    },
+    {
+      "name": "tesseract-language-data",
+      "buildsystem": "simple",
+      "build-commands": [
+        "mkdir -p ${FLATPAK_DEST}/share/tessdata",
+        "install -Dm644 *.traineddata ${FLATPAK_DEST}/share/tessdata/",
+        "install -Dm644 be.alexandervanhee.gradia.Plugin.ocr.metainfo.xml -t ${FLATPAK_DEST}/share/metainfo"
+      ],
+      "sources": [
+        {
+          "type": "file",
+          "url": "https://github.com/tesseract-ocr/tessdata_best/raw/4.1.0/eng.traineddata",
+          "sha256": "8280aed0782fe27257a68ea10fe7ef324ca0f8d85bd2fd145d1c2b560bcb66ba",
+          "dest-filename": "eng.traineddata"
+        },
+        {
+          "type": "file",
+          "path": "be.alexandervanhee.gradia.Plugin.ocr.metainfo.xml"
+        }
+      ]
+    }
+  ]
+}
+

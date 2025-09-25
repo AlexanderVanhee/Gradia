@@ -52,15 +52,13 @@ class ImageProcessor:
             raise ValueError(f"Failed to load image: {image.load_error}")
         self._loaded_image = image
 
-    def process(self) -> tuple[GdkPixbuf.Pixbuf, int, int]:
+    def process_to_pillow(self) -> Image:
         if not self._loaded_image or not self._loaded_image.preview_image:
             raise ValueError("No image loaded to process")
-
         source_img = self._loaded_image.preview_image.copy()
 
         if self.rotation != 0:
             source_img = self._apply_rotation(source_img)
-
         width, height = source_img.size
 
         if self.auto_balance and self._loaded_image.balanced_padding:
@@ -80,10 +78,14 @@ class ImageProcessor:
 
         shadow_img, shadow_offset = self._create_shadow(source_img, offset=(10, 10), shadow_strength=self.shadow_strength)
         shadow_position = (paste_position[0] - shadow_offset[0], paste_position[1] - shadow_offset[1])
-        final_img = self._alpha_composite_at_position(final_img, shadow_img, shadow_position)
 
+        final_img = self._alpha_composite_at_position(final_img, shadow_img, shadow_position)
         final_img = self._alpha_composite_at_position(final_img, source_img, paste_position)
 
+        return final_img
+
+    def process(self) -> tuple[GdkPixbuf.Pixbuf, int, int]:
+        final_img = self.process_to_pillow()
         final_pixbuf = self._pil_to_pixbuf(final_img)
         full_width, full_height = self.get_full_resolution_dimensions(final_pixbuf)
         return final_pixbuf, full_width, full_height

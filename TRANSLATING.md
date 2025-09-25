@@ -30,7 +30,7 @@ you can force the app to run in English using the following environment variable
 "--env=LANGUAGE=en"
 ```
 
-To apply this in a more permanent fashion, add it under the `finish-args` section of `build-aux/be.alexandervanhee.gradia.json` before building the app.
+To apply this in a more permanent fashion, add it under the `finish-args` section of `build-aux/be.alexandervanhee.gradia.Devel.json` before building the app.
 
 ## Submitting Your Translation
 

@@ -24,6 +24,7 @@ from gradia.overlay.crop_overlay import CropOverlay
 from gradia.overlay.drop_overlay import DropOverlay
 from gradia.ui.widget.aspect_ratio_button import AspectRatioButton
 from gradia.overlay.zoom_controller import ZoomController
+from gradia.backend.ocr import OCR
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/image_stack.ui")
 class ImageStack(Adw.Bin):
@@ -78,6 +79,10 @@ class ImageStack(Adw.Bin):
         if self._compact != value:
             self._compact = value
             self._update_compact_ui()
+
+    @GObject.Property(type=bool, default=False)
+    def ocr_available(self):
+        return OCR.is_available() and not self.crop_enabled
 
     def _update_compact_ui(self) -> None:
         self.sidebar_button.set_visible(self._compact)
@@ -144,6 +149,7 @@ class ImageStack(Adw.Bin):
 
     def on_toggle_crop(self) -> None:
         self.crop_enabled = not self.crop_enabled
+        self.notify("ocr-available")
         self.crop_overlay.interactive = self.crop_enabled
         self.crop_overlay.set_can_target(self.crop_enabled)
         self.right_controls_revealer.set_reveal_child(not self.crop_enabled)

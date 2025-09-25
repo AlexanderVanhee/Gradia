@@ -14,22 +14,9 @@ template $ProviderListPage : Adw.NavigationPage {
         [top]
         Adw.HeaderBar loading_header {}
 
-        content: Box loading_box {
-          orientation: vertical;
-          spacing: 12;
-          halign: center;
-          valign: center;
-
-          Adw.Spinner loading_spinner {
-            width-request: 32;
-            height-request: 32;
-          }
-
-          Label loading_label {
-            label: _("Loading providers data…");
-            vexpand: true;
-            hexpand: true;
-          }
+        content: Adw.Spinner loading_spinner {
+          width-request: 24;
+          height-request: 24;
         };
       };
     }

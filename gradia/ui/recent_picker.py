@@ -15,15 +15,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import random
-import re
 from typing import Callable, Optional
 from pathlib import Path
 from gi.repository import Adw, Gtk, GLib, Gdk, GdkPixbuf, Graphene, Gsk, GObject
 
 from gradia.app_constants import PREDEFINED_GRADIENTS
 from gradia.backend.settings import Settings
-from gradia.constants import rootdir  # pyright: ignore
+from gradia.constants import rootdir
 from gradia.graphics.gradient import Gradient
 
 
@@ -64,20 +62,21 @@ class RecentImageGetter:
             path = Path(screenshot_folder)
             return path if path.exists() else None
 
-
         if xdg_pictures:
             path = Path(xdg_pictures) / 'Screenshots'
             return path if path.exists() else None
         return None
 
+class ShadowedImageCard(Gtk.Widget):
+    _shadows = None
 
-
-class RoundedImage(Gtk.Widget):
-    def __init__(self, path: str, radius: float = 4.0, padding: int = 8, compact: bool = False):
+    def __init__(self, path: str, radius: float = 4.0, padding: int = 8,
+                 compact: bool = False):
         super().__init__()
         self.radius = radius
         self.texture = None
         self.padding = padding
+        self._image_rect = Graphene.Rect()
 
         width = 155 if compact else 260
         height = 120 if compact else 160
@@ -88,13 +87,29 @@ class RoundedImage(Gtk.Widget):
         except Exception as e:
             print(f"Failed to load image {path}: {e}")
 
+    @classmethod
+    def _get_shadows(cls):
+        if cls._shadows is None:
+            def create_shadow(r, g, b, a, dx, dy, radius):
+                color = Gdk.RGBA()
+                color.red, color.green, color.blue, color.alpha = r, g, b, a
+                shadow = Gsk.Shadow()
+                shadow.color, shadow.dx, shadow.dy, shadow.radius = color, dx, dy, radius
+                return shadow
+
+            cls._shadows = [
+                create_shadow(0, 0, 0, 0.16, 0, 0, 8),
+                create_shadow(0, 0, 0, 0.24, 0, 0, 16),
+                create_shadow(0, 0, 0, 0.32, 0, 0, 24)
+            ]
+        return cls._shadows
+
     def do_snapshot(self, snapshot: Gtk.Snapshot) -> None:
         if not self.texture:
             return
 
         widget_width = self.get_width()
         widget_height = self.get_height()
-
         texture_width = self.texture.get_width()
         texture_height = self.texture.get_height()
 
@@ -111,12 +126,20 @@ class RoundedImage(Gtk.Widget):
         x_offset = self.padding + (available_width - scaled_width) / 2
         y_offset = self.padding + (available_height - scaled_height) / 2
 
-        image_rect = Graphene.Rect().init(x_offset, y_offset, scaled_width, scaled_height)
-        rounded_rect = Gsk.RoundedRect()
-        rounded_rect.init_from_rect(image_rect, self.radius)
+        self._image_rect.init(x_offset, y_offset, scaled_width, scaled_height)
 
-        snapshot.push_rounded_clip(rounded_rect)
-        snapshot.append_texture(self.texture, image_rect)
+        snapshot.push_shadow(self._get_shadows())
+
+        if self.radius > 0:
+            rounded_rect = Gsk.RoundedRect()
+            rounded_rect.init_from_rect(self._image_rect, self.radius)
+            snapshot.push_rounded_clip(rounded_rect)
+
+        snapshot.append_texture(self.texture, self._image_rect)
+
+        if self.radius > 0:
+            snapshot.pop()
+
         snapshot.pop()
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/recent_picker.ui")
@@ -234,15 +257,15 @@ class RecentPicker(Adw.Bin):
             self.item_grid.set_opacity(1)
 
         radius = 2.0 if self.compact else 4.0
-        padding = 4 if self.compact else 8
+        padding = 10
 
         for i in range(6):
             if i < len(recent_files):
                 file = recent_files[i]
 
                 try:
-                    rounded = RoundedImage(str(file.path), radius=radius, padding=padding, compact=self.compact)
-                    self.image_bins[i].set_child(rounded)
+                    shadowed = ShadowedImageCard(str(file.path), radius=radius, padding=padding, compact=self.compact)
+                    self.image_bins[i].set_child(shadowed)
                     self.image_bins[i].set_sensitive(True)
                 except Exception as e:
                     icon = Gtk.Image.new_from_icon_name("image-missing-symbolic")

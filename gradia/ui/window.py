@@ -38,12 +38,13 @@ from gradia.ui.image_stack import ImageStack
 from gradia.ui.ui_parts import *
 from gradia.ui.welcome_page import WelcomePage
 from gradia.utils.aspect_ratio import *
-from gradia.ui.preferences_window import PreferencesWindow
+from gradia.ui.preferences.preferences_window import PreferencesWindow
 from gradia.backend.settings import Settings
 from gradia.constants import rootdir, build_type # pyright: ignore
 from gradia.ui.dialog.delete_screenshots_dialog import DeleteScreenshotsDialog
 from gradia.ui.dialog.confirm_close_dialog import ConfirmCloseDialog
 from gradia.backend.tool_config import ToolOption
+from gradia.ui.dialog.ocr_dialog import OCRDialog
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/main_window.ui")
 class GradiaMainWindow(Adw.ApplicationWindow):
@@ -142,6 +143,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.create_action("crop", lambda *_: self.image_bin.on_toggle_crop(), ["<Primary>r"])
         self.create_action("reset-crop", lambda *_: self.image_bin.reset_crop_selection(), ["<Primary><Shift>r"])
         self.create_action("sidebar-shown", lambda action, param: self.split_view.set_show_sidebar(param.get_boolean()), vt="b")
+        self.create_action("ocr", lambda *_: self.on_ocr(), ["<Primary>o"])
 
         self.create_action("zoom-in", lambda *_: self.image_bin.zoom_in(), ["<Control>plus", "<Control>equal", "<Control>KP_Add"])
         self.create_action("zoom-out", lambda *_: self.image_bin.zoom_out(), ["<Control>minus", "<Control>KP_Subtract"])
@@ -229,7 +231,11 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             self._on_close_finished()
 
     def _on_close_finished(self) -> None:
-        self.destroy()
+        def delayed_destroy():
+            self.destroy()
+            return False
+        self.hide()
+        GLib.timeout_add(1000, delayed_destroy) # Large images need the extra milliseconds to be fully copied.
 
     def _on_confirm_close_ok(self) -> None:
         self._finalize_close(copy=False)
@@ -268,10 +274,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         about.show(self)
 
     def _on_shortcuts_activated(self, action: Gio.SimpleAction, param: GObject.ParamSpec) -> None:
-        shortcuts = ShortcutsDialog(parent=self)
-        shortcuts.create()
-        shortcuts.dialog.connect("close-request", self._on_shortcuts_closed)
-        shortcuts.dialog.present()
+        shortcuts = ShortcutsDialog(self)
 
     def _on_shortcuts_closed(self, dialog: Adw.Window) -> bool:
         dialog.hide()
@@ -479,3 +482,21 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             dialog.present(self.get_root())
         else:
             self.export_manager.run_custom_command()
+
+    def on_ocr(self):
+        crop_x, crop_y, crop_w, crop_h = self.image_bin.crop_overlay.get_crop_rectangle()
+        has_crop = self.image_bin.crop_overlay.has_crop()
+
+        if has_crop:
+            image = self.processor.process_to_pillow()
+            img_width, img_height = image.size
+            left = int(crop_x * img_width)
+            top = int(crop_y * img_height)
+            right = int((crop_x + crop_w) * img_width)
+            bottom = int((crop_y + crop_h) * img_height)
+            cropped_image = image.crop((left, top, right, bottom))
+        else:
+            cropped_image = self.image.full_res_image
+
+        dialog = OCRDialog(cropped_image)
+        dialog.present(self)

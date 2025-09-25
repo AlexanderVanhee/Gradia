@@ -1,0 +1,144 @@
+{
+  "id": "be.alexandervanhee.gradia.Devel",
+  "runtime": "org.gnome.Platform",
+  "runtime-version": "49",
+  "sdk": "org.gnome.Sdk",
+  "command": "gradia",
+  "finish-args": [
+    "--share=ipc",
+    "--socket=fallback-x11",
+    "--device=dri",
+    "--socket=wayland",
+    "--filesystem=xdg-pictures",
+    "--share=network",
+    "--own-name=be.alexandervanhee.gradia.Devel"
+  ],
+  "cleanup": [
+    "/include",
+    "/lib/pkgconfig",
+    "/man",
+    "/share/doc",
+    "/share/gtk-doc",
+    "/share/man",
+    "/share/pkgconfig",
+    "/lib/cmake",
+    "/lib/girepository-1.0",
+    "/share/gir-1.0",
+    "/share/vala",
+    "/share/aclocal",
+    "*.la",
+    "*.a"
+  ],
+  "cleanup-commands": [
+    "mkdir -p ${FLATPAK_DEST}/extensions/ocr"
+  ],
+  "modules": [
+    "pypi-dependencies.json",
+    {
+      "name": "blueprint-compiler",
+      "buildsystem": "meson",
+      "cleanup": [
+        "*"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://gitlab.gnome.org/GNOME/blueprint-compiler",
+          "tag": "v0.18.0"
+        }
+      ]
+    },
+    {
+      "name": "libportal",
+      "buildsystem": "meson",
+      "config-opts": [
+        "-Ddocs=false",
+        "-Dbackend-gtk4=enabled"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/flatpak/libportal/archive/refs/tags/0.9.1.tar.gz",
+          "sha256": "ea422b789ae487e04194d387bea031fd7485bf88a18aef8c767f7d1c29496a4e",
+          "x-checker-data": {
+            "type": "anitya",
+            "project-id": 230124,
+            "url-template": "https://github.com/flatpak/libportal/archive/refs/tags/$version.tar.gz"
+          }
+        }
+      ]
+    },
+    {
+      "name": "leptonica",
+      "buildsystem": "autotools",
+      "config-opts": [
+        "--disable-programs",
+        "--disable-static",
+        "--prefix=/app/extensions/ocr"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/DanBloomberg/leptonica/releases/download/1.85.0/leptonica-1.85.0.tar.gz",
+          "sha256": "3745ae3bf271a6801a2292eead83ac926e3a9bc1bf622e9cd4dd0f3786e17205"
+        }
+      ]
+    },
+    {
+      "name": "tesseract",
+      "buildsystem": "cmake-ninja",
+      "builddir": true,
+      "build-options": {
+        "env": {
+          "PKG_CONFIG_PATH": "/app/extensions/ocr/lib/pkgconfig",
+          "LD_LIBRARY_PATH": "/app/extensions/ocr/lib"
+        }
+      },
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_TRAINING_TOOLS=OFF",
+        "-DUSE_SYSTEM_ICU=ON",
+        "-DCMAKE_INSTALL_PREFIX=/app/extensions/ocr",
+        "-DLeptonica_DIR=/app/extensions/ocr/lib/cmake",
+        "-DCMAKE_INSTALL_RPATH=/app/extensions/ocr/lib"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/tesseract-ocr/tesseract/archive/5.5.1.tar.gz",
+          "sha256": "a7a3f2a7420cb6a6a94d80c24163e183cf1d2f1bed2df3bbc397c81808a57237"
+        }
+      ]
+    },
+    {
+      "name": "tesseract-language-data",
+      "buildsystem": "simple",
+      "build-commands": [
+        "mkdir -p ${FLATPAK_DEST}/extensions/ocr/share/tessdata",
+        "install -Dm644 eng.traineddata ${FLATPAK_DEST}/extensions/ocr/share/tessdata/"
+      ],
+      "sources": [
+        {
+          "type": "file",
+          "url": "https://github.com/tesseract-ocr/tessdata_best/raw/4.1.0/eng.traineddata",
+          "sha256": "8280aed0782fe27257a68ea10fe7ef324ca0f8d85bd2fd145d1c2b560bcb66ba",
+          "dest-filename": "eng.traineddata"
+        }
+      ]
+    },
+    {
+      "name": "gradia",
+      "builddir": true,
+      "buildsystem": "meson",
+      "config-opts": [
+        "-Dbuildtype=debug"
+      ],
+      "sources": [
+        {
+          "type": "dir",
+          "path": "../../."
+        }
+      ]
+    }
+  ]
+}

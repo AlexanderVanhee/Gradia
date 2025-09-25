@@ -231,7 +231,14 @@ class FileDialogExporter(BaseImageExporter):
                     del save_keys[i]
                     del save_values[i]
 
-        pixbuf.savev(save_path, format_type, save_keys, save_values)
+        file = Gio.File.new_for_path(save_path)
+        success, buffer = pixbuf.save_to_bufferv(format_type, save_keys, save_values)
+        if not success:
+            raise Exception("Failed to encode image")
+
+        output_stream = file.replace(None, False, Gio.FileCreateFlags.REPLACE_DESTINATION, None)
+        output_stream.write(buffer, None)
+        output_stream.close(None)
 
     def _save_image(self, save_path: str, format_type: str) -> None:
         pixbuf = self.get_processed_pixbuf()
