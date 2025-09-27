@@ -51,6 +51,8 @@ class ImageStack(Adw.Bin):
 
     drop_overlay: DropOverlay = Gtk.Template.Child()
 
+    ocr_revealer = Gtk.Template.Child()
+
     crop_options_revealer: Gtk.Revealer = Gtk.Template.Child()
     confirm_crop_revealer: Gtk.Revealer = Gtk.Template.Child()
 
@@ -70,6 +72,23 @@ class ImageStack(Adw.Bin):
         self._compact = False
         self._setup()
 
+        self.connect("realize", self._on_realize)
+
+    def _on_realize(self, widget):
+        self.get_root().lookup_action("ocr").bind_property(
+            "state",
+            self.ocr_revealer,
+            "reveal-child",
+            GObject.BindingFlags.SYNC_CREATE,
+            lambda binding, state: state.get_boolean(),
+            None
+        )
+
+        OCR(self.get_root())
+
+    def _get_ocr_action_state(self):
+        return self.get_root().lookup_action("ocr").get_state()
+
     @GObject.Property(type=bool, default=False)
     def compact(self) -> bool:
         return self._compact
@@ -79,10 +98,6 @@ class ImageStack(Adw.Bin):
         if self._compact != value:
             self._compact = value
             self._update_compact_ui()
-
-    @GObject.Property(type=bool, default=False)
-    def ocr_available(self):
-        return OCR.is_available() and not self.crop_enabled
 
     def _update_compact_ui(self) -> None:
         self.sidebar_button.set_visible(self._compact)
@@ -149,12 +164,12 @@ class ImageStack(Adw.Bin):
 
     def on_toggle_crop(self) -> None:
         self.crop_enabled = not self.crop_enabled
-        self.notify("ocr-available")
         self.crop_overlay.interactive = self.crop_enabled
         self.crop_overlay.set_can_target(self.crop_enabled)
         self.right_controls_revealer.set_reveal_child(not self.crop_enabled)
         self.right_controls_revealer.set_sensitive(not self.crop_enabled)
         self.confirm_crop_revealer.set_reveal_child(self.crop_enabled)
+        self.ocr_revealer.set_reveal_child((not self.crop_enabled) and self._get_ocr_action_state())
         self.sidebar_revealer.set_reveal_child(not self.crop_enabled)
         self.zoomable_widget.disable_zoom = self.crop_enabled
         self.sidebar_button.set_sensitive(not self.crop_enabled)

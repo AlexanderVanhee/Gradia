@@ -10,9 +10,11 @@
     "--device=dri",
     "--socket=wayland",
     "--filesystem=xdg-pictures",
-    "--share=network",
-    "--own-name=be.alexandervanhee.gradia.Devel"
+    "--share=network"
   ],
+  "build-options": {
+    "strip": true
+  },
   "cleanup": [
     "/include",
     "/lib/pkgconfig",
@@ -21,16 +23,8 @@
     "/share/gtk-doc",
     "/share/man",
     "/share/pkgconfig",
-    "/lib/cmake",
-    "/lib/girepository-1.0",
-    "/share/gir-1.0",
-    "/share/vala",
-    "/share/aclocal",
     "*.la",
     "*.a"
-  ],
-  "cleanup-commands": [
-    "mkdir -p ${FLATPAK_DEST}/extensions/ocr"
   ],
   "modules": [
     "pypi-dependencies.json",
@@ -72,57 +66,30 @@
       "name": "leptonica",
       "buildsystem": "autotools",
       "config-opts": [
-        "--disable-programs",
         "--disable-static",
-        "--prefix=/app/extensions/ocr"
+        "--disable-programs"
       ],
       "sources": [
         {
-          "type": "archive",
-          "url": "https://github.com/DanBloomberg/leptonica/releases/download/1.85.0/leptonica-1.85.0.tar.gz",
-          "sha256": "3745ae3bf271a6801a2292eead83ac926e3a9bc1bf622e9cd4dd0f3786e17205"
+          "type": "git",
+          "url": "https://github.com/DanBloomberg/leptonica.git",
+          "tag": "1.86.0"
         }
       ]
     },
     {
       "name": "tesseract",
-      "buildsystem": "cmake-ninja",
-      "builddir": true,
-      "build-options": {
-        "env": {
-          "PKG_CONFIG_PATH": "/app/extensions/ocr/lib/pkgconfig",
-          "LD_LIBRARY_PATH": "/app/extensions/ocr/lib"
-        }
-      },
+      "buildsystem": "autotools",
       "config-opts": [
-        "-DCMAKE_BUILD_TYPE=Release",
-        "-DBUILD_TRAINING_TOOLS=OFF",
-        "-DUSE_SYSTEM_ICU=ON",
-        "-DCMAKE_INSTALL_PREFIX=/app/extensions/ocr",
-        "-DLeptonica_DIR=/app/extensions/ocr/lib/cmake",
-        "-DCMAKE_INSTALL_RPATH=/app/extensions/ocr/lib"
+        "--disable-static",
+        "--disable-graphics",
+        "--enable-legacy"
       ],
       "sources": [
         {
-          "type": "archive",
-          "url": "https://github.com/tesseract-ocr/tesseract/archive/5.5.1.tar.gz",
-          "sha256": "a7a3f2a7420cb6a6a94d80c24163e183cf1d2f1bed2df3bbc397c81808a57237"
-        }
-      ]
-    },
-    {
-      "name": "tesseract-language-data",
-      "buildsystem": "simple",
-      "build-commands": [
-        "mkdir -p ${FLATPAK_DEST}/extensions/ocr/share/tessdata",
-        "install -Dm644 eng.traineddata ${FLATPAK_DEST}/extensions/ocr/share/tessdata/"
-      ],
-      "sources": [
-        {
-          "type": "file",
-          "url": "https://github.com/tesseract-ocr/tessdata_best/raw/4.1.0/eng.traineddata",
-          "sha256": "8280aed0782fe27257a68ea10fe7ef324ca0f8d85bd2fd145d1c2b560bcb66ba",
-          "dest-filename": "eng.traineddata"
+          "type": "git",
+          "url": "https://github.com/tesseract-ocr/tesseract.git",
+          "tag": "5.5.1"
         }
       ]
     },

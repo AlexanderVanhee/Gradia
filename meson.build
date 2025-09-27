@@ -1,5 +1,5 @@
 project('gradia', 'c',
-            version: '1.11.0',
+            version: '1.11.1',
       meson_version: '>= 1.0.0',
     default_options: ['warning_level=2',
                       'werror=false'
@@ -62,8 +62,8 @@ else
 endif
 
 # OCR Directories
-OCR_TESSERACT_CMD = '/app/extensions/ocr/bin/tesseract'
-OCR_ORIGINAL_TESSDATA_DIR = '/app/extensions/ocr/share/tessdata'
+OCR_TESSERACT_CMD = '/app/bin/tesseract'
+OCR_ORIGINAL_TESSDATA_DIR = '/app/share/tessdata'
 OCR_USER_TESSDATA_DIR = '~/.var/app' / APPLICATION_ID / 'data' / 'tessdata'
 
 # Install configuration data

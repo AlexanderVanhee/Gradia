@@ -430,6 +430,7 @@ class ProviderDetailPage(Adw.NavigationPage):
 
                 texture = Gdk.Texture.new_for_pixbuf(scaled_pixbuf)
                 picture.set_paintable(texture)
+                picture.set_content_fit(Gtk.ContentFit.CONTAIN)
             except Exception as e:
                 logger.warn(f"Failed to load image from {url}: {e}")
                 GLib.idle_add(self._set_fallback_icon, picture, fallback_icon_name)

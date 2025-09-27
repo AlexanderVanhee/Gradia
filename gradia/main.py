@@ -141,9 +141,6 @@ class GradiaApp(Adw.Application):
 
 def main(version: str) -> int:
     try:
-        ocr_available = OCR.is_available()
-        logging.info(f"OCR files are seemingly {'available' if ocr_available else 'not available'}")
-
         logging.info("Application starting…")
         loader = StdinImageLoader()
         image_path = loader.read_from_stdin()

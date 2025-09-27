@@ -143,7 +143,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.create_action("crop", lambda *_: self.image_bin.on_toggle_crop(), ["<Primary>r"])
         self.create_action("reset-crop", lambda *_: self.image_bin.reset_crop_selection(), ["<Primary><Shift>r"])
         self.create_action("sidebar-shown", lambda action, param: self.split_view.set_show_sidebar(param.get_boolean()), vt="b")
-        self.create_action("ocr", lambda *_: self.on_ocr(), ["<Primary>o"])
+        self.create_action("ocr", lambda *_: self.on_ocr(), ["<Primary>o"], stateful=True)
 
         self.create_action("zoom-in", lambda *_: self.image_bin.zoom_in(), ["<Control>plus", "<Control>equal", "<Control>KP_Add"])
         self.create_action("zoom-out", lambda *_: self.image_bin.zoom_out(), ["<Control>minus", "<Control>KP_Subtract"])
@@ -285,27 +285,32 @@ class GradiaMainWindow(Adw.ApplicationWindow):
     """
 
     def create_action(
-        self,
-        name: str,
-        callback: Callable[..., Any],
-        shortcuts: Optional[list[str]] = None,
-        enabled: bool = True,
-        vt: Optional[str] = None,
-        disable_on_entry_focus: bool = False
-    ) -> None:
-        variant_type = GLib.VariantType.new(vt) if vt is not None else None
-        action: Gio.SimpleAction = Gio.SimpleAction.new(name, variant_type)
+            self,
+            name: str,
+            callback: Callable[..., Any],
+            shortcuts: Optional[list[str]] = None,
+            enabled: bool = True,
+            vt: Optional[str] = None,
+            disable_on_entry_focus: bool = False,
+            stateful: Optional[bool] = None
+        ) -> None:
+            variant_type = GLib.VariantType.new(vt) if vt is not None else None
 
-        action.connect("activate", callback)
-        action.set_enabled(enabled)
-        self.add_action(action)
+            if stateful is not None:
+                initial_state = GLib.Variant.new_boolean(stateful)
+                action: Gio.SimpleAction = Gio.SimpleAction.new_stateful(name, variant_type, initial_state)
+            else:
+                action: Gio.SimpleAction = Gio.SimpleAction.new(name, variant_type)
 
-        if shortcuts:
-            self.app.set_accels_for_action(f"win.{name}", shortcuts)
-            if disable_on_entry_focus:
-                if not hasattr(self, '_entry_disabled_actions'):
-                    self._entry_disabled_actions = {}
-                self._entry_disabled_actions[name] = shortcuts
+            action.connect("activate", callback)
+            action.set_enabled(enabled)
+            self.add_action(action)
+            if shortcuts:
+                self.app.set_accels_for_action(f"win.{name}", shortcuts)
+                if disable_on_entry_focus:
+                    if not hasattr(self, '_entry_disabled_actions'):
+                        self._entry_disabled_actions = {}
+                    self._entry_disabled_actions[name] = shortcuts
 
     def _setup_accelerator_handling(self) -> None:
         if not hasattr(self, '_entry_disabled_actions'):

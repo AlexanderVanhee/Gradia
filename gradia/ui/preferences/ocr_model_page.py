@@ -29,10 +29,10 @@ class OCRModelPage(Adw.NavigationPage):
 
     models_list = Gtk.Template.Child()
 
-    def __init__(self, preferences_dialog=None, **kwargs):
+    def __init__(self, preferences_dialog=None, window=None, **kwargs):
         super().__init__(**kwargs)
         self.preferences_dialog = preferences_dialog
-        self.ocr = OCR()
+        self.ocr = OCR(window)
         self.model_rows = []
         self._setup_models()
 
@@ -57,16 +57,15 @@ class OCRModelPage(Adw.NavigationPage):
             )
 
             if is_installed:
-                if code != "eng":
-                    delete_button = Gtk.Button(
-                        icon_name="user-trash-symbolic",
-                        tooltip_text="Delete Model",
-                        valign=Gtk.Align.CENTER,
-                    )
-                    delete_button.add_css_class("flat")
-                    delete_button.add_css_class("destructive-action")
-                    delete_button.connect("clicked", self._on_delete_model, code, name)
-                    row.add_suffix(delete_button)
+                delete_button = Gtk.Button(
+                    icon_name="user-trash-symbolic",
+                    tooltip_text="Delete Model",
+                    valign=Gtk.Align.CENTER,
+                )
+                delete_button.add_css_class("flat")
+                delete_button.add_css_class("destructive-action")
+                delete_button.connect("clicked", self._on_delete_model, code, name)
+                row.add_suffix(delete_button)
 
                 status_icon = Gtk.Image.new_from_icon_name("object-select-symbolic")
                 status_icon.set_margin_end(10)
@@ -94,10 +93,14 @@ class OCRModelPage(Adw.NavigationPage):
         def on_download_complete(success, message):
             if success:
                 GLib.idle_add(self._refresh_models)
+                toast = Adw.Toast(title=f"Downloaded '{model_name}' Successfully", timeout=3)
+                self.preferences_dialog.add_toast(toast)
             else:
                 button.set_sensitive(True)
                 button.set_child(Gtk.Image.new_from_icon_name("folder-download-symbolic"))
                 logger.error(f"Download failed: {message}")
+                toast = Adw.Toast(title=f"Failed to Download '{model_name}'", timeout=5)
+                self.preferences_dialog.add_toast(toast)
 
         self.ocr.download_model(model_code, on_download_complete)
 

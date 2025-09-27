@@ -60,18 +60,24 @@ class OCR:
         OCRModel("ukr", _("Ukrainian"), 10859081),
     ]
 
-    def __init__(self):
+    def __init__(self, window=None):
         self.tesseract_cmd = ocr_tesseract_cmd
         self.original_tessdata_dir = ocr_original_tessdata
         self.user_tessdata_dir = ocr_user_tessdata
+        self.window = window
 
         pytesseract.pytesseract.tesseract_cmd = self.tesseract_cmd
         self._session = None
         self.settings = Settings()
 
-    @staticmethod
-    def is_available():
-        return Path(ocr_tesseract_cmd).exists()
+        self._update_ocr_action_state()
+
+    def _update_ocr_action_state(self):
+        if self.window:
+            available = Path(ocr_tesseract_cmd).exists() and len(self.get_installed_models()) > 0
+            ocr_action = self.window.lookup_action("ocr")
+            if ocr_action and hasattr(ocr_action, 'set_state'):
+                ocr_action.set_state(GLib.Variant.new_boolean(available))
 
     def get_current_model(self):
         return self.settings.trained_data
@@ -85,11 +91,27 @@ class OCR:
             raise ValueError(f"Model {model_code} is not installed")
 
     def extract_text(self, image, primary_lang="eng", secondary_lang="eng"):
+        if not self.get_installed_models():
+            raise RuntimeError("No OCR language models are available")
+
+        if not self.is_model_installed(primary_lang):
+            available_models = self.get_installed_models()
+            if available_models:
+                primary_lang = available_models[0]
+                logger.warning(f"Requested language not available, using {primary_lang}")
+            else:
+                raise RuntimeError("No OCR language models are available")
+
         self.set_current_model(primary_lang)
         try:
             tessdata_dir = self._get_tessdata_dir_for_lang(primary_lang)
             config = f'--tessdata-dir "{tessdata_dir}"'
-            lang = f"{primary_lang}+{secondary_lang}"
+
+            if self.is_model_installed(secondary_lang) and secondary_lang != primary_lang:
+                lang = f"{primary_lang}+{secondary_lang}"
+            else:
+                lang = primary_lang
+
             extracted_text = pytesseract.image_to_string(
                 image,
                 lang=lang,
@@ -149,6 +171,7 @@ class OCR:
 
                 logger.info(f"Downloaded OCR model: {model_code}")
                 self.set_current_model(model_code)
+                self._update_ocr_action_state()
 
                 if progress_callback:
                     GLib.idle_add(progress_callback, True, f"Downloaded {model_code}")
@@ -167,9 +190,6 @@ class OCR:
         )
 
     def delete_model(self, model_code: str):
-        if model_code == "eng":
-            raise ValueError("Cannot delete English model")
-
         user_model_path = Path(self.user_tessdata_dir) / f"{model_code}.traineddata"
 
         if user_model_path.exists():
@@ -177,8 +197,11 @@ class OCR:
             logger.info(f"Deleted OCR model: {model_code}")
 
             if self.get_current_model() == model_code:
-                self.set_current_model("eng")
+                available_models = self.get_installed_models()
+                if available_models:
+                    self.set_current_model(available_models[0])
 
+            self._update_ocr_action_state()
             return True
         else:
             logger.warning(f"OCR model not found: {model_code}")

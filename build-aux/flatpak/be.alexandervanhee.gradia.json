@@ -10,16 +10,10 @@
     "--device=dri",
     "--socket=wayland",
     "--filesystem=xdg-pictures",
-    "--share=network",
-    "--own-name=be.alexandervanhee.gradia"
+    "--share=network"
   ],
-  "add-extensions": {
-    "be.alexandervanhee.gradia.Plugin.ocr": {
-      "directory": "extensions/ocr",
-      "subdirectories": true,
-      "no-autodownload": true,
-      "autodelete": true
-    }
+  "build-options": {
+    "strip": true
   },
   "cleanup": [
     "/include",
@@ -31,9 +25,6 @@
     "/share/pkgconfig",
     "*.la",
     "*.a"
-  ],
-  "cleanup-commands": [
-    "mkdir -p ${FLATPAK_DEST}/extensions/ocr"
   ],
   "modules": [
     "pypi-dependencies.json",
@@ -68,6 +59,37 @@
             "project-id": 230124,
             "url-template": "https://github.com/flatpak/libportal/archive/refs/tags/$version.tar.gz"
           }
+        }
+      ]
+    },
+    {
+      "name": "leptonica",
+      "buildsystem": "autotools",
+      "config-opts": [
+        "--disable-static",
+        "--disable-programs"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/DanBloomberg/leptonica.git",
+          "tag": "1.86.0"
+        }
+      ]
+    },
+    {
+      "name": "tesseract",
+      "buildsystem": "autotools",
+      "config-opts": [
+        "--disable-static",
+        "--disable-graphics",
+        "--enable-legacy"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/tesseract-ocr/tesseract.git",
+          "tag": "5.5.1"
         }
       ]
     },

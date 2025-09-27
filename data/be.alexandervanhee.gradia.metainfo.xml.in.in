@@ -37,7 +37,12 @@
 		<color type="primary" scheme_preference="dark">#119458</color>
 	</branding>
 	<releases>
-	        <release version="1.11.0" date="2025-09-25">
+      <release version="1.11.1" date="2025-09-27">
+        <description translate="no">
+          <p>This minor release includes OCR text recognition. To use this feature, download a language in preferences.</p>
+        </description>
+      </release>
+      <release version="1.11.0" date="2025-09-25">
           <description translate="no">
             <p>This release includes:</p>
             <ul>

@@ -89,7 +89,6 @@ template $GradiaPreferencesWindow : Adw.PreferencesDialog {
     }
     Adw.PreferencesGroup {
       title: _("Text Extraction");
-      visible: bind template.ocr_available;
       Adw.ActionRow  {
         title: _("Language Models");
         subtitle: _("Download Models to improve per-language accuracy");
