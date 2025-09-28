@@ -17,179 +17,166 @@
     SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Gradia</title>
+  <title>Gradia</title>
 
-    <link rel="icon" href="assets/favicons/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="assets/favicons/favicon.ico" type="image/x-icon">
 
-    <link rel="preconnect" href="https://rsms.me/">
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-    <link rel="stylesheet" href="assets/styles/index.css">
+  <meta property="og:title" content="Gradia - Make your screenshots ready for all." />
+  <meta property="og:description" content="Gradia helps you beautify, annotate, and share screenshots seamlessly on Linux." />
+  <meta property="og:image" content="https://gradia.alexandervanhee.be/assets/images/opengraph/gradia.png" />
+  <meta property="og:url" content="gradia.alexandervanhee.be" />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <link rel="stylesheet" href="assets/styles/index.css">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="min-h-screen box-border">
-    <div class="bg-drool p-8 text-center text-white bg-cover bg-center">
-        <img src="assets/images/logo.svg" alt="Gradia Logo" class="mx-auto my-4 w-32 h-32 sm:w-48 sm:h-48" />
-        <h1 class="text-3xl sm:text-5xl font-extrabold">Gradia</h1>
-        <h2 class="text-l sm:text-2xl mb-12 mt-4">Make your screenshots ready for all.</h2>
+  <div class="bg-drool p-8 text-center text-white bg-cover bg-center">
+    <img src="assets/images/logo.svg" alt="Gradia Logo" class="mx-auto my-4 w-32 h-32 sm:w-48 sm:h-48" />
+    <h1 class="text-3xl sm:text-5xl font-extrabold">Gradia</h1>
+    <h2 class="text-2xl  font-bold mb-4 mt-4 text-center">Make your screenshots ready for all.</h2>
+  </div>
 
-        <div class="flex flex-row justify-center items-center gap-4 w-full mt-8">
-            <a href="https://flathub.org/apps/be.alexandervanhee.gradia" class="no-external" rel="noopener noreferrer">
-                <img alt="Get it on Flathub" src="https://flathub.org/api/badge?svg&locale=en"
-                    class="h-16 sm:h-20 object-contain" />
-            </a>
+  <div>
+    <h3 class="mt-8 font-medium text-lg sm:text-xl text-center max-w-2xl mx-auto leading-relaxed px-4 sm:px-6 block">
+      Gradia helps you get your screenshots ready for sharing, whether quickly with friends or colleagues, or
+      professionally with the entire world.
+    </h3>
 
-            <a href="https://snapcraft.io/gradia">
-                <img alt="Get it from the Snap Store" src="https://snapcraft.io/en/dark/install.svg"
-                    class="h-16 sm:h-20 object-contain" />
-            </a>
-        </div>
+    <div class="flex flex-row justify-center items-center gap-4 w-full mt-8">
+
+      <a href="https://flathub.org/apps/be.alexandervanhee.gradia" class="btn suggested" rel="noopener noreferrer">
+        Flathub
+      </a>
+
+      <a href="https://snapcraft.io/gradia" class="btn">
+        Snap Store
+      </a>
     </div>
+  </div>
 
-    <div class="max-w-6xl mx-auto px-6 sm:px-8 py-16">
-        <!-- Beautify Screenshots -->
-        <div class="flex flex-col lg:flex-row items-center gap-12 mb-16 py-8">
-            <div class="flex-1">
-                <h3 class="text-3xl sm:text-4xl font-bold text-white mb-6">Beautify Screenshots</h3>
-                <p class="text-secondary text-lg leading-relaxed mb-4">
-                    Transform your ordinary screenshots into eye-catching visuals perfect for sharing. With customizable
-                    framing options and professional styling features, your screenshots will stand out from the crowd.
-                </p>
-                <ul class="list-none p-0 mt-4 space-y-2">
-                    <li class="flex items-start text-lg text-secondary bullet-point">Solid, Gradient and Image framing
-                        options</li>
-                    <li class="flex items-start text-lg text-secondary bullet-point">Shadow intensity Slider</li>
-                    <li class="flex items-start text-lg text-secondary bullet-point">Customize aspect ratios</li>
-                    <li class="flex items-start text-lg text-secondary bullet-point">Make it ready for social media</li>
-                    <li class="flex items-start text-lg text-secondary bullet-point">One-click export in multiple
-                        formats</li>
-                </ul>
-            </div>
-            <div class="flex-1 text-center">
-                <img src="assets/images/promo/showcase.webp" alt="Beautiful Screenshot Example"
-                    class="w-full h-auto rounded-xl drop-shadow-md" />
-            </div>
-        </div>
+  <div class="max-w-6xl mx-auto px-6 sm:px-8 pt-16 pb-8 md:pb-16" id="features">
+    <feature-row title="Beautify Screenshots"
+      text="Transform your ordinary screenshots into eye-catching visuals perfect for sharing. With customizable framing options and professional styling features, your screenshots will stand out from the crowd."
+      list="Solid, Gradient and Image framing options|Shadow intensity Slider|Customize aspect ratios|Make it ready for social media|One-click export in multiple formats"
+      img="assets/images/promo/showcase.png" alt="Improved Screenshot Example" reverse="false">
+    </feature-row>
 
-        <!-- Annotate it All -->
-        <div class="flex flex-col lg:flex-row-reverse items-center gap-12 mb-16 py-8">
-            <div class="flex-1">
-                <h3 class="text-3xl sm:text-4xl font-bold text-white mb-6">Annotate it All</h3>
-                <p class="text-secondary text-lg leading-relaxed">
-                    Express yourself with a comprehensive set of annotation tools. Whether you need to highlight
-                    important information, add explanatory text, or blur sensitive content, Gradia has you covered. From
-                    precise drawing tools to smart blur effects, every tool is designed for both power and ease of use.
-                </p>
-            </div>
-            <div class="flex-1 text-center">
-                <img src="assets/images/promo/annotations.webp" alt="Annotation Tools"
-                    class="w-full h-auto rounded-xl drop-shadow-md" />
-            </div>
-        </div>
+    <feature-row title="Annotate it All"
+      text="Express yourself with a comprehensive set of annotation tools. Whether you need to highlight important information, add explanatory text, or blur sensitive content, Gradia has you covered. From precise drawing tools to smart blur effects, every tool is designed for both power and ease of use."
+      img="assets/images/promo/dark.png" alt="Annotation Tools" reverse="true">
+    </feature-row>
 
-        <!-- Code Showcase -->
-        <div class="flex flex-col lg:flex-row items-center gap-12 py-8">
-            <div class="flex-1">
-                <h3 class="text-3xl sm:text-4xl font-bold text-white mb-6">Showcase Your Code</h3>
-                <p class="text-secondary text-lg leading-relaxed mb-4">
-                    Use the Source Snippets feature to make your code showcase-ready.
-                    Choose between six themes with both light and dark mode support, you can even give your snippet a
-                    title!
-                </p>
+    <feature-row title="Showcase Your Code"
+      text="Use the Source Snippets feature to make your code showcase-ready. Choose between six themes with both light and dark mode support, you can even give your snippet a title!"
+      img="assets/images/promo/snippets.webp" alt="Source snippets example" reverse="false">
+    </feature-row>
 
-            </div>
-            <div class="flex-1 text-center">
-                <img src="assets/images/promo/source_snippets.webp" alt="Source snippets example"
-                    class="w-full h-auto rounded-xl drop-shadow-md" />
-            </div>
-        </div>
+    <feature-row title="Native Integration"
+      text="Built from the ground up for the modern Linux desktop. Gradia seamlessly integrates with your GNOME workflow, offering multiple ways to capture and import images while maintaining the speed and reliability you expect."
+      list="Seamless GNOME desktop integration|Wayland first approach|System-wide screenshot shortcuts|5+ ways to quickly import images"
+      img="assets/images/promo/home.png" alt="Gradia Home Screen" reverse="true">
+    </feature-row>
+  </div>
 
-        <!-- Native Integration -->
-        <div class="flex flex-col lg:flex-row-reverse items-center gap-12 py-8">
-            <div class="flex-1">
-                <h3 class="text-3xl sm:text-4xl font-bold text-white mb-6">Native Integration</h3>
-                <p class="text-secondary text-lg leading-relaxed mb-4">
-                    Built from the ground up for the modern Linux desktop. Gradia seamlessly integrates with your GNOME
-                    workflow, offering multiple ways to capture and import images while maintaining the speed and
-                    reliability you expect.
-                </p>
-                <ul class="list-none p-0 mt-4 space-y-2">
-                    <li class="flex items-start text-lg text-secondary bullet-point">Seamless GNOME desktop integration
-                    </li>
-                    <li class="flex items-start text-lg text-secondary bullet-point">Wayland first approach</li>
-                    <li class="flex items-start text-lg text-secondary bullet-point">System-wide screenshot shortcuts
-                    </li>
-                    <li class="flex items-start text-lg text-secondary bullet-point">5+ ways to quickly import images
-                    </li>
-                </ul>
-            </div>
-            <div class="flex-1 text-center">
-                <img src="assets/images/promo/home.webp" alt="Native Integration"
-                    class="w-full h-auto rounded-xl drop-shadow-md" />
-            </div>
-        </div>
-
-        <div class="bg-card rounded-[24px] p-6 flex flex-col justify-between text-white">
-            <div>
-                <h3 class="text-xl font-bold mb-2">Get Involved</h3>
-                <p class="text-md text-text-muted">
-                    Gradia is free and open-source software, and we warmly welcome contributions.
-                </p>
-            </div>
-            <div class="flex flex-col sm:flex-row gap-4 mt-4">
-                <a href="https://github.com/AlexanderVanhee/Gradia"
-                    class="button flex items-center gap-2 font-semibold justify-center">
-                    <img src="assets/icons/code-symbolic.svg" alt="" class="w-5 h-5 brightness-0 invert" />
-                    Contribute
-                </a>
-                <a href="https://github.com/AlexanderVanhee/Gradia/blob/master/TRANSLATING.md"
-                    class="button flex items-center gap-2 font-semibold justify-center">
-                    <img src="assets/icons/language-symbolic.svg" alt="" class="w-5 h-5 brightness-0 invert" />
-                    Localization
-                </a>
-            </div>
-        </div>
+  <div class="max-w-6xl mx-auto px-6 sm:px-8">
+    <div class="bg-card rounded-[24px] p-6 flex flex-col justify-between text-white">
+      <div>
+        <h3 class="text-xl font-bold mb-2">Get Involved</h3>
+        <p class="text-md text-text-muted">
+          Gradia is free and open-source software, and we warmly welcome contributions.
+        </p>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-4 mt-4">
+        <a href="https://github.com/AlexanderVanhee/Gradia"
+          class="button flex items-center gap-2 font-semibold justify-center">
+          <img src="assets/icons/code-symbolic.svg" alt="" class="w-5 h-5 brightness-0 invert" />
+          Contribute
+        </a>
+        <a href="https://github.com/AlexanderVanhee/Gradia/blob/master/TRANSLATING.md"
+          class="button flex items-center gap-2 font-semibold justify-center">
+          <img src="assets/icons/language-symbolic.svg" alt="" class="w-5 h-5 brightness-0 invert" />
+          Localization
+        </a>
+      </div>
     </div>
+  </div>
 
-    <footer class="bg-adw-footer text-white py-8 sm:mt-16">
-        <div class="max-w-6xl mx-auto px-6 sm:px-8">
-            <div class="flex flex-col sm:flex-row justify-between items-center">
-                <div class="flex gap-6">
-                    <a href="providers.html"
-                        class="text-text-muted hover:text-white transition-colors">
-                        Docs
-                    </a>
-                    <a href="https://github.com/AlexanderVanhee/Gradia"
-                        class="text-text-muted hover:text-white transition-colors">
-                        GitHub
-                    </a>
-                    <a href="https://flathub.org/apps/be.alexandervanhee.gradia"
-                        class="text-text-muted hover:text-white transition-colors">
-                        Flathub
-                    </a>
-                    <a href="https://snapcraft.io/gradia"
-                        class="text-text-muted hover:text-white transition-colors">
-                        Snap Store
-                    </a>
-                </div>
-                <div class="text-center sm:text-left mt-6 sm:mt-0 mb-12 sm:mb-0 text-text-muted text-sm space-y-1">
-                    <p>&copy; 2025 Gradia, All rights reserved.</p>
-                    <p>
-                        Licensed under the
-                        <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener noreferrer"
-                            class="underline hover:text-adw-blue">GPLv3</a>.
-                    </p>
-                </div>
-            </div>
+  <footer class="bg-adw-footer text-white py-8 mt-8 sm:mt-16">
+    <div class="max-w-6xl mx-auto px-6 sm:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center">
+        <div class="flex gap-6">
+          <a href="providers.html" class="text-text-muted hover:text-white transition-colors">Docs</a>
+          <a href="https://github.com/AlexanderVanhee/Gradia"
+            class="text-text-muted hover:text-white transition-colors">GitHub</a>
+          <a href="https://flathub.org/apps/be.alexandervanhee.gradia"
+            class="text-text-muted hover:text-white transition-colors">Flathub</a>
+          <a href="https://snapcraft.io/gradia" class="text-text-muted hover:text-white transition-colors">Snap
+            Store</a>
         </div>
-    </footer>
+        <div class="text-center sm:text-left mt-6 sm:mt-0 mb-12 sm:mb-0 text-text-muted text-sm space-y-1">
+          <p>&copy; 2025 Gradia, All rights reserved.</p>
+          <p>
+            Licensed under the
+            <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener noreferrer"
+              class="underline hover:text-adw-blue">GPLv3</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    class FeatureRow extends HTMLElement {
+      connectedCallback() {
+        this.render();
+      }
+
+      render() {
+        const title = this.getAttribute('title') || '';
+        const text = this.getAttribute('text') || '';
+        const listAttr = this.getAttribute('list');
+        const img = this.getAttribute('img') || '';
+        const alt = this.getAttribute('alt') || '';
+        const reverse = this.getAttribute('reverse') === 'true';
+
+        const listItems = listAttr ? listAttr.split('|') : [];
+
+        const flexDirection = reverse ? 'lg:flex-row-reverse' : '';
+
+        this.innerHTML = `
+          <div class="flex flex-col lg:flex-row items-center gap-6 md:gap-12 mb-8 md:mb-16 py-4 md:py-4 ${flexDirection}">
+            <div class="flex-1">
+              <h3 class="text-3xl sm:text-4xl font-bold text-white mb-6">${title}</h3>
+              <p class="text-secondary text-lg leading-relaxed mb-4">${text}</p>
+              ${listItems.length > 0 ? `
+                <ul class="list-none p-0 mt-4 space-y-2">
+                  ${listItems.map(item => `
+                    <li class="flex items-start text-lg text-secondary bullet-point">${item}</li>
+                  `).join('')}
+                </ul>
+              ` : ''}
+            </div>
+            <div class="flex-1 text-center">
+              <img src="${img}" alt="${alt}" class="w-full h-auto drop-shadow-md" style="transform: scale(1.1); object-fit: cover;" />
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    customElements.define('feature-row', FeatureRow);
+  </script>
 </body>
 
 </html>

@@ -15,15 +15,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import random
-import re
 from typing import Callable, Optional
 from pathlib import Path
-from gi.repository import Adw, Gtk, GLib, Gdk, GdkPixbuf, Graphene, Gsk
+from gi.repository import Adw, Gtk, GLib, Gdk, GdkPixbuf, Graphene, Gsk, GObject
 
 from gradia.app_constants import PREDEFINED_GRADIENTS
 from gradia.backend.settings import Settings
-from gradia.constants import rootdir  # pyright: ignore
+from gradia.constants import rootdir
 from gradia.graphics.gradient import Gradient
 
 
@@ -57,35 +55,54 @@ class RecentImageGetter:
         return [RecentFile(f) for f in top_files]
 
     def _get_screenshots_directory(self) -> Path | None:
-        """
-        Return XDG_PICTURES_DIR/(configured folder from preferences), or the XDG_PICTURES_DIR itself
-        if no subfolder is configured. Returns None if the base pictures directory doesn't exist.
-        """
         xdg_pictures = GLib.get_user_special_dir(GLib.USER_DIRECTORY_PICTURES)
-        if not xdg_pictures:
-            return None
+        screenshot_folder = Settings().screenshot_folder
 
-        configured_subfolder = Settings().screenshot_subfolder
-        if not configured_subfolder:
-            path = Path(xdg_pictures)
+        if screenshot_folder:
+            path = Path(screenshot_folder)
             return path if path.exists() else None
 
-        path = Path(xdg_pictures) / configured_subfolder
-        return path if path.exists() else None
+        if xdg_pictures:
+            path = Path(xdg_pictures) / 'Screenshots'
+            return path if path.exists() else None
+        return None
 
+class ShadowedImageCard(Gtk.Widget):
+    _shadows = None
 
-class RoundedImage(Gtk.Widget):
-    def __init__(self, path: str, radius: float = 4.0, padding: int=16):
+    def __init__(self, path: str, radius: float = 4.0, padding: int = 8,
+                 compact: bool = False):
         super().__init__()
         self.radius = radius
         self.texture = None
         self.padding = padding
+        self._image_rect = Graphene.Rect()
+
+        width = 155 if compact else 260
+        height = 120 if compact else 160
 
         try:
-            pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(path, 260, 160)
+            pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(path, width, height)
             self.texture = Gdk.Texture.new_for_pixbuf(pixbuf)
         except Exception as e:
             print(f"Failed to load image {path}: {e}")
+
+    @classmethod
+    def _get_shadows(cls):
+        if cls._shadows is None:
+            def create_shadow(r, g, b, a, dx, dy, radius):
+                color = Gdk.RGBA()
+                color.red, color.green, color.blue, color.alpha = r, g, b, a
+                shadow = Gsk.Shadow()
+                shadow.color, shadow.dx, shadow.dy, shadow.radius = color, dx, dy, radius
+                return shadow
+
+            cls._shadows = [
+                create_shadow(0, 0, 0, 0.16, 0, 0, 8),
+                create_shadow(0, 0, 0, 0.24, 0, 0, 16),
+                create_shadow(0, 0, 0, 0.32, 0, 0, 24)
+            ]
+        return cls._shadows
 
     def do_snapshot(self, snapshot: Gtk.Snapshot) -> None:
         if not self.texture:
@@ -93,7 +110,6 @@ class RoundedImage(Gtk.Widget):
 
         widget_width = self.get_width()
         widget_height = self.get_height()
-
         texture_width = self.texture.get_width()
         texture_height = self.texture.get_height()
 
@@ -110,31 +126,38 @@ class RoundedImage(Gtk.Widget):
         x_offset = self.padding + (available_width - scaled_width) / 2
         y_offset = self.padding + (available_height - scaled_height) / 2
 
-        image_rect = Graphene.Rect().init(x_offset, y_offset, scaled_width, scaled_height)
-        rounded_rect = Gsk.RoundedRect()
-        rounded_rect.init_from_rect(image_rect, self.radius)
+        self._image_rect.init(x_offset, y_offset, scaled_width, scaled_height)
 
-        snapshot.push_rounded_clip(rounded_rect)
-        snapshot.append_texture(self.texture, image_rect)
+        snapshot.push_shadow(self._get_shadows())
+
+        if self.radius > 0:
+            rounded_rect = Gsk.RoundedRect()
+            rounded_rect.init_from_rect(self._image_rect, self.radius)
+            snapshot.push_rounded_clip(rounded_rect)
+
+        snapshot.append_texture(self.texture, self._image_rect)
+
+        if self.radius > 0:
+            snapshot.pop()
+
         snapshot.pop()
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/recent_picker.ui")
 class RecentPicker(Adw.Bin):
     __gtype_name__ = "GradiaRecentPicker"
 
-    GRID_ROWS = 2
-    GRID_COLUMNS = 3
     FRAME_SPACING = 5
     IMAGE_WIDTH = 260
     IMAGE_HEIGHT = 160
-    MAX_WIDTH_CHARS = 20
-    MAX_FILENAME_LENGTH = 30
-    FILENAME_TRUNCATE_LENGTH = 27
+    COMPACT_IMAGE_WIDTH = 150
+    COMPACT_IMAGE_HEIGHT = 120
 
-    item_grid: Gtk.Grid = Gtk.Template.Child()
+    item_grid: Gtk.FlowBox = Gtk.Template.Child()
 
     recent_overlay: Gtk.Overlay= Gtk.Template.Child()
     error_overlay: Adw.StatusPage = Gtk.Template.Child()
+
+    compact = GObject.Property(type=bool, default=False)
 
     def __init__(self, callback: Optional[Callable] = None, **kwargs) -> None:
         super().__init__(**kwargs)
@@ -142,8 +165,7 @@ class RecentPicker(Adw.Bin):
         self.image_getter = RecentImageGetter()
         self.callback = callback
 
-        self.image_buttons: list[Gtk.Button] = []
-        self.name_labels: list[Gtk.Label] = []
+        self.image_bins: list[Gtk.Button] = []
         self.recent_files: list[RecentFile] = []
 
         self.gradient_colors = PREDEFINED_GRADIENTS
@@ -153,43 +175,39 @@ class RecentPicker(Adw.Bin):
         self.gradient_colors = list(self.gradient_colors)
         self.original_gradient_indexes = list(self.original_gradient_indexes)
 
+        self.connect("notify::compact", self._on_compact_changed)
+        self._setup_cards()
+        self._load_images()
+
+    def _on_compact_changed(self, *args) -> None:
         self._setup_cards()
         self._load_images()
 
     def _setup_cards(self) -> None:
-        for row in range(self.GRID_ROWS):
-            for column in range(self.GRID_COLUMNS):
-                index = row * self.GRID_COLUMNS + column
+        for child in list(self.item_grid):
+            self.item_grid.remove(child)
 
-                container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=self.FRAME_SPACING)
-                container.set_size_request(self.IMAGE_WIDTH, self.IMAGE_HEIGHT)
+        self.image_bins.clear()
 
-                frame = Gtk.Frame(vexpand=True)
-                frame.set_size_request(self.IMAGE_WIDTH, self.IMAGE_HEIGHT)
+        width = self.COMPACT_IMAGE_WIDTH if self.compact else self.IMAGE_WIDTH
+        height = self.COMPACT_IMAGE_HEIGHT if self.compact else self.IMAGE_HEIGHT
 
-                image_button = Gtk.Button(has_frame=False)
-                image_button.set_size_request(self.IMAGE_WIDTH, self.IMAGE_HEIGHT)
-                image_button.add_css_class("card")
-                image_button.connect("clicked", lambda _btn, idx=index: self._on_image_clicked(idx))
+        for index in range(6):
+            image_bin = Adw.Bin()
+            image_bin.set_size_request(width, height)
+            image_bin.add_css_class("card")
+            self._apply_gradient_to_button(image_bin, index)
+            placeholder = Gtk.Box()
+            image_bin.set_child(placeholder)
+            self.image_bins.append(image_bin)
+            self.item_grid.append(image_bin)
 
-                self._apply_gradient_to_button(image_button, index)
-
-                placeholder = Gtk.Box()
-                image_button.set_child(placeholder)
-
-                frame.set_child(image_button)
-                self.image_buttons.append(image_button)
-                container.append(frame)
-
-                name_label = Gtk.Label()
-                name_label.set_wrap(True)
-                name_label.set_max_width_chars(self.MAX_WIDTH_CHARS)
-                name_label.add_css_class("caption")
-                name_label.set_halign(Gtk.Align.CENTER)
-                self.name_labels.append(name_label)
-                container.append(name_label)
-
-                self.item_grid.attach(container, column, row, 1, 1)
+        self.item_grid.connect(
+            "child-activated",
+            lambda flowbox, flowbox_child: self._on_image_clicked(
+                self.image_bins.index(flowbox_child.get_child())
+            )
+        )
 
     def _on_image_clicked(self, index: int, *args) -> None:
         if index < len(self.recent_files):
@@ -211,10 +229,8 @@ class RecentPicker(Adw.Bin):
         gradient = self.gradient_colors[color_index]
 
         css = f"""
-            button#{gradient_name} {{
+            *#{gradient_name} {{
                 background-image: {gradient.to_css()};
-                min-width: {self.IMAGE_WIDTH}px;
-                min-height: {self.IMAGE_HEIGHT}px;
             }}
         """
 
@@ -239,26 +255,24 @@ class RecentPicker(Adw.Bin):
         else:
             self.error_overlay.set_visible(False)
             self.item_grid.set_opacity(1)
-        for i in range(self.GRID_ROWS * self.GRID_COLUMNS):
+
+        radius = 2.0 if self.compact else 4.0
+        padding = 10
+
+        for i in range(6):
             if i < len(recent_files):
                 file = recent_files[i]
 
                 try:
-                    rounded = RoundedImage(str(file.path))
-                    self.image_buttons[i].set_child(rounded)
-                    self.image_buttons[i].set_sensitive(True)
+                    shadowed = ShadowedImageCard(str(file.path), radius=radius, padding=padding, compact=self.compact)
+                    self.image_bins[i].set_child(shadowed)
+                    self.image_bins[i].set_sensitive(True)
                 except Exception as e:
-                    filename = file.path.name
-                    if len(filename) > self.MAX_FILENAME_LENGTH:
-                        filename = filename[:self.FILENAME_TRUNCATE_LENGTH] + "..."
-
-                    error_label = Gtk.Label(label=filename)
-                    self.image_buttons[i].set_child(error_label)
-                    self.image_buttons[i].set_sensitive(False)
-                    self.name_labels[i].set_text("")
+                    icon = Gtk.Image.new_from_icon_name("image-missing-symbolic")
+                    self.image_bins[i].set_child(icon)
+                    self.image_bins[i].set_sensitive(False)
                     print(f"Error loading image {file.path}: {e}")
             else:
                 icon = Gtk.Image.new_from_icon_name("image-missing-symbolic")
-                self.image_buttons[i].set_child(icon)
-                self.image_buttons[i].set_sensitive(False)
-                self.name_labels[i].set_text("")
+                self.image_bins[i].set_child(icon)
+                self.image_bins[i].set_sensitive(False)

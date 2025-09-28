@@ -1,4 +1,10 @@
-@import "base-tailwind.css";
+@import "base.css";
+
+:root {
+  --btn-bg: rgba(255, 255, 255, .12);
+  --btnround: 500px;
+}
+
 
 .bg-drool {
     background-image: url("../images/drool-l.svg");
@@ -37,4 +43,45 @@
         box-shadow: 0 0 0 2px var(--adw-button);
         text-decoration: none;
     }
+}
+
+
+.btn.suggested {
+  font-weight: 700;
+  font-variation-settings: "wght" 700;
+  background-color: var(--accent-color);
+  color: white;
+  box-shadow: 0 0 0 0 var(--accent-color);
+  transition: box-shadow .2s var(--slickease);
+}
+
+.btn.suggested:hover {
+  background-color: var(--accent-color);
+  box-shadow: 0 0 0 2px var(--accent-color);
+}
+
+.btn:hover {
+	box-shadow: 0 0 0 2px var(--btn-bg);
+	text-decoration: none;
+}
+
+.btn {
+	font-weight: 600;
+	font-variation-settings: "wght" 600;
+	color: var(--btn-fg);
+	background-color: var(--btn-bg);
+	fill: var(--btn-fg);
+	display: inline-block;
+	font-size: 100%;
+	white-space: nowrap;
+	padding: .8rem 1.9rem;
+	margin: .3rem;
+	max-width: 20rem;
+	vertical-align: middle;
+	text-align: center;
+	text-decoration: none;
+	border-radius: var(--btnround);
+	box-shadow: 0 0 0 0 var(--btn-bg);
+	min-width: 4rem;
+	transition: box-shadow .2s var(--slickease);
 }

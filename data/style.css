@@ -15,16 +15,16 @@ headerbar.desktop windowcontrols button:active image {
     background: alpha(mix(black, white, 0.2), 0.5);
 }
 
-.gradient-preset, .image-preset-button {
+.preset-button {
     min-width: 80px;
     min-height: 60px;
     box-shadow: 0 0 0 1px @borders;
     padding: 0;
-    border-radius: 12px;
+    border-radius: 6px;
     transition: filter 0.3s ease;
 }
 
-.gradient-preset, .image-preset-button, .gradient-editor, .provider-source-view{
+.preset-button, .gradient-editor, .provider-source-view{
     box-shadow: 0 0 0 1px alpha(black, 0.03),
           0 1px 3px 1px alpha(black, .07),
           0 2px 6px 2px alpha(black, .03);
@@ -34,23 +34,12 @@ headerbar.desktop windowcontrols button:active image {
     border-radius:12px;
 }
 
-.gradient-preset:hover , .image-preset-button:hover {
+.preset-button:hover {
     filter: brightness(1.1);
 }
 
-.gradient-preset, .image-preset-button picture {
-    border-radius: 9px;
-}
-
-.drawing_tool_entry_box {
-  border-bottom: 1px solid var(--card-shade-color);
-}
-
-/* Gradient Preview Box */
-.gradient-preview {
-    border-radius: 8px;
-    min-width: 120px;
-    min-height: 40px;
+.preset-button picture {
+    border-radius: 6px;
 }
 
 /* Circular color picker*/
@@ -105,16 +94,19 @@ headerbar.desktop windowcontrols button:active image {
 .recent-button{
     background-size: cover;
     transition: filter 0.3s ease;
+    border-radius:10px;
 }
 
 .recent-button:hover{
     filter: brightness(1.1);
 }
+
 .recent-button:active{
     filter: brightness(0.9);
 }
-.recent-button image {
-    border-radius: 4px;
+
+.recent-button-flowbox > flowboxchild:focus {
+    border-radius:12px;
 }
 
 .bold {
@@ -263,6 +255,17 @@ image.symbolic-circular {
 }
 
 .rounded-top {
+    background-color: #d9d9da;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
+
+.semi-transparent {
+  opacity: 0.8;
+  transition: opacity 200ms ease;
+}
+
+.semi-transparent:hover, .semi-transparent:active{
+  opacity: 1;
+}
+

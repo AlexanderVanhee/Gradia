@@ -3,12 +3,15 @@ using Adw 1;
 
 template $GradiaRecentPicker : Adw.Bin {
   child: Gtk.Overlay recent_overlay {
-     child:Gtk.Grid item_grid {
+     child:Gtk.FlowBox item_grid {
         row-spacing: 10;
-        column-spacing: 30;
+        column-spacing: 10;
         halign: center;
-        margin-start: 50;
-        margin-end: 50;
+        homogeneous: true;
+        max-children-per-line: 3;
+        min-children-per-line: 2;
+        selection-mode: none;
+        styles ["recent-button-flowbox"]
       };
 
       [overlay]
@@ -25,7 +28,7 @@ template $GradiaRecentPicker : Adw.Bin {
         }
 
         Label {
-         label: _("Please set it in the Preferences menu.");
+         label: _("Please set it in the Preferences menu");
          margin-bottom:12;
         }
 

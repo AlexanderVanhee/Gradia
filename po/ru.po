@@ -10,16 +10,16 @@ msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-21 12:24+0300\n"
-"PO-Revision-Date: 2025-07-21 12:45+0300\n"
+"PO-Revision-Date: 2025-09-24 18:31+0300\n"
 "Last-Translator: AnmiTaliDev <anmitali198@gmail.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Gtranslator 48.0\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Gtranslator 49.0\n"
 
 #: data/be.alexandervanhee.gradia.desktop.in.in:3
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:11
@@ -32,9 +32,7 @@ msgstr "Подготовьте свои изображения для всего
 
 #: data/be.alexandervanhee.gradia.desktop.in.in:10
 msgid "Image;Gradient;Background;Screenshot;Edit;"
-msgstr ""
-"Image;Gradient;Background;Screenshot;Edit;Изображение;Градиент;Фон;Скриншот;"
-"Редактировать;"
+msgstr "Image;Gradient;Background;Screenshot;Edit;Изображение;Градиент;Фон;Скриншот;Редактировать;"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:12
 msgid "Make your screenshots ready for all"
@@ -75,11 +73,11 @@ msgstr "Десять режимов аннотаций, включая текс�
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:21
 msgid "Multiple ways to import and export screenshots"
-msgstr "Несколько способов импорта и экспорта снимков экрана"
+msgstr "Множество способов импорта и экспорта снимков экрана"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:22
 msgid "Quick upload button for image services like Imgur"
-msgstr "Кнопка быстрого загрузки для изображений, таких как Imgur"
+msgstr "Кнопка быстрой загрузки в сервисы изображений, таких как Imgur"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:27
 msgid "flatpak run be.alexandervanhee.gradia --screenshot=INTERACTIVE"
@@ -121,7 +119,7 @@ msgstr ""
 
 #: gradia/ui/ui_parts.py:62
 msgid "File Actions"
-msgstr "Действия над файлом"
+msgstr "Действия с файлом"
 
 #: gradia/ui/ui_parts.py:64
 msgid "Open File"
@@ -246,7 +244,7 @@ msgstr "Не удалось скопировать изображение в б�
 
 #: gradia/ui/image_exporters.py:252
 msgid "Link generated successfully"
-msgstr "Ссылки успешно сгенерирована"
+msgstr "Ссылка успешно сгенерирована"
 
 #: gradia/ui/image_exporters.py:253
 msgid "Open Link"
@@ -450,7 +448,7 @@ msgstr "Корень"
 
 #: gradia/ui/preferences_window.py:129
 msgid "None selected"
-msgstr "Ничего не вырано"
+msgstr "Ничего не выбрано"
 
 #: gradia/ui/preferences_window.py:227
 msgid "Copied!"
@@ -590,7 +588,7 @@ msgstr "Сбросить заполнение"
 
 #: data/ui/drawing_tools_group.blp:165
 msgid "Pick the Fill Color"
-msgstr "Выбрать ывет заполнения"
+msgstr "Выбрать цвет заполнения"
 
 #: data/ui/drawing_tools_group.blp:198
 msgid "Outline Color"
@@ -710,7 +708,7 @@ msgstr "О Gradia"
 
 #: data/ui/image_stack.blp:82
 msgid "Reset Crop Selection"
-msgstr "Сброчить обрезку"
+msgstr "Сбросить выделенную область обрезки"
 
 #: data/ui/image_stack.blp:144
 msgid "Clear All"
@@ -942,11 +940,11 @@ msgstr "Добавить рамку окна вокруг кода"
 
 #: data/ui/image_generator_window.blp:83
 msgid "Show Line Numbers"
-msgstr "Показать номера линий"
+msgstr "Показать номера строк"
 
 #: data/ui/image_generator_window.blp:88
 msgid "Add a number before each new line of code"
-msgstr "Добавить номера перед каждой новой линией кода"
+msgstr "Добавить номера перед каждой новой строкой кода"
 
 #: data/ui/image_generator_window.blp:115
 msgid "Export"

@@ -1,5 +1,5 @@
 project('gradia', 'c',
-            version: '1.9.0',
+            version: '1.11.1',
       meson_version: '>= 1.0.0',
     default_options: ['warning_level=2',
                       'werror=false'
@@ -61,6 +61,10 @@ else
   APPLICATION_ID = PROJECT_RDNN_NAME
 endif
 
+# OCR Directories
+OCR_TESSERACT_CMD = '/app/bin/tesseract'
+OCR_ORIGINAL_TESSDATA_DIR = '/app/share/tessdata'
+
 # Install configuration data
 conf = configuration_data()
 conf.set('APP_ID', APPLICATION_ID)
@@ -74,6 +78,9 @@ conf.set('BUILD_TYPE', get_option('buildtype'))
 conf.set('SCHEMAS_DIR', PKGDATA_DIR)
 conf.set('SOURCE_DIR', meson.current_source_dir())
 conf.set('BUILD_DIR', meson.current_build_dir())
+
+conf.set('OCR_TESSERACT_CMD', OCR_TESSERACT_CMD)
+conf.set('OCR_ORIGINAL_TESSDATA_DIR', OCR_ORIGINAL_TESSDATA_DIR)
 
 # Install project information
 conf.set('RELEASE_VER', meson.project_version())

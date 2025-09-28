@@ -61,19 +61,24 @@ def hex_to_rgb(hex_color: HexColor) -> RGBTuple:
 def has_visible_color(color):
     return any(c > 0 for c in color[:3]) or (len(color) > 3 and color[3] > 0)
 
-def is_light_color(hex_color: str) -> bool:
+def _calculate_luminance(r: float, g: float, b: float, a: float) -> float:
+    if a == 0:
+        return 255
+    return 0.299 * r * 255 + 0.587 * g * 255 + 0.114 * b * 255
+
+def is_light_color_hex(hex_color: str) -> bool:
     hex_color = hex_color.lstrip("#")
     if len(hex_color) == 6:
-        r, g, b = [int(hex_color[i:i + 2], 16) for i in (0, 2, 4)]
-        a = 255
+        r, g, b = [int(hex_color[i:i+2], 16)/255 for i in (0, 2, 4)]
+        a = 1.0
     elif len(hex_color) == 8:
-        r, g, b, a = [int(hex_color[i:i + 2], 16) for i in (0, 2, 4, 6)]
+        r, g, b, a = [int(hex_color[i:i+2], 16)/255 for i in (0, 2, 4, 6)]
     else:
         raise ValueError("Invalid hex color format")
-    if a == 0:
-        return True
-    luminance = 0.299 * r + 0.587 * g + 0.114 * b
-    return luminance > 200
+    return _calculate_luminance(r, g, b, a) > 130
+
+def is_light_color_rgba(rgba: Gdk.RGBA) -> bool:
+    return _calculate_luminance(rgba.red, rgba.green, rgba.blue, rgba.alpha) > 130
 
 def parse_rgb_string(s: str) -> tuple[int, int, int]:
     s = s.strip().lower()

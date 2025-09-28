@@ -30,6 +30,7 @@ class ConfirmCloseDialog(Adw.AlertDialog):
         super().__init__(**kwargs)
         self.parent_window = parent_window
         self.on_confirm_callback: Optional[Callable[[], None]] = None
+        self.on_copy_callback: Optional[Callable[[], None]] = None
         self.settings = Settings()
         self._setup_settings_binding()
 
@@ -38,21 +39,24 @@ class ConfirmCloseDialog(Adw.AlertDialog):
     """
 
     def _setup_settings_binding(self) -> None:
-        """Bind the switch to the settings"""
-        self.settings._settings.bind(
-            "show-close-confirm-dialog",
-            self.dont_ask_switch,
-            "active",
-            Gio.SettingsBindFlags.INVERT_BOOLEAN
-        )
+        self.dont_ask_switch.set_active(self.settings.exit_method == "none")
+
+        def on_switch_toggled(switch: Gtk.CheckButton):
+            if switch.get_active():
+                self.settings.exit_method = "none"
+            else:
+                self.settings.exit_method = "confirm"
+
+        self.dont_ask_switch.connect("toggled", on_switch_toggled)
 
     """
     Public Methods
     """
 
-    def show_dialog(self, on_confirm_callback: Callable[[], None]) -> None:
+    def show_dialog(self, on_confirm_callback: Callable[[], None], on_copy_callback: Callable[[], None]) -> None:
         """Show the confirmation dialog"""
         self.on_confirm_callback = on_confirm_callback
+        self.on_copy_callback = on_copy_callback
         self.choose(self.parent_window, None, self._on_response)
 
     """
@@ -63,3 +67,5 @@ class ConfirmCloseDialog(Adw.AlertDialog):
         response = dialog.choose_finish(task)
         if response == "close" and self.on_confirm_callback:
             self.on_confirm_callback()
+        if response == "copy" and self.on_copy_callback:
+            self.on_copy_callback()

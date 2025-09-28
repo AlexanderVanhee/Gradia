@@ -63,12 +63,13 @@ class Settings:
 
 
     @property
-    def screenshot_subfolder(self) -> str:
-        return self._settings.get_string("screenshot-subfolder")
+    def screenshot_folder(self) -> str:
+        value = self._settings.get_string("screenshot-folder")
+        return None if value == "" else value
 
-    @screenshot_subfolder.setter
-    def screenshot_subfolder(self, value: str) -> None:
-        self._settings.set_string("screenshot-subfolder", value)
+    @screenshot_folder.setter
+    def screenshot_folder(self, value: str) -> None:
+        self._settings.set_string("screenshot-folder", value)
 
     @property
     def export_format(self) -> str:
@@ -87,8 +88,21 @@ class Settings:
         return self._settings.get_boolean("trash-screenshots-on-close")
 
     @property
-    def show_close_confirm_dialog(self) -> bool:
-        return self._settings.get_boolean("show-close-confirm-dialog")
+    def exit_method(self) -> str:
+        value = self._settings.get_string("exit-method")
+        if value in ("confirm", "copy", "none"):
+            return value
+        return "confirm"
+
+    @exit_method.setter
+    def exit_method(self, value: str) -> None:
+        if value not in ("confirm", "copy", "none"):
+            value = "confirm"
+        self._settings.set_string("exit-method", value)
+
+    @property
+    def overwrite_screenshot(self) -> bool:
+        return self._settings.get_boolean("overwrite-screenshot")
 
     @property
     def custom_export_command(self) -> str:
@@ -230,6 +244,14 @@ class Settings:
     def source_snippet_style_scheme(self, value: str) -> None:
         self._settings.set_string("source-snippet-style-scheme", value)
 
+    @property
+    def trained_data(self) -> str:
+        return self._settings.get_string("trained-data")
+
+    @trained_data.setter
+    def trained_data(self, value: str) -> None:
+        self._settings.set_string("trained-data", value)
+
     """
     Internal Methods
     """
@@ -295,3 +317,16 @@ class Settings:
             )
         else:
             print(f"Warning: GSettings key '{key}' not found in schema.")
+
+    def bind_toggle_group(self, toggle_group, key: str):
+        if key not in self._settings.list_keys():
+            print(f"Warning: GSettings key '{key}' not found in schema.")
+            return
+
+        current = self._settings.get_string(key)
+        toggle_group.set_active_name(current)
+
+        def on_toggle_group_changed(toggle_group):
+            self._settings.set_string(key, toggle_group.get_active_name())
+
+        toggle_group.connect("notify::active-name", lambda w, p: on_toggle_group_changed(w))

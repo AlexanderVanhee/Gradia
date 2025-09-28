@@ -22,7 +22,7 @@ from PIL import Image
 from gi.repository import Adw, Gtk, Gio, Gdk
 
 from gradia.graphics.background import Background
-from gradia.utils.colors import hex_to_rgb, hex_to_rgba, rgba_to_hex, is_light_color
+from gradia.utils.colors import hex_to_rgb, hex_to_rgba, rgba_to_hex, is_light_color_hex
 from gradia.constants import rootdir  # pyright: ignore
 
 
@@ -56,7 +56,7 @@ class SolidBackground(Background):
 
 
 class ColorPresetButton(Gtk.Button):
-    def __init__(self, color: str, alpha: float = 1.0, **kwargs) -> None:
+    def __init__(self, color: str, alpha: float = 1.0, tooltip_text: str = "", **kwargs) -> None:
         super().__init__(
             valign=Gtk.Align.CENTER,
             width_request=40,
@@ -65,6 +65,7 @@ class ColorPresetButton(Gtk.Button):
             margin_bottom=6,
             margin_start=6,
             margin_end=6,
+            tooltip_text=tooltip_text,
             **kwargs
         )
         self.set_focusable(True)
@@ -95,7 +96,7 @@ class ColorPresetButton(Gtk.Button):
         self.checkmark.set_pixel_size(16)
         self.checkmark.add_css_class("checkmark-icon")
 
-        if is_light_color(self.color):
+        if is_light_color_hex(self.color) or self.alpha == 0:
             self.checkmark.add_css_class("dark")
         else:
              self.checkmark.remove_css_class("dark")
@@ -126,6 +127,7 @@ class ColorPickerButton(Gtk.Button):
             margin_bottom=6,
             margin_start=6,
             margin_end=6,
+            tooltip_text=_("More Colors..."),
             **kwargs
         )
         self.set_focusable(True)
@@ -185,23 +187,20 @@ class ColorPickerButton(Gtk.Button):
 class SolidSelector(Adw.PreferencesGroup):
     __gtype_name__ = "GradiaSolidSelector"
     COMMON_COLORS = [
-        "#fff66151",  # Red
-        "#ffe66100",  # Orange
-        "#fff6d32d",  # Yellow
-        "#ff33d17a",  # Green
-        "#ff3584e4",  # Blue
-
-        "#ffc061cb",  # Purple
-        "#ffffd1dc",  # Pastel Pink
-        "#fffff4d1",  # Pastel Yellow
-        "#ffd1ffd1",  # Pastel Green
-        "#ffd1f0ff",  # Pastel Cyan
-
-        "#ffffffff",  # White
-        "#ff000000",  # Black
-        "#ff77767b",  # Gray
-        "#00000000",  # Transparent
-        "#00000000",  # Custom
+        ("#fff66151", _("Red")),
+        ("#ffe66100", _("Orange")),
+        ("#fff6d32d", _("Yellow")),
+        ("#ff33d17a", _("Green")),
+        ("#ff3584e4", _("Blue")),
+        ("#ffc061cb", _("Purple")),
+        ("#ffffd1dc", _("Pastel Pink")),
+        ("#fffff4d1", _("Pastel Yellow")),
+        ("#ffd1ffd1", _("Pastel Green")),
+        ("#ffd1f0ff", _("Pastel Cyan")),
+        ("#ffffffff", _("White")),
+        ("#ff000000", _("Black")),
+        ("#ff77767b", _("Gray")),
+        ("#00000000", _("Transparent")),
     ]
 
     color_presets_grid: Gtk.Grid = Gtk.Template.Child()
@@ -224,16 +223,7 @@ class SolidSelector(Adw.PreferencesGroup):
 
     def _setup_color_presets_row(self) -> None:
         columns = 5
-        for index, color in enumerate(self.COMMON_COLORS):
-            if index == 14:
-                self.color_picker_button = ColorPickerButton(self._on_custom_color_picked)
-                self.color_picker_button.connect("clicked", self._on_color_picker_clicked)
-
-                row_pos = index // columns
-                col_pos = index % columns
-                self.color_presets_grid.attach(self.color_picker_button, col_pos, row_pos, 1, 1)
-                continue
-
+        for index, (color, color_name) in enumerate(self.COMMON_COLORS):
             hex_color = color.lstrip('#')
             if len(hex_color) == 8:
                 alpha_from_hex = int(hex_color[:2], 16) / 255.0
@@ -243,13 +233,20 @@ class SolidSelector(Adw.PreferencesGroup):
                 rgb_hex = hex_color
 
             full_color = f"#{rgb_hex}"
-            button = ColorPresetButton(full_color, alpha_from_hex)
+            button = ColorPresetButton(full_color, alpha_from_hex, color_name)
             button.connect("clicked", self._on_common_color_clicked, full_color, alpha_from_hex)
 
             row_pos = index // columns
             col_pos = index % columns
             self.color_presets_grid.attach(button, col_pos, row_pos, 1, 1)
             self.preset_buttons.append(button)
+
+        self.color_picker_button = ColorPickerButton(self._on_custom_color_picked)
+        self.color_picker_button.connect("clicked", self._on_color_picker_clicked)
+
+        row_pos = len(self.COMMON_COLORS) // columns
+        col_pos = len(self.COMMON_COLORS) % columns
+        self.color_presets_grid.attach(self.color_picker_button, col_pos, row_pos, 1, 1)
 
     def _update_selected_preset(self) -> None:
         current_color = self.solid.color.lower()

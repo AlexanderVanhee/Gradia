@@ -1,0 +1,1194 @@
+# Telugu translation for Gradia.
+# Copyright (C) 2025 Gradia
+# This file is distributed under the same license as the gradia package.
+# Aryan Karamtoth <spaciouscoder78@disroot.org>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gradia\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-28 15:35+0200\n"
+"PO-Revision-Date: 2025-09-28 18:35+0530\n"
+"Last-Translator: Aryan Karamtoth <spaciouscoder78@disroot.org>\n"
+"Language-Team: GNOME Telugu Translation Team <indlinux-"
+"telugu@lists.sourceforge.net>\n"
+"Language: te\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Gtranslator 49.0\n"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:2
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:11
+msgid "Gradia"
+msgstr "గ్రేడియా"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:3
+msgid "Make your images ready for the world"
+msgstr "మీ చిత్రాలను ప్రపంచానికి సిద్ధం చేయండి"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:10
+msgid "Image;Gradient;Background;Screenshot;Edit;"
+msgstr "చిత్రం;ప్రవణత;నేపథ్యం;స్క్రీన్‌షాట్;సవరణ;"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:15
+msgid "New Window"
+msgstr "కొత్త విండో"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:20
+msgid "Take Screenshot"
+msgstr "స్క్రీన్‌షాట్ తీసుకోండి"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:25
+msgid "Take Fullscreen Screenshot"
+msgstr "పూర్తి స్క్రీన్ స్క్రీన్‌షాట్ తీసుకోండి"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:12
+msgid "Annotate your screenshots"
+msgstr "మీ స్క్రీన్‌షాట్‌లను వ్యాఖ్యానించండి"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:15
+msgid ""
+"Gradia helps you get your screenshots ready for sharing, whether quickly "
+"with friends or colleagues, or professionally with the entire world."
+msgstr ""
+"గ్రాడియా మీ స్క్రీన్‌షాట్‌లను స్నేహితులతో లేదా సహోద్యోగులతో త్వరగా లేదా మొత్తం ప్రపంచంతో వృత్తిపరంగా భాగస్వామ్యం "
+"చేయడానికి సిద్ధంగా ఉంచడంలో మీకు సహాయపడుతుంది."
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:16
+msgid "Key features:"
+msgstr "ముఖ్య లక్షణాలు:"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:18
+msgid "Ten annotation modes, including text, arrow, and censor"
+msgstr "టెక్స్ట్, బాణం మరియు సెన్సార్‌తో సహా పది ఉల్లేఖన మోడ్‌లు"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:19
+msgid "Optional image and gradient backgrounds"
+msgstr "ఐచ్ఛిక చిత్రం మరియు ప్రవణత నేపథ్యాలు"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:20
+msgid "Image settings like shadow, padding, and auto-balance"
+msgstr "షాడో, ప్యాడింగ్ మరియు ఆటో-బ్యాలెన్స్ వంటి ఇమేజ్ సెట్టింగ్‌లు"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:21
+msgid "Quick upload flow to easily share images via services like Imgur"
+msgstr "Imgur వంటి సేవల ద్వారా చిత్రాలను సులభంగా పంచుకోవడానికి త్వరిత అప్‌లోడ్ ప్రవాహం"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:22
+msgid "Convert code snippets into clean high-resolution images"
+msgstr "కోడ్ స్నిప్పెట్‌లను క్లీన్ హై-రిజల్యూషన్ చిత్రాలుగా మార్చండి"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:26
+msgid "Alexander Vanhee"
+msgstr "అలెగ్జాండర్ వాన్హీ"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:266
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:270
+msgid "Edited screenshot"
+msgstr "సవరించిన స్క్రీన్షాట్"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:274
+msgid "Startup view"
+msgstr "ప్రారంభ వీక్షణ"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:278
+msgid "UI element showcase"
+msgstr "UI ఎలిమెంట్ షోకేస్"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:282
+#: data/ui/image_generator_window.blp:5 data/ui/image_sidebar.blp:224
+#: data/ui/welcome_page.blp:79
+#: gradia/ui/image_creation/source_image_generator.py:397
+msgid "Source Snippets"
+msgstr "మూల స్నిప్పెట్స్"
+
+#: data/ui/background_selector.blp:15
+msgid "None"
+msgstr "ఏదీ లేదు"
+
+#: data/ui/background_selector.blp:20
+msgid "Solid"
+msgstr "ఘన"
+
+#: data/ui/background_selector.blp:25
+msgid "Gradient"
+msgstr "గ్రేడియంట్"
+
+#: data/ui/background_selector.blp:30
+msgid "Image"
+msgstr "చిత్రం"
+
+#: data/ui/confirm_close_dialog.blp:5
+msgid "Close Gradia?"
+msgstr "Gradia ని మూసివేయాలా?"
+
+#: data/ui/confirm_close_dialog.blp:6
+msgid "Are you sure you want to exit? All unsaved changes will be lost."
+msgstr "మీరు ఖచ్చితంగా నిష్క్రమించాలనుకుంటున్నారా? సేవ్ చేయని అన్ని మార్పులు పోతాయి."
+
+#: data/ui/confirm_close_dialog.blp:11
+#: gradia/ui/dialog/delete_screenshots_dialog.py:54
+#: gradia/ui/image_exporters.py:149 gradia/ui/window.py:479
+msgid "Cancel"
+msgstr "రద్దు చేయి"
+
+#: data/ui/confirm_close_dialog.blp:12 data/ui/ocr_dialog.blp:83
+msgid "Copy"
+msgstr "కాపీ చేయండి"
+
+#: data/ui/confirm_close_dialog.blp:13
+msgid "Close"
+msgstr "మూసివేయి"
+
+#: data/ui/confirm_close_dialog.blp:20
+msgid "Don't Ask Again"
+msgstr "మళ్ళీ అడగవద్దు"
+
+#: data/ui/drawing_tools_group.blp:7
+msgid "Annotation Tools"
+msgstr "ఉల్లేఖన సాధనాలు"
+
+#: data/ui/drawing_tools_group.blp:60 data/ui/drawing_tools_group.blp:75
+msgid "Fill"
+msgstr "పూరించండి"
+
+#: data/ui/drawing_tools_group.blp:82
+msgid "Border"
+msgstr "సరిహద్దు"
+
+#: data/ui/drawing_tools_group.blp:98
+msgid "Fill Color Picker"
+msgstr "రంగు ఎంపికను పూరించండి"
+
+#: data/ui/drawing_tools_group.blp:105
+msgid "Outline Color Picker"
+msgstr "అవుట్‌లైన్ కలర్ పికర్"
+
+#: data/ui/gradient_step_dialog.blp:7
+msgid "Edit Gradient Steps"
+msgstr "గ్రేడియంట్ దశలను సవరించండి"
+
+#: data/ui/gradient_step_dialog.blp:35
+msgid "Gradient Steps"
+msgstr "గ్రేడియంట్ దశలు"
+
+#: data/ui/gradient_step_dialog.blp:36
+msgid "You can add up to five steps"
+msgstr "మీరు ఐదు దశల వరకు జోడించవచ్చు"
+
+#: data/ui/gradient_step_dialog.blp:39
+msgid "Add Step"
+msgstr "దశను జోడించండి"
+
+#: data/ui/image_generator_window.blp:29
+msgid "Language"
+msgstr "భాష"
+
+#: data/ui/image_generator_window.blp:39
+msgid "Style"
+msgstr "శైలి"
+
+#: data/ui/image_generator_window.blp:54
+msgid "Default"
+msgstr "డిఫాల్ట్"
+
+#: data/ui/image_generator_window.blp:69
+msgid "Window Frame"
+msgstr "విండో ఫ్రేమ్"
+
+#: data/ui/image_generator_window.blp:74
+msgid "Add a window frame around the code"
+msgstr "కోడ్ చుట్టూ విండో ఫ్రేమ్‌ను జోడించండి."
+
+#: data/ui/image_generator_window.blp:81
+msgid "Line Numbers"
+msgstr "లైన్ సంఖ్యలు"
+
+#: data/ui/image_generator_window.blp:86
+msgid "Add a number before each new line of code"
+msgstr "ప్రతి కొత్త కోడ్ లైన్ ముందు ఒక సంఖ్యను జోడించండి"
+
+#: data/ui/image_generator_window.blp:113
+msgid "Export"
+msgstr "ఎగుమతి చేయండి"
+
+#: data/ui/image_sidebar.blp:17 data/ui/welcome_page.blp:60
+msgid "Open Image…"
+msgstr "చిత్రాన్ని తెరవండి..."
+
+#: data/ui/image_sidebar.blp:24 data/ui/welcome_page.blp:49
+msgid "Take a Screenshot…"
+msgstr "స్క్రీన్‌షాట్ తీసుకోండి..."
+
+#: data/ui/image_sidebar.blp:31 data/ui/welcome_page.blp:24
+msgid "Main Menu"
+msgstr "ప్రధాన మెనూ"
+
+#: data/ui/image_sidebar.blp:52
+msgid "Image Options"
+msgstr "చిత్ర ఎంపికలు"
+
+#: data/ui/image_sidebar.blp:55
+msgid "Padding"
+msgstr "పాడింగ్"
+
+#: data/ui/image_sidebar.blp:67
+msgid "Corner Radius"
+msgstr "మూల వ్యాసార్థం"
+
+#: data/ui/image_sidebar.blp:83
+msgid "Shadow"
+msgstr "నీడ"
+
+#: data/ui/image_sidebar.blp:103
+msgid "Auto Balance"
+msgstr "ఆటో బ్యాలెన్స్"
+
+#: data/ui/image_sidebar.blp:108
+msgid "Rotation"
+msgstr "భ్రమణం"
+
+#: data/ui/image_sidebar.blp:117
+msgid "Rotate Anticlockwise"
+msgstr "అపసవ్య దిశలో తిప్పండి"
+
+#: data/ui/image_sidebar.blp:125
+msgid "Rotate Clockwise"
+msgstr "సవ్యదిశలో తిప్పండి"
+
+#: data/ui/image_sidebar.blp:136
+msgid "Current File"
+msgstr "ప్రస్తుత ఫైల్"
+
+#: data/ui/image_sidebar.blp:139
+msgid "Name"
+msgstr "పేరు"
+
+#: data/ui/image_sidebar.blp:140 data/ui/image_sidebar.blp:146
+#: data/ui/image_sidebar.blp:165
+msgid "N/A"
+msgstr "N/A"
+
+#: data/ui/image_sidebar.blp:145
+msgid "Location"
+msgstr "స్థానం"
+
+#: data/ui/image_sidebar.blp:156
+msgid "Open Folder"
+msgstr "ఫోల్డర్ తెరవండి"
+
+#: data/ui/image_sidebar.blp:164
+msgid "Modified image size"
+msgstr "చిత్రం పరిమాణం సవరించబడింది"
+
+#: data/ui/image_sidebar.blp:183
+msgid "Save As…"
+msgstr "ఇలా సేవ్ చేయి..."
+
+#: data/ui/image_sidebar.blp:194
+msgid "Copy to Clipboard"
+msgstr "క్లిప్‌బోర్డ్‌కు కాపీ చేయండి"
+
+#: data/ui/image_sidebar.blp:204 gradia/ui/ui_parts.py:103
+msgid "Share Image"
+msgstr "చిత్రాన్ని భాగస్వామ్యం చేయండి"
+
+#: data/ui/image_sidebar.blp:228
+msgid "Delete Taken Screenshot(s)"
+msgstr "తీసిన స్క్రీన్‌షాట్(లు) తొలగించండి"
+
+#: data/ui/image_sidebar.blp:235 data/ui/preferences_window.blp:6
+#: data/ui/welcome_page.blp:85 gradia/ui/ui_parts.py:131
+msgid "Preferences"
+msgstr "ప్రాధాన్యతలు"
+
+#: data/ui/image_sidebar.blp:239 data/ui/welcome_page.blp:89
+#: gradia/ui/ui_parts.py:130
+msgid "Keyboard Shortcuts"
+msgstr "కీబోర్డ్ సత్వరమార్గాలు"
+
+#: data/ui/image_sidebar.blp:243 data/ui/welcome_page.blp:93
+msgid "About Gradia"
+msgstr "గ్రాడియా గురించి"
+
+#: data/ui/image_stack.blp:8 data/ui/welcome_page.blp:15
+msgid "Drop Image Here"
+msgstr "చిత్రాన్ని ఇక్కడ వదలండి"
+
+#: data/ui/image_stack.blp:79
+msgid "Open Sidebar"
+msgstr "సైడ్‌బార్‌ని తెరవండి"
+
+#: data/ui/image_stack.blp:92
+msgid "Crop…"
+msgstr "కత్తిరించు..."
+
+#: data/ui/image_stack.blp:105 data/ui/ocr_dialog.blp:5
+#: data/ui/ocr_dialog.blp:15 data/ui/preferences_window.blp:91
+msgid "Text Extraction"
+msgstr "వచన సంగ్రహణ"
+
+#: data/ui/image_stack.blp:118 gradia/ui/ui_parts.py:108
+msgid "Erase Selected"
+msgstr "ఎంపిక చేయబడిన ఎరేజ్"
+
+#: data/ui/image_stack.blp:136
+msgid "Reset Crop Selection"
+msgstr "పంట ఎంపికను రీసెట్ చేయండి"
+
+#: data/ui/image_stack.blp:165
+msgid "Confirm"
+msgstr "నిర్ధారించండి"
+
+#: data/ui/image_stack.blp:166
+msgid "Confirm Crop Selection"
+msgstr "పంట ఎంపికను నిర్ధారించండి"
+
+#: data/ui/image_stack.blp:205 gradia/ui/ui_parts.py:127
+msgid "Reset Zoom"
+msgstr "జూమ్‌ని రీసెట్ చేయండి"
+
+#: data/ui/image_stack.blp:229 gradia/ui/ui_parts.py:126
+msgid "Zoom Out"
+msgstr "జూమ్ అవుట్ చేయండి"
+
+#: data/ui/image_stack.blp:239 gradia/ui/ui_parts.py:125
+msgid "Zoom In"
+msgstr "జూమ్ ఇన్ చేయండి"
+
+#: data/ui/image_stack.blp:255 gradia/ui/ui_parts.py:106
+msgid "Undo"
+msgstr "అన్డు"
+
+#: data/ui/image_stack.blp:265 gradia/ui/ui_parts.py:107
+msgid "Redo"
+msgstr "పునరావృతం చేయండి"
+
+#: data/ui/image_stack.blp:275
+msgid "Clear All"
+msgstr "అన్నీ క్లియర్ చేయండి"
+
+#: data/ui/ocr_dialog.blp:16
+msgid "Crop image to adjust OCR area"
+msgstr "OCR ప్రాంతాన్ని సర్దుబాటు చేయడానికి చిత్రాన్ని కత్తిరించండి"
+
+#: data/ui/ocr_dialog.blp:22
+msgid "Select Language"
+msgstr "భాషను ఎంచుకోండి"
+
+#: data/ui/ocr_dialog.blp:52
+msgid "No Text Found"
+msgstr "వచనం కనుగొనబడలేదు"
+
+#: data/ui/ocr_dialog.blp:53
+msgid "Please make a new selection"
+msgstr "దయచేసి కొత్త ఎంపిక చేసుకోండి."
+
+#: data/ui/preferences/custom_provider_page.blp:6
+#: gradia/ui/preferences/provider_selection_window.py:132
+#: gradia/ui/provider_selection_window.py:133
+msgid "Custom Provider"
+msgstr "కస్టమ్ ప్రొవైడర్"
+
+#: data/ui/preferences/custom_provider_page.blp:13
+#: gradia/ui/image_exporters.py:148
+msgid "Save"
+msgstr "సేవ్ చేయండి"
+
+#: data/ui/preferences/custom_provider_page.blp:36
+#: data/ui/preferences/provider_detail_page.blp:105
+msgid "Upload Command"
+msgstr "ఆదేశాన్ని అప్‌లోడ్ చేయండి"
+
+#: data/ui/preferences/custom_provider_page.blp:37
+msgid ""
+"Enter a custom command to upload files. Use $1 as a placeholder for the file "
+"path."
+msgstr ""
+"ఫైళ్ళను అప్‌లోడ్ చేయడానికి కస్టమ్ ఆదేశాన్ని నమోదు చేయండి. ఫైల్ పాత్ కోసం $1 ను ప్లేస్‌హోల్డర్‌గా ఉపయోగించండి."
+
+#: data/ui/preferences/ocr_model_page.blp:5
+#: data/ui/preferences/ocr_model_page.blp:28 data/ui/preferences_window.blp:93
+msgid "Language Models"
+msgstr "భాషా నమూనాలు"
+
+#: data/ui/preferences/ocr_model_page.blp:29
+msgid "Using the correct language model can improve OCR accuracy."
+msgstr "సరైన భాషా నమూనాను ఉపయోగించడం వలన OCR ఖచ్చితత్వాన్ని మెరుగుపరచవచ్చు."
+
+#: data/ui/preferences/provider_detail_page.blp:56
+#: gradia/overlay/drawing_actions.py:54 gradia/ui/ui_parts.py:109
+msgid "Select"
+msgstr "ఎంచుకోండి"
+
+#: data/ui/preferences/provider_detail_page.blp:63
+msgid "About"
+msgstr "గురించి"
+
+#: data/ui/preferences/provider_detail_page.blp:66
+msgid "Homepage"
+msgstr "హోమ్‌పేజీ"
+
+#: data/ui/preferences/provider_detail_page.blp:83
+msgid "Terms of Service"
+msgstr "సేవా నిబంధనలు"
+
+#: data/ui/preferences/provider_detail_page.blp:101
+msgid "Features"
+msgstr "ఫీచర్లు"
+
+#: data/ui/preferences/provider_list_page.blp:5
+msgid "Choose a Provider"
+msgstr "ప్రొవైడర్‌ను ఎంచుకోండి"
+
+#: data/ui/preferences/provider_list_page.blp:12
+msgid "Loading"
+msgstr "లోడ్ అవుతోంది"
+
+#: data/ui/preferences/provider_list_page.blp:26
+msgid "Error"
+msgstr "లోపం"
+
+#: data/ui/preferences/provider_list_page.blp:40
+msgid "An error occurred"
+msgstr "ఒక లోపం సంభవించింది"
+
+#: data/ui/preferences/provider_list_page.blp:41
+msgid "Please try again later"
+msgstr "దయచేసి తర్వాత మళ్లీ ప్రయత్నించండి"
+
+#: data/ui/preferences/provider_list_page.blp:50
+msgid "Providers"
+msgstr "ప్రొవైడర్లు"
+
+#: data/ui/preferences/provider_list_page.blp:57
+msgid ""
+"Select a third party image upload provider. These have their own terms and "
+"conditions."
+msgstr ""
+"మూడవ పక్ష ఇమేజ్ అప్‌లోడ్ ప్రొవైడర్‌ను ఎంచుకోండి. వీటికి వాటి స్వంత నిబంధనలు మరియు షరతులు ఉన్నాయి."
+
+#: data/ui/preferences/screenshot_guide_page.blp:6
+msgid "Screenshot Shortcut Guide"
+msgstr "స్క్రీన్‌షాట్ షార్ట్‌కట్ గైడ్"
+
+#: data/ui/preferences/screenshot_guide_page.blp:32
+msgid "Shortcut Setup Instructions"
+msgstr "షార్ట్‌కట్ సెటప్ సూచనలు"
+
+#: data/ui/preferences/screenshot_guide_page.blp:44
+msgid ""
+"If you'd like the app to <b>open automatically</b> after taking a "
+"screenshot, you can set up a custom keyboard shortcut:\n"
+"\n"
+"<b>Steps:</b>\n"
+"1. Go to <b>Settings</b> → <b>Keyboard</b> → <b>View and Customize "
+"Shortcuts</b> → <b>Custom Shortcuts</b>.\n"
+"2. Click the <b>+</b> button to create a new shortcut.\n"
+"3. Set the <b>Name</b> to something like <i>Open Gradia with Screenshot</"
+"i>.\n"
+"4. For the <b>Command</b>, copy one of the commands below:"
+msgstr ""
+"స్క్రీన్‌షాట్ తీసిన తర్వాత యాప్ <b>ఆటోమేటిక్‌గా ఓపెన్ అవ్వాలనుకుంటే</b>, మీరు కస్టమ్ కీబోర్డ్ షార్ట్‌కట్‌ను సెటప్ "
+"చేయవచ్చు:\n"
+"\n"
+"<b>స్టెప్స్:</b>\n"
+"1. <b>సెట్టింగ్‌లు</b> → <b>కీబోర్డ్</b> → <b>షార్ట్‌కట్‌లను వీక్షించండి మరియు అనుకూలీకరించండి</b> "
+"→ <b>కస్టమ్ షార్ట్‌కట్‌లు</b>కి వెళ్లండి.\n"
+"2. కొత్త షార్ట్‌కట్‌ను సృష్టించడానికి <b>+</b> బటన్‌ను క్లిక్ చేయండి.\n"
+"3. <b>పేరు</b>ను <i>స్క్రీన్‌షాట్‌తో ఓపెన్ గ్రాడియా</i> లాగా సెట్ చేయండి.\n"
+"4. <b>కమాండ్</b> కోసం, దిగువ ఆదేశాలలో ఒకదాన్ని కాపీ చేయండి:"
+
+#: data/ui/preferences/screenshot_guide_page.blp:59
+msgid "Interactive Screenshot"
+msgstr "ఇంటరాక్టివ్ స్క్రీన్‌షాట్"
+
+#: data/ui/preferences/screenshot_guide_page.blp:65
+msgid "Allows you to select an area to screenshot"
+msgstr "స్క్రీన్‌షాట్ తీసుకోవడానికి ఒక ప్రాంతాన్ని ఎంచుకోవడానికి మిమ్మల్ని అనుమతిస్తుంది"
+
+#: data/ui/preferences/screenshot_guide_page.blp:75
+#: data/ui/preferences/screenshot_guide_page.blp:100
+#: data/ui/preferences/screenshot_guide_page.blp:137
+msgid "Copy to clipboard"
+msgstr "క్లిప్‌బోర్డ్‌కి కాపీ చేయండి"
+
+#: data/ui/preferences/screenshot_guide_page.blp:84
+msgid "Full Screen Screenshot"
+msgstr "పూర్తి స్క్రీన్ స్క్రీన్‌షాట్"
+
+#: data/ui/preferences/screenshot_guide_page.blp:90
+msgid "Takes a screenshot of all screens instantly"
+msgstr "అన్ని స్క్రీన్‌ల స్క్రీన్‌షాట్‌ను తక్షణమే తీసుకుంటుంది"
+
+#: data/ui/preferences/screenshot_guide_page.blp:104
+msgid ""
+"5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should "
+"be free by default)."
+msgstr ""
+"5. మీకు నచ్చిన కీబోర్డ్ షార్ట్‌కట్‌ను కేటాయించండి (<tt>Ctrl + Print</tt> డిఫాల్ట్‌గా ఉచితంగా ఉండాలి)."
+
+#: data/ui/preferences/screenshot_guide_page.blp:121
+msgid "Delayed Screenshot"
+msgstr "ఆలస్యమైన స్క్రీన్‌షాట్"
+
+#: data/ui/preferences/screenshot_guide_page.blp:127
+msgid "Delay the capture by a given duration (in milliseconds)."
+msgstr "సంగ్రహణను ఇచ్చిన వ్యవధి (మిల్లీసెకన్లలో) ఆలస్యం చేయండి."
+
+#: data/ui/preferences_window.blp:9 gradia/ui/ui_parts.py:129
+msgid "General"
+msgstr "జనరల్"
+
+#: data/ui/preferences_window.blp:11
+msgid "Screenshots"
+msgstr "స్క్రీన్‌షాట్‌లు"
+
+#: data/ui/preferences_window.blp:14
+msgid "Recent Directory"
+msgstr "ఇటీవలి డైరెక్టరీ"
+
+#: data/ui/preferences_window.blp:15
+msgid "Used for home screen"
+msgstr "హోమ్ స్క్రీన్ కోసం ఉపయోగించబడుతుంది"
+
+#: data/ui/preferences_window.blp:35
+msgid "Screenshot Shortcut"
+msgstr "స్క్రీన్‌షాట్ సత్వరమార్గం"
+
+#: data/ui/preferences_window.blp:39
+msgid "Save Options"
+msgstr "ఎంపికలను సేవ్ చేయండి"
+
+#: data/ui/preferences_window.blp:41
+msgid "Image Format"
+msgstr "చిత్రం ఫార్మాట్"
+
+#: data/ui/preferences_window.blp:42
+msgid "Default format for saved screenshots"
+msgstr "సేవ్ చేయబడిన స్క్రీన్‌షాట్‌ల కోసం డిఫాల్ట్ ఫార్మాట్"
+
+#: data/ui/preferences_window.blp:46
+msgid "Closing"
+msgstr "మూసివేయడం"
+
+#: data/ui/preferences_window.blp:48
+msgid "When Exiting"
+msgstr "నిష్క్రమిస్తున్నప్పుడు"
+
+#: data/ui/preferences_window.blp:51
+msgid "Overwrite last screenshot on close"
+msgstr "చివరి స్క్రీన్‌షాట్‌ను మూసివేసినప్పుడు ఓవర్‌రైట్ చేయండి"
+
+#: data/ui/preferences_window.blp:52
+msgid "Replace it with the annotated version"
+msgstr "దానిని వ్యాఖ్యానించిన వెర్షన్‌తో భర్తీ చేయండి"
+
+#: data/ui/preferences_window.blp:53
+msgid "Replace last screenshot file with annotated version on close"
+msgstr "చివరి స్క్రీన్‌షాట్ ఫైల్‌ను మూసివేసేటప్పుడు వ్యాఖ్యానించిన వెర్షన్‌తో భర్తీ చేయండి"
+
+#: data/ui/preferences_window.blp:57
+msgid "Trash Screenshots on Close"
+msgstr "మూసివేయడంలో స్క్రీన్‌షాట్‌లను ట్రాష్ చేయండి"
+
+#: data/ui/preferences_window.blp:58
+msgid "Automatically move screenshots taken from within the app to trash"
+msgstr "యాప్ లోపల నుండి తీసిన స్క్రీన్‌షాట్‌లను స్వయంచాలకంగా ట్రాష్‌కి తరలించండి"
+
+#: data/ui/preferences_window.blp:59
+msgid "Trash screenshots on app close"
+msgstr "యాప్ మూసివేయడంలో స్క్రీన్‌షాట్‌లను ట్రాష్ చేయండి"
+
+#: data/ui/preferences_window.blp:64
+msgid "Image Upload Providers"
+msgstr "చిత్రం అప్‌లోడ్ ప్రొవైడర్లు"
+
+#: data/ui/preferences_window.blp:65
+msgid "Connect to your favorite upload providers, or create a link yourself"
+msgstr "మీకు ఇష్టమైన అప్‌లోడ్ ప్రొవైడర్లకు కనెక్ట్ అవ్వండి లేదా మీరే లింక్‌ను సృష్టించండి"
+
+#: data/ui/preferences_window.blp:67
+msgid "Provider"
+msgstr "ప్రొవైడర్"
+
+#: data/ui/preferences_window.blp:75
+#: gradia/ui/preferences/preferences_window.py:78
+msgid "None Selected"
+msgstr "ఏదీ ఎంచుకోబడలేదు"
+
+#: data/ui/preferences_window.blp:84
+msgid "Confirm on Upload"
+msgstr "అప్‌లోడ్‌లో నిర్ధారించండి"
+
+#: data/ui/preferences_window.blp:85 data/ui/preferences_window.blp:86
+msgid "Ask for confirmation before running the upload command"
+msgstr "అప్‌లోడ్ ఆదేశాన్ని అమలు చేసే ముందు నిర్ధారణ కోసం అడగండి"
+
+#: data/ui/preferences_window.blp:94
+msgid "Download Models to improve per-language accuracy"
+msgstr "ప్రతి భాష ఖచ్చితత్వాన్ని మెరుగుపరచడానికి మోడల్‌లను డౌన్‌లోడ్ చేయండి"
+
+#: data/ui/recent_picker.blp:24
+msgid "Screenshot Folder Not Found"
+msgstr "స్క్రీన్‌షాట్ ఫోల్డర్ కనుగొనబడలేదు"
+
+#: data/ui/recent_picker.blp:31
+msgid "Please set it in the Preferences menu"
+msgstr "దయచేసి దానిని ప్రాధాన్యతల మెనులో సెట్ చేయండి."
+
+#: data/ui/selectors/gradient_selector.blp:6
+msgid "Gradient Background"
+msgstr "గ్రేడియంట్ నేపథ్యం"
+
+#: data/ui/selectors/gradient_selector.blp:11
+msgid "Open Step Dialog"
+msgstr "దశ డైలాగ్‌ని తెరవండి"
+
+#: data/ui/selectors/gradient_selector.blp:14
+msgid "Gradient Presets…"
+msgstr "గ్రేడియంట్ ప్రీసెట్‌లు..."
+
+#: data/ui/selectors/gradient_selector.blp:50
+msgid "Linear"
+msgstr "లీనియర్"
+
+#: data/ui/selectors/gradient_selector.blp:55
+msgid "Radial"
+msgstr "రేడియల్"
+
+#: data/ui/selectors/gradient_selector.blp:60
+msgid "Conic"
+msgstr "కోనిక్"
+
+#: data/ui/selectors/gradient_selector.blp:103
+msgid "Remove Selected Color Step"
+msgstr "ఎంచుకున్న రంగు దశను తీసివేయండి"
+
+#: data/ui/selectors/image_selector.blp:5
+msgid "Image Background"
+msgstr "చిత్రం నేపథ్యం"
+
+#: data/ui/selectors/image_selector.blp:9
+msgid "Image Presets…"
+msgstr "ఇమేజ్ ప్రీసెట్‌లు..."
+
+#: data/ui/selectors/image_selector.blp:13
+msgid "Select Image"
+msgstr "చిత్రాన్ని ఎంచుకోండి"
+
+#: data/ui/selectors/image_selector.blp:42
+msgid "Select an Image"
+msgstr "ఒక చిత్రాన్ని ఎంచుకోండి"
+
+#: data/ui/selectors/image_selector.blp:47
+msgid "Supported Image Formats"
+msgstr "మద్దతు ఉన్న చిత్ర ఆకృతులు"
+
+#: data/ui/selectors/solid_selector.blp:5
+msgid "Solid Color Background"
+msgstr "ఘన రంగు నేపథ్యం"
+
+#: data/ui/welcome_page.blp:31
+msgid "Enhance an Image"
+msgstr "చిత్రాన్ని మెరుగుపరచండి"
+
+#: data/ui/welcome_page.blp:32
+msgid "Drag and drop one here"
+msgstr "ఇక్కడ ఒకటి లాగి వదలండి"
+
+#: gradia/app_constants.py:68
+msgid "PNG Image (*.png)"
+msgstr "PNG చిత్రం (*.png)"
+
+#: gradia/app_constants.py:75
+msgid "JPEG Image (*.jpg)"
+msgstr "JPEG చిత్రం (*.jpg)"
+
+#: gradia/app_constants.py:82
+msgid "WebP Image (*.webp)"
+msgstr "వెబ్‌పి ఇమేజ్ (*.వెబ్‌పి)"
+
+#: gradia/backend/tool_config.py:214 gradia/backend/tool_config.py:223
+#: gradia/backend/tool_config.py:334 gradia/graphics/solid.py:190
+#: gradia/ui/widget/quick_color_picker.py:24
+msgid "Red"
+msgstr "ఎరుపు"
+
+#: gradia/backend/tool_config.py:215 gradia/backend/tool_config.py:224
+#: gradia/backend/tool_config.py:335 gradia/graphics/solid.py:193
+#: gradia/ui/widget/quick_color_picker.py:25
+msgid "Green"
+msgstr "ఎరుపు"
+
+#: gradia/backend/tool_config.py:216 gradia/backend/tool_config.py:225
+#: gradia/backend/tool_config.py:336 gradia/graphics/solid.py:194
+#: gradia/ui/widget/quick_color_picker.py:26
+msgid "Blue"
+msgstr "నీలం"
+
+#: gradia/backend/tool_config.py:217 gradia/backend/tool_config.py:226
+#: gradia/backend/tool_config.py:337 gradia/graphics/solid.py:192
+#: gradia/ui/widget/quick_color_picker.py:27
+msgid "Yellow"
+msgstr "పసుపు"
+
+#: gradia/backend/tool_config.py:218 gradia/backend/tool_config.py:228
+#: gradia/graphics/solid.py:201 gradia/ui/widget/quick_color_picker.py:28
+msgid "Black"
+msgstr "నలుపు"
+
+#: gradia/backend/tool_config.py:219 gradia/backend/tool_config.py:227
+#: gradia/backend/tool_config.py:339 gradia/graphics/solid.py:200
+#: gradia/ui/widget/quick_color_picker.py:29
+msgid "White"
+msgstr "తెలుపు"
+
+#: gradia/backend/tool_config.py:229 gradia/graphics/solid.py:203
+#: gradia/ui/widget/quick_color_picker.py:33
+msgid "Transparent"
+msgstr "పారదర్శకం"
+
+#: gradia/backend/tool_config.py:338 gradia/graphics/solid.py:195
+msgid "Purple"
+msgstr "ఊదా రంగు"
+
+#: gradia/backend/ocr.py:42
+msgid "English"
+msgstr "ఇంగ్లీష్"
+
+#: gradia/backend/ocr.py:43
+msgid "Chinese Simplified"
+msgstr "సరళీకృత చైనీస్"
+
+#: gradia/backend/ocr.py:44
+msgid "Chinese Traditional"
+msgstr "సాంప్రదాయ చైనీస్"
+
+#: gradia/backend/ocr.py:45
+msgid "Spanish"
+msgstr "స్పానిష్"
+
+#: gradia/backend/ocr.py:46
+msgid "French"
+msgstr "ఫ్రెంచ్"
+
+#: gradia/backend/ocr.py:47
+msgid "German"
+msgstr "జర్మన్"
+
+#: gradia/backend/ocr.py:48
+msgid "Japanese"
+msgstr "జపనీస్"
+
+#: gradia/backend/ocr.py:49
+msgid "Arabic"
+msgstr "అరబిక్"
+
+#: gradia/backend/ocr.py:50
+msgid "Russian"
+msgstr "రష్యన్"
+
+#: gradia/backend/ocr.py:51
+msgid "Portuguese"
+msgstr "పోర్చుగీస్"
+
+#: gradia/backend/ocr.py:52
+msgid "Italian"
+msgstr "ఇటాలియన్"
+
+#: gradia/backend/ocr.py:53
+msgid "Korean"
+msgstr "కొరియన్"
+
+#: gradia/backend/ocr.py:54
+msgid "Hindi"
+msgstr "హిందీ"
+
+#: gradia/backend/ocr.py:55
+msgid "Dutch"
+msgstr "డచ్"
+
+#: gradia/backend/ocr.py:56
+msgid "Turkish"
+msgstr "టర్కిష్"
+
+#: gradia/backend/ocr.py:57
+msgid "Kazakh"
+msgstr "కజాఖ్"
+
+#: gradia/backend/ocr.py:58
+msgid "Occitan"
+msgstr "ఆక్సిటన్"
+
+#: gradia/backend/ocr.py:59
+msgid "Polish"
+msgstr "పోలిష్"
+
+#: gradia/backend/ocr.py:60
+msgid "Ukrainian"
+msgstr "ఉక్రేనియన్"
+
+#: gradia/backend/ocr.py:61
+msgid "Telugu"
+msgstr "తెలుగు"
+
+#: gradia/graphics/solid.py:130
+msgid "More Colors..."
+msgstr "మరిన్ని రంగులు..."
+
+#: gradia/graphics/solid.py:191
+msgid "Orange"
+msgstr "నారింజ రంగు"
+
+#: gradia/graphics/solid.py:196
+msgid "Pastel Pink"
+msgstr "పాస్టెల్ పింక్"
+
+#: gradia/graphics/solid.py:197
+msgid "Pastel Yellow"
+msgstr "పాస్టెల్ పసుపు"
+
+#: gradia/graphics/solid.py:198
+msgid "Pastel Green"
+msgstr "పాస్టెల్ గ్రీన్"
+
+#: gradia/graphics/solid.py:199
+msgid "Pastel Cyan"
+msgstr "పాస్టెల్ సియాన్"
+
+#: gradia/graphics/solid.py:202
+msgid "Gray"
+msgstr "బూడిద రంగు"
+
+#: gradia/overlay/drawing_actions.py:48 gradia/ui/ui_parts.py:110
+msgid "Pen"
+msgstr "పెన్"
+
+#: gradia/overlay/drawing_actions.py:49 gradia/ui/ui_parts.py:113
+msgid "Arrow"
+msgstr "బాణం"
+
+#: gradia/overlay/drawing_actions.py:50 gradia/ui/ui_parts.py:112
+msgid "Line"
+msgstr "లైన్"
+
+#: gradia/overlay/drawing_actions.py:51 gradia/ui/ui_parts.py:114
+msgid "Rectangle"
+msgstr "దీర్ఘ చతురస్రం"
+
+#: gradia/overlay/drawing_actions.py:52 gradia/ui/ui_parts.py:115
+msgid "Oval"
+msgstr "ఓవల్"
+
+#: gradia/overlay/drawing_actions.py:53 gradia/ui/ui_parts.py:111
+msgid "Text"
+msgstr "వచనం"
+
+#: gradia/overlay/drawing_actions.py:55 gradia/ui/ui_parts.py:116
+msgid "Highlighter"
+msgstr "హైలైటర్"
+
+#: gradia/overlay/drawing_actions.py:56 gradia/ui/ui_parts.py:117
+msgid "Censor"
+msgstr "సెన్సార్"
+
+#: gradia/overlay/drawing_actions.py:57 gradia/ui/ui_parts.py:118
+msgid "Number"
+msgstr "సంఖ్య"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:33
+msgid "No screenshots to delete"
+msgstr "తొలగించడానికి స్క్రీన్‌షాట్‌లు లేవు"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:55
+msgid "Trash"
+msgstr "చెత్త"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:87
+msgid "Trash Screenshot?"
+msgstr "ట్రాష్ స్క్రీన్‌షాట్?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:88
+msgid "Are you sure you want to trash the following file?"
+msgstr "మీరు ఈ క్రింది ఫైల్‌ను ట్రాష్ చేయాలనుకుంటున్నారా?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:90
+msgid "Trash Screenshots?"
+msgstr "స్క్రీన్‌షాట్‌లను ట్రాష్ చేయాలా?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:91
+msgid "Are you sure you want to trash the following files?"
+msgstr "మీరు ఈ క్రింది ఫైళ్ళను ట్రాష్ చేయాలనుకుంటున్నారా?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:101
+msgid "Screenshot moved to trash"
+msgstr "స్క్రీన్‌షాట్ ట్రాష్‌కి తరలించబడింది"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:103
+msgid "Screenshots moved to trash"
+msgstr "స్క్రీన్‌షాట్‌లు ట్రాష్‌కు తరలించబడ్డాయి"
+
+#: gradia/ui/dialog/ocr_dialog.py:118
+#: gradia/ui/preferences/preferences_window.py:150
+#: gradia/ui/preferences/preferences_window.py:243
+msgid "Copied!"
+msgstr "కాపీ చేయబడింది!"
+
+#: gradia/ui/image_creation/source_image_generator.py:554
+msgid "Source Snippet From %Y-%m-%d %H-%M-%S"
+msgstr "%Y-%m-%d %H-%M-%S నుండి మూల స్నిప్పెట్"
+
+#: gradia/ui/image_exporters.py:103
+msgid "Edit"
+msgstr "సవరించు"
+
+#: gradia/ui/image_exporters.py:106
+msgid "Enhanced Screenshot"
+msgstr "మెరుగుపరిచిన స్క్రీన్‌షాట్"
+
+#: gradia/ui/image_exporters.py:145
+msgid "Save Image As"
+msgstr "చిత్రాన్ని ఇలా సేవ్ చేయండి"
+
+#: gradia/ui/image_exporters.py:174
+msgid "Unsupported image file extension"
+msgstr "మద్దతు లేని ఇమేజ్ ఫైల్ ఎక్స్‌టెన్షన్"
+
+#: gradia/ui/image_exporters.py:183
+msgid "Image Saved"
+msgstr "చిత్రం సేవ్ చేయబడింది"
+
+#: gradia/ui/image_exporters.py:185
+msgid "Export Failed"
+msgstr "ఎగుమతి విఫలమైంది"
+
+#: gradia/ui/image_exporters.py:252
+msgid "No processed image available"
+msgstr "ప్రాసెస్ చేయబడిన చిత్రం అందుబాటులో లేదు"
+
+#: gradia/ui/image_exporters.py:278 gradia/ui/image_exporters.py:460
+msgid "Image Copied"
+msgstr "చిత్రం కాపీ చేయబడింది"
+
+#: gradia/ui/image_exporters.py:281 gradia/ui/image_exporters.py:288
+msgid "Failed to copy image to clipboard"
+msgstr "చిత్రాన్ని క్లిప్‌బోర్డ్‌కు కాపీ చేయడంలో విఫలమైంది."
+
+#: gradia/ui/image_exporters.py:302
+msgid "Link generated successfully"
+msgstr "లింక్ విజయవంతంగా రూపొందించబడింది"
+
+#: gradia/ui/image_exporters.py:303
+msgid "Open Link"
+msgstr "లింక్ తెరవండి"
+
+#: gradia/ui/image_exporters.py:340
+msgid "Custom command failed: "
+msgstr "కస్టమ్ కమాండ్ విఫలమైంది:"
+
+#: gradia/ui/image_exporters.py:346
+msgid "Warning: "
+msgstr "హెచ్చరిక:"
+
+#: gradia/ui/image_exporters.py:357
+msgid "Result copied to clipboard"
+msgstr "ఫలితం క్లిప్‌బోర్డ్‌కి కాపీ చేయబడింది"
+
+#: gradia/ui/image_exporters.py:359
+msgid "No output from command"
+msgstr "కమాండ్ నుండి అవుట్‌పుట్ లేదు"
+
+#: gradia/ui/image_exporters.py:362
+msgid "Failed to run custom export command"
+msgstr "కస్టమ్ ఎగుమతి ఆదేశాన్ని అమలు చేయడంలో విఫలమైంది."
+
+#: gradia/ui/image_exporters.py:408 gradia/ui/image_exporters.py:435
+msgid "Close Operation Failed"
+msgstr "క్లోజ్ ఆపరేషన్ విఫలమైంది"
+
+#: gradia/ui/image_exporters.py:408 gradia/ui/image_exporters.py:435
+msgid "Failed to export image"
+msgstr "చిత్రాన్ని ఎగుమతి చేయడంలో విఫలమైంది"
+
+#: gradia/ui/image_exporters.py:461
+msgid "You can now paste it from the clipboard."
+msgstr "ఇప్పుడు మీరు దానిని క్లిప్‌బోర్డ్ నుండి అతికించవచ్చు."
+
+#: gradia/ui/image_loaders.py:87 gradia/ui/image_loaders.py:98
+#: gradia/ui/image_loaders.py:111
+msgid "Not a supported image format"
+msgstr "మద్దతు ఉన్న చిత్ర ఆకృతి కాదు"
+
+#: gradia/ui/image_loaders.py:122
+msgid "URL is not a supported image format"
+msgstr "URL మద్దతు ఉన్న చిత్ర ఆకృతి కాదు."
+
+#: gradia/ui/image_loaders.py:131
+msgid "Failed to load image from URL."
+msgstr "URL నుండి చిత్రాన్ని లోడ్ చేయడంలో విఫలమైంది."
+
+#: gradia/ui/image_loaders.py:140
+msgid "Open Image"
+msgstr "చిత్రాన్ని తెరవండి"
+
+#: gradia/ui/image_loaders.py:143
+msgid "Image Files"
+msgstr "ఇమేజ్ ఫైల్స్"
+
+#: gradia/ui/image_loaders.py:248 gradia/ui/image_loaders.py:263
+msgid "Failed to take screenshot"
+msgstr "స్క్రీన్‌షాట్ తీయడంలో విఫలమైంది"
+
+#: gradia/ui/image_loaders.py:278
+msgid "Screenshot cancelled"
+msgstr "స్క్రీన్‌షాట్ రద్దు చేయబడింది"
+
+#: gradia/ui/image_loaders.py:293 gradia/ui/image_loaders.py:316
+msgid "Edited Screenshot From %Y-%m-%d %H-%M-%S"
+msgstr "%Y-%m-%d %H-%M-%S నుండి స్క్రీన్‌షాట్ సవరించబడింది"
+
+#: gradia/ui/image_loaders.py:300 gradia/ui/image_loaders.py:323
+msgid "Screenshot captured!"
+msgstr "స్క్రీన్‌షాట్ క్యాప్చర్ చేయబడింది!"
+
+#: gradia/ui/image_loaders.py:307
+msgid "Failed to process screenshot"
+msgstr "స్క్రీన్‌షాట్‌ను ప్రాసెస్ చేయడంలో విఫలమైంది"
+
+#: gradia/ui/image_loaders.py:327
+msgid "Failed to load screenshot"
+msgstr "స్క్రీన్‌షాట్‌ను లోడ్ చేయడంలో విఫలమైంది"
+
+#: gradia/ui/image_loaders.py:391
+msgid "Source snippet Generated!"
+msgstr "మూల స్నిప్పెట్ రూపొందించబడింది!"
+
+#: gradia/ui/preferences/preferences_window.py:112
+msgid "Ask For Confirmation"
+msgstr "ధృవీకరణ కోసం అడగండి"
+
+#: gradia/ui/preferences/preferences_window.py:113
+msgid "Copy and Close "
+msgstr "కాపీ చేసి మూసివేయండి"
+
+#: gradia/ui/preferences/preferences_window.py:114
+msgid "Close Instantly"
+msgstr "తక్షణమే మూసివేయండి"
+
+#: gradia/ui/preferences/provider_selection_window.py:133
+#: gradia/ui/provider_selection_window.py:134
+msgid "Create your own custom upload command"
+msgstr "మీ స్వంత కస్టమ్ అప్‌లోడ్ ఆదేశాన్ని సృష్టించండి"
+
+#: gradia/ui/preferences/provider_selection_window.py:301
+#: gradia/ui/provider_selection_window.py:302
+msgid "Custom"
+msgstr "కస్టమ్"
+
+#: gradia/ui/ui_parts.py:32
+msgid "Make your images ready for all"
+msgstr "మీ చిత్రాలను అందరికీ సిద్ధంగా ఉంచండి"
+
+#. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
+#: gradia/ui/ui_parts.py:45
+msgid "translator-credits"
+msgstr "Aryan Karamtoth"
+
+#: gradia/ui/ui_parts.py:51
+msgid "Code and Design Borrowed from"
+msgstr "కోడ్ మరియు డిజైన్ నుండి తీసుకోబడ్డాయి"
+
+#: gradia/ui/ui_parts.py:63
+msgid "Image Sources"
+msgstr "చిత్ర మూలాలు"
+
+#: gradia/ui/ui_parts.py:98
+msgid "File Actions"
+msgstr "ఫైల్ చర్యలు"
+
+#: gradia/ui/ui_parts.py:99
+msgid "Open File"
+msgstr "ఫైల్‌ని తెరవండి"
+
+#: gradia/ui/ui_parts.py:100
+msgid "Save to File"
+msgstr "ఫైల్‌కి సేవ్ చేయండి"
+
+#: gradia/ui/ui_parts.py:101
+msgid "Copy Image to Clipboard"
+msgstr "చిత్రాన్ని క్లిప్‌బోర్డ్‌కు కాపీ చేయండి"
+
+#: gradia/ui/ui_parts.py:102
+msgid "Paste From Clipboard"
+msgstr "క్లిప్‌బోర్డ్ నుండి అతికించండి"
+
+#: gradia/ui/ui_parts.py:105
+msgid "Annotations"
+msgstr "ఉల్లేఖనాలు"
+
+#: gradia/ui/ui_parts.py:120
+msgid "Cropping"
+msgstr "క్రాపింగ్"
+
+#: gradia/ui/ui_parts.py:121
+msgid "Toggle Crop Mode"
+msgstr "క్రాప్ మోడ్‌ని టోగుల్ చేయండి"
+
+#: gradia/ui/ui_parts.py:122
+msgid "Reset Crop"
+msgstr "క్రాప్‌ని రీసెట్ చేయండి"
+
+#: gradia/ui/ui_parts.py:124
+msgid "Zooming"
+msgstr "జూమ్ చేస్తోంది"
+
+#: gradia/ui/ui_parts.py:132
+msgid "Open Source Snippets"
+msgstr "ఓపెన్ సోర్స్ స్నిప్పెట్స్"
+
+#: gradia/ui/widget/aspect_ratio_button.py:26
+#: gradia/ui/widget/background_aspect_ratio_selector.py:52
+msgid "Aspect Ratio"
+msgstr "కారక నిష్పత్తి"
+
+#: gradia/ui/widget/aspect_ratio_button.py:38
+msgid "Free"
+msgstr "ఉచిత"
+
+#: gradia/ui/widget/aspect_ratio_button.py:39
+msgid "Square"
+msgstr "చతురస్రం"
+
+#: gradia/ui/widget/background_aspect_ratio_selector.py:113
+msgid "Custom Ratio"
+msgstr "అనుకూల నిష్పత్తి"
+
+#: gradia/ui/widget/background_aspect_ratio_selector.py:121
+msgid "Width"
+msgstr "వెడల్పు"
+
+#: gradia/ui/widget/background_aspect_ratio_selector.py:137
+msgid "Height"
+msgstr "ఎత్తు"
+
+#: gradia/ui/widget/background_aspect_ratio_selector.py:153
+msgid "Set"
+msgstr "సెట్"
+
+#: gradia/ui/widget/quick_color_picker.py:103
+msgid "More Colors…"
+msgstr "మరిన్ని రంగులు…"
+
+#: gradia/ui/widget/quick_color_picker.py:108
+msgid "Choose Color"
+msgstr "రంగును ఎంచుకోండి"
+
+#: gradia/ui/window.py:476
+msgid "Confirm Upload"
+msgstr "అప్‌లోడ్‌ని నిర్ధారించండి"
+
+#: gradia/ui/window.py:480
+msgid "Upload"
+msgstr "అప్‌లోడ్ చేయండి"

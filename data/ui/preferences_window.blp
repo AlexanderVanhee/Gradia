@@ -1,57 +1,58 @@
 using Gtk 4.0;
 using Adw 1;
-
 template $GradiaPreferencesWindow : Adw.PreferencesDialog {
   content-width: 600;
   content-height: 500;
   title: _("Preferences");
-
   Adw.PreferencesPage {
     name: "preferences";
     title: _("General");
-
     Adw.PreferencesGroup {
-      title: _("Screenshots Folder");
+      title: _("Screenshots");
 
-      Adw.ExpanderRow folder_expander {
-        title: _("Select Folder");
-        subtitle: _("What folder to use for the home page");
-        show-enable-switch: false;
+      Adw.ActionRow {
+        title: _("Recent Directory");
+        subtitle: _("Used for home screen");
+        activatable: true;
+        activated => $on_folder_row_clicked();
 
         [suffix]
-        Gtk.Label folder_label {
-          label: "" ;
-          styles ["dim-label"]
+        Box {
+          spacing: 6;
+          valign: center;
+          Label folder_label {
+            label: "-";
+            styles ["dim-label"]
+          }
+          Gtk.Image {
+            icon-name: "go-next-symbolic";
+          }
         }
       }
     }
-
     Adw.PreferencesGroup  {
       Adw.ButtonRow help_button {
         title: _("Screenshot Shortcut");
-         styles ["accent"]
       }
     }
-
     Adw.PreferencesGroup save_format_group {
-      title: _("Save Settings");
-
+      title: _("Save Options");
       Adw.ComboRow save_format_combo {
         title: _("Image Format");
         subtitle: _("Default format for saved screenshots");
       }
-
-      Adw.SwitchRow confirm_close_switch {
-        title: _("Confirm on Close");
-        subtitle: _("Ask for confirmation before closing the app");
-        tooltip-text: _("Ask for confirmation before closing the app");
+    }
+    Adw.PreferencesGroup {
+      title: _("Closing");
+      Adw.ComboRow exiting_combo {
+        title: _("When Exiting");
+      }
+      Adw.SwitchRow overwrite_screenshot_switch {
+        title: _("Overwrite last screenshot on close");
+        subtitle: _("Replace it with the annotated version");
+        tooltip-text: _("Replace last screenshot file with annotated version on close");
         activatable: true;
       }
-    }
-
-    Adw.PreferencesGroup {
-      title: _("Screenshot Management");
-
       Adw.SwitchRow delete_screenshot_switch {
         title: _("Trash Screenshots on Close");
         subtitle: _("Automatically move screenshots taken from within the app to trash");
@@ -59,45 +60,44 @@ template $GradiaPreferencesWindow : Adw.PreferencesDialog {
         activatable: true;
       }
     }
-
     Adw.PreferencesGroup {
       title: _("Image Upload Providers");
       description: _("Connect to your favorite upload providers, or create a link yourself");
-
-      [header-suffix]
-      Gtk.LinkButton more_info_link {
-        label: _("Learn More…");
-        uri: "https://gradia.alexandervanhee.be/providers";
-        tooltip-text: _("Learn more about providers");
-        valign: center;
-      }
-
       Adw.ActionRow provider_row {
         title: _("Provider");
         activatable: true;
         activated => $on_choose_provider_clicked();
-
         [suffix]
         Gtk.Box {
           spacing: 6;
           valign: center;
-
           Gtk.Label provider_name {
             label: _("None Selected");
             styles ["dim-label"]
           }
-
           Gtk.Image {
             icon-name: "go-next-symbolic";
           }
         }
       }
-
       Adw.SwitchRow confirm_upload_switch {
         title: _("Confirm on Upload");
         subtitle: _("Ask for confirmation before running the upload command");
         tooltip-text: _("Ask for confirmation before running the upload command");
         activatable: true;
+      }
+    }
+    Adw.PreferencesGroup {
+      title: _("Text Extraction");
+      Adw.ActionRow  {
+        title: _("Language Models");
+        subtitle: _("Download Models to improve per-language accuracy");
+        activatable: true;
+        activated => $on_manage_language_models_clicked();
+        [suffix]
+        Gtk.Image {
+          icon-name: "go-next-symbolic";
+        }
       }
     }
   }

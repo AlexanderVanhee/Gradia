@@ -79,7 +79,8 @@ class TransparencyBackground(Gtk.Widget):
 
     def _get_image_bounds(self) -> tuple[float, float, float, float]:
         if not self.picture_widget or not self.picture_widget.get_paintable():
-            return 0, 0, self.get_width(), self.get_height()
+            inset = 2
+            return inset, inset, self.get_width() - 2*inset, self.get_height() - 2*inset
 
         widget_width = self.picture_widget.get_width()
         widget_height = self.picture_widget.get_height()
@@ -87,7 +88,8 @@ class TransparencyBackground(Gtk.Widget):
         image_height = self.picture_widget.get_paintable().get_intrinsic_height()
 
         if image_width <= 0 or image_height <= 0:
-            return 0, 0, widget_width, widget_height
+            inset = 2
+            return inset, inset, widget_width - 2*inset, widget_height - 2*inset
 
         scale = min(widget_width / image_width, widget_height / image_height)
         display_width = image_width * scale
@@ -96,5 +98,5 @@ class TransparencyBackground(Gtk.Widget):
         offset_x = (widget_width - display_width) / 2
         offset_y = (widget_height - display_height) / 2
 
-        return offset_x, offset_y, display_width, display_height
-
+        inset = 2
+        return offset_x + inset, offset_y + inset, display_width - 2*inset, display_height - 2*inset

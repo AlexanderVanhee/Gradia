@@ -26,7 +26,7 @@ class StdinImageLoader:
             return None
 
         try:
-            logging.debug("Reading image from stdin...")
+            logging.debug("Reading image from stdin…")
             image_data = sys.stdin.buffer.read()
             if not image_data:
                 raise ValueError("No image data received from stdin.")

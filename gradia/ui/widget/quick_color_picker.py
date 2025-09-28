@@ -16,7 +16,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from gi.repository import Gtk, Adw, Gdk, GObject, Gio
-from gradia.utils.colors import is_light_color, rgba_to_hex
+from gradia.utils.colors import is_light_color_rgba, rgba_to_hex
 
 class ColorPickerMixin:
     def _get_base_colors(self, alpha=1.0, secondary=False):
@@ -100,7 +100,7 @@ class ColorPickerMixin:
         more_colors_icon = Gtk.Image.new_from_icon_name('color-symbolic')
         more_colors_icon.set_icon_size(Gtk.IconSize.NORMAL)
         more_colors_button.set_child(more_colors_icon)
-        more_colors_button.set_tooltip_text(_('More colors…'))
+        more_colors_button.set_tooltip_text(_('More Colors…'))
         return more_colors_button
 
     def _show_color_dialog(self, callback):
@@ -141,6 +141,7 @@ class QuickColorPicker(Gtk.Box, ColorPickerMixin):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.set_orientation(Gtk.Orientation.HORIZONTAL)
+        self.set_halign(Gtk.Align.CENTER)
         self.set_spacing(4)
         self._selected_button = None
         self._custom_colors = None
@@ -165,7 +166,7 @@ class QuickColorPicker(Gtk.Box, ColorPickerMixin):
             checkmark = Gtk.Image.new_from_icon_name("object-select-symbolic")
             checkmark.set_pixel_size(12)
             checkmark.add_css_class("checkmark-icon")
-            if is_light_color(rgba_to_hex(color)):
+            if is_light_color_rgba(color):
                 checkmark.add_css_class("dark")
 
             color_box = color_button.get_child()
@@ -383,7 +384,7 @@ class SimpleColorPicker(Gtk.Button, ColorPickerMixin):
         self._color_css_provider = provider
         self.add_css_class("simple-color-picker")
 
-        if is_light_color(rgba_to_hex(color)):
+        if is_light_color_rgba(color):
             self.icon.add_css_class("dark")
             self.label.add_css_class("dark")
         else:

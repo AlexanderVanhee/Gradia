@@ -6,7 +6,14 @@ template $GradiaGradientSelector : Adw.PreferencesGroup {
   title: _("Gradient Background");
 
   [header-suffix]
-  $GradiaGradientPresetButton preset_button {}
+  Box {
+    $GradiaGradientStepDialogButton step_dialog_button {
+      tooltip-text: _("Open Step Dialog");
+    }
+    $GradiaGradientPresetButton preset_button {
+      tooltip-text: _("Gradient Presets…");
+    }
+  }
 
   Adw.ActionRow gradient_preview_row {
     child: Gtk.Box {
@@ -117,3 +124,4 @@ template $GradiaGradientSelector : Adw.PreferencesGroup {
     };
   }
 }
+

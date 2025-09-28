@@ -5,9 +5,11 @@ template $GradiaConfirmCloseDialog : Adw.AlertDialog {
   heading: _("Close Gradia?");
   body: _("Are you sure you want to exit? All unsaved changes will be lost.");
   close-response: "cancel";
+  prefer-wide-layout:true;
 
   responses [
     cancel: _("Cancel"),
+    copy: _("Copy"),
     close: _("Close") destructive,
   ]
 

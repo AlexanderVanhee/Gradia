@@ -22,7 +22,7 @@ from gradia.ui.recent_picker import RecentPicker
 from gradia.overlay.drop_overlay import DropOverlay
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/welcome_page.ui")
-class WelcomePage(Adw.Bin):
+class WelcomePage(Adw.BreakpointBin):
     __gtype_name__ = "GradiaWelcomePage"
 
     recent_picker: RecentPicker = Gtk.Template.Child()

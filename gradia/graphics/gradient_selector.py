@@ -15,9 +15,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 from gi.repository import Adw, Gtk
-from gradia.ui.widget.gradient_preset_button import GradientPresetButton
+from gradia.ui.widget.preset_button import GradientPresetButton
 from gradia.ui.widget.angle_selector import AngleSelector
 from gradia.ui.widget.gradient_editor import GradientEditor
+from gradia.ui.widget.gradient_step_dialog_button import GradientStepDialogButton
 from gradia.constants import rootdir
 from gradia.graphics.gradient import GradientBackground,Gradient
 from typing import Optional, Callable, List, Tuple
@@ -35,6 +36,7 @@ class GradientSelector(Adw.PreferencesGroup):
     gradient_editor =  Gtk.Template.Child()
     type_group =  Gtk.Template.Child()
     preset_button = Gtk.Template.Child()
+    step_dialog_button = Gtk.Template.Child()
 
     def __init__(
         self,
@@ -55,10 +57,17 @@ class GradientSelector(Adw.PreferencesGroup):
         self._set_widget_properties_from_gradient(self.gradient_background.gradient)
         self.preset_button.callback = self.on_preset_selected
 
+        self.step_dialog_button.set_gradient(self.gradient_background.gradient)
+        self.step_dialog_button.set_callback(self.on_step_gradient_changed)
+
     def _on_remove_button_clicked(self, button):
         self.gradient_editor.remove_selected_button()
 
     def on_preset_selected(self, gradient: Gradient):
+        self._set_widget_properties_from_gradient(gradient)
+        self._notify()
+
+    def on_step_gradient_changed(self, gradient: Gradient):
         self._set_widget_properties_from_gradient(gradient)
         self._notify()
 
@@ -74,6 +83,7 @@ class GradientSelector(Adw.PreferencesGroup):
         )
 
         self.gradient_background.gradient = gradient
+        self.step_dialog_button.set_gradient(gradient)
 
         if self.callback:
             self.callback(self.gradient_background)

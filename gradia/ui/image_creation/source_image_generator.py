@@ -15,17 +15,18 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import cairo
+import os
+import datetime
+
 import gi
 gi.require_version("GtkSource", "5")
 
-from gi.repository import Gtk, Adw, GtkSource, GLib, Gdk, Gio, GObject
+from gi.repository import Gtk, Adw, GtkSource, GLib, Gdk, GObject
 from gradia.constants import rootdir  # pyright: ignore
 from gradia.backend.logger import Logger
 from gradia.backend.settings import Settings
 from gradia.utils.timestamp_filename import TimestampedFilenameGenerator
-import cairo
-import os
-import datetime
 
 logger = Logger()
 
@@ -284,7 +285,6 @@ class FakeWindowManager:
         frame = Gtk.Frame(valign=Gtk.Align.START, margin_top=12)
         frame.add_css_class("window-border")
         frame.add_css_class("card")
-
 
         self.fake_window_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         self.fake_window_container.get_style_context().add_class("adw-window")

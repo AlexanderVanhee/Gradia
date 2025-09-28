@@ -1,7 +1,7 @@
 {
   "id": "be.alexandervanhee.gradia",
   "runtime": "org.gnome.Platform",
-  "runtime-version": "48",
+  "runtime-version": "49",
   "sdk": "org.gnome.Sdk",
   "command": "gradia",
   "finish-args": [
@@ -12,6 +12,9 @@
     "--filesystem=xdg-pictures",
     "--share=network"
   ],
+  "build-options": {
+    "strip": true
+  },
   "cleanup": [
     "/include",
     "/lib/pkgconfig",
@@ -60,11 +63,42 @@
       ]
     },
     {
+      "name": "leptonica",
+      "buildsystem": "autotools",
+      "config-opts": [
+        "--disable-static",
+        "--disable-programs"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/DanBloomberg/leptonica.git",
+          "tag": "1.86.0"
+        }
+      ]
+    },
+    {
+      "name": "tesseract",
+      "buildsystem": "autotools",
+      "config-opts": [
+        "--disable-static",
+        "--disable-graphics",
+        "--enable-legacy"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/tesseract-ocr/tesseract.git",
+          "tag": "5.5.1"
+        }
+      ]
+    },
+    {
       "name": "gradia",
       "builddir": true,
       "buildsystem": "meson",
       "config-opts": [
-        "-Dbuildtype=debug"
+        "-Dbuildtype=release"
       ],
       "sources": [
         {

@@ -28,25 +28,20 @@ import gi
 gi.require_version('Xdp', '1.0')
 from gi.repository import Xdp, GLib
 logging.getLogger("PIL").setLevel(logging.WARNING)
-
 VERSION = '@VERSION@'
 pkgdatadir = '@PKGDATA_DIR@'
 localedir = '@LOCALE_DIR@'
-
 sys.path.insert(1, pkgdatadir)
 signal.signal(signal.SIGINT, signal.SIG_DFL)
-
 locale.bindtextdomain('gradia', localedir)
 locale.textdomain('gradia')
 gettext.install('gradia', localedir)
-
 class QuickStartScreenshotTaker:
     def __init__(self):
         self.portal = Xdp.Portal()
         self._loop = None
         self._result_path = None
-
-    def take_screenshot(self, flags=Xdp.ScreenshotFlags.INTERACTIVE) -> str | None:
+    def take_screenshot(self, flags=Xdp.ScreenshotFlags.INTERACTIVE, delay_ms=0) -> str | None:
         def on_finish(portal, result, user_data):
             from gi.repository import Gio
             try:
@@ -63,38 +58,49 @@ class QuickStartScreenshotTaker:
                 if self._loop:
                     self._loop.quit()
 
+        def start_screenshot():
+            self.portal.take_screenshot(None, flags, None, on_finish, None)
+            return False  # Remove the timeout
+
         self._loop = GLib.MainLoop()
-        self.portal.take_screenshot(None, flags, None, on_finish, None)
+
+        if delay_ms > 0:
+            GLib.timeout_add(delay_ms, start_screenshot)
+        else:
+            start_screenshot()
+
         self._loop.run()
         return self._result_path
-
 if __name__ == '__main__':
     # handle screenshots on open
     mode = None
+    delay = 0
     for arg in sys.argv[1:]:
         if arg.startswith('--screenshot'):
             parts = arg.split('=', 1)
             mode = parts[1].strip().upper() if len(parts) == 2 else 'INTERACTIVE'
-            break
-
+        elif arg.startswith('--delay'):
+            parts = arg.split('=', 1)
+            if len(parts) == 2:
+                try:
+                    delay = int(parts[1])
+                except ValueError:
+                    print("Invalid delay value. Using default of 0.")
+                    delay = 0
     if mode in ('INTERACTIVE', 'FULL'):
         flags = Xdp.ScreenshotFlags.INTERACTIVE if mode == 'INTERACTIVE' else Xdp.ScreenshotFlags.NONE
         screenshotter = QuickStartScreenshotTaker()
-        screenshot_path = screenshotter.take_screenshot(flags=flags)
+        screenshot_path = screenshotter.take_screenshot(flags=flags, delay_ms=delay)
         if screenshot_path is None:
             print("Screenshot was cancelled or failed. Exiting.")
             sys.exit(1)
-
         # Add the screenshot path to command line arguments
         sys.argv.append(f"--screenshot-file={screenshot_path}")
-
     gi.require_version('Gtk', '4.0')
     gi.require_version('Adw', '1')
     from gi.repository import Gio
-
     resource = Gio.Resource.load(
         os.path.join(pkgdatadir, 'gradia.gresource'))
     resource._register()
-
     from gradia import main
     sys.exit(main.main(VERSION))

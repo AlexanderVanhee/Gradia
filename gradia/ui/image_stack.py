@@ -17,13 +17,14 @@
 
 from gi.repository import Adw, Gio, Gtk, Gdk, GLib, GObject, Graphene
 
-from gradia.constants import rootdir  # pyright: ignore
+from gradia.constants import rootdir
 from gradia.overlay.drawing_overlay import DrawingOverlay
 from gradia.overlay.transparency_overlay import TransparencyBackground
 from gradia.overlay.crop_overlay import CropOverlay
 from gradia.overlay.drop_overlay import DropOverlay
 from gradia.ui.widget.aspect_ratio_button import AspectRatioButton
 from gradia.overlay.zoom_controller import ZoomController
+from gradia.backend.ocr import OCR
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/image_stack.ui")
 class ImageStack(Adw.Bin):
@@ -50,6 +51,8 @@ class ImageStack(Adw.Bin):
 
     drop_overlay: DropOverlay = Gtk.Template.Child()
 
+    ocr_revealer = Gtk.Template.Child()
+
     crop_options_revealer: Gtk.Revealer = Gtk.Template.Child()
     confirm_crop_revealer: Gtk.Revealer = Gtk.Template.Child()
 
@@ -58,13 +61,48 @@ class ImageStack(Adw.Bin):
     zoom_in_button: Gtk.Button = Gtk.Template.Child()
     reset_zoom_button: Gtk.Button = Gtk.Template.Child()
     zoom_info_revealer: Gtk.Revealer = Gtk.Template.Child()
+    sidebar_revealer: Gtk.Revealer = Gtk.Template.Child()
+    sidebar_button: Gtk.Button = Gtk.Template.Child()
 
     crop_enabled: bool = False
     crop_has_been_enabled: bool = False
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
+        self._compact = False
         self._setup()
+
+        self.connect("realize", self._on_realize)
+
+    def _on_realize(self, widget):
+        self.get_root().lookup_action("ocr").bind_property(
+            "state",
+            self.ocr_revealer,
+            "reveal-child",
+            GObject.BindingFlags.SYNC_CREATE,
+            lambda binding, state: state.get_boolean(),
+            None
+        )
+
+        OCR(self.get_root())
+
+    def _get_ocr_action_state(self):
+        return self.get_root().lookup_action("ocr").get_state()
+
+    @GObject.Property(type=bool, default=False)
+    def compact(self) -> bool:
+        return self._compact
+
+    @compact.setter
+    def compact(self, value: bool) -> None:
+        if self._compact != value:
+            self._compact = value
+            self._update_compact_ui()
+
+    def _update_compact_ui(self) -> None:
+        self.sidebar_button.set_visible(self._compact)
+        zoom_level = self.zoomable_widget.get_property("zoom-level")
+        self.zoom_label.set_visible(not self._compact)
 
     def set_erase_selected_visible(self, show: bool) -> None:
         self.erase_controls_revealer.set_reveal_child(show)
@@ -92,9 +130,13 @@ class ImageStack(Adw.Bin):
         drop_target.connect("drop", self._on_file_dropped)
         self.drop_overlay.drop_target = drop_target
 
+    def is_compact(self) -> bool:
+        return self._compact
+
     def _on_zoom_level_changed(self, widget, pspec) -> None:
         zoom_level = widget.get_property("zoom-level")
         percentage = int(zoom_level * 100)
+        self.zoom_label.set_visible(not self._compact)
         self.zoom_label.set_text(f"{percentage}%")
         self.emit("zoom-changed", zoom_level)
 
@@ -113,27 +155,38 @@ class ImageStack(Adw.Bin):
                 return True
         return False
 
-
-    def reset_crop_selection(self) -> None:
+    def reset_crop_selection(self, silent=False) -> None:
         self.crop_overlay.set_crop_rectangle(0.0, 0.0, 1, 1)
         self.crop_overlay.aspect_ratio = 0
         self.crop_has_been_enabled = False
-        self.on_toggle_crop()
+        if not silent:
+            self.on_toggle_crop()
 
     def on_toggle_crop(self) -> None:
         self.crop_enabled = not self.crop_enabled
         self.crop_overlay.interactive = self.crop_enabled
         self.crop_overlay.set_can_target(self.crop_enabled)
         self.right_controls_revealer.set_reveal_child(not self.crop_enabled)
+        self.right_controls_revealer.set_sensitive(not self.crop_enabled)
         self.confirm_crop_revealer.set_reveal_child(self.crop_enabled)
+        self.ocr_revealer.set_reveal_child((not self.crop_enabled) and self._get_ocr_action_state())
+        self.sidebar_revealer.set_reveal_child(not self.crop_enabled)
         self.zoomable_widget.disable_zoom = self.crop_enabled
-        self.emit("crop-toggled", self.crop_enabled)
-
+        self.sidebar_button.set_sensitive(not self.crop_enabled)
+        if not self._compact:
+            self._show_sidebar(not self.crop_enabled)
         self.crop_options_revealer.set_reveal_child(self.crop_enabled)
 
         if self.crop_enabled and not self.crop_has_been_enabled:
             self.crop_overlay.set_crop_rectangle(0.1, 0.1, 0.8, 0.8)
             self.crop_has_been_enabled = True
+
+    def _show_sidebar(self, value):
+        window = self.get_root()
+        action = window.lookup_action("sidebar-shown")
+        if action:
+            action.activate(GLib.Variant('b', value))
+            return True
 
     def set_aspect_ratio(self, ratio: float) -> None:
         if self.crop_enabled:

@@ -8,6 +8,7 @@ template $GradiaScreenshotGuidePage : Adw.NavigationPage {
           [top]
           Adw.HeaderBar {
             show-back-button: true;
+            show-title: false;
           }
 
           content: Gtk.ScrolledWindow {
@@ -17,92 +18,127 @@ template $GradiaScreenshotGuidePage : Adw.NavigationPage {
               tightening-threshold: 400;
               child: Gtk.Box {
                 orientation: vertical;
-                spacing: 24;
-                margin-top: 24;
-                margin-bottom: 24;
-                margin-start: 12;
-                margin-end: 12;
+                spacing: 16;
+                margin-top: 32;
+                margin-bottom: 32;
+                margin-start: 24;
+                margin-end: 24;
 
-                Adw.PreferencesGroup instructions_group {
-                  title: _("Shortcut Setup Instructions");
+                Gtk.Box {
+                  orientation: vertical;
+                  spacing: 8;
 
-                  Gtk.Box content_box {
+                  Gtk.Label {
+                    label: _("Shortcut Setup Instructions");
+                    styles ["title-1"]
+                    halign: start;
+                    wrap:true;
+                  }
+                }
+
+                Gtk.Box {
+                  orientation: vertical;
+                  spacing: 24;
+
+                  Gtk.Label {
+                    label: _("If you'd like the app to <b>open automatically</b> after taking a screenshot, you can set up a custom keyboard shortcut:\n\n<b>Steps:</b>\n1. Go to <b>Settings</b> → <b>Keyboard</b> → <b>View and Customize Shortcuts</b> → <b>Custom Shortcuts</b>.\n2. Click the <b>+</b> button to create a new shortcut.\n3. Set the <b>Name</b> to something like <i>Open Gradia with Screenshot</i>.\n4. For the <b>Command</b>, copy one of the commands below:");
+                    use-markup: true;
+                    wrap: true;
+                    halign: start;
+                  }
+
+                  Gtk.Box {
                     orientation: vertical;
-                    spacing: 12;
+                    spacing: 20;
 
-                    Gtk.Label instruction_label {
-                      label: _("If you'd like the app to <b>open automatically</b> after taking a screenshot, you can set up a custom keyboard shortcut:\n\n<b>Steps:</b>\n1. Go to <b>Settings</b> → <b>Keyboard</b> → <b>View and Customize Shortcuts</b> → <b>Custom Shortcuts</b>.\n2. Click the <b>+</b> button to create a new shortcut.\n3. Set the <b>Name</b> to something like <i>Open Gradia with Screenshot</i>.\n4. For the <b>Command</b>, copy one of the commands below:");
-                      use-markup: true;
-                      wrap: true;
-                      halign: start;
-                    }
+                    Gtk.Box {
+                      orientation: vertical;
+                      spacing: 12;
 
-                    Adw.PreferencesGroup interactive_group {
-                      margin-bottom: 12;
-                      title: _("Interactive Screenshot");
-                      description: _("Allows you to select an area to screenshot");
+                      Gtk.Label {
+                        label: _("Interactive Screenshot");
+                        styles ["title-4"]
+                        halign: start;
+                      }
 
-                      Adw.ActionRow interactive_row {
-                        margin-top: 2;
-                        margin-bottom: 2;
-                        margin-start: 2;
-                        margin-end: 2;
-                        child: Gtk.Box {
-                          spacing: 4;
-                          Gtk.Entry interactive_entry {
-                            editable: false;
-                            hexpand: true;
-                            text: "";
-                            styles ["monospace","flat"]
-                          }
-                          Separator {}
-                          Gtk.Button interactive_copy_btn {
-                            icon-name: "edit-copy-symbolic";
-                            tooltip-text: _("Copy to clipboard");
-                            valign: center;
-                            styles ["flat"]
-                          }
-                        };
+                      Gtk.Label{
+                        label: _("Allows you to select an area to screenshot");
+                        styles ["caption", "dimmed"]
+                        halign: start;
+                      }
+
+                      Gtk.Entry interactive_entry {
+                        editable: false;
+                        text: "";
+                        styles ["monospace"]
+                        secondary-icon-name: "edit-copy-symbolic";
+                        secondary-icon-tooltip-text: _("Copy to clipboard");
                       }
                     }
 
-                    Adw.PreferencesGroup fullscreen_group {
-                      title: _("Full Screen Screenshot");
-                      description: _("Takes a screenshot of all screens instantly");
+                    Gtk.Box {
+                      orientation: vertical;
+                      spacing: 12;
 
-                      Adw.ActionRow fullscreen_row {
-                        margin-top: 2;
-                        margin-bottom: 2;
-                        margin-start: 2;
-                        margin-end: 2;
-                        child: Gtk.Box {
-                          spacing: 4;
-                          Gtk.Entry fullscreen_entry {
-                            editable: false;
-                            hexpand: true;
-                            text: "";
-                            styles ["monospace","flat"]
-                          }
-                          Separator {}
-                          Gtk.Button fullscreen_copy_btn {
-                            icon-name: "edit-copy-symbolic";
-                            tooltip-text: _("Copy to clipboard");
-                            valign: center;
-                            styles ["flat"]
-                          }
-                        };
+                      Gtk.Label {
+                        label: _("Full Screen Screenshot");
+                        styles ["title-4"]
+                        halign: start;
+                      }
+
+                      Gtk.Label{
+                        label: _("Takes a screenshot of all screens instantly");
+                        styles ["caption", "dimmed"]
+                        halign: start;
+                      }
+
+                      Gtk.Entry fullscreen_entry {
+                        editable: false;
+                        text: "";
+                        styles ["monospace"]
+                        secondary-icon-name: "edit-copy-symbolic";
+                        secondary-icon-tooltip-text: _("Copy to clipboard");
                       }
                     }
-
-                    Gtk.Label final_label {
-                      margin-top: 12;
+                    Gtk.Label {
                       label: _("5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should be free by default).");
                       use-markup: true;
                       wrap: true;
                       selectable: true;
                       halign: start;
                     }
+                    Gtk.Separator {
+                      orientation: horizontal;
+                      hexpand: true;
+                      visible: false;
+                    }
+                    Gtk.Box {
+                      orientation: vertical;
+                      spacing: 12;
+                      visible: false;
+
+                      Gtk.Label {
+                        label: _("Delayed Screenshot");
+                        styles ["title-4"]
+                        halign: start;
+                      }
+
+                      Gtk.Label{
+                        label: _("Delay the capture by a given duration (in milliseconds).");
+                        styles ["caption", "dimmed"]
+                        halign: start;
+                      }
+
+                      Gtk.Entry delayed_entry {
+                        editable: false;
+                        text: "--delay=1000";
+                        styles ["monospace"]
+                        secondary-icon-name: "edit-copy-symbolic";
+                        secondary-icon-tooltip-text: _("Copy to clipboard");
+                      }
+                    }
                   }
+
                 }
               };
             };

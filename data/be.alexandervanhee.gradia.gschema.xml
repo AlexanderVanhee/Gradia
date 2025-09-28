@@ -6,7 +6,7 @@
       <summary>Current drawing mode</summary>
     </key>
     <key name="tool-config" type="a{ss}">
-      <default>{'tool_highlighter': "{\"mode\": \"HIGHLIGHTER\", \"size\": 14, \"primary_color\": [0.9599999785423279, 0.8299999833106995, 0.18000000715255737, 0.699999988079071], \"fill_color\": [1.0, 1.0, 1.0, 1.0], \"border_color\": [0.0, 0.0, 0.0, 1.0]}", 'tool_number': "{\"mode\": \"NUMBER\", \"size\": 14, \"primary_color\": [0.0, 0.0, 0.0, 1.0], \"fill_color\": [1.0, 1.0, 1.0, 1.0], \"border_color\": [0.0, 0.0, 0.0, 0.0]}", 'tool_circle': "{\"mode\": \"CIRCLE\", \"size\": 14, \"primary_color\": [1.0, 1.0, 1.0, 1.0], \"fill_color\": [1.0, 1.0, 1.0, 1.0], \"border_color\": [0.0, 0.0, 0.0, 1.0]}", 'tool_square': "{\"mode\": \"SQUARE\", \"size\": 14, \"primary_color\": [1.0, 1.0, 1.0, 1.0], \"fill_color\": [1.0, 1.0, 1.0, 1.0], \"border_color\": [0.0, 0.0, 0.0, 1.0]}", 'tool_arrow': "{\"mode\": \"ARROW\", \"size\": 14, \"primary_color\": [0.0, 0.0, 0.0, 1.0], \"fill_color\": [1.0, 1.0, 1.0, 1.0], \"border_color\": [0.0, 0.0, 0.0, 1.0]}", 'tool_line': "{\"mode\": \"LINE\", \"size\": 14, \"primary_color\": [0.0, 0.0, 0.0, 1.0], \"fill_color\": [1.0, 1.0, 1.0, 1.0], \"border_color\": [0.0, 0.0, 0.0, 1.0]}", 'tool_pen': "{\"mode\": \"PEN\", \"size\": 14, \"primary_color\": [0.0, 0.0, 0.0, 1.0], \"fill_color\": [1.0, 1.0, 1.0, 1.0], \"border_color\": [0.0, 0.0, 0.0, 1.0]}"}</default>
+      <default>{'tool_highlighter': "{\"mode\": \"HIGHLIGHTER\", \"size\": 14, \"primary_color\": [0.96, 0.83, 0.18, 0.4], \"fill_color\": [1.0, 1.0, 1.0, 1.0], \"border_color\": [0.0, 0.0, 0.0, 1.0]}", 'tool_number': "{\"mode\": \"NUMBER\", \"size\": 14, \"primary_color\": [0.0, 0.0, 0.0, 1.0], \"fill_color\": [1.0, 1.0, 1.0, 1.0], \"border_color\": [0.0, 0.0, 0.0, 0.0]}", 'tool_circle': "{\"mode\": \"CIRCLE\", \"size\": 14, \"primary_color\": [1.0, 1.0, 1.0, 1.0], \"fill_color\": [1.0, 1.0, 1.0, 1.0], \"border_color\": [0.0, 0.0, 0.0, 1.0]}", 'tool_square': "{\"mode\": \"SQUARE\", \"size\": 14, \"primary_color\": [1.0, 1.0, 1.0, 1.0], \"fill_color\": [1.0, 1.0, 1.0, 1.0], \"border_color\": [0.0, 0.0, 0.0, 1.0]}", 'tool_arrow': "{\"mode\": \"ARROW\", \"size\": 14, \"primary_color\": [0.0, 0.0, 0.0, 1.0], \"fill_color\": [1.0, 1.0, 1.0, 1.0], \"border_color\": [0.0, 0.0, 0.0, 1.0]}", 'tool_line': "{\"mode\": \"LINE\", \"size\": 14, \"primary_color\": [0.0, 0.0, 0.0, 1.0], \"fill_color\": [1.0, 1.0, 1.0, 1.0], \"border_color\": [0.0, 0.0, 0.0, 1.0]}", 'tool_pen': "{\"mode\": \"PEN\", \"size\": 14, \"primary_color\": [0.0, 0.0, 0.0, 1.0], \"fill_color\": [1.0, 1.0, 1.0, 1.0], \"border_color\": [0.0, 0.0, 0.0, 1.0]}"}</default>
       <summary>Dictionary of tool configuration strings</summary>
     </key>
     <key name="image-padding" type="i">
@@ -52,9 +52,9 @@
       <summary>Serialized state of the image background</summary>
     </key>
 
-   <key name="screenshot-subfolder" type="s">
-      <default>'Screenshots'</default>
-      <summary>Screenshot subdirectory</summary>
+   <key name="screenshot-folder" type="s">
+      <default>''</default>
+      <summary>Folder to use for recent picker</summary>
     </key>
     <key name="export-format" type="s">
       <default>'png'</default>
@@ -72,9 +72,13 @@
       <default>false</default>
       <summary>Whether to trash all taken screenshots from the current session on close.</summary>
     </key>
-    <key name="show-close-confirm-dialog" type="b">
-      <default>true</default>
-      <summary>Whether to ask before closing the app with content open.</summary>
+    <key name="exit-method" type="s">
+      <default>'confirm'</default>
+      <summary>Method of how the app exists.</summary>
+    </key>
+    <key name="overwrite-screenshot" type="b">
+      <default>false</default>
+      <summary>Overwrite currently opened screenshot on close</summary>
     </key>
     <key name="custom-export-command" type="s">
       <default>''</default>
@@ -114,7 +118,10 @@
       <default>'Adwaita'</default>
       <summary>Color scheme of the source snippet</summary>
     </key>
-
+    <key name="trained-data" type="s">
+      <default>'eng'</default>
+      <summary>Last used OCR Language</summary>
+    </key>
   </schema>
 </schemalist>
 

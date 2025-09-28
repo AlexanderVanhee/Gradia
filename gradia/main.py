@@ -29,6 +29,7 @@ from gradia.constants import app_id, rootdir  # pyright: ignore
 from gradia.ui.window import GradiaMainWindow
 from gradia.backend.logger import Logger
 from gradia.utils.std_image_loader import StdinImageLoader
+from gradia.backend.ocr import OCR
 logging = Logger()
 
 
@@ -128,7 +129,7 @@ class GradiaApp(Adw.Application):
         window.show()
 
     def on_shutdown(self, application):
-        logging.info("Application shutdown started, cleaning temp directories...")
+        logging.info("Application shutdown started, cleaning temp directories…")
         for temp_dir in self.temp_dirs:
             try:
                 if os.path.exists(temp_dir):
@@ -140,7 +141,7 @@ class GradiaApp(Adw.Application):
 
 def main(version: str) -> int:
     try:
-        logging.info("Application starting...")
+        logging.info("Application starting…")
         loader = StdinImageLoader()
         image_path = loader.read_from_stdin()
 

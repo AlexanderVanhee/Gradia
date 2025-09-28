@@ -1,0 +1,7 @@
+.gradient-color-picker {
+    border: 2px solid var(--border-color);
+}
+
+.preset-button {
+    border: 1px solid var(--border-color);
+}

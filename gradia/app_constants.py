@@ -36,7 +36,7 @@ PREDEFINED_GRADIENTS: list[Gradient] = [
     ),
     Gradient(
         mode="linear",
-        steps=[(0.0, "#DFFFCD"), (0.48, "#90F9C4"), (1.0, "#39F3BB")],
+        steps=[(0.0, "#DFFFCD"), (0.5, "#90F9C4"), (1.0, "#39F3BB")],
         angle=135
     ),
     Gradient(
@@ -49,6 +49,18 @@ PREDEFINED_GRADIENTS: list[Gradient] = [
         steps=[(0.0, "#23d4fd"), (0.5, "#3a98f0"), (1.0, "#b721ff")],
         angle=45
     ),
+]
+
+PRESET_IMAGES = [
+    "/be/alexandervanhee/gradia/images/preset1.webp",
+    "/be/alexandervanhee/gradia/images/preset2.webp",
+    "/be/alexandervanhee/gradia/images/preset3.webp",
+    "/be/alexandervanhee/gradia/images/preset4.webp",
+    "/be/alexandervanhee/gradia/images/preset5.png",
+    "/be/alexandervanhee/gradia/images/preset6.webp",
+    "/be/alexandervanhee/gradia/images/preset7.webp",
+    "/be/alexandervanhee/gradia/images/preset8.webp",
+    "/be/alexandervanhee/gradia/images/preset9.webp",
 ]
 
 SUPPORTED_EXPORT_FORMATS = {

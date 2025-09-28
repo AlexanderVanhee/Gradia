@@ -22,7 +22,7 @@
 		  <li>Convert code snippets into clean high-resolution images</li>
 		</ul>
 	</description>
-	<developer id="io.github.alexandervanhee">
+	<developer id="be.alexandervanhee">
 		<name>Alexander Vanhee</name>
 	</developer>
 	<url type="homepage">@PROJECT_URL@</url>
@@ -31,12 +31,59 @@
 	<url type="translate">https://github.com/AlexanderVanhee/Gradia/blob/master/TRANSLATING.md</url>
 	<translation type="gettext">gradia</translation>
 	<launchable type="desktop-id">be.alexandervanhee.gradia.desktop</launchable>
-	<content_rating type="oars-1.1" />
+	<content_rating type="oars-1.1"/>
 	<branding>
-		<color type="primary" scheme_preference="light">#99c1f1</color>
-		<color type="primary" scheme_preference="dark">#073c6f</color>
+		<color type="primary" scheme_preference="light">#8ff0a4</color>
+		<color type="primary" scheme_preference="dark">#119458</color>
 	</branding>
 	<releases>
+      <release version="1.11.1" date="2025-09-27">
+        <description translate="no">
+          <p>This minor release includes OCR text recognition. To use this feature, download a language in preferences.</p>
+        </description>
+      </release>
+      <release version="1.11.0" date="2025-09-25">
+          <description translate="no">
+            <p>This release includes:</p>
+            <ul>
+              <li>Scroll to change tool size when not being zoomed in or out.</li>
+              <li>Highlighter colors that are more transparent.</li>
+              <li>Shadow for images on the home page.</li>
+              <li>Additional resizing options for more actions, like arrow and rectangle.</li>
+              <li>Ability to change annotation options, such as color and width, for all annotations when selected.</li>
+              <li>New presets for image background.</li>
+              <li>Improved angle selector on the gradient background tab.</li>
+            </ul>
+          </description>
+      </release>
+      <release version="1.10.1" date="2025-09-04">
+          <description translate="no">
+              <p>This minor release includes:</p>
+              <ul>
+                  <li>Support for mobile-sized windows.</li>
+                  <li>Redesigned arrow tool shape.</li>
+                  <li>Updated screenshot guide page.</li>
+                  <li>Numerous HIG improvements.</li>
+                  <li>Fixed paste shortcut issue.</li>
+                  <li>Added manual editor for gradient steps.</li>
+                  <li>Updated aspect ratio popover.</li>
+              </ul>
+          </description>
+      </release>
+      <release version="1.10.0" date="2025-08-21">
+          <description translate="no">
+              <p>This feature release includes:</p>
+              <ul>
+                  <li>Added keyboard shortcuts for annotation options.</li>
+                  <li>Reworked the Censor tool.</li>
+                  <li>Reworked the Text tool to support multi-line annotations.</li>
+                  <li>Redesigned the Annotation section in the sidebar.</li>
+                  <li>Added options to automatically copy or overwrite screenshot files on quit.</li>
+                  <li>Improved the design of the provider picker screens.</li>
+                  <li>Added constrained drawing via shift for tools like square and arrow..</li>
+              </ul>
+          </description>
+      </release>
       <release version="1.9.0" date="2025-08-04">
       <description translate="no">
           <p>This feature release includes:</p>
@@ -215,23 +262,23 @@
 	</releases>
 	<screenshots>
 		<screenshot type="default">
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/084b8509d6630f4d48310304eb5bbdcd61a0d382/screenshots/showcase.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/c9ab3852ce4c75af987ecd18e22fc4a1db48572f/screenshots/showcase.png</image>
 			<caption>Edited screenshot</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/084b8509d6630f4d48310304eb5bbdcd61a0d382/screenshots/dark.webp</image>
-			<caption>Edited picture</caption>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/c9ab3852ce4c75af987ecd18e22fc4a1db48572f/screenshots/dark.png</image>
+			<caption>Edited screenshot</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/084b8509d6630f4d48310304eb5bbdcd61a0d382/screenshots/home.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/c9ab3852ce4c75af987ecd18e22fc4a1db48572f/screenshots/home.png</image>
 			<caption>Startup view</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/084b8509d6630f4d48310304eb5bbdcd61a0d382/screenshots/element.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/c9ab3852ce4c75af987ecd18e22fc4a1db48572f/screenshots/elements.png</image>
 			<caption>UI element showcase</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/084b8509d6630f4d48310304eb5bbdcd61a0d382/screenshots/snippets.webp</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/c9ab3852ce4c75af987ecd18e22fc4a1db48572f/screenshots/snippits.png</image>
 			<caption>Source Snippets</caption>
 		</screenshot>
 	</screenshots>

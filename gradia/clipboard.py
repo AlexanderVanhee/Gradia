@@ -29,19 +29,6 @@ def save_pixbuff_to_path(temp_dir: str, pixbuff: GdkPixbuf.Pixbuf) -> str:
     pixbuff.savev(temp_path, "png", [], [])
     return temp_path
 
-def copy_file_to_clipboard(local_path: str) -> None:
-    with open(local_path, "rb") as f:
-        png_data: bytes = f.read()
-
-    display = Gdk.Display.get_default()
-    if not display:
-        print("Warning: Failed to retrieve `Gdk.Display` object.")
-        return
-
-    bytes_data: GLib.Bytes = GLib.Bytes.new(png_data)
-    clipboard: Gdk.Clipboard = display.get_clipboard()
-    content_provider: Gdk.ContentProvider = Gdk.ContentProvider.new_for_bytes("image/png", bytes_data)
-    clipboard.set_content(content_provider)
 
 def copy_text_to_clipboard(text: str) -> None:
     display = Gdk.Display.get_default()
@@ -53,4 +40,14 @@ def copy_text_to_clipboard(text: str) -> None:
     text_bytes = text.encode("utf-8")
     bytes_data = GLib.Bytes.new(text_bytes)
     content_provider = Gdk.ContentProvider.new_for_bytes("text/plain;charset=utf-8", bytes_data)
+    clipboard.set_content(content_provider)
+
+def copy_pixbuf_to_clipboard(pixbuf: GdkPixbuf.Pixbuf) -> None:
+    display = Gdk.Display.get_default()
+    if not display:
+        print("Warning: Failed to retrieve `Gdk.Display` object.")
+        return
+
+    clipboard: Gdk.Clipboard = display.get_clipboard()
+    content_provider: Gdk.ContentProvider = Gdk.ContentProvider.new_for_value(pixbuf)
     clipboard.set_content(content_provider)

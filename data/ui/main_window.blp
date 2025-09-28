@@ -14,19 +14,29 @@ template $GradiaMainWindow : Adw.ApplicationWindow {
         transition-type: crossfade;
         transition-duration: 200;
 
-        Gtk.StackPage welcome_page {
+        Adw.Bin welcome_page {
           name: "welcome";
-
-          child: $GradiaWelcomePage welcome_content {};
+          child: Box welcome_content_placeholder {};
         }
 
         Gtk.StackPage main_page {
           name: "main";
+          child: Adw.BreakpointBin breakpoint_bin {
+            width-request: 200;
+            height-request: 50;
+            Adw.Breakpoint breakpoint {
+              condition ("max-width: 695sp")
+              setters {
+                split_view.collapsed: true;
+              }
+            }
 
-          child: Adw.OverlaySplitView split_view {};
+            child: Adw.OverlaySplitView split_view {
+              collapsed: false;
+              show-sidebar: true;
+            };
+          };
         }
-
-        visible-child-name: "welcome";
       };
     }
   };

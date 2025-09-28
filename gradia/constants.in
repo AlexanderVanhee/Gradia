@@ -29,3 +29,7 @@ project_url      = '@PROJECT_URL@'
 bugtracker_url   = '@BUGTRACKER_URL@'
 help_url         = '@HELP_URL@'
 #translate_url    = '@TRANSLATE_URL@'
+
+# OCR paths
+ocr_tesseract_cmd      = '@OCR_TESSERACT_CMD@'
+ocr_original_tessdata  = '@OCR_ORIGINAL_TESSDATA_DIR@'

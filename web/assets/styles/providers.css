@@ -1,8 +1,4 @@
-@import "base-tailwind.css";
-
-:root {
-    --adw-bg: #1a1622;
-}
+@import "base.css";
 
 /* Reset and Base Styles */
 * {

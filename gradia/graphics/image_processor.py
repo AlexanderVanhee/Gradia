@@ -14,21 +14,16 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
-import io
-import os
-import math
 from typing import Optional
 
 from PIL import Image, ImageChops, ImageDraw, ImageFilter
 from gi.repository import GdkPixbuf
 
 from gradia.graphics.background import Background
-from gradia.ui.image_loaders import LoadedImage
+from gradia.graphics.loaded_image import LoadedImage, BalancedPadding
+
 
 class ImageProcessor:
-    MAX_PIXEL_AMOUNT = 1024*1024
-
     def __init__(
         self,
         image: Optional[LoadedImage] = None,
@@ -47,41 +42,27 @@ class ImageProcessor:
         self.corner_radius: int = corner_radius
         self.auto_balance: bool = auto_balance
         self.rotation: int = rotation
-        self.source_img: Optional[Image.Image] = None
         self._loaded_image: Optional[LoadedImage] = None
-        self._balanced_padding: Optional[dict] = None
-        self._full_res_img: Optional[Image.Image] = None
 
         if image:
             self.set_image(image)
 
-    """
-    Public Methods
-    """
+    def set_image(self, image: LoadedImage) -> None:
+        if not image.is_loaded:
+            raise ValueError(f"Failed to load image: {image.load_error}")
+        self._loaded_image = image
 
-    def set_image(self, image: Image) -> None:
-        if self._loaded_image is None or image.image_path != self._loaded_image.image_path:
-            if not os.path.exists(image.image_path):
-                raise FileNotFoundError(f"Input image not found: {image.image_path}")
-
-            self._full_res_img = Image.open(image.image_path).convert("RGBA")
-            self.source_img = self._load_and_downscale_image(image.image_path)
-            self._loaded_image = image
-            self._balanced_padding = self.get_balanced_padding()
-
-    def process(self) -> GdkPixbuf.Pixbuf:
-        if not self.source_img:
+    def process_to_pillow(self) -> Image:
+        if not self._loaded_image or not self._loaded_image.preview_image:
             raise ValueError("No image loaded to process")
-
-        source_img = self.source_img.copy()
+        source_img = self._loaded_image.preview_image.copy()
 
         if self.rotation != 0:
             source_img = self._apply_rotation(source_img)
-
         width, height = source_img.size
 
-        if self.auto_balance and self._balanced_padding:
-            source_img = self._apply_auto_balance(source_img)
+        if self.auto_balance and self._loaded_image.balanced_padding:
+            source_img = self._apply_auto_balance(source_img, self._loaded_image.balanced_padding)
             width, height = source_img.size
 
         if self.padding < 0:
@@ -97,27 +78,31 @@ class ImageProcessor:
 
         shadow_img, shadow_offset = self._create_shadow(source_img, offset=(10, 10), shadow_strength=self.shadow_strength)
         shadow_position = (paste_position[0] - shadow_offset[0], paste_position[1] - shadow_offset[1])
-        final_img = self._alpha_composite_at_position(final_img, shadow_img, shadow_position)
 
+        final_img = self._alpha_composite_at_position(final_img, shadow_img, shadow_position)
         final_img = self._alpha_composite_at_position(final_img, source_img, paste_position)
 
+        return final_img
+
+    def process(self) -> tuple[GdkPixbuf.Pixbuf, int, int]:
+        final_img = self.process_to_pillow()
         final_pixbuf = self._pil_to_pixbuf(final_img)
         full_width, full_height = self.get_full_resolution_dimensions(final_pixbuf)
         return final_pixbuf, full_width, full_height
 
     def process_full_resolution(self) -> GdkPixbuf.Pixbuf:
-        if not self._full_res_img:
+        if not self._loaded_image or not self._loaded_image.full_res_image:
             raise ValueError("No full resolution image loaded to process")
 
-        source_img = self._full_res_img.copy()
+        source_img = self._loaded_image.full_res_image.copy()
 
         if self.rotation != 0:
             source_img = self._apply_rotation(source_img)
 
         width, height = source_img.size
 
-        if self.auto_balance and self._balanced_padding:
-            source_img = self._apply_auto_balance_full_res(source_img)
+        if self.auto_balance and self._loaded_image.balanced_padding:
+            source_img = self._apply_auto_balance_full_res(source_img, self._loaded_image.balanced_padding)
             width, height = source_img.size
 
         if self.padding < 0:
@@ -139,11 +124,6 @@ class ImageProcessor:
 
         return self._pil_to_pixbuf(final_img)
 
-    """
-    Private Methods
-    """
-
-
     def _apply_rotation(self, image: Image.Image) -> Image.Image:
         if self.rotation == 0:
             return image
@@ -156,106 +136,38 @@ class ImageProcessor:
         else:
             return image
 
-    def get_balanced_padding(self, tolerance: int = 5) -> dict[str, int | tuple[int, int, int, int]]:
-        if not self.source_img:
-            raise ValueError("No image loaded to analyze padding")
-
-        img = self.source_img.copy()
-        if self.rotation != 0:
-            img = self._apply_rotation(img)
-
-        img = img.convert("RGBA")
-        pixels = img.load()
-        width, height = img.size
-
-        ref_color = pixels[0, 0]
-
-        def is_similar(px):
-            return all(abs(px[i] - ref_color[i]) <= tolerance for i in range(4))
-
-        def count_top():
-            for y in range(height):
-                if any(not is_similar(pixels[x, y]) for x in range(width)):
-                    return y
-            return height
-
-        def count_bottom():
-            for y in reversed(range(height)):
-                if any(not is_similar(pixels[x, y]) for x in range(width)):
-                    return height - 1 - y
-            return height
-
-        def count_left():
-            for x in range(width):
-                if any(not is_similar(pixels[x, y]) for y in range(height)):
-                    return x
-            return width
-
-        def count_right():
-            for x in reversed(range(width)):
-                if any(not is_similar(pixels[x, y]) for y in range(height)):
-                    return width - 1 - x
-            return width
-
-        top = count_top()
-        bottom = count_bottom()
-        left = count_left()
-        right = count_right()
-
-        max_padding = max(top, bottom, left, right)
-
-        return {
-            "top": max_padding - top,
-            "bottom": max_padding - bottom,
-            "left": max_padding - left,
-            "right": max_padding - right,
-            "color": ref_color
-        }
-
-    def _apply_auto_balance(self, image: Image.Image) -> Image.Image:
-        if not self._balanced_padding:
-            return image
-
+    def _apply_auto_balance(self, image: Image.Image, balanced_padding: BalancedPadding) -> Image.Image:
         width, height = image.size
-        top = self._balanced_padding["top"]
-        bottom = self._balanced_padding["bottom"]
-        left = self._balanced_padding["left"]
-        right = self._balanced_padding["right"]
-        bg_color = self._balanced_padding["color"]
 
-        new_width = width + left + right
-        new_height = height + top + bottom
+        new_width = width + balanced_padding.left + balanced_padding.right
+        new_height = height + balanced_padding.top + balanced_padding.bottom
 
-        balanced_image = Image.new("RGBA", (new_width, new_height), bg_color)
+        balanced_image = Image.new("RGBA", (new_width, new_height), balanced_padding.color)
 
-        paste_x = left
-        paste_y = top
+        paste_x = balanced_padding.left
+        paste_y = balanced_padding.top
         balanced_image.paste(image, (paste_x, paste_y), image)
 
         return balanced_image
 
-    def _apply_auto_balance_full_res(self, image: Image.Image) -> Image.Image:
-        if not self._balanced_padding:
+    def _apply_auto_balance_full_res(self, image: Image.Image, balanced_padding: BalancedPadding) -> Image.Image:
+        if not self._loaded_image or not self._loaded_image.preview_image or not self._loaded_image.full_res_image:
             return image
 
-        if self.source_img and self._full_res_img:
-            scale_x = self._full_res_img.width / self.source_img.width
-            scale_y = self._full_res_img.height / self.source_img.height
-            scale = max(scale_x, scale_y)
-        else:
-            scale = 1.0
+        scale_x = self._loaded_image.full_res_image.width / self._loaded_image.preview_image.width
+        scale_y = self._loaded_image.full_res_image.height / self._loaded_image.preview_image.height
+        scale = max(scale_x, scale_y)
 
         width, height = image.size
-        top = int(self._balanced_padding["top"] * scale)
-        bottom = int(self._balanced_padding["bottom"] * scale)
-        left = int(self._balanced_padding["left"] * scale)
-        right = int(self._balanced_padding["right"] * scale)
-        bg_color = self._balanced_padding["color"]
+        top = int(balanced_padding.top * scale)
+        bottom = int(balanced_padding.bottom * scale)
+        left = int(balanced_padding.left * scale)
+        right = int(balanced_padding.right * scale)
 
         new_width = width + left + right
         new_height = height + top + bottom
 
-        balanced_image = Image.new("RGBA", (new_width, new_height), bg_color)
+        balanced_image = Image.new("RGBA", (new_width, new_height), balanced_padding.color)
 
         paste_x = left
         paste_y = top
@@ -266,7 +178,6 @@ class ImageProcessor:
     def _create_background_full_res(self, width: int, height: int) -> Image.Image:
         if self.background:
             return self.background.prepare_image(width, height)
-
         return Image.new("RGBA", (width, height), (0, 0, 0, 0))
 
     def _create_shadow_full_res(
@@ -275,13 +186,12 @@ class ImageProcessor:
         offset: tuple[int, int] = (10, 10),
         shadow_strength: float = 1.0
     ) -> tuple[Image.Image, tuple[int, int]]:
-        # Calculate scale factor for full resolution shadow
-        if self.source_img and self._full_res_img:
-            scale_x = self._full_res_img.width / self.source_img.width
-            scale_y = self._full_res_img.height / self.source_img.height
-            scale = max(scale_x, scale_y)
-        else:
+        if not self._loaded_image or not self._loaded_image.preview_image or not self._loaded_image.full_res_image:
             scale = 1.0
+        else:
+            scale_x = self._loaded_image.full_res_image.width / self._loaded_image.preview_image.width
+            scale_y = self._loaded_image.full_res_image.height / self._loaded_image.preview_image.height
+            scale = max(scale_x, scale_y)
 
         shadow_strength = max(0.0, min(shadow_strength, 10)) / 5
         blur_radius = int(10 * shadow_strength * scale)
@@ -327,29 +237,6 @@ class ImageProcessor:
 
         return result
 
-    def _load_and_downscale_image(self, image_path: str) -> Image.Image:
-        source_img = Image.open(image_path).convert("RGBA")
-
-        if self._needs_downscaling(source_img):
-            source_img = self._downscale_image(source_img)
-
-        return source_img
-
-    def _needs_downscaling(self, image: Image.Image) -> bool:
-        width, height = image.size
-        return (width * height) > self.MAX_PIXEL_AMOUNT
-
-    def _downscale_image(self, image: Image.Image) -> Image.Image:
-        width, height = image.size
-        current_pixel_count = width * height
-        if current_pixel_count <= self.MAX_PIXEL_AMOUNT:
-            return image
-        scale_factor = math.sqrt(self.MAX_PIXEL_AMOUNT / current_pixel_count)
-        new_width = max(1, int(width * scale_factor))
-        new_height = max(1, int(height * scale_factor))
-
-        return image.resize((new_width, new_height), Image.LANCZOS)
-
     def _crop_image(self, image: Image.Image) -> Image.Image:
         width, height = image.size
         smaller_dimension = min(width, height)
@@ -366,11 +253,11 @@ class ImageProcessor:
         )
 
     def get_full_resolution_dimensions(self, processed_pixbuf) -> tuple[int, int]:
-        if not self._full_res_img or not self.source_img:
+        if not self._loaded_image or not self._loaded_image.full_res_image or not self._loaded_image.preview_image:
             raise ValueError("No images loaded")
 
-        scale_x = self._full_res_img.width / self.source_img.width
-        scale_y = self._full_res_img.height / self.source_img.height
+        scale_x = self._loaded_image.full_res_image.width / self._loaded_image.preview_image.width
+        scale_y = self._loaded_image.full_res_image.height / self._loaded_image.preview_image.height
         scale = max(scale_x, scale_y)
 
         downscaled_width = processed_pixbuf.get_width()
@@ -382,17 +269,20 @@ class ImageProcessor:
         return full_width, full_height
 
     def _calculate_final_dimensions(self, width: int, height: int) -> tuple[int, int]:
-        if self.padding >= 0:
-            smaller_dimension = min(width, height)
-            padding_percentage = self._get_percentage(self.padding)
-            padding_pixels = int(padding_percentage * smaller_dimension)
-            width += padding_pixels * 2
-            height += padding_pixels * 2
+       width = max(1, width)
+       height = max(1, height)
 
-        if self.aspect_ratio:
-            width, height = self._adjust_for_aspect_ratio(width, height)
+       if self.padding >= 0:
+           smaller_dimension = min(width, height)
+           padding_percentage = self._get_percentage(self.padding)
+           padding_pixels = int(padding_percentage * smaller_dimension)
+           width += padding_pixels * 2
+           height += padding_pixels * 2
 
-        return width, height
+       if self.aspect_ratio:
+           width, height = self._adjust_for_aspect_ratio(width, height)
+
+       return width, height
 
     def _adjust_for_aspect_ratio(self, width: int, height: int) -> tuple[int, int]:
         try:
@@ -443,7 +333,6 @@ class ImageProcessor:
     def _create_background(self, width: int, height: int) -> Image.Image:
         if self.background:
             return self.background.prepare_image(width, height)
-
         return Image.new("RGBA", (width, height), (0, 0, 0, 0))
 
     def _create_shadow(
@@ -485,7 +374,6 @@ class ImageProcessor:
             x = (background_width - image_width) // 2
             y = (background_height - image_height) // 2
             return x, y
-
         return 0, 0
 
     def _pil_to_pixbuf(self, image: Image.Image) -> GdkPixbuf.Pixbuf:
@@ -496,7 +384,7 @@ class ImageProcessor:
         pixels = image.tobytes()
 
         pixbuf = GdkPixbuf.Pixbuf.new_from_data(
-            data=pixels,  # pyright: ignore
+            data=pixels,
             colorspace=GdkPixbuf.Colorspace.RGB,
             has_alpha=True,
             bits_per_sample=8,

@@ -106,7 +106,7 @@ class BackgroundSelector(Adw.Bin):
 
     def set_current_mode_callback(self, callback: Callable[[str], None]) -> None:
         self.current_mode_callback = callback
-        self.current_mode_callback(self.current_mode)
+        self._notify_current()
 
     """
     Internal Methods
