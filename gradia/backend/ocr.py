@@ -44,6 +44,7 @@ class OCR:
         OCRModel("chi_tra", _("Chinese Traditional"), 12985735),
         OCRModel("spa", _("Spanish"), 13570187),
         OCRModel("fra", _("French"), 3972885),
+        OCRModel("fas", _("Persian"), 3325955),
         OCRModel("deu", _("German"), 8628461),
         OCRModel("jpn", _("Japanese"), 14330109),
         OCRModel("ara", _("Arabic"), 12603724),
