@@ -324,6 +324,7 @@ class DrawingOverlay(Gtk.DrawingArea):
             if was_number_action:
                 self._renumber_actions()
 
+            self._update_undo_redo_action_states()
             self.queue_draw()
             return True
         return False
@@ -428,6 +429,7 @@ class DrawingOverlay(Gtk.DrawingArea):
             self.actions.append(number_action)
             self._renumber_actions()
             self.redo_stack.clear()
+            self._update_undo_redo_action_states()
             self.queue_draw()
 
         elif self.options.mode == DrawingMode.SELECT and self._is_point_in_image(x_widget, y_widget):
@@ -524,6 +526,7 @@ class DrawingOverlay(Gtk.DrawingArea):
                     if self.selected_action == self.editing_text_action:
                         self.selected_action = None
                 self.redo_stack.clear()
+                self._update_undo_redo_action_states()
             else:
                 if text:
                     current_settings = self.options.copy()
@@ -539,6 +542,7 @@ class DrawingOverlay(Gtk.DrawingArea):
                     )
                     self.actions.append(action)
                     self.redo_stack.clear()
+                    self._update_undo_redo_action_states()
 
         self._cleanup_text_entry()
         self.queue_draw()
@@ -661,6 +665,7 @@ class DrawingOverlay(Gtk.DrawingArea):
                 self.resize_start_bounds = None
                 self.resize_start_mouse = None
                 self.redo_stack.clear()
+                self._update_undo_redo_action_states()
                 return
             self.is_moving_selection = False
             self.move_start_point = None
@@ -697,6 +702,7 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.start_point = None
         self.end_point = None
         self.redo_stack.clear()
+        self._update_undo_redo_action_states()
         self.queue_draw()
 
     def _on_motion(self, controller, x_widget, y_widget):
@@ -826,6 +832,7 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.redo_stack.clear()
         self.selected_action = None
         self._next_number = 1
+        self._update_undo_redo_action_states()
         self.queue_draw()
 
     def undo(self) -> None:
@@ -837,6 +844,7 @@ class DrawingOverlay(Gtk.DrawingArea):
             if isinstance(undone_action, NumberStampAction):
                 self._renumber_actions()
 
+            self._update_undo_redo_action_states()
             self.queue_draw()
 
     def redo(self) -> None:
@@ -848,7 +856,20 @@ class DrawingOverlay(Gtk.DrawingArea):
             if isinstance(redone_action, NumberStampAction):
                 self._renumber_actions()
 
+            self._update_undo_redo_action_states()
             self.queue_draw()
+
+    def _update_undo_redo_action_states(self) -> None:
+        root = self.get_root()
+        if root:
+            undo_action = root.lookup_action("undo")
+            if undo_action:
+                undo_action.set_enabled(bool(self.actions))
+            
+            redo_action = root.lookup_action("redo")
+            if redo_action:
+                redo_action.set_enabled(bool(self.redo_stack))
+
 
     def set_drawing_visible(self, is_visible: bool) -> None:
         self.set_visible(is_visible)

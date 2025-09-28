@@ -157,8 +157,8 @@ class GradiaMainWindow(Adw.ApplicationWindow):
                 disable_on_entry_focus=True
             )
 
-        self.create_action("undo", lambda *_: self.drawing_overlay.undo(), ["<Primary>z"])
-        self.create_action("redo", lambda *_: self.drawing_overlay.redo(), ["<Primary><Shift>z"])
+        self.create_action("undo", lambda *_: self.drawing_overlay.undo(), ["<Primary>z"], enabled=False)
+        self.create_action("redo", lambda *_: self.drawing_overlay.redo(), ["<Primary><Shift>z"], enabled=False)
         self.create_action("clear", lambda *_: self.drawing_overlay.clear_drawing())
         self.create_action("draw-mode", lambda action, param: self.drawing_overlay.set_drawing_mode(DrawingMode(param.get_string())), vt="s")
 
@@ -178,6 +178,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.image_stack = self.image_bin.stack
         self.picture = self.image_bin.picture
         self.drawing_overlay = self.image_bin.drawing_overlay
+        self.drawing_overlay._update_undo_redo_action_states()
         self.breakpoint.add_setter(self.image_bin, "compact", True)
 
     def _setup_sidebar(self) -> None:
