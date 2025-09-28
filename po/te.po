@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-24 20:00+0200\n"
+"POT-Creation-Date: 2025-09-28 15:35+0200\n"
 "PO-Revision-Date: 2025-09-28 18:35+0530\n"
 "Last-Translator: Aryan Karamtoth <spaciouscoder78@disroot.org>\n"
 "Language-Team: GNOME Telugu Translation Team <indlinux-"
@@ -83,20 +83,20 @@ msgstr "కోడ్ స్నిప్పెట్‌లను క్లీన�
 msgid "Alexander Vanhee"
 msgstr "అలెగ్జాండర్ వాన్హీ"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:247
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:251
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:266
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:270
 msgid "Edited screenshot"
 msgstr "సవరించిన స్క్రీన్షాట్"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:255
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:274
 msgid "Startup view"
 msgstr "ప్రారంభ వీక్షణ"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:259
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:278
 msgid "UI element showcase"
 msgstr "UI ఎలిమెంట్ షోకేస్"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:263
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:282
 #: data/ui/image_generator_window.blp:5 data/ui/image_sidebar.blp:224
 #: data/ui/welcome_page.blp:79
 #: gradia/ui/image_creation/source_image_generator.py:397
@@ -109,7 +109,7 @@ msgstr "ఏదీ లేదు"
 
 #: data/ui/background_selector.blp:20
 msgid "Solid"
-msgstr "ఘనమైనది"
+msgstr "ఘన"
 
 #: data/ui/background_selector.blp:25
 msgid "Gradient"
@@ -129,7 +129,7 @@ msgstr "మీరు ఖచ్చితంగా నిష్క్రమిం�
 
 #: data/ui/confirm_close_dialog.blp:11
 #: gradia/ui/dialog/delete_screenshots_dialog.py:54
-#: gradia/ui/image_exporters.py:149 gradia/ui/window.py:474
+#: gradia/ui/image_exporters.py:149 gradia/ui/window.py:479
 msgid "Cancel"
 msgstr "రద్దు చేయి"
 
@@ -324,48 +324,48 @@ msgstr "సైడ్‌బార్‌ని తెరవండి"
 msgid "Crop…"
 msgstr "కత్తిరించు..."
 
-#: data/ui/image_stack.blp:106 data/ui/ocr_dialog.blp:5
+#: data/ui/image_stack.blp:105 data/ui/ocr_dialog.blp:5
 #: data/ui/ocr_dialog.blp:15 data/ui/preferences_window.blp:91
 msgid "Text Extraction"
 msgstr "వచన సంగ్రహణ"
 
-#: data/ui/image_stack.blp:119 gradia/ui/ui_parts.py:108
+#: data/ui/image_stack.blp:118 gradia/ui/ui_parts.py:108
 msgid "Erase Selected"
 msgstr "ఎంపిక చేయబడిన ఎరేజ్"
 
-#: data/ui/image_stack.blp:137
+#: data/ui/image_stack.blp:136
 msgid "Reset Crop Selection"
 msgstr "పంట ఎంపికను రీసెట్ చేయండి"
 
-#: data/ui/image_stack.blp:166
+#: data/ui/image_stack.blp:165
 msgid "Confirm"
 msgstr "నిర్ధారించండి"
 
-#: data/ui/image_stack.blp:167
+#: data/ui/image_stack.blp:166
 msgid "Confirm Crop Selection"
 msgstr "పంట ఎంపికను నిర్ధారించండి"
 
-#: data/ui/image_stack.blp:206 gradia/ui/ui_parts.py:127
+#: data/ui/image_stack.blp:205 gradia/ui/ui_parts.py:127
 msgid "Reset Zoom"
 msgstr "జూమ్‌ని రీసెట్ చేయండి"
 
-#: data/ui/image_stack.blp:230 gradia/ui/ui_parts.py:126
+#: data/ui/image_stack.blp:229 gradia/ui/ui_parts.py:126
 msgid "Zoom Out"
 msgstr "జూమ్ అవుట్ చేయండి"
 
-#: data/ui/image_stack.blp:240 gradia/ui/ui_parts.py:125
+#: data/ui/image_stack.blp:239 gradia/ui/ui_parts.py:125
 msgid "Zoom In"
 msgstr "జూమ్ ఇన్ చేయండి"
 
-#: data/ui/image_stack.blp:256 gradia/ui/ui_parts.py:106
+#: data/ui/image_stack.blp:255 gradia/ui/ui_parts.py:106
 msgid "Undo"
 msgstr "అన్డు"
 
-#: data/ui/image_stack.blp:266 gradia/ui/ui_parts.py:107
+#: data/ui/image_stack.blp:265 gradia/ui/ui_parts.py:107
 msgid "Redo"
 msgstr "పునరావృతం చేయండి"
 
-#: data/ui/image_stack.blp:276
+#: data/ui/image_stack.blp:275
 msgid "Clear All"
 msgstr "అన్నీ క్లియర్ చేయండి"
 
@@ -409,7 +409,7 @@ msgstr ""
 "ఫైళ్ళను అప్‌లోడ్ చేయడానికి కస్టమ్ ఆదేశాన్ని నమోదు చేయండి. ఫైల్ పాత్ కోసం $1 ను ప్లేస్‌హోల్డర్‌గా ఉపయోగించండి."
 
 #: data/ui/preferences/ocr_model_page.blp:5
-#: data/ui/preferences/ocr_model_page.blp:28 data/ui/preferences_window.blp:94
+#: data/ui/preferences/ocr_model_page.blp:28 data/ui/preferences_window.blp:93
 msgid "Language Models"
 msgstr "భాషా నమూనాలు"
 
@@ -626,7 +626,7 @@ msgstr "అప్‌లోడ్‌లో నిర్ధారించండ�
 msgid "Ask for confirmation before running the upload command"
 msgstr "అప్‌లోడ్ ఆదేశాన్ని అమలు చేసే ముందు నిర్ధారణ కోసం అడగండి"
 
-#: data/ui/preferences_window.blp:95
+#: data/ui/preferences_window.blp:94
 msgid "Download Models to improve per-language accuracy"
 msgstr "ప్రతి భాష ఖచ్చితత్వాన్ని మెరుగుపరచడానికి మోడల్‌లను డౌన్‌లోడ్ చేయండి"
 
@@ -756,79 +756,83 @@ msgstr "ఊదా రంగు"
 
 #: gradia/backend/ocr.py:42
 msgid "English"
-msgstr "English"
+msgstr "ఇంగ్లీష్"
 
 #: gradia/backend/ocr.py:43
 msgid "Chinese Simplified"
-msgstr "Chinese Simplified"
+msgstr "సరళీకృత చైనీస్"
 
 #: gradia/backend/ocr.py:44
 msgid "Chinese Traditional"
-msgstr "Chinese Traditional"
+msgstr "సాంప్రదాయ చైనీస్"
 
 #: gradia/backend/ocr.py:45
 msgid "Spanish"
-msgstr "Spanish"
+msgstr "స్పానిష్"
 
 #: gradia/backend/ocr.py:46
 msgid "French"
-msgstr "French"
+msgstr "ఫ్రెంచ్"
 
 #: gradia/backend/ocr.py:47
 msgid "German"
-msgstr "German"
+msgstr "జర్మన్"
 
 #: gradia/backend/ocr.py:48
 msgid "Japanese"
-msgstr "Japanese"
+msgstr "జపనీస్"
 
 #: gradia/backend/ocr.py:49
 msgid "Arabic"
-msgstr "Arabic"
+msgstr "అరబిక్"
 
 #: gradia/backend/ocr.py:50
 msgid "Russian"
-msgstr "Russian"
+msgstr "రష్యన్"
 
 #: gradia/backend/ocr.py:51
 msgid "Portuguese"
-msgstr "Portuguese"
+msgstr "పోర్చుగీస్"
 
 #: gradia/backend/ocr.py:52
 msgid "Italian"
-msgstr "Italian"
+msgstr "ఇటాలియన్"
 
 #: gradia/backend/ocr.py:53
 msgid "Korean"
-msgstr "Korean"
+msgstr "కొరియన్"
 
 #: gradia/backend/ocr.py:54
 msgid "Hindi"
-msgstr "Hindi"
+msgstr "హిందీ"
 
 #: gradia/backend/ocr.py:55
 msgid "Dutch"
-msgstr "Dutch"
+msgstr "డచ్"
 
 #: gradia/backend/ocr.py:56
 msgid "Turkish"
-msgstr "Turkish"
+msgstr "టర్కిష్"
 
 #: gradia/backend/ocr.py:57
 msgid "Kazakh"
-msgstr "Kazakh"
+msgstr "కజాఖ్"
 
 #: gradia/backend/ocr.py:58
 msgid "Occitan"
-msgstr "Occitan"
+msgstr "ఆక్సిటన్"
 
 #: gradia/backend/ocr.py:59
 msgid "Polish"
-msgstr "Polish"
+msgstr "పోలిష్"
 
 #: gradia/backend/ocr.py:60
 msgid "Ukrainian"
-msgstr "Ukrainian"
+msgstr "ఉక్రేనియన్"
+
+#: gradia/backend/ocr.py:61
+msgid "Telugu"
+msgstr "తెలుగు"
 
 #: gradia/graphics/solid.py:130
 msgid "More Colors..."
@@ -926,9 +930,9 @@ msgstr "స్క్రీన్‌షాట్ ట్రాష్‌కి త�
 msgid "Screenshots moved to trash"
 msgstr "స్క్రీన్‌షాట్‌లు ట్రాష్‌కు తరలించబడ్డాయి"
 
-#: gradia/ui/dialog/ocr_dialog.py:119
+#: gradia/ui/dialog/ocr_dialog.py:118
 #: gradia/ui/preferences/preferences_window.py:150
-#: gradia/ui/preferences/preferences_window.py:247
+#: gradia/ui/preferences/preferences_window.py:243
 msgid "Copied!"
 msgstr "కాపీ చేయబడింది!"
 
@@ -960,55 +964,55 @@ msgstr "చిత్రం సేవ్ చేయబడింది"
 msgid "Export Failed"
 msgstr "ఎగుమతి విఫలమైంది"
 
-#: gradia/ui/image_exporters.py:245
+#: gradia/ui/image_exporters.py:252
 msgid "No processed image available"
 msgstr "ప్రాసెస్ చేయబడిన చిత్రం అందుబాటులో లేదు"
 
-#: gradia/ui/image_exporters.py:271 gradia/ui/image_exporters.py:453
+#: gradia/ui/image_exporters.py:278 gradia/ui/image_exporters.py:460
 msgid "Image Copied"
 msgstr "చిత్రం కాపీ చేయబడింది"
 
-#: gradia/ui/image_exporters.py:274 gradia/ui/image_exporters.py:281
+#: gradia/ui/image_exporters.py:281 gradia/ui/image_exporters.py:288
 msgid "Failed to copy image to clipboard"
 msgstr "చిత్రాన్ని క్లిప్‌బోర్డ్‌కు కాపీ చేయడంలో విఫలమైంది."
 
-#: gradia/ui/image_exporters.py:295
+#: gradia/ui/image_exporters.py:302
 msgid "Link generated successfully"
 msgstr "లింక్ విజయవంతంగా రూపొందించబడింది"
 
-#: gradia/ui/image_exporters.py:296
+#: gradia/ui/image_exporters.py:303
 msgid "Open Link"
 msgstr "లింక్ తెరవండి"
 
-#: gradia/ui/image_exporters.py:333
+#: gradia/ui/image_exporters.py:340
 msgid "Custom command failed: "
 msgstr "కస్టమ్ కమాండ్ విఫలమైంది:"
 
-#: gradia/ui/image_exporters.py:339
+#: gradia/ui/image_exporters.py:346
 msgid "Warning: "
 msgstr "హెచ్చరిక:"
 
-#: gradia/ui/image_exporters.py:350
+#: gradia/ui/image_exporters.py:357
 msgid "Result copied to clipboard"
 msgstr "ఫలితం క్లిప్‌బోర్డ్‌కి కాపీ చేయబడింది"
 
-#: gradia/ui/image_exporters.py:352
+#: gradia/ui/image_exporters.py:359
 msgid "No output from command"
 msgstr "కమాండ్ నుండి అవుట్‌పుట్ లేదు"
 
-#: gradia/ui/image_exporters.py:355
+#: gradia/ui/image_exporters.py:362
 msgid "Failed to run custom export command"
 msgstr "కస్టమ్ ఎగుమతి ఆదేశాన్ని అమలు చేయడంలో విఫలమైంది."
 
-#: gradia/ui/image_exporters.py:401 gradia/ui/image_exporters.py:428
+#: gradia/ui/image_exporters.py:408 gradia/ui/image_exporters.py:435
 msgid "Close Operation Failed"
 msgstr "క్లోజ్ ఆపరేషన్ విఫలమైంది"
 
-#: gradia/ui/image_exporters.py:401 gradia/ui/image_exporters.py:428
+#: gradia/ui/image_exporters.py:408 gradia/ui/image_exporters.py:435
 msgid "Failed to export image"
 msgstr "చిత్రాన్ని ఎగుమతి చేయడంలో విఫలమైంది"
 
-#: gradia/ui/image_exporters.py:454
+#: gradia/ui/image_exporters.py:461
 msgid "You can now paste it from the clipboard."
 msgstr "ఇప్పుడు మీరు దానిని క్లిప్‌బోర్డ్ నుండి అతికించవచ్చు."
 
@@ -1181,10 +1185,10 @@ msgstr "మరిన్ని రంగులు…"
 msgid "Choose Color"
 msgstr "రంగును ఎంచుకోండి"
 
-#: gradia/ui/window.py:471
+#: gradia/ui/window.py:476
 msgid "Confirm Upload"
 msgstr "అప్‌లోడ్‌ని నిర్ధారించండి"
 
-#: gradia/ui/window.py:475
+#: gradia/ui/window.py:480
 msgid "Upload"
 msgstr "అప్‌లోడ్ చేయండి"

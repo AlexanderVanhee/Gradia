@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-24 20:00+0200\n"
+"POT-Creation-Date: 2025-09-28 15:35+0200\n"
 "PO-Revision-Date: 2025-07-03 19:14+0200\n"
 "Last-Translator: Alexander Vanhee\n"
 "Language-Team: \n"
@@ -86,20 +86,20 @@ msgstr ""
 msgid "Alexander Vanhee"
 msgstr "Alexander Vanhee"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:247
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:251
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:266
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:270
 msgid "Edited screenshot"
 msgstr "Bewerkte schermafbeelding"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:255
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:274
 msgid "Startup view"
 msgstr "Opstartweergave"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:259
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:278
 msgid "UI element showcase"
 msgstr "Presentatie van UI-elementen"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:263
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:282
 #: data/ui/image_generator_window.blp:5 data/ui/image_sidebar.blp:224
 #: data/ui/welcome_page.blp:79
 #: gradia/ui/image_creation/source_image_generator.py:397
@@ -134,7 +134,7 @@ msgstr ""
 
 #: data/ui/confirm_close_dialog.blp:11
 #: gradia/ui/dialog/delete_screenshots_dialog.py:54
-#: gradia/ui/image_exporters.py:149 gradia/ui/window.py:474
+#: gradia/ui/image_exporters.py:149 gradia/ui/window.py:479
 msgid "Cancel"
 msgstr "Annuleren"
 
@@ -329,48 +329,48 @@ msgstr "Zijbalk Openen"
 msgid "Crop…"
 msgstr "Uitsnijden…"
 
-#: data/ui/image_stack.blp:106 data/ui/ocr_dialog.blp:5
+#: data/ui/image_stack.blp:105 data/ui/ocr_dialog.blp:5
 #: data/ui/ocr_dialog.blp:15 data/ui/preferences_window.blp:91
 msgid "Text Extraction"
 msgstr "Tekst Extraheren"
 
-#: data/ui/image_stack.blp:119 gradia/ui/ui_parts.py:108
+#: data/ui/image_stack.blp:118 gradia/ui/ui_parts.py:108
 msgid "Erase Selected"
 msgstr "Geselecteerde Wissen"
 
-#: data/ui/image_stack.blp:137
+#: data/ui/image_stack.blp:136
 msgid "Reset Crop Selection"
 msgstr "Uitsnede Selectie Resetten"
 
-#: data/ui/image_stack.blp:166
+#: data/ui/image_stack.blp:165
 msgid "Confirm"
 msgstr "Bevestigen"
 
-#: data/ui/image_stack.blp:167
+#: data/ui/image_stack.blp:166
 msgid "Confirm Crop Selection"
 msgstr "Uitsnede Selectie Bevestigen"
 
-#: data/ui/image_stack.blp:206 gradia/ui/ui_parts.py:127
+#: data/ui/image_stack.blp:205 gradia/ui/ui_parts.py:127
 msgid "Reset Zoom"
 msgstr "Zoom Resetten"
 
-#: data/ui/image_stack.blp:230 gradia/ui/ui_parts.py:126
+#: data/ui/image_stack.blp:229 gradia/ui/ui_parts.py:126
 msgid "Zoom Out"
 msgstr "Uitzoomen"
 
-#: data/ui/image_stack.blp:240 gradia/ui/ui_parts.py:125
+#: data/ui/image_stack.blp:239 gradia/ui/ui_parts.py:125
 msgid "Zoom In"
 msgstr "Inzoomen"
 
-#: data/ui/image_stack.blp:256 gradia/ui/ui_parts.py:106
+#: data/ui/image_stack.blp:255 gradia/ui/ui_parts.py:106
 msgid "Undo"
 msgstr "Ontdoen"
 
-#: data/ui/image_stack.blp:266 gradia/ui/ui_parts.py:107
+#: data/ui/image_stack.blp:265 gradia/ui/ui_parts.py:107
 msgid "Redo"
 msgstr "Herdoen"
 
-#: data/ui/image_stack.blp:276
+#: data/ui/image_stack.blp:275
 msgid "Clear All"
 msgstr "Alles Wissen"
 
@@ -415,7 +415,7 @@ msgstr ""
 "placeholder voor het bestandspad."
 
 #: data/ui/preferences/ocr_model_page.blp:5
-#: data/ui/preferences/ocr_model_page.blp:28 data/ui/preferences_window.blp:94
+#: data/ui/preferences/ocr_model_page.blp:28 data/ui/preferences_window.blp:93
 msgid "Language Models"
 msgstr "Taalmodellen"
 
@@ -642,7 +642,7 @@ msgstr "Bevestigen bij Uploaden"
 msgid "Ask for confirmation before running the upload command"
 msgstr "Vraag om bevestiging voordat de uploadopdracht wordt uitgevoerd"
 
-#: data/ui/preferences_window.blp:95
+#: data/ui/preferences_window.blp:94
 msgid "Download Models to improve per-language accuracy"
 msgstr "Download modellen om per-taal nauwkeurigheid te verbeteren"
 
@@ -846,6 +846,10 @@ msgstr "Pools"
 msgid "Ukrainian"
 msgstr "Oekraïens"
 
+#: gradia/backend/ocr.py:61
+msgid "Telugu"
+msgstr "Telugu"
+
 #: gradia/graphics/solid.py:130
 msgid "More Colors..."
 msgstr "Meer Kleuren..."
@@ -942,9 +946,9 @@ msgstr "Schermafbeelding verplaatst naar prullenbak"
 msgid "Screenshots moved to trash"
 msgstr "Schermafbeeldingen verplaatst naar prullenbak"
 
-#: gradia/ui/dialog/ocr_dialog.py:119
+#: gradia/ui/dialog/ocr_dialog.py:118
 #: gradia/ui/preferences/preferences_window.py:150
-#: gradia/ui/preferences/preferences_window.py:247
+#: gradia/ui/preferences/preferences_window.py:243
 msgid "Copied!"
 msgstr "Gekopieerd!"
 
@@ -976,55 +980,55 @@ msgstr "Afbeelding Opgeslagen"
 msgid "Export Failed"
 msgstr "Export Mislukt"
 
-#: gradia/ui/image_exporters.py:245
+#: gradia/ui/image_exporters.py:252
 msgid "No processed image available"
 msgstr "Geen bewerkte afbeelding beschikbaar"
 
-#: gradia/ui/image_exporters.py:271 gradia/ui/image_exporters.py:453
+#: gradia/ui/image_exporters.py:278 gradia/ui/image_exporters.py:460
 msgid "Image Copied"
 msgstr "Afbeelding Gekopieerd"
 
-#: gradia/ui/image_exporters.py:274 gradia/ui/image_exporters.py:281
+#: gradia/ui/image_exporters.py:281 gradia/ui/image_exporters.py:288
 msgid "Failed to copy image to clipboard"
 msgstr "Kopiëren van afbeelding naar klembord mislukt"
 
-#: gradia/ui/image_exporters.py:295
+#: gradia/ui/image_exporters.py:302
 msgid "Link generated successfully"
 msgstr "Link succesvol gegenereerd"
 
-#: gradia/ui/image_exporters.py:296
+#: gradia/ui/image_exporters.py:303
 msgid "Open Link"
 msgstr "Link openen"
 
-#: gradia/ui/image_exporters.py:333
+#: gradia/ui/image_exporters.py:340
 msgid "Custom command failed: "
 msgstr "Aangepaste opdracht mislukt: "
 
-#: gradia/ui/image_exporters.py:339
+#: gradia/ui/image_exporters.py:346
 msgid "Warning: "
 msgstr "Waarschuwing: "
 
-#: gradia/ui/image_exporters.py:350
+#: gradia/ui/image_exporters.py:357
 msgid "Result copied to clipboard"
 msgstr "Resultaat gekopieerd naar klembord"
 
-#: gradia/ui/image_exporters.py:352
+#: gradia/ui/image_exporters.py:359
 msgid "No output from command"
 msgstr "Geen uitvoer van opdracht"
 
-#: gradia/ui/image_exporters.py:355
+#: gradia/ui/image_exporters.py:362
 msgid "Failed to run custom export command"
 msgstr "Uitvoeren van aangepaste exportopdracht mislukt"
 
-#: gradia/ui/image_exporters.py:401 gradia/ui/image_exporters.py:428
+#: gradia/ui/image_exporters.py:408 gradia/ui/image_exporters.py:435
 msgid "Close Operation Failed"
 msgstr "Sluitingsbewerking Mislukt"
 
-#: gradia/ui/image_exporters.py:401 gradia/ui/image_exporters.py:428
+#: gradia/ui/image_exporters.py:408 gradia/ui/image_exporters.py:435
 msgid "Failed to export image"
 msgstr "Export van afbeelding mislukt"
 
-#: gradia/ui/image_exporters.py:454
+#: gradia/ui/image_exporters.py:461
 msgid "You can now paste it from the clipboard."
 msgstr "Je kunt deze nu plakken vanuit het klembord."
 
@@ -1197,10 +1201,10 @@ msgstr "Meer Kleuren…"
 msgid "Choose Color"
 msgstr "Kies Kleur"
 
-#: gradia/ui/window.py:471
+#: gradia/ui/window.py:476
 msgid "Confirm Upload"
 msgstr "Bevestig Upload"
 
-#: gradia/ui/window.py:475
+#: gradia/ui/window.py:480
 msgid "Upload"
 msgstr "Uploaden"

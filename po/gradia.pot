@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-24 20:00+0200\n"
+"POT-Creation-Date: 2025-09-28 15:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -80,20 +80,20 @@ msgstr ""
 msgid "Alexander Vanhee"
 msgstr ""
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:247
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:251
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:266
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:270
 msgid "Edited screenshot"
 msgstr ""
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:255
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:274
 msgid "Startup view"
 msgstr ""
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:259
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:278
 msgid "UI element showcase"
 msgstr ""
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:263
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:282
 #: data/ui/image_generator_window.blp:5 data/ui/image_sidebar.blp:224
 #: data/ui/welcome_page.blp:79
 #: gradia/ui/image_creation/source_image_generator.py:397
@@ -126,7 +126,7 @@ msgstr ""
 
 #: data/ui/confirm_close_dialog.blp:11
 #: gradia/ui/dialog/delete_screenshots_dialog.py:54
-#: gradia/ui/image_exporters.py:149 gradia/ui/window.py:474
+#: gradia/ui/image_exporters.py:149 gradia/ui/window.py:479
 msgid "Cancel"
 msgstr ""
 
@@ -321,48 +321,48 @@ msgstr ""
 msgid "Crop…"
 msgstr ""
 
-#: data/ui/image_stack.blp:106 data/ui/ocr_dialog.blp:5
+#: data/ui/image_stack.blp:105 data/ui/ocr_dialog.blp:5
 #: data/ui/ocr_dialog.blp:15 data/ui/preferences_window.blp:91
 msgid "Text Extraction"
 msgstr ""
 
-#: data/ui/image_stack.blp:119 gradia/ui/ui_parts.py:108
+#: data/ui/image_stack.blp:118 gradia/ui/ui_parts.py:108
 msgid "Erase Selected"
 msgstr ""
 
-#: data/ui/image_stack.blp:137
+#: data/ui/image_stack.blp:136
 msgid "Reset Crop Selection"
 msgstr ""
 
-#: data/ui/image_stack.blp:166
+#: data/ui/image_stack.blp:165
 msgid "Confirm"
 msgstr ""
 
-#: data/ui/image_stack.blp:167
+#: data/ui/image_stack.blp:166
 msgid "Confirm Crop Selection"
 msgstr ""
 
-#: data/ui/image_stack.blp:206 gradia/ui/ui_parts.py:127
+#: data/ui/image_stack.blp:205 gradia/ui/ui_parts.py:127
 msgid "Reset Zoom"
 msgstr ""
 
-#: data/ui/image_stack.blp:230 gradia/ui/ui_parts.py:126
+#: data/ui/image_stack.blp:229 gradia/ui/ui_parts.py:126
 msgid "Zoom Out"
 msgstr ""
 
-#: data/ui/image_stack.blp:240 gradia/ui/ui_parts.py:125
+#: data/ui/image_stack.blp:239 gradia/ui/ui_parts.py:125
 msgid "Zoom In"
 msgstr ""
 
-#: data/ui/image_stack.blp:256 gradia/ui/ui_parts.py:106
+#: data/ui/image_stack.blp:255 gradia/ui/ui_parts.py:106
 msgid "Undo"
 msgstr ""
 
-#: data/ui/image_stack.blp:266 gradia/ui/ui_parts.py:107
+#: data/ui/image_stack.blp:265 gradia/ui/ui_parts.py:107
 msgid "Redo"
 msgstr ""
 
-#: data/ui/image_stack.blp:276
+#: data/ui/image_stack.blp:275
 msgid "Clear All"
 msgstr ""
 
@@ -405,7 +405,7 @@ msgid ""
 msgstr ""
 
 #: data/ui/preferences/ocr_model_page.blp:5
-#: data/ui/preferences/ocr_model_page.blp:28 data/ui/preferences_window.blp:94
+#: data/ui/preferences/ocr_model_page.blp:28 data/ui/preferences_window.blp:93
 msgid "Language Models"
 msgstr ""
 
@@ -611,7 +611,7 @@ msgstr ""
 msgid "Ask for confirmation before running the upload command"
 msgstr ""
 
-#: data/ui/preferences_window.blp:95
+#: data/ui/preferences_window.blp:94
 msgid "Download Models to improve per-language accuracy"
 msgstr ""
 
@@ -815,6 +815,10 @@ msgstr ""
 msgid "Ukrainian"
 msgstr ""
 
+#: gradia/backend/ocr.py:61
+msgid "Telugu"
+msgstr ""
+
 #: gradia/graphics/solid.py:130
 msgid "More Colors..."
 msgstr ""
@@ -911,9 +915,9 @@ msgstr ""
 msgid "Screenshots moved to trash"
 msgstr ""
 
-#: gradia/ui/dialog/ocr_dialog.py:119
+#: gradia/ui/dialog/ocr_dialog.py:118
 #: gradia/ui/preferences/preferences_window.py:150
-#: gradia/ui/preferences/preferences_window.py:247
+#: gradia/ui/preferences/preferences_window.py:243
 msgid "Copied!"
 msgstr ""
 
@@ -945,55 +949,55 @@ msgstr ""
 msgid "Export Failed"
 msgstr ""
 
-#: gradia/ui/image_exporters.py:245
+#: gradia/ui/image_exporters.py:252
 msgid "No processed image available"
 msgstr ""
 
-#: gradia/ui/image_exporters.py:271 gradia/ui/image_exporters.py:453
+#: gradia/ui/image_exporters.py:278 gradia/ui/image_exporters.py:460
 msgid "Image Copied"
 msgstr ""
 
-#: gradia/ui/image_exporters.py:274 gradia/ui/image_exporters.py:281
+#: gradia/ui/image_exporters.py:281 gradia/ui/image_exporters.py:288
 msgid "Failed to copy image to clipboard"
 msgstr ""
 
-#: gradia/ui/image_exporters.py:295
+#: gradia/ui/image_exporters.py:302
 msgid "Link generated successfully"
 msgstr ""
 
-#: gradia/ui/image_exporters.py:296
+#: gradia/ui/image_exporters.py:303
 msgid "Open Link"
 msgstr ""
 
-#: gradia/ui/image_exporters.py:333
+#: gradia/ui/image_exporters.py:340
 msgid "Custom command failed: "
 msgstr ""
 
-#: gradia/ui/image_exporters.py:339
+#: gradia/ui/image_exporters.py:346
 msgid "Warning: "
 msgstr ""
 
-#: gradia/ui/image_exporters.py:350
+#: gradia/ui/image_exporters.py:357
 msgid "Result copied to clipboard"
 msgstr ""
 
-#: gradia/ui/image_exporters.py:352
+#: gradia/ui/image_exporters.py:359
 msgid "No output from command"
 msgstr ""
 
-#: gradia/ui/image_exporters.py:355
+#: gradia/ui/image_exporters.py:362
 msgid "Failed to run custom export command"
 msgstr ""
 
-#: gradia/ui/image_exporters.py:401 gradia/ui/image_exporters.py:428
+#: gradia/ui/image_exporters.py:408 gradia/ui/image_exporters.py:435
 msgid "Close Operation Failed"
 msgstr ""
 
-#: gradia/ui/image_exporters.py:401 gradia/ui/image_exporters.py:428
+#: gradia/ui/image_exporters.py:408 gradia/ui/image_exporters.py:435
 msgid "Failed to export image"
 msgstr ""
 
-#: gradia/ui/image_exporters.py:454
+#: gradia/ui/image_exporters.py:461
 msgid "You can now paste it from the clipboard."
 msgstr ""
 
@@ -1166,10 +1170,10 @@ msgstr ""
 msgid "Choose Color"
 msgstr ""
 
-#: gradia/ui/window.py:471
+#: gradia/ui/window.py:476
 msgid "Confirm Upload"
 msgstr ""
 
-#: gradia/ui/window.py:475
+#: gradia/ui/window.py:480
 msgid "Upload"
 msgstr ""

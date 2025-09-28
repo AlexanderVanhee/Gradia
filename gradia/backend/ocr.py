@@ -58,6 +58,7 @@ class OCR:
         OCRModel("oci", _("Occitan"), 12917692),
         OCRModel("pol", _("Polish"), 11978867),
         OCRModel("ukr", _("Ukrainian"), 10859081),
+        OCRModel("tel", _("Telugu"), 9098795)
     ]
 
     def __init__(self, window=None):
