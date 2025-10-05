@@ -1,0 +1,1210 @@
+# Turkish translation for Gradia.
+# Copyright (C) 2025 Gradia's COPYRIGHT HOLDER
+# This file is distributed under the same license as the Gradia package.
+#
+# Sabri Ünal <yakushabb@gmail.com>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Gradia master\n"
+"POT-Creation-Date: 2025-09-28 22:09+0300\n"
+"PO-Revision-Date: 2025-10-06 00:25+0300\n"
+"Last-Translator: Sabri Ünal <yakushabb@gmail.com>\n"
+"Language-Team: Türkçe <takim@gnome.org.tr>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.7\n"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:2
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:11
+msgid "Gradia"
+msgstr "Gradia"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:3
+msgid "Make your images ready for the world"
+msgstr "Görüntülerinizi dünya için hazır hale getirin"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:10
+msgid "Image;Gradient;Background;Screenshot;Edit;"
+msgstr ""
+"Image;Gradient;Background;Screenshot;Edit;Görüntü;Renk Geçişi;Arkaplan;Arka "
+"Plan;Ekran görüntüsü;"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:15
+msgid "New Window"
+msgstr "Yeni Pencere"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:20
+msgid "Take Screenshot"
+msgstr "Ekran Görüntüsü Al"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:25
+msgid "Take Fullscreen Screenshot"
+msgstr "Tam Ekran Ekran Görüntüsü Al"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:12
+msgid "Annotate your screenshots"
+msgstr "Ekran görüntülerine açıklama ekle"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:15
+msgid ""
+"Gradia helps you get your screenshots ready for sharing, whether quickly "
+"with friends or colleagues, or professionally with the entire world."
+msgstr ""
+"Gradia, ekran görüntülerinizi arkadaşlarınızla, iş arkadaşlarınızla ya da "
+"tüm dünyayla profesyonel olarak paylaşmaya hazır hale getirmenizi sağlar."
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:16
+msgid "Key features:"
+msgstr "Temel özellikler:"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:18
+msgid "Ten annotation modes, including text, arrow, and censor"
+msgstr "Metin, ok ve sansür dahil on açıklama kipi"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:19
+msgid "Optional image and gradient backgrounds"
+msgstr "İsteğe bağlı görüntü ve renk geçişi arka planları"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:20
+msgid "Image settings like shadow, padding, and auto-balance"
+msgstr "Gölge, dolgu ve kendiliğinden denge gibi görüntü ayarları"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:21
+msgid "Quick upload flow to easily share images via services like Imgur"
+msgstr ""
+"Imgur gibi hizmetler aracılığıyla görüntüleri kolayca paylaşmak için hızlı "
+"yükleme akışı"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:22
+msgid "Convert code snippets into clean high-resolution images"
+msgstr "Kod parçacıklarını temiz, yüksek çözünürlüklü görüntülere dönüştür"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:26
+msgid "Alexander Vanhee"
+msgstr "Alexander Vanhee"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:266
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:270
+msgid "Edited screenshot"
+msgstr "Düzenlenmiş ekran görüntüsü"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:274
+msgid "Startup view"
+msgstr "Başlangıç görünümü"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:278
+msgid "UI element showcase"
+msgstr "Arayüz ögesi vitrini"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:282
+#: data/ui/image_generator_window.blp:5 data/ui/image_sidebar.blp:224
+#: data/ui/welcome_page.blp:79
+#: gradia/ui/image_creation/source_image_generator.py:397
+msgid "Source Snippets"
+msgstr "Kaynak Parçacıkları"
+
+#: data/ui/background_selector.blp:15
+msgid "None"
+msgstr "Hiçbiri"
+
+#: data/ui/background_selector.blp:20
+msgid "Solid"
+msgstr "Düz"
+
+#: data/ui/background_selector.blp:25
+msgid "Gradient"
+msgstr "Renk Geçişi"
+
+#: data/ui/background_selector.blp:30
+msgid "Image"
+msgstr "Görüntü"
+
+#: data/ui/confirm_close_dialog.blp:5
+msgid "Close Gradia?"
+msgstr "Gradia Kapatılsın Mı?"
+
+#: data/ui/confirm_close_dialog.blp:6
+msgid "Are you sure you want to exit? All unsaved changes will be lost."
+msgstr ""
+"Çıkmak istediğinizden emin misiniz? Tüm kaydedilmemiş değişiklikler "
+"yitirilecek."
+
+#: data/ui/confirm_close_dialog.blp:11
+#: gradia/ui/dialog/delete_screenshots_dialog.py:54
+#: gradia/ui/image_exporters.py:149 gradia/ui/window.py:480
+msgid "Cancel"
+msgstr "İptal"
+
+#: data/ui/confirm_close_dialog.blp:12 data/ui/ocr_dialog.blp:83
+msgid "Copy"
+msgstr "Kopyala"
+
+#: data/ui/confirm_close_dialog.blp:13
+msgid "Close"
+msgstr "Kapat"
+
+#: data/ui/confirm_close_dialog.blp:20
+msgid "Don't Ask Again"
+msgstr "Bir Daha Sorma"
+
+#: data/ui/drawing_tools_group.blp:7
+msgid "Annotation Tools"
+msgstr "Açıklama Araçları"
+
+#: data/ui/drawing_tools_group.blp:60 data/ui/drawing_tools_group.blp:75
+msgid "Fill"
+msgstr "Dolgu"
+
+#: data/ui/drawing_tools_group.blp:82
+msgid "Border"
+msgstr "Kenarlık"
+
+#: data/ui/drawing_tools_group.blp:98
+msgid "Fill Color Picker"
+msgstr "Dolgu Rengi Seçici"
+
+#: data/ui/drawing_tools_group.blp:105
+msgid "Outline Color Picker"
+msgstr "Ana Hat Renk Seçici"
+
+#: data/ui/gradient_step_dialog.blp:7
+msgid "Edit Gradient Steps"
+msgstr "Renk Geçişi Adımlarını Düzenle"
+
+#: data/ui/gradient_step_dialog.blp:35
+msgid "Gradient Steps"
+msgstr "Renk Geçişi Adımları"
+
+#: data/ui/gradient_step_dialog.blp:36
+msgid "You can add up to five steps"
+msgstr "En fazla beş adım ekleyebilirsiniz"
+
+#: data/ui/gradient_step_dialog.blp:39
+msgid "Add Step"
+msgstr "Aşama Ekle"
+
+#: data/ui/image_generator_window.blp:29
+msgid "Language"
+msgstr "Dil"
+
+#: data/ui/image_generator_window.blp:39
+msgid "Style"
+msgstr "Biçem"
+
+#: data/ui/image_generator_window.blp:54
+msgid "Default"
+msgstr "Öntanımlı"
+
+#: data/ui/image_generator_window.blp:69
+msgid "Window Frame"
+msgstr "Pencere Çerçevesi"
+
+#: data/ui/image_generator_window.blp:74
+msgid "Add a window frame around the code"
+msgstr "Kodun etrafına pencere çerçevesi ekle"
+
+#: data/ui/image_generator_window.blp:81
+msgid "Line Numbers"
+msgstr "Satır Numaraları"
+
+#: data/ui/image_generator_window.blp:86
+msgid "Add a number before each new line of code"
+msgstr "Her yeni kod satırından önce sayı ekle"
+
+#: data/ui/image_generator_window.blp:113
+msgid "Export"
+msgstr "Dışa Aktar"
+
+#: data/ui/image_sidebar.blp:17 data/ui/welcome_page.blp:60
+msgid "Open Image…"
+msgstr "Görüntü Aç…"
+
+#: data/ui/image_sidebar.blp:24 data/ui/welcome_page.blp:49
+msgid "Take a Screenshot…"
+msgstr "Ekran Görüntüsü Al…"
+
+#: data/ui/image_sidebar.blp:31 data/ui/welcome_page.blp:24
+msgid "Main Menu"
+msgstr "Ana Menü"
+
+#: data/ui/image_sidebar.blp:52
+msgid "Image Options"
+msgstr "Görüntü Seçenekleri"
+
+#: data/ui/image_sidebar.blp:55
+msgid "Padding"
+msgstr "Dolgu"
+
+#: data/ui/image_sidebar.blp:67
+msgid "Corner Radius"
+msgstr "Köşe Yarıçapı"
+
+#: data/ui/image_sidebar.blp:83
+msgid "Shadow"
+msgstr "Gölge"
+
+#: data/ui/image_sidebar.blp:103
+msgid "Auto Balance"
+msgstr "Kendiliğinden Denge"
+
+#: data/ui/image_sidebar.blp:108
+msgid "Rotation"
+msgstr "Döndürme"
+
+#: data/ui/image_sidebar.blp:117
+msgid "Rotate Anticlockwise"
+msgstr "Saat Yönünün Tersine Döndür"
+
+#: data/ui/image_sidebar.blp:125
+msgid "Rotate Clockwise"
+msgstr "Saat Yönüne Döndür"
+
+#: data/ui/image_sidebar.blp:136
+msgid "Current File"
+msgstr "Geçerli Dosya"
+
+#: data/ui/image_sidebar.blp:139
+msgid "Name"
+msgstr "Ad"
+
+#: data/ui/image_sidebar.blp:140 data/ui/image_sidebar.blp:146
+#: data/ui/image_sidebar.blp:165
+msgid "N/A"
+msgstr "Yok"
+
+#: data/ui/image_sidebar.blp:145
+msgid "Location"
+msgstr "Konum"
+
+#: data/ui/image_sidebar.blp:156
+msgid "Open Folder"
+msgstr "Klasör Aç"
+
+#: data/ui/image_sidebar.blp:164
+msgid "Modified image size"
+msgstr "Değiştirilmiş görüntü boyutu"
+
+#: data/ui/image_sidebar.blp:183
+msgid "Save As…"
+msgstr "Farklı Kaydet…"
+
+#: data/ui/image_sidebar.blp:194
+msgid "Copy to Clipboard"
+msgstr "Panoya Kopyala"
+
+#: data/ui/image_sidebar.blp:204 gradia/ui/ui_parts.py:103
+msgid "Share Image"
+msgstr "Görüntüyü Paylaş"
+
+#: data/ui/image_sidebar.blp:228
+msgid "Delete Taken Screenshot(s)"
+msgstr "Alınan Ekran Görüntülerini Sil"
+
+#: data/ui/image_sidebar.blp:235 data/ui/preferences_window.blp:6
+#: data/ui/welcome_page.blp:85 gradia/ui/ui_parts.py:131
+msgid "Preferences"
+msgstr "Tercihler"
+
+#: data/ui/image_sidebar.blp:239 data/ui/welcome_page.blp:89
+#: gradia/ui/ui_parts.py:130
+msgid "Keyboard Shortcuts"
+msgstr "Klavye Kısayolları"
+
+#: data/ui/image_sidebar.blp:243 data/ui/welcome_page.blp:93
+msgid "About Gradia"
+msgstr "Gradia Hakkında"
+
+#: data/ui/image_stack.blp:8 data/ui/welcome_page.blp:15
+msgid "Drop Image Here"
+msgstr "Görüntüyü Buraya Bırakın"
+
+#: data/ui/image_stack.blp:79
+msgid "Open Sidebar"
+msgstr "Kenar Çubuğunu Aç"
+
+#: data/ui/image_stack.blp:92
+msgid "Crop…"
+msgstr "Kırp…"
+
+#: data/ui/image_stack.blp:105 data/ui/ocr_dialog.blp:5
+#: data/ui/ocr_dialog.blp:15 data/ui/preferences_window.blp:91
+msgid "Text Extraction"
+msgstr "Metin Çıkarma"
+
+#: data/ui/image_stack.blp:118 gradia/ui/ui_parts.py:108
+msgid "Erase Selected"
+msgstr "Seçileni Sil"
+
+#: data/ui/image_stack.blp:136
+msgid "Reset Crop Selection"
+msgstr "Kırpma Seçimini Sıfırla"
+
+#: data/ui/image_stack.blp:165
+msgid "Confirm"
+msgstr "Doğrula"
+
+#: data/ui/image_stack.blp:166
+msgid "Confirm Crop Selection"
+msgstr "Kırpma Seçimini Onayla"
+
+#: data/ui/image_stack.blp:205 gradia/ui/ui_parts.py:127
+msgid "Reset Zoom"
+msgstr "Yakınlaştırmayı Sıfırla"
+
+#: data/ui/image_stack.blp:229 gradia/ui/ui_parts.py:126
+msgid "Zoom Out"
+msgstr "Uzaklaştır"
+
+#: data/ui/image_stack.blp:239 gradia/ui/ui_parts.py:125
+msgid "Zoom In"
+msgstr "Yakınlaştır"
+
+#: data/ui/image_stack.blp:255 gradia/ui/ui_parts.py:106
+msgid "Undo"
+msgstr "Geri Al"
+
+#: data/ui/image_stack.blp:265 gradia/ui/ui_parts.py:107
+msgid "Redo"
+msgstr "Yinele"
+
+#: data/ui/image_stack.blp:275
+msgid "Clear All"
+msgstr "Tümünü Temizle"
+
+#: data/ui/ocr_dialog.blp:16
+msgid "Crop image to adjust OCR area"
+msgstr "OCR alanını ayarlamak için görüntüyü kırp"
+
+#: data/ui/ocr_dialog.blp:22
+msgid "Select Language"
+msgstr "Dil Seç"
+
+#: data/ui/ocr_dialog.blp:52
+msgid "No Text Found"
+msgstr "Metin Bulunamadı"
+
+#: data/ui/ocr_dialog.blp:53
+msgid "Please make a new selection"
+msgstr "Lütfen yeni bir seçim yapın"
+
+#: data/ui/preferences/custom_provider_page.blp:6
+#: gradia/ui/preferences/provider_selection_window.py:132
+#: gradia/ui/provider_selection_window.py:133
+msgid "Custom Provider"
+msgstr "Özel Sağlayıcı"
+
+#: data/ui/preferences/custom_provider_page.blp:13
+#: gradia/ui/image_exporters.py:148
+msgid "Save"
+msgstr "Kaydet"
+
+#: data/ui/preferences/custom_provider_page.blp:36
+#: data/ui/preferences/provider_detail_page.blp:105
+msgid "Upload Command"
+msgstr "Yükleme Komutu"
+
+#: data/ui/preferences/custom_provider_page.blp:37
+msgid ""
+"Enter a custom command to upload files. Use $1 as a placeholder for the file "
+"path."
+msgstr ""
+"Dosyaları yüklemek için özel komut girin. Dosya yolu için yer tutucu olarak "
+"$1 kullanın."
+
+#: data/ui/preferences/ocr_model_page.blp:5
+#: data/ui/preferences/ocr_model_page.blp:28 data/ui/preferences_window.blp:93
+msgid "Language Models"
+msgstr "Dil Modelleri"
+
+#: data/ui/preferences/ocr_model_page.blp:29
+msgid "Using the correct language model can improve OCR accuracy."
+msgstr "Doğru dil modelinin kullanılması OCR doğruluğunu artırabilir."
+
+#: data/ui/preferences/provider_detail_page.blp:56
+#: gradia/overlay/drawing_actions.py:54 gradia/ui/ui_parts.py:109
+msgid "Select"
+msgstr "Seç"
+
+#: data/ui/preferences/provider_detail_page.blp:63
+msgid "About"
+msgstr "Hakkında"
+
+#: data/ui/preferences/provider_detail_page.blp:66
+msgid "Homepage"
+msgstr "Ana Sayfa"
+
+#: data/ui/preferences/provider_detail_page.blp:83
+msgid "Terms of Service"
+msgstr "Kullanım Şartları"
+
+#: data/ui/preferences/provider_detail_page.blp:101
+msgid "Features"
+msgstr "Özellikler"
+
+#: data/ui/preferences/provider_list_page.blp:5
+msgid "Choose a Provider"
+msgstr "Sağlayıcı Seç"
+
+#: data/ui/preferences/provider_list_page.blp:12
+msgid "Loading"
+msgstr "Yükleniyor"
+
+#: data/ui/preferences/provider_list_page.blp:26
+msgid "Error"
+msgstr "Hata"
+
+#: data/ui/preferences/provider_list_page.blp:40
+msgid "An error occurred"
+msgstr "Bir hata oluştu"
+
+#: data/ui/preferences/provider_list_page.blp:41
+msgid "Please try again later"
+msgstr "Lütfen daha sonra tekrar deneyin"
+
+#: data/ui/preferences/provider_list_page.blp:50
+msgid "Providers"
+msgstr "Sağlayıcılar"
+
+#: data/ui/preferences/provider_list_page.blp:57
+msgid ""
+"Select a third party image upload provider. These have their own terms and "
+"conditions."
+msgstr ""
+"Üçüncü taraf görüntü yükleme sağlayıcısı seçin. Bunların kendi hüküm ve "
+"koşulları vardır."
+
+#: data/ui/preferences/screenshot_guide_page.blp:6
+msgid "Screenshot Shortcut Guide"
+msgstr "Ekran Görüntüsü Kısayol Kılavuzu"
+
+#: data/ui/preferences/screenshot_guide_page.blp:32
+msgid "Shortcut Setup Instructions"
+msgstr "Kısayol Kurulum Talimatları"
+
+#: data/ui/preferences/screenshot_guide_page.blp:44
+msgid ""
+"If you'd like the app to <b>open automatically</b> after taking a "
+"screenshot, you can set up a custom keyboard shortcut:\n"
+"\n"
+"<b>Steps:</b>\n"
+"1. Go to <b>Settings</b> → <b>Keyboard</b> → <b>View and Customize "
+"Shortcuts</b> → <b>Custom Shortcuts</b>.\n"
+"2. Click the <b>+</b> button to create a new shortcut.\n"
+"3. Set the <b>Name</b> to something like <i>Open Gradia with Screenshot</"
+"i>.\n"
+"4. For the <b>Command</b>, copy one of the commands below:"
+msgstr ""
+"Ekran görüntüsü aldıktan sonra uygulamanın <b>kendiliğinden açılmasını</b> "
+"istiyorsanız, özel klavye kısayolu ayarlayabilirsiniz:\n"
+"\n"
+"<b>Adımlar:</b>\n"
+"1. Bilgisayarınızdan <b>Ayarlar</b> → <b>Klavye</b> → <b>Kısayolları Gör ve "
+"Özelleştir</b> → <b>Özel Kısayollar</b> iletişim kutusuna gidin.\n"
+"2. Yeni kısayol oluşturmak için <b>+</b> düğmesine tıklayın.\n"
+"3. <b>Ad</b> alanını <i>Gradia ile Ekran Görüntüsü Al</i> gibi bir şey "
+"olarak ayarlayın.\n"
+"4. <b>Komut</b> için aşağıdaki komutlardan birini kopyalayın:"
+
+#: data/ui/preferences/screenshot_guide_page.blp:59
+msgid "Interactive Screenshot"
+msgstr "Etkileşimli Ekran Görüntüsü"
+
+#: data/ui/preferences/screenshot_guide_page.blp:65
+msgid "Allows you to select an area to screenshot"
+msgstr "Ekran görüntüsü almak için bir alan seçmenizi sağlar"
+
+#: data/ui/preferences/screenshot_guide_page.blp:75
+#: data/ui/preferences/screenshot_guide_page.blp:100
+#: data/ui/preferences/screenshot_guide_page.blp:137
+msgid "Copy to clipboard"
+msgstr "Panoya kopyala"
+
+#: data/ui/preferences/screenshot_guide_page.blp:84
+msgid "Full Screen Screenshot"
+msgstr "Tam Ekran Ekran Görüntüsü"
+
+#: data/ui/preferences/screenshot_guide_page.blp:90
+msgid "Takes a screenshot of all screens instantly"
+msgstr "Anında tüm ekranların ekran görüntüsünü alır"
+
+#: data/ui/preferences/screenshot_guide_page.blp:104
+msgid ""
+"5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should "
+"be free by default)."
+msgstr ""
+"5. İstediğiniz bir klavye kısayolunu atayın<tt>(Ctrl + Print</tt> öntanımlı "
+"olarak serbest olmalıdır)."
+
+#: data/ui/preferences/screenshot_guide_page.blp:121
+msgid "Delayed Screenshot"
+msgstr "Gecikmeli Ekran Görüntüsü"
+
+#: data/ui/preferences/screenshot_guide_page.blp:127
+msgid "Delay the capture by a given duration (in milliseconds)."
+msgstr "Yakalamayı belirli bir süre kadar geciktir (milisaniye cinsinden)."
+
+#: data/ui/preferences_window.blp:9 gradia/ui/ui_parts.py:129
+msgid "General"
+msgstr "Genel"
+
+#: data/ui/preferences_window.blp:11
+msgid "Screenshots"
+msgstr "Ekran Görüntüleri"
+
+#: data/ui/preferences_window.blp:14
+msgid "Recent Directory"
+msgstr "Son Dizin"
+
+#: data/ui/preferences_window.blp:15
+msgid "Used for home screen"
+msgstr "Ana ekran için kullanılır"
+
+#: data/ui/preferences_window.blp:35
+msgid "Screenshot Shortcut"
+msgstr "Ekran Görüntüsü Kısayolu"
+
+#: data/ui/preferences_window.blp:39
+msgid "Save Options"
+msgstr "Kayıt Seçenekleri"
+
+#: data/ui/preferences_window.blp:41
+msgid "Image Format"
+msgstr "Görüntü Biçimi"
+
+#: data/ui/preferences_window.blp:42
+msgid "Default format for saved screenshots"
+msgstr "Kaydedilen ekran görüntüleri için öntanımlı biçim"
+
+#: data/ui/preferences_window.blp:46
+msgid "Closing"
+msgstr "Kapanma"
+
+#: data/ui/preferences_window.blp:48
+msgid "When Exiting"
+msgstr "Çıkarken"
+
+#: data/ui/preferences_window.blp:51
+msgid "Overwrite last screenshot on close"
+msgstr "Kapanışta son ekran görüntüsünün üzerine yaz"
+
+#: data/ui/preferences_window.blp:52
+msgid "Replace it with the annotated version"
+msgstr "Açıklamalı sürüm ile değiştir"
+
+#: data/ui/preferences_window.blp:53
+msgid "Replace last screenshot file with annotated version on close"
+msgstr "Kapanışta son ekran görüntüsü dosyasını açıklamalı sürümle değiştir"
+
+#: data/ui/preferences_window.blp:57
+msgid "Trash Screenshots on Close"
+msgstr "Kapatıldığında Ekran Görüntülerini Çöpe At"
+
+#: data/ui/preferences_window.blp:58
+msgid "Automatically move screenshots taken from within the app to trash"
+msgstr ""
+"Uygulama içinden alınan ekran görüntülerini kendiliğinden çöp kutusuna taşı"
+
+#: data/ui/preferences_window.blp:59
+msgid "Trash screenshots on app close"
+msgstr "Uygulama kapatıldığında ekran görüntülerini çöp kutusuna at"
+
+#: data/ui/preferences_window.blp:64
+msgid "Image Upload Providers"
+msgstr "Görüntü Yükleme Sağlayıcıları"
+
+#: data/ui/preferences_window.blp:65
+msgid "Connect to your favorite upload providers, or create a link yourself"
+msgstr ""
+"Gözde yükleme sağlayıcılarınıza bağlanın ya da kendiniz bağlantı oluşturun"
+
+#: data/ui/preferences_window.blp:67
+msgid "Provider"
+msgstr "Sağlayıcı"
+
+#: data/ui/preferences_window.blp:75
+#: gradia/ui/preferences/preferences_window.py:78
+msgid "None Selected"
+msgstr "Hiçbiri Seçilmedi"
+
+#: data/ui/preferences_window.blp:84
+msgid "Confirm on Upload"
+msgstr "Yüklemeyi Onayla"
+
+#: data/ui/preferences_window.blp:85 data/ui/preferences_window.blp:86
+msgid "Ask for confirmation before running the upload command"
+msgstr "Yükleme komutunu çalıştırmadan önce onay iste"
+
+#: data/ui/preferences_window.blp:94
+msgid "Download Models to improve per-language accuracy"
+msgstr "Dil başına doğruluğu iyileştirmek için Modelleri indir"
+
+#: data/ui/recent_picker.blp:24
+msgid "Screenshot Folder Not Found"
+msgstr "Ekran Görüntüsü Klasörü Bulunamadı"
+
+#: data/ui/recent_picker.blp:31
+msgid "Please set it in the Preferences menu"
+msgstr "Lütfen Tercihler menüsünden ayarlayın"
+
+#: data/ui/selectors/gradient_selector.blp:6
+msgid "Gradient Background"
+msgstr "Renk Geçişi Arka Plan"
+
+#: data/ui/selectors/gradient_selector.blp:11
+msgid "Open Step Dialog"
+msgstr "Adım İletişim Kutusunu Aç"
+
+#: data/ui/selectors/gradient_selector.blp:14
+msgid "Gradient Presets…"
+msgstr "Renk Geçişi Önayarları…"
+
+#: data/ui/selectors/gradient_selector.blp:50
+msgid "Linear"
+msgstr "Doğrusal"
+
+#: data/ui/selectors/gradient_selector.blp:55
+msgid "Radial"
+msgstr "Radyal"
+
+#: data/ui/selectors/gradient_selector.blp:60
+msgid "Conic"
+msgstr "Konik"
+
+#: data/ui/selectors/gradient_selector.blp:103
+msgid "Remove Selected Color Step"
+msgstr "Seçili Renk Adımını Kaldır"
+
+#: data/ui/selectors/image_selector.blp:5
+msgid "Image Background"
+msgstr "Görüntü Arka Plan"
+
+#: data/ui/selectors/image_selector.blp:9
+msgid "Image Presets…"
+msgstr "Görüntü Önayarları…"
+
+#: data/ui/selectors/image_selector.blp:13
+msgid "Select Image"
+msgstr "Görüntü Seç"
+
+#: data/ui/selectors/image_selector.blp:42
+msgid "Select an Image"
+msgstr "Bir Görüntü Seç"
+
+#: data/ui/selectors/image_selector.blp:47
+msgid "Supported Image Formats"
+msgstr "Desteklenen Görüntü Biçimleri"
+
+#: data/ui/selectors/solid_selector.blp:5
+msgid "Solid Color Background"
+msgstr "Düz Renk Arka Plan"
+
+#: data/ui/welcome_page.blp:31
+msgid "Enhance an Image"
+msgstr "Görüntüyü Geliştir"
+
+#: data/ui/welcome_page.blp:32
+msgid "Drag and drop one here"
+msgstr "Görüntüyü buraya sürükleyip bırakın"
+
+#: gradia/app_constants.py:68
+msgid "PNG Image (*.png)"
+msgstr "PNG Görüntüsü (*.png)"
+
+#: gradia/app_constants.py:75
+msgid "JPEG Image (*.jpg)"
+msgstr "JPEG Görüntü (*.jpg)"
+
+#: gradia/app_constants.py:82
+msgid "WebP Image (*.webp)"
+msgstr "WebP Görüntüsü (*.webp)"
+
+#: gradia/backend/tool_config.py:214 gradia/backend/tool_config.py:223
+#: gradia/backend/tool_config.py:334 gradia/graphics/solid.py:190
+#: gradia/ui/widget/quick_color_picker.py:24
+msgid "Red"
+msgstr "Kırmızı"
+
+#: gradia/backend/tool_config.py:215 gradia/backend/tool_config.py:224
+#: gradia/backend/tool_config.py:335 gradia/graphics/solid.py:193
+#: gradia/ui/widget/quick_color_picker.py:25
+msgid "Green"
+msgstr "Yeşil"
+
+#: gradia/backend/tool_config.py:216 gradia/backend/tool_config.py:225
+#: gradia/backend/tool_config.py:336 gradia/graphics/solid.py:194
+#: gradia/ui/widget/quick_color_picker.py:26
+msgid "Blue"
+msgstr "Mavi"
+
+#: gradia/backend/tool_config.py:217 gradia/backend/tool_config.py:226
+#: gradia/backend/tool_config.py:337 gradia/graphics/solid.py:192
+#: gradia/ui/widget/quick_color_picker.py:27
+msgid "Yellow"
+msgstr "Sarı"
+
+#: gradia/backend/tool_config.py:218 gradia/backend/tool_config.py:228
+#: gradia/graphics/solid.py:201 gradia/ui/widget/quick_color_picker.py:28
+msgid "Black"
+msgstr "Siyah"
+
+#: gradia/backend/tool_config.py:219 gradia/backend/tool_config.py:227
+#: gradia/backend/tool_config.py:339 gradia/graphics/solid.py:200
+#: gradia/ui/widget/quick_color_picker.py:29
+msgid "White"
+msgstr "Beyaz"
+
+#: gradia/backend/tool_config.py:229 gradia/graphics/solid.py:203
+#: gradia/ui/widget/quick_color_picker.py:33
+msgid "Transparent"
+msgstr "Saydam"
+
+#: gradia/backend/tool_config.py:338 gradia/graphics/solid.py:195
+msgid "Purple"
+msgstr "Mor"
+
+#: gradia/backend/ocr.py:42
+msgid "English"
+msgstr "İngilizce"
+
+#: gradia/backend/ocr.py:43
+msgid "Chinese Simplified"
+msgstr "Basitleştirilmiş Çince"
+
+#: gradia/backend/ocr.py:44
+msgid "Chinese Traditional"
+msgstr "Geleneksel Çince"
+
+#: gradia/backend/ocr.py:45
+msgid "Spanish"
+msgstr "İspanyolca"
+
+#: gradia/backend/ocr.py:46
+msgid "French"
+msgstr "Fransızca"
+
+#: gradia/backend/ocr.py:47
+msgid "Persian"
+msgstr "Farsça"
+
+#: gradia/backend/ocr.py:48
+msgid "German"
+msgstr "Almanca"
+
+#: gradia/backend/ocr.py:49
+msgid "Japanese"
+msgstr "Japonca"
+
+#: gradia/backend/ocr.py:50
+msgid "Arabic"
+msgstr "Arapça"
+
+#: gradia/backend/ocr.py:51
+msgid "Russian"
+msgstr "Rusça"
+
+#: gradia/backend/ocr.py:52
+msgid "Portuguese"
+msgstr "Portekizce"
+
+#: gradia/backend/ocr.py:53
+msgid "Italian"
+msgstr "İtalyanca"
+
+#: gradia/backend/ocr.py:54
+msgid "Korean"
+msgstr "Korece"
+
+#: gradia/backend/ocr.py:55
+msgid "Hindi"
+msgstr "Hintçe"
+
+#: gradia/backend/ocr.py:56
+msgid "Dutch"
+msgstr "Felemenkçe"
+
+#: gradia/backend/ocr.py:57
+msgid "Turkish"
+msgstr "Türkçe"
+
+#: gradia/backend/ocr.py:58
+msgid "Kazakh"
+msgstr "Kazakça"
+
+#: gradia/backend/ocr.py:59
+msgid "Occitan"
+msgstr "Oksitanca"
+
+#: gradia/backend/ocr.py:60
+msgid "Polish"
+msgstr "Lehçe"
+
+#: gradia/backend/ocr.py:61
+msgid "Ukrainian"
+msgstr "Ukraynaca"
+
+#: gradia/backend/ocr.py:62
+msgid "Telugu"
+msgstr "Teluguca"
+
+#: gradia/graphics/solid.py:130
+msgid "More Colors..."
+msgstr "Daha Fazla Renk..."
+
+#: gradia/graphics/solid.py:191
+msgid "Orange"
+msgstr "Turuncu"
+
+#: gradia/graphics/solid.py:196
+msgid "Pastel Pink"
+msgstr "Pastel Pembe"
+
+#: gradia/graphics/solid.py:197
+msgid "Pastel Yellow"
+msgstr "Pastel Sarı"
+
+#: gradia/graphics/solid.py:198
+msgid "Pastel Green"
+msgstr "Pastel Yeşil"
+
+#: gradia/graphics/solid.py:199
+msgid "Pastel Cyan"
+msgstr "Pastel Camgöbeği"
+
+#: gradia/graphics/solid.py:202
+msgid "Gray"
+msgstr "Gri"
+
+#: gradia/overlay/drawing_actions.py:48 gradia/ui/ui_parts.py:110
+msgid "Pen"
+msgstr "Kalem"
+
+#: gradia/overlay/drawing_actions.py:49 gradia/ui/ui_parts.py:113
+msgid "Arrow"
+msgstr "Ok"
+
+#: gradia/overlay/drawing_actions.py:50 gradia/ui/ui_parts.py:112
+msgid "Line"
+msgstr "Çizgi"
+
+#: gradia/overlay/drawing_actions.py:51 gradia/ui/ui_parts.py:114
+msgid "Rectangle"
+msgstr "Dörtgen"
+
+#: gradia/overlay/drawing_actions.py:52 gradia/ui/ui_parts.py:115
+msgid "Oval"
+msgstr "Oval"
+
+#: gradia/overlay/drawing_actions.py:53 gradia/ui/ui_parts.py:111
+msgid "Text"
+msgstr "Metin"
+
+#: gradia/overlay/drawing_actions.py:55 gradia/ui/ui_parts.py:116
+msgid "Highlighter"
+msgstr "Vurgulayıcı"
+
+#: gradia/overlay/drawing_actions.py:56 gradia/ui/ui_parts.py:117
+msgid "Censor"
+msgstr "Sansür"
+
+#: gradia/overlay/drawing_actions.py:57 gradia/ui/ui_parts.py:118
+msgid "Number"
+msgstr "Sayı"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:33
+msgid "No screenshots to delete"
+msgstr "Silinecek ekran görüntüsü yok"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:55
+msgid "Trash"
+msgstr "Çöp"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:87
+msgid "Trash Screenshot?"
+msgstr "Ekran Görüntüsü Çöpe Atılsın Mı?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:88
+msgid "Are you sure you want to trash the following file?"
+msgstr "Aşağıdaki dosyayı çöpe atmak istediğinizden emin misiniz?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:90
+msgid "Trash Screenshots?"
+msgstr "Ekran Görüntüleri Çöpe Atılsın Mı?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:91
+msgid "Are you sure you want to trash the following files?"
+msgstr "Aşağıdaki dosyaları çöpe atmak istediğinizden emin misiniz?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:101
+msgid "Screenshot moved to trash"
+msgstr "Ekran görüntüsü çöp kutusuna taşındı"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:103
+msgid "Screenshots moved to trash"
+msgstr "Ekran görüntüleri çöp kutusuna taşındı"
+
+#: gradia/ui/dialog/ocr_dialog.py:118
+#: gradia/ui/preferences/preferences_window.py:150
+#: gradia/ui/preferences/preferences_window.py:243
+msgid "Copied!"
+msgstr "Kopyalandı!"
+
+#: gradia/ui/image_creation/source_image_generator.py:554
+msgid "Source Snippet From %Y-%m-%d %H-%M-%S"
+msgstr "Kaynak Parçacığı %Y-%m-%d %H-%M-%S"
+
+#: gradia/ui/image_exporters.py:103
+msgid "Edit"
+msgstr "Düzenle"
+
+#: gradia/ui/image_exporters.py:106
+msgid "Enhanced Screenshot"
+msgstr "Geliştirilmiş Ekran Görüntüsü"
+
+#: gradia/ui/image_exporters.py:145
+msgid "Save Image As"
+msgstr "Görüntüyü Farklı Kaydet"
+
+#: gradia/ui/image_exporters.py:174
+msgid "Unsupported image file extension"
+msgstr "Desteklenmeyen görüntü dosyası uzantısı"
+
+#: gradia/ui/image_exporters.py:183
+msgid "Image Saved"
+msgstr "Görüntü Kaydedildi"
+
+#: gradia/ui/image_exporters.py:185
+msgid "Export Failed"
+msgstr "Dışa Aktarılamadı"
+
+#: gradia/ui/image_exporters.py:252
+msgid "No processed image available"
+msgstr "İşlenmiş görüntü yok"
+
+#: gradia/ui/image_exporters.py:278 gradia/ui/image_exporters.py:460
+msgid "Image Copied"
+msgstr "Görüntü Kopyalandı"
+
+#: gradia/ui/image_exporters.py:281 gradia/ui/image_exporters.py:288
+msgid "Failed to copy image to clipboard"
+msgstr "Görüntü panoya kopyalanamadı"
+
+#: gradia/ui/image_exporters.py:302
+msgid "Link generated successfully"
+msgstr "Bağlantı oluşturuldu"
+
+#: gradia/ui/image_exporters.py:303
+msgid "Open Link"
+msgstr "Bağlantıyı Aç"
+
+#: gradia/ui/image_exporters.py:340
+msgid "Custom command failed: "
+msgstr "Özel komut başarısız oldu: "
+
+#: gradia/ui/image_exporters.py:346
+msgid "Warning: "
+msgstr "Uyarı: "
+
+#: gradia/ui/image_exporters.py:357
+msgid "Result copied to clipboard"
+msgstr "Sonuç panoya kopyalandı"
+
+#: gradia/ui/image_exporters.py:359
+msgid "No output from command"
+msgstr "Komuttan çıktı yok"
+
+#: gradia/ui/image_exporters.py:362
+msgid "Failed to run custom export command"
+msgstr "Özel dışa aktarma komutu çalıştırılamadı"
+
+#: gradia/ui/image_exporters.py:408 gradia/ui/image_exporters.py:435
+msgid "Close Operation Failed"
+msgstr "Kapatma İşlemi Başarısız"
+
+#: gradia/ui/image_exporters.py:408 gradia/ui/image_exporters.py:435
+msgid "Failed to export image"
+msgstr "Görüntü dışa aktarılamadı"
+
+#: gradia/ui/image_exporters.py:461
+msgid "You can now paste it from the clipboard."
+msgstr "Artık panodan yapıştırabilirsiniz."
+
+#: gradia/ui/image_loaders.py:87 gradia/ui/image_loaders.py:98
+#: gradia/ui/image_loaders.py:111
+msgid "Not a supported image format"
+msgstr "Desteklenen görüntü biçimi değil"
+
+#: gradia/ui/image_loaders.py:122
+msgid "URL is not a supported image format"
+msgstr "URL desteklenen görüntü biçimi değil"
+
+#: gradia/ui/image_loaders.py:131
+msgid "Failed to load image from URL."
+msgstr "URLʼden görüntü yüklenemedi."
+
+#: gradia/ui/image_loaders.py:140
+msgid "Open Image"
+msgstr "Görüntü Aç"
+
+#: gradia/ui/image_loaders.py:143
+msgid "Image Files"
+msgstr "Görüntü Dosyaları"
+
+#: gradia/ui/image_loaders.py:248 gradia/ui/image_loaders.py:263
+msgid "Failed to take screenshot"
+msgstr "Ekran görüntüsü alınamadı"
+
+#: gradia/ui/image_loaders.py:278
+msgid "Screenshot cancelled"
+msgstr "Ekran görüntüsü iptal edildi"
+
+#: gradia/ui/image_loaders.py:293 gradia/ui/image_loaders.py:316
+msgid "Edited Screenshot From %Y-%m-%d %H-%M-%S"
+msgstr "Düzenlenmiş Ekran Görüntüsü %Y-%m-%d %H-%M-%S"
+
+#: gradia/ui/image_loaders.py:300 gradia/ui/image_loaders.py:323
+msgid "Screenshot captured!"
+msgstr "Ekran görüntüsü alındı!"
+
+#: gradia/ui/image_loaders.py:307
+msgid "Failed to process screenshot"
+msgstr "Ekran görüntüsü işlenemedi"
+
+#: gradia/ui/image_loaders.py:327
+msgid "Failed to load screenshot"
+msgstr "Ekran görüntüsü yüklenemedi"
+
+#: gradia/ui/image_loaders.py:391
+msgid "Source snippet Generated!"
+msgstr "Kaynak parçacığı Oluşturuldu!"
+
+#: gradia/ui/preferences/preferences_window.py:112
+msgid "Ask For Confirmation"
+msgstr "Onay İste"
+
+#: gradia/ui/preferences/preferences_window.py:113
+msgid "Copy and Close "
+msgstr "Kopyala ve Kapat"
+
+#: gradia/ui/preferences/preferences_window.py:114
+msgid "Close Instantly"
+msgstr "Anında Kapat"
+
+#: gradia/ui/preferences/provider_selection_window.py:133
+#: gradia/ui/provider_selection_window.py:134
+msgid "Create your own custom upload command"
+msgstr "Kendi özel yükleme komutunuzu oluşturun"
+
+#: gradia/ui/preferences/provider_selection_window.py:301
+#: gradia/ui/provider_selection_window.py:302
+msgid "Custom"
+msgstr "Özel"
+
+#: gradia/ui/ui_parts.py:32
+msgid "Make your images ready for all"
+msgstr "Görüntülerinizi herkes için hazır hale getirin"
+
+#. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
+#: gradia/ui/ui_parts.py:45
+msgid "translator-credits"
+msgstr "Sabri Ünal <yakushabb@gmail.com>"
+
+#: gradia/ui/ui_parts.py:51
+msgid "Code and Design Borrowed from"
+msgstr "Ödünç Alınan Kod ve Tasarım"
+
+#: gradia/ui/ui_parts.py:63
+msgid "Image Sources"
+msgstr "Görüntü Kaynakları"
+
+#: gradia/ui/ui_parts.py:98
+msgid "File Actions"
+msgstr "Dosya İşlemleri"
+
+#: gradia/ui/ui_parts.py:99
+msgid "Open File"
+msgstr "Dosya Aç"
+
+#: gradia/ui/ui_parts.py:100
+msgid "Save to File"
+msgstr "Dosyaya Kaydet"
+
+#: gradia/ui/ui_parts.py:101
+msgid "Copy Image to Clipboard"
+msgstr "Görüntüyü Panoya Kopyala"
+
+#: gradia/ui/ui_parts.py:102
+msgid "Paste From Clipboard"
+msgstr "Panodan Yapıştır"
+
+#: gradia/ui/ui_parts.py:105
+msgid "Annotations"
+msgstr "Açıklamalar"
+
+#: gradia/ui/ui_parts.py:120
+msgid "Cropping"
+msgstr "Kırpma"
+
+#: gradia/ui/ui_parts.py:121
+msgid "Toggle Crop Mode"
+msgstr "Kırpma Kipini Değiştir"
+
+#: gradia/ui/ui_parts.py:122
+msgid "Reset Crop"
+msgstr "Kırpmayı Sıfırla"
+
+#: gradia/ui/ui_parts.py:124
+msgid "Zooming"
+msgstr "Yakınlaştırma"
+
+#: gradia/ui/ui_parts.py:132
+msgid "Open Source Snippets"
+msgstr "Kaynak Parçacıklarını Aç"
+
+#: gradia/ui/widget/aspect_ratio_button.py:26
+#: gradia/ui/widget/background_aspect_ratio_selector.py:52
+msgid "Aspect Ratio"
+msgstr "En Boy Oranı"
+
+#: gradia/ui/widget/aspect_ratio_button.py:38
+msgid "Free"
+msgstr "Serbest"
+
+#: gradia/ui/widget/aspect_ratio_button.py:39
+msgid "Square"
+msgstr "Kare"
+
+#: gradia/ui/widget/background_aspect_ratio_selector.py:113
+msgid "Custom Ratio"
+msgstr "Özel En Boy Oranı"
+
+#: gradia/ui/widget/background_aspect_ratio_selector.py:121
+msgid "Width"
+msgstr "Genişlik"
+
+#: gradia/ui/widget/background_aspect_ratio_selector.py:137
+msgid "Height"
+msgstr "Yükseklik"
+
+#: gradia/ui/widget/background_aspect_ratio_selector.py:153
+msgid "Set"
+msgstr "Ayarla"
+
+#: gradia/ui/widget/quick_color_picker.py:103
+msgid "More Colors…"
+msgstr "Daha Fazla Renk…"
+
+#: gradia/ui/widget/quick_color_picker.py:108
+msgid "Choose Color"
+msgstr "Renk Seç"
+
+#: gradia/ui/window.py:477
+msgid "Confirm Upload"
+msgstr "Yüklemeyi Onayla"
+
+#: gradia/ui/window.py:481
+msgid "Upload"
+msgstr "Yükle"
