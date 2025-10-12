@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-24 20:00+0200\n"
+"POT-Creation-Date: 2025-09-28 15:35+0200\n"
 "PO-Revision-Date: 2025-09-28 10:44+0800\n"
 "Last-Translator: G-Src <gsrc@fsfans.club>\n"
 "Language-Team: Chinese <>\n"
@@ -85,20 +85,20 @@ msgstr "将源码片段转换成干净的高分辨率图片"
 msgid "Alexander Vanhee"
 msgstr "Alexander Vanhee"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:247
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:251
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:266
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:270
 msgid "Edited screenshot"
 msgstr "编辑后的截图"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:255
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:274
 msgid "Startup view"
 msgstr "启动视图"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:259
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:278
 msgid "UI element showcase"
 msgstr "UI 元素展示"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:263
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:282
 #: data/ui/image_generator_window.blp:5 data/ui/image_sidebar.blp:224
 #: data/ui/welcome_page.blp:79
 #: gradia/ui/image_creation/source_image_generator.py:397
@@ -131,7 +131,7 @@ msgstr "您确定要退出吗？所有未保存更改将丢失。"
 
 #: data/ui/confirm_close_dialog.blp:11
 #: gradia/ui/dialog/delete_screenshots_dialog.py:54
-#: gradia/ui/image_exporters.py:149 gradia/ui/window.py:474
+#: gradia/ui/image_exporters.py:149 gradia/ui/window.py:479
 msgid "Cancel"
 msgstr "取消"
 
@@ -326,48 +326,48 @@ msgstr "打开侧边栏"
 msgid "Crop…"
 msgstr "裁剪..."
 
-#: data/ui/image_stack.blp:106 data/ui/ocr_dialog.blp:5
+#: data/ui/image_stack.blp:105 data/ui/ocr_dialog.blp:5
 #: data/ui/ocr_dialog.blp:15 data/ui/preferences_window.blp:91
 msgid "Text Extraction"
 msgstr "文本提取"
 
-#: data/ui/image_stack.blp:119 gradia/ui/ui_parts.py:108
+#: data/ui/image_stack.blp:118 gradia/ui/ui_parts.py:108
 msgid "Erase Selected"
 msgstr "擦除所选"
 
-#: data/ui/image_stack.blp:137
+#: data/ui/image_stack.blp:136
 msgid "Reset Crop Selection"
 msgstr "重置裁剪选择"
 
-#: data/ui/image_stack.blp:166
+#: data/ui/image_stack.blp:165
 msgid "Confirm"
 msgstr "确认"
 
-#: data/ui/image_stack.blp:167
+#: data/ui/image_stack.blp:166
 msgid "Confirm Crop Selection"
 msgstr "确认裁剪选择"
 
-#: data/ui/image_stack.blp:206 gradia/ui/ui_parts.py:127
+#: data/ui/image_stack.blp:205 gradia/ui/ui_parts.py:127
 msgid "Reset Zoom"
 msgstr "重置缩放"
 
-#: data/ui/image_stack.blp:230 gradia/ui/ui_parts.py:126
+#: data/ui/image_stack.blp:229 gradia/ui/ui_parts.py:126
 msgid "Zoom Out"
 msgstr "缩小"
 
-#: data/ui/image_stack.blp:240 gradia/ui/ui_parts.py:125
+#: data/ui/image_stack.blp:239 gradia/ui/ui_parts.py:125
 msgid "Zoom In"
 msgstr "放大"
 
-#: data/ui/image_stack.blp:256 gradia/ui/ui_parts.py:106
+#: data/ui/image_stack.blp:255 gradia/ui/ui_parts.py:106
 msgid "Undo"
 msgstr "撤销"
 
-#: data/ui/image_stack.blp:266 gradia/ui/ui_parts.py:107
+#: data/ui/image_stack.blp:265 gradia/ui/ui_parts.py:107
 msgid "Redo"
 msgstr "重做"
 
-#: data/ui/image_stack.blp:276
+#: data/ui/image_stack.blp:275
 msgid "Clear All"
 msgstr "清除全部"
 
@@ -410,7 +410,7 @@ msgid ""
 msgstr "输入一个自定义指令来上传文件，用$1作为文件目录的占位符。"
 
 #: data/ui/preferences/ocr_model_page.blp:5
-#: data/ui/preferences/ocr_model_page.blp:28 data/ui/preferences_window.blp:94
+#: data/ui/preferences/ocr_model_page.blp:28 data/ui/preferences_window.blp:93
 msgid "Language Models"
 msgstr "语言模型"
 
@@ -624,7 +624,7 @@ msgstr "上传时确认"
 msgid "Ask for confirmation before running the upload command"
 msgstr "运行上传指令前请求确认"
 
-#: data/ui/preferences_window.blp:95
+#: data/ui/preferences_window.blp:94
 msgid "Download Models to improve per-language accuracy"
 msgstr "下载模型来增强单独一个语言的准确性"
 
@@ -828,6 +828,10 @@ msgstr "波兰语"
 msgid "Ukrainian"
 msgstr "乌克兰语"
 
+#: gradia/backend/ocr.py:61
+msgid "Telugu"
+msgstr ""
+
 #: gradia/graphics/solid.py:130
 msgid "More Colors..."
 msgstr "更多颜色..."
@@ -924,9 +928,9 @@ msgstr "截图已移至回收站"
 msgid "Screenshots moved to trash"
 msgstr "截图已移至回收站"
 
-#: gradia/ui/dialog/ocr_dialog.py:119
+#: gradia/ui/dialog/ocr_dialog.py:118
 #: gradia/ui/preferences/preferences_window.py:150
-#: gradia/ui/preferences/preferences_window.py:247
+#: gradia/ui/preferences/preferences_window.py:243
 msgid "Copied!"
 msgstr "已复制！"
 
@@ -958,55 +962,55 @@ msgstr "图片已保存"
 msgid "Export Failed"
 msgstr "导出失败"
 
-#: gradia/ui/image_exporters.py:245
+#: gradia/ui/image_exporters.py:252
 msgid "No processed image available"
 msgstr "没有可用的经处理图片"
 
-#: gradia/ui/image_exporters.py:271 gradia/ui/image_exporters.py:453
+#: gradia/ui/image_exporters.py:278 gradia/ui/image_exporters.py:460
 msgid "Image Copied"
 msgstr "图片已复制"
 
-#: gradia/ui/image_exporters.py:274 gradia/ui/image_exporters.py:281
+#: gradia/ui/image_exporters.py:281 gradia/ui/image_exporters.py:288
 msgid "Failed to copy image to clipboard"
 msgstr "复制图片到剪贴板失败"
 
-#: gradia/ui/image_exporters.py:295
+#: gradia/ui/image_exporters.py:302
 msgid "Link generated successfully"
 msgstr "链接成功生成"
 
-#: gradia/ui/image_exporters.py:296
+#: gradia/ui/image_exporters.py:303
 msgid "Open Link"
 msgstr "打开链接"
 
-#: gradia/ui/image_exporters.py:333
+#: gradia/ui/image_exporters.py:340
 msgid "Custom command failed: "
 msgstr "自定义指令失败："
 
-#: gradia/ui/image_exporters.py:339
+#: gradia/ui/image_exporters.py:346
 msgid "Warning: "
 msgstr "警告："
 
-#: gradia/ui/image_exporters.py:350
+#: gradia/ui/image_exporters.py:357
 msgid "Result copied to clipboard"
 msgstr "图片已复制到剪贴板"
 
-#: gradia/ui/image_exporters.py:352
+#: gradia/ui/image_exporters.py:359
 msgid "No output from command"
 msgstr "命令无输出"
 
-#: gradia/ui/image_exporters.py:355
+#: gradia/ui/image_exporters.py:362
 msgid "Failed to run custom export command"
 msgstr "运行自定义导出指令失败"
 
-#: gradia/ui/image_exporters.py:401 gradia/ui/image_exporters.py:428
+#: gradia/ui/image_exporters.py:408 gradia/ui/image_exporters.py:435
 msgid "Close Operation Failed"
 msgstr "关闭操作失败"
 
-#: gradia/ui/image_exporters.py:401 gradia/ui/image_exporters.py:428
+#: gradia/ui/image_exporters.py:408 gradia/ui/image_exporters.py:435
 msgid "Failed to export image"
 msgstr "导出图片失败"
 
-#: gradia/ui/image_exporters.py:454
+#: gradia/ui/image_exporters.py:461
 msgid "You can now paste it from the clipboard."
 msgstr "您现在可以从剪贴板中粘贴了。"
 
@@ -1179,11 +1183,11 @@ msgstr "更多颜色..."
 msgid "Choose Color"
 msgstr "选择颜色"
 
-#: gradia/ui/window.py:471
+#: gradia/ui/window.py:476
 msgid "Confirm Upload"
 msgstr "确认上传"
 
-#: gradia/ui/window.py:475
+#: gradia/ui/window.py:480
 msgid "Upload"
 msgstr "上传"
 
