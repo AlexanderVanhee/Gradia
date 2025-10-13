@@ -52,7 +52,8 @@ template $GradiaImageSidebar : Adw.Bin {
         title: _("Image Options");
 
         Adw.SpinRow padding_row {
-          title: _("Padding");
+          title: _("_Padding");
+          use-underline: true;
           numeric: true;
           adjustment: Gtk.Adjustment padding_adjustment {
             value: 5;
@@ -64,7 +65,8 @@ template $GradiaImageSidebar : Adw.Bin {
         }
 
         Adw.SpinRow corner_radius_row {
-          title: _("Corner Radius");
+          title: _("_Corner Radius");
+          use-underline: true;
           numeric: true;
           adjustment: Gtk.Adjustment corner_radius_adjustment {
             value: 2;
@@ -77,10 +79,12 @@ template $GradiaImageSidebar : Adw.Bin {
 
         $GradiaAspectRatioSelector aspect_ratio_selector {
           ratio-changed => $_on_aspect_ratio_changed();
+          use-underline: true;
         }
 
         Adw.ActionRow shadow_strength_row {
-          title: _("Shadow");
+          title: _("_Shadow");
+          use-underline: true;
           activatable-widget: shadow_strength_scale;
 
           [suffix]
@@ -100,12 +104,14 @@ template $GradiaImageSidebar : Adw.Bin {
           }
         }
         Adw.SwitchRow auto_balance_toggle {
-          title: _("Auto Balance");
+          title: _("_Auto Balance");
+          use-underline: true;
           activatable: true;
         }
 
         Adw.ActionRow rotation_row {
-          title: _("Rotation");
+          title: _("_Rotation");
+          use-underline: true;
 
           [suffix]
           Box {
@@ -142,7 +148,8 @@ template $GradiaImageSidebar : Adw.Bin {
         }
 
         Adw.ActionRow location_row {
-          title: _("Location");
+          title: _("_Location");
+          use-underline: true;
           subtitle: _("N/A");
           activatable: true;
           activatable-widget: open_folder_button;

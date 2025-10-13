@@ -33,7 +33,7 @@ class CropOverlay(Gtk.Widget):
     aspect_ratio = GObject.Property(
         type=float,
         default=0.0,
-        nick="Aspect Ratio",
+        nick=_("_Aspect Ratio"),
         blurb="Locked aspect ratio (width/height). 0 means unlocked, 1 means square"
     )
 

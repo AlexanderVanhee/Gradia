@@ -49,7 +49,7 @@ class AspectRatioSelector(Adw.ActionRow):
         self._current_ratio = ""
         self._custom_ratio = None
 
-        self.set_title(_("Aspect Ratio"))
+        self.set_title(_("_Aspect Ratio"))
         self.set_activatable(True)
 
         suffix_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
