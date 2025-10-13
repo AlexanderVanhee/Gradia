@@ -129,9 +129,10 @@ class ProviderListPage(Adw.NavigationPage):
 
     def _create_custom_provider_row(self) -> Adw.ActionRow:
         row = Adw.ActionRow(
-            title=_("Custom Provider"),
+            title=_("_Custom Provider"),
             subtitle=_("Create your own custom upload command"),
-            activatable=True
+            activatable=True,
+            use_underline=True
         )
 
         custom_icon = Gtk.Image.new_from_icon_name("engineering-symbolic")

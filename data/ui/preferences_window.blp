@@ -11,7 +11,8 @@ template $GradiaPreferencesWindow : Adw.PreferencesDialog {
       title: _("Screenshots");
 
       Adw.ActionRow {
-        title: _("Recent Directory");
+        title: _("_Recent Directory");
+        use-underline: true;
         subtitle: _("Used for home screen");
         activatable: true;
         activated => $on_folder_row_clicked();
@@ -32,29 +33,34 @@ template $GradiaPreferencesWindow : Adw.PreferencesDialog {
     }
     Adw.PreferencesGroup  {
       Adw.ButtonRow help_button {
-        title: _("Screenshot Shortcut");
+        title: _("_Screenshot Shortcut");
+        use-underline: true;
       }
     }
     Adw.PreferencesGroup save_format_group {
       title: _("Save Options");
       Adw.ComboRow save_format_combo {
-        title: _("Image Format");
+        title: _("_Image Format");
+        use-underline: true;
         subtitle: _("Default format for saved screenshots");
       }
     }
     Adw.PreferencesGroup {
       title: _("Closing");
       Adw.ComboRow exiting_combo {
-        title: _("When Exiting");
+        title: _("_When Exiting");
+        use-underline: true;
       }
       Adw.SwitchRow overwrite_screenshot_switch {
-        title: _("Overwrite last screenshot on close");
+        title: _("_Overwrite last screenshot on close");
+        use-underline: true;
         subtitle: _("Replace it with the annotated version");
         tooltip-text: _("Replace last screenshot file with annotated version on close");
         activatable: true;
       }
       Adw.SwitchRow delete_screenshot_switch {
-        title: _("Trash Screenshots on Close");
+        title: _("_Trash Screenshots on Close");
+        use-underline: true;
         subtitle: _("Automatically move screenshots taken from within the app to trash");
         tooltip-text: _("Trash screenshots on app close");
         activatable: true;
@@ -64,7 +70,8 @@ template $GradiaPreferencesWindow : Adw.PreferencesDialog {
       title: _("Image Upload Providers");
       description: _("Connect to your favorite upload providers, or create a link yourself");
       Adw.ActionRow provider_row {
-        title: _("Provider");
+        title: _("_Provider");
+        use-underline: true;
         activatable: true;
         activated => $on_choose_provider_clicked();
         [suffix]
@@ -81,7 +88,8 @@ template $GradiaPreferencesWindow : Adw.PreferencesDialog {
         }
       }
       Adw.SwitchRow confirm_upload_switch {
-        title: _("Confirm on Upload");
+        title: _("_Confirm on Upload");
+        use-underline: true;
         subtitle: _("Ask for confirmation before running the upload command");
         tooltip-text: _("Ask for confirmation before running the upload command");
         activatable: true;
@@ -90,7 +98,8 @@ template $GradiaPreferencesWindow : Adw.PreferencesDialog {
     Adw.PreferencesGroup {
       title: _("Text Extraction");
       Adw.ActionRow  {
-        title: _("Language Models");
+        title: _("_Language Models");
+        use-underline: true;
         subtitle: _("Download Models to improve per-language accuracy");
         activatable: true;
         activated => $on_manage_language_models_clicked();
