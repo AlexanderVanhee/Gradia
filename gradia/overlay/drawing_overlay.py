@@ -722,7 +722,14 @@ class DrawingOverlay(Gtk.DrawingArea):
 
         else:
             if self._is_point_in_image(x_widget, y_widget):
-                if self.options.mode in [DrawingMode.PEN, DrawingMode.HIGHLIGHTER]:
+                if self.options.mode in [
+                    DrawingMode.PEN,
+                    DrawingMode.HIGHLIGHTER,
+                    DrawingMode.SQUARE,
+                    DrawingMode.CIRCLE,
+                    DrawingMode.ARROW,
+                    DrawingMode.LINE,
+                ]:
                     name = "crosshair"
                 else:
                     name = "cell"
