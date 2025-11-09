@@ -1,6 +1,7 @@
 [Desktop Entry]
 Name=Gradia
 Comment=Make your images ready for the world
+Comment[hr]=Pripremi svoje slike za svijet
 Exec=gradia %U
 Icon=@APP_ID@
 StartupNotify=true
