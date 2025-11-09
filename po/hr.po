@@ -1,0 +1,1204 @@
+# Croatian translation for gradia.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the gradia package.
+# Milo Ivir <mail@milotype.de>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gradia\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-28 15:35+0200\n"
+"PO-Revision-Date: 2025-11-09 19:50+0100\n"
+"Last-Translator: Milo Ivir <mail@mivirtype.de>\n"
+"Language-Team: \n"
+"Language: hr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.8\n"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:2
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:11
+msgid "Gradia"
+msgstr "Gradia"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:3
+msgid "Make your images ready for the world"
+msgstr "Pripremi svoje slike za svijet"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:10
+msgid "Image;Gradient;Background;Screenshot;Edit;"
+msgstr "Slika;Gradijent;Pozadina;Snimka ekrana;Uredi;"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:15
+msgid "New Window"
+msgstr "Novi prozor"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:20
+msgid "Take Screenshot"
+msgstr "Snimi snimku ekrana"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:25
+msgid "Take Fullscreen Screenshot"
+msgstr "Snimi snimku cjeloerkanskog prikaza"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:12
+msgid "Annotate your screenshots"
+msgstr "Dodaj bilješke tvojim snimkama ekrana"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:15
+msgid ""
+"Gradia helps you get your screenshots ready for sharing, whether quickly "
+"with friends or colleagues, or professionally with the entire world."
+msgstr ""
+"Gradia pomaže u pripremanju tvojih snimki ekrana za dijeljenje, bilo brzo s "
+"prijateljima ili kolegama ili profesionalno s cijelim svijetom."
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:16
+msgid "Key features:"
+msgstr "Glavne funkcije:"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:18
+msgid "Ten annotation modes, including text, arrow, and censor"
+msgstr "Deset načina za bilješke, uključujući tekst, strelicu i cenzuru"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:19
+msgid "Optional image and gradient backgrounds"
+msgstr "Opcionalne slike i gradijenti pozadine"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:20
+msgid "Image settings like shadow, padding, and auto-balance"
+msgstr ""
+"Postavke slike kao što su sjena, unutranji odmak i automatsko usklađivanje"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:21
+msgid "Quick upload flow to easily share images via services like Imgur"
+msgstr ""
+"Brzi prijenos za jednostavno dijeljenje slika putem usluga kao što je Imgur"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:22
+msgid "Convert code snippets into clean high-resolution images"
+msgstr "Pretvori isječke koda u čiste slike visoke rezolucije"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:26
+msgid "Alexander Vanhee"
+msgstr "Alexander Vanhee"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:266
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:270
+msgid "Edited screenshot"
+msgstr "Uređena snimka ekrana"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:274
+msgid "Startup view"
+msgstr "Početni prikaz"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:278
+msgid "UI element showcase"
+msgstr "Demonstracija UI elemenata"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:282
+#: data/ui/image_generator_window.blp:5 data/ui/image_sidebar.blp:224
+#: data/ui/welcome_page.blp:79
+#: gradia/ui/image_creation/source_image_generator.py:397
+msgid "Source Snippets"
+msgstr "Isječci izvora"
+
+#: data/ui/background_selector.blp:15
+msgid "None"
+msgstr "Bez"
+
+#: data/ui/background_selector.blp:20
+msgid "Solid"
+msgstr "Puna boja"
+
+#: data/ui/background_selector.blp:25
+msgid "Gradient"
+msgstr "Gradijent"
+
+#: data/ui/background_selector.blp:30
+msgid "Image"
+msgstr "Slika"
+
+#: data/ui/confirm_close_dialog.blp:5
+msgid "Close Gradia?"
+msgstr "Zatvoriti aplikaciju Gradia?"
+
+#: data/ui/confirm_close_dialog.blp:6
+msgid "Are you sure you want to exit? All unsaved changes will be lost."
+msgstr ""
+"Stvano želiš zatvoriti aplikaciju? Izgubit ćeš sve nespremljene promjene."
+
+#: data/ui/confirm_close_dialog.blp:11
+#: gradia/ui/dialog/delete_screenshots_dialog.py:54
+#: gradia/ui/image_exporters.py:149 gradia/ui/window.py:479
+msgid "Cancel"
+msgstr "Odustani"
+
+#: data/ui/confirm_close_dialog.blp:12 data/ui/ocr_dialog.blp:83
+msgid "Copy"
+msgstr "Kopiraj"
+
+#: data/ui/confirm_close_dialog.blp:13
+msgid "Close"
+msgstr "Zatvori"
+
+#: data/ui/confirm_close_dialog.blp:20
+msgid "Don't Ask Again"
+msgstr "Nemoj ponovo pitati"
+
+#: data/ui/drawing_tools_group.blp:7
+msgid "Annotation Tools"
+msgstr "Alati za bilješke"
+
+#: data/ui/drawing_tools_group.blp:60 data/ui/drawing_tools_group.blp:75
+msgid "Fill"
+msgstr "Ispuna"
+
+#: data/ui/drawing_tools_group.blp:82
+msgid "Border"
+msgstr "Rub"
+
+#: data/ui/drawing_tools_group.blp:98
+msgid "Fill Color Picker"
+msgstr "Birač boja ispune"
+
+#: data/ui/drawing_tools_group.blp:105
+msgid "Outline Color Picker"
+msgstr "Birač boja konture"
+
+#: data/ui/gradient_step_dialog.blp:7
+msgid "Edit Gradient Steps"
+msgstr "Uredi korake gradijenta"
+
+#: data/ui/gradient_step_dialog.blp:35
+msgid "Gradient Steps"
+msgstr "Koraci gradijenta"
+
+#: data/ui/gradient_step_dialog.blp:36
+msgid "You can add up to five steps"
+msgstr "Možeš dodati do pet koraka"
+
+#: data/ui/gradient_step_dialog.blp:39
+msgid "Add Step"
+msgstr "Dodaj korak"
+
+#: data/ui/image_generator_window.blp:29
+msgid "Language"
+msgstr "Jezik"
+
+#: data/ui/image_generator_window.blp:39
+msgid "Style"
+msgstr "Stil"
+
+#: data/ui/image_generator_window.blp:54
+msgid "Default"
+msgstr "Zadano"
+
+#: data/ui/image_generator_window.blp:69
+msgid "Window Frame"
+msgstr "Okvir prozora"
+
+#: data/ui/image_generator_window.blp:74
+msgid "Add a window frame around the code"
+msgstr "Dodaj okvira prozora oko koda"
+
+#: data/ui/image_generator_window.blp:81
+msgid "Line Numbers"
+msgstr "Brojevi redaka"
+
+#: data/ui/image_generator_window.blp:86
+msgid "Add a number before each new line of code"
+msgstr "Dodaj broj prije svakog novog retka koda"
+
+#: data/ui/image_generator_window.blp:113
+msgid "Export"
+msgstr "Izvezi"
+
+#: data/ui/image_sidebar.blp:17 data/ui/welcome_page.blp:60
+msgid "Open Image…"
+msgstr "Otvori sliku …"
+
+#: data/ui/image_sidebar.blp:24 data/ui/welcome_page.blp:49
+msgid "Take a Screenshot…"
+msgstr "Snimi sliku ekrana …"
+
+#: data/ui/image_sidebar.blp:31 data/ui/welcome_page.blp:24
+msgid "Main Menu"
+msgstr "Glavni izbornik"
+
+#: data/ui/image_sidebar.blp:52
+msgid "Image Options"
+msgstr "Opcije za slike"
+
+#: data/ui/image_sidebar.blp:55
+msgid "Padding"
+msgstr "Unutarnji odmak"
+
+#: data/ui/image_sidebar.blp:67
+msgid "Corner Radius"
+msgstr "Polumjer kuta"
+
+#: data/ui/image_sidebar.blp:83
+msgid "Shadow"
+msgstr "Sjena"
+
+#: data/ui/image_sidebar.blp:103
+msgid "Auto Balance"
+msgstr "Automatsko usklađivanje"
+
+#: data/ui/image_sidebar.blp:108
+msgid "Rotation"
+msgstr "Okretanje"
+
+#: data/ui/image_sidebar.blp:117
+msgid "Rotate Anticlockwise"
+msgstr "Okreni nalijevo"
+
+#: data/ui/image_sidebar.blp:125
+msgid "Rotate Clockwise"
+msgstr "Okreni nadesno"
+
+#: data/ui/image_sidebar.blp:136
+msgid "Current File"
+msgstr "Trenutačna datoteka"
+
+#: data/ui/image_sidebar.blp:139
+msgid "Name"
+msgstr "Ime"
+
+#: data/ui/image_sidebar.blp:140 data/ui/image_sidebar.blp:146
+#: data/ui/image_sidebar.blp:165
+msgid "N/A"
+msgstr "--"
+
+#: data/ui/image_sidebar.blp:145
+msgid "Location"
+msgstr "Mjesto"
+
+#: data/ui/image_sidebar.blp:156
+msgid "Open Folder"
+msgstr "Otvori mapu"
+
+#: data/ui/image_sidebar.blp:164
+msgid "Modified image size"
+msgstr "Promijenjena veličina slike"
+
+#: data/ui/image_sidebar.blp:183
+msgid "Save As…"
+msgstr "Spremi kao …"
+
+#: data/ui/image_sidebar.blp:194
+msgid "Copy to Clipboard"
+msgstr "Kopiraj u međuspremnik"
+
+#: data/ui/image_sidebar.blp:204 gradia/ui/ui_parts.py:103
+msgid "Share Image"
+msgstr "Dijeli sliku"
+
+#: data/ui/image_sidebar.blp:228
+msgid "Delete Taken Screenshot(s)"
+msgstr "Izbriši snimljene snimke ekrana"
+
+#: data/ui/image_sidebar.blp:235 data/ui/preferences_window.blp:6
+#: data/ui/welcome_page.blp:85 gradia/ui/ui_parts.py:131
+msgid "Preferences"
+msgstr "Postavke"
+
+#: data/ui/image_sidebar.blp:239 data/ui/welcome_page.blp:89
+#: gradia/ui/ui_parts.py:130
+msgid "Keyboard Shortcuts"
+msgstr "Tipkovni prečaci"
+
+#: data/ui/image_sidebar.blp:243 data/ui/welcome_page.blp:93
+msgid "About Gradia"
+msgstr "O aplikaciji Gradia"
+
+#: data/ui/image_stack.blp:8 data/ui/welcome_page.blp:15
+msgid "Drop Image Here"
+msgstr "Ispusti sliku ovdje"
+
+#: data/ui/image_stack.blp:79
+msgid "Open Sidebar"
+msgstr "Otvori bočnu traku"
+
+#: data/ui/image_stack.blp:92
+msgid "Crop…"
+msgstr "Obreži …"
+
+#: data/ui/image_stack.blp:105 data/ui/ocr_dialog.blp:5
+#: data/ui/ocr_dialog.blp:15 data/ui/preferences_window.blp:91
+msgid "Text Extraction"
+msgstr "Izdvajanje teksta"
+
+#: data/ui/image_stack.blp:118 gradia/ui/ui_parts.py:108
+msgid "Erase Selected"
+msgstr "Izbriši odabrano"
+
+#: data/ui/image_stack.blp:136
+msgid "Reset Crop Selection"
+msgstr "Resetiraj odabir obrezivanja"
+
+#: data/ui/image_stack.blp:165
+msgid "Confirm"
+msgstr "Potvrdi"
+
+#: data/ui/image_stack.blp:166
+msgid "Confirm Crop Selection"
+msgstr "Potvrdi odabir obrezivanja"
+
+#: data/ui/image_stack.blp:205 gradia/ui/ui_parts.py:127
+msgid "Reset Zoom"
+msgstr "Resetiraj zumiranje"
+
+#: data/ui/image_stack.blp:229 gradia/ui/ui_parts.py:126
+msgid "Zoom Out"
+msgstr "Umanji prikaz"
+
+#: data/ui/image_stack.blp:239 gradia/ui/ui_parts.py:125
+msgid "Zoom In"
+msgstr "Uvećaj prikaz"
+
+#: data/ui/image_stack.blp:255 gradia/ui/ui_parts.py:106
+msgid "Undo"
+msgstr "Poništi"
+
+#: data/ui/image_stack.blp:265 gradia/ui/ui_parts.py:107
+msgid "Redo"
+msgstr "Ponovi"
+
+#: data/ui/image_stack.blp:275
+msgid "Clear All"
+msgstr "Izbriši sve"
+
+#: data/ui/ocr_dialog.blp:16
+msgid "Crop image to adjust OCR area"
+msgstr "Obreži sliku za podešavanje OCR područja"
+
+#: data/ui/ocr_dialog.blp:22
+msgid "Select Language"
+msgstr "Odaberi jezik"
+
+#: data/ui/ocr_dialog.blp:52
+msgid "No Text Found"
+msgstr "Nije pronađen nijedan tekst"
+
+#: data/ui/ocr_dialog.blp:53
+msgid "Please make a new selection"
+msgstr "Napravi novi odabir"
+
+#: data/ui/preferences/custom_provider_page.blp:6
+#: gradia/ui/preferences/provider_selection_window.py:132
+#: gradia/ui/provider_selection_window.py:133
+msgid "Custom Provider"
+msgstr "Prilagođeni pružatelj usluga"
+
+#: data/ui/preferences/custom_provider_page.blp:13
+#: gradia/ui/image_exporters.py:148
+msgid "Save"
+msgstr "Spremi"
+
+#: data/ui/preferences/custom_provider_page.blp:36
+#: data/ui/preferences/provider_detail_page.blp:105
+msgid "Upload Command"
+msgstr "Naredba za prijenos"
+
+#: data/ui/preferences/custom_provider_page.blp:37
+msgid ""
+"Enter a custom command to upload files. Use $1 as a placeholder for the file "
+"path."
+msgstr ""
+"Unesi prilagođenu naredbu za prijenos datoteka. Koristi $1 kao rezervirano "
+"mjesto za stazu datoteke."
+
+#: data/ui/preferences/ocr_model_page.blp:5
+#: data/ui/preferences/ocr_model_page.blp:28 data/ui/preferences_window.blp:93
+msgid "Language Models"
+msgstr "Jezični modeli"
+
+#: data/ui/preferences/ocr_model_page.blp:29
+msgid "Using the correct language model can improve OCR accuracy."
+msgstr "Korištenje ispravnog jezičnog modela može poboljšati točnost OCR-a."
+
+#: data/ui/preferences/provider_detail_page.blp:56
+#: gradia/overlay/drawing_actions.py:54 gradia/ui/ui_parts.py:109
+msgid "Select"
+msgstr "Odaberi"
+
+#: data/ui/preferences/provider_detail_page.blp:63
+msgid "About"
+msgstr "Informacije"
+
+#: data/ui/preferences/provider_detail_page.blp:66
+msgid "Homepage"
+msgstr "Početna web-stranica"
+
+#: data/ui/preferences/provider_detail_page.blp:83
+msgid "Terms of Service"
+msgstr "Uvjeti usluge"
+
+#: data/ui/preferences/provider_detail_page.blp:101
+msgid "Features"
+msgstr "Funkcije"
+
+#: data/ui/preferences/provider_list_page.blp:5
+msgid "Choose a Provider"
+msgstr "Odaberi pružatelja usluge"
+
+#: data/ui/preferences/provider_list_page.blp:12
+msgid "Loading"
+msgstr "Učitavanje"
+
+#: data/ui/preferences/provider_list_page.blp:26
+msgid "Error"
+msgstr "Greška"
+
+#: data/ui/preferences/provider_list_page.blp:40
+msgid "An error occurred"
+msgstr "Dogodila se greška"
+
+#: data/ui/preferences/provider_list_page.blp:41
+msgid "Please try again later"
+msgstr "Pokušaj ponovo kasnije"
+
+#: data/ui/preferences/provider_list_page.blp:50
+msgid "Providers"
+msgstr "Pružatelji usluge"
+
+#: data/ui/preferences/provider_list_page.blp:57
+msgid ""
+"Select a third party image upload provider. These have their own terms and "
+"conditions."
+msgstr ""
+"Odaberi pružatelja usluge prijenosa slika. Oni imaju vlastite uvjete i "
+"odredbe."
+
+#: data/ui/preferences/screenshot_guide_page.blp:6
+msgid "Screenshot Shortcut Guide"
+msgstr "Vodič za prečace snimki ekrana"
+
+#: data/ui/preferences/screenshot_guide_page.blp:32
+msgid "Shortcut Setup Instructions"
+msgstr "Upute za postavljanje prečaca"
+
+#: data/ui/preferences/screenshot_guide_page.blp:44
+msgid ""
+"If you'd like the app to <b>open automatically</b> after taking a "
+"screenshot, you can set up a custom keyboard shortcut:\n"
+"\n"
+"<b>Steps:</b>\n"
+"1. Go to <b>Settings</b> → <b>Keyboard</b> → <b>View and Customize "
+"Shortcuts</b> → <b>Custom Shortcuts</b>.\n"
+"2. Click the <b>+</b> button to create a new shortcut.\n"
+"3. Set the <b>Name</b> to something like <i>Open Gradia with Screenshot</"
+"i>.\n"
+"4. For the <b>Command</b>, copy one of the commands below:"
+msgstr ""
+"Ako želiš da se aplikacija <b>automatski otvara</b> nakon snimanja snimke "
+"ekrana, možeš postaviti prilagođeni tipkovni prečac:\n"
+"\n"
+"<b>Koraci:</b>\n"
+"1. Idi na <b>Postavke</b> → <b>Tipkovnica</b> → <b>Prikaži i prilagodi "
+"prečace</b> → <b>Prilagođeni prečaci</b>.\n"
+"2. Pritisni <b>gumb +</b> za stvaranje novog prečaca.\n"
+"3. <b>Postavi ime</b> na nešto poput <i>Otvori Gradia sa snimkom ekrana</"
+"i>.\n"
+"4. Za <b>naredbu</b> kopiraj jednu od naredbi u nastavku:"
+
+#: data/ui/preferences/screenshot_guide_page.blp:59
+msgid "Interactive Screenshot"
+msgstr "Interaktivna snimka ekrana"
+
+#: data/ui/preferences/screenshot_guide_page.blp:65
+msgid "Allows you to select an area to screenshot"
+msgstr "Omogućuje biranje područja za snimanje snimke ekrana"
+
+#: data/ui/preferences/screenshot_guide_page.blp:75
+#: data/ui/preferences/screenshot_guide_page.blp:100
+#: data/ui/preferences/screenshot_guide_page.blp:137
+msgid "Copy to clipboard"
+msgstr "Kopiraj u međuspremnik"
+
+#: data/ui/preferences/screenshot_guide_page.blp:84
+msgid "Full Screen Screenshot"
+msgstr "Snimka ekrana cjeloekranskog prikaza"
+
+#: data/ui/preferences/screenshot_guide_page.blp:90
+msgid "Takes a screenshot of all screens instantly"
+msgstr "Snimi snimke ekrana svih ekrana trenutno"
+
+#: data/ui/preferences/screenshot_guide_page.blp:104
+msgid ""
+"5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should "
+"be free by default)."
+msgstr ""
+"5. Dodijeli tipkovni prečac po tvom izboru (<tt>Ctrl + Print</tt> bi "
+"standardno trebao biti sloboadan."
+
+#: data/ui/preferences/screenshot_guide_page.blp:121
+msgid "Delayed Screenshot"
+msgstr "Odgođena snimka ekrana"
+
+#: data/ui/preferences/screenshot_guide_page.blp:127
+msgid "Delay the capture by a given duration (in milliseconds)."
+msgstr "Odgodi snimanje sa zadanim trajanjem (u milisekundama)."
+
+#: data/ui/preferences_window.blp:9 gradia/ui/ui_parts.py:129
+msgid "General"
+msgstr "Opće"
+
+#: data/ui/preferences_window.blp:11
+msgid "Screenshots"
+msgstr "Snimke ekrana"
+
+#: data/ui/preferences_window.blp:14
+msgid "Recent Directory"
+msgstr "Nedavni direktorij"
+
+#: data/ui/preferences_window.blp:15
+msgid "Used for home screen"
+msgstr "Koristi se za početni ekran"
+
+#: data/ui/preferences_window.blp:35
+msgid "Screenshot Shortcut"
+msgstr "Prečac za snimanje snimke ekrana"
+
+#: data/ui/preferences_window.blp:39
+msgid "Save Options"
+msgstr "Opcije za spremanje"
+
+#: data/ui/preferences_window.blp:41
+msgid "Image Format"
+msgstr "Format slika"
+
+#: data/ui/preferences_window.blp:42
+msgid "Default format for saved screenshots"
+msgstr "Zadani format za spremljene snimke ekrana"
+
+#: data/ui/preferences_window.blp:46
+msgid "Closing"
+msgstr "Zatvaranje"
+
+#: data/ui/preferences_window.blp:48
+msgid "When Exiting"
+msgstr "Prilikom zatvaranja ačlikacije"
+
+#: data/ui/preferences_window.blp:51
+msgid "Overwrite last screenshot on close"
+msgstr "Prepiši zadnju snimku ekrana pri zatvaranju"
+
+#: data/ui/preferences_window.blp:52
+msgid "Replace it with the annotated version"
+msgstr "Zamijeni je s verzijom s bilješkama"
+
+#: data/ui/preferences_window.blp:53
+msgid "Replace last screenshot file with annotated version on close"
+msgstr ""
+"Zamijeni zadnju snimku ekrana s verzijom s bilješkama prilikom zatvaranja"
+
+#: data/ui/preferences_window.blp:57
+msgid "Trash Screenshots on Close"
+msgstr "Baci snimke ekrana u smeće prilikom zatvaranja"
+
+#: data/ui/preferences_window.blp:58
+msgid "Automatically move screenshots taken from within the app to trash"
+msgstr ""
+"Automatski premjesti snimke ekrana snimljenih unutar aplikacije u smeće"
+
+#: data/ui/preferences_window.blp:59
+msgid "Trash screenshots on app close"
+msgstr "Baci snimke ekrana u smeće prilikom zatvaranja aplikacije"
+
+#: data/ui/preferences_window.blp:64
+msgid "Image Upload Providers"
+msgstr "Pružatelji usluga prijenosa slika"
+
+#: data/ui/preferences_window.blp:65
+msgid "Connect to your favorite upload providers, or create a link yourself"
+msgstr ""
+"Poveži se sa svojim omiljenim pružateljem usluge prijenosa ili stvori "
+"poveznicu"
+
+#: data/ui/preferences_window.blp:67
+msgid "Provider"
+msgstr "Pružatelj usluge"
+
+#: data/ui/preferences_window.blp:75
+#: gradia/ui/preferences/preferences_window.py:78
+msgid "None Selected"
+msgstr "Ništa nije odabrano"
+
+#: data/ui/preferences_window.blp:84
+msgid "Confirm on Upload"
+msgstr "Potvrdi prilikom prijenosa"
+
+#: data/ui/preferences_window.blp:85 data/ui/preferences_window.blp:86
+msgid "Ask for confirmation before running the upload command"
+msgstr "Zatraži potvrdu prije pokretanja naredbe za prijenos"
+
+#: data/ui/preferences_window.blp:94
+msgid "Download Models to improve per-language accuracy"
+msgstr "Preuzmi modele za poboljšanje točnosti po jeziku"
+
+#: data/ui/recent_picker.blp:24
+msgid "Screenshot Folder Not Found"
+msgstr "Mapa snimki ekrana nije pronađena"
+
+#: data/ui/recent_picker.blp:31
+msgid "Please set it in the Preferences menu"
+msgstr "Postavi je u izborniku postavki"
+
+#: data/ui/selectors/gradient_selector.blp:6
+msgid "Gradient Background"
+msgstr "Gradijent pozadine"
+
+#: data/ui/selectors/gradient_selector.blp:11
+msgid "Open Step Dialog"
+msgstr "Otvori dijalog koraka"
+
+#: data/ui/selectors/gradient_selector.blp:14
+msgid "Gradient Presets…"
+msgstr "Predlošci gradijenta …"
+
+#: data/ui/selectors/gradient_selector.blp:50
+msgid "Linear"
+msgstr "Linearno"
+
+#: data/ui/selectors/gradient_selector.blp:55
+msgid "Radial"
+msgstr "Kružno"
+
+#: data/ui/selectors/gradient_selector.blp:60
+msgid "Conic"
+msgstr "Konično"
+
+#: data/ui/selectors/gradient_selector.blp:103
+msgid "Remove Selected Color Step"
+msgstr "Ukloni odabrani korak boje"
+
+#: data/ui/selectors/image_selector.blp:5
+msgid "Image Background"
+msgstr "Slika pozadine"
+
+#: data/ui/selectors/image_selector.blp:9
+msgid "Image Presets…"
+msgstr "Predlošci slika …"
+
+#: data/ui/selectors/image_selector.blp:13
+msgid "Select Image"
+msgstr "Odaberi sliku"
+
+#: data/ui/selectors/image_selector.blp:42
+msgid "Select an Image"
+msgstr "Odaberi sliku"
+
+#: data/ui/selectors/image_selector.blp:47
+msgid "Supported Image Formats"
+msgstr "Podržani formati slika"
+
+#: data/ui/selectors/solid_selector.blp:5
+msgid "Solid Color Background"
+msgstr "Jednobojna pozadina"
+
+#: data/ui/welcome_page.blp:31
+msgid "Enhance an Image"
+msgstr "Poboljšaj sliku"
+
+#: data/ui/welcome_page.blp:32
+msgid "Drag and drop one here"
+msgstr "Povuci i ispusti jednu sliku ovdje"
+
+#: gradia/app_constants.py:68
+msgid "PNG Image (*.png)"
+msgstr "PNG slika (*.png)"
+
+#: gradia/app_constants.py:75
+msgid "JPEG Image (*.jpg)"
+msgstr "JPEG slika (*.jpg)"
+
+#: gradia/app_constants.py:82
+msgid "WebP Image (*.webp)"
+msgstr "WebP slika (*.webp)"
+
+#: gradia/backend/tool_config.py:214 gradia/backend/tool_config.py:223
+#: gradia/backend/tool_config.py:334 gradia/graphics/solid.py:190
+#: gradia/ui/widget/quick_color_picker.py:24
+msgid "Red"
+msgstr "Crvena"
+
+#: gradia/backend/tool_config.py:215 gradia/backend/tool_config.py:224
+#: gradia/backend/tool_config.py:335 gradia/graphics/solid.py:193
+#: gradia/ui/widget/quick_color_picker.py:25
+msgid "Green"
+msgstr "Zelena"
+
+#: gradia/backend/tool_config.py:216 gradia/backend/tool_config.py:225
+#: gradia/backend/tool_config.py:336 gradia/graphics/solid.py:194
+#: gradia/ui/widget/quick_color_picker.py:26
+msgid "Blue"
+msgstr "Plava"
+
+#: gradia/backend/tool_config.py:217 gradia/backend/tool_config.py:226
+#: gradia/backend/tool_config.py:337 gradia/graphics/solid.py:192
+#: gradia/ui/widget/quick_color_picker.py:27
+msgid "Yellow"
+msgstr "Žuta"
+
+#: gradia/backend/tool_config.py:218 gradia/backend/tool_config.py:228
+#: gradia/graphics/solid.py:201 gradia/ui/widget/quick_color_picker.py:28
+msgid "Black"
+msgstr "Crna"
+
+#: gradia/backend/tool_config.py:219 gradia/backend/tool_config.py:227
+#: gradia/backend/tool_config.py:339 gradia/graphics/solid.py:200
+#: gradia/ui/widget/quick_color_picker.py:29
+msgid "White"
+msgstr "Bijela"
+
+#: gradia/backend/tool_config.py:229 gradia/graphics/solid.py:203
+#: gradia/ui/widget/quick_color_picker.py:33
+msgid "Transparent"
+msgstr "Prozirna"
+
+#: gradia/backend/tool_config.py:338 gradia/graphics/solid.py:195
+msgid "Purple"
+msgstr "Ljubičasta"
+
+#: gradia/backend/ocr.py:42
+msgid "English"
+msgstr "Engleski"
+
+#: gradia/backend/ocr.py:43
+msgid "Chinese Simplified"
+msgstr "Kineski pojednostavljeni"
+
+#: gradia/backend/ocr.py:44
+msgid "Chinese Traditional"
+msgstr "Kineski tradicionalni"
+
+#: gradia/backend/ocr.py:45
+msgid "Spanish"
+msgstr "Španjolski"
+
+#: gradia/backend/ocr.py:46
+msgid "French"
+msgstr "Francuski"
+
+#: gradia/backend/ocr.py:47
+msgid "German"
+msgstr "Njemački"
+
+#: gradia/backend/ocr.py:48
+msgid "Japanese"
+msgstr "Japanski"
+
+#: gradia/backend/ocr.py:49
+msgid "Arabic"
+msgstr "Arapski"
+
+#: gradia/backend/ocr.py:50
+msgid "Russian"
+msgstr "Ruski"
+
+#: gradia/backend/ocr.py:51
+msgid "Portuguese"
+msgstr "Portugalski"
+
+#: gradia/backend/ocr.py:52
+msgid "Italian"
+msgstr "Talijanski"
+
+#: gradia/backend/ocr.py:53
+msgid "Korean"
+msgstr "Korejski"
+
+#: gradia/backend/ocr.py:54
+msgid "Hindi"
+msgstr "Hindski"
+
+#: gradia/backend/ocr.py:55
+msgid "Dutch"
+msgstr "Nizozemski"
+
+#: gradia/backend/ocr.py:56
+msgid "Turkish"
+msgstr "Turski"
+
+#: gradia/backend/ocr.py:57
+msgid "Kazakh"
+msgstr "Kazački"
+
+#: gradia/backend/ocr.py:58
+msgid "Occitan"
+msgstr "Okcitanski"
+
+#: gradia/backend/ocr.py:59
+msgid "Polish"
+msgstr "Poljski"
+
+#: gradia/backend/ocr.py:60
+msgid "Ukrainian"
+msgstr "Ukrajinski"
+
+#: gradia/backend/ocr.py:61
+msgid "Telugu"
+msgstr "Teluški"
+
+#: gradia/graphics/solid.py:130
+msgid "More Colors..."
+msgstr "Više boja …"
+
+#: gradia/graphics/solid.py:191
+msgid "Orange"
+msgstr "Narančasta"
+
+#: gradia/graphics/solid.py:196
+msgid "Pastel Pink"
+msgstr "Pastelno ružičasta"
+
+#: gradia/graphics/solid.py:197
+msgid "Pastel Yellow"
+msgstr "Pastelno žuta"
+
+#: gradia/graphics/solid.py:198
+msgid "Pastel Green"
+msgstr "Pastelno zelena"
+
+#: gradia/graphics/solid.py:199
+msgid "Pastel Cyan"
+msgstr "Pastelno cijan"
+
+#: gradia/graphics/solid.py:202
+msgid "Gray"
+msgstr "Siva"
+
+#: gradia/overlay/drawing_actions.py:48 gradia/ui/ui_parts.py:110
+msgid "Pen"
+msgstr "Pisaljka"
+
+#: gradia/overlay/drawing_actions.py:49 gradia/ui/ui_parts.py:113
+msgid "Arrow"
+msgstr "Strelica"
+
+#: gradia/overlay/drawing_actions.py:50 gradia/ui/ui_parts.py:112
+msgid "Line"
+msgstr "Linija"
+
+#: gradia/overlay/drawing_actions.py:51 gradia/ui/ui_parts.py:114
+msgid "Rectangle"
+msgstr "Pravokutnik"
+
+#: gradia/overlay/drawing_actions.py:52 gradia/ui/ui_parts.py:115
+msgid "Oval"
+msgstr "Oval"
+
+#: gradia/overlay/drawing_actions.py:53 gradia/ui/ui_parts.py:111
+msgid "Text"
+msgstr "Tekst"
+
+#: gradia/overlay/drawing_actions.py:55 gradia/ui/ui_parts.py:116
+msgid "Highlighter"
+msgstr "Isticanje"
+
+#: gradia/overlay/drawing_actions.py:56 gradia/ui/ui_parts.py:117
+msgid "Censor"
+msgstr "Cenzura"
+
+#: gradia/overlay/drawing_actions.py:57 gradia/ui/ui_parts.py:118
+msgid "Number"
+msgstr "Broj"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:33
+msgid "No screenshots to delete"
+msgstr "Nema snimki ekrana za brisanje"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:55
+msgid "Trash"
+msgstr "Smeće"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:87
+msgid "Trash Screenshot?"
+msgstr "Baciti snimku ekrana u smeće?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:88
+msgid "Are you sure you want to trash the following file?"
+msgstr "Stvarno želiš baciti sljedeću datoteku u smeće?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:90
+msgid "Trash Screenshots?"
+msgstr "Baciti snimke ekrana u smeće?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:91
+msgid "Are you sure you want to trash the following files?"
+msgstr "Stvarno želiš baciti sljedeće datoteke u smeće?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:101
+msgid "Screenshot moved to trash"
+msgstr "Snimka ekrana je premještena u smeće"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:103
+msgid "Screenshots moved to trash"
+msgstr "Snimke ekrana su premještene u smeće"
+
+#: gradia/ui/dialog/ocr_dialog.py:118
+#: gradia/ui/preferences/preferences_window.py:150
+#: gradia/ui/preferences/preferences_window.py:243
+msgid "Copied!"
+msgstr "Kopirano!"
+
+#: gradia/ui/image_creation/source_image_generator.py:554
+msgid "Source Snippet From %Y-%m-%d %H-%M-%S"
+msgstr "Isječak izvora od %Y-%m-%d %H-%M-%S"
+
+#: gradia/ui/image_exporters.py:103
+msgid "Edit"
+msgstr "Uredi"
+
+#: gradia/ui/image_exporters.py:106
+msgid "Enhanced Screenshot"
+msgstr "Poboljšana snimka ekrana"
+
+#: gradia/ui/image_exporters.py:145
+msgid "Save Image As"
+msgstr "Spremi sliku kao"
+
+#: gradia/ui/image_exporters.py:174
+msgid "Unsupported image file extension"
+msgstr "Nepodržana ekstenzija slikovne datoteke"
+
+#: gradia/ui/image_exporters.py:183
+msgid "Image Saved"
+msgstr "Slika je spremljena"
+
+#: gradia/ui/image_exporters.py:185
+msgid "Export Failed"
+msgstr "Izvoz nije uspio"
+
+#: gradia/ui/image_exporters.py:252
+msgid "No processed image available"
+msgstr "Nije dostupna nijedna obrađena slika"
+
+#: gradia/ui/image_exporters.py:278 gradia/ui/image_exporters.py:460
+msgid "Image Copied"
+msgstr "Slika je kopirana"
+
+#: gradia/ui/image_exporters.py:281 gradia/ui/image_exporters.py:288
+msgid "Failed to copy image to clipboard"
+msgstr "Neuspjelo kopiranje slike u međuspremnik"
+
+#: gradia/ui/image_exporters.py:302
+msgid "Link generated successfully"
+msgstr "Poveznica je uspješno generirana"
+
+#: gradia/ui/image_exporters.py:303
+msgid "Open Link"
+msgstr "Otvori poveznicu"
+
+#: gradia/ui/image_exporters.py:340
+msgid "Custom command failed: "
+msgstr "Prilagođena naredba nije uspjela: "
+
+#: gradia/ui/image_exporters.py:346
+msgid "Warning: "
+msgstr "Upozorenje: "
+
+#: gradia/ui/image_exporters.py:357
+msgid "Result copied to clipboard"
+msgstr "Rezultat je kopiran u međuspremnik"
+
+#: gradia/ui/image_exporters.py:359
+msgid "No output from command"
+msgstr "Nema rezultata od naredbe"
+
+#: gradia/ui/image_exporters.py:362
+msgid "Failed to run custom export command"
+msgstr "Neuspjelo pokretanje prilagođene naredbe za izvoz"
+
+#: gradia/ui/image_exporters.py:408 gradia/ui/image_exporters.py:435
+msgid "Close Operation Failed"
+msgstr "Operacija zatvaranja nije uspjela"
+
+#: gradia/ui/image_exporters.py:408 gradia/ui/image_exporters.py:435
+msgid "Failed to export image"
+msgstr "Neuspio izvoz slike"
+
+#: gradia/ui/image_exporters.py:461
+msgid "You can now paste it from the clipboard."
+msgstr "Sada ga možeš zalijepiti iz međuspremnika."
+
+#: gradia/ui/image_loaders.py:87 gradia/ui/image_loaders.py:98
+#: gradia/ui/image_loaders.py:111
+msgid "Not a supported image format"
+msgstr "Nije podržan format slika"
+
+#: gradia/ui/image_loaders.py:122
+msgid "URL is not a supported image format"
+msgstr "URL nije podržan format slika"
+
+#: gradia/ui/image_loaders.py:131
+msgid "Failed to load image from URL."
+msgstr "Neuspjelo učitavanje slike iz URL-a."
+
+#: gradia/ui/image_loaders.py:140
+msgid "Open Image"
+msgstr "Otvori sliku"
+
+#: gradia/ui/image_loaders.py:143
+msgid "Image Files"
+msgstr "Datoteke slika"
+
+#: gradia/ui/image_loaders.py:248 gradia/ui/image_loaders.py:263
+msgid "Failed to take screenshot"
+msgstr "Neuspjelo snimanje slike ekrana"
+
+#: gradia/ui/image_loaders.py:278
+msgid "Screenshot cancelled"
+msgstr "Snimka ekrana je prekinuta"
+
+#: gradia/ui/image_loaders.py:293 gradia/ui/image_loaders.py:316
+msgid "Edited Screenshot From %Y-%m-%d %H-%M-%S"
+msgstr "Uređena snimka ekrana od %Y-%m-%d %H-%M-%S"
+
+#: gradia/ui/image_loaders.py:300 gradia/ui/image_loaders.py:323
+msgid "Screenshot captured!"
+msgstr "Snimka ekrana je snimljena!"
+
+#: gradia/ui/image_loaders.py:307
+msgid "Failed to process screenshot"
+msgstr "Neuspjela obrada snimke ekrana"
+
+#: gradia/ui/image_loaders.py:327
+msgid "Failed to load screenshot"
+msgstr "Neuspjelo učitavanje snimke ekrana"
+
+#: gradia/ui/image_loaders.py:391
+msgid "Source snippet Generated!"
+msgstr "Isječak izvora je generiran!"
+
+#: gradia/ui/preferences/preferences_window.py:112
+msgid "Ask For Confirmation"
+msgstr "Zatraži potvrdu"
+
+#: gradia/ui/preferences/preferences_window.py:113
+msgid "Copy and Close "
+msgstr "Kopiraj i zatvori "
+
+#: gradia/ui/preferences/preferences_window.py:114
+msgid "Close Instantly"
+msgstr "Zatvori trenutno"
+
+#: gradia/ui/preferences/provider_selection_window.py:133
+#: gradia/ui/provider_selection_window.py:134
+msgid "Create your own custom upload command"
+msgstr "Stvori vlastitu prilagođenu naredbu za prijenos"
+
+#: gradia/ui/preferences/provider_selection_window.py:301
+#: gradia/ui/provider_selection_window.py:302
+msgid "Custom"
+msgstr "Prilagođeno"
+
+#: gradia/ui/ui_parts.py:32
+msgid "Make your images ready for all"
+msgstr "Pripremi svoje slike za sve"
+
+#. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
+#: gradia/ui/ui_parts.py:45
+msgid "translator-credits"
+msgstr "Milo Ivir <mail@milotype.de>"
+
+#: gradia/ui/ui_parts.py:51
+msgid "Code and Design Borrowed from"
+msgstr "Kod i dizajn su posuđeni od"
+
+#: gradia/ui/ui_parts.py:63
+msgid "Image Sources"
+msgstr "Izvori slika"
+
+#: gradia/ui/ui_parts.py:98
+msgid "File Actions"
+msgstr "Radnje datoteka"
+
+#: gradia/ui/ui_parts.py:99
+msgid "Open File"
+msgstr "Otvori datoteku"
+
+#: gradia/ui/ui_parts.py:100
+msgid "Save to File"
+msgstr "Spremi u datoteku"
+
+#: gradia/ui/ui_parts.py:101
+msgid "Copy Image to Clipboard"
+msgstr "Kopiraj sliku u međuspremnik"
+
+#: gradia/ui/ui_parts.py:102
+msgid "Paste From Clipboard"
+msgstr "Umetni iz međuspremnika"
+
+#: gradia/ui/ui_parts.py:105
+msgid "Annotations"
+msgstr "Bilješke"
+
+#: gradia/ui/ui_parts.py:120
+msgid "Cropping"
+msgstr "Obrezivanje"
+
+#: gradia/ui/ui_parts.py:121
+msgid "Toggle Crop Mode"
+msgstr "Uključi/Isključi modus obrezivanja"
+
+#: gradia/ui/ui_parts.py:122
+msgid "Reset Crop"
+msgstr "Resetiraj obrezivanje"
+
+#: gradia/ui/ui_parts.py:124
+msgid "Zooming"
+msgstr "Zumiranje"
+
+#: gradia/ui/ui_parts.py:132
+msgid "Open Source Snippets"
+msgstr "Isječci otvorenog koda"
+
+#: gradia/ui/widget/aspect_ratio_button.py:26
+#: gradia/ui/widget/background_aspect_ratio_selector.py:52
+msgid "Aspect Ratio"
+msgstr "Omjer"
+
+#: gradia/ui/widget/aspect_ratio_button.py:38
+msgid "Free"
+msgstr "Slobodno"
+
+#: gradia/ui/widget/aspect_ratio_button.py:39
+msgid "Square"
+msgstr "Kvadrat"
+
+#: gradia/ui/widget/background_aspect_ratio_selector.py:113
+msgid "Custom Ratio"
+msgstr "Prilagođeni omjer"
+
+#: gradia/ui/widget/background_aspect_ratio_selector.py:121
+msgid "Width"
+msgstr "Širina"
+
+#: gradia/ui/widget/background_aspect_ratio_selector.py:137
+msgid "Height"
+msgstr "Visina"
+
+#: gradia/ui/widget/background_aspect_ratio_selector.py:153
+msgid "Set"
+msgstr "Postavi"
+
+#: gradia/ui/widget/quick_color_picker.py:103
+msgid "More Colors…"
+msgstr "Više boja …"
+
+#: gradia/ui/widget/quick_color_picker.py:108
+msgid "Choose Color"
+msgstr "Odaberi boju"
+
+#: gradia/ui/window.py:476
+msgid "Confirm Upload"
+msgstr "Potvrdi prijenos"
+
+#: gradia/ui/window.py:480
+msgid "Upload"
+msgstr "Prenesi"
