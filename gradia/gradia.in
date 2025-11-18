@@ -99,6 +99,8 @@ if __name__ == '__main__':
     gi.require_version('Gtk', '4.0')
     gi.require_version('Adw', '1')
     from gi.repository import Gio
+
+    GLib.set_prgname("gradia")
     resource = Gio.Resource.load(
         os.path.join(pkgdatadir, 'gradia.gresource'))
     resource._register()
