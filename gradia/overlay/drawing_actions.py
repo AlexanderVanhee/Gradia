@@ -204,12 +204,11 @@ class StrokeAction(DrawingAction):
 
 
 class ArrowAction(DrawingAction):
-    ARROW_HEAD_SIZE_MULTIPLIER = 5
-    HEAD_WIDTH_RATIO = 0.6
-    SHAFT_WIDTH_RATIO = 0.5
-    SHAFT_START_WIDTH_RATIO = 0.35
-    MAX_HEAD_LENGTH_RATIO = 0.6
+    ARROW_HEAD_SIZE_MULTIPLIER = 3
     MIN_DISTANCE_THRESHOLD = 2
+    ARROW_ANGLE = math.pi / 6
+    MIN_ARROW_SCALE = 0.3
+    SCALE_DISTANCE_THRESHOLD = 120
 
     def __init__(self, start: tuple[int, int], end: tuple[int, int], shift: bool, options):
         self.options = options
@@ -234,78 +233,66 @@ class ArrowAction(DrawingAction):
         width = self.options.size * 1.75
         arrow_head_size = self.options.size * self.ARROW_HEAD_SIZE_MULTIPLIER * 1.75
 
+        arrow_scale = min(1.0, max(self.MIN_ARROW_SCALE, distance / (self.SCALE_DISTANCE_THRESHOLD * scale)))
+        scaled_arrow_head_size = arrow_head_size * arrow_scale
+
         angle = math.atan2(end_y - start_y, end_x - start_x)
-        cos_a = math.cos(angle)
-        sin_a = math.sin(angle)
-        start_offset = width * scale / 2
-        adjusted_start_x = start_x + start_offset * cos_a
-        adjusted_start_y = start_y + start_offset * sin_a
-        adjusted_distance = math.hypot(end_x - adjusted_start_x, end_y - adjusted_start_y)
-        if adjusted_distance < self.MIN_DISTANCE_THRESHOLD:
-            return
 
-        head_len = min(arrow_head_size * scale, adjusted_distance * self.MAX_HEAD_LENGTH_RATIO)
-        head_width = head_len * self.HEAD_WIDTH_RATIO
-        shaft_width = head_width * self.SHAFT_WIDTH_RATIO
-        perp_cos = -sin_a
-        perp_sin = cos_a
-        shaft_end_x = end_x - head_len * cos_a
-        shaft_end_y = end_y - head_len * sin_a
-        shaft_start_half = shaft_width * self.SHAFT_START_WIDTH_RATIO
-        shaft_end_half = shaft_width
-        head_half = head_width
-
-        self._build_arrow_path(
-            cr, adjusted_start_x, adjusted_start_y, shaft_end_x, shaft_end_y,
-            end_x, end_y, angle, shaft_start_half, shaft_end_half,
-            head_half, perp_cos, perp_sin
-        )
-
+        cr.set_line_width(width * scale)
+        cr.set_line_cap(cairo.LINE_CAP_ROUND)
         cr.set_source_rgba(*self.options.primary_color)
-        cr.fill()
 
-    def _build_arrow_path(self, cr, start_x, start_y, shaft_end_x, shaft_end_y,
-                         end_x, end_y, angle, shaft_start_half, shaft_end_half,
-                         head_half, perp_cos, perp_sin):
-        cr.move_to(start_x + shaft_start_half * perp_cos, start_y + shaft_start_half * perp_sin)
-        cr.arc(start_x, start_y, shaft_start_half, angle + math.pi/2, angle - math.pi/2)
-        cr.line_to(shaft_end_x - shaft_end_half * perp_cos, shaft_end_y - shaft_end_half * perp_sin)
-        cr.line_to(shaft_end_x - head_half * perp_cos, shaft_end_y - head_half * perp_sin)
+        cr.move_to(start_x, start_y)
         cr.line_to(end_x, end_y)
-        cr.line_to(shaft_end_x + head_half * perp_cos, shaft_end_y + head_half * perp_sin)
-        cr.line_to(shaft_end_x + shaft_end_half * perp_cos, shaft_end_y + shaft_end_half * perp_sin)
-        cr.close_path()
+        cr.stroke()
+
+        head_length = scaled_arrow_head_size * scale
+
+        left_angle = angle + math.pi - self.ARROW_ANGLE
+        right_angle = angle + math.pi + self.ARROW_ANGLE
+
+        left_x = end_x + head_length * math.cos(left_angle)
+        left_y = end_y + head_length * math.sin(left_angle)
+
+        right_x = end_x + head_length * math.cos(right_angle)
+        right_y = end_y + head_length * math.sin(right_angle)
+
+        cr.move_to(end_x, end_y)
+        cr.line_to(left_x, left_y)
+        cr.stroke()
+
+        cr.move_to(end_x, end_y)
+        cr.line_to(right_x, right_y)
+        cr.stroke()
 
     def get_bounds(self) -> QuadBounds:
         distance = math.hypot(self.end[0] - self.start[0], self.end[1] - self.start[1])
         if distance < self.MIN_DISTANCE_THRESHOLD:
             return QuadBounds.from_rect(self.start[0], self.start[1], self.start[0], self.start[1])
 
-        angle = math.atan2(self.end[1] - self.start[1], self.end[0] - self.start[0])
-
         arrow_head_size = self.options.size * self.ARROW_HEAD_SIZE_MULTIPLIER * 1.75
-        head_len = min(arrow_head_size, distance * self.MAX_HEAD_LENGTH_RATIO)
-        head_width = head_len * self.HEAD_WIDTH_RATIO
+        arrow_scale = min(1.0, max(self.MIN_ARROW_SCALE, distance / self.SCALE_DISTANCE_THRESHOLD))
+        scaled_arrow_head_size = arrow_head_size * arrow_scale
 
-        cos_angle = math.cos(angle)
-        sin_angle = math.sin(angle)
-        perp_cos = -sin_angle
-        perp_sin = cos_angle
+        angle = math.atan2(self.end[1] - self.start[1], self.end[0] - self.start[0])
+        perp_cos = -math.sin(angle)
+        perp_sin = math.cos(angle)
 
         start_x, start_y = self.start
         end_x, end_y = self.end
 
-        p1 = (start_x + head_width * perp_cos, start_y + head_width * perp_sin)
-        p2 = (end_x + head_width * perp_cos, end_y + head_width * perp_sin)
-        p3 = (end_x - head_width * perp_cos, end_y - head_width * perp_sin)
-        p4 = (start_x - head_width * perp_cos, start_y - head_width * perp_sin)
+        max_extent = scaled_arrow_head_size
+
+        p1 = (start_x + max_extent * perp_cos, start_y + max_extent * perp_sin)
+        p2 = (end_x + max_extent * perp_cos, end_y + max_extent * perp_sin)
+        p3 = (end_x - max_extent * perp_cos, end_y - max_extent * perp_sin)
+        p4 = (start_x - max_extent * perp_cos, start_y - max_extent * perp_sin)
 
         return QuadBounds(p1, p2, p3, p4)
 
     def translate(self, dx: int, dy: int):
         self.start = (self.start[0] + dx, self.start[1] + dy)
         self.end = (self.end[0] + dx, self.end[1] + dy)
-
 
 class TextAction(DrawingAction):
     PADDING_X_IMG = 4
