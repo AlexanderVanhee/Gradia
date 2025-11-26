@@ -16,22 +16,22 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from gi.repository import Gtk, Adw, Gdk, GObject, Gio
-from gradia.utils.colors import is_light_color_rgba, rgba_to_hex
+from gradia.utils.colors import is_light_color_rgba, rgba_to_hex, make_rgba
+
 
 class ColorPickerMixin:
     def _get_base_colors(self, alpha=1.0, secondary=False):
         base_colors = [
-            (Gdk.RGBA(0.88, 0.11, 0.14, alpha), _("Red")),
-            (Gdk.RGBA(0.18, 0.76, 0.49, alpha), _("Green")),
-            (Gdk.RGBA(0.21, 0.52, 0.89, alpha), _("Blue")),
-            (Gdk.RGBA(0.96, 0.83, 0.18, alpha), _("Yellow")),
-            (Gdk.RGBA(0.0, 0.0, 0.0, alpha), _("Black")),
-            (Gdk.RGBA(1.0, 1.0, 1.0, alpha), _("White")),
-            ]
+            (make_rgba(0.88, 0.11, 0.14, alpha), _("Red")),
+            (make_rgba(0.18, 0.76, 0.49, alpha), _("Green")),
+            (make_rgba(0.21, 0.52, 0.89, alpha), _("Blue")),
+            (make_rgba(0.96, 0.83, 0.18, alpha), _("Yellow")),
+            (make_rgba(0.0, 0.0, 0.0, alpha), _("Black")),
+            (make_rgba(1.0, 1.0, 1.0, alpha), _("White")),
+        ]
 
         if secondary:
-            base_colors.append((Gdk.RGBA(0, 0, 0, 0), _("Transparent")))
-
+            base_colors.append((make_rgba(0.0, 0.0, 0.0, 0.0), _("Transparent")))
 
         return base_colors
 
