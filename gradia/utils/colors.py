@@ -20,6 +20,19 @@ from gi.repository import Gdk
 HexColor = str
 RGBTuple = tuple[int, int, int]
 
+def make_rgba(r: float, g: float, b: float, a: float) -> Gdk.RGBA:
+    """Utility to construct a Gdk.RGBA with the given components.
+
+    Gdk.RGBA does not take RGBA values as constructor arguments; you must
+    instantiate it and then assign the channels explicitly.
+    """
+    rgba = Gdk.RGBA()
+    rgba.red = r
+    rgba.green = g
+    rgba.blue = b
+    rgba.alpha = a
+    return rgba
+
 def hex_to_rgba(hex_color: HexColor, alpha: float | None = None) -> Gdk.RGBA:
     """
     Converts hexadecimal color code to `Gdk.RGBA` object.
@@ -57,6 +70,23 @@ def hex_to_rgb(hex_color: HexColor) -> RGBTuple:
     hex_color = hex_color.lstrip('#')
     r, g, b = (int(hex_color[i:i+2], 16) for i in (0, 2, 4))
     return (r, g, b)
+
+def rgba_to_tuple(color: Gdk.RGBA) -> tuple[float, float, float, float]:
+    return (color.red, color.green, color.blue, color.alpha)
+
+def tuple_to_rgba(color: tuple[float, float, float, float] | None) -> Gdk.RGBA:
+    rgba = Gdk.RGBA()
+    if not color or len(color) != 4:
+        rgba.red = 0.0
+        rgba.green = 0.0
+        rgba.blue = 0.0
+        rgba.alpha = 1.0
+        return rgba
+    rgba.red = float(color[0])
+    rgba.green = float(color[1])
+    rgba.blue = float(color[2])
+    rgba.alpha = float(color[3])
+    return rgba
 
 def has_visible_color(color):
     return any(c > 0 for c in color[:3]) or (len(color) > 3 and color[3] > 0)
