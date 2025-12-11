@@ -126,7 +126,7 @@ class GradiaApp(Adw.Application):
             file_path=file_path,
             start_screenshot=start_screenshot
         )
-        window.show()
+        window.present()
 
     def on_shutdown(self, application):
         logging.info("Application shutdown started, cleaning temp directories…")

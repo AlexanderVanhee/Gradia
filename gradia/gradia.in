@@ -87,8 +87,82 @@ if __name__ == '__main__':
                 except ValueError:
                     print("Invalid delay value. Using default of 0.")
                     delay = 0
-    if mode in ('INTERACTIVE', 'FULL'):
-        flags = Xdp.ScreenshotFlags.INTERACTIVE if mode == 'INTERACTIVE' else Xdp.ScreenshotFlags.NONE
+    if mode == 'GRAB':
+        # GRAB mode: Use gnome-screenshot -a for direct area selection (no dialog)
+        import subprocess
+        import tempfile
+        from pathlib import Path
+        
+        # Check if running in Flatpak
+        is_flatpak = os.getenv('FLATPAK_ID') or Path('/.flatpak-info').exists()
+        
+        # Create temp file in a location accessible from both sandbox and host
+        if is_flatpak:
+            # Use XDG_PICTURES_DIR or home Pictures folder for host accessibility
+            pictures_dir = GLib.get_user_special_dir(GLib.USER_DIRECTORY_PICTURES)
+            if not pictures_dir:
+                pictures_dir = os.path.expanduser("~/Pictures")
+            os.makedirs(pictures_dir, exist_ok=True)
+            temp_path = os.path.join(pictures_dir, f".gradia_grab_{os.getpid()}.png")
+        else:
+            with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+                temp_path = tmp.name
+        
+        if delay > 0:
+            import time
+            time.sleep(delay / 1000)
+        
+        try:
+            if is_flatpak:
+                # Use flatpak-spawn to run gnome-screenshot on the host
+                result = subprocess.run(
+                    ['flatpak-spawn', '--host', 'gnome-screenshot', '-a', '-f', temp_path],
+                    capture_output=True,
+                    text=True
+                )
+            else:
+                # Run gnome-screenshot directly
+                result = subprocess.run(
+                    ['gnome-screenshot', '-a', '-f', temp_path],
+                    capture_output=True,
+                    text=True
+                )
+            
+            # Wait for file to appear (host filesystem -> sandbox sync may take a moment)
+            import time
+            max_wait = 3  # seconds
+            waited = 0
+            while waited < max_wait:
+                if os.path.exists(temp_path) and os.path.getsize(temp_path) > 0:
+                    break
+                time.sleep(0.1)
+                waited += 0.1
+            
+            if os.path.exists(temp_path) and os.path.getsize(temp_path) > 0:
+                screenshot_path = temp_path
+            else:
+                # gnome-screenshot failed or was cancelled
+                if os.path.exists(temp_path):
+                    os.unlink(temp_path)
+                print("Screenshot was cancelled or failed. Exiting.")
+                sys.exit(1)
+        except FileNotFoundError:
+            # gnome-screenshot not available, fall back to portal
+            if os.path.exists(temp_path):
+                os.unlink(temp_path)
+            print("gnome-screenshot not found, falling back to portal dialog...")
+            screenshotter = QuickStartScreenshotTaker()
+            screenshot_path = screenshotter.take_screenshot(flags=Xdp.ScreenshotFlags.INTERACTIVE, delay_ms=0)
+            if screenshot_path is None:
+                print("Screenshot was cancelled or failed. Exiting.")
+                sys.exit(1)
+        
+        sys.argv.append(f"--screenshot-file={screenshot_path}")
+    elif mode in ('INTERACTIVE', 'FULL'):
+        if mode == 'FULL':
+            flags = Xdp.ScreenshotFlags.NONE
+        else:
+            flags = Xdp.ScreenshotFlags.INTERACTIVE
         screenshotter = QuickStartScreenshotTaker()
         screenshot_path = screenshotter.take_screenshot(flags=flags, delay_ms=delay)
         if screenshot_path is None:
