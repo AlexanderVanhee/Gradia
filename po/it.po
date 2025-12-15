@@ -127,8 +127,7 @@ msgstr "Chiudere Gradia?"
 
 #: data/ui/confirm_close_dialog.blp:6
 msgid "Are you sure you want to exit? All unsaved changes will be lost."
-msgstr ""
-"Sei sicuro di voler uscire? Tutti i cambiamenti non salvati andranno persi."
+msgstr "Sei sicuro di voler uscire? Tutti i cambiamenti non salvati andranno persi."
 
 #: data/ui/confirm_close_dialog.blp:11
 #: gradia/ui/dialog/delete_screenshots_dialog.py:54
@@ -596,8 +595,7 @@ msgstr "Sostituiscilo con la versione annotata"
 
 #: data/ui/preferences_window.blp:53
 msgid "Replace last screenshot file with annotated version on close"
-msgstr ""
-"Sostituisci l'ultimo file di schermata con la versione annotata alla chiusura"
+msgstr "Sostituisci l'ultimo file di schermata con la versione annotata alla chiusura"
 
 #: data/ui/preferences_window.blp:57
 msgid "Trash Screenshots on Close"
@@ -617,9 +615,7 @@ msgstr "Provider caricamento immagini"
 
 #: data/ui/preferences_window.blp:65
 msgid "Connect to your favorite upload providers, or create a link yourself"
-msgstr ""
-"Collegati ai tuoi provider di caricamento preferiti o crea un collegamento "
-"tu stesso"
+msgstr "Collegati ai tuoi provider di caricamento preferiti o crea un collegamento personalizzato"
 
 #: data/ui/preferences_window.blp:67
 msgid "Provider"
@@ -1106,7 +1102,7 @@ msgstr "Prepara le tue immagini per tutto"
 #. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
 #: gradia/ui/ui_parts.py:45
 msgid "translator-credits"
-msgstr "crediti del traduttore"
+msgstr "Fabian https://fabianesposito.dev"
 
 #: gradia/ui/ui_parts.py:51
 msgid "Code and Design Borrowed from"
