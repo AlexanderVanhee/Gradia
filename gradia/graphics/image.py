@@ -30,6 +30,7 @@ from gradia.constants import rootdir
 from gradia.graphics.background import Background
 from gradia.ui.widget.preset_button import ImagePresetButton
 from gradia.app_constants import PRESET_IMAGES
+from gradia.app_constants import SUPPORTED_EXPORT_FORMATS
 
 class ImageBackground(Background):
     @property
@@ -69,7 +70,13 @@ class ImageBackground(Background):
     def save_image_copy_async(self) -> None:
         def save_in_background():
             if self.image:
-                self.image.save(self.SAVED_IMAGE_PATH, 'PNG')
+                _, extension = os.path.splitext(self.SAVED_IMAGE_PATH)
+                target_format = 'PNG'
+                for format in SUPPORTED_EXPORT_FORMATS:
+                    if extension.lower() in format['extensions']:
+                        target_format = format['shortname']
+                        break
+                self.image.save(self.SAVED_IMAGE_PATH, target_format)
 
         thread = threading.Thread(target=save_in_background, daemon=True)
         thread.start()
