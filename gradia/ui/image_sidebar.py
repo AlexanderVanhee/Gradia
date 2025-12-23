@@ -44,6 +44,7 @@ class ImageSidebar(Adw.Bin):
     drawing_tools_group: DrawingToolsGroup = Gtk.Template.Child()
     background_selector_group: Adw.PreferencesGroup = Gtk.Template.Child()
     image_options_group = Gtk.Template.Child()
+    image_options_expander: Adw.ExpanderRow = Gtk.Template.Child()
     padding_row: Adw.SpinRow = Gtk.Template.Child()
     padding_adjustment: Gtk.Adjustment = Gtk.Template.Child()
     corner_radius_row: Adw.SpinRow = Gtk.Template.Child()
@@ -54,6 +55,7 @@ class ImageSidebar(Adw.Bin):
     filename_row: Adw.ActionRow = Gtk.Template.Child()
     location_row: Adw.ActionRow = Gtk.Template.Child()
     processed_size_row: Adw.ActionRow = Gtk.Template.Child()
+    file_info_expander: Adw.ExpanderRow = Gtk.Template.Child()
     share_button: Gtk.Button = Gtk.Template.Child()
     rotate_left_button: Gtk.Button = Gtk.Template.Child()
     rotate_right_button: Gtk.Button = Gtk.Template.Child()
@@ -72,7 +74,6 @@ class ImageSidebar(Adw.Bin):
         self._current_rotation = 0
         self._current_background = None
 
-        self.image_options_group_content = self.image_options_group.get_first_child().get_first_child().get_next_sibling()
         self.background_selector: BackgroundSelector = BackgroundSelector(
             callback=self._on_background_changed
         )
@@ -90,6 +91,8 @@ class ImageSidebar(Adw.Bin):
         self.auto_balance_toggle.set_active(self.settings.image_auto_balance)
         self.aspect_ratio_selector.set_ratio(self.settings.image_aspect_ratio)
         self._current_rotation = self.settings.image_rotation
+        self.settings.bind_property(self.image_options_expander, "expanded", "image-options-expanded")
+        self.settings.bind_property(self.file_info_expander, "expanded", "file-info-expanded")
 
     def _on_background_changed(self, updated_background: Background) -> None:
         self._current_background = updated_background
