@@ -111,7 +111,7 @@ class PreferencesWindow(Adw.PreferencesDialog):
         string_list = Gtk.StringList()
 
         exit_options = [
-            ("confirm", _("Ask For Confirmation")),
+            ("confirm", _("Ask for Confirmation")),
             ("copy", _("Copy and Close ")),
             ("none", _("Close Instantly"))
         ]

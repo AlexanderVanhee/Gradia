@@ -1,7 +1,7 @@
 {
     "imgur": {
         "name": "Imgur",
-        "description": "Popular image hosting with easy sharing and robust features.",
+        "description": "Popular image hosting with easy sharing and robust features",
         "icon_url": "http://gradia.alexandervanhee.be/upload-providers/imgur.webp",
         "homepage_url": "https://imgur.com",
         "tos_url": "https://imgur.com/tos",
@@ -40,7 +40,7 @@
     },
     "catbox": {
         "name": "Catbox",
-        "description": "Simple and free file hosting with permanent storage.",
+        "description": "Simple and free file hosting with permanent storage",
         "icon_url": "http://gradia.alexandervanhee.be/upload-providers/catbox.webp",
         "homepage_url": "https://catbox.moe",
         "tos_url": "https://catbox.moe/legal.php",
@@ -71,7 +71,7 @@
     },
     "0x0": {
         "name": "0x0.st",
-        "description": "Open-source file hosting with 30-day availability.",
+        "description": "Open-source file hosting with 30-day availability",
         "icon_url": "http://gradia.alexandervanhee.be/upload-providers/0x0.webp",
         "homepage_url": "https://0x0.st",
         "tos_url": "https://0x0.st",
@@ -114,7 +114,7 @@
     },
     "gofile": {
         "name": "GoFile.io",
-        "description": "Free and robust file sharing platform for large files.",
+        "description": "Free and robust file sharing platform for large files",
         "icon_url": "http://gradia.alexandervanhee.be/upload-providers/gofile.webp",
         "homepage_url": "https://gofile.io",
         "tos_url": "https://gofile.io/terms",
