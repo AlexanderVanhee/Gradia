@@ -1,106 +1,137 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $SourceviewtestWindow : Adw.Window {
+template $SourceviewtestWindow: Adw.Window {
   title: _("Source Snippets");
   default-width: 700;
   default-height: 600;
   width-request: 625;
   height-request: 400;
+
   content: Adw.ToolbarView toolbar_view {
     [top]
     Adw.HeaderBar {}
+
     [top]
     Adw.Clamp settings_clamp {
       margin-top: 24;
       margin-bottom: 6;
       tightening-threshold: 525;
       maximum-size: 610;
+
       child: Box {
         spacing: 0;
+
         Box settings_container {
           orientation: horizontal;
           spacing: 12;
           hexpand: true;
           homogeneous: true;
+
           Adw.PreferencesGroup language_settings_group {
             hexpand: true;
+
             Adw.ActionRow language_row {
               title: _("Language");
               activatable-widget: language_dropdown;
+
               [suffix]
               DropDown language_dropdown {
                 valign: center;
                 enable-search: true;
-                styles ["flat-dropdown"]
+
+                styles [
+                  "flat-dropdown",
+                ]
               }
             }
+
             Adw.ActionRow style_scheme_row {
               title: _("Style");
               activatable-widget: style_scheme_button;
+
               [suffix]
               MenuButton style_scheme_button {
                 valign: center;
-                styles ["flat-dropdown"]
+
+                styles [
+                  "flat-dropdown",
+                ]
+
                 popover: Popover style_scheme_popover {
                   child: FlowBox style_scheme_flowbox {
-                      max-children-per-line: 3;
-                    };
+                    max-children-per-line: 3;
+                  };
                 };
+
                 child: Box {
                   orientation: horizontal;
                   spacing: 6;
+
                   Label style_scheme_label {
                     label: _("Default");
                     hexpand: true;
                     halign: start;
                   }
+
                   Image {
                     icon-name: "pan-down-symbolic";
-                    styles ["dim-label"]
+
+                    styles [
+                      "dim-label",
+                    ]
                   }
                 };
               }
             }
           }
+
           Adw.PreferencesGroup appearance_settings_group {
             hexpand: true;
+
             Adw.ActionRow fake_window_row {
               title: _("Window Frame");
               activatable-widget: fake_window_button;
+
               [suffix]
               Switch fake_window_button {
                 valign: center;
                 tooltip-text: _("Add a window frame around the code");
+
                 styles [
-                  "flat"
+                  "flat",
                 ]
               }
             }
+
             Adw.ActionRow line_number_row {
               title: _("Line Numbers");
               activatable-widget: line_numbers_button;
+
               [suffix]
               Switch line_numbers_button {
                 valign: center;
                 tooltip-text: _("Add a number before each new line of code");
+
                 styles [
-                  "flat"
+                  "flat",
                 ]
               }
             }
           }
         }
+
         Gtk.Box {
           width-request: 10;
         }
       };
     }
-    content:
-      ScrolledWindow scroller {
-        vexpand: true;
-        hexpand: true;
-      };
+
+    content: ScrolledWindow scroller {
+      vexpand: true;
+      hexpand: true;
+    };
+
     [bottom]
     Box button_container {
       orientation: horizontal;
@@ -109,14 +140,17 @@ template $SourceviewtestWindow : Adw.Window {
       margin-bottom: 12;
       margin-start: 12;
       margin-end: 12;
+
       Button export_button {
         label: _("Export");
         halign: center;
+
         styles [
           "suggested-action",
-          "pill"
+          "pill",
         ]
       }
     }
   };
 }
+

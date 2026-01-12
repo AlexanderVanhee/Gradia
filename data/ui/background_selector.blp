@@ -1,13 +1,12 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $GradiaBackgroundSelector : Adw.Bin {
+template $GradiaBackgroundSelector: Adw.Bin {
   child: Gtk.Box container {
     orientation: vertical;
 
     Adw.ToggleGroup toggle_group {
       homogeneous: false;
-
       notify::active-name => $_on_group_changed();
 
       Adw.Toggle none_toggle {
@@ -33,16 +32,18 @@ template $GradiaBackgroundSelector : Adw.Bin {
         label: _("_Image");
         use-underline: true;
       }
-      
+
       styles [
-        "round"
+        "round",
       ]
     }
+
     Revealer stack_revealer {
       transition-type: slide_up;
       transition-duration: 250;
+
       Gtk.Stack stack {
-        margin-top:12;
+        margin-top: 12;
         transition-type: crossfade;
         transition-duration: 250;
         hexpand: true;
@@ -51,3 +52,4 @@ template $GradiaBackgroundSelector : Adw.Bin {
     }
   };
 }
+

@@ -1,15 +1,17 @@
 using Gtk 4.0;
 
-template $GradiaDrawingToolsGroup : Box {
+template $GradiaDrawingToolsGroup: Box {
   orientation: vertical;
 
   Text {
     text: _("Annotation Tools");
-    margin-bottom:12;
-    sensitive:false;
+    margin-bottom: 12;
+    sensitive: false;
 
-    styles ["heading", "h4"]
-
+    styles [
+      "heading",
+      "h4",
+    ]
   }
 
   $GradiaDrawingToolsGrid drawing_tools_grid {
@@ -17,101 +19,109 @@ template $GradiaDrawingToolsGroup : Box {
   }
 
   $GradiaQuickColorPicker color_picker {
-    margin-top:6;
+    margin-top: 6;
     color-changed => $on_primary_color_changed();
   }
 
   Scale size_scale {
-      orientation: horizontal;
-      margin-bottom: 6;
-      margin-top: 6;
-      adjustment: Adjustment {
-        value-changed => $on_size_scale_changed();
-        lower: 3;
-        upper: 25;
-        value: 14;
-        step-increment: 2;
-      };
+    orientation: horizontal;
+    margin-bottom: 6;
+    margin-top: 6;
+
+    adjustment: Adjustment {
+      value-changed => $on_size_scale_changed();
+      lower: 3;
+      upper: 25;
+      value: 14;
+      step-increment: 2;
+    };
   }
+
   Revealer extra_stack_revealer {
     reveal-child: true;
     transition-type: slide_up;
     transition-duration: 200;
-    margin-bottom:6;
+    margin-bottom: 6;
     valign: start;
+
     child: Stack extra_stack {
       transition-type: crossfade;
       transition-duration: 200;
 
       StackPage {
-          name: "empty";
-          child: Box {
-            visible: true;
-          };
+        name: "empty";
+
+        child: Box {
+          visible: true;
+        };
       }
 
       StackPage {
-          name: "fill";
-          child:Box {
-            spacing: 6;
-            homogeneous: true;
+        name: "fill";
 
-            $GradiaSimpleColorPicker fill_0 {
-              icon-name: "fill-symbolic";
-              text: _("Fill");
-              hexpand: true;
-              color-changed => $on_fill_color_changed();
-            }
-          };
+        child: Box {
+          spacing: 6;
+          homogeneous: true;
+
+          $GradiaSimpleColorPicker fill_0 {
+            icon-name: "fill-symbolic";
+            text: _("Fill");
+            hexpand: true;
+            color-changed => $on_fill_color_changed();
+          }
+        };
       }
 
       StackPage {
-          name: "fill-border";
-          child:Box {
-            spacing: 6;
-            homogeneous: true;
+        name: "fill-border";
 
-            $GradiaSimpleColorPicker fill_1 {
-              icon-name: "fill-symbolic";
-              text: _("Fill");
-              hexpand: true;
-              color-changed => $on_fill_color_changed();
-            }
+        child: Box {
+          spacing: 6;
+          homogeneous: true;
 
-            $GradiaSimpleColorPicker  outline_1 {
-              icon-name: "outline-color-symbolic";
-              text: _("Border");
-              hexpand: true;
-              color-changed => $on_outline_color_changed();
-            }
-          };
+          $GradiaSimpleColorPicker fill_1 {
+            icon-name: "fill-symbolic";
+            text: _("Fill");
+            hexpand: true;
+            color-changed => $on_fill_color_changed();
+          }
+
+          $GradiaSimpleColorPicker outline_1 {
+            icon-name: "outline-color-symbolic";
+            text: _("Border");
+            hexpand: true;
+            color-changed => $on_outline_color_changed();
+          }
+        };
       }
 
       StackPage {
-          name: "text";
-          child: Box {
-            spacing: 6;
+        name: "text";
 
-            $GradiaSimpleColorPicker fill_2 {
-              icon-name: "fill-symbolic";
-              hexpand: true;
-              color-changed => $on_fill_color_changed();
-              tooltip-text: _("Fill Color Picker");
-            }
+        child: Box {
+          spacing: 6;
 
-            $GradiaSimpleColorPicker  outline_2 {
-              icon-name: "outline-color-symbolic";
-              hexpand: true;
-              color-changed => $on_outline_color_changed();
-              tooltip-text: _("Outline Color Picker");
-            }
+          $GradiaSimpleColorPicker fill_2 {
+            icon-name: "fill-symbolic";
+            hexpand: true;
+            color-changed => $on_fill_color_changed();
+            tooltip-text: _("Fill Color Picker");
+          }
 
-            $GradiaFontDropdown font_dropdown {
-              width-request:160;
-              font-changed => $on_font_changed();
-            }
-          };
+          $GradiaSimpleColorPicker outline_2 {
+            icon-name: "outline-color-symbolic";
+            hexpand: true;
+            color-changed => $on_outline_color_changed();
+            tooltip-text: _("Outline Color Picker");
+          }
+
+          $GradiaFontDropdown font_dropdown {
+            width-request: 160;
+            font-changed => $on_font_changed();
+          }
+        };
       }
     };
   }
 }
+

@@ -1,7 +1,7 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $GradiaMainWindow : Adw.ApplicationWindow {
+template $GradiaMainWindow: Adw.ApplicationWindow {
   title: "Gradia";
   default-width: 975;
   default-height: 675;
@@ -16,16 +16,20 @@ template $GradiaMainWindow : Adw.ApplicationWindow {
 
         Adw.Bin welcome_page {
           name: "welcome";
+
           child: Box welcome_content_placeholder {};
         }
 
         Gtk.StackPage main_page {
           name: "main";
+
           child: Adw.BreakpointBin breakpoint_bin {
             width-request: 200;
             height-request: 50;
+
             Adw.Breakpoint breakpoint {
               condition ("max-width: 695sp")
+
               setters {
                 split_view.collapsed: true;
               }
@@ -41,3 +45,4 @@ template $GradiaMainWindow : Adw.ApplicationWindow {
     }
   };
 }
+

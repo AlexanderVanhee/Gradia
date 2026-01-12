@@ -22,7 +22,10 @@ template $OCRDialog: Adw.Dialog {
         tooltip-text: _("Select Language");
         direction: down;
         primary: true;
-        styles ["flat"]
+
+        styles [
+          "flat",
+        ]
       }
     }
 
@@ -32,6 +35,7 @@ template $OCRDialog: Adw.Dialog {
 
         StackPage {
           name: "loading";
+
           child: Gtk.Box loading_page {
             orientation: vertical;
             spacing: 12;
@@ -47,6 +51,7 @@ template $OCRDialog: Adw.Dialog {
 
         StackPage {
           name: "no-text";
+
           child: Adw.StatusPage {
             icon-name: "scanner-symbolic";
             title: _("No Text Found");
@@ -56,6 +61,7 @@ template $OCRDialog: Adw.Dialog {
 
         StackPage {
           name: "text";
+
           child: Overlay text_overlay {
             child: ScrolledWindow text_page {
               hscrollbar-policy: never;
@@ -77,8 +83,9 @@ template $OCRDialog: Adw.Dialog {
               styles [
                 "suggested-action",
                 "circular",
-                "semi-transparent"
+                "semi-transparent",
               ]
+
               icon-name: "edit-copy-symbolic";
               tooltip-text: _("Copy");
               halign: end;
@@ -96,3 +103,4 @@ template $OCRDialog: Adw.Dialog {
     };
   }
 }
+

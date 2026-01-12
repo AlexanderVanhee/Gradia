@@ -1,44 +1,51 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $GradiaRecentPicker : Adw.Bin {
+template $GradiaRecentPicker: Adw.Bin {
   child: Gtk.Overlay recent_overlay {
-     child:Gtk.FlowBox item_grid {
-        row-spacing: 10;
-        column-spacing: 10;
-        halign: center;
-        homogeneous: true;
-        max-children-per-line: 3;
-        min-children-per-line: 2;
-        selection-mode: none;
-        styles ["recent-button-flowbox"]
-      };
+    child: Gtk.FlowBox item_grid {
+      row-spacing: 10;
+      column-spacing: 10;
+      halign: center;
+      homogeneous: true;
+      max-children-per-line: 3;
+      min-children-per-line: 2;
+      selection-mode: none;
 
-      [overlay]
-      Gtk.Box error_overlay {
-        valign: center;
-        orientation: vertical;
-        spacing:12;
+      styles [
+        "recent-button-flowbox",
+      ]
+    };
 
-        Label {
-         label: _("Screenshot Folder Not Found");
-         styles [
-            "title-2",
-          ]
-        }
+    [overlay]
+    Gtk.Box error_overlay {
+      valign: center;
+      orientation: vertical;
+      spacing: 12;
 
-        Label {
-         label: _("Please set it in the Preferences menu");
-         margin-bottom:12;
-        }
+      Label {
+        label: _("Screenshot Folder Not Found");
 
-         Gtk.Button preferences_button {
-          label: "Open Preferences";
-          action-name: "win.preferences";
-          halign: center;
-          styles [
-            "pill",
-          ]
-        }
+        styles [
+          "title-2",
+        ]
       }
-    };}
+
+      Label {
+        label: _("Please set it in the Preferences menu");
+        margin-bottom: 12;
+      }
+
+      Gtk.Button preferences_button {
+        label: "Open Preferences";
+        action-name: "win.preferences";
+        halign: center;
+
+        styles [
+          "pill",
+        ]
+      }
+    }
+  };
+}
+

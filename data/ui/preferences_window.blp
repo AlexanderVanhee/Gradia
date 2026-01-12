@@ -1,12 +1,15 @@
 using Gtk 4.0;
 using Adw 1;
-template $GradiaPreferencesWindow : Adw.PreferencesDialog {
+
+template $GradiaPreferencesWindow: Adw.PreferencesDialog {
   content-width: 600;
   content-height: 500;
   title: _("Preferences");
+
   Adw.PreferencesPage {
     name: "preferences";
     title: _("General");
+
     Adw.PreferencesGroup {
       title: _("Screenshots");
 
@@ -21,36 +24,47 @@ template $GradiaPreferencesWindow : Adw.PreferencesDialog {
         Box {
           spacing: 6;
           valign: center;
+
           Label folder_label {
             label: "-";
-            styles ["dim-label"]
+
+            styles [
+              "dim-label",
+            ]
           }
+
           Gtk.Image {
             icon-name: "go-next-symbolic";
           }
         }
       }
     }
-    Adw.PreferencesGroup  {
+
+    Adw.PreferencesGroup {
       Adw.ButtonRow help_button {
         title: _("_Screenshot Shortcut");
         use-underline: true;
       }
     }
+
     Adw.PreferencesGroup save_format_group {
       title: _("Save Options");
+
       Adw.ComboRow save_format_combo {
         title: _("_Image Format");
         use-underline: true;
         subtitle: _("Default format for saved screenshots");
       }
     }
+
     Adw.PreferencesGroup {
       title: _("Closing");
+
       Adw.ComboRow exiting_combo {
         title: _("_When Exiting");
         use-underline: true;
       }
+
       Adw.SwitchRow overwrite_screenshot_switch {
         title: _("_Overwrite Last Screenshot on Close");
         use-underline: true;
@@ -58,6 +72,7 @@ template $GradiaPreferencesWindow : Adw.PreferencesDialog {
         tooltip-text: _("Replace last screenshot file with annotated version on close");
         activatable: true;
       }
+
       Adw.SwitchRow delete_screenshot_switch {
         title: _("_Trash Screenshots on Close");
         use-underline: true;
@@ -66,27 +81,36 @@ template $GradiaPreferencesWindow : Adw.PreferencesDialog {
         activatable: true;
       }
     }
+
     Adw.PreferencesGroup {
       title: _("Image Upload Providers");
       description: _("Connect to your favorite upload providers, or create a link yourself");
+
       Adw.ActionRow provider_row {
         title: _("_Provider");
         use-underline: true;
         activatable: true;
         activated => $on_choose_provider_clicked();
+
         [suffix]
         Gtk.Box {
           spacing: 6;
           valign: center;
+
           Gtk.Label provider_name {
             label: _("None Selected");
-            styles ["dim-label"]
+
+            styles [
+              "dim-label",
+            ]
           }
+
           Gtk.Image {
             icon-name: "go-next-symbolic";
           }
         }
       }
+
       Adw.SwitchRow confirm_upload_switch {
         title: _("_Confirm on Upload");
         use-underline: true;
@@ -95,15 +119,18 @@ template $GradiaPreferencesWindow : Adw.PreferencesDialog {
         activatable: true;
       }
     }
+
     Adw.PreferencesGroup {
       title: _("Text Extraction");
       visible: bind template.ocr_enabled;
-      Adw.ActionRow  {
+
+      Adw.ActionRow {
         title: _("_Language Models");
         use-underline: true;
         subtitle: _("Download Models to improve per-language accuracy");
         activatable: true;
         activated => $on_manage_language_models_clicked();
+
         [suffix]
         Gtk.Image {
           icon-name: "go-next-symbolic";
@@ -112,3 +139,4 @@ template $GradiaPreferencesWindow : Adw.PreferencesDialog {
     }
   }
 }
+
