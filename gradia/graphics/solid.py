@@ -127,7 +127,7 @@ class ColorPickerButton(Gtk.Button):
             margin_bottom=6,
             margin_start=6,
             margin_end=6,
-            tooltip_text=_("More Colors..."),
+            tooltip_text=_("More Colors"),
             **kwargs
         )
         self.set_focusable(True)
