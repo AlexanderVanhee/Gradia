@@ -187,18 +187,18 @@ class ImageSidebar(Adw.Bin):
 
         self.on_image_options_changed(options)
 
-    def _set_selective_sensitivity(self, is_disabled: bool) -> None:
+    def _set_selective_visiblility(self, is_disabled: bool) -> None:
         self.padding_row.set_sensitive(not is_disabled)
-        self.corner_radius_row.set_sensitive(not is_disabled)
-        self.aspect_ratio_selector.set_sensitive(not is_disabled)
-        self.shadow_strength_row.set_sensitive(not is_disabled)
+        self.corner_radius_row.set_visible(not is_disabled)
+        self.aspect_ratio_selector.set_visible(not is_disabled)
+        self.shadow_strength_row.set_visible(not is_disabled)
 
     def _on_background_mode_changed(self, mode: str) -> None:
         self._background_mode = mode
         is_disabled = mode == "none"
         self._updating_widgets = True
 
-        self._set_selective_sensitivity(is_disabled)
+        self._set_selective_visiblility(is_disabled)
 
         if is_disabled:
             options = self._get_disabled_options()
