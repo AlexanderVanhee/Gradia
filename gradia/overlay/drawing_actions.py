@@ -22,7 +22,7 @@ from gi.repository import Gtk, Gdk, Gio, Pango, PangoCairo, GdkPixbuf
 from enum import Enum
 import math
 from gradia.backend.logger import Logger
-from gradia.utils.colors import has_visible_color
+from gradia.utils.colors import rgba_to_tuple
 import time
 import unicodedata
 
@@ -162,7 +162,7 @@ class StrokeAction(DrawingAction):
         coords = [image_to_widget_coords(x, y) for x, y in self.stroke]
         line_width = self.options.size * scale
         self._build_path(cr, coords)
-        cr.set_source_rgba(*self.options.primary_color)
+        cr.set_source_rgba(*rgba_to_tuple(self.options.primary_color))
         cr.set_line_width(line_width)
         cr.stroke()
 
@@ -240,7 +240,7 @@ class ArrowAction(DrawingAction):
 
         cr.set_line_width(width * scale)
         cr.set_line_cap(cairo.LINE_CAP_ROUND)
-        cr.set_source_rgba(*self.options.primary_color)
+        cr.set_source_rgba(*rgba_to_tuple(self.options.primary_color))
 
         cr.move_to(start_x, start_y)
         cr.line_to(end_x, end_y)
@@ -412,23 +412,33 @@ class TextAction(DrawingAction):
         text_x_widget = x_widget - text_width_widget / 2
         text_y_widget = y_widget - text_height_widget
 
-        if self.options.fill_color and any(c > 0 for c in self.options.fill_color):
-            cr.set_source_rgba(*self.options.fill_color)
+        if self.options.fill_color and (
+            self.options.fill_color.red > 0 or
+            self.options.fill_color.green > 0 or
+            self.options.fill_color.blue > 0 or
+            self.options.fill_color.alpha > 0
+        ):
+            cr.set_source_rgba(*rgba_to_tuple(self.options.fill_color))
             self.draw_per_line_background(cr, layout, text_x_widget, text_y_widget, scale)
 
         cr.move_to(text_x_widget, text_y_widget)
         if self.contains_emoji():
-            cr.set_source_rgba(*self.options.primary_color)
+            cr.set_source_rgba(*rgba_to_tuple(self.options.primary_color))
             PangoCairo.show_layout(cr, layout)
         else:
             PangoCairo.layout_path(cr, layout)
-            if self.options.border_color and any(c > 0 for c in self.options.border_color):
-                cr.set_source_rgba(*self.options.border_color)
+            if self.options.border_color and (
+                self.options.border_color.red > 0 or
+                self.options.border_color.green > 0 or
+                self.options.border_color.blue > 0 or
+                self.options.border_color.alpha > 0
+            ):
+                cr.set_source_rgba(*rgba_to_tuple(self.options.border_color))
                 base_line_width = 2.0
                 adjusted_line_width = base_line_width * scale * (self.font_size / 14.0)
                 cr.set_line_width(adjusted_line_width)
                 cr.stroke_preserve()
-            cr.set_source_rgba(*self.options.primary_color)
+            cr.set_source_rgba(*rgba_to_tuple(self.options.primary_color))
             cr.fill()
 
     def get_bounds(self) -> QuadBounds:
@@ -453,7 +463,12 @@ class TextAction(DrawingAction):
         x_img, y_img = self.position
 
         outline_padding = 0
-        if self.options.border_color and any(c > 0 for c in self.options.border_color):
+        if self.options.border_color and (
+            self.options.border_color.red > 0 or
+            self.options.border_color.green > 0 or
+            self.options.border_color.blue > 0 or
+            self.options.border_color.alpha > 0
+        ):
             outline_padding = int(2.0 * (self.font_size / 14.0)) + 1
 
         left_img = x_img - text_width_img // 2 - self.PADDING_X_IMG - outline_padding
@@ -485,7 +500,7 @@ class LineAction(ArrowAction):
         cr.set_line_width(line_width)
         cr.move_to(start_x, start_y)
         cr.line_to(end_x, end_y)
-        cr.set_source_rgba(*self.options.primary_color)
+        cr.set_source_rgba(*rgba_to_tuple(self.options.primary_color))
         cr.stroke()
 
     def get_bounds(self) -> QuadBounds:
@@ -540,10 +555,10 @@ class RectAction(DrawingAction):
 
         if w > 0 and h > 0:
             if self.options.fill_color:
-                cr.set_source_rgba(*self.options.fill_color)
+                cr.set_source_rgba(*rgba_to_tuple(self.options.fill_color))
                 cr.rectangle(x, y, w, h)
                 cr.fill()
-            cr.set_source_rgba(*self.options.primary_color)
+            cr.set_source_rgba(*rgba_to_tuple(self.options.primary_color))
             cr.set_line_width(self.options.size * scale)
             cr.rectangle(x, y, w, h)
             cr.stroke()
@@ -599,9 +614,9 @@ class CircleAction(RectAction):
             cr.restore()
 
             if self.options.fill_color:
-                cr.set_source_rgba(*self.options.fill_color)
+                cr.set_source_rgba(*rgba_to_tuple(self.options.fill_color))
                 cr.fill_preserve()
-            cr.set_source_rgba(*self.options.primary_color)
+            cr.set_source_rgba(*rgba_to_tuple(self.options.primary_color))
             cr.set_line_width(self.options.size * scale)
             cr.stroke()
 
@@ -621,7 +636,7 @@ class HighlighterAction(StrokeAction):
             return
         coords = [image_to_widget_coords(x, y) for x, y in self.stroke]
         cr.set_operator(cairo.Operator.MULTIPLY)
-        cr.set_source_rgba(*self.options.primary_color)
+        cr.set_source_rgba(*rgba_to_tuple(self.options.primary_color))
         cr.set_line_width(self.options.size * scale * 2)
         cr.set_line_cap(cairo.LineCap.BUTT)
         cr.move_to(*coords[0])
@@ -724,12 +739,12 @@ class NumberStampAction(DrawingAction):
         x_widget, y_widget = image_to_widget_coords(*self.position)
         r_widget = self.options.size * 2 * scale
 
-        cr.set_source_rgba(*self.options.fill_color)
+        cr.set_source_rgba(*rgba_to_tuple(self.options.fill_color))
         cr.arc(x_widget, y_widget, r_widget, 0, 2 * math.pi)
         cr.fill_preserve()
 
         if self.options.border_color.alpha != 0 and self.options.fill_color.alpha != 0:
-            cr.set_source_rgba(*self.options.border_color)
+            cr.set_source_rgba(*rgba_to_tuple(self.options.border_color))
             cr.set_line_width(2.0 * scale)
             cr.stroke()
         else:
@@ -746,12 +761,17 @@ class NumberStampAction(DrawingAction):
         cr.move_to(tx, ty)
         cr.text_path(text)
 
-        if self.options.border_color and any(c > 0 for c in self.options.border_color):
-            cr.set_source_rgba(*self.options.border_color)
+        if self.options.border_color and (
+            self.options.border_color.red > 0 or
+            self.options.border_color.green > 0 or
+            self.options.border_color.blue > 0 or
+            self.options.border_color.alpha > 0
+        ):
+            cr.set_source_rgba(*rgba_to_tuple(self.options.border_color))
             cr.set_line_width(4 * scale)
             cr.stroke_preserve()
 
-        cr.set_source_rgba(*self.options.primary_color)
+        cr.set_source_rgba(*rgba_to_tuple(self.options.primary_color))
         cr.fill()
 
     def contains_point(self, px_img: int, py_img: int) -> bool:
@@ -762,7 +782,14 @@ class NumberStampAction(DrawingAction):
 
     def get_bounds(self) -> QuadBounds:
         x_img, y_img = self.position
-        outline_padding = 2 if self.options.border_color and any(c > 0 for c in self.options.border_color) else 0
+        outline_padding = 0
+        if self.options.border_color and (
+            self.options.border_color.red > 0 or
+            self.options.border_color.green > 0 or
+            self.options.border_color.blue > 0 or
+            self.options.border_color.alpha > 0
+        ):
+            outline_padding = 2
         total_radius = self.options.size * 2 + outline_padding + 1
         return QuadBounds.from_rect(x_img - total_radius, y_img - total_radius, x_img + total_radius, y_img + total_radius)
 
