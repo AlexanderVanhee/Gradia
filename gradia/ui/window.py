@@ -163,7 +163,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.create_action("clear", lambda *_: self.drawing_overlay.clear_drawing())
         self.create_action("draw-mode", lambda action, param: self.drawing_overlay.set_drawing_mode(DrawingMode(param.get_string())), vt="s")
 
-        self.create_action("delete-screenshots", lambda *_: self._create_delete_screenshots_dialog(), enabled=False)
+        self.create_action("delete-screenshots", lambda *_: self._create_delete_screenshots_dialog(), ["<Primary><Shift>d"], enabled=False)
 
         self.create_action("preferences", self._on_preferences_activated, ['<primary>comma'])
 
@@ -507,3 +507,4 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
         dialog = OCRDialog(cropped_image)
         dialog.present(self)
+
