@@ -207,6 +207,9 @@ class ImageStack(Adw.Bin):
     def get_zoom_level(self) -> float:
         return self.zoomable_widget.zoom_level
 
+    def pan(self, dx, dy):
+        self.zoomable_widget.pan(dx,dy)
+
     def on_image_loaded(self) -> None:
         self.reset_zoom()
         self._on_zoom_level_changed(self.zoomable_widget, None)

@@ -126,6 +126,10 @@ class ShortcutsDialog:
                 (_("Zoom In"), "<Ctrl>plus"),
                 (_("Zoom Out"), "<Ctrl>minus"),
                 (_("Reset Zoom"), "<Ctrl>0"),
+                (_("Pan Left"), "<Ctrl>Left"),
+                (_("Pan Right"), "<Ctrl>Right"),
+                (_("Pan Up"), "<Ctrl>Up"),
+                (_("Pan Down"), "<Ctrl>Down"),
             ]),
             (_("General"), [
                 (_("Toggle Sidebar"), "F9"),

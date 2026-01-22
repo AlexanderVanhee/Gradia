@@ -151,6 +151,10 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.create_action("zoom-in", lambda *_: self.image_bin.zoom_in(), ["<Control>plus", "<Control>equal", "<Control>KP_Add"])
         self.create_action("zoom-out", lambda *_: self.image_bin.zoom_out(), ["<Control>minus", "<Control>KP_Subtract"])
         self.create_action("reset-zoom", lambda *_: self.image_bin.reset_zoom(), ["<Control>0", "<Control>KP_0"])
+        self.create_action("pan-left", lambda *_: self.image_bin.pan(50, 0), ["<Control>Left"])
+        self.create_action("pan-right", lambda *_: self.image_bin.pan(-50, 0), ["<Control>Right"])
+        self.create_action("pan-up", lambda *_: self.image_bin.pan(0, 50), ["<Control>Up"])
+        self.create_action("pan-down", lambda *_: self.image_bin.pan(0, -50), ["<Control>Down"])
 
         for mode in DrawingMode:
             self.create_action(
