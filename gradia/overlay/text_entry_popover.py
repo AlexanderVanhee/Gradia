@@ -41,6 +41,10 @@ class TextEntryPopover(Gtk.Popover):
     ) -> None:
         super().__init__(**kwargs)
         self.set_parent(parent)
+
+        self.original_text = initial_text
+        self.original_font_size = font_size
+
         self.text_buffer = self.text_view.get_buffer()
         self.text_buffer.connect("changed", on_text_changed)
 
@@ -64,7 +68,19 @@ class TextEntryPopover(Gtk.Popover):
             if state & Gdk.ModifierType.CONTROL_MASK:
                 on_activate_callback(self)
                 return True
+        elif keyval == Gdk.KEY_Escape:
+            self._restore_original_values()
+            self.popdown()
+            return True
         return False
+
+    def _restore_original_values(self) -> None:
+        self.text_buffer.set_text(self.original_text)
+        self.size_adjustment.set_value(self.original_font_size)
+
+    def update_original_values(self, text: str, font_size: float | int) -> None:
+        self.original_text = text
+        self.original_font_size = font_size
 
     def get_text(self) -> str:
         start_iter = self.text_buffer.get_start_iter()
