@@ -96,7 +96,8 @@ class ShortcutsDialog:
     def create(self):
         sections_data = [
             (_("File Actions"), [
-                (_("Open File"), "<Ctrl>O"),
+                (_("Open Image"), "<Ctrl>O"),
+                (_("Take a Screenshot"), "<Ctrl>A"),
                 (_("Save to File"), "<Ctrl>S"),
                 (_("Copy Image to Clipboard"), "<Ctrl>C"),
                 (_("Paste From Clipboard"), "<Ctrl>V"),
