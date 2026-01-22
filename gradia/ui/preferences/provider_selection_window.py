@@ -38,7 +38,7 @@ class ProviderListPage(Adw.NavigationPage):
 
     PROVIDERS_DATA_URL = f"https://gradia.alexandervanhee.be/upload-providers/{rel_ver}.json"
 
-    def __init__(self, preferences_dialog=None, on_provider_selected=None, **kwargs):
+    def __init__(self, preferences_dialog=None, on_provider_selected=None, can_pop=True, **kwargs):
         super().__init__(**kwargs)
 
         self.preferences_dialog = preferences_dialog
@@ -48,6 +48,7 @@ class ProviderListPage(Adw.NavigationPage):
         self.pending_images = 0
         self.providers_populated = False
 
+        self.set_can_pop(can_pop)
         self.view_stack.set_visible_child_name("loading")
         GLib.idle_add(self._start_loading)
 

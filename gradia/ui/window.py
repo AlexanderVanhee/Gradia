@@ -45,6 +45,7 @@ from gradia.ui.dialog.delete_screenshots_dialog import DeleteScreenshotsDialog
 from gradia.ui.dialog.confirm_close_dialog import ConfirmCloseDialog
 from gradia.backend.tool_config import ToolOption
 from gradia.ui.dialog.ocr_dialog import OCRDialog
+from gradia.ui.preferences.provider_selection_window import ProviderListPage
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/main_window.ui")
 class GradiaMainWindow(Adw.ApplicationWindow):
@@ -138,7 +139,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.create_action("open-folder", lambda *_: self.open_loaded_image_folder(), enabled=False)
         self.create_action("save", lambda *_: self.export_manager.save_to_file(), ["<Primary>s"], enabled=False)
         self.create_action("copy", lambda *_: self.export_manager.copy_to_clipboard(), ["<Primary>c"], enabled=False)
-        self.create_action("command", lambda *_: self._run_custom_command(), ["<Primary>m"], enabled=False)
+        self.create_action("command", lambda *_: self._run_custom_command(), ["<Primary>m"])
 
         self.create_action("aspect-ratio-crop", lambda _, variant: self.image_bin.set_aspect_ratio(variant.get_double()), vt="d")
         self.create_action("crop", lambda *_: self.image_bin.on_toggle_crop(), ["<Primary>r"])
@@ -441,7 +442,6 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             action = self.lookup_action(action_name)
             if action:
                 action.set_enabled(enabled)
-        self.update_command_ready()
 
     def open_loaded_image_folder(self):
         folder_uri = GLib.filename_to_uri(self.image.get_folder_path())
@@ -449,12 +449,6 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             Gio.AppInfo.launch_default_for_uri(folder_uri, None)
         except Exception as e:
             print("Failed to open folder:", e)
-
-    def update_command_ready(self) -> None:
-        action = self.lookup_action('command')
-        if action:
-            action.set_enabled(self.image_ready)
-            self.share_button.set_visible(bool(self.settings.custom_export_command.strip()))
 
     def _create_delete_screenshots_dialog(self) -> None:
         dialog = DeleteScreenshotsDialog(self)
@@ -472,6 +466,21 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.welcome_content.refresh_recent_picker()
 
     def _run_custom_command(self) -> None:
+        if not self.settings.custom_export_command:
+            dialog = Adw.PreferencesDialog(content_width=600, content_height=500)
+            dialog.set_title(_("Select Provider"))
+
+            def handle_selection(name: str, command: str):
+                self.settings.provider_name = name
+                self.settings.custom_export_command = command
+                dialog.close()
+                self._run_custom_command()
+
+            provider_page = ProviderListPage(preferences_dialog=dialog, on_provider_selected=handle_selection, can_pop=False)
+            dialog.push_subpage(provider_page)
+            dialog.present(self)
+            return
+
         if self.settings.show_export_confirm_dialog:
             provider_name = self.settings.provider_name
 
