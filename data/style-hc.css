@@ -5,3 +5,11 @@
 .preset-button {
     border: 1px solid var(--border-color);
 }
+
+.header-osd windowcontrols button image {
+  border: 0px solid var(--border-color);
+}
+
+.osd-box {
+    border: 1px solid var(--border-color);
+}
