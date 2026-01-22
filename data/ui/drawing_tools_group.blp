@@ -25,7 +25,6 @@ template $GradiaDrawingToolsGroup: Box {
 
   Scale size_scale {
     orientation: horizontal;
-    margin-bottom: 6;
     margin-top: 6;
 
     adjustment: Adjustment {
@@ -41,7 +40,6 @@ template $GradiaDrawingToolsGroup: Box {
     reveal-child: true;
     transition-type: slide_up;
     transition-duration: 200;
-    margin-bottom: 6;
     valign: start;
 
     child: Stack extra_stack {
@@ -60,8 +58,9 @@ template $GradiaDrawingToolsGroup: Box {
         name: "fill";
 
         child: Box {
-          spacing: 6;
+          spacing: 8;
           homogeneous: true;
+          margin-top: 6;
 
           $GradiaSimpleColorPicker fill_0 {
             icon-name: "fill-symbolic";
@@ -76,8 +75,9 @@ template $GradiaDrawingToolsGroup: Box {
         name: "fill-border";
 
         child: Box {
-          spacing: 6;
+          spacing: 8;
           homogeneous: true;
+          margin-top: 6;
 
           $GradiaSimpleColorPicker fill_1 {
             icon-name: "fill-symbolic";
@@ -100,6 +100,7 @@ template $GradiaDrawingToolsGroup: Box {
 
         child: Box {
           spacing: 6;
+          margin-top: 6;
 
           $GradiaSimpleColorPicker fill_2 {
             icon-name: "fill-symbolic";

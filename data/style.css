@@ -109,6 +109,11 @@ headerbar.desktop windowcontrols button:active image {
     border-radius:12px;
 }
 
+flowboxchild {
+  padding: 0;
+  background-color: transparent;
+}
+
 .bold {
     font-weight: bold;
 }
@@ -240,11 +245,6 @@ button.color-picker-button {
 .header-osd windowcontrols button image {
   background-color: var(--osd-background-color);
   background-image: none;
-}
-
-toggle-group toggle  {
-    padding-left:9px;
-    padding-right:9px;
 }
 
 image.symbolic-circular {

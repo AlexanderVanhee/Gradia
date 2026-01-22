@@ -5,37 +5,12 @@ template $GradiaBackgroundSelector: Adw.Bin {
   child: Gtk.Box container {
     orientation: vertical;
 
-    Adw.ToggleGroup toggle_group {
-      homogeneous: false;
-      notify::active-name => $_on_group_changed();
+    Separator {
+      margin-bottom: 12;
+    }
 
-      Adw.Toggle none_toggle {
-        name: "none";
-        label: _("_None");
-        use-underline: true;
-      }
-
-      Adw.Toggle solid_toggle {
-        name: "solid";
-        label: _("_Solid");
-        use-underline: true;
-      }
-
-      Adw.Toggle gradient_toggle {
-        name: "gradient";
-        label: _("_Gradient");
-        use-underline: true;
-      }
-
-      Adw.Toggle image_toggle {
-        name: "image";
-        label: _("_Image");
-        use-underline: true;
-      }
-
-      styles [
-        "round",
-      ]
+    $GradiaToggleGroup toggle_group {
+       notify::active-name => $_on_group_changed();
     }
 
     Revealer stack_revealer {
