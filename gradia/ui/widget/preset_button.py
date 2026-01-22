@@ -17,7 +17,7 @@
 
 from gi.repository import Adw, Gtk, Gio, GdkPixbuf, GLib
 from typing import Callable, Optional, Any
-import threading
+import threading, os
 from gradia.utils.colors import HexColor
 from gradia.graphics.gradient import GradientBackground, Gradient
 from gradia.app_constants import PREDEFINED_GRADIENTS, PRESET_IMAGES
@@ -94,7 +94,14 @@ class GradientPresetButton(BasePresetButton):
             bin_widget = self._create_bin(css_class="preset-button")
             bin_widget.set_name(gradient_name)
             self._apply_gradient_to_bin(bin_widget, gradient)
+
             self.flowbox.append(bin_widget)
+            flowbox_child = bin_widget.get_parent()
+
+            flowbox_child.update_property(
+                [Gtk.AccessibleProperty.LABEL],
+                [gradient.name]
+            )
 
     def _apply_gradient_to_bin(self, bin_widget: Adw.Bin, gradient: Gradient) -> None:
         css = f"""
@@ -138,6 +145,11 @@ class ImagePresetButton(BasePresetButton):
     ) -> None:
         super().__init__(callback=callback, **kwargs)
 
+    def _get_image_label(self, path: str) -> str:
+        filename = os.path.basename(path)
+        name_without_ext = os.path.splitext(filename)[0]
+        return name_without_ext.replace('-', ' ').replace('_', ' ').title()
+
     def _create_preset_buttons(self) -> None:
         for path in PRESET_IMAGES:
             bin_widget = self._create_bin(width=80, height=60, css_class="preset-button")
@@ -151,7 +163,15 @@ class ImagePresetButton(BasePresetButton):
 
             bin_widget.set_child(picture)
             self._load_preset_image_async(path, picture)
+
             self.flowbox.append(bin_widget)
+            flowbox_child = bin_widget.get_parent()
+
+            label = self._get_image_label(path)
+            flowbox_child.update_property(
+                [Gtk.AccessibleProperty.LABEL],
+                [label]
+            )
 
     def _on_item_selected(self, flowbox, item):
         index = item.get_index()

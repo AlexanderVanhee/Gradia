@@ -33,15 +33,15 @@
     <file>source-styles/vscode-dark.xml</file>
   </gresource>
   <gresource prefix="/be/alexandervanhee/gradia">
-    <file>images/preset1.webp</file>
-    <file>images/preset2.webp</file>
-    <file>images/preset3.webp</file>
-    <file>images/preset4.webp</file>
-    <file>images/preset5.png</file>
-    <file>images/preset6.webp</file>
-    <file>images/preset7.webp</file>
-    <file>images/preset8.webp</file>
-    <file>images/preset9.webp</file>
+    <file>images/adwaita.webp</file>
+    <file>images/blobs.webp</file>
+    <file>images/coral.webp</file>
+    <file>images/drool.webp</file>
+    <file>images/graph.png</file>
+    <file>images/mesh.webp</file>
+    <file>images/pink.webp</file>
+    <file>images/sky.webp</file>
+    <file>images/swirl.webp</file>
   </gresource>
   <gresource prefix="/be/alexandervanhee/gradia">
     <file preprocess="xml-stripblanks">icons/scalable/actions/color-picker-symbolic.svg</file>

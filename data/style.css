@@ -39,7 +39,7 @@ headerbar.desktop windowcontrols button:active image {
 }
 
 .preset-button picture {
-    border-radius: 6px;
+    border-radius: 10px;
 }
 
 /* Circular color picker*/
