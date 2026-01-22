@@ -128,6 +128,7 @@ class ShortcutsDialog:
                 (_("Reset Zoom"), "<Ctrl>0"),
             ]),
             (_("General"), [
+                (_("Toggle Sidebar"), "F9"),
                 (_("Keyboard Shortcuts"), "<Ctrl>question"),
                 (_("Preferences"), "<Ctrl>comma"),
                 (_("Open Source Snippets"), "<Ctrl>P"),
