@@ -33,6 +33,7 @@ template $GradiaScreenshotGuidePage : Adw.NavigationPage {
                     styles ["title-1"]
                     halign: start;
                     wrap:true;
+                    selectable: true;
                   }
                 }
 
@@ -45,6 +46,7 @@ template $GradiaScreenshotGuidePage : Adw.NavigationPage {
                     use-markup: true;
                     wrap: true;
                     halign: start;
+                    selectable: true;
                   }
 
                   Gtk.Box {
@@ -59,12 +61,14 @@ template $GradiaScreenshotGuidePage : Adw.NavigationPage {
                         label: _("Interactive Screenshot");
                         styles ["title-4"]
                         halign: start;
+                        selectable: true;
                       }
 
                       Gtk.Label{
                         label: _("Allows you to select an area to screenshot");
                         styles ["caption", "dimmed"]
                         halign: start;
+                        selectable: true;
                       }
 
                       Gtk.Entry interactive_entry {
@@ -84,12 +88,14 @@ template $GradiaScreenshotGuidePage : Adw.NavigationPage {
                         label: _("Full Screen Screenshot");
                         styles ["title-4"]
                         halign: start;
+                        selectable: true;
                       }
 
                       Gtk.Label{
                         label: _("Takes a screenshot of all screens instantly");
                         styles ["caption", "dimmed"]
                         halign: start;
+                        selectable: true;
                       }
 
                       Gtk.Entry fullscreen_entry {
@@ -121,12 +127,14 @@ template $GradiaScreenshotGuidePage : Adw.NavigationPage {
                         label: _("Delayed Screenshot");
                         styles ["title-4"]
                         halign: start;
+                        selectable: true;
                       }
 
                       Gtk.Label{
                         label: _("Delay the capture by a given duration (in milliseconds).");
                         styles ["caption", "dimmed"]
                         halign: start;
+                        selectable: true;
                       }
 
                       Gtk.Entry delayed_entry {
@@ -138,7 +146,6 @@ template $GradiaScreenshotGuidePage : Adw.NavigationPage {
                       }
                     }
                   }
-
                 }
               };
             };
