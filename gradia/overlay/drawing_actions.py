@@ -655,14 +655,23 @@ class CensorAction(RectAction):
         return self.base_block_size * scale_ratio
 
     def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
-        x1, y1 = image_to_widget_coords(*self.start)
-        x2, y2 = image_to_widget_coords(*self.end)
+        crop = self._get_image_crop()
+        if not crop:
+            return
+
+        img_w, img_h = self.background_pixbuf.get_width(), self.background_pixbuf.get_height()
+
+        crop_x_img = crop['x'] - img_w / 2
+        crop_y_img = crop['y'] - img_h / 2
+        crop_x2_img = crop_x_img + crop['width']
+        crop_y2_img = crop_y_img + crop['height']
+
+        x1, y1 = image_to_widget_coords(int(crop_x_img), int(crop_y_img))
+        x2, y2 = image_to_widget_coords(int(crop_x2_img), int(crop_y2_img))
+
         x, y = min(x1, x2), min(y1, y2)
         width, height = abs(x2 - x1), abs(y2 - y1)
         if width < 1 or height < 1:
-            return
-        crop = self._get_image_crop()
-        if not crop:
             return
 
         scaled_block_size = self._get_scaled_block_size(scale)
