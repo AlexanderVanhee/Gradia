@@ -744,7 +744,7 @@ class NumberStampAction(DrawingAction):
         else:
             cr.new_path()
 
-        cr.select_font_face("Sans", cairo.FontSlant.NORMAL, cairo.FontWeight.BOLD)
+        cr.select_font_face("Adwaita Sans", cairo.FontSlant.NORMAL, cairo.FontWeight.BOLD)
         cr.set_font_size(r_widget * 1.2)
         text = str(self.number)
 
