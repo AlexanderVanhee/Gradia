@@ -247,6 +247,10 @@ button.color-picker-button {
   background-image: none;
 }
 
+.confirm-pill {
+	padding: 10px 20px 10px 20px;
+}
+
 image.symbolic-circular {
   background-color: color-mix(in srgb, currentColor 8%, transparent);
   min-width: 32px;

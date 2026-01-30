@@ -97,18 +97,22 @@ template $GradiaImageStack: Adw.Bin {
                     ]
                   }
 
-                Gtk.Revealer ocr_revealer {
-                  transition-type: slide_right;
-                  transition-duration: 300;
+                  Gtk.Revealer ocr_revealer {
+                    transition-type: slide_right;
+                    transition-duration: 300;
                     reveal-child: false;
+
                     Gtk.Button ocr_button {
                       icon-name: "scanner-symbolic";
                       tooltip-text: _("Text Extraction");
                       action-name: "win.ocr";
                       visible: true;
-                      styles ["flat"]
+
+                      styles [
+                        "flat",
+                      ]
                     }
-                }
+                  }
 
                   Gtk.Revealer erase_controls_revealer {
                     transition-type: slide_left;
@@ -123,7 +127,7 @@ template $GradiaImageStack: Adw.Bin {
                         "flat",
                       ]
                     }
-              }
+                  }
 
                   Gtk.Revealer crop_options_revealer {
                     transition-type: slide_left;
@@ -168,7 +172,9 @@ template $GradiaImageStack: Adw.Bin {
                   action-name: "win.crop";
 
                   styles [
-                    "osd",
+                    "suggested-action",
+                    "pill",
+                    "confirm-pill"
                   ]
                 }
               }
@@ -319,3 +325,4 @@ template $GradiaImageStack: Adw.Bin {
     };
   };
 }
+
