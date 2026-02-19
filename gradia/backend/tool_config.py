@@ -21,6 +21,7 @@ from gradia.overlay.drawing_actions import DrawingMode
 import re
 import json
 from gradia.backend.settings import Settings
+from gradia.utils.colors import make_rgba, tuple_to_rgba
 
 class ToolOption:
     def __init__(
@@ -36,9 +37,14 @@ class ToolOption:
     ) -> None:
         self.mode = mode
         self._size = size
-        self._primary_color_str = self._rgba_to_str(primary_color or Gdk.RGBA(0,0,0,1))
-        self._fill_color_str = self._rgba_to_str(fill_color or Gdk.RGBA(1,1,1,1))
-        self._border_color_str = self._rgba_to_str(border_color or Gdk.RGBA(0,0,0,0))
+
+        default_primary = make_rgba(0.0, 0.0, 0.0, 1.0)
+        default_fill = make_rgba(1.0, 1.0, 1.0, 1.0)
+        default_border = make_rgba(0.0, 0.0, 0.0, 0.0)
+
+        self._primary_color_str = self._rgba_to_str(primary_color or default_primary)
+        self._fill_color_str = self._rgba_to_str(fill_color or default_fill)
+        self._border_color_str = self._rgba_to_str(border_color or default_border)
         self._font = font or "Adwaita Sans"
         self._on_change_callback = on_change_callback
         self._is_temporary = is_temporary
@@ -51,7 +57,7 @@ class ToolOption:
         if not m:
             return Gdk.RGBA(0,0,0,1)
         r, g, b, a = map(float, m.groups())
-        return Gdk.RGBA(r, g, b, a)
+        return make_rgba(r, g, b, a)
 
     def _notify_change(self):
         if self._on_change_callback and not self._is_temporary:
@@ -123,11 +129,6 @@ class ToolOption:
 
     @classmethod
     def deserialize(cls, json_str: str, on_change_callback: Optional[Callable[['ToolOption'], None]] = None) -> "ToolOption":
-        def tuple_to_rgba(t):
-            if not t or len(t) != 4:
-                return Gdk.RGBA(0, 0, 0, 1)
-            return Gdk.RGBA(t[0], t[1], t[2], t[3])
-
         data = json.loads(json_str)
         mode = DrawingMode[data.get("mode", "PEN")]
         return cls(
@@ -211,22 +212,22 @@ class ToolOptionsManager:
 class ToolConfig:
 
     TEXT_COLORS = [
-        (Gdk.RGBA(0.65,0.11,0.18, 1), _("Red")),
-        (Gdk.RGBA(0.15,0.64,0.41, 1), _("Green")),
-        (Gdk.RGBA(0.1,0.37,0.71, 1), _("Blue")),
-        (Gdk.RGBA(0.9,0.65,0.04, 1), _("Yellow")),
-        (Gdk.RGBA(0,0,0, 1), _("Black")),
-        (Gdk.RGBA(1.0, 1.0, 1.0, 1), _("White")),
+        (make_rgba(0.65, 0.11, 0.18, 1.0), _("Red")),
+        (make_rgba(0.15, 0.64, 0.41, 1.0), _("Green")),
+        (make_rgba(0.10, 0.37, 0.71, 1.0), _("Blue")),
+        (make_rgba(0.90, 0.65, 0.04, 1.0), _("Yellow")),
+        (make_rgba(0.00, 0.00, 0.00, 1.0), _("Black")),
+        (make_rgba(1.00, 1.00, 1.00, 1.0), _("White")),
     ]
 
     TEXT_BACKGROUND_COLORS = [
-        (Gdk.RGBA(0.96,0.38,0.32, 1), _("Red")),
-        (Gdk.RGBA(0.56,0.94,0.64, 1), _("Green")),
-        (Gdk.RGBA(0.6,0.76,0.95, 1), _("Blue")),
-        (Gdk.RGBA(0.98,0.94,0.42, 1), _("Yellow")),
-        (Gdk.RGBA(1.0, 1.0, 1.0, 1), _("White")),
-        (Gdk.RGBA(0,0,0, 1), _("Black")),
-        (Gdk.RGBA(0, 0, 0, 0), _("Transparent"))
+        (make_rgba(0.96, 0.38, 0.32, 1.0), _("Red")),
+        (make_rgba(0.56, 0.94, 0.64, 1.0), _("Green")),
+        (make_rgba(0.60, 0.76, 0.95, 1.0), _("Blue")),
+        (make_rgba(0.98, 0.94, 0.42, 1.0), _("Yellow")),
+        (make_rgba(1.00, 1.00, 1.00, 1.0), _("White")),
+        (make_rgba(0.00, 0.00, 0.00, 1.0), _("Black")),
+        (make_rgba(0.00, 0.00, 0.00, 0.0), _("Transparent"))
     ]
 
     def __init__(
@@ -256,10 +257,6 @@ class ToolConfig:
 
     @staticmethod
     def get_all_tools_positions():
-        black = Gdk.RGBA(red=0, green=0, blue=0, alpha=1)
-        white = Gdk.RGBA(red=1, green=1, blue=1, alpha=1)
-        transparent = Gdk.RGBA(red=0, green=0, blue=0, alpha=0)
-
         return [
             ToolConfig(
                 mode=DrawingMode.SELECT,
@@ -331,12 +328,12 @@ class ToolConfig:
                 has_scale=True,
                 has_primary_color=True,
                 primary_color_list=[
-                        (Gdk.RGBA(0.88, 0.11, 0.14, 0.4), _("Red")),
-                        (Gdk.RGBA(0.18, 0.76, 0.49, 0.4), _("Green")),
-                        (Gdk.RGBA(0.21, 0.52, 0.89, 0.4), _("Blue")),
-                        (Gdk.RGBA(0.96, 0.83, 0.18, 0.4), _("Yellow")),
-                        (Gdk.RGBA(0.51, 0.24, 0.61, 0.4), _("Purple")),
-                        (Gdk.RGBA(1.0, 1.0, 1.0, 0.4), _("White")),
+                        (make_rgba(0.88, 0.11, 0.14, 0.4), _("Red")),
+                        (make_rgba(0.18, 0.76, 0.49, 0.4), _("Green")),
+                        (make_rgba(0.21, 0.52, 0.89, 0.4), _("Blue")),
+                        (make_rgba(0.96, 0.83, 0.18, 0.4), _("Yellow")),
+                        (make_rgba(0.51, 0.24, 0.61, 0.4), _("Purple")),
+                        (make_rgba(1.0, 1.0, 1.0, 0.4), _("White")),
                     ]
             ),
             ToolConfig(
