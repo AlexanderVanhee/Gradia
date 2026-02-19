@@ -216,6 +216,32 @@ class ClipboardImageLoader(BaseImageLoader):
                     self._handle_uri(uri, ImageOrigin.Clipboard)
         except GLib.GError as e:
             print(f"Error reading URIs: {e}")
+            clipboard.read_texture_async(
+                callback=self._on_texture_get
+            )
+
+    def _on_texture_get(self, clipboard, result, user_data=None) -> None:
+        try:
+            texture = clipboard.read_texture_finish(result)
+            if texture:
+                self._handle_clipboard_texture(texture)
+        except GLib.GError as e:
+            print(f"Error reading image from clipboard: {e}")
+
+    def _handle_clipboard_texture(self, texture: Gdk.Texture) -> None:
+        try:
+            content = texture.save_to_png_bytes()
+
+            filename = "imported_clipboard_image.png"
+            temp_path = os.path.join(self.temp_dir, filename)
+
+            with open(temp_path, 'wb') as f:
+                f.write(content.get_data())
+
+            self._set_image_and_update_ui(temp_path, ImageOrigin.Clipboard)
+
+        except Exception as e:
+            logger.error(f"Error processing clipboard image: {e}")
 
 
 class ScreenshotImageLoader(BaseImageLoader):
