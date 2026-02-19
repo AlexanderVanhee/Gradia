@@ -38,6 +38,22 @@
 		<color type="primary" scheme_preference="dark">#119458</color>
 	</branding>
 	<releases>
+      <release version="1.12.0" date="2026-02-19">
+        <description translate="no">
+          <p>**Design**</p>
+          <ul>
+            <li>Make text recognition and upload provider buttons always visible</li>
+            <li>Add a back button for crop mode</li>
+            <li>Redesigned the background switcher to provide more space for translations</li>
+            <li>Added mnemonics to menus</li>
+          </ul>
+          <p>**Bug Fixes**</p>
+          <ul>
+            <li>Fixed transparent JPG exports</li>
+            <li>Fixed the censor action stretching when going out of bounds</li>
+          </ul>
+        </description>
+      </release>
       <release version="1.11.3" date="2025-11-18">
         <description translate="no">
           <p>This minor release includes:</p>
@@ -293,23 +309,23 @@
 	</releases>
 	<screenshots>
 		<screenshot type="default">
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/c9ab3852ce4c75af987ecd18e22fc4a1db48572f/screenshots/showcase.png</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/ea5e10cf2d6f2eda90ac26f1b8a5ecdd95718c7b/screenshots/showcase.png</image>
 			<caption>Edited screenshot</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/c9ab3852ce4c75af987ecd18e22fc4a1db48572f/screenshots/dark.png</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/ea5e10cf2d6f2eda90ac26f1b8a5ecdd95718c7b/screenshots/dark.png</image>
 			<caption>Edited screenshot</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/c9ab3852ce4c75af987ecd18e22fc4a1db48572f/screenshots/home.png</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/ea5e10cf2d6f2eda90ac26f1b8a5ecdd95718c7b/screenshots/home.png</image>
 			<caption>Startup view</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/c9ab3852ce4c75af987ecd18e22fc4a1db48572f/screenshots/elements.png</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/ea5e10cf2d6f2eda90ac26f1b8a5ecdd95718c7b/screenshots/elements.png</image>
 			<caption>UI element showcase</caption>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/c9ab3852ce4c75af987ecd18e22fc4a1db48572f/screenshots/snippits.png</image>
+			<image>https://raw.githubusercontent.com/AlexanderVanhee/Gradia/ea5e10cf2d6f2eda90ac26f1b8a5ecdd95718c7b/screenshots/snippits.png</image>
 			<caption>Source Snippets</caption>
 		</screenshot>
 	</screenshots>

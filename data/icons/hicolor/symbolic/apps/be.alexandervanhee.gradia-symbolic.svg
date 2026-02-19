@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg height="16px" viewBox="0 0 16 16" width="16px" xmlns="http://www.w3.org/2000/svg">
-    <path d="m 2 0 c -1.109375 0 -2 0.890625 -2 2 v 12 c 0 1.109375 0.890625 2 2 2 h 12 c 1.109375 0 2 -0.890625 2 -2 v -12 c 0 -1.109375 -0.890625 -2 -2 -2 z m 1 4 h 10 c 0.554688 0 1 0.445312 1 1 v 6 c 0 0.554688 -0.445312 1 -1 1 h -10 c -0.554688 0 -1 -0.445312 -1 -1 v -6 c 0 -0.554688 0.445312 -1 1 -1 z m 0 0" fill-rule="evenodd"/>
+    <g stroke="#3d3846" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        <g fill="#f66151">
+            <path d="m 3 1 c -1.105469 0 -2 0.894531 -2 2"/>
+            <path d="m 163 173 c -1.105469 0 -2 0.894531 -2 2" transform="matrix(-1 0 0 1 176 -172)"/>
+            <path d="m 163 173 c -1.105469 0 -2 0.894531 -2 2" transform="matrix(1 0 0 -1 -160 188)"/>
+            <path d="m 163 173 c -1.105469 0 -2 0.894531 -2 2" transform="matrix(-1 0 -0 -1 176 188)"/>
+        </g>
+        <path d="m 3 5 v 6 h 10 v -6 z m 0 0" fill="none"/>
+        <path d="m 3 7 h 10" fill="none"/>
+    </g>
 </svg>
