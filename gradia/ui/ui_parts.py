@@ -136,6 +136,7 @@ class ShortcutsDialog:
                 (_("Keyboard Shortcuts"), "<Ctrl>question"),
                 (_("Preferences"), "<Ctrl>comma"),
                 (_("Open Source Snippets"), "<Ctrl>P"),
+		        (_("Delete Taken Screenshots"), "<Ctrl><Shift>D"),
             ])
         ]
 
