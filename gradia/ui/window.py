@@ -143,6 +143,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
         self.create_action("aspect-ratio-crop", lambda _, variant: self.image_bin.set_aspect_ratio(variant.get_double()), vt="d")
         self.create_action("crop", lambda *_: self.image_bin.on_toggle_crop(), ["<Primary>r"])
+        self.create_action("crop-back", lambda *_: self.image_bin.crop_back(), ["Escape"])
         self.create_action("reset-crop", lambda *_: self.image_bin.reset_crop_selection(), ["<Primary><Shift>r"])
         self.create_action("sidebar-shown", lambda action, param: self.split_view.set_show_sidebar(param.get_boolean()), vt="b")
         self.create_action("toggle-sidebar", lambda *_: self.split_view.set_show_sidebar(not self.split_view.get_show_sidebar()), ["F9"])

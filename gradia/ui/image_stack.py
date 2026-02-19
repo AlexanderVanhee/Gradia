@@ -55,6 +55,8 @@ class ImageStack(Adw.Bin):
 
     crop_options_revealer: Gtk.Revealer = Gtk.Template.Child()
     confirm_crop_revealer: Gtk.Revealer = Gtk.Template.Child()
+    back_button: Gtk.Revealer = Gtk.Template.Child()
+    crop_button_revealer: Gtk.Revealer = Gtk.Template.Child()
 
     zoom_label: Gtk.Label = Gtk.Template.Child()
     zoom_out_button: Gtk.Button = Gtk.Template.Child()
@@ -70,6 +72,8 @@ class ImageStack(Adw.Bin):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
         self._compact = False
+        self._saved_crop_rect = None
+        self._saved_aspect_ratio = None
         self._setup()
 
         self.connect("realize", self._on_realize)
@@ -169,6 +173,8 @@ class ImageStack(Adw.Bin):
         self.right_controls_revealer.set_reveal_child(not self.crop_enabled)
         self.right_controls_revealer.set_sensitive(not self.crop_enabled)
         self.confirm_crop_revealer.set_reveal_child(self.crop_enabled)
+        self.back_button.set_reveal_child(self.crop_enabled)
+        self.crop_button_revealer.set_reveal_child(not self.crop_enabled)
         self.ocr_revealer.set_reveal_child((not self.crop_enabled) and self._get_ocr_action_state())
         self.sidebar_revealer.set_reveal_child(not self.crop_enabled)
         self.zoomable_widget.disable_zoom = self.crop_enabled
@@ -177,9 +183,31 @@ class ImageStack(Adw.Bin):
             self._show_sidebar(not self.crop_enabled)
         self.crop_options_revealer.set_reveal_child(self.crop_enabled)
 
+        if self.crop_enabled:
+            self._saved_crop_rect = self.crop_overlay.get_crop_rectangle()
+            self._saved_aspect_ratio = self.crop_overlay.aspect_ratio
+
         if self.crop_enabled and not self.crop_has_been_enabled:
             self.crop_overlay.set_crop_rectangle(0.1, 0.1, 0.8, 0.8)
             self.crop_has_been_enabled = True
+
+    def crop_back(self) -> None:
+        if self.crop_enabled:
+            if self._saved_crop_rect is not None:
+                x, y, w, h = self._saved_crop_rect
+                self.crop_overlay.set_crop_rectangle(x, y, w, h)
+                self._saved_crop_rect = None
+            else:
+                self.crop_overlay.set_crop_rectangle(0.0, 0.0, 1, 1)
+
+            if self._saved_aspect_ratio is not None:
+                self.crop_overlay.aspect_ratio = self._saved_aspect_ratio
+                self._saved_aspect_ratio = None
+            else:
+                self.crop_overlay.aspect_ratio = 0
+
+            self.crop_has_been_enabled = False
+            self.on_toggle_crop()
 
     def _show_sidebar(self, value):
         window = self.get_root()

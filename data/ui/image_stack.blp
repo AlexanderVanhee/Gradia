@@ -16,6 +16,22 @@ template $GradiaImageStack: Adw.Bin {
         show-title: false;
         show-start-title-buttons: false;
 
+        [start]
+        Revealer back_button {
+          transition-type: crossfade;
+
+          child: Button {
+            icon-name: "go-previous-symbolic";
+            action-name: "win.crop-back";
+            has-tooltip: true;
+            tooltip-text: _("Back");
+
+            styles [
+              "back-button",
+            ]
+          };
+        }
+
         styles [
           "header-osd",
         ]
@@ -87,14 +103,18 @@ template $GradiaImageStack: Adw.Bin {
                     }
                   }
 
-                  Gtk.Button crop_button {
-                    icon-name: "crop-symbolic";
-                    tooltip-text: _("Crop Image");
-                    action-name: "win.crop";
+                  Revealer crop_button_revealer {
+                    transition-type: slide_right;
+                    reveal-child: true;
+                    child: Gtk.Button {
+                      icon-name: "crop-symbolic";
+                      tooltip-text: _("Crop Image");
+                      action-name: "win.crop";
 
-                    styles [
-                      "flat",
-                    ]
+                      styles [
+                        "flat",
+                      ]
+                    };
                   }
 
                   Gtk.Revealer ocr_revealer {
@@ -118,7 +138,7 @@ template $GradiaImageStack: Adw.Bin {
                     transition-type: slide_left;
                     transition-duration: 300;
 
-                    Gtk.Button back_button {
+                    Gtk.Button {
                       icon-name: "eraser4-symbolic";
                       tooltip-text: _("Erase Selected");
                       action-name: "win.del-selected";
@@ -138,7 +158,7 @@ template $GradiaImageStack: Adw.Bin {
 
                       Gtk.Button reset_crop_button {
                         icon-name: "crop-reset-symbolic";
-                        tooltip-text: _("Reset Crop Selection");
+                        tooltip-text: _("Disable Cropping");
                         action-name: "win.reset-crop";
 
                         styles [
@@ -174,7 +194,7 @@ template $GradiaImageStack: Adw.Bin {
                   styles [
                     "suggested-action",
                     "pill",
-                    "confirm-pill"
+                    "confirm-pill",
                   ]
                 }
               }
