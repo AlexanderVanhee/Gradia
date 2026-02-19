@@ -29,12 +29,13 @@ class OCRModelPage(Adw.NavigationPage):
 
     models_list = Gtk.Template.Child()
 
-    def __init__(self, preferences_dialog=None, window=None, **kwargs):
+    def __init__(self, preferences_dialog=None, window=None, can_pop=True, **kwargs):
         super().__init__(**kwargs)
         self.preferences_dialog = preferences_dialog
         self.ocr = OCR(window)
         self.model_rows = []
         self._setup_models()
+        self.set_can_pop(can_pop)
 
     def _setup_models(self):
         installed_models = set(self.ocr.get_installed_models())

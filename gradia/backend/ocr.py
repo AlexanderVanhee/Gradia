@@ -76,7 +76,7 @@ class OCR:
 
     def _update_ocr_action_state(self):
         if self.window:
-            available = Path(ocr_tesseract_cmd).exists() and len(self.get_installed_models()) > 0
+            available = Path(ocr_tesseract_cmd).exists()
             ocr_action = self.window.lookup_action("ocr")
             if ocr_action and hasattr(ocr_action, 'set_state'):
                 ocr_action.set_state(GLib.Variant.new_boolean(available and ocr_enabled.lower() == 'true'))
