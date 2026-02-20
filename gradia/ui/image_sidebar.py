@@ -89,7 +89,6 @@ class ImageSidebar(Adw.Bin):
         self.shadow_strength_scale.set_value(self.settings.image_shadow_strength)
         self.auto_balance_toggle.set_active(self.settings.image_auto_balance)
         self.aspect_ratio_selector.set_ratio(self.settings.image_aspect_ratio)
-        self._current_rotation = self.settings.image_rotation
 
     def _on_background_changed(self, updated_background: Background) -> None:
         self._current_background = updated_background
@@ -138,13 +137,11 @@ class ImageSidebar(Adw.Bin):
         if not self._updating_widgets:
             self._current_rotation = (self._current_rotation - 90) % 360
             self._notify_image_options_changed()
-            self.settings.image_rotation = self._current_rotation
 
     def _on_rotate_right_clicked(self, button: Gtk.Button) -> None:
         if not self._updating_widgets:
             self._current_rotation = (self._current_rotation + 90) % 360
             self._notify_image_options_changed()
-            self.settings.image_rotation = self._current_rotation
 
     def _get_current_options(self) -> ImageOptions:
         return ImageOptions(
@@ -175,7 +172,6 @@ class ImageSidebar(Adw.Bin):
             aspect_ratio=self.settings.image_aspect_ratio,
             shadow_strength=self.settings.image_shadow_strength,
             auto_balance=self.settings.image_auto_balance,
-            rotation=self.settings.image_rotation,
             background=None
         )
 
