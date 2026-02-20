@@ -67,15 +67,19 @@ template $OCRDialog: Adw.Dialog {
               hscrollbar-policy: never;
               vscrollbar-policy: automatic;
 
-              Gtk.TextView ocr_text_view {
-                editable: false;
-                cursor-visible: false;
-                wrap-mode: word;
-                margin-start: 24;
-                margin-end: 24;
-                top-margin: 12;
-                bottom-margin: 24;
-              }
+              child: Viewport {
+                Gtk.Label ocr_text_view {
+                  selectable: true;
+                  wrap: true;
+                  wrap-mode: word;
+                  xalign: 0;
+                  yalign: 0;
+                  margin-start: 24;
+                  margin-end: 24;
+                  margin-top: 12;
+                  margin-bottom: 24;
+                }
+              };
             };
 
             [overlay]
