@@ -1,3 +1,5 @@
+blueprint_compiler = find_program('blueprint-compiler')
+
 blueprints = custom_target('blueprints',
   input: files(
     'selectors/gradient_selector.blp',
@@ -23,5 +25,5 @@ blueprints = custom_target('blueprints',
     'preferences/ocr_model_page.blp',
   ),
   output: '.',
-  command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@']
+  command: [blueprint_compiler, 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@']
 )

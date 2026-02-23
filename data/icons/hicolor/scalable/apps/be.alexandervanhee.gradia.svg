@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg height="128px" viewBox="0 0 128 128" width="128px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <linearGradient id="a" gradientUnits="userSpaceOnUse" x1="12" x2="116" y1="116" y2="116">
-        <stop offset="0" stop-color="#711a19"/>
-        <stop offset="0.0640208" stop-color="#fc930d"/>
-        <stop offset="0.944505" stop-color="#b12927"/>
-        <stop offset="1" stop-color="#6a1b17"/>
+        <stop offset="0" stop-color="#357b7b"/>
+        <stop offset="0.05" stop-color="#48b1b1"/>
+        <stop offset="0.1" stop-color="#3c9797"/>
+        <stop offset="0.9" stop-color="#1c71d8"/>
+        <stop offset="0.95" stop-color="#3584e3"/>
+        <stop offset="1" stop-color="#1c71d8"/>
     </linearGradient>
     <linearGradient id="b" gradientUnits="userSpaceOnUse" x1="12.49527" x2="116" y1="12.495239" y2="112">
-        <stop offset="0" stop-color="#62a0ea"/>
-        <stop offset="0.195896" stop-color="#33d17a"/>
-        <stop offset="0.500023" stop-color="#f6d32d"/>
-        <stop offset="0.73145" stop-color="#ff7800"/>
-        <stop offset="1" stop-color="#f66151"/>
+        <stop offset="0" stop-color="#59e389"/>
+        <stop offset="1" stop-color="#3584e3"/>
     </linearGradient>
     <path d="m 20 16 h 88 c 4.417969 0 8 3.582031 8 8 v 84 c 0 4.417969 -3.582031 8 -8 8 h -88 c -4.417969 0 -8 -3.582031 -8 -8 v -84 c 0 -4.417969 3.582031 -8 8 -8 z m 0 0" fill="url(#a)"/>
     <path d="m 20 12 h 88 c 4.417969 0 8 3.582031 8 8 v 84 c 0 4.417969 -3.582031 8 -8 8 h -88 c -4.417969 0 -8 -3.582031 -8 -8 v -84 c 0 -4.417969 3.582031 -8 8 -8 z m 0 0" fill="url(#b)"/>
