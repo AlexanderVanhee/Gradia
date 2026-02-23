@@ -472,6 +472,12 @@ class GradiaMainWindow(Adw.ApplicationWindow):
     def set_screenshot_folder(self, subfolder) -> None:
         self.welcome_content.refresh_recent_picker()
 
+    def update_command_ready(self) -> None:
+        action = self.lookup_action('command')
+        if action:
+            action.set_enabled(self.image_ready)
+            self.share_button.set_visible(bool(self.settings.custom_export_command.strip()))
+
     def _run_custom_command(self) -> None:
         if not self.settings.custom_export_command:
             dialog = Adw.PreferencesDialog(content_width=600, content_height=500)
