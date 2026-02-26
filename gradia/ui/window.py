@@ -363,6 +363,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.image = image
         self.drawing_overlay.clear_drawing()
         self.image_bin.reset_crop_selection(silent=True)
+        self.sidebar.reset_rotation()
         self._update_sidebar_file_info(image)
 
         if self.welcome_content:

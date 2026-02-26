@@ -143,6 +143,11 @@ class ImageSidebar(Adw.Bin):
             self._current_rotation = (self._current_rotation + 90) % 360
             self._notify_image_options_changed()
 
+    def reset_rotation(self) -> None:
+        self._current_rotation = 0
+        self.settings.image_rotation = 0
+        self._notify_image_options_changed()
+
     def _get_current_options(self) -> ImageOptions:
         return ImageOptions(
             padding=int(self.padding_adjustment.get_value()),
