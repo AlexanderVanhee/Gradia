@@ -27,9 +27,16 @@
   </div>
 </div>
 
-<div align="center">
-    <a href="https://ko-fi.com/alexandervanhee">
-        <img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="ko-fi">
+<div align="center" style="display:flex; justify-content:center; align-items:center; gap:12px;">
+    <a href="https://apps.gnome.org/Gradia/" style="display:flex; align-items:center;">
+        <img src="https://circle.gnome.org/assets/button/badge.svg"
+             alt="GNOME Circle"
+             style="height:30px; width:auto; display:block;">
+    </a>
+    <a href="https://ko-fi.com/alexandervanhee" style="display:flex; align-items:center;">
+        <img src="https://ko-fi.com/img/githubbutton_sm.svg"
+             alt="ko-fi"
+             style="height:30px; width:auto; display:block;">
     </a>
 </div>
 
