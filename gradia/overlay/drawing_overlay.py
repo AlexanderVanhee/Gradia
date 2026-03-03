@@ -371,7 +371,7 @@ class DrawingOverlay(Gtk.DrawingArea):
         points = bounds.get_points()
         widget_points = [self._image_to_widget_coords(int(p[0]), int(p[1])) for p in points]
         accent = Adw.StyleManager.get_default().get_accent_color_rgba()
-        cr.set_source_rgba(*accent)
+        cr.set_source_rgba(accent.red, accent.green, accent.blue, accent.alpha)
         cr.set_line_width(2)
         cr.move_to(*widget_points[0])
         for point in widget_points[1:]:
@@ -384,7 +384,7 @@ class DrawingOverlay(Gtk.DrawingArea):
                 cr.set_source_rgba(1.0, 1.0, 1.0, 1.0)
                 cr.rectangle(handle_x, handle_y, HANDLE_SIZE, HANDLE_SIZE)
                 cr.fill()
-                cr.set_source_rgba(*accent)
+                cr.set_source_rgba(accent.red, accent.green, accent.blue, accent.alpha)
                 cr.rectangle(handle_x, handle_y, HANDLE_SIZE, HANDLE_SIZE)
                 cr.stroke()
 
@@ -769,7 +769,12 @@ class DrawingOverlay(Gtk.DrawingArea):
             action.draw(cr, self._image_to_widget_coords, scale)
 
         if self.is_drawing and self.options.mode != DrawingMode.TEXT and self.options.mode != DrawingMode.NUMBER:
-            cr.set_source_rgba(*self.options.primary_color)
+            cr.set_source_rgba(
+                self.options.primary_color.red,
+                self.options.primary_color.green,
+                self.options.primary_color.blue,
+                self.options.primary_color.alpha,
+            )
             if self.options.mode == DrawingMode.PEN and len(self.current_stroke) > 1:
                 StrokeAction(self.current_stroke, self.options.copy()).draw(cr, self._image_to_widget_coords, scale)
             elif self.options.mode == DrawingMode.HIGHLIGHTER and len(self.current_stroke) > 1:
