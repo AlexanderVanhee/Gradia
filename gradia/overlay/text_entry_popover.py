@@ -50,7 +50,7 @@ class TextEntryPopover(Gtk.Popover):
 
         key_controller = Gtk.EventControllerKey()
         key_controller.connect("key-pressed", self._on_key_pressed, on_text_activate)
-        self.text_view.add_controller(key_controller)
+        self.add_controller(key_controller)
 
         if initial_text:
             self.text_buffer.set_text(initial_text)
