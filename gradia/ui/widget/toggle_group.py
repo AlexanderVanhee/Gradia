@@ -44,10 +44,10 @@ class ToggleGroup(Gtk.Box):
         flowbox.set_column_spacing(8)
 
         toggle_data = [
-            ("none", "_None"),
-            ("solid", "_Solid"),
-            ("gradient", "_Gradient"),
-            ("image", "_Image")
+            ("none", _("_None")),
+            ("solid", _("_Solid")),
+            ("gradient", _("_Gradient")),
+            ("image", _("_Image"))
         ]
 
         for name, label in toggle_data:
