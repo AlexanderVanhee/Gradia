@@ -1,75 +1,99 @@
 :root {
   --osd-background-color: rgba(240, 240, 240, 0.75);
+  --border-color: rgba(0, 0, 0, 0.15);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --osd-background-color: rgba(0, 0, 0, 0.65);
+    --border-color: rgba(255, 255, 255, 0.15);
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --osd-background-color: rgba(240, 240, 240, 0.95);
+    --border-color: rgba(0, 0, 0, 0.8);
+  }
+}
+
+@media (prefers-color-scheme: dark) and (prefers-contrast: more) {
+  :root {
+    --osd-background-color: rgba(0, 0, 0, 0.95);
+    --border-color: rgba(255, 255, 255, 0.8);
+  }
 }
 
 headerbar.desktop windowcontrols button image {
-    color: alpha(white, 0.9);
-    background: alpha(black, 0.6);
+  color: alpha(white, 0.9);
+  background: alpha(black, 0.6);
 }
 
 headerbar.desktop windowcontrols button:hover image {
-    background: alpha(mix(black, white, 0.1), 0.5);
+  background: alpha(mix(black, white, 0.1), 0.5);
 }
 
 headerbar.desktop windowcontrols button:active image {
-    background: alpha(mix(black, white, 0.2), 0.5);
+  background: alpha(mix(black, white, 0.2), 0.5);
 }
 
 .preset-button {
-    min-width: 80px;
-    min-height: 60px;
-    box-shadow: 0 0 0 1px @borders;
-    padding: 0;
-    border-radius: 6px;
-    transition: filter 0.3s ease;
+  min-width: 80px;
+  min-height: 60px;
+  box-shadow: 0 0 0 1px @borders;
+  padding: 0;
+  border-radius: 6px;
+  transition: filter 0.3s ease;
+  border: 1px solid var(--border-color);
 }
 
-.preset-button, .gradient-editor, .provider-source-view{
-    box-shadow: 0 0 0 1px alpha(black, 0.03),
-          0 1px 3px 1px alpha(black, .07),
-          0 2px 6px 2px alpha(black, .03);
+.preset-button,
+.gradient-editor,
+.provider-source-view {
+  box-shadow: 0 0 0 1px alpha(black, 0.03),
+    0 1px 3px 1px alpha(black, .07),
+    0 2px 6px 2px alpha(black, .03);
 }
 
 .provider-source-view {
-    border-radius:12px;
+  border-radius: 12px;
 }
 
 .preset-button:hover {
-    filter: brightness(1.1);
+  filter: brightness(1.1);
 }
 
 .preset-button picture {
-    border-radius: 10px;
+  border-radius: 10px;
 }
 
-/* Circular color picker*/
 .gradient-color-picker {
-    border-radius: 9999px;
-    min-width: 32px;
-    min-height: 32px;
-    border: 2px solid rgba(255, 255, 255, 0.25);
-    transition: all 0.2s ease;
+  border-radius: 9999px;
+  min-width: 32px;
+  min-height: 32px;
+  border: 2px solid var(--border-color);
+  transition: all 0.2s ease;
 }
 
 .gradient-color-picker:hover {
-    filter: brightness(1.1);
+  filter: brightness(1.1);
 }
 
 .gradient-color-button.dark,
 .simple-color-picker image.dark,
 .simple-color-picker label.dark {
-    color: black;
+  color: black;
 }
 
-.simple-color-picker{
-    color:white;
-    border-radius: 9px;
-    padding: 8px 12px;
+.simple-color-picker {
+  color: white;
+  border-radius: 9px;
+  padding: 8px 12px;
 }
 
-.gradient-color-button{
-    color: white;
-    border: none;
+.gradient-color-button {
+  color: white;
+  border: none;
 }
 
 .gradient-editor {
@@ -91,22 +115,22 @@ headerbar.desktop windowcontrols button:active image {
   font-family: monospace;
 }
 
-.recent-button{
-    background-size: cover;
-    transition: filter 0.3s ease;
-    border-radius:10px;
+.recent-button {
+  background-size: cover;
+  transition: filter 0.3s ease;
+  border-radius: 10px;
 }
 
-.recent-button:hover{
-    filter: brightness(1.1);
+.recent-button:hover {
+  filter: brightness(1.1);
 }
 
-.recent-button:active{
-    filter: brightness(0.9);
+.recent-button:active {
+  filter: brightness(0.9);
 }
 
-.recent-button-flowbox > flowboxchild:focus {
-    border-radius:12px;
+.recent-button-flowbox>flowboxchild:focus {
+  border-radius: 12px;
 }
 
 flowboxchild {
@@ -115,7 +139,7 @@ flowboxchild {
 }
 
 .bold {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 frame.window-border {
@@ -127,7 +151,7 @@ frame.window-border {
 }
 
 .sourceview.no-highlights text selection {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 .title-entry.no-highlights {
@@ -142,96 +166,92 @@ frame.window-border {
   min-height: 30px;
 }
 
- GtkSourceStyleSchemePreview {
+GtkSourceStyleSchemePreview {
   border-radius: 6px;
 }
 
- GtkSourceStyleSchemePreview > image {
-    background-color: @accent_bg_color;
-    border-radius:999px;
-    margin-right:5px;
-    margin-bottom:5px;
+GtkSourceStyleSchemePreview>image {
+  background-color: @accent_bg_color;
+  border-radius: 999px;
+  margin-right: 5px;
+  margin-bottom: 5px;
 }
 
 GtkSourceStyleSchemePreview .selected {
-    border: 5px solid @accent_bg_color;
+  border: 5px solid @accent_bg_color;
 }
 
-.flat-dropdown > button:not(:checked):not(:hover) {
+.flat-dropdown>button:not(:checked):not(:hover) {
   background: transparent;
   box-shadow: none;
 }
 
-
-/* background selectors */
 .color-button {
-    border-radius: 9999px;
-    border: 1px solid @borders;
-    padding: 0;
-    transition: filter 0.3s ease, outline 0.15s ease, outline-offset 0.15s ease;
+  border-radius: 9999px;
+  border: 1px solid @borders;
+  padding: 0;
+  transition: filter 0.3s ease, outline 0.15s ease, outline-offset 0.15s ease;
 }
 
 .color-hover-bg {
-    padding:6px;
+  padding: 6px;
 }
 
 .checkmark-icon {
-    color: white;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .checkmark-icon.dark {
-    color: black;
+  color: black;
 }
 
 .checkmark-icon.visible {
-    opacity: 1;
+  opacity: 1;
 }
 
 .color-button:focus {
-    outline: 2px solid @accent_color;
-    outline-offset: 2px;
+  outline: 2px solid @accent_color;
+  outline-offset: 2px;
 }
 
 .color-button:focus-visible {
-    outline: 2px solid @accent_color;
-    outline-offset: 2px;
+  outline: 2px solid @accent_color;
+  outline-offset: 2px;
 }
 
 .color-button:hover {
-    filter: brightness(1.1);
+  filter: brightness(1.1);
 }
 
-.transparent-color-button, .transparent-color-button-small, .transparent-simple-color-picker {
-    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h10v10H0zM10 10h10v10H10z' fill='%23e5e5e5'/%3E%3C/svg%3E");
-    background-color: #b2b2b2;
+.transparent-color-button,
+.transparent-color-button-small,
+.transparent-simple-color-picker {
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h10v10H0zM10 10h10v10H10z' fill='%23e5e5e5'/%3E%3C/svg%3E");
+  background-color: #b2b2b2;
 }
 
 .transparent-color-button {
-    background-size: 20px 20px;
+  background-size: 20px 20px;
 }
 
 .transparent-color-button-small {
-    background-size: 15px 15px;
+  background-size: 15px 15px;
 }
 
 button.color-picker-button {
-    background: conic-gradient(
-        #ffb3ba 0%,
-        #ffeaa7 16.66%,
-        #b8e994 33.33%,
-        #a0f0ed 50%,
-        #a3cbf5 66.66%,
-        #d4a5f9 83.33%,
-        #ffb3ba 100%
-    );
-    border: none;
+  background: conic-gradient(#ffb3ba 0%,
+      #ffeaa7 16.66%,
+      #b8e994 33.33%,
+      #a0f0ed 50%,
+      #a3cbf5 66.66%,
+      #d4a5f9 83.33%,
+      #ffb3ba 100%);
+  border: none;
 }
 
-
-/*drop_overlay.py*/
-.drop-overlay-status-page{
+.drop-overlay-status-page {
   background-color: alpha(@accent_bg_color, 0.5);
   color: @accent_fg_color;
 }
@@ -240,20 +260,22 @@ button.color-picker-button {
   border-radius: 12px;
   background-color: var(--osd-background-color);
   padding: 6px;
+  border: 1px solid var(--border-color);
 }
 
 .header-osd windowcontrols button image {
   background-color: var(--osd-background-color);
   background-image: none;
+  border: 0px solid var(--border-color);
 }
 
 .back-button {
-	background-color: var(--osd-background-color);
-	border-radius: 10px;
+  background-color: var(--osd-background-color);
+  border-radius: 10px;
 }
 
 .confirm-pill {
-	padding: 10px 20px 10px 20px;
+  padding: 10px 20px 10px 20px;
 }
 
 image.symbolic-circular {
@@ -264,9 +286,15 @@ image.symbolic-circular {
 }
 
 .rounded-top {
-    background-color: #d9d9da;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+  background-color: #d9d9da;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .rounded-top {
+    background-color: #3d3d41;
+  }
 }
 
 .semi-transparent {
@@ -274,7 +302,7 @@ image.symbolic-circular {
   transition: opacity 200ms ease;
 }
 
-.semi-transparent:hover, .semi-transparent:active{
+.semi-transparent:hover,
+.semi-transparent:active {
   opacity: 1;
 }
-
