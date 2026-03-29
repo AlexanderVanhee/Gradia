@@ -26,6 +26,7 @@
     <file>style-dark.css</file>
     <file>style-hc.css</file>
     <file>help.txt</file>
+    <file>models.json</file>
   </gresource>
   <gresource prefix="/be/alexandervanhee/gradia">
     <file>source-styles/builder-dark.xml</file>

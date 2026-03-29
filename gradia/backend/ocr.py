@@ -17,9 +17,11 @@
 
 import pytesseract
 import os
+import json
+import locale
 import gi
 from dataclasses import dataclass
-from typing import List, ClassVar
+from typing import List, ClassVar, Optional
 gi.require_version("Soup", "3.0")
 from gi.repository import Soup, GLib, Gio
 from pathlib import Path
@@ -38,29 +40,7 @@ class OCRModel:
     size: int
 
 class OCR:
-    DOWNLOADABLE_MODELS: ClassVar[List[OCRModel]] = [
-        OCRModel("eng", _("English"), 15400601),
-        OCRModel("chi_sim", _("Chinese Simplified"), 13077423),
-        OCRModel("chi_tra", _("Chinese Traditional"), 12985735),
-        OCRModel("spa", _("Spanish"), 13570187),
-        OCRModel("fra", _("French"), 3972885),
-        OCRModel("fas", _("Persian"), 3325955),
-        OCRModel("deu", _("German"), 8628461),
-        OCRModel("jpn", _("Japanese"), 14330109),
-        OCRModel("ara", _("Arabic"), 12603724),
-        OCRModel("rus", _("Russian"), 15301764),
-        OCRModel("por", _("Portuguese"), 8159939),
-        OCRModel("ita", _("Italian"), 8863635),
-        OCRModel("kor", _("Korean"), 12528128),
-        OCRModel("hin", _("Hindi"), 11895564),
-        OCRModel("nld", _("Dutch"), 8903736),
-        OCRModel("tur", _("Turkish"), 7456265),
-        OCRModel("kaz", _("Kazakh"), 7528853),
-        OCRModel("oci", _("Occitan"), 12917692),
-        OCRModel("pol", _("Polish"), 11978867),
-        OCRModel("ukr", _("Ukrainian"), 10859081),
-        OCRModel("tel", _("Telugu"), 9098795)
-    ]
+    _tessdata_cache: ClassVar[Optional[dict]] = None
 
     def __init__(self, window=None):
         self.tesseract_cmd = ocr_tesseract_cmd
@@ -73,6 +53,51 @@ class OCR:
         self.settings = Settings()
 
         self._update_ocr_action_state()
+
+    def _load_tessdata_json(self) -> dict:
+        if OCR._tessdata_cache is not None:
+            return OCR._tessdata_cache
+        data = Gio.resources_lookup_data(
+            "/be/alexandervanhee/gradia/models.json",
+            Gio.ResourceLookupFlags.NONE
+        )
+        OCR._tessdata_cache = json.loads(data.get_data().decode("utf-8"))
+        return OCR._tessdata_cache
+
+    def _get_ui_language(self) -> Optional[str]:
+        for var in ("LANGUAGE", "LC_ALL", "LC_MESSAGES", "LANG"):
+            val = os.environ.get(var)
+            if val:
+                lang = val.split(":")[0].split(".")[0]
+                if lang and lang != "C" and lang != "POSIX":
+                    return lang
+        try:
+            lang, _ = locale.getlocale()
+            if lang:
+                return lang
+        except Exception:
+            pass
+        return None
+
+    def _get_translated_name(self, code: str, entry: dict) -> str:
+        ui_lang = self._get_ui_language()
+        if ui_lang:
+            translations = entry.get("translations", {})
+            name = translations.get(ui_lang)
+            if not name and "_" in ui_lang:
+                name = translations.get(ui_lang.split("_")[0])
+            if name:
+                return name
+        return entry.get("english_name", code)
+
+    def get_downloadable_models(self) -> List[OCRModel]:
+        data = self._load_tessdata_json()
+        models = []
+        for code, entry in data.items():
+            name = self._get_translated_name(code, entry)
+            size = entry.get("size_bytes", 0)
+            models.append(OCRModel(code=code, name=name, size=size))
+        return models
 
     def _update_ocr_action_state(self):
         if self.window:
@@ -137,9 +162,6 @@ class OCR:
 
         return sorted(list(installed))
 
-    def get_downloadable_models(self) -> List[OCRModel]:
-        return list(self.DOWNLOADABLE_MODELS)
-
     def is_model_installed(self, model_code: str):
         return model_code in self.get_installed_models()
 
@@ -164,7 +186,7 @@ class OCR:
 
                 with open(output_path, 'wb') as f:
                     f.write(raw_bytes)
-                    logger.info(f"saving to  {output_path} ")
+                    logger.info(f"saving to {output_path}")
 
                 logger.info(f"Downloaded OCR model: {model_code}")
                 self.set_current_model(model_code)

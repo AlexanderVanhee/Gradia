@@ -8,12 +8,28 @@ template $OCRModelPage : Adw.NavigationPage {
     [top]
     Adw.HeaderBar header_bar {}
 
+    [top]
+    Adw.Clamp {
+      maximum-size: 500;
+      tightening-threshold: 400;
+
+      child: SearchBar search_bar {
+        search-mode-enabled: true;
+        show-close-button: false;
+
+        child: SearchEntry search_entry {
+          placeholder-text: _("Search languages…");
+          hexpand: true;
+        };
+      };
+    }
+
     content: Gtk.ScrolledWindow {
       hscrollbar-policy: never;
       vscrollbar-policy: automatic;
 
       child: Adw.Clamp {
-        maximum-size: 600;
+        maximum-size: 500;
         tightening-threshold: 400;
         margin-top: 24;
         margin-bottom: 24;
@@ -24,12 +40,33 @@ template $OCRModelPage : Adw.NavigationPage {
           orientation: vertical;
           spacing: 24;
 
-          Adw.PreferencesGroup {
-            description: _("A Language Model is required to use the OCR feature.\nUsing the correct language model improves OCR accuracy.");
+          Stack models_stack {
+            transition-type: crossfade;
 
-            Gtk.ListBox models_list {
-              selection-mode: none;
-              styles ["boxed-list"]
+            StackPage {
+              name: "list";
+
+              child: Adw.PreferencesGroup {
+                description: _("A Language Model is required to use the OCR feature.\nUsing the correct language model improves OCR accuracy.");
+
+                Gtk.ListBox models_list {
+                  selection-mode: none;
+
+                  styles [
+                    "boxed-list",
+                  ]
+                }
+              };
+            }
+
+            StackPage {
+              name: "empty";
+
+              child: Adw.StatusPage no_results_page {
+                icon-name: "system-search-symbolic";
+                title: _("No Results Found");
+                description: _("Try a different search term");
+              };
             }
           }
         };
@@ -37,3 +74,4 @@ template $OCRModelPage : Adw.NavigationPage {
     };
   };
 }
+
