@@ -522,7 +522,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
             ocr_page = OCRModelPage(preferences_dialog=dialog, can_pop=False)
             dialog.push_subpage(ocr_page)
-            dialog.connect("closed", lambda *_: self.on_ocr())
+            dialog.connect("closed", lambda *_: self.on_ocr() if len(ocr.get_installed_models()) > 0 else None)
             dialog.present(self)
             return
 
