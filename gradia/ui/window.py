@@ -76,6 +76,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         version: str,
         file_path: Optional[str] = None,
         start_screenshot: Optional[str] = None,
+        fast: bool = False,
         **kwargs
     ) -> None:
         super().__init__(**kwargs)
@@ -85,6 +86,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.app: Adw.Application = kwargs['application']
         self.temp_dir: str = temp_dir
         self.version: str = version
+        self.fast = fast
         self.start_screenshot = start_screenshot
         self.file_path: Optional[str] = file_path
         self.image: Optional[LoadedImage] = None
@@ -374,6 +376,8 @@ class GradiaMainWindow(Adw.ApplicationWindow):
                 self.export_manager.copy_to_clipboard(silent=True)
             self._set_export_ready(True)
             self.lookup_action("open-folder").set_enabled(image.has_proper_folder())
+            if self.fast:
+                self._auto_save_and_exit()
 
         self.process_image(callback=after_process)
 
@@ -443,6 +447,10 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         else:
             child: str = getattr(self, "_previous_stack_child", self.PAGE_IMAGE)
             self.image_stack.set_visible_child_name(child)
+
+    def _auto_save_and_exit(self) -> None:
+        self.export_manager.auto_save_to_screenshot_folder()
+        self.app.quit()
 
     def _set_export_ready(self, enabled: bool) -> None:
         self.image_ready = True

@@ -307,6 +307,7 @@ class ScreenshotImageLoader(BaseImageLoader):
             self.window._show_notification(_("Failed to process screenshot"))
 
     def load_path_as_screenshot(self, file_path: str) -> None:
+        logger.info(f"Loading screenshot from path: {file_path}")
         try:
             file = Gio.File.new_for_path(file_path)
             uri = file.get_uri()
