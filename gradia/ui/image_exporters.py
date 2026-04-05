@@ -514,3 +514,46 @@ class ExportManager:
     def is_export_available(self) -> bool:
         """Check if export operations are available"""
         return bool(self.window.processed_pixbuf)
+
+    def auto_save_to_screenshot_folder(self) -> None:
+        """Automatically save processed image to screenshot folder"""
+        logger.info("Starting auto-save to screenshot folder")
+        if not self.is_export_available():
+            logger.warning("Export not available, no processed pixbuf")
+            return
+
+        from gradia.utils.timestamp_filename import TimestampedFilenameGenerator
+        import os
+        from gi.repository import GLib
+
+
+        if hasattr(self.window, 'start_screenshot') and self.window.start_screenshot:
+            save_path = self.window.start_screenshot
+            logger.info(f"Saving back to original file: {save_path}")
+        else:
+            folder = self.window.settings.screenshot_folder
+            if not folder:
+                folder = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_PICTURES)
+                if not folder:
+                    folder = os.path.expanduser("~/Pictures/Screenshots")
+                    if not os.path.exists(folder):
+                        os.makedirs(folder)
+            logger.info(f"Saving to folder: {folder}")
+
+            # Generate filename
+            generator = TimestampedFilenameGenerator()
+            base_name = generator.generate(_("Edited Screenshot From %Y-%m-%d %H-%M-%S"))
+            ext = SUPPORTED_EXPORT_FORMATS[self.window.settings.export_format]['extensions'][0]
+            filename = base_name + ext
+            save_path = os.path.join(folder, filename)
+            logger.info(f"Generated save path: {save_path}")
+
+        # Save
+        pixbuf = self.file_exporter.get_processed_pixbuf()
+        try:
+            pixbuf.savev(save_path, self.window.settings.export_format, [], [])
+            self.window._show_notification(_("Image saved to screenshot folder"))
+            logger.info(f"Auto-saved image to: {save_path}")
+        except Exception as e:
+            logger.error(f"Failed to auto-save image: {e}")
+            self.window._show_notification(_("Failed to save image"))

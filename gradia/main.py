@@ -61,11 +61,14 @@ class GradiaApp(Adw.Application):
 
         files_to_open = []
         screenshot_file = None
+        fast = False
 
         for arg in args:
             if arg.startswith("--screenshot-file="):
                 screenshot_file = arg.split("=", 1)[1]
                 logging.info(f"Screenshot file detected: {screenshot_file}")
+            elif arg == '--fast':
+                fast = True
             elif not arg.startswith("--"):
                 try:
                     file = Gio.File.new_for_commandline_arg(arg)
@@ -82,7 +85,7 @@ class GradiaApp(Adw.Application):
             for path in files_to_open:
                 self._open_window(file_path=path)
         elif screenshot_file:
-            self._open_window(start_screenshot=screenshot_file)
+            self._open_window(start_screenshot=screenshot_file, fast=fast)
         else:
             self.activate()
 
@@ -113,8 +116,8 @@ class GradiaApp(Adw.Application):
         else:
             self._open_window(None)
 
-    def _open_window(self, file_path: Optional[str] = None, start_screenshot: Optional[str] = None):
-        logging.info(f"Opening window with file_path={file_path}")
+    def _open_window(self, file_path: Optional[str] = None, start_screenshot: Optional[str] = None, fast: bool = False):
+        logging.info(f"Opening window with file_path={file_path}, fast={fast}")
         temp_dir = tempfile.mkdtemp()
         logging.debug(f"Created temp directory: {temp_dir}")
         self.temp_dirs.append(temp_dir)
@@ -124,9 +127,11 @@ class GradiaApp(Adw.Application):
             version=self.version,
             application=self,
             file_path=file_path,
-            start_screenshot=start_screenshot
+            start_screenshot=start_screenshot,
+            fast=fast
         )
-        window.show()
+        if not fast:
+            window.show()
 
     def on_shutdown(self, application):
         logging.info("Application shutdown started, cleaning temp directories…")
