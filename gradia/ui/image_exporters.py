@@ -527,7 +527,7 @@ class ExportManager:
         from gi.repository import GLib
 
 
-        if hasattr(self.window, 'start_screenshot') and self.window.start_screenshot:
+        if hasattr(self.window, 'start_screenshot') and self.window.start_screenshot and self.window.settings.fast_screenshot_overwrite_original:
             save_path = self.window.start_screenshot
             logger.info(f"Saving back to original file: {save_path}")
         else:

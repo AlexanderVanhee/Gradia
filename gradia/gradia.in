@@ -26,7 +26,7 @@ import logging
 from datetime import datetime
 import gi
 gi.require_version('Xdp', '1.0')
-from gi.repository import Xdp, GLib
+from gi.repository import Xdp, GLib, Gio
 logging.getLogger("PIL").setLevel(logging.WARNING)
 VERSION = '@VERSION@'
 pkgdatadir = '@PKGDATA_DIR@'
@@ -36,6 +36,7 @@ signal.signal(signal.SIGINT, signal.SIG_DFL)
 locale.bindtextdomain('gradia', localedir)
 locale.textdomain('gradia')
 gettext.install('gradia', localedir)
+from gradia.constants import app_id
 class QuickStartScreenshotTaker:
     def __init__(self):
         self.portal = Xdp.Portal()
@@ -88,7 +89,16 @@ if __name__ == '__main__':
                     print("Invalid delay value. Using default of 0.")
                     delay = 0
     if mode in ('INTERACTIVE', 'FULL', 'FAST'):
-        flags = Xdp.ScreenshotFlags.INTERACTIVE if mode in ['INTERACTIVE', 'FAST'] else Xdp.ScreenshotFlags.NONE
+        if mode == 'FAST':
+            settings = Gio.Settings.new(app_id)
+            fast_mode = settings.get_string('fast-screenshot-mode')
+            if fast_mode == 'FULL':
+                flags = Xdp.ScreenshotFlags.NONE
+            else:
+                flags = Xdp.ScreenshotFlags.INTERACTIVE
+        else:
+            flags = Xdp.ScreenshotFlags.INTERACTIVE if mode == 'INTERACTIVE' else Xdp.ScreenshotFlags.NONE
+
         screenshotter = QuickStartScreenshotTaker()
         screenshot_path = screenshotter.take_screenshot(flags=flags, delay_ms=delay)
         if screenshot_path is None:
