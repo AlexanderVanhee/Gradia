@@ -23,13 +23,17 @@ import shutil
 from collections.abc import Sequence
 from typing import Optional
 
+from PIL import Image
+
 from gi.repository import Adw, Gio, Xdp
 
 from gradia.constants import app_id, rootdir  # pyright: ignore
 from gradia.ui.window import GradiaMainWindow
+from gradia.ui.dialog.ocr_launcher import present_ocr_dialog
 from gradia.backend.logger import Logger
-from gradia.utils.std_image_loader import StdinImageLoader
 from gradia.backend.ocr import OCR
+from gradia.utils.std_image_loader import StdinImageLoader
+
 logging = Logger()
 
 
@@ -61,11 +65,15 @@ class GradiaApp(Adw.Application):
 
         files_to_open = []
         screenshot_file = None
+        ocr_file = None
 
         for arg in args:
             if arg.startswith("--screenshot-file="):
                 screenshot_file = arg.split("=", 1)[1]
                 logging.info(f"Screenshot file detected: {screenshot_file}")
+            elif arg.startswith("--ocr-file="):
+                ocr_file = arg.split("=", 1)[1]
+                logging.info(f"OCR file detected: {ocr_file}")
             elif not arg.startswith("--"):
                 try:
                     file = Gio.File.new_for_commandline_arg(arg)
@@ -78,7 +86,9 @@ class GradiaApp(Adw.Application):
                 except Exception as e:
                     logging.warning(f"Failed to parse file URI {arg}.", exception=e, show_exception=True)
 
-        if files_to_open:
+        if ocr_file:
+            self._open_ocr_standalone(ocr_file)
+        elif files_to_open:
             for path in files_to_open:
                 self._open_window(file_path=path)
         elif screenshot_file:
@@ -113,7 +123,11 @@ class GradiaApp(Adw.Application):
         else:
             self._open_window(None)
 
-    def _open_window(self, file_path: Optional[str] = None, start_screenshot: Optional[str] = None):
+    def _open_window(
+        self,
+        file_path: Optional[str] = None,
+        start_screenshot: Optional[str] = None,
+    ):
         logging.info(f"Opening window with file_path={file_path}")
         temp_dir = tempfile.mkdtemp()
         logging.debug(f"Created temp directory: {temp_dir}")
@@ -124,9 +138,38 @@ class GradiaApp(Adw.Application):
             version=self.version,
             application=self,
             file_path=file_path,
-            start_screenshot=start_screenshot
+            start_screenshot=start_screenshot,
         )
         window.show()
+
+    def _open_ocr_standalone(self, image_path: str) -> None:
+        logging.info(f"Opening standalone OCR dialog for: {image_path}")
+
+        if not os.path.isfile(image_path):
+            logging.warning(f"OCR file does not exist: {image_path}")
+            return
+
+        try:
+            pil_image = Image.open(image_path)
+            pil_image.load()
+        except Exception as e:
+            logging.warning(f"Failed to load image for OCR: {image_path}", exception=e, show_exception=True)
+            return
+
+        self.hold()
+        released = {"done": False}
+
+        def release_once():
+            if not released["done"]:
+                released["done"] = True
+                self.release()
+
+        present_ocr_dialog(
+            pil_image,
+            parent=None,
+            on_dialog_shown=lambda dialog: dialog.connect("closed", lambda *_: release_once()),
+            on_cancelled=release_once,
+        )
 
     def on_shutdown(self, application):
         logging.info("Application shutdown started, cleaning temp directories…")

@@ -44,10 +44,8 @@ from gradia.constants import rootdir, build_type # pyright: ignore
 from gradia.ui.dialog.delete_screenshots_dialog import DeleteScreenshotsDialog
 from gradia.ui.dialog.confirm_close_dialog import ConfirmCloseDialog
 from gradia.backend.tool_config import ToolOption
-from gradia.ui.dialog.ocr_dialog import OCRDialog
+from gradia.ui.dialog.ocr_launcher import present_ocr_dialog
 from gradia.ui.preferences.provider_selection_window import ProviderListPage
-from gradia.ui.preferences.ocr_model_page import OCRModelPage
-from gradia.backend.ocr import OCR
 
 @Gtk.Template(resource_path=f"{rootdir}/ui/main_window.ui")
 class GradiaMainWindow(Adw.ApplicationWindow):
@@ -515,17 +513,6 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             self.export_manager.run_custom_command()
 
     def on_ocr(self):
-        ocr = OCR(self)
-        if len(ocr.get_installed_models()) == 0:
-            dialog = Adw.PreferencesDialog(content_width=600, content_height=500)
-            dialog.set_title(_("OCR Language Models"))
-
-            ocr_page = OCRModelPage(preferences_dialog=dialog, can_pop=False)
-            dialog.push_subpage(ocr_page)
-            dialog.connect("closed", lambda *_: self.on_ocr())
-            dialog.present(self)
-            return
-
         crop_x, crop_y, crop_w, crop_h = self.image_bin.crop_overlay.get_crop_rectangle()
         has_crop = self.image_bin.crop_overlay.has_crop()
 
@@ -540,6 +527,4 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         else:
             cropped_image = self.image.full_res_image
 
-        dialog = OCRDialog(cropped_image)
-        dialog.present(self)
-
+        present_ocr_dialog(cropped_image, parent=self)
