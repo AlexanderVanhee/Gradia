@@ -30,9 +30,10 @@ def present_ocr_dialog(
     parent: Optional[Gtk.Widget] = None,
     on_dialog_shown: Optional[Callable[[OCRDialog], None]] = None,
     on_cancelled: Optional[Callable[[], None]] = None,
+    auto_copy: bool = False,
 ) -> None:
     def show():
-        dialog = OCRDialog(image)
+        dialog = OCRDialog(image, auto_copy=auto_copy)
         dialog.present(parent)
         if on_dialog_shown is not None:
             on_dialog_shown(dialog)

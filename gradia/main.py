@@ -169,6 +169,7 @@ class GradiaApp(Adw.Application):
             parent=None,
             on_dialog_shown=lambda dialog: dialog.connect("closed", lambda *_: release_once()),
             on_cancelled=release_once,
+            auto_copy=True,
         )
 
     def on_shutdown(self, application):
