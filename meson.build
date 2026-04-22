@@ -1,5 +1,5 @@
 project('gradia', 'c',
-            version: '1.12.1',
+            version: '1.13.0',
       meson_version: '>= 1.0.0',
     default_options: ['warning_level=2',
                       'werror=false'

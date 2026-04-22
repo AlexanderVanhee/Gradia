@@ -1,6 +1,6 @@
 [project]
 name = "Gradia"
-version = "1.11.3"
+version = "1.13.0"
 requires-python = ">=3.9"
 
 [tool.pyright]
