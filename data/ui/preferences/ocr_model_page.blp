@@ -10,7 +10,7 @@ template $OCRModelPage : Adw.NavigationPage {
 
     [top]
     Adw.Clamp {
-      maximum-size: 500;
+      maximum-size: 508;
       tightening-threshold: 400;
 
       child: SearchBar search_bar {
@@ -29,7 +29,7 @@ template $OCRModelPage : Adw.NavigationPage {
       vscrollbar-policy: automatic;
 
       child: Adw.Clamp {
-        maximum-size: 500;
+        maximum-size: 508;
         tightening-threshold: 400;
         margin-top: 24;
         margin-bottom: 24;
@@ -48,7 +48,8 @@ template $OCRModelPage : Adw.NavigationPage {
 
               child: Adw.PreferencesGroup {
                 description: _("A Language Model is required to use the OCR feature.\nUsing the correct language model improves OCR accuracy.");
-
+                margin-start: 4;
+                margin-end: 4;
                 Gtk.ListBox models_list {
                   selection-mode: none;
 
