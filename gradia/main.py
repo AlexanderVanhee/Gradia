@@ -29,6 +29,7 @@ from gi.repository import Adw, Gio, Xdp
 
 from gradia.constants import app_id, rootdir  # pyright: ignore
 from gradia.ui.window import GradiaMainWindow
+from gradia.ui.pin_window import PinWindow
 from gradia.ui.dialog.ocr_launcher import present_ocr_dialog
 from gradia.backend.logger import Logger
 from gradia.backend.ocr import OCR
@@ -66,6 +67,7 @@ class GradiaApp(Adw.Application):
         files_to_open = []
         screenshot_file = None
         ocr_file = None
+        pin = "--pin" in args
 
         for arg in args:
             if arg.startswith("--screenshot-file="):
@@ -74,6 +76,8 @@ class GradiaApp(Adw.Application):
             elif arg.startswith("--ocr-file="):
                 ocr_file = arg.split("=", 1)[1]
                 logging.info(f"OCR file detected: {ocr_file}")
+            elif arg == "--pin":
+                pass
             elif not arg.startswith("--"):
                 try:
                     file = Gio.File.new_for_commandline_arg(arg)
@@ -88,6 +92,11 @@ class GradiaApp(Adw.Application):
 
         if ocr_file:
             self._open_ocr_standalone(ocr_file)
+        elif pin:
+            for path in files_to_open:
+                self._open_pin_window(file_path=path)
+            if not files_to_open:
+                logging.warning("--pin specified but no files provided.")
         elif files_to_open:
             for path in files_to_open:
                 self._open_window(file_path=path)
@@ -139,6 +148,14 @@ class GradiaApp(Adw.Application):
             application=self,
             file_path=file_path,
             start_screenshot=start_screenshot,
+        )
+        window.show()
+
+    def _open_pin_window(self, file_path: Optional[str] = None):
+        logging.info(f"Opening pin window with file_path={file_path}")
+        window = PinWindow(
+            application=self,
+            file_path=file_path,
         )
         window.show()
 
