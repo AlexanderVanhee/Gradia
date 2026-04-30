@@ -25,7 +25,7 @@ from typing import Optional
 
 from PIL import Image
 
-from gi.repository import Adw, Gio, Xdp
+from gi.repository import Adw, Gio, GLib, Xdp
 
 from gradia.constants import app_id, rootdir  # pyright: ignore
 from gradia.ui.window import GradiaMainWindow
@@ -53,8 +53,41 @@ class GradiaApp(Adw.Application):
         self.temp_dirs: list[str] = []
         self._stdin_image_path: Optional[str] = None
 
-
+        self.connect("startup", self._on_startup)
         self.connect("shutdown", self.on_shutdown)
+
+    def _on_startup(self, application):
+        logging.info("Application startup signal fired")
+
+        pin_action = Gio.SimpleAction.new("pin", GLib.VariantType.new("s"))
+        pin_action.connect("activate", self._on_pin_action)
+        self.add_action(pin_action)
+
+        open_action = Gio.SimpleAction.new("open", GLib.VariantType.new("s"))
+        open_action.connect("activate", self._on_open_action)
+        self.add_action(open_action)
+
+    def _on_pin_action(self, action: Gio.SimpleAction, parameter: Optional[GLib.Variant]) -> None:
+        if parameter is None:
+            logging.warning("'pin' action invoked without a path")
+            return
+        path = parameter.get_string()
+        logging.info(f"'pin' action invoked with path={path}")
+        try:
+            self._open_pin_window(file_path=path)
+        except Exception as e:
+            logging.warning("pin action failed.", exception=e, show_exception=True)
+
+    def _on_open_action(self, action: Gio.SimpleAction, parameter: Optional[GLib.Variant]) -> None:
+        if parameter is None:
+            logging.warning("'open' action invoked without a path")
+            return
+        path = parameter.get_string()
+        logging.info(f"'open' action invoked with path={path}")
+        try:
+            self._open_window(file_path=path)
+        except Exception as e:
+            logging.warning("open action failed.", exception=e, show_exception=True)
 
     def do_command_line(self, command_line: Gio.ApplicationCommandLine) -> int:
         args = command_line.get_arguments()[1:]
