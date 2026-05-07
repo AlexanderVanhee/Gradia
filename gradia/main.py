@@ -23,13 +23,18 @@ import shutil
 from collections.abc import Sequence
 from typing import Optional
 
-from gi.repository import Adw, Gio, Xdp
+from PIL import Image
+
+from gi.repository import Adw, Gio, GLib, Xdp
 
 from gradia.constants import app_id, rootdir  # pyright: ignore
 from gradia.ui.window import GradiaMainWindow
+from gradia.ui.pin_window import PinWindow
+from gradia.ui.dialog.ocr_launcher import present_ocr_dialog
 from gradia.backend.logger import Logger
-from gradia.utils.std_image_loader import StdinImageLoader
 from gradia.backend.ocr import OCR
+from gradia.utils.std_image_loader import StdinImageLoader
+
 logging = Logger()
 
 
@@ -48,8 +53,41 @@ class GradiaApp(Adw.Application):
         self.temp_dirs: list[str] = []
         self._stdin_image_path: Optional[str] = None
 
-
+        self.connect("startup", self._on_startup)
         self.connect("shutdown", self.on_shutdown)
+
+    def _on_startup(self, application):
+        logging.info("Application startup signal fired")
+
+        pin_action = Gio.SimpleAction.new("pin", GLib.VariantType.new("s"))
+        pin_action.connect("activate", self._on_pin_action)
+        self.add_action(pin_action)
+
+        open_action = Gio.SimpleAction.new("open", GLib.VariantType.new("s"))
+        open_action.connect("activate", self._on_open_action)
+        self.add_action(open_action)
+
+    def _on_pin_action(self, action: Gio.SimpleAction, parameter: Optional[GLib.Variant]) -> None:
+        if parameter is None:
+            logging.warning("'pin' action invoked without a path")
+            return
+        path = parameter.get_string()
+        logging.info(f"'pin' action invoked with path={path}")
+        try:
+            self._open_pin_window(file_path=path)
+        except Exception as e:
+            logging.warning("pin action failed.", exception=e, show_exception=True)
+
+    def _on_open_action(self, action: Gio.SimpleAction, parameter: Optional[GLib.Variant]) -> None:
+        if parameter is None:
+            logging.warning("'open' action invoked without a path")
+            return
+        path = parameter.get_string()
+        logging.info(f"'open' action invoked with path={path}")
+        try:
+            self._open_window(file_path=path)
+        except Exception as e:
+            logging.warning("open action failed.", exception=e, show_exception=True)
 
     def do_command_line(self, command_line: Gio.ApplicationCommandLine) -> int:
         args = command_line.get_arguments()[1:]
@@ -61,14 +99,19 @@ class GradiaApp(Adw.Application):
 
         files_to_open = []
         screenshot_file = None
-        fast = False
+        fast = "--fast" in args
+        ocr_file = None
+        pin = "--pin" in args
 
         for arg in args:
             if arg.startswith("--screenshot-file="):
                 screenshot_file = arg.split("=", 1)[1]
                 logging.info(f"Screenshot file detected: {screenshot_file}")
-            elif arg == '--fast':
-                fast = True
+            elif arg.startswith("--ocr-file="):
+                ocr_file = arg.split("=", 1)[1]
+                logging.info(f"OCR file detected: {ocr_file}")
+            elif arg == "--pin":
+                pass
             elif not arg.startswith("--"):
                 try:
                     file = Gio.File.new_for_commandline_arg(arg)
@@ -81,7 +124,14 @@ class GradiaApp(Adw.Application):
                 except Exception as e:
                     logging.warning(f"Failed to parse file URI {arg}.", exception=e, show_exception=True)
 
-        if files_to_open:
+        if ocr_file:
+            self._open_ocr_standalone(ocr_file)
+        elif pin:
+            for path in files_to_open:
+                self._open_pin_window(file_path=path)
+            if not files_to_open:
+                logging.warning("--pin specified but no files provided.")
+        elif files_to_open:
             for path in files_to_open:
                 self._open_window(file_path=path)
         elif screenshot_file:
@@ -116,8 +166,13 @@ class GradiaApp(Adw.Application):
         else:
             self._open_window(None)
 
-    def _open_window(self, file_path: Optional[str] = None, start_screenshot: Optional[str] = None, fast: bool = False):
-        logging.info(f"Opening window with file_path={file_path}, fast={fast}")
+    def _open_window(
+        self,
+        file_path: Optional[str] = None,
+        start_screenshot: Optional[str] = None,
+        fast: bool = False
+    ):
+        logging.info(f"Opening window with file_path={file_path}")
         temp_dir = tempfile.mkdtemp()
         logging.debug(f"Created temp directory: {temp_dir}")
         self.temp_dirs.append(temp_dir)
@@ -132,6 +187,44 @@ class GradiaApp(Adw.Application):
         )
         if not fast:
             window.show()
+
+    def _open_pin_window(self, file_path: Optional[str] = None):
+        logging.info(f"Opening pin window with file_path={file_path}")
+        window = PinWindow(
+            application=self,
+            file_path=file_path,
+        )
+        window.show()
+
+    def _open_ocr_standalone(self, image_path: str) -> None:
+        logging.info(f"Opening standalone OCR dialog for: {image_path}")
+
+        if not os.path.isfile(image_path):
+            logging.warning(f"OCR file does not exist: {image_path}")
+            return
+
+        try:
+            pil_image = Image.open(image_path)
+            pil_image.load()
+        except Exception as e:
+            logging.warning(f"Failed to load image for OCR: {image_path}", exception=e, show_exception=True)
+            return
+
+        self.hold()
+        released = {"done": False}
+
+        def release_once():
+            if not released["done"]:
+                released["done"] = True
+                self.release()
+
+        present_ocr_dialog(
+            pil_image,
+            parent=None,
+            on_dialog_shown=lambda dialog: dialog.connect("closed", lambda *_: release_once()),
+            on_cancelled=release_once,
+            auto_copy=True,
+        )
 
     def on_shutdown(self, application):
         logging.info("Application shutdown started, cleaning temp directories…")

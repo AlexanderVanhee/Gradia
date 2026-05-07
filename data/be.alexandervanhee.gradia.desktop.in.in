@@ -4,6 +4,7 @@ Comment=Make your images ready for the world
 Exec=gradia %U
 Icon=@APP_ID@
 StartupNotify=true
+DBusActivatable=true
 Terminal=false
 Type=Application
 Categories=Graphics;

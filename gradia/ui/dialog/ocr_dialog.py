@@ -31,12 +31,18 @@ class OCRDialog(Adw.Dialog):
     copy_ocr_button = Gtk.Template.Child()
     toast_overlay = Gtk.Template.Child()
     language_button = Gtk.Template.Child()
+    window_title = Gtk.Template.Child()
 
-    def __init__(self, image=None, **kwargs):
+    def __init__(self, image=None, auto_copy=False, **kwargs):
         super().__init__(**kwargs)
         self.image = image
         self.ocr = OCR()
         self.primary_lang = "eng"
+        self._auto_copy = auto_copy
+
+        if auto_copy:
+            self.window_title.set_subtitle("")
+
         self._setup_language_button()
         self._start_ocr()
 
@@ -99,6 +105,11 @@ class OCRDialog(Adw.Dialog):
 
         if text.strip():
             self.ocr_stack.set_visible_child_name("text")
+            if self._auto_copy:
+                copy_text_to_clipboard(text)
+                toast = Adw.Toast.new(_("Copied!"))
+                toast.set_timeout(1)
+                self.toast_overlay.add_toast(toast)
         else:
             self.ocr_stack.set_visible_child_name("no-text")
 
