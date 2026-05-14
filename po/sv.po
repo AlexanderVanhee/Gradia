@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gimp/-/issues\n"
-"POT-Creation-Date: 2026-03-30 19:46+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-14 12:29+0200\n"
 "PO-Revision-Date: 2026-03-30 21:40+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -27,19 +27,19 @@ msgstr "Gradia"
 msgid "Make your images ready for the world"
 msgstr "Gör dina bilder redo för världen"
 
-#: data/be.alexandervanhee.gradia.desktop.in.in:10
+#: data/be.alexandervanhee.gradia.desktop.in.in:11
 msgid "Image;Gradient;Background;Screenshot;Edit;"
 msgstr "Bild;Gradient;Bakgrund;Skärmbild;Redigera;"
 
-#: data/be.alexandervanhee.gradia.desktop.in.in:15
+#: data/be.alexandervanhee.gradia.desktop.in.in:16
 msgid "New Window"
 msgstr "Nytt fönster"
 
-#: data/be.alexandervanhee.gradia.desktop.in.in:20
+#: data/be.alexandervanhee.gradia.desktop.in.in:21
 msgid "Take Screenshot"
 msgstr "Ta skärmbild"
 
-#: data/be.alexandervanhee.gradia.desktop.in.in:25
+#: data/be.alexandervanhee.gradia.desktop.in.in:26
 msgid "Take Fullscreen Screenshot"
 msgstr "Ta en skärmbild av hela skärmen"
 
@@ -84,20 +84,20 @@ msgstr "Konvertera kodsnuttar till rena högupplösningsbilder"
 msgid "Alexander Vanhee"
 msgstr "Alexander Vanhee"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:318
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:322
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:323
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:327
 msgid "Edited screenshot"
 msgstr "Redigerad skärmbild"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:326
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:331
 msgid "Startup view"
 msgstr "Uppstartsvy"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:330
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:335
 msgid "UI element showcase"
 msgstr "Uppvisning av användargränssnittselement"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:334
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:339
 #: data/ui/image_generator_window.blp:5 data/ui/welcome_page.blp:36
 #: gradia/ui/image_creation/source_image_generator.py:397
 msgid "Source Snippets"
@@ -115,7 +115,7 @@ msgstr ""
 
 #: data/ui/confirm_close_dialog.blp:11
 #: gradia/ui/dialog/delete_screenshots_dialog.py:54
-#: gradia/ui/image_exporters.py:149 gradia/ui/window.py:505
+#: gradia/ui/image_exporters.py:149 gradia/ui/window.py:503
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -421,11 +421,11 @@ msgstr ""
 "En språkmodell krävs för att använda OCR-funktionen.\n"
 "Att använda rätt språkmodell förbättrar OCR-noggrannheten."
 
-#: data/ui/preferences/ocr_model_page.blp:67
+#: data/ui/preferences/ocr_model_page.blp:68
 msgid "No Results Found"
 msgstr "Inga resultat hittades"
 
-#: data/ui/preferences/ocr_model_page.blp:68
+#: data/ui/preferences/ocr_model_page.blp:69
 msgid "Try a different search term"
 msgstr "Försök använda en annan sökterm"
 
@@ -663,6 +663,11 @@ msgstr "Skärmbildmapp kunde inte hittas"
 msgid "Please set it in the Preferences menu"
 msgstr "Ange den i inställningsmenyn"
 
+#: data/ui/recent_picker.blp:40
+#, fuzzy
+msgid "Open Preferences"
+msgstr "Inställningar"
+
 #: data/ui/selectors/gradient_selector.blp:6
 msgid "Gradient Background"
 msgstr "Gradientbakgrund"
@@ -733,7 +738,8 @@ msgstr "Öppna bild…"
 
 # TODO: Duplicate in source
 #: data/ui/welcome_page.blp:104
-msgid "_D_onate to Gradia"
+#, fuzzy
+msgid "_Donate to Gradia"
 msgstr "D_onera till Gradia"
 
 #: gradia/app_constants.py:26
@@ -917,7 +923,7 @@ msgstr "Skärmbild flyttad till papperskorgen"
 msgid "Screenshots moved to trash"
 msgstr "Skärmbilder flyttade till papperskorgen"
 
-#: gradia/ui/dialog/ocr_dialog.py:113
+#: gradia/ui/dialog/ocr_dialog.py:110 gradia/ui/dialog/ocr_dialog.py:124
 #: gradia/ui/preferences/preferences_window.py:152
 #: gradia/ui/preferences/preferences_window.py:245
 msgid "Copied!"
@@ -1219,18 +1225,17 @@ msgstr "_Bild"
 msgid "Choose Color"
 msgstr "Välj färg"
 
-#: gradia/ui/window.py:485
+#: gradia/ui/window.py:483
 msgid "Select Provider"
 msgstr "Välj leverantör"
 
-#: gradia/ui/window.py:502
+#: gradia/ui/window.py:500
 msgid "Confirm Upload"
 msgstr "Bekräfta sändning"
 
-#: gradia/ui/window.py:506
+#: gradia/ui/window.py:504
 msgid "Upload"
 msgstr "Skicka"
 
-#: gradia/ui/window.py:521
-msgid "OCR Language Models"
-msgstr "OCR-språkmodeller"
+#~ msgid "OCR Language Models"
+#~ msgstr "OCR-språkmodeller"

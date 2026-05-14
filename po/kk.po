@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
-"Report-Msgid-Bugs-To: https://github.com/AlexanderVanhee/Gradia https://github.com/AnmiTaliDev/Gradia\n"
-"POT-Creation-Date: 2025-06-10 17:24+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-14 12:29+0200\n"
 "PO-Revision-Date: 2025-06-16 12:00+0600\n"
 "Last-Translator: AnmiTaliDev <anmitali198@gmail.com>\n"
 "Language-Team: kk\n"
@@ -15,378 +15,1367 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-#: data/be.alexandervanhee.gradia.desktop.in:2
-#: data/be.alexandervanhee.gradia.metainfo.xml.in:11
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:2
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:11
 msgid "Gradia"
 msgstr "Gradia"
-#: data/be.alexandervanhee.gradia.desktop.in:3 gradia/ui/ui_parts.py:345
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:3
 msgid "Make your images ready for the world"
 msgstr "Суретіңізді әлемге дайындаңыз"
-#: data/be.alexandervanhee.gradia.desktop.in:9
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:11
 msgid "Image;Gradient;Background;Screenshot;Edit;"
 msgstr "Сурет;Градиент;Фон;Скриншот;Өңдеу;"
-#: data/be.alexandervanhee.gradia.metainfo.xml.in:12
-msgid "Make your screenshots ready for all"
-msgstr "Скриншоттарыңызды барлығына дайындаңыз"
-#: data/be.alexandervanhee.gradia.metainfo.xml.in:14
-msgid ""
-"Gradia helps you quickly prepare your screenshots for sharing by fixing "
-"common issues like transparency and awkward sizing. With simple tools to add "
-"backgrounds, adjust aspect ratios, and annotate images, you can enhance your "
-"screenshots to look professional and consistent across social media, blogs, "
-"and other platforms on the internet."
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:16
+msgid "New Window"
 msgstr ""
-"Gradia мөлдірлік пен ыңғайсыз өлшем сияқты жалпы мәселелерді шешу арқылы "
-"скриншоттарыңызды бөлісуге жылдам дайындауға көмектеседі. Фон қосу, "
-"пропорцияларды реттеу және суреттерге түсініктеме қосу үшін қарапайым "
-"құралдармен скриншоттарыңызды кәсіби және әлеуметтік желілер, блогтар және "
-"интернеттегі басқа платформаларда үйлесімді көрінетін етіп жақсарта аласыз."
-#: data/be.alexandervanhee.gradia.metainfo.xml.in:15
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:21
+#, fuzzy
+msgid "Take Screenshot"
+msgstr "Скриншот жасау"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:26
+#, fuzzy
+msgid "Take Fullscreen Screenshot"
+msgstr "Скриншот жасау"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:12
+#, fuzzy
+msgid "Annotate your screenshots"
+msgstr "Скриншот жасау"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:15
+msgid ""
+"Gradia helps you get your screenshots ready for sharing, whether quickly "
+"with friends or colleagues, or professionally with the entire world."
+msgstr ""
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:16
 msgid "Key features:"
 msgstr "Негізгі мүмкіндіктер:"
-#: data/be.alexandervanhee.gradia.metainfo.xml.in:17
-msgid "Add optional image and gradient backgrounds to your images"
-msgstr "Суреттеріңізге қосымша сурет және градиент фондарын қосыңыз"
-#: data/be.alexandervanhee.gradia.metainfo.xml.in:18
-msgid "Adjust aspect ratios and padding to fit different platforms"
-msgstr "Әртүрлі платформаларға сай келу үшін пропорциялар мен аралықты реттеңіз"
-#: data/be.alexandervanhee.gradia.metainfo.xml.in:19
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:18
 msgid "Ten annotation modes, including text, arrow, and censor"
 msgstr "Мәтін, көрсеткі және цензура сияқты он түсініктеме режимі"
-#: data/be.alexandervanhee.gradia.metainfo.xml.in:20
-msgid "Multiple ways to import and export screenshots"
-msgstr "Скриншоттарды импорттау мен экспорттаудың бірнеше жолы"
-#. Package maintainers, please replace with correct command
-#: data/be.alexandervanhee.gradia.metainfo.xml.in:23
-msgid ""
-"Want a keyboard shortcut on GNOME? Simply go to Settings → Keyboard → View "
-"and Customize Shortcuts → Custom Shortcuts. Then create a shortcut that runs "
-"<code>flatpak run be.alexandervanhee.gradia --screenshot=INTERACTIVE</code>."
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:19
+#, fuzzy
+msgid "Optional image and gradient backgrounds"
+msgstr "Суреттеріңізге қосымша сурет және градиент фондарын қосыңыз"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:20
+msgid "Image settings like shadow, padding, and auto-balance"
 msgstr ""
-"GNOME-да пернетақта тіркесімін қалайсыз ба? Параметрлер → Пернетақта → "
-"Қарау және тіркесімдерді теңшеу → Пайдаланушы тіркесімдері бөліміне өтіңіз. "
-"Содан кейін <code>flatpak run be.alexandervanhee.gradia --screenshot=INTERACTIVE</code> "
-"командасын іске қосатын тіркесім жасаңыз."
-#: data/be.alexandervanhee.gradia.metainfo.xml.in:29
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:21
+msgid "Quick upload flow to easily share images via services like Imgur"
+msgstr ""
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:22
+msgid "Convert code snippets into clean high-resolution images"
+msgstr ""
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:26
 msgid "Alexander Vanhee"
 msgstr "Alexander Vanhee"
-#: data/be.alexandervanhee.gradia.metainfo.xml.in:121
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:323
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:327
 msgid "Edited screenshot"
 msgstr "Өңделген скриншот"
-#: data/be.alexandervanhee.gradia.metainfo.xml.in:125
-msgid "Edited picture"
-msgstr "Өңделген сурет"
-#: data/be.alexandervanhee.gradia.metainfo.xml.in:129
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:331
 msgid "Startup view"
 msgstr "Іске қосу көрінісі"
-#: gradia/graphics/gradient.py:146
-msgid "Gradient Background"
-msgstr "Градиент фоны"
-#: gradia/graphics/gradient.py:150
-msgid "Gradient Presets"
-msgstr "Градиент пресеттері"
-#: gradia/graphics/gradient.py:159 gradia/graphics/gradient.py:170
-msgid "Start Color"
-msgstr "Бастапқы түс"
-#: gradia/graphics/gradient.py:160 gradia/graphics/gradient.py:172
-msgid "End Color"
-msgstr "Соңғы түс"
-#: gradia/graphics/gradient.py:196
-msgid "Angle"
-msgstr "Бұрыш"
-#: gradia/graphics/solid.py:71
-msgid "Solid Color Background"
-msgstr "Тұтас түс фоны"
-#: gradia/graphics/solid.py:77
-msgid "Color"
-msgstr "Түс"
-#: gradia/graphics/image.py:87
-msgid "Image Background"
-msgstr "Сурет фоны"
-#: gradia/graphics/image.py:90
-msgid "Select Image"
-msgstr "Суретті таңдау"
-#: gradia/graphics/image.py:134
-msgid "Image files"
-msgstr "Сурет файлдары"
-#. Create action buttons
-#: gradia/ui/ui_parts.py:156
-msgid "_Take a screenshot…"
-msgstr "_Скриншот жасау…"
-#: gradia/ui/ui_parts.py:164
-msgid "_Open Image…"
-msgstr "_Суретті ашу…"
-#: gradia/ui/ui_parts.py:183
-msgid "Enhance an Image"
-msgstr "Суретті жақсарту"
-#: gradia/ui/ui_parts.py:184
-msgid "Drag and drop one here"
-msgstr "Осында бірін тартыңыз"
-#: gradia/ui/ui_parts.py:215
-msgid "Image Options"
-msgstr "Сурет опциялары"
-#: gradia/ui/ui_parts.py:218
-msgid "Padding"
-msgstr "Аралық"
-#: gradia/ui/ui_parts.py:223
-msgid "Corner Radius"
-msgstr "Бұрыш радиусы"
-#: gradia/ui/ui_parts.py:227
-msgid "Aspect Ratio"
-msgstr "Пропорция"
-#: gradia/ui/ui_parts.py:233
-msgid "Shadow"
-msgstr "Көлеңке"
-#: gradia/ui/ui_parts.py:252
-msgid "Current File"
-msgstr "Ағымдағы файл"
-#: gradia/ui/ui_parts.py:254
-msgid "Name"
-msgstr "Аты"
-#: gradia/ui/ui_parts.py:254 gradia/ui/ui_parts.py:255
-msgid "No file loaded"
-msgstr "Файл жүктелмеген"
-#: gradia/ui/ui_parts.py:255
-msgid "Location"
-msgstr "Орналасқан жері"
-#: gradia/ui/ui_parts.py:256
-msgid "Modified image size"
-msgstr "Өзгертілген сурет өлшемі"
-#: gradia/ui/ui_parts.py:256
-msgid "N/A"
-msgstr "Жоқ"
-#: gradia/ui/ui_parts.py:320
-msgid "Save Image"
-msgstr "Суретті сақтау"
-#: gradia/ui/ui_parts.py:328
-msgid "Copy to Clipboard"
-msgstr "Буферге көшіру"
-#. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
-#: gradia/ui/ui_parts.py:358
-msgid "translator-credits"
-msgstr "AnmiTaliDev <anmitali198@gmail.com>"
-#: gradia/ui/ui_parts.py:368
-msgid "File Actions"
-msgstr "Файл әрекеттері"
-#: gradia/ui/ui_parts.py:370
-msgid "Open File"
-msgstr "Файлды ашу"
-#: gradia/ui/ui_parts.py:371
-msgid "Save to File"
-msgstr "Файлға сақтау"
-#: gradia/ui/ui_parts.py:372
-msgid "Copy Image to Clipboard"
-msgstr "Суретті буферге көшіру"
-#: gradia/ui/ui_parts.py:373
-msgid "Paste From Clipboard"
-msgstr "Буферден қою"
-#: gradia/ui/ui_parts.py:377
-msgid "Annotations"
-msgstr "Түсініктемелер"
-#: gradia/ui/ui_parts.py:379
-msgid "Undo"
-msgstr "Болдырмау"
-#: gradia/ui/ui_parts.py:380
-msgid "Redo"
-msgstr "Қайталау"
-#: gradia/ui/ui_parts.py:381
-msgid "Remove Selected"
-msgstr "Таңдалғанды жою"
-#: gradia/ui/ui_parts.py:385
-msgid "General"
-msgstr "Жалпы"
-#: gradia/ui/ui_parts.py:387 data/ui/header_bar.blp:46
-msgid "Keyboard Shortcuts"
-msgstr "Пернетақта тіркесімдері"
-#: gradia/ui/window.py:313
-msgid "Unknown"
-msgstr "Белгісіз"
-#: gradia/ui/window.py:315
-msgid "Error"
-msgstr "Қате"
-#: gradia/ui/window.py:352
-msgid "No screenshots to delete."
-msgstr "Жойылатын скриншот жоқ."
-#: gradia/ui/window.py:364
-msgid "Delete Screenshot?"
-msgstr "Скриншотты жою керек пе?"
-#: gradia/ui/window.py:365
-#, python-format
-msgid ""
-"Are you sure you want to delete the following file?\n"
-"\n"
-"%s"
-msgstr ""
-"Келесі файлды жойғыңыз келетініне сенімдісіз бе?\n"
-"\n"
-"%s"
-#: gradia/ui/window.py:367
-msgid "Delete Screenshots?"
-msgstr "Скриншоттарды жою керек пе?"
-#: gradia/ui/window.py:368
-#, python-format
-msgid ""
-"Are you sure you want to delete the following files?\n"
 
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:335
+msgid "UI element showcase"
 msgstr ""
-"Келесі файлдарды жойғыңыз келетініне сенімдісіз бе?\n"
 
-#: gradia/ui/window.py:371 gradia/ui/image_exporters.py:120
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:339
+#: data/ui/image_generator_window.blp:5 data/ui/welcome_page.blp:36
+#: gradia/ui/image_creation/source_image_generator.py:397
+msgid "Source Snippets"
+msgstr ""
+
+#: data/ui/confirm_close_dialog.blp:5
+#, fuzzy
+msgid "Close Gradia?"
+msgstr "Gradia туралы"
+
+#: data/ui/confirm_close_dialog.blp:6
+#, fuzzy
+msgid "Are you sure you want to exit? All unsaved changes will be lost."
+msgstr "Келесі файлдарды жойғыңыз келетініне сенімдісіз бе?\n"
+
+#: data/ui/confirm_close_dialog.blp:11
+#: gradia/ui/dialog/delete_screenshots_dialog.py:54
+#: gradia/ui/image_exporters.py:149 gradia/ui/window.py:503
 msgid "Cancel"
 msgstr "Бас тарту"
-#: gradia/ui/window.py:372
-msgid "Delete"
-msgstr "Жою"
-#: gradia/ui/window.py:379
-msgid "Screenshot deleted."
-msgstr "Скриншот жойылды."
-#: gradia/ui/window.py:381
-msgid "Screenshots deleted."
-msgstr "Скриншоттар жойылды."
-#: gradia/ui/image_exporters.py:73
-msgid "Edit"
-msgstr "Өңдеу"
-#: gradia/ui/image_exporters.py:74
-msgid "Enhanced Screenshot"
-msgstr "Жақсартылған скриншот"
-#: gradia/ui/image_exporters.py:87
-msgid "PNG Image (*.png)"
-msgstr "PNG суреті (*.png)"
-#: gradia/ui/image_exporters.py:93
-msgid "JPEG Image (*.jpg)"
-msgstr "JPEG суреті (*.jpg)"
-#: gradia/ui/image_exporters.py:99
-msgid "WebP Image (*.webp)"
-msgstr "WebP суреті (*.webp)"
-#: gradia/ui/image_exporters.py:116
-msgid "Save Image As"
-msgstr "Суретті былай сақтау"
-#: gradia/ui/image_exporters.py:119
-msgid "Save"
-msgstr "Сақтау"
-#: gradia/ui/image_exporters.py:154
-msgid "Image saved successfully"
-msgstr "Сурет сәтті сақталды"
-#: gradia/ui/image_exporters.py:192
-msgid "No processed image available"
-msgstr "Өңделген сурет жоқ"
-#: gradia/ui/image_exporters.py:213
-msgid "Image copied to clipboard"
-msgstr "Сурет буферге көшірілді"
-#: gradia/ui/image_exporters.py:216
-msgid "Failed to copy image to clipboard"
-msgstr "Суретті буферге көшіру сәтсіз аяқталды"
-#: gradia/ui/image_loaders.py:63 data/ui/header_bar.blp:13
-msgid "Open Image"
-msgstr "Суретті ашу"
-#: gradia/ui/image_loaders.py:66
-msgid "Image Files"
-msgstr "Сурет файлдары"
-#: gradia/ui/image_loaders.py:149
-msgid "No image found in clipboard"
-msgstr "Буферде сурет табылмады"
-#: gradia/ui/image_loaders.py:156
-msgid "Clipboard Image"
-msgstr "Буфер суреті"
-#: gradia/ui/image_loaders.py:157
-msgid "From clipboard"
-msgstr "Буферден"
-#: gradia/ui/image_loaders.py:164
-msgid "Clipboard does not contain an image."
-msgstr "Буферде сурет жоқ."
-#: gradia/ui/image_loaders.py:166
-msgid "Failed to load image from clipboard."
-msgstr "Буферден суретті жүктеу сәтсіз аяқталды."
-#: gradia/ui/image_loaders.py:201 gradia/ui/image_loaders.py:216
-msgid "Failed to take screenshot"
-msgstr "Скриншот жасау сәтсіз аяқталды"
-#: gradia/ui/image_loaders.py:232
-msgid "Screenshot cancelled"
-msgstr "Скриншот болдырылды"
-#: gradia/ui/image_loaders.py:253 gradia/ui/image_loaders.py:254
-msgid "Screenshot"
-msgstr "Скриншот"
-#: gradia/ui/image_loaders.py:257
-msgid "Screenshot captured!"
-msgstr "Скриншот жасалды!"
-#: gradia/ui/image_loaders.py:264
-msgid "Failed to process screenshot"
-msgstr "Скриншотты өңдеу сәтсіз аяқталды"
-#: gradia/ui/background_selector.py:61
-msgid "Solid"
-msgstr "Тұтас"
-#: gradia/ui/background_selector.py:62
-msgid "Gradient"
-msgstr "Градиент"
-#: gradia/ui/background_selector.py:63
-msgid "Image"
-msgstr "Сурет"
-#: gradia/ui/drawing_tools_group.py:24
+
+#: data/ui/confirm_close_dialog.blp:12 data/ui/ocr_dialog.blp:94
+msgid "Copy"
+msgstr ""
+
+#: data/ui/confirm_close_dialog.blp:13
+msgid "Close"
+msgstr ""
+
+#: data/ui/confirm_close_dialog.blp:20
+msgid "Don't Ask Again"
+msgstr ""
+
+#: data/ui/drawing_tools_group.blp:7
 msgid "Annotation Tools"
 msgstr "Түсініктеме құралдары"
-#: gradia/ui/drawing_tools_group.py:81
-msgid "Stroke Color"
-msgstr "Сызық түсі"
-#: gradia/ui/drawing_tools_group.py:112
-msgid "Reset Fill"
-msgstr "Толтыруды тастау"
-#: gradia/ui/drawing_tools_group.py:123
+
+#: data/ui/drawing_tools_group.blp:67 data/ui/drawing_tools_group.blp:84
 msgid "Fill"
 msgstr "Толтыру"
-#: gradia/ui/drawing_tools_group.py:150
-msgid "Font"
-msgstr "Қаріп"
-#: gradia/overlay/drawing_actions.py:30
-msgid "Pen"
-msgstr "Қалам"
-#: gradia/overlay/drawing_actions.py:31
-msgid "Arrow"
-msgstr "Көрсеткі"
-#: gradia/overlay/drawing_actions.py:32
-msgid "Line"
-msgstr "Сызық"
-#: gradia/overlay/drawing_actions.py:33
-msgid "Square"
-msgstr "Шаршы"
-#: gradia/overlay/drawing_actions.py:34
-msgid "Circle"
-msgstr "Шеңбер"
-#: gradia/overlay/drawing_actions.py:35
-msgid "Text"
-msgstr "Мәтін"
-#: gradia/overlay/drawing_actions.py:36
-msgid "Select"
-msgstr "Таңдау"
-#: gradia/overlay/drawing_actions.py:37
-msgid "Highlighter"
-msgstr "Маркер"
-#: gradia/overlay/drawing_actions.py:38
-msgid "Censor"
-msgstr "Цензура"
-#: gradia/overlay/drawing_actions.py:39
-msgid "Number"
+
+#: data/ui/drawing_tools_group.blp:91
+msgid "Border"
+msgstr ""
+
+#: data/ui/drawing_tools_group.blp:109
+msgid "Fill Color Picker"
+msgstr ""
+
+#: data/ui/drawing_tools_group.blp:116
+msgid "Outline Color Picker"
+msgstr ""
+
+#: data/ui/gradient_step_dialog.blp:8
+#, fuzzy
+msgid "Edit Gradient Steps"
+msgstr "Градиент пресеттері"
+
+#: data/ui/gradient_step_dialog.blp:49
+#, fuzzy
+msgid "Gradient Steps"
+msgstr "Градиент пресеттері"
+
+#: data/ui/gradient_step_dialog.blp:50
+msgid "You can add up to five steps"
+msgstr ""
+
+#: data/ui/gradient_step_dialog.blp:54
+msgid "Add Step"
+msgstr ""
+
+#: data/ui/image_generator_window.blp:35
+msgid "Language"
+msgstr ""
+
+#: data/ui/image_generator_window.blp:50
+msgid "Style"
+msgstr ""
+
+#: data/ui/image_generator_window.blp:72
+msgid "Default"
+msgstr ""
+
+#: data/ui/image_generator_window.blp:93
+msgid "Window Frame"
+msgstr ""
+
+#: data/ui/image_generator_window.blp:99
+msgid "Add a window frame around the code"
+msgstr ""
+
+#: data/ui/image_generator_window.blp:108
+#, fuzzy
+msgid "Line Numbers"
 msgstr "Сан"
-#: data/ui/controls_overlay.blp:24
-msgid "Erase selected"
-msgstr "Таңдалғанды өшіру"
-#: data/ui/controls_overlay.blp:42
-msgid "Undo the last action"
-msgstr "Соңғы әрекетті болдырмау"
-#: data/ui/controls_overlay.blp:53
-msgid "Redo the last undone action"
-msgstr "Соңғы болдырылған әрекетті қайталау"
-#: data/ui/controls_overlay.blp:64
-msgid "Clear all annotations"
-msgstr "Барлық түсініктемелерді тазалау"
-#: data/ui/header_bar.blp:21
-msgid "Take a screenshot"
+
+#: data/ui/image_generator_window.blp:114
+msgid "Add a number before each new line of code"
+msgstr ""
+
+#: data/ui/image_generator_window.blp:145
+msgid "Export"
+msgstr ""
+
+#: data/ui/image_sidebar.blp:17 gradia/ui/image_loaders.py:140
+#: gradia/ui/ui_parts.py:99
+msgid "Open Image"
+msgstr "Суретті ашу"
+
+#: data/ui/image_sidebar.blp:24 gradia/ui/ui_parts.py:100
+#, fuzzy
+msgid "Take a Screenshot"
 msgstr "Скриншот жасау"
-#: data/ui/header_bar.blp:29
+
+#: data/ui/image_sidebar.blp:31 data/ui/welcome_page.blp:28
 msgid "Main Menu"
 msgstr "Негізгі мәзір"
-#: data/ui/header_bar.blp:42
-msgid "Delete taken screenshot(s)"
+
+#: data/ui/image_sidebar.blp:52
+msgid "Image Options"
+msgstr "Сурет опциялары"
+
+#: data/ui/image_sidebar.blp:55
+#, fuzzy
+msgid "_Padding"
+msgstr "Аралық"
+
+#: data/ui/image_sidebar.blp:69
+#, fuzzy
+msgid "_Corner Radius"
+msgstr "Бұрыш радиусы"
+
+#: data/ui/image_sidebar.blp:88
+#, fuzzy
+msgid "_Shadow"
+msgstr "Көлеңке"
+
+#: data/ui/image_sidebar.blp:110
+msgid "_Auto Balance"
+msgstr ""
+
+#: data/ui/image_sidebar.blp:116
+#, fuzzy
+msgid "_Rotation"
+msgstr "Орналасқан жері"
+
+#: data/ui/image_sidebar.blp:126
+msgid "Rotate Anticlockwise"
+msgstr ""
+
+#: data/ui/image_sidebar.blp:137
+msgid "Rotate Clockwise"
+msgstr ""
+
+#: data/ui/image_sidebar.blp:150
+msgid "Current File"
+msgstr "Ағымдағы файл"
+
+#: data/ui/image_sidebar.blp:153
+msgid "Name"
+msgstr "Аты"
+
+#: data/ui/image_sidebar.blp:154 data/ui/image_sidebar.blp:164
+#: data/ui/image_sidebar.blp:187
+msgid "N/A"
+msgstr "Жоқ"
+
+#: data/ui/image_sidebar.blp:162
+#, fuzzy
+msgid "_Location"
+msgstr "Орналасқан жері"
+
+#: data/ui/image_sidebar.blp:177
+#, fuzzy
+msgid "Open Folder"
+msgstr "Файлды ашу"
+
+#: data/ui/image_sidebar.blp:186
+msgid "Modified image size"
+msgstr "Өзгертілген сурет өлшемі"
+
+#: data/ui/image_sidebar.blp:207
+#, fuzzy
+msgid "Save File"
+msgstr "Файлға сақтау"
+
+#: data/ui/image_sidebar.blp:218
+msgid "Copy to Clipboard"
+msgstr "Буферге көшіру"
+
+#: data/ui/image_sidebar.blp:229 gradia/ui/ui_parts.py:104
+#, fuzzy
+msgid "Share Image"
+msgstr "Суретті сақтау"
+
+#: data/ui/image_sidebar.blp:249
+msgid "_Source Snippets"
+msgstr ""
+
+#: data/ui/image_sidebar.blp:254
+#, fuzzy
+msgid "_Delete Taken Screenshot(s)"
 msgstr "Жасалған скриншот(тар)ды жою"
-#: data/ui/header_bar.blp:50
-msgid "About Gradia"
+
+#: data/ui/image_sidebar.blp:261 data/ui/welcome_page.blp:94
+msgid "_Preferences"
+msgstr ""
+
+#: data/ui/image_sidebar.blp:266 data/ui/welcome_page.blp:99
+#, fuzzy
+msgid "_Keyboard Shortcuts"
+msgstr "Пернетақта тіркесімдері"
+
+#: data/ui/image_sidebar.blp:271
+#, fuzzy
+msgid "D_onate to Gradia"
 msgstr "Gradia туралы"
+
+#: data/ui/image_sidebar.blp:276 data/ui/welcome_page.blp:109
+#, fuzzy
+msgid "_About Gradia"
+msgstr "Gradia туралы"
+
+#: data/ui/image_stack.blp:8 data/ui/welcome_page.blp:18
+msgid "Drop Image Here"
+msgstr ""
+
+#: data/ui/image_stack.blp:27
+msgid "Back"
+msgstr ""
+
+#: data/ui/image_stack.blp:95
+#, fuzzy
+msgid "Open Sidebar"
+msgstr "Файлды ашу"
+
+#: data/ui/image_stack.blp:111
+#, fuzzy
+msgid "Crop Image"
+msgstr "Суретті ашу"
+
+#: data/ui/image_stack.blp:127 data/ui/ocr_dialog.blp:5
+#: data/ui/ocr_dialog.blp:15 data/ui/preferences_window.blp:124
+msgid "Text Extraction"
+msgstr ""
+
+#: data/ui/image_stack.blp:143 gradia/ui/ui_parts.py:109
+#, fuzzy
+msgid "Erase Selected"
+msgstr "Таңдалғанды өшіру"
+
+#: data/ui/image_stack.blp:161
+msgid "Disable Crop"
+msgstr ""
+
+#: data/ui/image_stack.blp:190
+msgid "Confirm"
+msgstr ""
+
+#: data/ui/image_stack.blp:191
+msgid "Confirm Crop Selection"
+msgstr ""
+
+#: data/ui/image_stack.blp:232 gradia/ui/ui_parts.py:128
+#, fuzzy
+msgid "Reset Zoom"
+msgstr "Толтыруды тастау"
+
+#: data/ui/image_stack.blp:256 gradia/ui/ui_parts.py:127
+msgid "Zoom Out"
+msgstr ""
+
+#: data/ui/image_stack.blp:266 gradia/ui/ui_parts.py:126
+msgid "Zoom In"
+msgstr ""
+
+#: data/ui/image_stack.blp:282 gradia/ui/ui_parts.py:107
+msgid "Undo"
+msgstr "Болдырмау"
+
+#: data/ui/image_stack.blp:292 gradia/ui/ui_parts.py:108
+msgid "Redo"
+msgstr "Қайталау"
+
+#: data/ui/image_stack.blp:302
+msgid "Clear All"
+msgstr ""
+
+#: data/ui/ocr_dialog.blp:16
+msgid "Crop image to adjust OCR area"
+msgstr ""
+
+#: data/ui/ocr_dialog.blp:22
+#, fuzzy
+msgid "Select Language"
+msgstr "Суретті таңдау"
+
+#: data/ui/ocr_dialog.blp:57
+msgid "No Text Found"
+msgstr ""
+
+#: data/ui/ocr_dialog.blp:58
+msgid "Please make a new selection"
+msgstr ""
+
+#: data/ui/preferences/custom_provider_page.blp:6
+#: gradia/ui/provider_selection_window.py:133
+msgid "Custom Provider"
+msgstr ""
+
+#: data/ui/preferences/custom_provider_page.blp:13
+#: gradia/ui/image_exporters.py:148
+msgid "Save"
+msgstr "Сақтау"
+
+#: data/ui/preferences/custom_provider_page.blp:36
+#: data/ui/preferences/provider_detail_page.blp:105
+msgid "Upload Command"
+msgstr ""
+
+#: data/ui/preferences/custom_provider_page.blp:37
+msgid ""
+"Enter a custom command to upload files. Use $1 as a placeholder for the file "
+"path."
+msgstr ""
+
+#: data/ui/preferences/ocr_model_page.blp:5
+msgid "Language Models"
+msgstr ""
+
+#: data/ui/preferences/ocr_model_page.blp:21
+msgid "Search languages…"
+msgstr ""
+
+#: data/ui/preferences/ocr_model_page.blp:50
+msgid ""
+"A Language Model is required to use the OCR feature.\n"
+"Using the correct language model improves OCR accuracy."
+msgstr ""
+
+#: data/ui/preferences/ocr_model_page.blp:68
+msgid "No Results Found"
+msgstr ""
+
+#: data/ui/preferences/ocr_model_page.blp:69
+msgid "Try a different search term"
+msgstr ""
+
+#: data/ui/preferences/provider_detail_page.blp:56
+#: gradia/overlay/drawing_actions.py:54 gradia/ui/ui_parts.py:110
+msgid "Select"
+msgstr "Таңдау"
+
+#: data/ui/preferences/provider_detail_page.blp:63
+msgid "About"
+msgstr ""
+
+#: data/ui/preferences/provider_detail_page.blp:66
+msgid "Homepage"
+msgstr ""
+
+#: data/ui/preferences/provider_detail_page.blp:83
+msgid "Terms of Service"
+msgstr ""
+
+#: data/ui/preferences/provider_detail_page.blp:101
+#, fuzzy
+msgid "Features"
+msgstr "Негізгі мүмкіндіктер:"
+
+#: data/ui/preferences/provider_list_page.blp:5
+msgid "Choose a Provider"
+msgstr ""
+
+#: data/ui/preferences/provider_list_page.blp:12
+#, fuzzy
+msgid "Loading"
+msgstr "Аралық"
+
+#: data/ui/preferences/provider_list_page.blp:26
+msgid "Error"
+msgstr "Қате"
+
+#: data/ui/preferences/provider_list_page.blp:40
+msgid "An error occurred"
+msgstr ""
+
+#: data/ui/preferences/provider_list_page.blp:41
+msgid "Please try again later"
+msgstr ""
+
+#: data/ui/preferences/provider_list_page.blp:50
+msgid "Providers"
+msgstr ""
+
+#: data/ui/preferences/provider_list_page.blp:57
+msgid ""
+"Select a third party image upload provider. These have their own terms and "
+"conditions."
+msgstr ""
+
+#: data/ui/preferences/screenshot_guide_page.blp:6
+#, fuzzy
+msgid "Screenshot Shortcut Guide"
+msgstr "Скриншот жасалды!"
+
+#: data/ui/preferences/screenshot_guide_page.blp:32
+msgid "Shortcut Setup Instructions"
+msgstr ""
+
+#: data/ui/preferences/screenshot_guide_page.blp:45
+msgid ""
+"If you'd like the app to <b>open automatically</b> after taking a "
+"screenshot, you can set up a custom keyboard shortcut:\n"
+"\n"
+"<b>Steps:</b>\n"
+"1. Go to <b>Settings</b> → <b>Keyboard</b> → <b>View and Customize "
+"Shortcuts</b> → <b>Custom Shortcuts</b>.\n"
+"2. Click the <b>+</b> button to create a new shortcut.\n"
+"3. Set the <b>Name</b> to something like <i>Open Gradia with Screenshot</"
+"i>.\n"
+"4. For the <b>Command</b>, copy one of the commands below:"
+msgstr ""
+
+#: data/ui/preferences/screenshot_guide_page.blp:61
+#, fuzzy
+msgid "Interactive Screenshot"
+msgstr "Жақсартылған скриншот"
+
+#: data/ui/preferences/screenshot_guide_page.blp:68
+msgid "Allows you to select an area to screenshot"
+msgstr ""
+
+#: data/ui/preferences/screenshot_guide_page.blp:79
+#: data/ui/preferences/screenshot_guide_page.blp:106
+#: data/ui/preferences/screenshot_guide_page.blp:145
+#, fuzzy
+msgid "Copy to clipboard"
+msgstr "Буферге көшіру"
+
+#: data/ui/preferences/screenshot_guide_page.blp:88
+#, fuzzy
+msgid "Full Screen Screenshot"
+msgstr "Скриншотты жою керек пе?"
+
+#: data/ui/preferences/screenshot_guide_page.blp:95
+msgid "Takes a screenshot of all screens instantly"
+msgstr ""
+
+#: data/ui/preferences/screenshot_guide_page.blp:110
+msgid ""
+"5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should "
+"be free by default)."
+msgstr ""
+
+#: data/ui/preferences/screenshot_guide_page.blp:127
+#, fuzzy
+msgid "Delayed Screenshot"
+msgstr "Скриншотты жою керек пе?"
+
+#: data/ui/preferences/screenshot_guide_page.blp:134
+msgid "Delay the capture by a given duration (in milliseconds)."
+msgstr ""
+
+#: data/ui/preferences_window.blp:7 gradia/ui/ui_parts.py:137
+msgid "Preferences"
+msgstr ""
+
+#: data/ui/preferences_window.blp:11 gradia/ui/ui_parts.py:134
+msgid "General"
+msgstr "Жалпы"
+
+#: data/ui/preferences_window.blp:14
+#, fuzzy
+msgid "Screenshots"
+msgstr "Скриншот"
+
+#: data/ui/preferences_window.blp:17
+msgid "_Recent Directory"
+msgstr ""
+
+#: data/ui/preferences_window.blp:19
+msgid "Used for home screen"
+msgstr ""
+
+#: data/ui/preferences_window.blp:45
+#, fuzzy
+msgid "_Screenshot Shortcut"
+msgstr "Скриншот"
+
+#: data/ui/preferences_window.blp:51
+#, fuzzy
+msgid "Save Options"
+msgstr "Сурет опциялары"
+
+#: data/ui/preferences_window.blp:54
+msgid "_Image Format"
+msgstr ""
+
+#: data/ui/preferences_window.blp:56
+#, fuzzy
+msgid "Default format for saved screenshots"
+msgstr "Жасалған скриншот(тар)ды жою"
+
+#: data/ui/preferences_window.blp:61
+msgid "Closing"
+msgstr ""
+
+#: data/ui/preferences_window.blp:64
+msgid "_When Exiting"
+msgstr ""
+
+#: data/ui/preferences_window.blp:69
+msgid "_Overwrite Last Screenshot on Close"
+msgstr ""
+
+#: data/ui/preferences_window.blp:71
+msgid "Replace it with the annotated version"
+msgstr ""
+
+#: data/ui/preferences_window.blp:72
+msgid "Replace last screenshot file with annotated version on close"
+msgstr ""
+
+#: data/ui/preferences_window.blp:77
+#, fuzzy
+msgid "_Trash Screenshots on Close"
+msgstr "Жойылатын скриншот жоқ."
+
+#: data/ui/preferences_window.blp:79
+msgid "Automatically move screenshots taken from within the app to trash"
+msgstr ""
+
+#: data/ui/preferences_window.blp:80
+#, fuzzy
+msgid "Trash screenshots on app close"
+msgstr "Жойылатын скриншот жоқ."
+
+#: data/ui/preferences_window.blp:86
+msgid "Image Upload Providers"
+msgstr ""
+
+#: data/ui/preferences_window.blp:87
+msgid "Connect to your favorite upload providers, or create a link yourself"
+msgstr ""
+
+#: data/ui/preferences_window.blp:90
+msgid "_Provider"
+msgstr ""
+
+#: data/ui/preferences_window.blp:101
+#: gradia/ui/preferences/preferences_window.py:80
+#, fuzzy
+msgid "None Selected"
+msgstr "Таңдалғанды жою"
+
+#: data/ui/preferences_window.blp:115
+msgid "_Confirm on Upload"
+msgstr ""
+
+#: data/ui/preferences_window.blp:117 data/ui/preferences_window.blp:118
+msgid "Ask for confirmation before running the upload command"
+msgstr ""
+
+#: data/ui/preferences_window.blp:128
+msgid "_Language Models"
+msgstr ""
+
+#: data/ui/preferences_window.blp:130
+msgid "Download Models to improve per-language accuracy"
+msgstr ""
+
+#: data/ui/recent_picker.blp:27
+#, fuzzy
+msgid "Screenshot Folder Not Found"
+msgstr "Скриншот жойылды."
+
+#: data/ui/recent_picker.blp:35
+msgid "Please set it in the Preferences menu"
+msgstr ""
+
+#: data/ui/recent_picker.blp:40
+msgid "Open Preferences"
+msgstr ""
+
+#: data/ui/selectors/gradient_selector.blp:6
+msgid "Gradient Background"
+msgstr "Градиент фоны"
+
+#: data/ui/selectors/gradient_selector.blp:11
+msgid "Open Step Dialog"
+msgstr ""
+
+#: data/ui/selectors/gradient_selector.blp:14
+msgid "Gradient Presets"
+msgstr "Градиент пресеттері"
+
+#: data/ui/selectors/gradient_selector.blp:50
+#, fuzzy
+msgid "Linear"
+msgstr "Сызық"
+
+#: data/ui/selectors/gradient_selector.blp:55
+#, fuzzy
+msgid "Radial"
+msgstr "Gradia"
+
+#: data/ui/selectors/gradient_selector.blp:60
+msgid "Conic"
+msgstr ""
+
+#: data/ui/selectors/gradient_selector.blp:103
+#, fuzzy
+msgid "Remove Selected Color Step"
+msgstr "Таңдалғанды жою"
+
+#: data/ui/selectors/image_selector.blp:5
+msgid "Image Background"
+msgstr "Сурет фоны"
+
+#: data/ui/selectors/image_selector.blp:9
+#, fuzzy
+msgid "Image Presets"
+msgstr "Градиент пресеттері"
+
+#: data/ui/selectors/image_selector.blp:13
+msgid "Select Image"
+msgstr "Суретті таңдау"
+
+#: data/ui/selectors/image_selector.blp:42
+#, fuzzy
+msgid "Select an Image"
+msgstr "Суретті таңдау"
+
+#: data/ui/selectors/image_selector.blp:47
+msgid "Supported Image Formats"
+msgstr ""
+
+#: data/ui/selectors/solid_selector.blp:5
+msgid "Solid Color Background"
+msgstr "Тұтас түс фоны"
+
+#: data/ui/welcome_page.blp:42
+msgid "Enhance an Image"
+msgstr "Суретті жақсарту"
+
+#: data/ui/welcome_page.blp:43
+msgid "Drag and drop one here"
+msgstr "Осында бірін тартыңыз"
+
+#: data/ui/welcome_page.blp:61
+#, fuzzy
+msgid "Take a Screenshot…"
+msgstr "_Скриншот жасау…"
+
+#: data/ui/welcome_page.blp:74
+#, fuzzy
+msgid "Open Image…"
+msgstr "_Суретті ашу…"
+
+#: data/ui/welcome_page.blp:104
+#, fuzzy
+msgid "_Donate to Gradia"
+msgstr "Gradia туралы"
+
+#: gradia/app_constants.py:26
+msgid "Red Flame"
+msgstr ""
+
+#: gradia/app_constants.py:32
+msgid "Sunset Orange"
+msgstr ""
+
+#: gradia/app_constants.py:38
+msgid "Golden Hour"
+msgstr ""
+
+#: gradia/app_constants.py:44
+msgid "Mint Fresh"
+msgstr ""
+
+#: gradia/app_constants.py:50
+msgid "Ocean Breeze"
+msgstr ""
+
+#: gradia/app_constants.py:56
+msgid "Purple Dream"
+msgstr ""
+
+#: gradia/app_constants.py:74
+msgid "PNG Image (*.png)"
+msgstr "PNG суреті (*.png)"
+
+#: gradia/app_constants.py:81
+msgid "JPEG Image (*.jpg)"
+msgstr "JPEG суреті (*.jpg)"
+
+#: gradia/app_constants.py:88
+msgid "WebP Image (*.webp)"
+msgstr "WebP суреті (*.webp)"
+
+#: gradia/backend/tool_config.py:214 gradia/backend/tool_config.py:223
+#: gradia/backend/tool_config.py:334 gradia/graphics/solid.py:190
+#: gradia/ui/widget/quick_color_picker.py:24
+#, fuzzy
+msgid "Red"
+msgstr "Қайталау"
+
+#: gradia/backend/tool_config.py:215 gradia/backend/tool_config.py:224
+#: gradia/backend/tool_config.py:335 gradia/graphics/solid.py:193
+#: gradia/ui/widget/quick_color_picker.py:25
+msgid "Green"
+msgstr ""
+
+#: gradia/backend/tool_config.py:216 gradia/backend/tool_config.py:225
+#: gradia/backend/tool_config.py:336 gradia/graphics/solid.py:194
+#: gradia/ui/widget/quick_color_picker.py:26
+msgid "Blue"
+msgstr ""
+
+#: gradia/backend/tool_config.py:217 gradia/backend/tool_config.py:226
+#: gradia/backend/tool_config.py:337 gradia/graphics/solid.py:192
+#: gradia/ui/widget/quick_color_picker.py:27
+msgid "Yellow"
+msgstr ""
+
+#: gradia/backend/tool_config.py:218 gradia/backend/tool_config.py:228
+#: gradia/graphics/solid.py:201 gradia/ui/widget/quick_color_picker.py:28
+msgid "Black"
+msgstr ""
+
+#: gradia/backend/tool_config.py:219 gradia/backend/tool_config.py:227
+#: gradia/backend/tool_config.py:339 gradia/graphics/solid.py:200
+#: gradia/ui/widget/quick_color_picker.py:29
+msgid "White"
+msgstr ""
+
+#: gradia/backend/tool_config.py:229 gradia/graphics/solid.py:203
+#: gradia/ui/widget/quick_color_picker.py:33
+msgid "Transparent"
+msgstr ""
+
+#: gradia/backend/tool_config.py:338 gradia/graphics/solid.py:195
+msgid "Purple"
+msgstr ""
+
+#: gradia/graphics/solid.py:130 gradia/ui/widget/quick_color_picker.py:103
+#, fuzzy
+msgid "More Colors"
+msgstr "Сызық түсі"
+
+#: gradia/graphics/solid.py:191
+msgid "Orange"
+msgstr ""
+
+#: gradia/graphics/solid.py:196
+msgid "Pastel Pink"
+msgstr ""
+
+#: gradia/graphics/solid.py:197
+msgid "Pastel Yellow"
+msgstr ""
+
+#: gradia/graphics/solid.py:198
+msgid "Pastel Green"
+msgstr ""
+
+#: gradia/graphics/solid.py:199
+msgid "Pastel Cyan"
+msgstr ""
+
+#: gradia/graphics/solid.py:202
+msgid "Gray"
+msgstr ""
+
+#: gradia/overlay/crop_overlay.py:36
+#: gradia/ui/widget/background_aspect_ratio_selector.py:52
+#, fuzzy
+msgid "_Aspect Ratio"
+msgstr "Пропорция"
+
+#: gradia/overlay/drawing_actions.py:48 gradia/ui/ui_parts.py:111
+msgid "Pen"
+msgstr "Қалам"
+
+#: gradia/overlay/drawing_actions.py:49 gradia/ui/ui_parts.py:114
+msgid "Arrow"
+msgstr "Көрсеткі"
+
+#: gradia/overlay/drawing_actions.py:50 gradia/ui/ui_parts.py:113
+msgid "Line"
+msgstr "Сызық"
+
+#: gradia/overlay/drawing_actions.py:51 gradia/ui/ui_parts.py:115
+msgid "Rectangle"
+msgstr ""
+
+#: gradia/overlay/drawing_actions.py:52 gradia/ui/ui_parts.py:116
+msgid "Oval"
+msgstr ""
+
+#: gradia/overlay/drawing_actions.py:53 gradia/ui/ui_parts.py:112
+msgid "Text"
+msgstr "Мәтін"
+
+#: gradia/overlay/drawing_actions.py:55 gradia/ui/ui_parts.py:117
+msgid "Highlighter"
+msgstr "Маркер"
+
+#: gradia/overlay/drawing_actions.py:56 gradia/ui/ui_parts.py:118
+msgid "Censor"
+msgstr "Цензура"
+
+#: gradia/overlay/drawing_actions.py:57 gradia/ui/ui_parts.py:119
+msgid "Number"
+msgstr "Сан"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:33
+#, fuzzy
+msgid "No screenshots to delete"
+msgstr "Жойылатын скриншот жоқ."
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:55
+msgid "Trash"
+msgstr ""
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:87
+#, fuzzy
+msgid "Trash Screenshot?"
+msgstr "Скриншот"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:88
+#, fuzzy
+msgid "Are you sure you want to trash the following file?"
+msgstr "Келесі файлдарды жойғыңыз келетініне сенімдісіз бе?\n"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:90
+#, fuzzy
+msgid "Trash Screenshots?"
+msgstr "Скриншот"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:91
+#, fuzzy
+msgid "Are you sure you want to trash the following files?"
+msgstr "Келесі файлдарды жойғыңыз келетініне сенімдісіз бе?\n"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:101
+msgid "Screenshot moved to trash"
+msgstr ""
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:103
+#, fuzzy
+msgid "Screenshots moved to trash"
+msgstr "Скриншоттар жойылды."
+
+#: gradia/ui/dialog/ocr_dialog.py:110 gradia/ui/dialog/ocr_dialog.py:124
+#: gradia/ui/preferences/preferences_window.py:152
+#: gradia/ui/preferences/preferences_window.py:245
+msgid "Copied!"
+msgstr ""
+
+#: gradia/ui/image_creation/source_image_generator.py:554
+msgid "Source Snippet From %Y-%m-%d %H-%M-%S"
+msgstr ""
+
+#: gradia/ui/image_exporters.py:103
+msgid "Edit"
+msgstr "Өңдеу"
+
+#: gradia/ui/image_exporters.py:106
+msgid "Enhanced Screenshot"
+msgstr "Жақсартылған скриншот"
+
+#: gradia/ui/image_exporters.py:145
+msgid "Save Image As"
+msgstr "Суретті былай сақтау"
+
+#: gradia/ui/image_exporters.py:174
+msgid "Unsupported image file extension"
+msgstr ""
+
+#: gradia/ui/image_exporters.py:183
+#, fuzzy
+msgid "Image Saved"
+msgstr "Сурет файлдары"
+
+#: gradia/ui/image_exporters.py:185
+msgid "Export Failed"
+msgstr ""
+
+#: gradia/ui/image_exporters.py:269
+msgid "No processed image available"
+msgstr "Өңделген сурет жоқ"
+
+#: gradia/ui/image_exporters.py:295 gradia/ui/image_exporters.py:477
+#, fuzzy
+msgid "Image Copied"
+msgstr "Сурет файлдары"
+
+#: gradia/ui/image_exporters.py:298 gradia/ui/image_exporters.py:305
+msgid "Failed to copy image to clipboard"
+msgstr "Суретті буферге көшіру сәтсіз аяқталды"
+
+#: gradia/ui/image_exporters.py:319
+#, fuzzy
+msgid "Link generated successfully"
+msgstr "Сурет сәтті сақталды"
+
+#: gradia/ui/image_exporters.py:320
+#, fuzzy
+msgid "Open Link"
+msgstr "Файлды ашу"
+
+#: gradia/ui/image_exporters.py:357
+msgid "Custom command failed: "
+msgstr ""
+
+#: gradia/ui/image_exporters.py:363
+msgid "Warning: "
+msgstr ""
+
+#: gradia/ui/image_exporters.py:374
+#, fuzzy
+msgid "Result copied to clipboard"
+msgstr "Сурет буферге көшірілді"
+
+#: gradia/ui/image_exporters.py:376
+msgid "No output from command"
+msgstr ""
+
+#: gradia/ui/image_exporters.py:379
+msgid "Failed to run custom export command"
+msgstr ""
+
+#: gradia/ui/image_exporters.py:425 gradia/ui/image_exporters.py:452
+msgid "Close Operation Failed"
+msgstr ""
+
+#: gradia/ui/image_exporters.py:425 gradia/ui/image_exporters.py:452
+#, fuzzy
+msgid "Failed to export image"
+msgstr "Суретті буферге көшіру сәтсіз аяқталды"
+
+#: gradia/ui/image_exporters.py:478
+#, fuzzy
+msgid "You can now paste it from the clipboard."
+msgstr "Буферден суретті жүктеу сәтсіз аяқталды."
+
+#: gradia/ui/image_loaders.py:87 gradia/ui/image_loaders.py:98
+#: gradia/ui/image_loaders.py:111
+msgid "Not a supported image format"
+msgstr ""
+
+#: gradia/ui/image_loaders.py:122
+msgid "URL is not a supported image format"
+msgstr ""
+
+#: gradia/ui/image_loaders.py:131
+#, fuzzy
+msgid "Failed to load image from URL."
+msgstr "Буферден суретті жүктеу сәтсіз аяқталды."
+
+#: gradia/ui/image_loaders.py:143
+msgid "Image Files"
+msgstr "Сурет файлдары"
+
+#: gradia/ui/image_loaders.py:248 gradia/ui/image_loaders.py:263
+msgid "Failed to take screenshot"
+msgstr "Скриншот жасау сәтсіз аяқталды"
+
+#: gradia/ui/image_loaders.py:278
+msgid "Screenshot cancelled"
+msgstr "Скриншот болдырылды"
+
+#: gradia/ui/image_loaders.py:293 gradia/ui/image_loaders.py:316
+msgid "Edited Screenshot From %Y-%m-%d %H-%M-%S"
+msgstr ""
+
+#: gradia/ui/image_loaders.py:300 gradia/ui/image_loaders.py:323
+msgid "Screenshot captured!"
+msgstr "Скриншот жасалды!"
+
+#: gradia/ui/image_loaders.py:307
+msgid "Failed to process screenshot"
+msgstr "Скриншотты өңдеу сәтсіз аяқталды"
+
+#: gradia/ui/image_loaders.py:327
+#, fuzzy
+msgid "Failed to load screenshot"
+msgstr "Скриншот жасау сәтсіз аяқталды"
+
+#: gradia/ui/image_loaders.py:391
+msgid "Source snippet Generated!"
+msgstr ""
+
+#: gradia/ui/preferences/ocr_model_page.py:113
+msgid "Downloaded '{}' Successfully"
+msgstr ""
+
+#: gradia/ui/preferences/ocr_model_page.py:119
+msgid "Failed to Download '{}'"
+msgstr ""
+
+#: gradia/ui/preferences/preferences_window.py:114
+msgid "Ask for Confirmation"
+msgstr ""
+
+#: gradia/ui/preferences/preferences_window.py:115
+msgid "Copy and Close "
+msgstr ""
+
+#: gradia/ui/preferences/preferences_window.py:116
+msgid "Close Instantly"
+msgstr ""
+
+#: gradia/ui/preferences/provider_selection_window.py:133
+msgid "_Custom Provider"
+msgstr ""
+
+#: gradia/ui/preferences/provider_selection_window.py:134
+#: gradia/ui/provider_selection_window.py:134
+msgid "Create your own custom upload command"
+msgstr ""
+
+#: gradia/ui/preferences/provider_selection_window.py:303
+#: gradia/ui/provider_selection_window.py:302
+msgid "Custom"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:32
+#, fuzzy
+msgid "Make your images ready for all"
+msgstr "Суретіңізді әлемге дайындаңыз"
+
+#. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
+#: gradia/ui/ui_parts.py:45
+msgid "translator-credits"
+msgstr "AnmiTaliDev <anmitali198@gmail.com>"
+
+#: gradia/ui/ui_parts.py:51
+msgid "Code and Design Borrowed from"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:63
+#, fuzzy
+msgid "Image Sources"
+msgstr "Сурет файлдары"
+
+#: gradia/ui/ui_parts.py:98
+msgid "File Actions"
+msgstr "Файл әрекеттері"
+
+#: gradia/ui/ui_parts.py:101
+msgid "Save to File"
+msgstr "Файлға сақтау"
+
+#: gradia/ui/ui_parts.py:102
+msgid "Copy Image to Clipboard"
+msgstr "Суретті буферге көшіру"
+
+#: gradia/ui/ui_parts.py:103
+msgid "Paste From Clipboard"
+msgstr "Буферден қою"
+
+#: gradia/ui/ui_parts.py:106
+msgid "Annotations"
+msgstr "Түсініктемелер"
+
+#: gradia/ui/ui_parts.py:121
+msgid "Cropping"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:122
+msgid "Toggle Crop Mode"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:123
+#, fuzzy
+msgid "Reset Crop"
+msgstr "Толтыруды тастау"
+
+#: gradia/ui/ui_parts.py:125
+msgid "Zooming"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:129
+msgid "Pan Left"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:130
+msgid "Pan Right"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:131
+msgid "Pan Up"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:132
+msgid "Pan Down"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:135
+msgid "Toggle Sidebar"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:136
+msgid "Keyboard Shortcuts"
+msgstr "Пернетақта тіркесімдері"
+
+#: gradia/ui/ui_parts.py:138
+msgid "Open Source Snippets"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:139
+#, fuzzy
+msgid "Delete Taken Screenshots"
+msgstr "Жасалған скриншот(тар)ды жою"
+
+#: gradia/ui/widget/aspect_ratio_button.py:26
+msgid "Aspect Ratio"
+msgstr "Пропорция"
+
+#: gradia/ui/widget/aspect_ratio_button.py:38
+msgid "Free"
+msgstr ""
+
+#: gradia/ui/widget/aspect_ratio_button.py:39
+msgid "Square"
+msgstr "Шаршы"
+
+#: gradia/ui/widget/background_aspect_ratio_selector.py:113
+#, fuzzy
+msgid "Custom Ratio"
+msgstr "Пропорция"
+
+#: gradia/ui/widget/background_aspect_ratio_selector.py:121
+msgid "Width"
+msgstr ""
+
+#: gradia/ui/widget/background_aspect_ratio_selector.py:137
+msgid "Height"
+msgstr ""
+
+#: gradia/ui/widget/background_aspect_ratio_selector.py:153
+#, fuzzy
+msgid "Set"
+msgstr "Таңдау"
+
+#: gradia/ui/widget/toggle_group.py:47
+msgid "_None"
+msgstr ""
+
+#: gradia/ui/widget/toggle_group.py:48
+#, fuzzy
+msgid "_Solid"
+msgstr "Тұтас"
+
+#: gradia/ui/widget/toggle_group.py:49
+#, fuzzy
+msgid "_Gradient"
+msgstr "Градиент"
+
+#: gradia/ui/widget/toggle_group.py:50
+#, fuzzy
+msgid "_Image"
+msgstr "Сурет"
+
+#: gradia/ui/widget/quick_color_picker.py:108
+#, fuzzy
+msgid "Choose Color"
+msgstr "Сызық түсі"
+
+#: gradia/ui/window.py:483
+msgid "Select Provider"
+msgstr ""
+
+#: gradia/ui/window.py:500
+msgid "Confirm Upload"
+msgstr ""
+
+#: gradia/ui/window.py:504
+msgid "Upload"
+msgstr ""
+
+#~ msgid "Make your screenshots ready for all"
+#~ msgstr "Скриншоттарыңызды барлығына дайындаңыз"
+
+#~ msgid ""
+#~ "Gradia helps you quickly prepare your screenshots for sharing by fixing "
+#~ "common issues like transparency and awkward sizing. With simple tools to "
+#~ "add backgrounds, adjust aspect ratios, and annotate images, you can "
+#~ "enhance your screenshots to look professional and consistent across "
+#~ "social media, blogs, and other platforms on the internet."
+#~ msgstr ""
+#~ "Gradia мөлдірлік пен ыңғайсыз өлшем сияқты жалпы мәселелерді шешу арқылы "
+#~ "скриншоттарыңызды бөлісуге жылдам дайындауға көмектеседі. Фон қосу, "
+#~ "пропорцияларды реттеу және суреттерге түсініктеме қосу үшін қарапайым "
+#~ "құралдармен скриншоттарыңызды кәсіби және әлеуметтік желілер, блогтар "
+#~ "және интернеттегі басқа платформаларда үйлесімді көрінетін етіп жақсарта "
+#~ "аласыз."
+
+#~ msgid "Adjust aspect ratios and padding to fit different platforms"
+#~ msgstr ""
+#~ "Әртүрлі платформаларға сай келу үшін пропорциялар мен аралықты реттеңіз"
+
+#~ msgid "Multiple ways to import and export screenshots"
+#~ msgstr "Скриншоттарды импорттау мен экспорттаудың бірнеше жолы"
+
+#~ msgid ""
+#~ "Want a keyboard shortcut on GNOME? Simply go to Settings → Keyboard → "
+#~ "View and Customize Shortcuts → Custom Shortcuts. Then create a shortcut "
+#~ "that runs <code>flatpak run be.alexandervanhee.gradia --"
+#~ "screenshot=INTERACTIVE</code>."
+#~ msgstr ""
+#~ "GNOME-да пернетақта тіркесімін қалайсыз ба? Параметрлер → Пернетақта → "
+#~ "Қарау және тіркесімдерді теңшеу → Пайдаланушы тіркесімдері бөліміне "
+#~ "өтіңіз. Содан кейін <code>flatpak run be.alexandervanhee.gradia --"
+#~ "screenshot=INTERACTIVE</code> командасын іске қосатын тіркесім жасаңыз."
+
+#~ msgid "Edited picture"
+#~ msgstr "Өңделген сурет"
+
+#~ msgid "Start Color"
+#~ msgstr "Бастапқы түс"
+
+#~ msgid "End Color"
+#~ msgstr "Соңғы түс"
+
+#~ msgid "Angle"
+#~ msgstr "Бұрыш"
+
+#~ msgid "Color"
+#~ msgstr "Түс"
+
+#~ msgid "No file loaded"
+#~ msgstr "Файл жүктелмеген"
+
+#~ msgid "Unknown"
+#~ msgstr "Белгісіз"
+
+#, python-format
+#~ msgid ""
+#~ "Are you sure you want to delete the following file?\n"
+#~ "\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Келесі файлды жойғыңыз келетініне сенімдісіз бе?\n"
+#~ "\n"
+#~ "%s"
+
+#~ msgid "Delete Screenshots?"
+#~ msgstr "Скриншоттарды жою керек пе?"
+
+#~ msgid "Delete"
+#~ msgstr "Жою"
+
+#~ msgid "No image found in clipboard"
+#~ msgstr "Буферде сурет табылмады"
+
+#~ msgid "Clipboard Image"
+#~ msgstr "Буфер суреті"
+
+#~ msgid "From clipboard"
+#~ msgstr "Буферден"
+
+#~ msgid "Clipboard does not contain an image."
+#~ msgstr "Буферде сурет жоқ."
+
+#~ msgid "Font"
+#~ msgstr "Қаріп"
+
+#~ msgid "Circle"
+#~ msgstr "Шеңбер"
+
+#~ msgid "Undo the last action"
+#~ msgstr "Соңғы әрекетті болдырмау"
+
+#~ msgid "Redo the last undone action"
+#~ msgstr "Соңғы болдырылған әрекетті қайталау"
+
+#~ msgid "Clear all annotations"
+#~ msgstr "Барлық түсініктемелерді тазалау"

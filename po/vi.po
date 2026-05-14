@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-28 15:35+0200\n"
+"POT-Creation-Date: 2026-05-14 12:29+0200\n"
 "PO-Revision-Date: 2025-11-24 04:58+0700\n"
 "Last-Translator: Loc Huynh <huynhloc.contact@gmail.com>\n"
 "Language-Team: \n"
@@ -27,19 +27,19 @@ msgstr "Gradia"
 msgid "Make your images ready for the world"
 msgstr "Chuẩn bị hình ảnh của bạn cho thế giới"
 
-#: data/be.alexandervanhee.gradia.desktop.in.in:10
+#: data/be.alexandervanhee.gradia.desktop.in.in:11
 msgid "Image;Gradient;Background;Screenshot;Edit;"
 msgstr "Image;Gradient;Background;Screenshot;Edit;"
 
-#: data/be.alexandervanhee.gradia.desktop.in.in:15
+#: data/be.alexandervanhee.gradia.desktop.in.in:16
 msgid "New Window"
 msgstr "Cửa Sổ Mới"
 
-#: data/be.alexandervanhee.gradia.desktop.in.in:20
+#: data/be.alexandervanhee.gradia.desktop.in.in:21
 msgid "Take Screenshot"
 msgstr "Chụp Ảnh Màn Hình"
 
-#: data/be.alexandervanhee.gradia.desktop.in.in:25
+#: data/be.alexandervanhee.gradia.desktop.in.in:26
 msgid "Take Fullscreen Screenshot"
 msgstr "Chụp Toàn Màn Hình"
 
@@ -49,11 +49,11 @@ msgstr "Chú thích ảnh chụp màn hình của bạn"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:15
 msgid ""
-"Gradia helps you get your screenshots ready for sharing, whether quickly with "
-"friends or colleagues, or professionally with the entire world."
+"Gradia helps you get your screenshots ready for sharing, whether quickly "
+"with friends or colleagues, or professionally with the entire world."
 msgstr ""
-"Gradia giúp bạn chuẩn bị ảnh chụp màn hình để chia sẻ, dù là nhanh chóng với bạn bè "
-"hoặc đồng nghiệp, hay chuyên nghiệp với cả thế giới."
+"Gradia giúp bạn chuẩn bị ảnh chụp màn hình để chia sẻ, dù là nhanh chóng với "
+"bạn bè hoặc đồng nghiệp, hay chuyên nghiệp với cả thế giới."
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:16
 msgid "Key features:"
@@ -73,7 +73,8 @@ msgstr "Cài đặt hình ảnh như bóng đổ, đệm và tự động cân b
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:21
 msgid "Quick upload flow to easily share images via services like Imgur"
-msgstr "Quy trình tải lên nhanh để dễ dàng chia sẻ hình ảnh qua các dịch vụ như Imgur"
+msgstr ""
+"Quy trình tải lên nhanh để dễ dàng chia sẻ hình ảnh qua các dịch vụ như Imgur"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:22
 msgid "Convert code snippets into clean high-resolution images"
@@ -83,40 +84,24 @@ msgstr "Chuyển đổi đoạn mã thành hình ảnh độ phân giải cao s�
 msgid "Alexander Vanhee"
 msgstr "Alexander Vanhee"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:266
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:270
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:323
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:327
 msgid "Edited screenshot"
 msgstr "Ảnh chụp màn hình đã chỉnh sửa"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:274
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:331
 msgid "Startup view"
 msgstr "Giao diện khởi động"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:278
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:335
 msgid "UI element showcase"
 msgstr "Giới thiệu các thành phần giao diện"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:282
-#: data/ui/image_generator_window.blp:5 data/ui/image_sidebar.blp:224
-#: data/ui/welcome_page.blp:79 gradia/ui/image_creation/source_image_generator.py:397
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:339
+#: data/ui/image_generator_window.blp:5 data/ui/welcome_page.blp:36
+#: gradia/ui/image_creation/source_image_generator.py:397
 msgid "Source Snippets"
 msgstr "Source Snippets"
-
-#: data/ui/background_selector.blp:15
-msgid "None"
-msgstr "Không"
-
-#: data/ui/background_selector.blp:20
-msgid "Solid"
-msgstr "Đặc"
-
-#: data/ui/background_selector.blp:25
-msgid "Gradient"
-msgstr "Gradient"
-
-#: data/ui/background_selector.blp:30
-msgid "Image"
-msgstr "Hình Ảnh"
 
 #: data/ui/confirm_close_dialog.blp:5
 msgid "Close Gradia?"
@@ -127,12 +112,12 @@ msgid "Are you sure you want to exit? All unsaved changes will be lost."
 msgstr "Bạn có chắc chắn muốn thoát? Tất cả các thay đổi chưa lưu sẽ bị mất."
 
 #: data/ui/confirm_close_dialog.blp:11
-#: gradia/ui/dialog/delete_screenshots_dialog.py:54 gradia/ui/image_exporters.py:149
-#: gradia/ui/window.py:479
+#: gradia/ui/dialog/delete_screenshots_dialog.py:54
+#: gradia/ui/image_exporters.py:149 gradia/ui/window.py:503
 msgid "Cancel"
 msgstr "Hủy"
 
-#: data/ui/confirm_close_dialog.blp:12 data/ui/ocr_dialog.blp:83
+#: data/ui/confirm_close_dialog.blp:12 data/ui/ocr_dialog.blp:94
 msgid "Copy"
 msgstr "Sao Chép"
 
@@ -148,79 +133,81 @@ msgstr "Không Hỏi Lại"
 msgid "Annotation Tools"
 msgstr "Công Cụ Chú Thích"
 
-#: data/ui/drawing_tools_group.blp:60 data/ui/drawing_tools_group.blp:75
+#: data/ui/drawing_tools_group.blp:67 data/ui/drawing_tools_group.blp:84
 msgid "Fill"
 msgstr "Tô"
 
-#: data/ui/drawing_tools_group.blp:82
+#: data/ui/drawing_tools_group.blp:91
 msgid "Border"
 msgstr "Viền"
 
-#: data/ui/drawing_tools_group.blp:98
+#: data/ui/drawing_tools_group.blp:109
 msgid "Fill Color Picker"
 msgstr "Chọn Màu Tô"
 
-#: data/ui/drawing_tools_group.blp:105
+#: data/ui/drawing_tools_group.blp:116
 msgid "Outline Color Picker"
 msgstr "Chọn Màu Viền"
 
-#: data/ui/gradient_step_dialog.blp:7
+#: data/ui/gradient_step_dialog.blp:8
 msgid "Edit Gradient Steps"
 msgstr "Chỉnh Sửa Bước Gradient"
 
-#: data/ui/gradient_step_dialog.blp:35
+#: data/ui/gradient_step_dialog.blp:49
 msgid "Gradient Steps"
 msgstr "Bước Gradient"
 
-#: data/ui/gradient_step_dialog.blp:36
+#: data/ui/gradient_step_dialog.blp:50
 msgid "You can add up to five steps"
 msgstr "Bạn có thể thêm tối đa năm bước"
 
-#: data/ui/gradient_step_dialog.blp:39
+#: data/ui/gradient_step_dialog.blp:54
 msgid "Add Step"
 msgstr "Thêm Bước"
 
-#: data/ui/image_generator_window.blp:29
+#: data/ui/image_generator_window.blp:35
 msgid "Language"
 msgstr "Ngôn Ngữ"
 
-#: data/ui/image_generator_window.blp:39
+#: data/ui/image_generator_window.blp:50
 msgid "Style"
 msgstr "Kiểu"
 
-#: data/ui/image_generator_window.blp:54
+#: data/ui/image_generator_window.blp:72
 msgid "Default"
 msgstr "Mặc Định"
 
-#: data/ui/image_generator_window.blp:69
+#: data/ui/image_generator_window.blp:93
 msgid "Window Frame"
 msgstr "Khung Cửa Sổ"
 
-#: data/ui/image_generator_window.blp:74
+#: data/ui/image_generator_window.blp:99
 msgid "Add a window frame around the code"
 msgstr "Thêm khung cửa sổ xung quanh mã"
 
-#: data/ui/image_generator_window.blp:81
+#: data/ui/image_generator_window.blp:108
 msgid "Line Numbers"
 msgstr "Số Dòng"
 
-#: data/ui/image_generator_window.blp:86
+#: data/ui/image_generator_window.blp:114
 msgid "Add a number before each new line of code"
 msgstr "Thêm số trước mỗi dòng mã mới"
 
-#: data/ui/image_generator_window.blp:113
+#: data/ui/image_generator_window.blp:145
 msgid "Export"
 msgstr "Xuất"
 
-#: data/ui/image_sidebar.blp:17 data/ui/welcome_page.blp:60
-msgid "Open Image…"
-msgstr "Mở Hình Ảnh…"
+#: data/ui/image_sidebar.blp:17 gradia/ui/image_loaders.py:140
+#: gradia/ui/ui_parts.py:99
+msgid "Open Image"
+msgstr "Mở Hình Ảnh"
 
-#: data/ui/image_sidebar.blp:24 data/ui/welcome_page.blp:49
-msgid "Take a Screenshot…"
-msgstr "Chụp Ảnh Màn Hình…"
+#: data/ui/image_sidebar.blp:24 gradia/ui/ui_parts.py:100
+#, fuzzy
+msgid "Take a Screenshot"
+msgstr "Chụp Ảnh Màn Hình"
 
-#: data/ui/image_sidebar.blp:31 data/ui/welcome_page.blp:24
+#: data/ui/image_sidebar.blp:31 data/ui/welcome_page.blp:28
 msgid "Main Menu"
 msgstr "Menu Chính"
 
@@ -229,141 +216,167 @@ msgid "Image Options"
 msgstr "Tùy Chọn Hình Ảnh"
 
 #: data/ui/image_sidebar.blp:55
-msgid "Padding"
+#, fuzzy
+msgid "_Padding"
 msgstr "Đệm"
 
-#: data/ui/image_sidebar.blp:67
-msgid "Corner Radius"
+#: data/ui/image_sidebar.blp:69
+#, fuzzy
+msgid "_Corner Radius"
 msgstr "Bán Kính Góc"
 
-#: data/ui/image_sidebar.blp:83
-msgid "Shadow"
+#: data/ui/image_sidebar.blp:88
+#, fuzzy
+msgid "_Shadow"
 msgstr "Bóng Đổ"
 
-#: data/ui/image_sidebar.blp:103
-msgid "Auto Balance"
+#: data/ui/image_sidebar.blp:110
+#, fuzzy
+msgid "_Auto Balance"
 msgstr "Tự Động Cân Bằng"
 
-#: data/ui/image_sidebar.blp:108
-msgid "Rotation"
+#: data/ui/image_sidebar.blp:116
+#, fuzzy
+msgid "_Rotation"
 msgstr "Xoay"
 
-#: data/ui/image_sidebar.blp:117
+#: data/ui/image_sidebar.blp:126
 msgid "Rotate Anticlockwise"
 msgstr "Xoay Ngược Chiều Kim Đồng Hồ"
 
-#: data/ui/image_sidebar.blp:125
+#: data/ui/image_sidebar.blp:137
 msgid "Rotate Clockwise"
 msgstr "Xoay Theo Chiều Kim Đồng Hồ"
 
-#: data/ui/image_sidebar.blp:136
+#: data/ui/image_sidebar.blp:150
 msgid "Current File"
 msgstr "Tệp Hiện Tại"
 
-#: data/ui/image_sidebar.blp:139
+#: data/ui/image_sidebar.blp:153
 msgid "Name"
 msgstr "Tên"
 
-#: data/ui/image_sidebar.blp:140 data/ui/image_sidebar.blp:146
-#: data/ui/image_sidebar.blp:165
+#: data/ui/image_sidebar.blp:154 data/ui/image_sidebar.blp:164
+#: data/ui/image_sidebar.blp:187
 msgid "N/A"
 msgstr "Không Có"
 
-#: data/ui/image_sidebar.blp:145
-msgid "Location"
+#: data/ui/image_sidebar.blp:162
+#, fuzzy
+msgid "_Location"
 msgstr "Vị Trí"
 
-#: data/ui/image_sidebar.blp:156
+#: data/ui/image_sidebar.blp:177
 msgid "Open Folder"
 msgstr "Mở Thư Mục"
 
-#: data/ui/image_sidebar.blp:164
+#: data/ui/image_sidebar.blp:186
 msgid "Modified image size"
 msgstr "Kích Thước Hình Ảnh Đã Sửa"
 
-#: data/ui/image_sidebar.blp:183
-msgid "Save As…"
-msgstr "Lưu Dưới Dạng…"
+#: data/ui/image_sidebar.blp:207
+#, fuzzy
+msgid "Save File"
+msgstr "Lưu vào Tệp"
 
-#: data/ui/image_sidebar.blp:194
+#: data/ui/image_sidebar.blp:218
 msgid "Copy to Clipboard"
 msgstr "Sao Chép vào Bộ Nhớ Tạm"
 
-#: data/ui/image_sidebar.blp:204 gradia/ui/ui_parts.py:103
+#: data/ui/image_sidebar.blp:229 gradia/ui/ui_parts.py:104
 msgid "Share Image"
 msgstr "Chia Sẻ Hình Ảnh"
 
-#: data/ui/image_sidebar.blp:228
-msgid "Delete Taken Screenshot(s)"
+#: data/ui/image_sidebar.blp:249
+#, fuzzy
+msgid "_Source Snippets"
+msgstr "Source Snippets"
+
+#: data/ui/image_sidebar.blp:254
+#, fuzzy
+msgid "_Delete Taken Screenshot(s)"
 msgstr "Xóa Ảnh Chụp Màn Hình Đã Chụp"
 
-#: data/ui/image_sidebar.blp:235 data/ui/preferences_window.blp:6
-#: data/ui/welcome_page.blp:85 gradia/ui/ui_parts.py:131
-msgid "Preferences"
+#: data/ui/image_sidebar.blp:261 data/ui/welcome_page.blp:94
+#, fuzzy
+msgid "_Preferences"
 msgstr "Tùy Chọn"
 
-#: data/ui/image_sidebar.blp:239 data/ui/welcome_page.blp:89 gradia/ui/ui_parts.py:130
-msgid "Keyboard Shortcuts"
+#: data/ui/image_sidebar.blp:266 data/ui/welcome_page.blp:99
+#, fuzzy
+msgid "_Keyboard Shortcuts"
 msgstr "Phím Tắt"
 
-#: data/ui/image_sidebar.blp:243 data/ui/welcome_page.blp:93
-msgid "About Gradia"
+#: data/ui/image_sidebar.blp:271
+#, fuzzy
+msgid "D_onate to Gradia"
 msgstr "Giới Thiệu Gradia"
 
-#: data/ui/image_stack.blp:8 data/ui/welcome_page.blp:15
+#: data/ui/image_sidebar.blp:276 data/ui/welcome_page.blp:109
+#, fuzzy
+msgid "_About Gradia"
+msgstr "Giới Thiệu Gradia"
+
+#: data/ui/image_stack.blp:8 data/ui/welcome_page.blp:18
 msgid "Drop Image Here"
 msgstr "Thả Hình Ảnh Vào Đây"
 
-#: data/ui/image_stack.blp:79
+#: data/ui/image_stack.blp:27
+msgid "Back"
+msgstr ""
+
+#: data/ui/image_stack.blp:95
 msgid "Open Sidebar"
 msgstr "Mở Thanh Bên"
 
-#: data/ui/image_stack.blp:92
-msgid "Crop…"
-msgstr "Cắt…"
+#: data/ui/image_stack.blp:111
+#, fuzzy
+msgid "Crop Image"
+msgstr "Thả Hình Ảnh Vào Đây"
 
-#: data/ui/image_stack.blp:105 data/ui/ocr_dialog.blp:5 data/ui/ocr_dialog.blp:15
-#: data/ui/preferences_window.blp:91
+#: data/ui/image_stack.blp:127 data/ui/ocr_dialog.blp:5
+#: data/ui/ocr_dialog.blp:15 data/ui/preferences_window.blp:124
 msgid "Text Extraction"
 msgstr "Trích Xuất Văn Bản"
 
-#: data/ui/image_stack.blp:118 gradia/ui/ui_parts.py:108
+#: data/ui/image_stack.blp:143 gradia/ui/ui_parts.py:109
 msgid "Erase Selected"
 msgstr "Xóa Đã Chọn"
 
-#: data/ui/image_stack.blp:136
-msgid "Reset Crop Selection"
-msgstr "Đặt Lại Vùng Cắt"
+#: data/ui/image_stack.blp:161
+#, fuzzy
+msgid "Disable Crop"
+msgstr "Đặt Lại Cắt"
 
-#: data/ui/image_stack.blp:165
+#: data/ui/image_stack.blp:190
 msgid "Confirm"
 msgstr "Xác Nhận"
 
-#: data/ui/image_stack.blp:166
+#: data/ui/image_stack.blp:191
 msgid "Confirm Crop Selection"
 msgstr "Xác Nhận Vùng Cắt"
 
-#: data/ui/image_stack.blp:205 gradia/ui/ui_parts.py:127
+#: data/ui/image_stack.blp:232 gradia/ui/ui_parts.py:128
 msgid "Reset Zoom"
 msgstr "Đặt Lại Thu Phóng"
 
-#: data/ui/image_stack.blp:229 gradia/ui/ui_parts.py:126
+#: data/ui/image_stack.blp:256 gradia/ui/ui_parts.py:127
 msgid "Zoom Out"
 msgstr "Thu Nhỏ"
 
-#: data/ui/image_stack.blp:239 gradia/ui/ui_parts.py:125
+#: data/ui/image_stack.blp:266 gradia/ui/ui_parts.py:126
 msgid "Zoom In"
 msgstr "Phóng To"
 
-#: data/ui/image_stack.blp:255 gradia/ui/ui_parts.py:106
+#: data/ui/image_stack.blp:282 gradia/ui/ui_parts.py:107
 msgid "Undo"
 msgstr "Hoàn Tác"
 
-#: data/ui/image_stack.blp:265 gradia/ui/ui_parts.py:107
+#: data/ui/image_stack.blp:292 gradia/ui/ui_parts.py:108
 msgid "Redo"
 msgstr "Làm Lại"
 
-#: data/ui/image_stack.blp:275
+#: data/ui/image_stack.blp:302
 msgid "Clear All"
 msgstr "Xóa Tất Cả"
 
@@ -375,21 +388,21 @@ msgstr "Cắt hình ảnh để điều chỉnh vùng OCR"
 msgid "Select Language"
 msgstr "Chọn Ngôn Ngữ"
 
-#: data/ui/ocr_dialog.blp:52
+#: data/ui/ocr_dialog.blp:57
 msgid "No Text Found"
 msgstr "Không Tìm Thấy Văn Bản"
 
-#: data/ui/ocr_dialog.blp:53
+#: data/ui/ocr_dialog.blp:58
 msgid "Please make a new selection"
 msgstr "Vui lòng chọn lại"
 
 #: data/ui/preferences/custom_provider_page.blp:6
-#: gradia/ui/preferences/provider_selection_window.py:132
 #: gradia/ui/provider_selection_window.py:133
 msgid "Custom Provider"
 msgstr "Nhà Cung Cấp Tùy Chỉnh"
 
-#: data/ui/preferences/custom_provider_page.blp:13 gradia/ui/image_exporters.py:148
+#: data/ui/preferences/custom_provider_page.blp:13
+#: gradia/ui/image_exporters.py:148
 msgid "Save"
 msgstr "Lưu"
 
@@ -400,22 +413,39 @@ msgstr "Lệnh Tải Lên"
 
 #: data/ui/preferences/custom_provider_page.blp:37
 msgid ""
-"Enter a custom command to upload files. Use $1 as a placeholder for the file path."
+"Enter a custom command to upload files. Use $1 as a placeholder for the file "
+"path."
 msgstr ""
-"Nhập lệnh tùy chỉnh để tải lên tệp. Sử dụng $1 làm giá trị thay thế cho đường dẫn "
-"tệp."
+"Nhập lệnh tùy chỉnh để tải lên tệp. Sử dụng $1 làm giá trị thay thế cho "
+"đường dẫn tệp."
 
-#: data/ui/preferences/ocr_model_page.blp:5 data/ui/preferences/ocr_model_page.blp:28
-#: data/ui/preferences_window.blp:93
+#: data/ui/preferences/ocr_model_page.blp:5
 msgid "Language Models"
 msgstr "Mô Hình Ngôn Ngữ"
 
-#: data/ui/preferences/ocr_model_page.blp:29
-msgid "Using the correct language model can improve OCR accuracy."
+#: data/ui/preferences/ocr_model_page.blp:21
+#, fuzzy
+msgid "Search languages…"
+msgstr "Chọn Ngôn Ngữ"
+
+#: data/ui/preferences/ocr_model_page.blp:50
+#, fuzzy
+msgid ""
+"A Language Model is required to use the OCR feature.\n"
+"Using the correct language model improves OCR accuracy."
 msgstr "Sử dụng mô hình ngôn ngữ chính xác có thể cải thiện độ chính xác OCR."
 
+#: data/ui/preferences/ocr_model_page.blp:68
+#, fuzzy
+msgid "No Results Found"
+msgstr "Không Tìm Thấy Văn Bản"
+
+#: data/ui/preferences/ocr_model_page.blp:69
+msgid "Try a different search term"
+msgstr ""
+
 #: data/ui/preferences/provider_detail_page.blp:56
-#: gradia/overlay/drawing_actions.py:54 gradia/ui/ui_parts.py:109
+#: gradia/overlay/drawing_actions.py:54 gradia/ui/ui_parts.py:110
 msgid "Select"
 msgstr "Chọn"
 
@@ -464,8 +494,8 @@ msgid ""
 "Select a third party image upload provider. These have their own terms and "
 "conditions."
 msgstr ""
-"Chọn nhà cung cấp tải lên hình ảnh của bên thứ ba. Các nhà cung cấp này có điều "
-"khoản và điều kiện riêng."
+"Chọn nhà cung cấp tải lên hình ảnh của bên thứ ba. Các nhà cung cấp này có "
+"điều khoản và điều kiện riêng."
 
 #: data/ui/preferences/screenshot_guide_page.blp:6
 msgid "Screenshot Shortcut Guide"
@@ -475,165 +505,191 @@ msgstr "Hướng Dẫn Phím Tắt Chụp Màn Hình"
 msgid "Shortcut Setup Instructions"
 msgstr "Hướng Dẫn Thiết Lập Phím Tắt"
 
-#: data/ui/preferences/screenshot_guide_page.blp:44
+#: data/ui/preferences/screenshot_guide_page.blp:45
 msgid ""
-"If you'd like the app to <b>open automatically</b> after taking a screenshot, you "
-"can set up a custom keyboard shortcut:\n"
+"If you'd like the app to <b>open automatically</b> after taking a "
+"screenshot, you can set up a custom keyboard shortcut:\n"
 "\n"
 "<b>Steps:</b>\n"
-"1. Go to <b>Settings</b> → <b>Keyboard</b> → <b>View and Customize Shortcuts</b> → "
-"<b>Custom Shortcuts</b>.\n"
+"1. Go to <b>Settings</b> → <b>Keyboard</b> → <b>View and Customize "
+"Shortcuts</b> → <b>Custom Shortcuts</b>.\n"
 "2. Click the <b>+</b> button to create a new shortcut.\n"
-"3. Set the <b>Name</b> to something like <i>Open Gradia with Screenshot</i>.\n"
+"3. Set the <b>Name</b> to something like <i>Open Gradia with Screenshot</"
+"i>.\n"
 "4. For the <b>Command</b>, copy one of the commands below:"
 msgstr ""
-"Nếu bạn muốn ứng dụng <b>mở tự động</b> sau khi chụp ảnh màn hình, bạn có thể thiết "
-"lập phím tắt tùy chỉnh:\n"
+"Nếu bạn muốn ứng dụng <b>mở tự động</b> sau khi chụp ảnh màn hình, bạn có "
+"thể thiết lập phím tắt tùy chỉnh:\n"
 "\n"
 "<b>Các bước:</b>\n"
 "1. Vào <b>Cài đặt</b> → <b>Bàn phím</b> → <b>Xem và Tùy chỉnh Phím tắt</b> → "
 "<b>Phím tắt tùy chỉnh</b>.\n"
 "2. Nhấp vào nút <b>+</b> để tạo phím tắt mới.\n"
-"3. Đặt <b>Tên</b> thành cái gì đó như <i>Mở Gradia với Ảnh chụp màn hình</i>.\n"
+"3. Đặt <b>Tên</b> thành cái gì đó như <i>Mở Gradia với Ảnh chụp màn hình</"
+"i>.\n"
 "4. Đối với <b>Lệnh</b>, sao chép một trong các lệnh bên dưới:"
 
-#: data/ui/preferences/screenshot_guide_page.blp:59
+#: data/ui/preferences/screenshot_guide_page.blp:61
 msgid "Interactive Screenshot"
 msgstr "Chụp Màn Hình Tương Tác"
 
-#: data/ui/preferences/screenshot_guide_page.blp:65
+#: data/ui/preferences/screenshot_guide_page.blp:68
 msgid "Allows you to select an area to screenshot"
 msgstr "Cho phép bạn chọn vùng để chụp màn hình"
 
-#: data/ui/preferences/screenshot_guide_page.blp:75
-#: data/ui/preferences/screenshot_guide_page.blp:100
-#: data/ui/preferences/screenshot_guide_page.blp:137
+#: data/ui/preferences/screenshot_guide_page.blp:79
+#: data/ui/preferences/screenshot_guide_page.blp:106
+#: data/ui/preferences/screenshot_guide_page.blp:145
 msgid "Copy to clipboard"
 msgstr "Sao chép vào bộ nhớ tạm"
 
-#: data/ui/preferences/screenshot_guide_page.blp:84
+#: data/ui/preferences/screenshot_guide_page.blp:88
 msgid "Full Screen Screenshot"
 msgstr "Chụp Toàn Màn Hình"
 
-#: data/ui/preferences/screenshot_guide_page.blp:90
+#: data/ui/preferences/screenshot_guide_page.blp:95
 msgid "Takes a screenshot of all screens instantly"
 msgstr "Chụp ảnh tất cả các màn hình ngay lập tức"
 
-#: data/ui/preferences/screenshot_guide_page.blp:104
+#: data/ui/preferences/screenshot_guide_page.blp:110
 msgid ""
-"5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should be free "
-"by default)."
+"5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should "
+"be free by default)."
 msgstr ""
-"5. Gán phím tắt theo lựa chọn của bạn (<tt>Ctrl + Print</tt> mặc định nên được "
-"trống)."
+"5. Gán phím tắt theo lựa chọn của bạn (<tt>Ctrl + Print</tt> mặc định nên "
+"được trống)."
 
-#: data/ui/preferences/screenshot_guide_page.blp:121
+#: data/ui/preferences/screenshot_guide_page.blp:127
 msgid "Delayed Screenshot"
 msgstr "Chụp Màn Hình Trễ"
 
-#: data/ui/preferences/screenshot_guide_page.blp:127
+#: data/ui/preferences/screenshot_guide_page.blp:134
 msgid "Delay the capture by a given duration (in milliseconds)."
 msgstr "Trễ việc chụp theo khoảng thời gian cho trước (tính bằng mili giây)."
 
-#: data/ui/preferences_window.blp:9 gradia/ui/ui_parts.py:129
+#: data/ui/preferences_window.blp:7 gradia/ui/ui_parts.py:137
+msgid "Preferences"
+msgstr "Tùy Chọn"
+
+#: data/ui/preferences_window.blp:11 gradia/ui/ui_parts.py:134
 msgid "General"
 msgstr "Tổng Quan"
 
-#: data/ui/preferences_window.blp:11
+#: data/ui/preferences_window.blp:14
 msgid "Screenshots"
 msgstr "Ảnh Chụp Màn Hình"
 
-#: data/ui/preferences_window.blp:14
-msgid "Recent Directory"
+#: data/ui/preferences_window.blp:17
+#, fuzzy
+msgid "_Recent Directory"
 msgstr "Thư Mục Gần Đây"
 
-#: data/ui/preferences_window.blp:15
+#: data/ui/preferences_window.blp:19
 msgid "Used for home screen"
 msgstr "Sử dụng cho màn hình chính"
 
-#: data/ui/preferences_window.blp:35
-msgid "Screenshot Shortcut"
+#: data/ui/preferences_window.blp:45
+#, fuzzy
+msgid "_Screenshot Shortcut"
 msgstr "Phím Tắt Chụp Màn Hình"
 
-#: data/ui/preferences_window.blp:39
+#: data/ui/preferences_window.blp:51
 msgid "Save Options"
 msgstr "Tùy Chọn Lưu"
 
-#: data/ui/preferences_window.blp:41
-msgid "Image Format"
+#: data/ui/preferences_window.blp:54
+#, fuzzy
+msgid "_Image Format"
 msgstr "Định Dạng Hình Ảnh"
 
-#: data/ui/preferences_window.blp:42
+#: data/ui/preferences_window.blp:56
 msgid "Default format for saved screenshots"
 msgstr "Định dạng mặc định cho ảnh chụp màn hình đã lưu"
 
-#: data/ui/preferences_window.blp:46
+#: data/ui/preferences_window.blp:61
 msgid "Closing"
 msgstr "Đóng"
 
-#: data/ui/preferences_window.blp:48
-msgid "When Exiting"
+#: data/ui/preferences_window.blp:64
+#, fuzzy
+msgid "_When Exiting"
 msgstr "Khi Thoát"
 
-#: data/ui/preferences_window.blp:51
-msgid "Overwrite last screenshot on close"
+#: data/ui/preferences_window.blp:69
+#, fuzzy
+msgid "_Overwrite Last Screenshot on Close"
 msgstr "Ghi đè ảnh chụp cuối cùng khi đóng"
 
-#: data/ui/preferences_window.blp:52
+#: data/ui/preferences_window.blp:71
 msgid "Replace it with the annotated version"
 msgstr "Thay thế bằng phiên bản đã chú thích"
 
-#: data/ui/preferences_window.blp:53
+#: data/ui/preferences_window.blp:72
 msgid "Replace last screenshot file with annotated version on close"
 msgstr "Thay thế tệp ảnh chụp cuối cùng bằng phiên bản đã chú thích khi đóng"
 
-#: data/ui/preferences_window.blp:57
-msgid "Trash Screenshots on Close"
+#: data/ui/preferences_window.blp:77
+#, fuzzy
+msgid "_Trash Screenshots on Close"
 msgstr "Xóa ảnh chụp màn hình khi đóng"
 
-#: data/ui/preferences_window.blp:58
+#: data/ui/preferences_window.blp:79
 msgid "Automatically move screenshots taken from within the app to trash"
 msgstr "Tự động chuyển ảnh chụp màn hình chụp từ trong ứng dụng vào thùng rác"
 
-#: data/ui/preferences_window.blp:59
+#: data/ui/preferences_window.blp:80
 msgid "Trash screenshots on app close"
 msgstr "Xóa ảnh chụp màn hình khi đóng ứng dụng"
 
-#: data/ui/preferences_window.blp:64
+#: data/ui/preferences_window.blp:86
 msgid "Image Upload Providers"
 msgstr "Nhà Cung Cấp Tải Lên Hình Ảnh"
 
-#: data/ui/preferences_window.blp:65
+#: data/ui/preferences_window.blp:87
 msgid "Connect to your favorite upload providers, or create a link yourself"
-msgstr "Kết nối với nhà cung cấp tải lên yêu thích của bạn hoặc tự tạo liên kết"
+msgstr ""
+"Kết nối với nhà cung cấp tải lên yêu thích của bạn hoặc tự tạo liên kết"
 
-#: data/ui/preferences_window.blp:67
-msgid "Provider"
+#: data/ui/preferences_window.blp:90
+#, fuzzy
+msgid "_Provider"
 msgstr "Nhà Cung Cấp"
 
-#: data/ui/preferences_window.blp:75 gradia/ui/preferences/preferences_window.py:78
+#: data/ui/preferences_window.blp:101
+#: gradia/ui/preferences/preferences_window.py:80
 msgid "None Selected"
 msgstr "Chưa Chọn"
 
-#: data/ui/preferences_window.blp:84
-msgid "Confirm on Upload"
+#: data/ui/preferences_window.blp:115
+#, fuzzy
+msgid "_Confirm on Upload"
 msgstr "Xác Nhận khi Tải Lên"
 
-#: data/ui/preferences_window.blp:85 data/ui/preferences_window.blp:86
+#: data/ui/preferences_window.blp:117 data/ui/preferences_window.blp:118
 msgid "Ask for confirmation before running the upload command"
 msgstr "Yêu cầu xác nhận trước khi chạy lệnh tải lên"
 
-#: data/ui/preferences_window.blp:94
+#: data/ui/preferences_window.blp:128
+#, fuzzy
+msgid "_Language Models"
+msgstr "Mô Hình Ngôn Ngữ"
+
+#: data/ui/preferences_window.blp:130
 msgid "Download Models to improve per-language accuracy"
 msgstr "Tải xuống Mô Hình để cải thiện độ chính xác theo từng ngôn ngữ"
 
-#: data/ui/recent_picker.blp:24
+#: data/ui/recent_picker.blp:27
 msgid "Screenshot Folder Not Found"
 msgstr "Không Tìm Thấy Thư Mục Ảnh Chụp Màn Hình"
 
-#: data/ui/recent_picker.blp:31
+#: data/ui/recent_picker.blp:35
 msgid "Please set it in the Preferences menu"
 msgstr "Vui lòng thiết lập trong menu Tùy Chọn"
+
+#: data/ui/recent_picker.blp:40
+#, fuzzy
+msgid "Open Preferences"
+msgstr "Tùy Chọn"
 
 #: data/ui/selectors/gradient_selector.blp:6
 msgid "Gradient Background"
@@ -644,7 +700,8 @@ msgid "Open Step Dialog"
 msgstr "Mở Hộp Thoại Bước"
 
 #: data/ui/selectors/gradient_selector.blp:14
-msgid "Gradient Presets…"
+#, fuzzy
+msgid "Gradient Presets"
 msgstr "Mẫu Gradient Có Sẵn…"
 
 #: data/ui/selectors/gradient_selector.blp:50
@@ -668,7 +725,8 @@ msgid "Image Background"
 msgstr "Nền Hình Ảnh"
 
 #: data/ui/selectors/image_selector.blp:9
-msgid "Image Presets…"
+#, fuzzy
+msgid "Image Presets"
 msgstr "Mẫu Hình Ảnh Có Sẵn…"
 
 #: data/ui/selectors/image_selector.blp:13
@@ -687,23 +745,62 @@ msgstr "Định Dạng Hình Ảnh Được Hỗ Trợ"
 msgid "Solid Color Background"
 msgstr "Nền Màu Đặc"
 
-#: data/ui/welcome_page.blp:31
+#: data/ui/welcome_page.blp:42
 msgid "Enhance an Image"
 msgstr "Cải Thiện Hình Ảnh"
 
-#: data/ui/welcome_page.blp:32
+#: data/ui/welcome_page.blp:43
 msgid "Drag and drop one here"
 msgstr "Kéo và thả một ảnh vào đây"
 
-#: gradia/app_constants.py:68
+#: data/ui/welcome_page.blp:61
+msgid "Take a Screenshot…"
+msgstr "Chụp Ảnh Màn Hình…"
+
+#: data/ui/welcome_page.blp:74
+msgid "Open Image…"
+msgstr "Mở Hình Ảnh…"
+
+#: data/ui/welcome_page.blp:104
+#, fuzzy
+msgid "_Donate to Gradia"
+msgstr "Giới Thiệu Gradia"
+
+#: gradia/app_constants.py:26
+msgid "Red Flame"
+msgstr ""
+
+#: gradia/app_constants.py:32
+#, fuzzy
+msgid "Sunset Orange"
+msgstr "Cam"
+
+#: gradia/app_constants.py:38
+msgid "Golden Hour"
+msgstr ""
+
+#: gradia/app_constants.py:44
+msgid "Mint Fresh"
+msgstr ""
+
+#: gradia/app_constants.py:50
+msgid "Ocean Breeze"
+msgstr ""
+
+#: gradia/app_constants.py:56
+#, fuzzy
+msgid "Purple Dream"
+msgstr "Tím"
+
+#: gradia/app_constants.py:74
 msgid "PNG Image (*.png)"
 msgstr "Hình Ảnh PNG (*.png)"
 
-#: gradia/app_constants.py:75
+#: gradia/app_constants.py:81
 msgid "JPEG Image (*.jpg)"
 msgstr "Hình Ảnh JPEG (*.jpg)"
 
-#: gradia/app_constants.py:82
+#: gradia/app_constants.py:88
 msgid "WebP Image (*.webp)"
 msgstr "Hình Ảnh WebP (*.webp)"
 
@@ -751,88 +848,9 @@ msgstr "Trong Suốt"
 msgid "Purple"
 msgstr "Tím"
 
-#: gradia/backend/ocr.py:42
-msgid "English"
-msgstr "Tiếng Anh"
-
-#: gradia/backend/ocr.py:43
-msgid "Chinese Simplified"
-msgstr "Tiếng Trung giản thể"
-
-#: gradia/backend/ocr.py:44
-msgid "Chinese Traditional"
-msgstr "Tiếng Trung phồn thể"
-
-#: gradia/backend/ocr.py:45
-msgid "Spanish"
-msgstr "Tiếng Tây Ban Nha"
-
-#: gradia/backend/ocr.py:46
-msgid "French"
-msgstr "Tiếng Pháp"
-
-#: gradia/backend/ocr.py:47
-msgid "German"
-msgstr "Tiếng Đức"
-
-#: gradia/backend/ocr.py:48
-msgid "Japanese"
-msgstr "Tiếng Nhật"
-
-#: gradia/backend/ocr.py:49
-msgid "Arabic"
-msgstr "Tiếng Ả Rập"
-
-#: gradia/backend/ocr.py:50
-msgid "Russian"
-msgstr "Tiếng Nga"
-
-#: gradia/backend/ocr.py:51
-msgid "Portuguese"
-msgstr "Tiếng Bồ Đào Nha"
-
-#: gradia/backend/ocr.py:52
-msgid "Italian"
-msgstr "Tiếng Ý"
-
-#: gradia/backend/ocr.py:53
-msgid "Korean"
-msgstr "Tiếng Hàn"
-
-#: gradia/backend/ocr.py:54
-msgid "Hindi"
-msgstr "Tiếng Hindi"
-
-#: gradia/backend/ocr.py:55
-msgid "Dutch"
-msgstr "Tiếng Hà Lan"
-
-#: gradia/backend/ocr.py:56
-msgid "Turkish"
-msgstr "Tiếng Thổ Nhĩ Kỳ"
-
-#: gradia/backend/ocr.py:57
-msgid "Kazakh"
-msgstr "Tiếng Kazakh"
-
-#: gradia/backend/ocr.py:58
-msgid "Occitan"
-msgstr "Tiếng Occitan"
-
-#: gradia/backend/ocr.py:59
-msgid "Polish"
-msgstr "Tiếng Ba Lan"
-
-#: gradia/backend/ocr.py:60
-msgid "Ukrainian"
-msgstr "Tiếng Ukraina"
-
-#: gradia/backend/ocr.py:61
-msgid "Telugu"
-msgstr "Tiếng Telugu"
-
-#: gradia/graphics/solid.py:130
-msgid "More Colors..."
+#: gradia/graphics/solid.py:130 gradia/ui/widget/quick_color_picker.py:103
+#, fuzzy
+msgid "More Colors"
 msgstr "Thêm Màu..."
 
 #: gradia/graphics/solid.py:191
@@ -859,39 +877,45 @@ msgstr "Xanh Dương Nhạt Pastela"
 msgid "Gray"
 msgstr "Xám"
 
-#: gradia/overlay/drawing_actions.py:48 gradia/ui/ui_parts.py:110
+#: gradia/overlay/crop_overlay.py:36
+#: gradia/ui/widget/background_aspect_ratio_selector.py:52
+#, fuzzy
+msgid "_Aspect Ratio"
+msgstr "Tỉ Lệ Khổ Hình"
+
+#: gradia/overlay/drawing_actions.py:48 gradia/ui/ui_parts.py:111
 msgid "Pen"
 msgstr "Bút"
 
-#: gradia/overlay/drawing_actions.py:49 gradia/ui/ui_parts.py:113
+#: gradia/overlay/drawing_actions.py:49 gradia/ui/ui_parts.py:114
 msgid "Arrow"
 msgstr "Mũi Tên"
 
-#: gradia/overlay/drawing_actions.py:50 gradia/ui/ui_parts.py:112
+#: gradia/overlay/drawing_actions.py:50 gradia/ui/ui_parts.py:113
 msgid "Line"
 msgstr "Đường Thẳng"
 
-#: gradia/overlay/drawing_actions.py:51 gradia/ui/ui_parts.py:114
+#: gradia/overlay/drawing_actions.py:51 gradia/ui/ui_parts.py:115
 msgid "Rectangle"
 msgstr "Hình Chữ Nhật"
 
-#: gradia/overlay/drawing_actions.py:52 gradia/ui/ui_parts.py:115
+#: gradia/overlay/drawing_actions.py:52 gradia/ui/ui_parts.py:116
 msgid "Oval"
 msgstr "Hình Bầu Dục"
 
-#: gradia/overlay/drawing_actions.py:53 gradia/ui/ui_parts.py:111
+#: gradia/overlay/drawing_actions.py:53 gradia/ui/ui_parts.py:112
 msgid "Text"
 msgstr "Văn Bản"
 
-#: gradia/overlay/drawing_actions.py:55 gradia/ui/ui_parts.py:116
+#: gradia/overlay/drawing_actions.py:55 gradia/ui/ui_parts.py:117
 msgid "Highlighter"
 msgstr "Highlighter"
 
-#: gradia/overlay/drawing_actions.py:56 gradia/ui/ui_parts.py:117
+#: gradia/overlay/drawing_actions.py:56 gradia/ui/ui_parts.py:118
 msgid "Censor"
 msgstr "Che"
 
-#: gradia/overlay/drawing_actions.py:57 gradia/ui/ui_parts.py:118
+#: gradia/overlay/drawing_actions.py:57 gradia/ui/ui_parts.py:119
 msgid "Number"
 msgstr "Số"
 
@@ -927,8 +951,9 @@ msgstr "Đã chuyển ảnh chụp màn hình vào thùng rác"
 msgid "Screenshots moved to trash"
 msgstr "Đã chuyển các ảnh chụp màn hình vào thùng rác"
 
-#: gradia/ui/dialog/ocr_dialog.py:118 gradia/ui/preferences/preferences_window.py:150
-#: gradia/ui/preferences/preferences_window.py:243
+#: gradia/ui/dialog/ocr_dialog.py:110 gradia/ui/dialog/ocr_dialog.py:124
+#: gradia/ui/preferences/preferences_window.py:152
+#: gradia/ui/preferences/preferences_window.py:245
 msgid "Copied!"
 msgstr "Đã Sao Chép!"
 
@@ -960,55 +985,55 @@ msgstr "Đã Lưu Hình Ảnh"
 msgid "Export Failed"
 msgstr "Xuất Thất Bại"
 
-#: gradia/ui/image_exporters.py:252
+#: gradia/ui/image_exporters.py:269
 msgid "No processed image available"
 msgstr "Không có hình ảnh đã xử lý nào"
 
-#: gradia/ui/image_exporters.py:278 gradia/ui/image_exporters.py:460
+#: gradia/ui/image_exporters.py:295 gradia/ui/image_exporters.py:477
 msgid "Image Copied"
 msgstr "Đã Sao Chép Hình Ảnh"
 
-#: gradia/ui/image_exporters.py:281 gradia/ui/image_exporters.py:288
+#: gradia/ui/image_exporters.py:298 gradia/ui/image_exporters.py:305
 msgid "Failed to copy image to clipboard"
 msgstr "Không thể sao chép hình ảnh vào clipboard"
 
-#: gradia/ui/image_exporters.py:302
+#: gradia/ui/image_exporters.py:319
 msgid "Link generated successfully"
 msgstr "Tạo liên kết thành công"
 
-#: gradia/ui/image_exporters.py:303
+#: gradia/ui/image_exporters.py:320
 msgid "Open Link"
 msgstr "Mở Liên Kết"
 
-#: gradia/ui/image_exporters.py:340
+#: gradia/ui/image_exporters.py:357
 msgid "Custom command failed: "
 msgstr "Lệnh tùy chỉnh thất bại: "
 
-#: gradia/ui/image_exporters.py:346
+#: gradia/ui/image_exporters.py:363
 msgid "Warning: "
 msgstr "Cảnh Báo: "
 
-#: gradia/ui/image_exporters.py:357
+#: gradia/ui/image_exporters.py:374
 msgid "Result copied to clipboard"
 msgstr "Đã sao chép kết quả vào bộ nhớ tạm"
 
-#: gradia/ui/image_exporters.py:359
+#: gradia/ui/image_exporters.py:376
 msgid "No output from command"
 msgstr "Không có kết quả từ lệnh"
 
-#: gradia/ui/image_exporters.py:362
+#: gradia/ui/image_exporters.py:379
 msgid "Failed to run custom export command"
 msgstr "Không thể chạy lệnh xuất tùy chỉnh"
 
-#: gradia/ui/image_exporters.py:408 gradia/ui/image_exporters.py:435
+#: gradia/ui/image_exporters.py:425 gradia/ui/image_exporters.py:452
 msgid "Close Operation Failed"
 msgstr "Thao Tác Đóng Thất Bại"
 
-#: gradia/ui/image_exporters.py:408 gradia/ui/image_exporters.py:435
+#: gradia/ui/image_exporters.py:425 gradia/ui/image_exporters.py:452
 msgid "Failed to export image"
 msgstr "Không thể xuất hình ảnh"
 
-#: gradia/ui/image_exporters.py:461
+#: gradia/ui/image_exporters.py:478
 msgid "You can now paste it from the clipboard."
 msgstr "Bây giờ bạn có thể dán từ bộ nhớ tạm."
 
@@ -1024,10 +1049,6 @@ msgstr "URL không phải định dạng hình ảnh được hỗ trợ"
 #: gradia/ui/image_loaders.py:131
 msgid "Failed to load image from URL."
 msgstr "Không thể tải hình ảnh từ URL."
-
-#: gradia/ui/image_loaders.py:140
-msgid "Open Image"
-msgstr "Mở Hình Ảnh"
 
 #: gradia/ui/image_loaders.py:143
 msgid "Image Files"
@@ -1061,24 +1082,39 @@ msgstr "Không thể tải ảnh chụp màn hình"
 msgid "Source snippet Generated!"
 msgstr "Đã Tạo source snippet!"
 
-#: gradia/ui/preferences/preferences_window.py:112
-msgid "Ask For Confirmation"
+#: gradia/ui/preferences/ocr_model_page.py:113
+msgid "Downloaded '{}' Successfully"
+msgstr ""
+
+#: gradia/ui/preferences/ocr_model_page.py:119
+#, fuzzy
+msgid "Failed to Download '{}'"
+msgstr "Không thể tải ảnh chụp màn hình"
+
+#: gradia/ui/preferences/preferences_window.py:114
+#, fuzzy
+msgid "Ask for Confirmation"
 msgstr "Yêu Cầu Xác Nhận"
 
-#: gradia/ui/preferences/preferences_window.py:113
+#: gradia/ui/preferences/preferences_window.py:115
 msgid "Copy and Close "
 msgstr "Sao Chép và Đóng "
 
-#: gradia/ui/preferences/preferences_window.py:114
+#: gradia/ui/preferences/preferences_window.py:116
 msgid "Close Instantly"
 msgstr "Đóng Ngay Lập Tức"
 
 #: gradia/ui/preferences/provider_selection_window.py:133
+#, fuzzy
+msgid "_Custom Provider"
+msgstr "Nhà Cung Cấp Tùy Chỉnh"
+
+#: gradia/ui/preferences/provider_selection_window.py:134
 #: gradia/ui/provider_selection_window.py:134
 msgid "Create your own custom upload command"
 msgstr "Tạo lệnh tải lên tùy chỉnh của riêng bạn"
 
-#: gradia/ui/preferences/provider_selection_window.py:301
+#: gradia/ui/preferences/provider_selection_window.py:303
 #: gradia/ui/provider_selection_window.py:302
 msgid "Custom"
 msgstr "Tùy Chỉnh"
@@ -1104,48 +1140,73 @@ msgstr "Nguồn Hình Ảnh"
 msgid "File Actions"
 msgstr "Thao Tác Tệp"
 
-#: gradia/ui/ui_parts.py:99
-msgid "Open File"
-msgstr "Mở Tệp"
-
-#: gradia/ui/ui_parts.py:100
+#: gradia/ui/ui_parts.py:101
 msgid "Save to File"
 msgstr "Lưu vào Tệp"
 
-#: gradia/ui/ui_parts.py:101
+#: gradia/ui/ui_parts.py:102
 msgid "Copy Image to Clipboard"
 msgstr "Sao Chép Hình Ảnh vào Bộ Nhớ Tạm"
 
-#: gradia/ui/ui_parts.py:102
+#: gradia/ui/ui_parts.py:103
 msgid "Paste From Clipboard"
 msgstr "Dán Từ Bộ Nhớ Tạm"
 
-#: gradia/ui/ui_parts.py:105
+#: gradia/ui/ui_parts.py:106
 msgid "Annotations"
 msgstr "Chú Thích"
 
-#: gradia/ui/ui_parts.py:120
+#: gradia/ui/ui_parts.py:121
 msgid "Cropping"
 msgstr "Cắt"
 
-#: gradia/ui/ui_parts.py:121
+#: gradia/ui/ui_parts.py:122
 msgid "Toggle Crop Mode"
 msgstr "Bật/Tắt Chế Độ Cắt"
 
-#: gradia/ui/ui_parts.py:122
+#: gradia/ui/ui_parts.py:123
 msgid "Reset Crop"
 msgstr "Đặt Lại Cắt"
 
-#: gradia/ui/ui_parts.py:124
+#: gradia/ui/ui_parts.py:125
 msgid "Zooming"
 msgstr "Thu Phóng"
 
+#: gradia/ui/ui_parts.py:129
+msgid "Pan Left"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:130
+msgid "Pan Right"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:131
+msgid "Pan Up"
+msgstr ""
+
 #: gradia/ui/ui_parts.py:132
+msgid "Pan Down"
+msgstr ""
+
+#: gradia/ui/ui_parts.py:135
+#, fuzzy
+msgid "Toggle Sidebar"
+msgstr "Mở Thanh Bên"
+
+#: gradia/ui/ui_parts.py:136
+msgid "Keyboard Shortcuts"
+msgstr "Phím Tắt"
+
+#: gradia/ui/ui_parts.py:138
 msgid "Open Source Snippets"
 msgstr "Mở Source Snippets"
 
+#: gradia/ui/ui_parts.py:139
+#, fuzzy
+msgid "Delete Taken Screenshots"
+msgstr "Xóa Ảnh Chụp Màn Hình Đã Chụp"
+
 #: gradia/ui/widget/aspect_ratio_button.py:26
-#: gradia/ui/widget/background_aspect_ratio_selector.py:52
 msgid "Aspect Ratio"
 msgstr "Tỉ Lệ Khổ Hình"
 
@@ -1173,18 +1234,114 @@ msgstr "Chiều Cao"
 msgid "Set"
 msgstr "Đặt"
 
-#: gradia/ui/widget/quick_color_picker.py:103
-msgid "More Colors…"
-msgstr "Thêm Màu…"
+#: gradia/ui/widget/toggle_group.py:47
+#, fuzzy
+msgid "_None"
+msgstr "Không"
+
+#: gradia/ui/widget/toggle_group.py:48
+#, fuzzy
+msgid "_Solid"
+msgstr "Đặc"
+
+#: gradia/ui/widget/toggle_group.py:49
+#, fuzzy
+msgid "_Gradient"
+msgstr "Gradient"
+
+#: gradia/ui/widget/toggle_group.py:50
+#, fuzzy
+msgid "_Image"
+msgstr "Hình Ảnh"
 
 #: gradia/ui/widget/quick_color_picker.py:108
 msgid "Choose Color"
 msgstr "Chọn Màu"
 
-#: gradia/ui/window.py:476
+#: gradia/ui/window.py:483
+#, fuzzy
+msgid "Select Provider"
+msgstr "Nhà Cung Cấp"
+
+#: gradia/ui/window.py:500
 msgid "Confirm Upload"
 msgstr "Xác Nhận Tải Lên"
 
-#: gradia/ui/window.py:480
+#: gradia/ui/window.py:504
 msgid "Upload"
 msgstr "Tải Lên"
+
+#~ msgid "Save As…"
+#~ msgstr "Lưu Dưới Dạng…"
+
+#~ msgid "Crop…"
+#~ msgstr "Cắt…"
+
+#~ msgid "Reset Crop Selection"
+#~ msgstr "Đặt Lại Vùng Cắt"
+
+#~ msgid "English"
+#~ msgstr "Tiếng Anh"
+
+#~ msgid "Chinese Simplified"
+#~ msgstr "Tiếng Trung giản thể"
+
+#~ msgid "Chinese Traditional"
+#~ msgstr "Tiếng Trung phồn thể"
+
+#~ msgid "Spanish"
+#~ msgstr "Tiếng Tây Ban Nha"
+
+#~ msgid "French"
+#~ msgstr "Tiếng Pháp"
+
+#~ msgid "German"
+#~ msgstr "Tiếng Đức"
+
+#~ msgid "Japanese"
+#~ msgstr "Tiếng Nhật"
+
+#~ msgid "Arabic"
+#~ msgstr "Tiếng Ả Rập"
+
+#~ msgid "Russian"
+#~ msgstr "Tiếng Nga"
+
+#~ msgid "Portuguese"
+#~ msgstr "Tiếng Bồ Đào Nha"
+
+#~ msgid "Italian"
+#~ msgstr "Tiếng Ý"
+
+#~ msgid "Korean"
+#~ msgstr "Tiếng Hàn"
+
+#~ msgid "Hindi"
+#~ msgstr "Tiếng Hindi"
+
+#~ msgid "Dutch"
+#~ msgstr "Tiếng Hà Lan"
+
+#~ msgid "Turkish"
+#~ msgstr "Tiếng Thổ Nhĩ Kỳ"
+
+#~ msgid "Kazakh"
+#~ msgstr "Tiếng Kazakh"
+
+#~ msgid "Occitan"
+#~ msgstr "Tiếng Occitan"
+
+#~ msgid "Polish"
+#~ msgstr "Tiếng Ba Lan"
+
+#~ msgid "Ukrainian"
+#~ msgstr "Tiếng Ukraina"
+
+#~ msgid "Telugu"
+#~ msgstr "Tiếng Telugu"
+
+#~ msgid "Open File"
+#~ msgstr "Mở Tệp"
+
+#~ msgid "More Colors…"
+#~ msgstr "Thêm Màu…"
