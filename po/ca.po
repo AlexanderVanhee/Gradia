@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-28 15:35+0200\n"
-"PO-Revision-Date: 2026-05-20 17:57+0200\n"
+"PO-Revision-Date: 2026-05-22 20:13+0200\n"
 "Last-Translator: Jordi Bultó <jbulto@gmail.com>\n"
 "Language-Team: Catalan\n"
 "Language: ca\n"
@@ -155,16 +155,14 @@ msgid "Annotation Tools"
 msgstr "Eines d'anotació"
 
 #: data/ui/drawing_tools_group.blp:60 data/ui/drawing_tools_group.blp:75
-#, fuzzy
 msgid "Fill"
-msgstr "Emplenament"
+msgstr "Farciment"
 
 #: data/ui/drawing_tools_group.blp:82
 msgid "Border"
 msgstr "Vora"
 
 #: data/ui/drawing_tools_group.blp:98
-#, fuzzy
 msgid "Fill Color Picker"
 msgstr "Selector de color de farciment"
 
@@ -177,7 +175,6 @@ msgid "Edit Gradient Steps"
 msgstr "Edita els punts del degradat"
 
 #: data/ui/gradient_step_dialog.blp:35
-#, fuzzy
 msgid "Gradient Steps"
 msgstr "Punts del degradat"
 
