@@ -3,412 +3,911 @@
 # This file is distributed under the same license as the gradia package.
 # Oleksii "Grinka" <grinka@tuta.io>, 2025.
 # freeducks-debug, 2025.
+# Dymko <Dymkovych@proton.me>, 2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gradia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-09 19:16+0300\n"
-"PO-Revision-Date: 2025-07-09 19:52+0300\n"
-"Last-Translator: freeducks-debug <applesause454@gmail.com>\n"
+"POT-Creation-Date: 2025-09-28 15:35+0200\n"
+"PO-Revision-Date: 2026-05-28 08:55+0300\n"
+"Last-Translator: Dymko <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Poedit 3.6\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
+"2);\n"
+"X-Generator: Gtranslator 50.0\n"
 
-#: data/be.alexandervanhee.gradia.desktop.in.in:3 data/be.alexandervanhee.gradia.metainfo.xml.in.in:11
+#: data/be.alexandervanhee.gradia.desktop.in.in:2
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:11
 msgid "Gradia"
 msgstr "Gradia"
 
-#: data/be.alexandervanhee.gradia.desktop.in.in:4 gradia/ui/ui_parts.py:26
+#: data/be.alexandervanhee.gradia.desktop.in.in:3
 msgid "Make your images ready for the world"
-msgstr "Підготуйте ваші зображення до світу"
+msgstr "Підготуйте свої зображення для світу"
 
 #: data/be.alexandervanhee.gradia.desktop.in.in:10
 msgid "Image;Gradient;Background;Screenshot;Edit;"
-msgstr "image;gradient;background;backgrounds;screenshot;screenshots;edit;enchance;gradia;картинка;картинки;зображення;градієнт;знімок;зняток;екрану;скріншот;скриншот;покращити;редагувати;"
+msgstr "image;gradient;background;backgrounds;screenshot;screenshots;edit;enchance;gradia;картинка;картинки;зображення;градієнт;знімок;зняток;екрану;скріншот;скриншот;покращити;редагувати;пкфвшф;uhflsz;"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:15
+msgid "New Window"
+msgstr "Нове вікно"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:20
+msgid "Take Screenshot"
+msgstr "Зробити знімок"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:25
+msgid "Take Fullscreen Screenshot"
+msgstr "Знімок екрану"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:12
-msgid "Make your screenshots ready for all"
-msgstr "Підготуйте ваші знятки для всіх"
+msgid "Annotate your screenshots"
+msgstr "Анотуйте ваші знімки екрану"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:15
 msgid ""
-"Gradia helps you quickly prepare your screenshots for sharing by fixing common issues like transparency and awkward sizing. With simple tools to add backgrounds, adjust aspect ratios, "
-"and annotate images, you can enhance your screenshots to look professional and consistent across social media, blogs, and other platforms on the internet."
+"Gradia helps you get your screenshots ready for sharing, whether quickly "
+"with friends or colleagues, or professionally with the entire world."
 msgstr ""
-"Gradia допомагає вам швидко підготувати ваші знімки екрану до поширення виправляючи поширені проблеми, наприклад прозоре тло та незграбний розмір. За допомогою простих інструментів які "
-"додають непрозоре тло, змінюють співвідношення сторін та анотують зображення, ви можете покращити ваші знімки екрану щоб вони виглядали професійно та послідовно серед усіх соціальних "
-"мереж, блогів та інших платформ у інтернеті."
+"Gradia допомагає швидко підготувати знімки екрана для поширення — серед "
+"друзів, колег або й усього світу."
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:16
 msgid "Key features:"
-msgstr "Ключовий функціонал:"
+msgstr "Ключові можливості:"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:18
-msgid "Add optional image and gradient backgrounds to your images"
-msgstr "Додавання зображення або градієнту замість прозорого тла на ваших зображеннях"
+msgid "Ten annotation modes, including text, arrow, and censor"
+msgstr "10 режимів анотування, включно з текстом, стрілками та пікселізацією"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:19
-msgid "Adjust aspect ratios and padding to fit different platforms"
-msgstr "Регулювання співвідношення сторін та відступів"
+msgid "Optional image and gradient backgrounds"
+msgstr "Додавання зображень і градієнтного тла"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:20
-msgid "Ten annotation modes, including text, arrow, and censor"
-msgstr "10 режимів анотування, включаючи текст, стрілки та пікселізація"
+msgid "Image settings like shadow, padding, and auto-balance"
+msgstr "Налаштування зображення: тінь, відступи та автобаланс"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:21
-msgid "Multiple ways to import and export screenshots"
-msgstr "Декілька шляхів імпортування знімків екрану"
+msgid "Quick upload flow to easily share images via services like Imgur"
+msgstr "Швидке вивантаження зображень через сервіси на кшталт Imgur"
 
 #: data/be.alexandervanhee.gradia.metainfo.xml.in.in:22
-msgid "Quick upload button for image services like Imgur"
-msgstr "Кнопка для вивантаження зображення на сервіси як Imgur"
+msgid "Convert code snippets into clean high-resolution images"
+msgstr "Перетворення фрагментів коду у чисті зображення високої роздільності"
 
-#. Package maintainers, please replace with correct command
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:25
-msgid ""
-"Want a keyboard shortcut on GNOME? Simply go to Settings → Keyboard → View and Customize Shortcuts → Custom Shortcuts. Then create a shortcut that runs <code>flatpak run "
-"be.alexandervanhee.gradia --screenshot=INTERACTIVE</code>."
-msgstr ""
-"Хочете клавіатурне скорочення у GNOME? Просто перейдіть по Параметри → Клавіатура → Перегляд і налаштовування скорочень → Власне скорочення. Після створіть скорочення яке запускає "
-"<code>flatpak run be.alexandervanhee.gradia --screenshot=INTERACTIVE</code>."
-
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:31
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:26
 msgid "Alexander Vanhee"
 msgstr "Олександр Ванхі (Alexander Vanhee)"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:175
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:266
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:270
 msgid "Edited screenshot"
 msgstr "Відредагований знімок екрану"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:179
-msgid "Edited picture"
-msgstr "Відредаговане зображення"
-
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:183
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:274
 msgid "Startup view"
 msgstr "Початковий огляд"
 
-#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:187
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:278
 msgid "UI element showcase"
 msgstr "Демонстрація елементів інтерфейсу"
 
-#. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
-#: gradia/ui/ui_parts.py:39
-msgid "translator-credits"
-msgstr ""
-"Олексій \"Грінка\" <grinka@tuta.io>\n"
-"freeducks-debug"
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:282
+#: data/ui/image_generator_window.blp:5 data/ui/image_sidebar.blp:224
+#: data/ui/welcome_page.blp:79
+#: gradia/ui/image_creation/source_image_generator.py:397
+msgid "Source Snippets"
+msgstr "Фрагменти коду"
 
-#: gradia/ui/ui_parts.py:49
-msgid "File Actions"
-msgstr "Дії з файлами"
+#: data/ui/background_selector.blp:15
+msgid "None"
+msgstr "Без тла"
 
-#: gradia/ui/ui_parts.py:51
-msgid "Open File"
-msgstr "Відкрити файл"
+#: data/ui/background_selector.blp:20
+msgid "Solid"
+msgstr "Колір"
 
-#: gradia/ui/ui_parts.py:52
-msgid "Save to File"
-msgstr "Зберегти до файлу"
+#: data/ui/background_selector.blp:25
+msgid "Gradient"
+msgstr "Градієнт"
 
-#: gradia/ui/ui_parts.py:53
-msgid "Copy Image to Clipboard"
-msgstr "Копіювати зображення"
+#: data/ui/background_selector.blp:30
+msgid "Image"
+msgstr "Зображення"
 
-#: gradia/ui/ui_parts.py:54
-msgid "Paste From Clipboard"
-msgstr "Вставити зображення"
+#: data/ui/confirm_close_dialog.blp:5
+msgid "Close Gradia?"
+msgstr "Закрити Gradia?"
 
-#: gradia/ui/ui_parts.py:55 data/ui/image_sidebar.blp:172
-msgid "Share Image"
-msgstr "Поділитися зображенням"
+#: data/ui/confirm_close_dialog.blp:6
+msgid "Are you sure you want to exit? All unsaved changes will be lost."
+msgstr "Ви впевнені, що хочете вийти? Усі не збережені зміни буде втрачено."
 
-#: gradia/ui/ui_parts.py:59
-msgid "Annotations"
-msgstr "Анотації"
-
-#: gradia/ui/ui_parts.py:61 data/ui/image_stack.blp:95
-msgid "Undo"
-msgstr "Скасувати"
-
-#: gradia/ui/ui_parts.py:62 data/ui/image_stack.blp:106
-msgid "Redo"
-msgstr "Повторити"
-
-#: gradia/ui/ui_parts.py:63 data/ui/image_stack.blp:77
-msgid "Erase Selected"
-msgstr "Стерти обране"
-
-#: gradia/ui/ui_parts.py:67
-msgid "General"
-msgstr "Загальні"
-
-#: gradia/ui/ui_parts.py:69 data/ui/image_sidebar.blp:221 data/ui/welcome_page.blp:76
-msgid "Keyboard Shortcuts"
-msgstr "Клавіатурні скорочення"
-
-#: gradia/ui/ui_parts.py:70 data/ui/image_sidebar.blp:217 data/ui/welcome_page.blp:72
-msgid "Preferences"
-msgstr "Налаштування"
-
-#: gradia/ui/ui_parts.py:71
-msgid "Toggle Utility Pane"
-msgstr "Перемикнути панель інструментів"
-
-#: gradia/ui/window.py:397
-msgid "Unknown"
-msgstr "Невідомо"
-
-#: gradia/ui/window.py:399 gradia/ui/provider_selection_window.py:79
-msgid "Error"
-msgstr "Помилка"
-
-#: gradia/ui/window.py:456
-msgid "Confirm Upload"
-msgstr "Підтвердити завантаження"
-
-#: gradia/ui/window.py:457
-#, python-brace-format
-msgid "Are you sure you want to upload this image to {provider_name}?"
-msgstr "Ви впевнені що бажаєте вивантажити це зображення до {provider_name}?"
-
-#: gradia/ui/window.py:459 gradia/ui/image_exporters.py:95 gradia/ui/dialog/delete_screenshots_dialog.py:54 data/ui/confirm_close_dialog.blp:10
+#: data/ui/confirm_close_dialog.blp:11
+#: gradia/ui/dialog/delete_screenshots_dialog.py:54
+#: gradia/ui/image_exporters.py:149 gradia/ui/window.py:479
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: gradia/ui/window.py:460
-msgid "Upload"
-msgstr "Вивантажити"
+#: data/ui/confirm_close_dialog.blp:12 data/ui/ocr_dialog.blp:83
+msgid "Copy"
+msgstr "Копіювати"
 
-#: gradia/ui/image_exporters.py:91
-msgid "Save Image As"
-msgstr "Зберегти зображення як"
+#: data/ui/confirm_close_dialog.blp:13
+msgid "Close"
+msgstr "Закрити"
 
-#: gradia/ui/image_exporters.py:94 gradia/ui/provider_selection_window.py:203
-msgid "Save"
-msgstr "Зберегти"
+#: data/ui/confirm_close_dialog.blp:20
+msgid "Don't Ask Again"
+msgstr "Не питати знову"
 
-#: gradia/ui/image_exporters.py:120
-msgid "Unsupported image file extension."
-msgstr "Непідтримуване розширення файлу зображення."
+#: data/ui/drawing_tools_group.blp:7
+msgid "Annotation Tools"
+msgstr "Анотація"
 
-#: gradia/ui/image_exporters.py:127
-msgid "Image saved successfully"
-msgstr "Зображення успішно збережено"
+#: data/ui/drawing_tools_group.blp:60 data/ui/drawing_tools_group.blp:75
+msgid "Fill"
+msgstr "Заливка"
 
-#: gradia/ui/image_exporters.py:183
-msgid "No processed image available"
-msgstr "Немає доступних оброблених зображень"
+#: data/ui/drawing_tools_group.blp:82
+msgid "Border"
+msgstr "Обведення"
 
-#: gradia/ui/image_exporters.py:205
-msgid "Image copied to clipboard"
-msgstr "Зображення збережно до буферу обміну"
+#: data/ui/drawing_tools_group.blp:98
+msgid "Fill Color Picker"
+msgstr "Вибір кольору"
 
-#: gradia/ui/image_exporters.py:208
-msgid "Failed to copy image to clipboard"
-msgstr "Помилка під час збереження зображення до буферу обміну"
+#: data/ui/drawing_tools_group.blp:105
+msgid "Outline Color Picker"
+msgstr "Колір обведення"
 
-#: gradia/ui/image_exporters.py:222
-msgid "Link generated successfully"
-msgstr "Посилання успішно згенероване"
+#: data/ui/gradient_step_dialog.blp:7
+msgid "Edit Gradient Steps"
+msgstr "Редагування кроків градієнту"
 
-#: gradia/ui/image_exporters.py:223
-msgid "Open Link"
-msgstr "Відкрити посилання"
+#: data/ui/gradient_step_dialog.blp:35
+msgid "Gradient Steps"
+msgstr "Кроки градієнта"
 
-#: gradia/ui/image_exporters.py:262
-msgid "Custom command failed: "
-msgstr "У власній команді стала помилка: "
+#: data/ui/gradient_step_dialog.blp:36
+msgid "You can add up to five steps"
+msgstr "Ви можете додати до п’яти кроків"
 
-#: gradia/ui/image_exporters.py:268
-msgid "Warning: "
-msgstr "Увага: "
+#: data/ui/gradient_step_dialog.blp:39
+msgid "Add Step"
+msgstr "Додати крок"
 
-#: gradia/ui/image_exporters.py:279
-msgid "Result copied to clipboard"
-msgstr "Зображення скопійовано до буферу обміну"
+#: data/ui/image_generator_window.blp:29
+msgid "Language"
+msgstr "Мова"
 
-#: gradia/ui/image_exporters.py:281
-msgid "No output from command"
-msgstr "Жодного виводу від команди"
+#: data/ui/image_generator_window.blp:39
+msgid "Style"
+msgstr "Стиль"
 
-#: gradia/ui/image_exporters.py:284
-msgid "Failed to run custom export command"
-msgstr "Не вдалося запустити власну команду експорту"
+#: data/ui/image_generator_window.blp:54
+msgid "Default"
+msgstr "Стандартний"
 
-#: gradia/ui/image_loaders.py:63 data/ui/image_sidebar.blp:17
-msgid "Open Image"
-msgstr "Відкрити зображення"
+#: data/ui/image_generator_window.blp:69
+msgid "Window Frame"
+msgstr "Рамка вікна"
 
-#: gradia/ui/image_loaders.py:66
-msgid "Image Files"
-msgstr "Файли зображень"
+#: data/ui/image_generator_window.blp:74
+msgid "Add a window frame around the code"
+msgstr "Додати рамку вікна навколо коду"
 
-#: gradia/ui/image_loaders.py:120
-msgid "Not a supported image format."
-msgstr "Непідтримуваний формат зображення."
+#: data/ui/image_generator_window.blp:81
+msgid "Line Numbers"
+msgstr "Номери рядків"
 
-#: gradia/ui/image_loaders.py:150
-msgid "No image found in clipboard"
-msgstr "Не знайдено зображень у буфері обміну"
+#: data/ui/image_generator_window.blp:86
+msgid "Add a number before each new line of code"
+msgstr "Додавати номер перед кожним рядком коду"
 
-#: gradia/ui/image_loaders.py:157
-msgid "Clipboard Image"
-msgstr "Зображення з буферу обміну"
+#: data/ui/image_generator_window.blp:113
+msgid "Export"
+msgstr "Експортувати"
 
-#: gradia/ui/image_loaders.py:158
-msgid "From clipboard"
-msgstr "З буферу обміну"
+#: data/ui/image_sidebar.blp:17 data/ui/welcome_page.blp:60
+msgid "Open Image…"
+msgstr "Відкрити зображення…"
 
-#: gradia/ui/image_loaders.py:165
-msgid "Clipboard does not contain an image."
-msgstr "Буфер обміну не містить зображень."
+#: data/ui/image_sidebar.blp:24 data/ui/welcome_page.blp:49
+msgid "Take a Screenshot…"
+msgstr "Зробити знімок екрану…"
 
-#: gradia/ui/image_loaders.py:167
-msgid "Failed to load image from clipboard."
-msgstr "Помилка під час завантаження зображення з буферу обміну."
+#: data/ui/image_sidebar.blp:31 data/ui/welcome_page.blp:24
+msgid "Main Menu"
+msgstr "Головне меню"
 
-#: gradia/ui/image_loaders.py:202 gradia/ui/image_loaders.py:217
-msgid "Failed to take screenshot"
-msgstr "Не вдалося зробити знімок екрану"
+#: data/ui/image_sidebar.blp:52
+msgid "Image Options"
+msgstr "Параметри зображення"
 
-#: gradia/ui/image_loaders.py:233
-msgid "Screenshot cancelled"
-msgstr "Знімок екрану скасовано"
+#: data/ui/image_sidebar.blp:55
+msgid "Padding"
+msgstr "Відступ"
 
-#: gradia/ui/image_loaders.py:254 gradia/ui/image_loaders.py:255
-msgid "Screenshot"
-msgstr "Знімок Екрану"
+#: data/ui/image_sidebar.blp:67
+msgid "Corner Radius"
+msgstr "Радіус кутів"
 
-#: gradia/ui/image_loaders.py:258
-msgid "Screenshot captured!"
-msgstr "Знімок зроблено!"
+#: data/ui/image_sidebar.blp:83
+msgid "Shadow"
+msgstr "Тінь"
 
-#: gradia/ui/image_loaders.py:265
-msgid "Failed to process screenshot"
-msgstr "Помилка під час оброблення зображення"
+#: data/ui/image_sidebar.blp:103
+msgid "Auto Balance"
+msgstr "Автоматичний баланс"
 
-#: gradia/ui/provider_selection_window.py:38 gradia/ui/provider_selection_window.py:133
-msgid "Choose Provider"
-msgstr "Обрати надавача послуг"
+#: data/ui/image_sidebar.blp:108
+msgid "Rotation"
+msgstr "Обертання"
 
-#: gradia/ui/provider_selection_window.py:70
-msgid "Loading providers data..."
-msgstr "Завантаження даних надавача послуг..."
+#: data/ui/image_sidebar.blp:117
+msgid "Rotate Anticlockwise"
+msgstr "Проти годинникової стрілки"
 
-#: gradia/ui/provider_selection_window.py:85
-msgid "An error occurred"
-msgstr "Сталася помилка"
+#: data/ui/image_sidebar.blp:125
+msgid "Rotate Clockwise"
+msgstr "За годинниковою стрілкою"
 
-#: gradia/ui/provider_selection_window.py:86
-msgid "Please try again later."
-msgstr "Спробуйте ще раз пізніше."
+#: data/ui/image_sidebar.blp:136
+msgid "Current File"
+msgstr "Поточний файл"
 
-#: gradia/ui/provider_selection_window.py:166 gradia/ui/provider_selection_window.py:200
+#: data/ui/image_sidebar.blp:139
+msgid "Name"
+msgstr "Назва"
+
+#: data/ui/image_sidebar.blp:140 data/ui/image_sidebar.blp:146
+#: data/ui/image_sidebar.blp:165
+msgid "N/A"
+msgstr "Н/Д"
+
+#: data/ui/image_sidebar.blp:145
+msgid "Location"
+msgstr "Розташування"
+
+#: data/ui/image_sidebar.blp:156
+msgid "Open Folder"
+msgstr "Відкрити теку"
+
+#: data/ui/image_sidebar.blp:164
+msgid "Modified image size"
+msgstr "Розмір модифікованого зображення"
+
+#: data/ui/image_sidebar.blp:183
+msgid "Save As…"
+msgstr "Зберегти як…"
+
+#: data/ui/image_sidebar.blp:194
+msgid "Copy to Clipboard"
+msgstr "Копіювати до буферу обміну"
+
+#: data/ui/image_sidebar.blp:204 gradia/ui/ui_parts.py:103
+msgid "Share Image"
+msgstr "Поділитися зображенням"
+
+#: data/ui/image_sidebar.blp:228
+msgid "Delete Taken Screenshot(s)"
+msgstr "Видалити зроблені знімки екрану"
+
+#: data/ui/image_sidebar.blp:235 data/ui/preferences_window.blp:6
+#: data/ui/welcome_page.blp:85 gradia/ui/ui_parts.py:131
+msgid "Preferences"
+msgstr "Налаштування"
+
+#: data/ui/image_sidebar.blp:239 data/ui/welcome_page.blp:89
+#: gradia/ui/ui_parts.py:130
+msgid "Keyboard Shortcuts"
+msgstr "Клавіатурні скорочення"
+
+#: data/ui/image_sidebar.blp:243 data/ui/welcome_page.blp:93
+msgid "About Gradia"
+msgstr "Про Gradia"
+
+#: data/ui/image_stack.blp:8 data/ui/welcome_page.blp:15
+msgid "Drop Image Here"
+msgstr "Перетягніть зображення сюди"
+
+#: data/ui/image_stack.blp:79
+msgid "Open Sidebar"
+msgstr "Відкрити бічну панель"
+
+#: data/ui/image_stack.blp:92
+msgid "Crop…"
+msgstr "Обрізати…"
+
+#: data/ui/image_stack.blp:105 data/ui/ocr_dialog.blp:5
+#: data/ui/ocr_dialog.blp:15 data/ui/preferences_window.blp:91
+msgid "Text Extraction"
+msgstr "Розпізнавання тексту"
+
+#: data/ui/image_stack.blp:118 gradia/ui/ui_parts.py:108
+msgid "Erase Selected"
+msgstr "Стерти обране"
+
+#: data/ui/image_stack.blp:136
+msgid "Reset Crop Selection"
+msgstr "Скинути область обрізання"
+
+#: data/ui/image_stack.blp:165
+msgid "Confirm"
+msgstr "Підтвердити"
+
+#: data/ui/image_stack.blp:166
+msgid "Confirm Crop Selection"
+msgstr "Підтвердити область обрізання"
+
+#: data/ui/image_stack.blp:205 gradia/ui/ui_parts.py:127
+msgid "Reset Zoom"
+msgstr "Скинути масштаб"
+
+#: data/ui/image_stack.blp:229 gradia/ui/ui_parts.py:126
+msgid "Zoom Out"
+msgstr "Зменшити"
+
+#: data/ui/image_stack.blp:239 gradia/ui/ui_parts.py:125
+msgid "Zoom In"
+msgstr "Збільшити"
+
+#: data/ui/image_stack.blp:255 gradia/ui/ui_parts.py:106
+msgid "Undo"
+msgstr "Скасувати"
+
+#: data/ui/image_stack.blp:265 gradia/ui/ui_parts.py:107
+msgid "Redo"
+msgstr "Повторити"
+
+#: data/ui/image_stack.blp:275
+msgid "Clear All"
+msgstr "Очистити все"
+
+#: data/ui/ocr_dialog.blp:16
+msgid "Crop image to adjust OCR area"
+msgstr "Обріжте зображення для вибору області розпізнавання"
+
+#: data/ui/ocr_dialog.blp:22
+msgid "Select Language"
+msgstr "Вибрати мову"
+
+#: data/ui/ocr_dialog.blp:52
+msgid "No Text Found"
+msgstr "Текст не знайдено"
+
+#: data/ui/ocr_dialog.blp:53
+msgid "Please make a new selection"
+msgstr "Будь ласка, зробіть нове виділення"
+
+#: data/ui/preferences/custom_provider_page.blp:6
+#: gradia/ui/preferences/provider_selection_window.py:132
+#: gradia/ui/provider_selection_window.py:133
 msgid "Custom Provider"
 msgstr "Власний надавач послуг"
 
-#: gradia/ui/provider_selection_window.py:167
-msgid "Create your own custom upload command"
-msgstr "Створіть власну команду вивантаження"
+#: data/ui/preferences/custom_provider_page.blp:13
+#: gradia/ui/image_exporters.py:148
+msgid "Save"
+msgstr "Зберегти"
 
-#: gradia/ui/provider_selection_window.py:233 gradia/ui/provider_selection_window.py:386
+#: data/ui/preferences/custom_provider_page.blp:36
+#: data/ui/preferences/provider_detail_page.blp:105
 msgid "Upload Command"
 msgstr "Команда вивантаження"
 
-#: gradia/ui/provider_selection_window.py:234
-msgid "Enter a custom command to upload files. Use $1 as a placeholder for the file path."
-msgstr "Введіть власну команду для вивантаження файлів. Використовуйте $1 як шаблон для шляху до файлу."
+#: data/ui/preferences/custom_provider_page.blp:37
+msgid ""
+"Enter a custom command to upload files. Use $1 as a placeholder for the file "
+"path."
+msgstr ""
+"Введіть власну команду для вивантаження файлів. Використовуйте $1 як шаблон "
+"для шляху до файлу."
 
-#: gradia/ui/provider_selection_window.py:238
-msgid "Command"
-msgstr "Команда"
+#: data/ui/preferences/ocr_model_page.blp:5
+#: data/ui/preferences/ocr_model_page.blp:28 data/ui/preferences_window.blp:93
+msgid "Language Models"
+msgstr "Мовні моделі"
 
-#: gradia/ui/provider_selection_window.py:289 gradia/overlay/drawing_actions.py:52 data/ui/preferences_window.blp:89
+#: data/ui/preferences/ocr_model_page.blp:29
+msgid "Using the correct language model can improve OCR accuracy."
+msgstr "Використання правильної мовної моделі може покращити точність OCR."
+
+#: data/ui/preferences/provider_detail_page.blp:56
+#: gradia/overlay/drawing_actions.py:54 gradia/ui/ui_parts.py:109
 msgid "Select"
 msgstr "Обрати"
 
-#: gradia/ui/provider_selection_window.py:340
+#: data/ui/preferences/provider_detail_page.blp:63
 msgid "About"
 msgstr "Про надавача послуг"
 
-#: gradia/ui/provider_selection_window.py:343
+#: data/ui/preferences/provider_detail_page.blp:66
 msgid "Homepage"
 msgstr "Домашня сторінка"
 
-#: gradia/ui/provider_selection_window.py:354
+#: data/ui/preferences/provider_detail_page.blp:83
 msgid "Terms of Service"
 msgstr "Умови використання"
 
-#: gradia/ui/provider_selection_window.py:365
+#: data/ui/preferences/provider_detail_page.blp:101
 msgid "Features"
 msgstr "Можливості"
 
-#: gradia/ui/provider_selection_window.py:451
-msgid "Custom"
-msgstr "Власний"
+#: data/ui/preferences/provider_list_page.blp:5
+msgid "Choose a Provider"
+msgstr "Оберіть надавача послуг"
 
-#: gradia/overlay/drawing_actions.py:46
+#: data/ui/preferences/provider_list_page.blp:12
+msgid "Loading"
+msgstr "Завантаження"
+
+#: data/ui/preferences/provider_list_page.blp:26
+msgid "Error"
+msgstr "Помилка"
+
+#: data/ui/preferences/provider_list_page.blp:40
+msgid "An error occurred"
+msgstr "Сталася помилка"
+
+#: data/ui/preferences/provider_list_page.blp:41
+msgid "Please try again later"
+msgstr "Спробуйте ще раз пізніше."
+
+#: data/ui/preferences/provider_list_page.blp:50
+msgid "Providers"
+msgstr "Надавачі послуг"
+
+#: data/ui/preferences/provider_list_page.blp:57
+msgid ""
+"Select a third party image upload provider. These have their own terms and "
+"conditions."
+msgstr ""
+"Оберіть стороннього надавача послуг для вивантаження зображень. Вони мають "
+"власні умови використання."
+
+#: data/ui/preferences/screenshot_guide_page.blp:6
+msgid "Screenshot Shortcut Guide"
+msgstr "Посібник зі скорочень для знімків екрану"
+
+#: data/ui/preferences/screenshot_guide_page.blp:32
+msgid "Shortcut Setup Instructions"
+msgstr "Інструкції для налаштування скорочення"
+
+#: data/ui/preferences/screenshot_guide_page.blp:44
+msgid ""
+"If you'd like the app to <b>open automatically</b> after taking a "
+"screenshot, you can set up a custom keyboard shortcut:\n"
+"\n"
+"<b>Steps:</b>\n"
+"1. Go to <b>Settings</b> → <b>Keyboard</b> → <b>View and Customize "
+"Shortcuts</b> → <b>Custom Shortcuts</b>.\n"
+"2. Click the <b>+</b> button to create a new shortcut.\n"
+"3. Set the <b>Name</b> to something like <i>Open Gradia with Screenshot</"
+"i>.\n"
+"4. For the <b>Command</b>, copy one of the commands below:"
+msgstr ""
+"Якщо ви бажаєте, щоб додаток <b>відкривався автоматично</b> після створення "
+"знімку екрана, ви можете налаштувати клавіатурне скорочення:\n"
+"<b>Кроки:</b>\n"
+"1. Перейдіть до <b>Налаштування</b> → <b>Клавіатура</b> → <b>Перегляд і "
+"налаштування скорочень</b> → <b>Власне скорочення</b>.\n"
+"2. Клацніть на <b>Додати скорочення...</b> щоб створити нове скорочення.\n"
+"3. Встановіть <b>Назва</b> на щось на кшталт <i>Відкрити Gradia для знімку "
+"екрана</i>.\n"
+"4. Для <b>Команда</b> скопіюйте одну з команд наданих нижче:"
+
+#: data/ui/preferences/screenshot_guide_page.blp:59
+msgid "Interactive Screenshot"
+msgstr "Інтерактивний знімок екрану"
+
+#: data/ui/preferences/screenshot_guide_page.blp:65
+msgid "Allows you to select an area to screenshot"
+msgstr "Дозволяє вам обрати область на знімку екрана"
+
+#: data/ui/preferences/screenshot_guide_page.blp:75
+#: data/ui/preferences/screenshot_guide_page.blp:100
+#: data/ui/preferences/screenshot_guide_page.blp:137
+msgid "Copy to clipboard"
+msgstr "Скопіювати до буферу обміну"
+
+#: data/ui/preferences/screenshot_guide_page.blp:84
+msgid "Full Screen Screenshot"
+msgstr "Знімок повного екрану"
+
+#: data/ui/preferences/screenshot_guide_page.blp:90
+msgid "Takes a screenshot of all screens instantly"
+msgstr "Моментально зробить знімки усіх екранів"
+
+#: data/ui/preferences/screenshot_guide_page.blp:104
+msgid ""
+"5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should "
+"be free by default)."
+msgstr ""
+"5. Призначте бажане клавіатурне скорочення (<tt>Ctrl + Print</tt> повинно "
+"бути вільне за замовченням)."
+
+#: data/ui/preferences/screenshot_guide_page.blp:121
+msgid "Delayed Screenshot"
+msgstr "Знімок екрану із затримкою"
+
+#: data/ui/preferences/screenshot_guide_page.blp:127
+msgid "Delay the capture by a given duration (in milliseconds)."
+msgstr "Затримати створення знімка на вказаний час (у мілісекундах)."
+
+#: data/ui/preferences_window.blp:9 gradia/ui/ui_parts.py:129
+msgid "General"
+msgstr "Загальні"
+
+#: data/ui/preferences_window.blp:11
+msgid "Screenshots"
+msgstr "Знімки екрану"
+
+#: data/ui/preferences_window.blp:14
+msgid "Recent Directory"
+msgstr "Нещодавня тека"
+
+#: data/ui/preferences_window.blp:15
+msgid "Used for home screen"
+msgstr "Для головного екрана"
+
+#: data/ui/preferences_window.blp:35
+msgid "Screenshot Shortcut"
+msgstr "Скорочення для знімка екрану"
+
+#: data/ui/preferences_window.blp:39
+msgid "Save Options"
+msgstr "Параметри збереження"
+
+#: data/ui/preferences_window.blp:41
+msgid "Image Format"
+msgstr "Формат зображення"
+
+#: data/ui/preferences_window.blp:42
+msgid "Default format for saved screenshots"
+msgstr "Стандартний формат для збереження знімків екрану"
+
+#: data/ui/preferences_window.blp:46
+msgid "Closing"
+msgstr "Закривання"
+
+#: data/ui/preferences_window.blp:48
+msgid "When Exiting"
+msgstr "При виході"
+
+#: data/ui/preferences_window.blp:51
+msgid "Overwrite last screenshot on close"
+msgstr "Перезаписати останній знімок при закриванні"
+
+#: data/ui/preferences_window.blp:52
+msgid "Replace it with the annotated version"
+msgstr "Замінити його анотованою версією"
+
+#: data/ui/preferences_window.blp:53
+msgid "Replace last screenshot file with annotated version on close"
+msgstr "Замінити файл останнього знімка анотованою версією при закриванні"
+
+#: data/ui/preferences_window.blp:57
+msgid "Trash Screenshots on Close"
+msgstr "Переміщати знімки до \"Смітника\" при закриванні"
+
+#: data/ui/preferences_window.blp:58
+msgid "Automatically move screenshots taken from within the app to trash"
+msgstr ""
+"Автоматично відправляти знімки що були зроблені всередині додатку у "
+"\"Смітник\""
+
+#: data/ui/preferences_window.blp:59
+msgid "Trash screenshots on app close"
+msgstr "Переміщати знімки до \"Смітник\" при закриванні застосунку"
+
+#: data/ui/preferences_window.blp:64
+msgid "Image Upload Providers"
+msgstr "Надавачі послуг вивантаження зображення"
+
+#: data/ui/preferences_window.blp:65
+msgid "Connect to your favorite upload providers, or create a link yourself"
+msgstr ""
+"Під'єднайте вашого улюбленого надавача послуг або створіть посилання "
+"самостійно"
+
+#: data/ui/preferences_window.blp:67
+msgid "Provider"
+msgstr "Надавач послуг"
+
+#: data/ui/preferences_window.blp:75
+#: gradia/ui/preferences/preferences_window.py:78
+msgid "None Selected"
+msgstr "Нічого не обрано"
+
+#: data/ui/preferences_window.blp:84
+msgid "Confirm on Upload"
+msgstr "Підтверджувати при вивантаженні"
+
+#: data/ui/preferences_window.blp:85 data/ui/preferences_window.blp:86
+msgid "Ask for confirmation before running the upload command"
+msgstr "Питати про підтвердження перед тим як запустити команду вивантаження"
+
+#: data/ui/preferences_window.blp:94
+msgid "Download Models to improve per-language accuracy"
+msgstr "Завантажити моделі для покращення точності розпізнавання мов"
+
+#: data/ui/recent_picker.blp:24
+msgid "Screenshot Folder Not Found"
+msgstr "Теку зі знімками не знайдено"
+
+#: data/ui/recent_picker.blp:31
+msgid "Please set it in the Preferences menu"
+msgstr "Будь ласка, вкажіть її у налаштуваннях"
+
+#: data/ui/selectors/gradient_selector.blp:6
+msgid "Gradient Background"
+msgstr "Градієнт"
+
+#: data/ui/selectors/gradient_selector.blp:11
+msgid "Open Step Dialog"
+msgstr "Відкрити вікно кроків"
+
+#: data/ui/selectors/gradient_selector.blp:14
+
+msgid "Gradient Presets…"
+msgstr "Шаблони градієнтів…"
+
+#: data/ui/selectors/gradient_selector.blp:50
+msgid "Linear"
+msgstr "Лінійний"
+
+#: data/ui/selectors/gradient_selector.blp:55
+msgid "Radial"
+msgstr "Радіальний"
+
+#: data/ui/selectors/gradient_selector.blp:60
+msgid "Conic"
+msgstr "Конічний"
+
+#: data/ui/selectors/gradient_selector.blp:103
+msgid "Remove Selected Color Step"
+msgstr "Вилучити обраний крок кольору"
+
+#: data/ui/selectors/image_selector.blp:5
+msgid "Image Background"
+msgstr "Зображення"
+
+#: data/ui/selectors/image_selector.blp:9
+msgid "Image Presets…"
+msgstr "Заготівки…"
+
+#: data/ui/selectors/image_selector.blp:13
+msgid "Select Image"
+msgstr "Вибрати зображення"
+
+#: data/ui/selectors/image_selector.blp:42
+msgid "Select an Image"
+msgstr "Вибрати зображення"
+
+#: data/ui/selectors/image_selector.blp:47
+msgid "Supported Image Formats"
+msgstr "Підтримувані формати зображення"
+
+#: data/ui/selectors/solid_selector.blp:5
+msgid "Solid Color Background"
+msgstr "Суцільний колір"
+
+#: data/ui/welcome_page.blp:31
+msgid "Enhance an Image"
+msgstr "Покращити зображення"
+
+#: data/ui/welcome_page.blp:32
+msgid "Drag and drop one here"
+msgstr "Перетягніть ваше зображення сюди"
+
+#: gradia/app_constants.py:68
+msgid "PNG Image (*.png)"
+msgstr "Зображення PNG (*.png)"
+
+#: gradia/app_constants.py:75
+msgid "JPEG Image (*.jpg)"
+msgstr "Зображення JPEG (*.jpg)"
+
+#: gradia/app_constants.py:82
+msgid "WebP Image (*.webp)"
+msgstr "Зображення WebP (*.webp)"
+
+#: gradia/backend/tool_config.py:214 gradia/backend/tool_config.py:223
+#: gradia/backend/tool_config.py:334 gradia/graphics/solid.py:190
+#: gradia/ui/widget/quick_color_picker.py:24
+msgid "Red"
+msgstr "Червоний"
+
+#: gradia/backend/tool_config.py:215 gradia/backend/tool_config.py:224
+#: gradia/backend/tool_config.py:335 gradia/graphics/solid.py:193
+#: gradia/ui/widget/quick_color_picker.py:25
+msgid "Green"
+msgstr "Зелений"
+
+#: gradia/backend/tool_config.py:216 gradia/backend/tool_config.py:225
+#: gradia/backend/tool_config.py:336 gradia/graphics/solid.py:194
+#: gradia/ui/widget/quick_color_picker.py:26
+msgid "Blue"
+msgstr "Синій"
+
+#: gradia/backend/tool_config.py:217 gradia/backend/tool_config.py:226
+#: gradia/backend/tool_config.py:337 gradia/graphics/solid.py:192
+#: gradia/ui/widget/quick_color_picker.py:27
+msgid "Yellow"
+msgstr "Жовтий"
+
+#: gradia/backend/tool_config.py:218 gradia/backend/tool_config.py:228
+#: gradia/graphics/solid.py:201 gradia/ui/widget/quick_color_picker.py:28
+msgid "Black"
+msgstr "Чорний"
+
+#: gradia/backend/tool_config.py:219 gradia/backend/tool_config.py:227
+#: gradia/backend/tool_config.py:339 gradia/graphics/solid.py:200
+#: gradia/ui/widget/quick_color_picker.py:29
+msgid "White"
+msgstr "Білий"
+
+#: gradia/backend/tool_config.py:229 gradia/graphics/solid.py:203
+#: gradia/ui/widget/quick_color_picker.py:33
+msgid "Transparent"
+msgstr "Прозоре"
+
+#: gradia/backend/tool_config.py:338 gradia/graphics/solid.py:195
+msgid "Purple"
+msgstr "Фіолетовий"
+
+#: gradia/backend/ocr.py:42
+msgid "English"
+msgstr "Англійська"
+
+#: gradia/backend/ocr.py:43
+msgid "Chinese Simplified"
+msgstr "Китайська спрощена"
+
+#: gradia/backend/ocr.py:44
+msgid "Chinese Traditional"
+msgstr "Китайська традиційна"
+
+#: gradia/backend/ocr.py:45
+msgid "Spanish"
+msgstr "Іспанська"
+
+#: gradia/backend/ocr.py:46
+msgid "French"
+msgstr "Французька"
+
+#: gradia/backend/ocr.py:47
+msgid "German"
+msgstr "Німецька"
+
+#: gradia/backend/ocr.py:48
+msgid "Japanese"
+msgstr "Японська"
+
+#: gradia/backend/ocr.py:49
+msgid "Arabic"
+msgstr "Арабська"
+
+#: gradia/backend/ocr.py:50
+msgid "Russian"
+msgstr "Російська"
+
+#: gradia/backend/ocr.py:51
+msgid "Portuguese"
+msgstr "Португальська"
+
+#: gradia/backend/ocr.py:52
+msgid "Italian"
+msgstr "Італійська"
+
+#: gradia/backend/ocr.py:53
+msgid "Korean"
+msgstr "Корейська"
+
+#: gradia/backend/ocr.py:54
+msgid "Hindi"
+msgstr "Гінді"
+
+#: gradia/backend/ocr.py:55
+msgid "Dutch"
+msgstr "Нідерландська"
+
+#: gradia/backend/ocr.py:56
+msgid "Turkish"
+msgstr "Турецька"
+
+#: gradia/backend/ocr.py:57
+msgid "Kazakh"
+msgstr "Казахська"
+
+#: gradia/backend/ocr.py:58
+msgid "Occitan"
+msgstr "Окситанська"
+
+#: gradia/backend/ocr.py:59
+msgid "Polish"
+msgstr "Польська"
+
+#: gradia/backend/ocr.py:60
+msgid "Ukrainian"
+msgstr "Українська"
+
+#: gradia/backend/ocr.py:61
+msgid "Telugu"
+msgstr "Телугу"
+
+#: gradia/graphics/solid.py:130
+msgid "More Colors..."
+msgstr "Додаткова палітра..."
+
+#: gradia/graphics/solid.py:191
+msgid "Orange"
+msgstr "Помаранчевий"
+
+#: gradia/graphics/solid.py:196
+msgid "Pastel Pink"
+msgstr "Пастельно-рожевий"
+
+#: gradia/graphics/solid.py:197
+msgid "Pastel Yellow"
+msgstr "Пастельно-жовтий"
+
+#: gradia/graphics/solid.py:198
+msgid "Pastel Green"
+msgstr "Пастельно-зелений"
+
+#: gradia/graphics/solid.py:199
+msgid "Pastel Cyan"
+msgstr "Пастельно-блакитний"
+
+#: gradia/graphics/solid.py:202
+msgid "Gray"
+msgstr "Сірий"
+
+#: gradia/overlay/drawing_actions.py:48 gradia/ui/ui_parts.py:110
 msgid "Pen"
 msgstr "Олівець"
 
-#: gradia/overlay/drawing_actions.py:47
+#: gradia/overlay/drawing_actions.py:49 gradia/ui/ui_parts.py:113
 msgid "Arrow"
 msgstr "Стрілка"
 
-#: gradia/overlay/drawing_actions.py:48
+#: gradia/overlay/drawing_actions.py:50 gradia/ui/ui_parts.py:112
 msgid "Line"
 msgstr "Лінія"
 
-#: gradia/overlay/drawing_actions.py:49
-msgid "Square"
-msgstr "Квадрат"
+#: gradia/overlay/drawing_actions.py:51 gradia/ui/ui_parts.py:114
+msgid "Rectangle"
+msgstr "Прямокутник"
 
-#: gradia/overlay/drawing_actions.py:50
-msgid "Circle"
-msgstr "Коло"
+#: gradia/overlay/drawing_actions.py:52 gradia/ui/ui_parts.py:115
+msgid "Oval"
+msgstr "Овал"
 
-#: gradia/overlay/drawing_actions.py:51
+#: gradia/overlay/drawing_actions.py:53 gradia/ui/ui_parts.py:111
 msgid "Text"
 msgstr "Текст"
 
-#: gradia/overlay/drawing_actions.py:53
+#: gradia/overlay/drawing_actions.py:55 gradia/ui/ui_parts.py:116
 msgid "Highlighter"
 msgstr "Підсвітка"
 
-#: gradia/overlay/drawing_actions.py:54
+#: gradia/overlay/drawing_actions.py:56 gradia/ui/ui_parts.py:117
 msgid "Censor"
 msgstr "Пікселізація"
 
-#: gradia/overlay/drawing_actions.py:55
+#: gradia/overlay/drawing_actions.py:57 gradia/ui/ui_parts.py:118
 msgid "Number"
 msgstr "Число"
-
-#: gradia/ui/preferences_window.py:39 gradia/ui/preferences_window.py:146
-msgid "Root"
-msgstr "Корінь теки"
-
-#: gradia/ui/preferences_window.py:128
-msgid "None selected"
-msgstr "Нічого не обрано"
-
-#: gradia/ui/preferences_window.py:143 gradia/ui/preferences_window.py:146
-#, python-brace-format
-msgid "Selected: {folder}"
-msgstr "Обрано: {folder}"
-
-#: gradia/ui/preferences_window.py:144 gradia/ui/preferences_window.py:147 data/ui/preferences_window.blp:20
-msgid "Click to change folder"
-msgstr "Клацніть щоб змінити теку"
-
-#: gradia/ui/preferences_window.py:227
-msgid "Copied!"
-msgstr "Скопійовано!"
 
 #: gradia/ui/dialog/delete_screenshots_dialog.py:33
 msgid "No screenshots to delete"
@@ -442,373 +941,437 @@ msgstr "Знімок відправлено у \"Смітник\""
 msgid "Screenshots moved to trash"
 msgstr "Знімки відправлено у \"Смітник\""
 
-#: gradia/app_constants.py:31
-msgid "PNG Image (*.png)"
-msgstr "Зображення PNG (*.png)"
+#: gradia/ui/dialog/ocr_dialog.py:118
+#: gradia/ui/preferences/preferences_window.py:150
+#: gradia/ui/preferences/preferences_window.py:243
+msgid "Copied!"
+msgstr "Скопійовано!"
 
-#: gradia/app_constants.py:38
-msgid "JPEG Image (*.jpg)"
-msgstr "Зображення JPEG (*.jpg)"
+#: gradia/ui/image_creation/source_image_generator.py:554
+msgid "Source Snippet From %Y-%m-%d %H-%M-%S"
+msgstr "Фрагмент коду від %Y-%m-%d %H-%M-%S"
 
-#: gradia/app_constants.py:45
-msgid "WebP Image (*.webp)"
-msgstr "Зображення WebP (*.webp)"
+#: gradia/ui/image_exporters.py:103
+msgid "Edit"
+msgstr "Редагувати"
 
-#: data/ui/selectors/gradient_selector.blp:4
-msgid "Gradient Background"
-msgstr "Градієнт"
+#: gradia/ui/image_exporters.py:106
+msgid "Enhanced Screenshot"
+msgstr "Покращений знімок екрану"
 
-#: data/ui/selectors/gradient_selector.blp:8
-msgid "Gradient Presets"
-msgstr "Шаблони градієнту"
+#: gradia/ui/image_exporters.py:145
+msgid "Save Image As"
+msgstr "Зберегти зображення як"
 
-#: data/ui/selectors/gradient_selector.blp:16
-msgid "Angle"
-msgstr "Нахил"
+#: gradia/ui/image_exporters.py:174
+msgid "Unsupported image file extension"
+msgstr "Непідтримуване розширення файлу зображення"
 
-#: data/ui/selectors/gradient_selector.blp:56
-msgid "Start Color"
-msgstr "Початковий колір"
+#: gradia/ui/image_exporters.py:183
+msgid "Image Saved"
+msgstr "Збережено"
 
-#: data/ui/selectors/gradient_selector.blp:68
-msgid "End Color"
-msgstr "Кінцевий колір"
+#: gradia/ui/image_exporters.py:185
+msgid "Export Failed"
+msgstr "Помилка експорту"
 
-#: data/ui/selectors/image_selector.blp:5
-msgid "Image Background"
-msgstr "Зображення"
+#: gradia/ui/image_exporters.py:252
+msgid "No processed image available"
+msgstr "Немає доступних оброблених зображень"
 
-#: data/ui/selectors/image_selector.blp:10
-msgid "Image Presets"
-msgstr "Шаблони зображення"
+#: gradia/ui/image_exporters.py:278 gradia/ui/image_exporters.py:460
+msgid "Image Copied"
+msgstr "Скопійовано"
 
-#: data/ui/selectors/image_selector.blp:22
-msgid "Select Image"
-msgstr "Вибрати зображення"
+#: gradia/ui/image_exporters.py:281 gradia/ui/image_exporters.py:288
+msgid "Failed to copy image to clipboard"
+msgstr "Не вдалося скопіювати зображення до буферу обміну"
 
-#: data/ui/selectors/image_selector.blp:51
-msgid "Select an Image"
-msgstr "Вибрати зображення"
+#: gradia/ui/image_exporters.py:302
+msgid "Link generated successfully"
+msgstr "Посилання успішно згенероване"
 
-#: data/ui/selectors/image_selector.blp:56
-msgid "Supported Image Formats"
-msgstr "Підтримувані формати зображення"
+#: gradia/ui/image_exporters.py:303
+msgid "Open Link"
+msgstr "Відкрити посилання"
 
-#: data/ui/selectors/solid_selector.blp:5
-msgid "Solid Color Background"
-msgstr "Суцільний колір"
+#: gradia/ui/image_exporters.py:340
+msgid "Custom command failed: "
+msgstr "У власній команді стала помилка: "
 
-#: data/ui/selectors/solid_selector.blp:8 data/ui/drawing_tools_group.blp:47
-msgid "Color"
-msgstr "Колір"
+#: gradia/ui/image_exporters.py:346
+msgid "Warning: "
+msgstr "Увага: "
 
-#: data/ui/background_selector.blp:16
-msgid "Solid"
-msgstr "Колір"
+#: gradia/ui/image_exporters.py:357
+msgid "Result copied to clipboard"
+msgstr "Зображення скопійовано до буферу обміну"
 
-#: data/ui/background_selector.blp:21
-msgid "Gradient"
-msgstr "Градієнт"
+#: gradia/ui/image_exporters.py:359
+msgid "No output from command"
+msgstr "Жодного виводу від команди"
 
-#: data/ui/background_selector.blp:26
-msgid "Image"
-msgstr "Зображення"
+#: gradia/ui/image_exporters.py:362
+msgid "Failed to run custom export command"
+msgstr "Не вдалося запустити власну команду експорту"
 
-#: data/ui/drawing_tools_group.blp:5
-msgid "Annotation Tools"
-msgstr "Анотація"
+#: gradia/ui/image_exporters.py:408 gradia/ui/image_exporters.py:435
+msgid "Close Operation Failed"
+msgstr "Помилка завершення операції"
 
-#: data/ui/drawing_tools_group.blp:91
-msgid "Highlighter Color"
-msgstr "Колір підсвітки"
+#: gradia/ui/image_exporters.py:408 gradia/ui/image_exporters.py:435
+msgid "Failed to export image"
+msgstr "Не вдалося експортувати зображення"
 
-#: data/ui/drawing_tools_group.blp:136
-msgid "Fill Color"
-msgstr "Колір"
+#: gradia/ui/image_exporters.py:461
+msgid "You can now paste it from the clipboard."
+msgstr "Тепер ви можете вставити його з буферу обміну."
 
-#: data/ui/drawing_tools_group.blp:148
-msgid "Reset Fill"
-msgstr "Скинути заповнення"
+#: gradia/ui/image_loaders.py:87 gradia/ui/image_loaders.py:98
+#: gradia/ui/image_loaders.py:111
+msgid "Not a supported image format"
+msgstr "Непідтримуваний формат зображення"
 
-#: data/ui/drawing_tools_group.blp:188
-msgid "Font"
-msgstr "Шрифт"
+#: gradia/ui/image_loaders.py:122
+msgid "URL is not a supported image format"
+msgstr "URL не є підтримуваним форматом зображення"
 
-#: data/ui/drawing_tools_group.blp:238
-msgid "Size"
-msgstr "Розмір"
+#: gradia/ui/image_loaders.py:131
+msgid "Failed to load image from URL."
+msgstr "Помилка під час завантаження зображення з URL."
 
-#: data/ui/drawing_tools_group.blp:290
-msgid "Radius"
-msgstr "Радіус"
+#: gradia/ui/image_loaders.py:140
+msgid "Open Image"
+msgstr "Відкрити зображення"
 
-#: data/ui/drawing_tools_group.blp:345
-msgid "Pressure"
-msgstr "Тиск"
+#: gradia/ui/image_loaders.py:143
+msgid "Image Files"
+msgstr "Файли зображень"
 
-#: data/ui/image_sidebar.blp:24
-msgid "Take a Screenshot"
-msgstr "Зробити знімок"
+#: gradia/ui/image_loaders.py:248 gradia/ui/image_loaders.py:263
+msgid "Failed to take screenshot"
+msgstr "Не вдалося зробити знімок екрану"
 
-#: data/ui/image_sidebar.blp:31 data/ui/welcome_page.blp:18
-msgid "Main Menu"
-msgstr "Головне меню"
+#: gradia/ui/image_loaders.py:278
+msgid "Screenshot cancelled"
+msgstr "Знімок екрану скасовано"
 
-#: data/ui/image_sidebar.blp:43
-msgid "Image Options"
-msgstr "Параметри зображення"
+#: gradia/ui/image_loaders.py:293 gradia/ui/image_loaders.py:316
+msgid "Edited Screenshot From %Y-%m-%d %H-%M-%S"
+msgstr "Відредагований знімок від %Y-%m-%d %H-%M-%S"
 
-#: data/ui/image_sidebar.blp:48
-msgid "Disable all options"
-msgstr "Вимкнути усі опції"
+#: gradia/ui/image_loaders.py:300 gradia/ui/image_loaders.py:323
+msgid "Screenshot captured!"
+msgstr "Знімок зроблено!"
 
-#: data/ui/image_sidebar.blp:57
-msgid "Padding"
-msgstr "Відступ"
+#: gradia/ui/image_loaders.py:307
+msgid "Failed to process screenshot"
+msgstr "Помилка під час оброблення зображення"
 
-#: data/ui/image_sidebar.blp:69
-msgid "Corner Radius"
-msgstr "Радіус кутів"
+#: gradia/ui/image_loaders.py:327
+msgid "Failed to load screenshot"
+msgstr "Не вдалося завантажити знімок екрану"
 
-#: data/ui/image_sidebar.blp:81
+#: gradia/ui/image_loaders.py:391
+msgid "Source snippet Generated!"
+msgstr "Фрагмент коду створено!"
+
+#: gradia/ui/preferences/preferences_window.py:112
+msgid "Ask For Confirmation"
+msgstr "Питати підтвердження"
+
+#: gradia/ui/preferences/preferences_window.py:113
+msgid "Copy and Close "
+msgstr "Копіювати та закрити"
+
+#: gradia/ui/preferences/preferences_window.py:114
+msgid "Close Instantly"
+msgstr "Закрити одразу"
+
+#: gradia/ui/preferences/provider_selection_window.py:133
+#: gradia/ui/provider_selection_window.py:134
+msgid "Create your own custom upload command"
+msgstr "Створіть власну команду вивантаження"
+
+#: gradia/ui/preferences/provider_selection_window.py:301
+#: gradia/ui/provider_selection_window.py:302
+msgid "Custom"
+msgstr "Власний"
+
+#: gradia/ui/ui_parts.py:32
+msgid "Make your images ready for all"
+msgstr "Підготуйте зображення для світу"
+
+#. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
+#: gradia/ui/ui_parts.py:45
+msgid "translator-credits"
+msgstr ""
+"Олексій \"Грінка\" <grinka@tuta.io>\n"
+"freeducks-debug"
+
+#: gradia/ui/ui_parts.py:51
+msgid "Code and Design Borrowed from"
+msgstr "Код і дизайн запозичено з"
+
+#: gradia/ui/ui_parts.py:63
+msgid "Image Sources"
+msgstr "Джерела зображень"
+
+#: gradia/ui/ui_parts.py:98
+msgid "File Actions"
+msgstr "Дії з файлами"
+
+#: gradia/ui/ui_parts.py:99
+msgid "Open File"
+msgstr "Відкрити файл"
+
+#: gradia/ui/ui_parts.py:100
+msgid "Save to File"
+msgstr "Зберегти до файлу"
+
+#: gradia/ui/ui_parts.py:101
+msgid "Copy Image to Clipboard"
+msgstr "Копіювати зображення"
+
+#: gradia/ui/ui_parts.py:102
+msgid "Paste From Clipboard"
+msgstr "Вставити зображення"
+
+#: gradia/ui/ui_parts.py:105
+msgid "Annotations"
+msgstr "Анотації"
+
+#: gradia/ui/ui_parts.py:120
+msgid "Cropping"
+msgstr "Обрізання"
+
+#: gradia/ui/ui_parts.py:121
+msgid "Toggle Crop Mode"
+msgstr "Перемкнути режим обрізання"
+
+#: gradia/ui/ui_parts.py:122
+msgid "Reset Crop"
+msgstr "Скинути обрізання"
+
+#: gradia/ui/ui_parts.py:124
+msgid "Zooming"
+msgstr "Масштабування"
+
+#: gradia/ui/ui_parts.py:132
+msgid "Open Source Snippets"
+msgstr "Відкрити фрагменти коду"
+
+#: gradia/ui/widget/aspect_ratio_button.py:26
+#: gradia/ui/widget/background_aspect_ratio_selector.py:52
 msgid "Aspect Ratio"
 msgstr "Співвідношення сторін"
 
-#: data/ui/image_sidebar.blp:91
-msgid "Shadow"
-msgstr "Тінь"
+#: gradia/ui/widget/aspect_ratio_button.py:38
+msgid "Free"
+msgstr "Довільне"
 
-#: data/ui/image_sidebar.blp:111
-msgid "Auto Balance"
-msgstr "Автоматичний баланс"
+#: gradia/ui/widget/aspect_ratio_button.py:39
+msgid "Square"
+msgstr "Квадрат"
 
-#: data/ui/image_sidebar.blp:122
-msgid "Current File"
-msgstr "Поточний файл"
+#: gradia/ui/widget/background_aspect_ratio_selector.py:113
+msgid "Custom Ratio"
+msgstr "Власне співвідношення"
 
-#: data/ui/image_sidebar.blp:125
-msgid "Name"
-msgstr "Назва"
+#: gradia/ui/widget/background_aspect_ratio_selector.py:121
+msgid "Width"
+msgstr "Ширина"
 
-#: data/ui/image_sidebar.blp:126 data/ui/image_sidebar.blp:131
-msgid "No file loaded"
-msgstr "Файл не завантажено"
+#: gradia/ui/widget/background_aspect_ratio_selector.py:137
+msgid "Height"
+msgstr "Висота"
 
-#: data/ui/image_sidebar.blp:130
-msgid "Location"
-msgstr "Розташування"
+#: gradia/ui/widget/background_aspect_ratio_selector.py:153
+msgid "Set"
+msgstr "Встановити"
 
-#: data/ui/image_sidebar.blp:135
-msgid "Modified image size"
-msgstr "Розмір модифікованого зображення"
+#: gradia/ui/widget/quick_color_picker.py:103
+msgid "More Colors…"
+msgstr "Додаткові кольори…"
 
-#: data/ui/image_sidebar.blp:136
-msgid "N/A"
-msgstr "Н/Д"
+#: gradia/ui/widget/quick_color_picker.py:108
+msgid "Choose Color"
+msgstr "Обрати колір"
 
-#: data/ui/image_sidebar.blp:151
-msgid "Save Image"
-msgstr "Зберегти зображення"
+#: gradia/ui/window.py:476
+msgid "Confirm Upload"
+msgstr "Підтвердити завантаження"
 
-#: data/ui/image_sidebar.blp:162
-msgid "Copy to Clipboard"
-msgstr "Копіювати до буферу обміну"
+#: gradia/ui/window.py:480
+msgid "Upload"
+msgstr "Вивантажити"
 
-#: data/ui/image_sidebar.blp:211
-msgid "Delete Taken Screenshot(s)"
-msgstr "Видалити зроблені знімки екрану"
+#~ msgid "Make your screenshots ready for all"
+#~ msgstr "Підготуйте ваші знятки для всіх"
 
-#: data/ui/image_sidebar.blp:225 data/ui/welcome_page.blp:80
-msgid "About Gradia"
-msgstr "Про Gradia"
+#~ msgid ""
+#~ "Gradia helps you quickly prepare your screenshots for sharing by fixing "
+#~ "common issues like transparency and awkward sizing. With simple tools to "
+#~ "add backgrounds, adjust aspect ratios, and annotate images, you can "
+#~ "enhance your screenshots to look professional and consistent across "
+#~ "social media, blogs, and other platforms on the internet."
+#~ msgstr ""
+#~ "Gradia допомагає вам швидко підготувати ваші знімки екрану до поширення "
+#~ "виправляючи поширені проблеми, наприклад прозоре тло та незграбний "
+#~ "розмір. За допомогою простих інструментів які додають непрозоре тло, "
+#~ "змінюють співвідношення сторін та анотують зображення, ви можете "
+#~ "покращити ваші знімки екрану щоб вони виглядали професійно та послідовно "
+#~ "серед усіх соціальних мереж, блогів та інших платформ у інтернеті."
 
-#: data/ui/image_stack.blp:117
-msgid "Clear All"
-msgstr "Очистите усе"
+#~ msgid "Adjust aspect ratios and padding to fit different platforms"
+#~ msgstr "Регулювання співвідношення сторін та відступів"
 
-#: data/ui/text_entry_popover.blp:12
-msgid "Enter text…"
-msgstr "Введіть текст…"
+#~ msgid "Multiple ways to import and export screenshots"
+#~ msgstr "Декілька шляхів імпортування знімків екрану"
 
-#: data/ui/welcome_page.blp:25
-msgid "Enhance an Image"
-msgstr "Покращити зображення"
+#~ msgid ""
+#~ "Want a keyboard shortcut on GNOME? Simply go to Settings → Keyboard → "
+#~ "View and Customize Shortcuts → Custom Shortcuts. Then create a shortcut "
+#~ "that runs <code>flatpak run be.alexandervanhee.gradia --"
+#~ "screenshot=INTERACTIVE</code>."
+#~ msgstr ""
+#~ "Хочете клавіатурне скорочення у GNOME? Просто перейдіть по Параметри → "
+#~ "Клавіатура → Перегляд і налаштовування скорочень → Власне скорочення. "
+#~ "Після створіть скорочення яке запускає <code>flatpak run "
+#~ "be.alexandervanhee.gradia --screenshot=INTERACTIVE</code>."
 
-#: data/ui/welcome_page.blp:26
-msgid "Drag and drop one here"
-msgstr "Перетягніть ваше зображення сюди"
+#~ msgid "Edited picture"
+#~ msgstr "Відредаговане зображення"
 
-#: data/ui/welcome_page.blp:42
-msgid "_Take a Screenshot…"
-msgstr "_Зробити знімок екрану…"
+#~ msgid "Toggle Utility Pane"
+#~ msgstr "Перемикнути панель інструментів"
 
-#: data/ui/welcome_page.blp:54
-msgid "_Open Image…"
-msgstr "_Відкрити зображення…"
+#~ msgid "Unknown"
+#~ msgstr "Невідомо"
 
-#: data/ui/preferences_window.blp:7 data/ui/preferences_window.blp:11
-msgid "Options"
-msgstr "Параметри"
+#, python-brace-format
+#~ msgid "Are you sure you want to upload this image to {provider_name}?"
+#~ msgstr ""
+#~ "Ви впевнені що бажаєте вивантажити це зображення до {provider_name}?"
 
-#: data/ui/preferences_window.blp:15
-msgid "Recent Screenshots"
-msgstr "Останні знімки екрану"
+#~ msgid "Image saved successfully"
+#~ msgstr "Зображення успішно збережено"
 
-#: data/ui/preferences_window.blp:16
-msgid "Configure which subfolder of Pictures to use to display recent screenshots on the home page"
-msgstr "Налаштувати використовувати яку підтеку у \"Зображення\" для відображення нещодавніх знімків екрану на домашній сторінці"
+#~ msgid "Image copied to clipboard"
+#~ msgstr "Зображення збережно до буферу обміну"
 
-#: data/ui/preferences_window.blp:19
-msgid "Select Folder"
-msgstr "Обрати теку"
+#~ msgid "No image found in clipboard"
+#~ msgstr "Не знайдено зображень у буфері обміну"
 
-#: data/ui/preferences_window.blp:26
-msgid "Save Settings"
-msgstr "Зберегти налаштування"
+#~ msgid "Clipboard Image"
+#~ msgstr "Зображення з буферу обміну"
 
-#: data/ui/preferences_window.blp:29
-msgid "Image Format"
-msgstr "Формат зображення"
+#~ msgid "From clipboard"
+#~ msgstr "З буферу обміну"
 
-#: data/ui/preferences_window.blp:30
-msgid "Default format for saved screenshots"
-msgstr "Стандартний формат для збереження знімків екрану"
+#~ msgid "Clipboard does not contain an image."
+#~ msgstr "Буфер обміну не містить зображень."
 
-#: data/ui/preferences_window.blp:34
-msgid "Compress image"
-msgstr "Стиснути зображення"
+#~ msgid "Loading providers data..."
+#~ msgstr "Завантаження даних надавача послуг..."
 
-#: data/ui/preferences_window.blp:35
-msgid "On supported formats"
-msgstr "Для підтримуваних форматів"
+#~ msgid "Command"
+#~ msgstr "Команда"
 
-#: data/ui/preferences_window.blp:38
-msgid "Compress images to reduce file size"
-msgstr "Стискання зображень для зменшення розміру файлу"
+#~ msgid "Circle"
+#~ msgstr "Коло"
 
-#: data/ui/preferences_window.blp:44
-msgid "Confirm on close"
-msgstr "Підтверджувати при виході"
+#~ msgid "Root"
+#~ msgstr "Корінь теки"
 
-#: data/ui/preferences_window.blp:45 data/ui/preferences_window.blp:48
-msgid "Ask for confirmation before closing the app"
-msgstr "Питати підтвердження при закриванні додатка"
+#, python-brace-format
+#~ msgid "Selected: {folder}"
+#~ msgstr "Обрано: {folder}"
 
-#: data/ui/preferences_window.blp:56
-msgid "Screenshot Management"
-msgstr "Керування знімками екрану"
+#~ msgid "Click to change folder"
+#~ msgstr "Клацніть щоб змінити теку"
 
-#: data/ui/preferences_window.blp:58
-msgid "Trash screenshots on close"
-msgstr "Відправляти знімки до \"Смітник\" при закриванні"
+#~ msgid "Angle"
+#~ msgstr "Нахил"
 
-#: data/ui/preferences_window.blp:59
-msgid "Automatically move screenshots taken from within the app to trash"
-msgstr "Автоматично відправляти знімки що були зроблені всередині додатку у \"Смітник\""
+#~ msgid "Start Color"
+#~ msgstr "Початковий колір"
 
-#: data/ui/preferences_window.blp:62
-msgid "Trash screenshots on app close"
-msgstr "Надсилати знімки до \"Смітник\" при закриванні додатка"
+#~ msgid "End Color"
+#~ msgstr "Кінцевий колір"
 
-#: data/ui/preferences_window.blp:69
-msgid "Image Upload Providers"
-msgstr "Надавачі послуг вивантаження зображення"
+#~ msgid "Color"
+#~ msgstr "Колір"
 
-#: data/ui/preferences_window.blp:70
-msgid "Connect to your favorite upload providers, or create a link yourself"
-msgstr "Під'єднайте вашого улюбленого надавача послуг або створіть посилання самостійно"
+#~ msgid "Highlighter Color"
+#~ msgstr "Колір підсвітки"
 
-#: data/ui/preferences_window.blp:74
-msgid "More info"
-msgstr "Дізнатися більше"
+#~ msgid "Font"
+#~ msgstr "Шрифт"
 
-#: data/ui/preferences_window.blp:76
-msgid "Learn more about providers"
-msgstr "Дізнатися більше про надавачів послуг"
+#~ msgid "Size"
+#~ msgstr "Розмір"
 
-#: data/ui/preferences_window.blp:81
-msgid "Provider"
-msgstr "Надавач послуг"
+#~ msgid "Radius"
+#~ msgstr "Радіус"
 
-#: data/ui/preferences_window.blp:90
-msgid "Choose a provider"
-msgstr "Оберіть надавача послуг"
+#~ msgid "Pressure"
+#~ msgstr "Тиск"
 
-#: data/ui/preferences_window.blp:98
-msgid "Confirm on upload"
-msgstr "Підтверджувати при вивантаженні"
+#~ msgid "Disable all options"
+#~ msgstr "Вимкнути усі опції"
 
-#: data/ui/preferences_window.blp:99 data/ui/preferences_window.blp:102
-msgid "Ask for confirmation before running the upload command"
-msgstr "Питати про підтвердження перед тим яз запустити команду вивантаження"
+#~ msgid "No file loaded"
+#~ msgstr "Файл не завантажено"
 
-#: data/ui/preferences_window.blp:112
-msgid "Shortcut"
-msgstr "Скорочення"
+#~ msgid "Save Image"
+#~ msgstr "Зберегти зображення"
 
-#: data/ui/preferences_window.blp:116
-msgid "Shortcut setup Instructions"
-msgstr "Інструкції для налаштування скорочення"
+#~ msgid "Enter text…"
+#~ msgstr "Введіть текст…"
 
-#: data/ui/preferences_window.blp:123
-msgid ""
-"If you'd like the app to <b>open automatically</b> after taking a screenshot, you can set up a custom keyboard shortcut:\n"
-"\n"
-"<b>Steps:</b>\n"
-"1. Go to <b>Settings</b> → <b>Keyboard</b> → <b>View and Customize Shortcuts</b> → <b>Custom Shortcuts</b>.\n"
-"2. Click the <b>+</b> button to create a new shortcut.\n"
-"3. Set the <b>Name</b> to something like <i>Open Gradia with Screenshot</i>.\n"
-"4. For the <b>Command</b>, copy one of the commands below:"
-msgstr ""
-"Якщо ви бажаєте, щоб додаток <b>відкривався автоматично</b> після створення знімку екрана, ви можете налаштувати клавіатурне скорочення:\n"
-"<b>Кроки:</b>\n"
-"1. Перейдіть до <b>Налаштування</b> → <b>Клавіатура</b> → <b>Перегляд і налаштування скорочень</b> → <b>Власне скорочення</b>.\n"
-"2. Клацніть на <b>Додати скорочення...</b> щоб створити нове скорочення.\n"
-"3. Встановіть <b>Назва</b> на щось на кшталт <i>Відкрити Gradia для знімку екрана</i>.\n"
-"4. Для <b>Команда</b> скопіюйте одну з команд наданих нижче:"
+#~ msgid "Options"
+#~ msgstr "Параметри"
 
-#: data/ui/preferences_window.blp:130
-msgid "Interactive Screenshot"
-msgstr "Інтерактивний знімок екрану"
+#~ msgid "Recent Screenshots"
+#~ msgstr "Останні знімки екрану"
 
-#: data/ui/preferences_window.blp:131
-msgid "Allows you to select an area to screenshot"
-msgstr "Дозволяє вам обрати область на знімку екрана"
+#~ msgid ""
+#~ "Configure which subfolder of Pictures to use to display recent "
+#~ "screenshots on the home page"
+#~ msgstr ""
+#~ "Налаштувати використовувати яку підтеку у \"Зображення\" для відображення "
+#~ "нещодавніх знімків екрану на домашній сторінці"
 
-#: data/ui/preferences_window.blp:144 data/ui/preferences_window.blp:165
-msgid "Copy to clipboard"
-msgstr "Скопіювати до буферу обміну"
+#~ msgid "Select Folder"
+#~ msgstr "Обрати теку"
 
-#: data/ui/preferences_window.blp:151
-msgid "Full Screen Screenshot"
-msgstr "Знімок повного екрану"
+#~ msgid "Save Settings"
+#~ msgstr "Зберегти налаштування"
 
-#: data/ui/preferences_window.blp:152
-msgid "Takes a screenshot of all screens instantly"
-msgstr "Моментально зробить знімки усіх екранів"
+#~ msgid "Compress image"
+#~ msgstr "Стиснути зображення"
 
-#: data/ui/preferences_window.blp:172
-msgid "5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should be free by default)."
-msgstr "5. Призначте бажане клавіатурне скорочення (<tt>Ctrl + Print</tt> повинно бути вільне за замовченням)."
+#~ msgid "On supported formats"
+#~ msgstr "Для підтримуваних форматів"
 
-#: data/ui/confirm_close_dialog.blp:5
-msgid "Close Gradia?"
-msgstr "Закрити Gradia?"
+#~ msgid "Compress images to reduce file size"
+#~ msgstr "Стискання зображень для зменшення розміру файлу"
 
-#: data/ui/confirm_close_dialog.blp:6
-msgid "Are you sure you want to exit? All unsaved changes will be lost."
-msgstr "Ви впевнені, що хочете вийти? Усі не збережені зміни буде втрачено."
+#~ msgid "Ask for confirmation before closing the app"
+#~ msgstr "Питати підтвердження при закриванні додатка"
 
-#: data/ui/confirm_close_dialog.blp:11
-msgid "Close"
-msgstr "Закрити"
+#~ msgid "Screenshot Management"
+#~ msgstr "Керування знімками екрану"
 
-#: data/ui/confirm_close_dialog.blp:18
-msgid "Don't Ask Again"
-msgstr "Не питати знову"
+#~ msgid "More info"
+#~ msgstr "Дізнатися більше"
 
-#~ msgid "Remove Selected"
-#~ msgstr "Вилучити вибране"
+#~ msgid "Learn more about providers"
+#~ msgstr "Дізнатися більше про надавачів послуг"
+
+#~ msgid "Shortcut"
+#~ msgstr "Скорочення"
 
 #~ msgid ""
 #~ "Are you sure you want to\n"
@@ -819,12 +1382,6 @@ msgstr "Не питати знову"
 
 #~ msgid "Run"
 #~ msgstr "Запустити"
-
-#~ msgid "Edit"
-#~ msgstr "Редагувати"
-
-#~ msgid "Enhanced Screenshot"
-#~ msgstr "Покращений знімок екрану"
 
 #~ msgid "Undo the last action"
 #~ msgstr "Скасувати останню дію"
@@ -856,14 +1413,5 @@ msgstr "Не питати знову"
 #~ msgid "Delete"
 #~ msgstr "Вилучити"
 
-#~ msgid "Screenshot deleted"
-#~ msgstr "Знімок екрану вилучено."
-
 #~ msgid "Image files"
 #~ msgstr "Файли Зображень"
-
-#~ msgid "Stroke Color"
-#~ msgstr "Колір Обведення"
-
-#~ msgid "Fill"
-#~ msgstr "Заповнення"
