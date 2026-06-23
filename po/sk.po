@@ -1,0 +1,1817 @@
+# Slovak translation for Gradia.
+# Copyright (C) 2025 Alexander Vanhee
+# This file is distributed under the same license as the gradia package.
+# Jose Riha <jose1711@gmail.com>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gradia\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-22 11:42+0200\n"
+"PO-Revision-Date: 2026-04-27 01:48+0200\n"
+"Last-Translator: Jose Riha <jose1711@gmail.com>\n"
+"Language-Team: Slovak\n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Poedit 3.8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: ../data/be.alexandervanhee.gradia.desktop.in.in:2
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:11
+msgid "Gradia"
+msgstr "Gradia"
+
+#: ../data/be.alexandervanhee.gradia.desktop.in.in:3
+msgid "Make your images ready for the world"
+msgstr "Pripravte svoje obrázky pre svet"
+
+#: ../data/be.alexandervanhee.gradia.desktop.in.in:10
+msgid "Image;Gradient;Background;Screenshot;Edit;"
+msgstr "Obrázok;Prechod;Pozadie;Snímka obrazovky;Úprava;Úpravy;"
+
+#: ../data/be.alexandervanhee.gradia.desktop.in.in:15
+msgid "New Window"
+msgstr "Nové okno"
+
+#: ../data/be.alexandervanhee.gradia.desktop.in.in:20
+msgid "Take Screenshot"
+msgstr "Urobiť snímku obrazovky"
+
+#: ../data/be.alexandervanhee.gradia.desktop.in.in:25
+msgid "Take Fullscreen Screenshot"
+msgstr "Urobiť snímku celej obrazovky"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:12
+msgid "Annotate your screenshots"
+msgstr "Anotujte svoje snímky obrazovky"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:15
+msgid ""
+"Gradia helps you get your screenshots ready for sharing, whether quickly "
+"with friends or colleagues, or professionally with the entire world."
+msgstr ""
+"Gradia vám pomôže pripraviť snímky obrazovky na zdieľanie, či už rýchlo s "
+"priateľmi alebo kolegmi alebo profesionálne s celým svetom."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:16
+msgid "Key features:"
+msgstr "Hlavné funkcie:"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:18
+msgid "Ten annotation modes, including text, arrow, and censor"
+msgstr "Desať režimov anotácie vrátane textu, šípky a cenzúry"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:19
+msgid "Optional image and gradient backgrounds"
+msgstr "Voliteľné pozadia s obrázkom alebo prechodom"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:20
+msgid "Image settings like shadow, padding, and auto-balance"
+msgstr "Nastavenia obrázka ako tieň, odsadenie a automatické vyváženie"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:21
+msgid "Quick upload flow to easily share images via services like Imgur"
+msgstr ""
+"Rýchle nahrávanie na jednoduché zdieľanie obrázkov cez služby ako Imgur"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:22
+msgid "Convert code snippets into clean high-resolution images"
+msgstr "Konvertovanie útržkov kódu na čisté obrázky vo vysokom rozlíšení"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:43
+msgid "This update adds many more language options for OCR."
+msgstr "Táto aktualizácia pridáva oveľa viac jazykových možností pre OCR."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:48
+msgid ""
+"This update makes it so the rotation resets when changing images in the same "
+"session."
+msgstr ""
+"Táto aktualizácia zabezpečí, aby sa v tej istej relácií otočenie pri zmene obrázkov "
+"vynulovalo."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:53
+msgid "**Design**"
+msgstr "**Dizajn**"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:55
+msgid "Make text recognition and upload provider buttons always visible"
+msgstr "Vždy zobraziť tlačidlá rozpoznávania textu a poskytovateľa nahrávania"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:56
+msgid "Add a back button for crop mode"
+msgstr "Pridať tlačidlo späť pre režim orezávania"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:57
+msgid ""
+"Redesigned the background switcher to provide more space for translations"
+msgstr "Prepracovaný prepínač pozadia pre viac priestoru pre preklady"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:58
+msgid "Added mnemonics to menus"
+msgstr "Pridané klávesové skratky do ponúk"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:60
+msgid "**Bug Fixes**"
+msgstr "**Opravy chýb**"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:62
+msgid "Fixed transparent JPG exports"
+msgstr "Opravený export priehľadných JPG súborov"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:63
+msgid "Fixed the censor action stretching when going out of bounds"
+msgstr "Opravené naťahovanie nástroja cenzúry pri prekročení hraníc"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:69
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:118
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:173
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:236
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:247
+msgid "This minor release includes:"
+msgstr "Toto menšie vydanie obsahuje:"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:71
+msgid "A more normal arrow shape"
+msgstr "Normálnejší tvar šípky"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:72
+msgid "Updated translations"
+msgstr "Aktualizované preklady"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:73
+msgid "A fix for JPEG exporting"
+msgstr "Oprava exportu JPEG"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:79
+msgid "This really minor release includes:"
+msgstr "Toto veľmi malé vydanie obsahuje:"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:81
+msgid "Mnemonics"
+msgstr "Klávesové skratky"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:82
+msgid "Updated translations."
+msgstr "Aktualizované preklady."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:83
+msgid "A donation link."
+msgstr "Odkaz na príspevok."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:84
+msgid "Disabled redo/undo buttons based on the current state."
+msgstr "Vypnuté tlačidlá Znova/Späť na základe aktuálneho stavu."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:90
+msgid ""
+"This minor release includes OCR text recognition. To use this feature, "
+"download a language in preferences."
+msgstr ""
+"Toto menšie vydanie obsahuje OCR rozpoznávanie textu. Ak chcete túto "
+"funkciu použiť, stiahnite si jazyk v predvoľbách."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:92
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:106
+msgid "Scroll to change tool size when not being zoomed in or out."
+msgstr "Posúvaním kolieska myši zmeňte veľkosť nástroja, keď nie je aktívne priblíženie."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:93
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:107
+msgid "Highlighter colors that are more transparent."
+msgstr "Farby zvýrazňovača sú teraz priehľadnejšie."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:94
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:108
+msgid "Shadow for images on the home page."
+msgstr "Tieň pre obrázky na domovskej stránke."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:95
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:109
+msgid "Additional resizing options for more actions, like arrow and rectangle."
+msgstr "Ďalšie možnosti zmeny veľkosti pre viac akcií, napríklad šípku a obdĺžnik."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:96
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:110
+msgid ""
+"Ability to change annotation options, such as color and width, for all "
+"annotations when selected."
+msgstr ""
+"Možnosť meniť predvoľby anotácií, ako farba a šírka, pre všetky anotácie "
+"pri ich výbere."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:97
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:111
+msgid "New presets for image background."
+msgstr "Nové prednastavenia pre pozadie obrázka."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:98
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:112
+msgid "Improved angle selector on the gradient background tab."
+msgstr "Vylepšený selektor uhla na karte s pozadím obsahujúcim prechod."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:104
+msgid "This release includes:"
+msgstr "Toto vydanie obsahuje:"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:120
+msgid "Support for mobile-sized windows."
+msgstr "Podpora pre okná veľkosti mobilného zariadenia."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:121
+msgid "Redesigned arrow tool shape."
+msgstr "Prepracovaný tvar nástroja šípky."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:122
+msgid "Updated screenshot guide page."
+msgstr "Aktualizovaná stránka sprievodcu snímkami obrazovky."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:123
+msgid "Numerous HIG improvements."
+msgstr "Početné vylepšenia HIG."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:124
+msgid "Fixed paste shortcut issue."
+msgstr "Opravený problém s klávesovou skratkou na vloženie."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:125
+msgid "Added manual editor for gradient steps."
+msgstr "Pridaný manuálny editor pre kroky prechodu."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:126
+msgid "Updated aspect ratio popover."
+msgstr "Aktualizovaný vyskakovací panel pomeru strán."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:132
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:146
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:159
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:182
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:204
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:216
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:257
+msgid "This feature release includes:"
+msgstr "Toto funkčné vydanie obsahuje:"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:134
+msgid "Added keyboard shortcuts for annotation options."
+msgstr "Pridané klávesové skratky pre možnosti anotácií."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:135
+msgid "Reworked the Censor tool."
+msgstr "Prepracovaný nástroj cenzúry."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:136
+msgid "Reworked the Text tool to support multi-line annotations."
+msgstr "Prepracovaný textový nástroj pre podporu viacriadkových anotácií."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:137
+msgid "Redesigned the Annotation section in the sidebar."
+msgstr "Prepracovaná sekcia anotácií v bočnom paneli."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:138
+msgid ""
+"Added options to automatically copy or overwrite screenshot files on quit."
+msgstr ""
+"Pridané možnosti automatického kopírovania alebo prepísania súborov snímok "
+"pri ukončení."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:139
+msgid "Improved the design of the provider picker screens."
+msgstr "Vylepšený dizajn obrazoviek výberu poskytovateľa."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:140
+msgid "Added constrained drawing via shift for tools like square and arrow.."
+msgstr "Pridané kreslenie s obmedzením pomocou Shift pre nástroje ako štvorec a šípka."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:148
+msgid "Zoom in/out functionality."
+msgstr "Funkcia priblíženia/oddialenia."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:149
+msgid "Improved quick color selector."
+msgstr "Vylepšený rýchly selektor farieb."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:150
+msgid "Fix for the app not properly closing from the start screen."
+msgstr "Oprava nesprávneho zatvárania aplikácie z úvodnej obrazovky."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:151
+msgid "Redesigned on-screen display."
+msgstr "Prepracovaný displej na obrazovke."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:152
+msgid "Proper support for multiple instances of the app."
+msgstr "Správna podpora pre viacero inštancií aplikácie."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:153
+msgid "Faster activating screenshot shortcut."
+msgstr "Rýchlejšia aktivácia skratky na snímku obrazovky."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:161
+msgid "A redesigned gradient and solid color selector."
+msgstr "Prepracovaný selektor prechodu a jednofarebného pozadia."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:162
+msgid "Support for up to 5 movable steps in a gradient."
+msgstr "Podpora až pre 5 pohyblivých krokov v prechode."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:163
+msgid "Radial and conic gradient support."
+msgstr "Podpora radiálneho a kužeľového prechodu."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:164
+msgid "Quick color selection for annotation tools."
+msgstr "Rýchly výber farieb pre nástroje anotácií."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:165
+msgid "A reworked preferences flow."
+msgstr "Prepracovaný tok predvolieb."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:166
+msgid "Improved drag-and-drop support for loading from URLs."
+msgstr "Vylepšená podpora ťahaj-a-pusti pre načítanie z URL adries."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:167
+msgid ""
+"A fix for an issue where changing the padding didn't correctly move "
+"annotations with the image."
+msgstr ""
+"Oprava problému, kde zmena odsadenia správne neposúvala anotácie spolu "
+"s obrázkom."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:175
+msgid ""
+"A fix for where the disable button state would not persist between sessions."
+msgstr ""
+"Oprava problému, kde sa stav tlačidla zakázania neuložil medzi reláciami."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:176
+msgid "A cropping tool for trimming an image before export."
+msgstr "Nástroj orezávania pre orezy obrázka pred exportom."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:184
+msgid ""
+"Added Source Snippets, making it easier for developers to showcase their "
+"code using Gradia."
+msgstr ""
+"Pridané útržky kódu, ktoré uľahčujú vývojárom prezentáciu ich kódu "
+"pomocou Gradie."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:185
+msgid ""
+"Default export filenames are now more descriptive and include creation time."
+msgstr ""
+"Predvolené názvy exportovaných súborov sú teraz popisnejšie a obsahujú "
+"čas vytvorenia."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:186
+msgid ""
+"The app no longer asks for confirmation on close if the current image has "
+"already been saved or exported."
+msgstr ""
+"Aplikácia už nevyžaduje potvrdenie pri zatvorení, ak bol aktuálny obrázok "
+"už uložený alebo exportovaný."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:187
+msgid "Text and Stamp annotation tools now support optional outlines."
+msgstr "Textové nástroje a nástroje pečiatky teraz podporujú voliteľné obrysy."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:188
+msgid "Images can now be rotated in 90-degree increments."
+msgstr "Obrázky je teraz možné otáčať po 90 stupňoch."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:189
+msgid ""
+"Color pickers for annotation tools are no longer modal, allowing accurate "
+"color selection within the app window."
+msgstr ""
+"Výbery farieb pre nástroje anotácií už nie sú modálne, čo umožňuje presný "
+"výber farieb v okne aplikácie."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:195
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:227
+msgid "Minor update fixing the following issues:"
+msgstr "Menšia aktualizácia opravujúca nasledujúce problémy:"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:197
+msgid "Color options for annotations are not persisting between sessions."
+msgstr "Možnosti farieb pre anotácie sa neuchovávajú medzi reláciami."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:198
+msgid "Stamp hitbox is way too large."
+msgstr "Oblasť kliknutia pečiatky je príliš veľká."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:206
+msgid ""
+"Upload functionality: use one of the predefined providers or create your own."
+msgstr ""
+"Funkcia nahrávania: použite jedného z preddefinovaných poskytovateľov alebo "
+"si vytvorte vlastného."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:207
+msgid "A pop-up menu for easier aspect ratio selection."
+msgstr "Kontextová ponuka pre jednoduchší výber pomeru strán."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:208
+msgid "An expanded font dropdown that includes all available system fonts."
+msgstr "Rozšírená rozbaľovacia ponuka písma obsahujúca všetky dostupné systémové písma."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:209
+msgid "Optional background colors for the text and stamp annotation tools."
+msgstr "Voliteľné farby pozadia pre textové nástroje a nástroje pečiatky."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:210
+msgid "Pressure sensitivity support for the highlighter tool."
+msgstr "Podpora citlivosti na tlak pre nástroj zvýrazňovač."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:218
+msgid ""
+"A settings menu with options for the recent screenshots folder, image "
+"format, and more."
+msgstr ""
+"Ponuka nastavení s možnosťami pre priečinok posledných snímok, formát "
+"obrázka a ďalšie."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:219
+msgid "A refreshed design for the gradient picker."
+msgstr "Obnovený dizajn selektora prechodu."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:220
+msgid "An option to automatically balance the borders of certain images."
+msgstr "Možnosť automatického vyváženia okrajov určitých obrázkov."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:221
+msgid "Support for launching with image input from stdin."
+msgstr "Podpora spúšťania so vstupom obrázka zo stdin."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:229
+msgid "Images not being saved with the correct file name."
+msgstr "Obrázky sa neukladajú so správnym názvom súboru."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:230
+msgid "App failing to initialize when using a language other than English."
+msgstr "Aplikácia sa neinicializuje pri použití jazyka iného ako angličtina."
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:238
+msgid "Persistent annotation settings"
+msgstr "Trvalé nastavenia anotácií"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:239
+msgid "Decoupled highlighter color"
+msgstr "Oddelená farba zvýrazňovača"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:240
+msgid "Size slider for many different annotation tools"
+msgstr "Posuvník veľkosti pre rôzne nástroje anotácií"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:241
+msgid "Smoother pen"
+msgstr "Plynulejšie pero"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:249
+msgid "Brazilian and Polish translations"
+msgstr "Brazílsky a poľský preklad"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:250
+msgid "More font options"
+msgstr "Viac možností písma"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:251
+msgid "Number stamp annotation tool"
+msgstr "Nástroj anotácie číslicovej pečiatky"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:259
+msgid "French and Russian translations"
+msgstr "Francúzsky a ruský preklad"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:260
+msgid "Support for image and solid color backgrounds"
+msgstr "Podpora obrázkových a jednofarebných pozadí"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:261
+msgid "Layout redesign in line with the contemporary Adwaita style"
+msgstr "Prepracovanie rozloženia v súlade so súčasným štýlom Adwaita"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:262
+msgid "Menubar shortcut to quickly delete original screenshots"
+msgstr "Skratka v lište ponuky na rýchle odstraňovanie pôvodných snímok"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:263
+msgid "(Semi-)transparency support for foreground and background elements"
+msgstr "Podpora (polo)priehľadnosti pre prvky popredia a pozadia"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:269
+msgid "Second major post-release update featuring:"
+msgstr "Druhá hlavná aktualizácia po vydaní zahŕňajúca:"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:271
+msgid "French and Occitan translations"
+msgstr "Francúzsky a okcitánsky preklad"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:272
+msgid "Censor annotation tool"
+msgstr "Nástroj anotácie cenzúry"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:273
+msgid "Redesigned start view"
+msgstr "Prepracovaný úvodný pohľad"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:274
+msgid "Smoother transitions between views"
+msgstr "Plynulejšie prechody medzi zobrazeniami"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:275
+msgid "Support for transparent colors in the fill option"
+msgstr "Podpora priehľadných farieb v možnosti výplne"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:281
+msgid "Minor release including:"
+msgstr "Menšie vydanie zahŕňajúce:"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:283
+msgid "German translations"
+msgstr "Nemecký preklad"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:284
+msgid "Fullscreen mode for custom keyboard shortcut"
+msgstr "Režim celej obrazovky pre vlastnú klávesovú skratku"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:290
+msgid "First major post-release patch adding:"
+msgstr "Prvá hlavná záplata po vydaní pridávajúca:"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:292
+msgid ""
+"Screenshot capture from within the app and via a custom keyboard shortcut "
+"(see GitHub to setup)"
+msgstr ""
+"Zachytávanie snímok obrazovky z aplikácie a pomocou vlastnej klávesovej "
+"skratky (nastavenie nájdete na GitHub)"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:293
+msgid "Annotation tools including pen, arrow, and text"
+msgstr "Nástroje anotácií vrátane pera, šípky a textu"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:294
+msgid "Minor visual refinements"
+msgstr "Drobné vizuálne vylepšenia"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:300
+msgid "Minor post initial release includes:"
+msgstr "Menšie vydanie po počiatočnom vydaní obsahuje:"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:302
+msgid "Adding optional shadows"
+msgstr "Pridanie voliteľných tieňov"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:303
+msgid "Updates to the app listing"
+msgstr "Aktualizácie zoznamu aplikácií"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:304
+msgid "A fix for the window not properly updating when pasting from clipboard"
+msgstr "Oprava nesprávnej aktualizácie okna pri vkladaní zo schránky"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:310
+msgid "Initial release of Gradia. Includes:"
+msgstr "Počiatočné vydanie Gradie. Obsahuje:"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:312
+msgid "Background editing for screenshots"
+msgstr "Úprava pozadia pre snímky obrazovky"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:313
+msgid "Aspect ratio adjustments"
+msgstr "Úpravy pomeru strán"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:314
+msgid "Padding controls"
+msgstr "Ovládanie odsadenia"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:315
+msgid "Seamless clipboard integration for faster workflow"
+msgstr "Bezproblémová integrácia schránky pre rýchlejší pracovný tok"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:323
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:327
+msgid "Edited screenshot"
+msgstr "Upravená snímka obrazovky"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:331
+msgid "Startup view"
+msgstr "Úvodný pohľad"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:335
+msgid "UI element showcase"
+msgstr "Ukážka prvkov rozhrania"
+
+#: ../data/be.alexandervanhee.gradia.metainfo.xml.in.in:339
+#: ../data/ui/image_generator_window.blp:5 ../data/ui/welcome_page.blp:36
+#: ../gradia/ui/image_creation/source_image_generator.py:397
+msgid "Source Snippets"
+msgstr "Útržky kódu"
+
+#: ../data/ui/confirm_close_dialog.blp:5
+msgid "Close Gradia?"
+msgstr "Zatvoriť Gradiu?"
+
+#: ../data/ui/confirm_close_dialog.blp:6
+msgid "Are you sure you want to exit? All unsaved changes will be lost."
+msgstr "Naozaj chcete skončiť? Všetky neuložené zmeny budú stratené."
+
+#: ../data/ui/confirm_close_dialog.blp:11
+#: ../gradia/ui/dialog/delete_screenshots_dialog.py:54
+#: ../gradia/ui/image_exporters.py:149 ../gradia/ui/window.py:503
+msgid "Cancel"
+msgstr "Zrušiť"
+
+#: ../data/ui/confirm_close_dialog.blp:12 ../data/ui/ocr_dialog.blp:94
+msgid "Copy"
+msgstr "Kopírovať"
+
+#: ../data/ui/confirm_close_dialog.blp:13
+msgid "Close"
+msgstr "Zatvoriť"
+
+#: ../data/ui/confirm_close_dialog.blp:20
+msgid "Don't Ask Again"
+msgstr "Viac sa nepýtať"
+
+#: ../data/ui/drawing_tools_group.blp:7
+msgid "Annotation Tools"
+msgstr "Nástroje anotácie"
+
+#: ../data/ui/drawing_tools_group.blp:67 ../data/ui/drawing_tools_group.blp:84
+msgid "Fill"
+msgstr "Výplň"
+
+#: ../data/ui/drawing_tools_group.blp:91
+msgid "Border"
+msgstr "Okraj"
+
+#: ../data/ui/drawing_tools_group.blp:109
+msgid "Fill Color Picker"
+msgstr "Výber farby výplne"
+
+#: ../data/ui/drawing_tools_group.blp:116
+msgid "Outline Color Picker"
+msgstr "Výber farby obrysu"
+
+#: ../data/ui/gradient_step_dialog.blp:8
+msgid "Edit Gradient Steps"
+msgstr "Upraviť kroky prechodu"
+
+#: ../data/ui/gradient_step_dialog.blp:49
+msgid "Gradient Steps"
+msgstr "Kroky prechodu"
+
+#: ../data/ui/gradient_step_dialog.blp:50
+msgid "You can add up to five steps"
+msgstr "Môžete pridať až päť krokov"
+
+#: ../data/ui/gradient_step_dialog.blp:54
+msgid "Add Step"
+msgstr "Pridať krok"
+
+#: ../data/ui/image_generator_window.blp:35
+msgid "Language"
+msgstr "Jazyk"
+
+#: ../data/ui/image_generator_window.blp:50
+msgid "Style"
+msgstr "Štýl"
+
+#: ../data/ui/image_generator_window.blp:72
+msgid "Default"
+msgstr "Predvolené"
+
+#: ../data/ui/image_generator_window.blp:93
+msgid "Window Frame"
+msgstr "Rám okna"
+
+#: ../data/ui/image_generator_window.blp:99
+msgid "Add a window frame around the code"
+msgstr "Pridať rám okna okolo kódu"
+
+#: ../data/ui/image_generator_window.blp:108
+msgid "Line Numbers"
+msgstr "Čísla riadkov"
+
+#: ../data/ui/image_generator_window.blp:114
+msgid "Add a number before each new line of code"
+msgstr "Pridať číslo pred každý nový riadok kódu"
+
+#: ../data/ui/image_generator_window.blp:145
+msgid "Export"
+msgstr "Exportovať"
+
+#: ../data/ui/image_sidebar.blp:17 ../gradia/ui/image_loaders.py:140
+#: ../gradia/ui/ui_parts.py:99
+msgid "Open Image"
+msgstr "Otvoriť obrázok"
+
+#: ../data/ui/image_sidebar.blp:24 ../gradia/ui/ui_parts.py:100
+msgid "Take a Screenshot"
+msgstr "Urobiť snímku obrazovky"
+
+#: ../data/ui/image_sidebar.blp:31 ../data/ui/welcome_page.blp:28
+msgid "Main Menu"
+msgstr "Hlavná ponuka"
+
+#: ../data/ui/image_sidebar.blp:52
+msgid "Image Options"
+msgstr "Možnosti obrázka"
+
+#: ../data/ui/image_sidebar.blp:55
+msgid "_Padding"
+msgstr "_Odsadenie"
+
+#: ../data/ui/image_sidebar.blp:69
+msgid "_Corner Radius"
+msgstr "_Polomer rohu"
+
+#: ../data/ui/image_sidebar.blp:88
+msgid "_Shadow"
+msgstr "_Tieň"
+
+#: ../data/ui/image_sidebar.blp:110
+msgid "_Auto Balance"
+msgstr "_Automatické vyváženie"
+
+#: ../data/ui/image_sidebar.blp:116
+msgid "_Rotation"
+msgstr "_Otočenie"
+
+#: ../data/ui/image_sidebar.blp:126
+msgid "Rotate Anticlockwise"
+msgstr "Otočiť proti smeru hodinových ručičiek"
+
+#: ../data/ui/image_sidebar.blp:137
+msgid "Rotate Clockwise"
+msgstr "Otočiť v smere hodinových ručičiek"
+
+#: ../data/ui/image_sidebar.blp:150
+msgid "Current File"
+msgstr "Aktuálny súbor"
+
+#: ../data/ui/image_sidebar.blp:153
+msgid "Name"
+msgstr "Názov"
+
+#: ../data/ui/image_sidebar.blp:154 ../data/ui/image_sidebar.blp:164
+#: ../data/ui/image_sidebar.blp:187
+msgid "N/A"
+msgstr "Nedostupné"
+
+#: ../data/ui/image_sidebar.blp:162
+msgid "_Location"
+msgstr "_Umiestnenie"
+
+#: ../data/ui/image_sidebar.blp:177
+msgid "Open Folder"
+msgstr "Otvoriť priečinok"
+
+#: ../data/ui/image_sidebar.blp:186
+msgid "Modified image size"
+msgstr "Veľkosť upraveného obrázka"
+
+#: ../data/ui/image_sidebar.blp:207
+msgid "Save File"
+msgstr "Uložiť súbor"
+
+#: ../data/ui/image_sidebar.blp:218
+msgid "Copy to Clipboard"
+msgstr "Kopírovať do schránky"
+
+#: ../data/ui/image_sidebar.blp:229 ../gradia/ui/ui_parts.py:104
+msgid "Share Image"
+msgstr "Zdieľať obrázok"
+
+#: ../data/ui/image_sidebar.blp:249
+msgid "_Source Snippets"
+msgstr "_Útržky kódu"
+
+#: ../data/ui/image_sidebar.blp:254
+msgid "_Delete Taken Screenshot(s)"
+msgstr "_Odstrániť zhotovené snímky obrazovky"
+
+#: ../data/ui/image_sidebar.blp:261 ../data/ui/welcome_page.blp:94
+msgid "_Preferences"
+msgstr "_Predvoľby"
+
+#: ../data/ui/image_sidebar.blp:266 ../data/ui/welcome_page.blp:99
+msgid "_Keyboard Shortcuts"
+msgstr "_Klávesové skratky"
+
+#: ../data/ui/image_sidebar.blp:271
+msgid "D_onate to Gradia"
+msgstr "_Prispieť na Gradiu"
+
+#: ../data/ui/image_sidebar.blp:276 ../data/ui/welcome_page.blp:109
+msgid "_About Gradia"
+msgstr "_O aplikácii Gradia"
+
+#: ../data/ui/image_stack.blp:8 ../data/ui/welcome_page.blp:18
+msgid "Drop Image Here"
+msgstr "Presuňte obrázok sem"
+
+#: ../data/ui/image_stack.blp:27
+msgid "Back"
+msgstr "Späť"
+
+#: ../data/ui/image_stack.blp:95
+msgid "Open Sidebar"
+msgstr "Otvoriť bočný panel"
+
+#: ../data/ui/image_stack.blp:111
+msgid "Crop Image"
+msgstr "Orezať obrázok"
+
+#: ../data/ui/image_stack.blp:127 ../data/ui/ocr_dialog.blp:5
+#: ../data/ui/ocr_dialog.blp:15 ../data/ui/preferences_window.blp:124
+msgid "Text Extraction"
+msgstr "Extrakcia textu"
+
+#: ../data/ui/image_stack.blp:143 ../gradia/ui/ui_parts.py:109
+msgid "Erase Selected"
+msgstr "Vymazať výber"
+
+#: ../data/ui/image_stack.blp:161
+msgid "Disable Crop"
+msgstr "Vypnúť orezávanie"
+
+#: ../data/ui/image_stack.blp:190
+msgid "Confirm"
+msgstr "Potvrdiť"
+
+#: ../data/ui/image_stack.blp:191
+msgid "Confirm Crop Selection"
+msgstr "Potvrdiť výber orezania"
+
+#: ../data/ui/image_stack.blp:232 ../gradia/ui/ui_parts.py:128
+msgid "Reset Zoom"
+msgstr "Obnoviť priblíženie"
+
+#: ../data/ui/image_stack.blp:256 ../gradia/ui/ui_parts.py:127
+msgid "Zoom Out"
+msgstr "Oddialiť"
+
+#: ../data/ui/image_stack.blp:266 ../gradia/ui/ui_parts.py:126
+msgid "Zoom In"
+msgstr "Priblížiť"
+
+#: ../data/ui/image_stack.blp:282 ../gradia/ui/ui_parts.py:107
+msgid "Undo"
+msgstr "Späť"
+
+#: ../data/ui/image_stack.blp:292 ../gradia/ui/ui_parts.py:108
+msgid "Redo"
+msgstr "Znova"
+
+#: ../data/ui/image_stack.blp:302
+msgid "Clear All"
+msgstr "Vymazať všetko"
+
+#: ../data/ui/ocr_dialog.blp:16
+msgid "Crop image to adjust OCR area"
+msgstr "Orežte obrázok na úpravu oblasti OCR"
+
+#: ../data/ui/ocr_dialog.blp:22
+msgid "Select Language"
+msgstr "Vybrať jazyk"
+
+#: ../data/ui/ocr_dialog.blp:57
+msgid "No Text Found"
+msgstr "Text sa nenašiel"
+
+#: ../data/ui/ocr_dialog.blp:58
+msgid "Please make a new selection"
+msgstr "Prosím, vytvorte nový výber"
+
+#: ../data/ui/preferences/custom_provider_page.blp:6
+#: ../gradia/ui/provider_selection_window.py:133
+msgid "Custom Provider"
+msgstr "Vlastný poskytovateľ"
+
+#: ../data/ui/preferences/custom_provider_page.blp:13
+#: ../gradia/ui/image_exporters.py:148
+msgid "Save"
+msgstr "Uložiť"
+
+#: ../data/ui/preferences/custom_provider_page.blp:36
+#: ../data/ui/preferences/provider_detail_page.blp:105
+msgid "Upload Command"
+msgstr "Príkaz na nahrávanie"
+
+#: ../data/ui/preferences/custom_provider_page.blp:37
+msgid ""
+"Enter a custom command to upload files. Use $1 as a placeholder for the file "
+"path."
+msgstr ""
+"Zadajte vlastný príkaz na nahrávanie súborov. Použite $1 ako zástupný znak "
+"pre cestu k súboru."
+
+#: ../data/ui/preferences/ocr_model_page.blp:5
+msgid "Language Models"
+msgstr "Jazykové modely"
+
+#: ../data/ui/preferences/ocr_model_page.blp:21
+msgid "Search languages…"
+msgstr "Vyhľadať jazyky…"
+
+#: ../data/ui/preferences/ocr_model_page.blp:50
+msgid ""
+"A Language Model is required to use the OCR feature.\n"
+"Using the correct language model improves OCR accuracy."
+msgstr ""
+"Na používanie funkcie OCR je potrebný jazykový model.\n"
+"Použitie správneho jazykového modelu zlepšuje presnosť OCR."
+
+#: ../data/ui/preferences/ocr_model_page.blp:68
+msgid "No Results Found"
+msgstr "Žiadne výsledky"
+
+#: ../data/ui/preferences/ocr_model_page.blp:69
+msgid "Try a different search term"
+msgstr "Skúste iný výraz vyhľadávania"
+
+#: ../data/ui/preferences/provider_detail_page.blp:56
+#: ../gradia/overlay/drawing_actions.py:54 ../gradia/ui/ui_parts.py:110
+msgid "Select"
+msgstr "Výber"
+
+#: ../data/ui/preferences/provider_detail_page.blp:63
+msgid "About"
+msgstr "O aplikácii"
+
+#: ../data/ui/preferences/provider_detail_page.blp:66
+msgid "Homepage"
+msgstr "Domovská stránka"
+
+#: ../data/ui/preferences/provider_detail_page.blp:83
+msgid "Terms of Service"
+msgstr "Podmienky používania"
+
+#: ../data/ui/preferences/provider_detail_page.blp:101
+msgid "Features"
+msgstr "Funkcie"
+
+#: ../data/ui/preferences/provider_list_page.blp:5
+msgid "Choose a Provider"
+msgstr "Vyberte poskytovateľa"
+
+#: ../data/ui/preferences/provider_list_page.blp:12
+msgid "Loading"
+msgstr "Načítava sa"
+
+#: ../data/ui/preferences/provider_list_page.blp:26
+msgid "Error"
+msgstr "Chyba"
+
+#: ../data/ui/preferences/provider_list_page.blp:40
+msgid "An error occurred"
+msgstr "Vyskytla sa chyba"
+
+#: ../data/ui/preferences/provider_list_page.blp:41
+msgid "Please try again later"
+msgstr "Skúste to, prosím, neskôr"
+
+#: ../data/ui/preferences/provider_list_page.blp:50
+msgid "Providers"
+msgstr "Poskytovatelia"
+
+#: ../data/ui/preferences/provider_list_page.blp:57
+msgid ""
+"Select a third party image upload provider. These have their own terms and "
+"conditions."
+msgstr ""
+"Vyberte poskytovateľa tretej strany na nahrávanie obrázkov. Majú vlastné "
+"podmienky a pravidlá."
+
+#: ../data/ui/preferences/screenshot_guide_page.blp:6
+msgid "Screenshot Shortcut Guide"
+msgstr "Sprievodca skratkou na snímky obrazovky"
+
+#: ../data/ui/preferences/screenshot_guide_page.blp:32
+msgid "Shortcut Setup Instructions"
+msgstr "Pokyny na nastavenie skratky"
+
+#: ../data/ui/preferences/screenshot_guide_page.blp:45
+msgid ""
+"If you'd like the app to <b>open automatically</b> after taking a "
+"screenshot, you can set up a custom keyboard shortcut:\n"
+"\n"
+"<b>Steps:</b>\n"
+"1. Go to <b>Settings</b> → <b>Keyboard</b> → <b>View and Customize "
+"Shortcuts</b> → <b>Custom Shortcuts</b>.\n"
+"2. Click the <b>+</b> button to create a new shortcut.\n"
+"3. Set the <b>Name</b> to something like <i>Open Gradia with Screenshot</"
+"i>.\n"
+"4. For the <b>Command</b>, copy one of the commands below:"
+msgstr ""
+"Ak chcete, aby sa aplikácia <b>otvorila automaticky</b> po zhotovení snímky "
+"obrazovky, môžete nastaviť vlastnú klávesovú skratku:\n"
+"\n"
+"<b>Postup:</b>\n"
+"1. Prejdite do <b>Nastavenia</b> → <b>Klávesnica</b> → <b>Zobraziť a "
+"prispôsobiť skratky</b> → <b>Vlastné skratky</b>.\n"
+"2. Kliknite na tlačidlo <b>+</b> a vytvorte novú skratku.\n"
+"3. Nastavte <b>Názov</b> na niečo ako <i>Otvoriť Gradia so snímkou</i>.\n"
+"4. Pre <b>Príkaz</b> skopírujte jeden z nasledujúcich príkazov:"
+
+#: ../data/ui/preferences/screenshot_guide_page.blp:61
+msgid "Interactive Screenshot"
+msgstr "Interaktívna snímka obrazovky"
+
+#: ../data/ui/preferences/screenshot_guide_page.blp:68
+msgid "Allows you to select an area to screenshot"
+msgstr "Umožňuje vybrať oblasť na snímku obrazovky"
+
+#: ../data/ui/preferences/screenshot_guide_page.blp:79
+#: ../data/ui/preferences/screenshot_guide_page.blp:106
+#: ../data/ui/preferences/screenshot_guide_page.blp:145
+msgid "Copy to clipboard"
+msgstr "Kopírovať do schránky"
+
+#: ../data/ui/preferences/screenshot_guide_page.blp:88
+msgid "Full Screen Screenshot"
+msgstr "Snímka celej obrazovky"
+
+#: ../data/ui/preferences/screenshot_guide_page.blp:95
+msgid "Takes a screenshot of all screens instantly"
+msgstr "Okamžite zhotoví snímku všetkých obrazoviek"
+
+#: ../data/ui/preferences/screenshot_guide_page.blp:110
+msgid ""
+"5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should "
+"be free by default)."
+msgstr ""
+"5. Priraďte klávesovú skratku podľa vlastného výberu (<tt>Ctrl + Print</tt> "
+"by mala byť predvolene voľná)."
+
+#: ../data/ui/preferences/screenshot_guide_page.blp:127
+msgid "Delayed Screenshot"
+msgstr "Oneskorená snímka obrazovky"
+
+#: ../data/ui/preferences/screenshot_guide_page.blp:134
+msgid "Delay the capture by a given duration (in milliseconds)."
+msgstr "Oneskorenie zachytenia o zadaný čas (v milisekundách)."
+
+#: ../data/ui/preferences_window.blp:7 ../gradia/ui/ui_parts.py:137
+msgid "Preferences"
+msgstr "Predvoľby"
+
+#: ../data/ui/preferences_window.blp:11 ../gradia/ui/ui_parts.py:134
+msgid "General"
+msgstr "Všeobecné"
+
+#: ../data/ui/preferences_window.blp:14
+msgid "Screenshots"
+msgstr "Snímky obrazovky"
+
+#: ../data/ui/preferences_window.blp:17
+msgid "_Recent Directory"
+msgstr "_Posledný priečinok"
+
+#: ../data/ui/preferences_window.blp:19
+msgid "Used for home screen"
+msgstr "Používa sa pre domovskú obrazovku"
+
+#: ../data/ui/preferences_window.blp:45
+msgid "_Screenshot Shortcut"
+msgstr "_Skratka na snímku obrazovky"
+
+#: ../data/ui/preferences_window.blp:51
+msgid "Save Options"
+msgstr "Možnosti ukladania"
+
+#: ../data/ui/preferences_window.blp:54
+msgid "_Image Format"
+msgstr "_Formát obrázka"
+
+#: ../data/ui/preferences_window.blp:56
+msgid "Default format for saved screenshots"
+msgstr "Predvolený formát ukladaných snímok obrazovky"
+
+#: ../data/ui/preferences_window.blp:61
+msgid "Closing"
+msgstr "Ukončenie"
+
+#: ../data/ui/preferences_window.blp:64
+msgid "_When Exiting"
+msgstr "_Pri ukončení"
+
+#: ../data/ui/preferences_window.blp:69
+msgid "_Overwrite Last Screenshot on Close"
+msgstr "_Prepísať poslednú snímku obrazovky pri zatvorení"
+
+#: ../data/ui/preferences_window.blp:71
+msgid "Replace it with the annotated version"
+msgstr "Nahradiť anotovanou verziou"
+
+#: ../data/ui/preferences_window.blp:72
+msgid "Replace last screenshot file with annotated version on close"
+msgstr ""
+"Pri zatvorení nahradiť posledný súbor snímky obrazovky anotovanou verziou"
+
+#: ../data/ui/preferences_window.blp:77
+msgid "_Trash Screenshots on Close"
+msgstr "Pri zatvorení _presunúť snímky do koša"
+
+#: ../data/ui/preferences_window.blp:79
+msgid "Automatically move screenshots taken from within the app to trash"
+msgstr "Automaticky presunúť snímky obrazovky zhotovené v aplikácii do koša"
+
+#: ../data/ui/preferences_window.blp:80
+msgid "Trash screenshots on app close"
+msgstr "Pri zatvorení aplikácie presunúť snímky do koša"
+
+#: ../data/ui/preferences_window.blp:86
+msgid "Image Upload Providers"
+msgstr "Poskytovatelia nahrávania obrázkov"
+
+#: ../data/ui/preferences_window.blp:87
+msgid "Connect to your favorite upload providers, or create a link yourself"
+msgstr ""
+"Pripojte sa k obľúbeným poskytovateľom nahrávania alebo si vytvorte vlastný "
+"odkaz"
+
+#: ../data/ui/preferences_window.blp:90
+msgid "_Provider"
+msgstr "_Poskytovateľ"
+
+#: ../data/ui/preferences_window.blp:101
+#: ../gradia/ui/preferences/preferences_window.py:80
+msgid "None Selected"
+msgstr "Žiaden výber"
+
+#: ../data/ui/preferences_window.blp:115
+msgid "_Confirm on Upload"
+msgstr "_Potvrdiť pri nahrávaní"
+
+#: ../data/ui/preferences_window.blp:117 ../data/ui/preferences_window.blp:118
+msgid "Ask for confirmation before running the upload command"
+msgstr "Požiadať o potvrdenie pred spustením príkazu nahrávania"
+
+#: ../data/ui/preferences_window.blp:128
+msgid "_Language Models"
+msgstr "_Jazykové modely"
+
+#: ../data/ui/preferences_window.blp:130
+msgid "Download Models to improve per-language accuracy"
+msgstr "Stiahnuť pre jednotlivé jazyky modely na zlepšenie presnosti"
+
+#: ../data/ui/recent_picker.blp:27
+msgid "Screenshot Folder Not Found"
+msgstr "Priečinok snímok obrazovky sa nenašiel"
+
+#: ../data/ui/recent_picker.blp:35
+msgid "Please set it in the Preferences menu"
+msgstr "Nastavte ho, prosím, v ponuke Predvoľby"
+
+#: ../data/ui/selectors/gradient_selector.blp:6
+msgid "Gradient Background"
+msgstr "Pozadie s prechodom"
+
+#: ../data/ui/selectors/gradient_selector.blp:11
+msgid "Open Step Dialog"
+msgstr "Otvoriť dialóg krokov"
+
+#: ../data/ui/selectors/gradient_selector.blp:14
+msgid "Gradient Presets"
+msgstr "Prednastavenia prechodu"
+
+#: ../data/ui/selectors/gradient_selector.blp:50
+msgid "Linear"
+msgstr "Lineárny"
+
+#: ../data/ui/selectors/gradient_selector.blp:55
+msgid "Radial"
+msgstr "Radiálny"
+
+#: ../data/ui/selectors/gradient_selector.blp:60
+msgid "Conic"
+msgstr "Kužeľový"
+
+#: ../data/ui/selectors/gradient_selector.blp:103
+msgid "Remove Selected Color Step"
+msgstr "Odstrániť vybraný farebný krok"
+
+#: ../data/ui/selectors/image_selector.blp:5
+msgid "Image Background"
+msgstr "Pozadie s obrázkom"
+
+#: ../data/ui/selectors/image_selector.blp:9
+msgid "Image Presets"
+msgstr "Prednastavenia obrázka"
+
+#: ../data/ui/selectors/image_selector.blp:13
+msgid "Select Image"
+msgstr "Vybrať obrázok"
+
+#: ../data/ui/selectors/image_selector.blp:42
+msgid "Select an Image"
+msgstr "Vyberte obrázok"
+
+#: ../data/ui/selectors/image_selector.blp:47
+msgid "Supported Image Formats"
+msgstr "Podporované formáty obrázkov"
+
+#: ../data/ui/selectors/solid_selector.blp:5
+msgid "Solid Color Background"
+msgstr "Jednofarebné pozadie"
+
+#: ../data/ui/welcome_page.blp:42
+msgid "Enhance an Image"
+msgstr "Vylepšite obrázok"
+
+#: ../data/ui/welcome_page.blp:43
+msgid "Drag and drop one here"
+msgstr "Presuňte a pustite ho sem"
+
+#: ../data/ui/welcome_page.blp:61
+msgid "Take a Screenshot…"
+msgstr "Urobiť snímku obrazovky…"
+
+#: ../data/ui/welcome_page.blp:74
+msgid "Open Image…"
+msgstr "Otvoriť obrázok…"
+
+#: ../data/ui/welcome_page.blp:104
+msgid "_D_onate to Gradia"
+msgstr "_P_rispieť na Gradiu"
+
+#: ../gradia/app_constants.py:26
+msgid "Red Flame"
+msgstr "Červený plameň"
+
+#: ../gradia/app_constants.py:32
+msgid "Sunset Orange"
+msgstr "Západ slnka oranžová"
+
+#: ../gradia/app_constants.py:38
+msgid "Golden Hour"
+msgstr "Zlatá hodina"
+
+#: ../gradia/app_constants.py:44
+msgid "Mint Fresh"
+msgstr "Svieža mäta"
+
+#: ../gradia/app_constants.py:50
+msgid "Ocean Breeze"
+msgstr "Morský vánok"
+
+#: ../gradia/app_constants.py:56
+msgid "Purple Dream"
+msgstr "Fialový sen"
+
+#: ../gradia/app_constants.py:74
+msgid "PNG Image (*.png)"
+msgstr "Obrázok PNG (*.png)"
+
+#: ../gradia/app_constants.py:81
+msgid "JPEG Image (*.jpg)"
+msgstr "Obrázok JPEG (*.jpg)"
+
+#: ../gradia/app_constants.py:88
+msgid "WebP Image (*.webp)"
+msgstr "Obrázok WebP (*.webp)"
+
+#: ../gradia/backend/tool_config.py:214 ../gradia/backend/tool_config.py:223
+#: ../gradia/backend/tool_config.py:334 ../gradia/graphics/solid.py:190
+#: ../gradia/ui/widget/quick_color_picker.py:24
+msgid "Red"
+msgstr "Červená"
+
+#: ../gradia/backend/tool_config.py:215 ../gradia/backend/tool_config.py:224
+#: ../gradia/backend/tool_config.py:335 ../gradia/graphics/solid.py:193
+#: ../gradia/ui/widget/quick_color_picker.py:25
+msgid "Green"
+msgstr "Zelená"
+
+#: ../gradia/backend/tool_config.py:216 ../gradia/backend/tool_config.py:225
+#: ../gradia/backend/tool_config.py:336 ../gradia/graphics/solid.py:194
+#: ../gradia/ui/widget/quick_color_picker.py:26
+msgid "Blue"
+msgstr "Modrá"
+
+#: ../gradia/backend/tool_config.py:217 ../gradia/backend/tool_config.py:226
+#: ../gradia/backend/tool_config.py:337 ../gradia/graphics/solid.py:192
+#: ../gradia/ui/widget/quick_color_picker.py:27
+msgid "Yellow"
+msgstr "Žltá"
+
+#: ../gradia/backend/tool_config.py:218 ../gradia/backend/tool_config.py:228
+#: ../gradia/graphics/solid.py:201 ../gradia/ui/widget/quick_color_picker.py:28
+msgid "Black"
+msgstr "Čierna"
+
+#: ../gradia/backend/tool_config.py:219 ../gradia/backend/tool_config.py:227
+#: ../gradia/backend/tool_config.py:339 ../gradia/graphics/solid.py:200
+#: ../gradia/ui/widget/quick_color_picker.py:29
+msgid "White"
+msgstr "Biela"
+
+#: ../gradia/backend/tool_config.py:229 ../gradia/graphics/solid.py:203
+#: ../gradia/ui/widget/quick_color_picker.py:33
+msgid "Transparent"
+msgstr "Priehľadná"
+
+#: ../gradia/backend/tool_config.py:338 ../gradia/graphics/solid.py:195
+msgid "Purple"
+msgstr "Fialová"
+
+#: ../gradia/graphics/solid.py:130
+#: ../gradia/ui/widget/quick_color_picker.py:103
+msgid "More Colors"
+msgstr "Viac farieb"
+
+#: ../gradia/graphics/solid.py:191
+msgid "Orange"
+msgstr "Oranžová"
+
+#: ../gradia/graphics/solid.py:196
+msgid "Pastel Pink"
+msgstr "Pastelová ružová"
+
+#: ../gradia/graphics/solid.py:197
+msgid "Pastel Yellow"
+msgstr "Pastelová žltá"
+
+#: ../gradia/graphics/solid.py:198
+msgid "Pastel Green"
+msgstr "Pastelová zelená"
+
+#: ../gradia/graphics/solid.py:199
+msgid "Pastel Cyan"
+msgstr "Pastelová tyrkysová"
+
+#: ../gradia/graphics/solid.py:202
+msgid "Gray"
+msgstr "Sivá"
+
+#: ../gradia/overlay/crop_overlay.py:36
+#: ../gradia/ui/widget/background_aspect_ratio_selector.py:52
+msgid "_Aspect Ratio"
+msgstr "_Pomer strán"
+
+#: ../gradia/overlay/drawing_actions.py:48 ../gradia/ui/ui_parts.py:111
+msgid "Pen"
+msgstr "Pero"
+
+#: ../gradia/overlay/drawing_actions.py:49 ../gradia/ui/ui_parts.py:114
+msgid "Arrow"
+msgstr "Šípka"
+
+#: ../gradia/overlay/drawing_actions.py:50 ../gradia/ui/ui_parts.py:113
+msgid "Line"
+msgstr "Čiara"
+
+#: ../gradia/overlay/drawing_actions.py:51 ../gradia/ui/ui_parts.py:115
+msgid "Rectangle"
+msgstr "Obdĺžnik"
+
+#: ../gradia/overlay/drawing_actions.py:52 ../gradia/ui/ui_parts.py:116
+msgid "Oval"
+msgstr "Elipsa"
+
+#: ../gradia/overlay/drawing_actions.py:53 ../gradia/ui/ui_parts.py:112
+msgid "Text"
+msgstr "Text"
+
+#: ../gradia/overlay/drawing_actions.py:55 ../gradia/ui/ui_parts.py:117
+msgid "Highlighter"
+msgstr "Zvýrazňovač"
+
+#: ../gradia/overlay/drawing_actions.py:56 ../gradia/ui/ui_parts.py:118
+msgid "Censor"
+msgstr "Cenzúra"
+
+#: ../gradia/overlay/drawing_actions.py:57 ../gradia/ui/ui_parts.py:119
+msgid "Number"
+msgstr "Číslo"
+
+#: ../gradia/ui/dialog/delete_screenshots_dialog.py:33
+msgid "No screenshots to delete"
+msgstr "Žiadne snímky obrazovky na odstránenie"
+
+#: ../gradia/ui/dialog/delete_screenshots_dialog.py:55
+msgid "Trash"
+msgstr "Kôš"
+
+#: ../gradia/ui/dialog/delete_screenshots_dialog.py:87
+msgid "Trash Screenshot?"
+msgstr "Presunúť snímku do koša?"
+
+#: ../gradia/ui/dialog/delete_screenshots_dialog.py:88
+msgid "Are you sure you want to trash the following file?"
+msgstr "Naozaj chcete presunúť nasledujúci súbor do koša?"
+
+#: ../gradia/ui/dialog/delete_screenshots_dialog.py:90
+msgid "Trash Screenshots?"
+msgstr "Presunúť snímky do koša?"
+
+#: ../gradia/ui/dialog/delete_screenshots_dialog.py:91
+msgid "Are you sure you want to trash the following files?"
+msgstr "Naozaj chcete presunúť nasledujúce súbory do koša?"
+
+#: ../gradia/ui/dialog/delete_screenshots_dialog.py:101
+msgid "Screenshot moved to trash"
+msgstr "Snímka obrazovky bola presunutá do koša"
+
+#: ../gradia/ui/dialog/delete_screenshots_dialog.py:103
+msgid "Screenshots moved to trash"
+msgstr "Snímky obrazovky boli presunuté do koša"
+
+#: ../gradia/ui/dialog/ocr_dialog.py:110 ../gradia/ui/dialog/ocr_dialog.py:124
+#: ../gradia/ui/preferences/preferences_window.py:152
+#: ../gradia/ui/preferences/preferences_window.py:245
+msgid "Copied!"
+msgstr "Skopírované!"
+
+#: ../gradia/ui/image_creation/source_image_generator.py:554
+msgid "Source Snippet From %Y-%m-%d %H-%M-%S"
+msgstr "Útržok kódu z %Y-%m-%d %H-%M-%S"
+
+#: ../gradia/ui/image_exporters.py:103
+msgid "Edit"
+msgstr "Upraviť"
+
+#: ../gradia/ui/image_exporters.py:106
+msgid "Enhanced Screenshot"
+msgstr "Vylepšená snímka obrazovky"
+
+#: ../gradia/ui/image_exporters.py:145
+msgid "Save Image As"
+msgstr "Uložiť obrázok ako"
+
+#: ../gradia/ui/image_exporters.py:174
+msgid "Unsupported image file extension"
+msgstr "Nepodporovaná prípona súboru obrázka"
+
+#: ../gradia/ui/image_exporters.py:183
+msgid "Image Saved"
+msgstr "Obrázok bol uložený"
+
+#: ../gradia/ui/image_exporters.py:185
+msgid "Export Failed"
+msgstr "Exportovanie zlyhalo"
+
+#: ../gradia/ui/image_exporters.py:269
+msgid "No processed image available"
+msgstr "Žiadny spracovaný obrázok nie je k dispozícii"
+
+#: ../gradia/ui/image_exporters.py:295 ../gradia/ui/image_exporters.py:477
+msgid "Image Copied"
+msgstr "Obrázok bol skopírovaný"
+
+#: ../gradia/ui/image_exporters.py:298 ../gradia/ui/image_exporters.py:305
+msgid "Failed to copy image to clipboard"
+msgstr "Kopírovanie obrázka do schránky zlyhalo"
+
+#: ../gradia/ui/image_exporters.py:319
+msgid "Link generated successfully"
+msgstr "Odkaz bol úspešne vygenerovaný"
+
+#: ../gradia/ui/image_exporters.py:320
+msgid "Open Link"
+msgstr "Otvoriť odkaz"
+
+#: ../gradia/ui/image_exporters.py:357
+msgid "Custom command failed: "
+msgstr "Vlastný príkaz zlyhal: "
+
+#: ../gradia/ui/image_exporters.py:363
+msgid "Warning: "
+msgstr "Upozornenie: "
+
+#: ../gradia/ui/image_exporters.py:374
+msgid "Result copied to clipboard"
+msgstr "Výsledok bol skopírovaný do schránky"
+
+#: ../gradia/ui/image_exporters.py:376
+msgid "No output from command"
+msgstr "Žiadny výstup príkazu"
+
+#: ../gradia/ui/image_exporters.py:379
+msgid "Failed to run custom export command"
+msgstr "Spustenie vlastného príkazu exportovania zlyhalo"
+
+#: ../gradia/ui/image_exporters.py:425 ../gradia/ui/image_exporters.py:452
+msgid "Close Operation Failed"
+msgstr "Operácia zatvorenia zlyhala"
+
+#: ../gradia/ui/image_exporters.py:425 ../gradia/ui/image_exporters.py:452
+msgid "Failed to export image"
+msgstr "Exportovanie obrázka zlyhalo"
+
+#: ../gradia/ui/image_exporters.py:478
+msgid "You can now paste it from the clipboard."
+msgstr "Teraz ho môžete vložiť zo schránky."
+
+#: ../gradia/ui/image_loaders.py:87 ../gradia/ui/image_loaders.py:98
+#: ../gradia/ui/image_loaders.py:111
+msgid "Not a supported image format"
+msgstr "Nepodporovaný formát obrázka"
+
+#: ../gradia/ui/image_loaders.py:122
+msgid "URL is not a supported image format"
+msgstr "URL nie je podporovaný formát obrázka"
+
+#: ../gradia/ui/image_loaders.py:131
+msgid "Failed to load image from URL."
+msgstr "Načítanie obrázka z URL adresy zlyhalo."
+
+#: ../gradia/ui/image_loaders.py:143
+msgid "Image Files"
+msgstr "Súbory obrázkov"
+
+#: ../gradia/ui/image_loaders.py:248 ../gradia/ui/image_loaders.py:263
+msgid "Failed to take screenshot"
+msgstr "Zhotovenie snímky obrazovky zlyhalo"
+
+#: ../gradia/ui/image_loaders.py:278
+msgid "Screenshot cancelled"
+msgstr "Snímka obrazovky bola zrušená"
+
+#: ../gradia/ui/image_loaders.py:293 ../gradia/ui/image_loaders.py:316
+msgid "Edited Screenshot From %Y-%m-%d %H-%M-%S"
+msgstr "Upravená snímka obrazovky z %Y-%m-%d %H-%M-%S"
+
+#: ../gradia/ui/image_loaders.py:300 ../gradia/ui/image_loaders.py:323
+msgid "Screenshot captured!"
+msgstr "Snímka obrazovky bola zachytená!"
+
+#: ../gradia/ui/image_loaders.py:307
+msgid "Failed to process screenshot"
+msgstr "Spracovanie snímky obrazovky zlyhalo"
+
+#: ../gradia/ui/image_loaders.py:327
+msgid "Failed to load screenshot"
+msgstr "Načítanie snímky obrazovky zlyhalo"
+
+#: ../gradia/ui/image_loaders.py:391
+msgid "Source snippet Generated!"
+msgstr "Útržok kódu bol vygenerovaný!"
+
+#: ../gradia/ui/preferences/ocr_model_page.py:113
+#, python-brace-format
+msgid "Downloaded '{}' Successfully"
+msgstr "Stiahnutie „{}“ prebehlo úspešne"
+
+#: ../gradia/ui/preferences/ocr_model_page.py:119
+#, python-brace-format
+msgid "Failed to Download '{}'"
+msgstr "Stiahnutie „{}“ zlyhalo"
+
+#: ../gradia/ui/preferences/preferences_window.py:114
+msgid "Ask for Confirmation"
+msgstr "Požiadať o potvrdenie"
+
+#: ../gradia/ui/preferences/preferences_window.py:115
+msgid "Copy and Close "
+msgstr "Kopírovať a zatvoriť "
+
+#: ../gradia/ui/preferences/preferences_window.py:116
+msgid "Close Instantly"
+msgstr "Zatvoriť okamžite"
+
+#: ../gradia/ui/preferences/provider_selection_window.py:133
+msgid "_Custom Provider"
+msgstr "_Vlastný poskytovateľ"
+
+#: ../gradia/ui/preferences/provider_selection_window.py:134
+#: ../gradia/ui/provider_selection_window.py:134
+msgid "Create your own custom upload command"
+msgstr "Vytvoriť vlastný príkaz nahrávania"
+
+#: ../gradia/ui/preferences/provider_selection_window.py:303
+#: ../gradia/ui/provider_selection_window.py:302
+msgid "Custom"
+msgstr "Vlastné"
+
+#: ../gradia/ui/ui_parts.py:32
+msgid "Make your images ready for all"
+msgstr "Pripravte svoje obrázky pre všetkých"
+
+#: ../gradia/ui/ui_parts.py:45
+msgid "translator-credits"
+msgstr "Jose Riha <jose1711@gmail.com>"
+
+#: ../gradia/ui/ui_parts.py:51
+msgid "Code and Design Borrowed from"
+msgstr "Kód a dizajn prevzaté z"
+
+#: ../gradia/ui/ui_parts.py:63
+msgid "Image Sources"
+msgstr "Zdroje obrázkov"
+
+#: ../gradia/ui/ui_parts.py:98
+msgid "File Actions"
+msgstr "Operácie so súbormi"
+
+#: ../gradia/ui/ui_parts.py:101
+msgid "Save to File"
+msgstr "Uložiť do súboru"
+
+#: ../gradia/ui/ui_parts.py:102
+msgid "Copy Image to Clipboard"
+msgstr "Kopírovať obrázok do schránky"
+
+#: ../gradia/ui/ui_parts.py:103
+msgid "Paste From Clipboard"
+msgstr "Vložiť zo schránky"
+
+#: ../gradia/ui/ui_parts.py:106
+msgid "Annotations"
+msgstr "Anotácie"
+
+#: ../gradia/ui/ui_parts.py:121
+msgid "Cropping"
+msgstr "Orezávanie"
+
+#: ../gradia/ui/ui_parts.py:122
+msgid "Toggle Crop Mode"
+msgstr "Prepnúť režim orezávania"
+
+#: ../gradia/ui/ui_parts.py:123
+msgid "Reset Crop"
+msgstr "Obnoviť orezanie"
+
+#: ../gradia/ui/ui_parts.py:125
+msgid "Zooming"
+msgstr "Priblíženie"
+
+#: ../gradia/ui/ui_parts.py:129
+msgid "Pan Left"
+msgstr "Posunúť vľavo"
+
+#: ../gradia/ui/ui_parts.py:130
+msgid "Pan Right"
+msgstr "Posunúť vpravo"
+
+#: ../gradia/ui/ui_parts.py:131
+msgid "Pan Up"
+msgstr "Posunúť nahor"
+
+#: ../gradia/ui/ui_parts.py:132
+msgid "Pan Down"
+msgstr "Posunúť nadol"
+
+#: ../gradia/ui/ui_parts.py:135
+msgid "Toggle Sidebar"
+msgstr "Prepnúť bočný panel"
+
+#: ../gradia/ui/ui_parts.py:136
+msgid "Keyboard Shortcuts"
+msgstr "Klávesové skratky"
+
+#: ../gradia/ui/ui_parts.py:138
+msgid "Open Source Snippets"
+msgstr "Otvoriť útržky kódu"
+
+#: ../gradia/ui/ui_parts.py:139
+msgid "Delete Taken Screenshots"
+msgstr "Odstrániť zhotovené snímky obrazovky"
+
+#: ../gradia/ui/widget/aspect_ratio_button.py:26
+msgid "Aspect Ratio"
+msgstr "Pomer strán"
+
+#: ../gradia/ui/widget/aspect_ratio_button.py:38
+msgid "Free"
+msgstr "Voľné"
+
+#: ../gradia/ui/widget/aspect_ratio_button.py:39
+msgid "Square"
+msgstr "Štvorec"
+
+#: ../gradia/ui/widget/background_aspect_ratio_selector.py:113
+msgid "Custom Ratio"
+msgstr "Vlastný pomer"
+
+#: ../gradia/ui/widget/background_aspect_ratio_selector.py:121
+msgid "Width"
+msgstr "Šírka"
+
+#: ../gradia/ui/widget/background_aspect_ratio_selector.py:137
+msgid "Height"
+msgstr "Výška"
+
+#: ../gradia/ui/widget/background_aspect_ratio_selector.py:153
+msgid "Set"
+msgstr "Nastaviť"
+
+#: ../gradia/ui/widget/toggle_group.py:47
+msgid "_None"
+msgstr "_Žiadne"
+
+#: ../gradia/ui/widget/toggle_group.py:48
+msgid "_Solid"
+msgstr "_Plné"
+
+#: ../gradia/ui/widget/toggle_group.py:49
+msgid "_Gradient"
+msgstr "_Prechod"
+
+#: ../gradia/ui/widget/toggle_group.py:50
+msgid "_Image"
+msgstr "_Obrázok"
+
+#: ../gradia/ui/widget/quick_color_picker.py:108
+msgid "Choose Color"
+msgstr "Vybrať farbu"
+
+#: ../gradia/ui/window.py:483
+msgid "Select Provider"
+msgstr "Vybrať poskytovateľa"
+
+#: ../gradia/ui/window.py:500
+msgid "Confirm Upload"
+msgstr "Potvrdiť nahrávanie"
+
+#: ../gradia/ui/window.py:504
+msgid "Upload"
+msgstr "Nahrať"
+
+#~ msgid "Alexander Vanhee"
+#~ msgstr "Alexander Vanhee"
+
+#~ msgid "Save As…"
+#~ msgstr "Uložiť ako…"
+
+#~ msgid "Crop…"
+#~ msgstr "Orezať…"
+
+#~ msgid "Reset Crop Selection"
+#~ msgstr "Obnoviť výber orezania"
+
+#~ msgid "English"
+#~ msgstr "Angličtina"
+
+#~ msgid "Chinese Simplified"
+#~ msgstr "Čínština (zjednodušená)"
+
+#~ msgid "Chinese Traditional"
+#~ msgstr "Čínština (tradičná)"
+
+#~ msgid "Spanish"
+#~ msgstr "Španielčina"
+
+#~ msgid "French"
+#~ msgstr "Francúzština"
+
+#~ msgid "German"
+#~ msgstr "Nemčina"
+
+#~ msgid "Japanese"
+#~ msgstr "Japončina"
+
+#~ msgid "Arabic"
+#~ msgstr "Arabčina"
+
+#~ msgid "Russian"
+#~ msgstr "Ruština"
+
+#~ msgid "Portuguese"
+#~ msgstr "Portugalčina"
+
+#~ msgid "Italian"
+#~ msgstr "Taliančina"
+
+#~ msgid "Korean"
+#~ msgstr "Kórejčina"
+
+#~ msgid "Hindi"
+#~ msgstr "Hindčina"
+
+#~ msgid "Dutch"
+#~ msgstr "Holandčina"
+
+#~ msgid "Turkish"
+#~ msgstr "Turečtina"
+
+#~ msgid "Kazakh"
+#~ msgstr "Kazaščina"
+
+#~ msgid "Occitan"
+#~ msgstr "Okcitánčina"
+
+#~ msgid "Polish"
+#~ msgstr "Poľština"
+
+#~ msgid "Ukrainian"
+#~ msgstr "Ukrajinčina"
+
+#~ msgid "Telugu"
+#~ msgstr "Telugčina"
+
+#~ msgid "Open File"
+#~ msgstr "Otvoriť súbor"
+
+#~ msgid "More Colors…"
+#~ msgstr "Viac farieb…"
