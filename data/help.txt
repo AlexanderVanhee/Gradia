@@ -4,6 +4,7 @@ Usage: gradia [OPTIONS] [FILES...]
 
 Options:
   -h, --help                    Show this help message and exit
+  --fast                       Save screenshot with default settings without opening editor
   --screenshot[=MODE]           Take a screenshot on startup
                                 MODE can be:
                                   INTERACTIVE (default) - Interactive screenshot
@@ -20,6 +21,7 @@ Examples:
   gradia --screenshot=FULL     Take a full screen screenshot
   gradia --screenshot --delay=3000   Take screenshot after 3 second delay
   gradia --screenshot=FULL --delay=1500   Take full screenshot after 1.5 second delay
+  gradia --fast --screenshot-file=/path/to/screenshot.png   Save screenshot with defaults
   cat image.png | gradia       Open image from standard input (stdin)
 
 Report bugs to: https://github.com/alexandervanhee/gradia

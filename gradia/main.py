@@ -99,6 +99,7 @@ class GradiaApp(Adw.Application):
 
         files_to_open = []
         screenshot_file = None
+        fast = "--fast" in args
         ocr_file = None
         pin = "--pin" in args
 
@@ -134,7 +135,7 @@ class GradiaApp(Adw.Application):
             for path in files_to_open:
                 self._open_window(file_path=path)
         elif screenshot_file:
-            self._open_window(start_screenshot=screenshot_file)
+            self._open_window(start_screenshot=screenshot_file, fast=fast)
         else:
             self.activate()
 
@@ -169,6 +170,7 @@ class GradiaApp(Adw.Application):
         self,
         file_path: Optional[str] = None,
         start_screenshot: Optional[str] = None,
+        fast: bool = False
     ):
         logging.info(f"Opening window with file_path={file_path}")
         temp_dir = tempfile.mkdtemp()
@@ -181,8 +183,10 @@ class GradiaApp(Adw.Application):
             application=self,
             file_path=file_path,
             start_screenshot=start_screenshot,
+            fast=fast
         )
-        window.show()
+        if not fast:
+            window.show()
 
     def _open_pin_window(self, file_path: Optional[str] = None):
         logging.info(f"Opening pin window with file_path={file_path}")

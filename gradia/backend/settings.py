@@ -84,6 +84,22 @@ class Settings:
         return self._settings.get_boolean("export-compress")
 
     @property
+    def fast_screenshot_mode(self) -> str:
+        return self._settings.get_string("fast-screenshot-mode")
+
+    @fast_screenshot_mode.setter
+    def fast_screenshot_mode(self, value: str) -> None:
+        self._settings.set_string("fast-screenshot-mode", value)
+
+    @property
+    def fast_screenshot_overwrite_original(self) -> bool:
+        return self._settings.get_boolean("fast-screenshot-overwrite-original")
+
+    @fast_screenshot_overwrite_original.setter
+    def fast_screenshot_overwrite_original(self, value: bool) -> None:
+        self._settings.set_boolean("fast-screenshot-overwrite-original", value)
+
+    @property
     def delete_screenshots_on_close(self) -> bool:
         return self._settings.get_boolean("trash-screenshots-on-close")
 
