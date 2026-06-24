@@ -73,6 +73,14 @@ template $GradiaPreferencesWindow: Adw.PreferencesDialog {
         activatable: true;
       }
 
+      Adw.SwitchRow close_after_copy_switch {
+        title: _("_Close After Copying");
+        use-underline: true;
+        subtitle: _("Exit the app once the image is on the clipboard");
+        tooltip-text: _("Close the window after copying the image to the clipboard");
+        activatable: true;
+      }
+
       Adw.SwitchRow delete_screenshot_switch {
         title: _("_Trash Screenshots on Close");
         use-underline: true;

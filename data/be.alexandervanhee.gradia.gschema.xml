@@ -76,6 +76,10 @@
       <default>false</default>
       <summary>Overwrite currently opened screenshot on close</summary>
     </key>
+    <key name="close-after-copy" type="b">
+      <default>false</default>
+      <summary>Close the window automatically after copying the image to the clipboard</summary>
+    </key>
     <key name="custom-export-command" type="s">
       <default>''</default>
       <summary>Custom command to run when pressing its button</summary>

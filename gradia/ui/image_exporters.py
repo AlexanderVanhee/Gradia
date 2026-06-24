@@ -293,6 +293,8 @@ class ClipboardExporter(BaseImageExporter):
                     if not silent:
                         self.window.show_close_confirmation = False
                         self.window._show_notification(_("Image Copied"))
+                        if self.window.settings.close_after_copy and self.window.settings.exit_method != "copy":
+                            self.window.close()
 
                 except Exception as e:
                     self.window._show_notification(_("Failed to copy image to clipboard"))
