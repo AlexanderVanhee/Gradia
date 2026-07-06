@@ -128,11 +128,11 @@ class ImageProcessor:
         if self.rotation == 0:
             return image
         elif self.rotation == 90:
-            return image.transpose(Image.ROTATE_90)
+            return image.transpose(Image.ROTATE_270)
         elif self.rotation == 180:
             return image.transpose(Image.ROTATE_180)
         elif self.rotation == 270:
-            return image.transpose(Image.ROTATE_270)
+            return image.transpose(Image.ROTATE_90)
         else:
             return image
 
