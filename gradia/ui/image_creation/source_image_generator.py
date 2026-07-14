@@ -260,7 +260,10 @@ class StyleManager:
             'solarized-dark',
             'clone-of-ubuntu',
             'builder-dark',
-            'vscode-dark'
+            'vscode-dark',
+            'rose-pine',
+            'rose-pine-moon',
+            'rose-pine-dawn'
         ]
 
         self.use_generic_styles = True
