@@ -3,7 +3,7 @@ shared_library(
   'gradient_gen',
   'graphics/gradient_gen.c',
   install: true,
-  install_dir: MODULE_DIR,
+  install_dir: LIB_DIR,
   install_rpath: '$ORIGIN',
   link_args: ['-lm'],
 )
