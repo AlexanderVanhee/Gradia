@@ -22,6 +22,7 @@ PROJECT_RDNN_NAME = 'be.alexandervanhee.gradia'
 ROOT_PATH = '/be/alexandervanhee/gradia'
 PKGDATA_DIR = join_paths(get_option('prefix'), get_option('datadir'), meson.project_name())
 MODULE_DIR =  join_paths(PKGDATA_DIR, 'gradia')
+LIB_DIR = join_paths(get_option('prefix'), get_option('libdir'), meson.project_name())
 
 # Set APPLICATION_ID
 APPLICATION_ID =  PROJECT_RDNN_NAME
@@ -72,6 +73,7 @@ conf = configuration_data()
 conf.set('APP_ID', APPLICATION_ID)
 conf.set('ROOT_PATH', ROOT_PATH)
 conf.set('PKGDATA_DIR', PKGDATA_DIR)
+conf.set('LIB_DIR', LIB_DIR)
 conf.set('DATA_DIR', join_paths(get_option('prefix'), get_option('datadir')))
 conf.set('LOCALE_DIR', join_paths(get_option('prefix'), get_option('localedir')))
 conf.set('PYTHON', PY_INSTALLDIR.full_path())
