@@ -476,7 +476,7 @@ class CropOverlay(Gtk.Widget):
         self._clamp_crop_rectangle()
 
     def _clamp_crop_rectangle(self):
-        min_dim = 0.2
+        min_dim = 0.05
         self.crop_width = max(min_dim, self.crop_width)
         self.crop_height = max(min_dim, self.crop_height)
 
