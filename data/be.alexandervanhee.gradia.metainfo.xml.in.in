@@ -38,6 +38,11 @@
 		<color type="primary" scheme_preference="dark">#119458</color>
 	</branding>
 	<releases>
+	    <release version="1.14.0" date="2026-09-30">
+        <description translate="no">
+          <p>Update to the GNOME 51 runtime.</p>
+        </description>
+      </release>
 	    <release version="1.13.0" date="2026-04-22">
         <description translate="no">
           <p>This update adds many more language options for OCR.</p>
