@@ -105,6 +105,10 @@ class Settings:
         return self._settings.get_boolean("overwrite-screenshot")
 
     @property
+    def close_after_copy(self) -> bool:
+        return self._settings.get_boolean("close-after-copy")
+
+    @property
     def custom_export_command(self) -> str:
         return self._settings.get_string("custom-export-command")
 
