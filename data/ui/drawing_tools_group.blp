@@ -26,10 +26,15 @@ template $GradiaDrawingToolsGroup: Box {
   Scale size_scale {
     orientation: horizontal;
     margin-top: 6;
+    tooltip-text: _("Scale size");
+    draw-value: true;
+    value-pos: right;
+    digits: 0;
+    has-tooltip: true;
 
     adjustment: Adjustment {
       value-changed => $on_size_scale_changed();
-      lower: 3;
+      lower: 1;
       upper: 25;
       value: 14;
       step-increment: 2;
