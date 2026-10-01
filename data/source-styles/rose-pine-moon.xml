@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Rosé Pine Moon
+  All natural pine, faux fur and a bit of soho vibes for the classy minimalist
+  https://rosepinetheme.com
+-->
+<style-scheme id="rose-pine" _name="Rosé Pine" version="1.0">
+  <author>Henrique Sardinha, Rosé Pine team</author>
+  <_description>All natural pine, faux fur and a bit of soho vibes for the classy minimalist</_description>
+
+  <metadata>
+    <property name="variant">dark</property>
+    <property name="light-variant">rose-pine-dawn</property>
+  </metadata>
+
+  <!-- Paleta de Cores Nomeadas -->
+  <color name="base"           value="#232136"/>
+  <color name="surface"        value="#2a273f"/>
+  <color name="overlay"        value="#393552"/>
+  <color name="muted"          value="#6e6a86"/>
+  <color name="subtle"         value="#908caa"/>
+  <color name="text"           value="#e0def4"/>
+  <color name="love"           value="#eb6f92"/>
+  <color name="gold"           value="#f6c177"/>
+  <color name="rose"           value="#ea9a97"/>
+  <color name="pine"           value="#3e8fb0"/>
+  <color name="foam"           value="#9ccfd8"/>
+  <color name="iris"           value="#c4a7e7"/>
+  <color name="highlightLow"   value="#2a283e"/>
+  <color name="highlightMed"   value="#44415a"/>
+  <color name="highlightHigh"  value="#56526e"/>
+
+  <!-- Estilos Globais -->
+  <style name="background-pattern"       background="base"/>
+  <style name="bracket-match"            underline="low"/>
+  <style name="bracket-mismatch"         foreground="love" underline="error-line"/>
+  <style name="current-line"             background="highlightLow"/>
+  <style name="current-line-number"      background="highlightLow" foreground="text" bold="false"/>
+  <style name="cursor"                   foreground="text"/>
+  <style name="line-numbers"             background="base" foreground="subtle"/>
+  <style name="map-overlay"              background="highlightMed"/>
+  <style name="right-margin"             background="overlay"/>
+  <style name="search-match"             background="highlightMed"/>
+  <style name="secondary-cursor"         foreground="text"/>
+  <style name="selection"                background="highlightMed"/>
+  <style name="selection-unfocused"      background="highlightLow"/>
+  <style name="text"                     background="base" foreground="text"/>
+
+  <!-- Defaults -->
+  <style name="def:base-n-integer"       foreground="iris"/>
+  <style name="def:boolean"              foreground="rose"/>
+  <style name="def:builtin"              foreground="foam"/>
+  <style name="def:character"            foreground="gold"/>
+  <style name="def:comment"              foreground="muted"/>
+  <style name="def:complex"              foreground="iris"/>
+  <style name="def:constant"             foreground="rose"/>
+  <style name="def:decimal"              foreground="iris"/>
+  <style name="def:doc-comment"          foreground="muted"/>
+  <style name="def:emphasis"             foreground="gold" italic="true"/>
+  <style name="def:error"                underline="error-line" underline-color="love"/>
+  <style name="def:floating-point"       foreground="iris"/>
+  <style name="def:function"             foreground="pine"/>
+  <style name="def:heading"              foreground="foam"/>
+  <style name="def:identifier"           foreground="text"/>
+  <style name="def:inline-code"          foreground="foam"/>
+  <style name="def:keyword"              foreground="love" bold="true"/>
+  <style name="def:link-destination"     foreground="foam"/>
+  <style name="def:link-text"            foreground="iris"/>
+  <style name="def:list-marker"          foreground="subtle"/>
+  <style name="def:net-address"          foreground="foam"/>
+  <style name="def:note"                 background="highlightLow" foreground="gold" bold="false"/>
+  <style name="def:number"               foreground="iris"/>
+  <style name="def:operator"             foreground="subtle"/>
+  <style name="def:preformatted-section" foreground="surface"/>
+  <style name="def:preprocessor"         foreground="foam"/>
+  <style name="def:shebang"              foreground="muted"/>
+  <style name="def:special-char"         foreground="gold"/>
+  <style name="def:special-constant"     foreground="rose"/>
+  <style name="def:statement"            foreground="pine"/>
+  <style name="def:string"               foreground="gold"/>
+  <style name="def:strong-emphasis"      foreground="gold" bold="true"/>
+  <style name="def:thematic-break"       foreground="muted"/>
+  <style name="def:type"                 foreground="foam"/>
+
+  <!-- CSS -->
+  <style name="css:class-selector"       foreground="pine"/>
+  <style name="css:property-name"        foreground="foam"/>
+  <style name="css:type-selector"        foreground="love"/>
+
+  <!-- Dart -->
+  <style name="dart:type"                foreground="foam"/>
+
+  <!-- HTML -->
+  <style name="html:error"               foreground="love"/>
+  <style name="def:tag"                  foreground="foam"/>
+  <style name="def:attribute"            foreground="iris"/>
+  <style name="def:attribute-value"      foreground="gold"/>
+
+  <!-- Java -->
+  <style name="java:declaration"         foreground="love"/>
+  <style name="java:scope-declaration"   foreground="love"/>
+
+  <!-- JavaScript -->
+  <style name="js:binary-operator"       foreground="subtle"/>
+  <style name="js:built-in-function"     foreground="foam"/>
+  <style name="js:spread-syntax"         foreground="subtle"/>
+  <style name="js:ternary-operator"      foreground="subtle"/>
+  <style name="js:throw-statement"       foreground="love"/>
+  <style name="js:unary-operator"        foreground="subtle"/>
+
+  <!-- Python -->
+  <style name="python3:class-name"       foreground="foam"/>
+  <style name="python3:decorator"        foreground="pine"/>
+  <style name="python3:multiline-string" foreground="muted"/>
+
+  <!-- Ruby -->
+  <style name="ruby:constant"            foreground="rose"/>
+  <style name="ruby:variable"            foreground="iris"/>
+
+  <!-- sh -->
+  <style name="sh:common-command"        foreground="pine"/>
+  <style name="sh:others"                foreground="text"/>
+  <style name="sh:variable"              foreground="iris"/>
+
+  <!-- XML -->
+  <style name="xml:attribute-name"       foreground="iris"/>
+
+</style-scheme> 
