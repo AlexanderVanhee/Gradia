@@ -9,6 +9,7 @@ Options:
                                   INTERACTIVE (default) - Interactive screenshot
                                   FULL - Full screen screenshot
   --delay=MILLISECONDS          Delay before taking screenshot (in milliseconds)
+  --maximized                   Open the window maximized
 
 Arguments:
   FILES...                     Image files to open
@@ -20,6 +21,7 @@ Examples:
   gradia --screenshot=FULL     Take a full screen screenshot
   gradia --screenshot --delay=3000   Take screenshot after 3 second delay
   gradia --screenshot=FULL --delay=1500   Take full screenshot after 1.5 second delay
+  gradia --maximized image.png Open image.png in a maximized window
   cat image.png | gradia       Open image from standard input (stdin)
 
 Report bugs to: https://github.com/alexandervanhee/gradia
