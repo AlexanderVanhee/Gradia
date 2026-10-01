@@ -62,8 +62,8 @@ else
 endif
 
 # OCR Directories
-OCR_TESSERACT_CMD = '/app/bin/tesseract'
-OCR_ORIGINAL_TESSDATA_DIR = '/app/share/tessdata'
+OCR_TESSERACT_CMD = join_paths(get_option('prefix'), 'bin', 'tesseract')
+OCR_ORIGINAL_TESSDATA_DIR = join_paths(get_option('prefix'), 'share', 'tessdata')
 
 enable_ocr = get_option('enable-ocr')
 
