@@ -18,11 +18,13 @@ from typing import Literal, Optional, Sequence
 from dataclasses import dataclass, field
 from ctypes import CDLL, POINTER, Structure, c_double, c_int, c_uint8
 import json
+import os
 
 from PIL import Image
 
 from gradia.graphics.background import Background
 from gradia.utils.colors import parse_rgb_string
+from gradia.constants import libdir
 
 
 Step = tuple[float, str]  # (position, "rgb(r,g,b)")
@@ -98,8 +100,7 @@ class GradientBackground(Background):
         if cls._c_lib is not None:
             return
 
-        from importlib.resources import files
-        gradia_path = files("gradia").joinpath("libgradient_gen.so")
+        gradia_path = os.path.join(libdir, "libgradient_gen.so")
         cls._c_lib = CDLL(str(gradia_path))
         cls._c_lib.generate_gradient.argtypes = [
             POINTER(c_uint8), c_int, c_int,
