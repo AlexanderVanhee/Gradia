@@ -146,7 +146,7 @@ class GradiaApp(Adw.Application):
         contents = stream.read_bytes(4096, None).get_data().decode("utf-8")
         print(contents)
 
-    def do_open(self, files: Sequence[Gio.File], hint: str):
+    def do_open(self, files: Sequence[Gio.File], n_files: int, hint: str):
         logging.debug(f"do_open called with files: {[file.get_path() for file in files]} and hint: {hint}")
         for file in files:
             path = file.get_path()
