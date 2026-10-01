@@ -60,6 +60,14 @@
       <default>true</default>
       <summary>Whether to compress the exported file (if supported)</summary>
     </key>
+    <key name="fast-screenshot-mode" type="s">
+      <default>'INTERACTIVE'</default>
+      <summary>Mode used for fast screenshots</summary>
+    </key>
+    <key name="fast-screenshot-overwrite-original" type="b">
+      <default>true</default>
+      <summary>Whether to overwrite the original screenshot file when using fast screenshot mode</summary>
+    </key>
     <key name="trash-screenshots-on-close" type="b">
       <default>false</default>
       <summary>Whether to trash all taken screenshots from the current session on close.</summary>

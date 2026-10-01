@@ -40,6 +40,8 @@ class PreferencesWindow(Adw.PreferencesDialog):
     delete_screenshot_switch: Adw.SwitchRow = Gtk.Template.Child()
     overwrite_screenshot_switch: Adw.SwitchRow = Gtk.Template.Child()
     confirm_upload_switch: Adw.SwitchRow = Gtk.Template.Child()
+    fast_screenshot_mode_combo: Adw.ComboRow = Gtk.Template.Child()
+    overwrite_fast_screenshot_switch: Adw.SwitchRow = Gtk.Template.Child()
     save_format_combo: Adw.ComboRow = Gtk.Template.Child()
     provider_name: Gtk.Label = Gtk.Template.Child()
     exiting_combo: Adw.ComboRow = Gtk.Template.Child()
@@ -66,6 +68,7 @@ class PreferencesWindow(Adw.PreferencesDialog):
         self.add_controller(shortcut_controller)
 
     def _setup_widgets(self):
+        self._setup_fast_screenshot_mode_combo()
         self._setup_save_format_combo()
         self._setup_exiting_combo()
         self._setup_provider_display()
@@ -105,6 +108,34 @@ class PreferencesWindow(Adw.PreferencesDialog):
             self.save_format_combo.set_selected(0)
 
         self.save_format_combo.connect("notify::selected", self._on_save_format_changed)
+
+    def _setup_fast_screenshot_mode_combo(self):
+        current_mode = self.settings.fast_screenshot_mode
+        string_list = Gtk.StringList()
+
+        fast_mode_options = [
+            ("INTERACTIVE", _("Interactive")),
+            ("FULL", _("Full Screen"))
+        ]
+        self.fast_mode_keys = [key for key, _ in fast_mode_options]
+
+        for key, display_name in fast_mode_options:
+            string_list.append(display_name)
+
+        self.fast_screenshot_mode_combo.set_model(string_list)
+
+        try:
+            current_index = self.fast_mode_keys.index(current_mode)
+            self.fast_screenshot_mode_combo.set_selected(current_index)
+        except ValueError:
+            self.fast_screenshot_mode_combo.set_selected(0)
+
+        self.fast_screenshot_mode_combo.connect("notify::selected", self._on_fast_screenshot_mode_changed)
+
+    def _on_fast_screenshot_mode_changed(self, combo_row, pspec) -> None:
+        selected = combo_row.get_selected()
+        if selected < len(self.fast_mode_keys):
+            self.settings.fast_screenshot_mode = self.fast_mode_keys[selected]
 
     def _setup_exiting_combo(self):
         current_exit_method = self.settings.exit_method
@@ -161,6 +192,7 @@ class PreferencesWindow(Adw.PreferencesDialog):
         self.settings.bind_switch(self.delete_screenshot_switch,"trash-screenshots-on-close")
         self.settings.bind_switch(self.confirm_upload_switch,"show-export-confirm-dialog")
         self.settings.bind_switch(self.overwrite_screenshot_switch,"overwrite-screenshot")
+        self.settings.bind_switch(self.overwrite_fast_screenshot_switch,"fast-screenshot-overwrite-original")
 
     @Gtk.Template.Callback()
     def on_choose_provider_clicked(self, button: Gtk.Button) -> None:

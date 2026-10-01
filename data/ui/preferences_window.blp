@@ -38,6 +38,22 @@ template $GradiaPreferencesWindow: Adw.PreferencesDialog {
           }
         }
       }
+
+      Adw.ComboRow fast_screenshot_mode_combo {
+        name: "fast_screenshot_mode_combo";
+        title: _("Fast Screenshot Mode");
+        use-underline: true;
+        subtitle: _("Choose the default mode for fast screenshots");
+      }
+
+      Adw.SwitchRow overwrite_fast_screenshot_switch {
+        name: "overwrite_fast_screenshot_switch";
+        title: _("Overwrite Original Screenshot on Fast Save");
+        use-underline: true;
+        subtitle: _("Replace the original screenshot file when using fast screenshot mode");
+        tooltip-text: _("Use the source screenshot file as the save destination for fast screenshots");
+        activatable: true;
+      }
     }
 
     Adw.PreferencesGroup {
