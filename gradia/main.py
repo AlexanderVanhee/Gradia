@@ -52,6 +52,7 @@ class GradiaApp(Adw.Application):
         self.version = version
         self.temp_dirs: list[str] = []
         self._stdin_image_path: Optional[str] = None
+        self._start_maximized = False
 
         self.connect("startup", self._on_startup)
         self.connect("shutdown", self.on_shutdown)
@@ -101,6 +102,7 @@ class GradiaApp(Adw.Application):
         screenshot_file = None
         ocr_file = None
         pin = "--pin" in args
+        self._start_maximized = "--maximized" in args
 
         for arg in args:
             if arg.startswith("--screenshot-file="):
@@ -109,7 +111,7 @@ class GradiaApp(Adw.Application):
             elif arg.startswith("--ocr-file="):
                 ocr_file = arg.split("=", 1)[1]
                 logging.info(f"OCR file detected: {ocr_file}")
-            elif arg == "--pin":
+            elif arg in ("--pin", "--maximized"):
                 pass
             elif not arg.startswith("--"):
                 try:
@@ -138,6 +140,7 @@ class GradiaApp(Adw.Application):
         else:
             self.activate()
 
+        self._start_maximized = False
         return 0
 
     def _print_help(self):
@@ -182,6 +185,8 @@ class GradiaApp(Adw.Application):
             file_path=file_path,
             start_screenshot=start_screenshot,
         )
+        if self._start_maximized:
+            window.maximize()
         window.show()
 
     def _open_pin_window(self, file_path: Optional[str] = None):
