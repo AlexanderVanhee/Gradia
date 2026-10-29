@@ -160,9 +160,11 @@ class FileDialogExporter(BaseImageExporter):
         dialog.set_current_name(base_name + default_ext)
 
         dialog.connect("response", lambda d, r: self._on_dialog_response(d, r, target_format))
+        self.window.inhibit_focus_loss_close()
         dialog.show()
 
     def _on_dialog_response(self, dialog, response_id, suggested_format):
+        self.window.release_focus_loss_close()
         if response_id == Gtk.ResponseType.ACCEPT:
             file = dialog.get_file()
             if file:
@@ -293,6 +295,8 @@ class ClipboardExporter(BaseImageExporter):
                     if not silent:
                         self.window.show_close_confirmation = False
                         self.window._show_notification(_("Image Copied"))
+                        if self.window.settings.close_after_copy and self.window.settings.exit_method != "copy":
+                            self.window.close()
 
                 except Exception as e:
                     self.window._show_notification(_("Failed to copy image to clipboard"))

@@ -148,9 +148,11 @@ class FileDialogImageLoader(BaseImageLoader):
         filters.append(image_filter)
         file_dialog.set_filters(filters)
 
+        self.window.inhibit_focus_loss_close()
         file_dialog.open(self.window, None, self._on_file_selected)
 
     def _on_file_selected(self, dialog: Gtk.FileDialog, result: Gio.AsyncResult) -> None:
+        self.window.release_focus_loss_close()
         try:
             file = dialog.open_finish(result)
             if not file:

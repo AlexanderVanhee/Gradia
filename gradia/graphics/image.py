@@ -162,6 +162,7 @@ class ImageSelector(Adw.PreferencesGroup):
         self._load_image_async(path)
 
     def _on_preview_clicked(self, _gesture: Gtk.GestureClick, _n_press: int, _x: float, _y: float) -> None:
+        self.get_root().inhibit_focus_loss_close()
         self.open_image_dialog.open(self.get_root(), None, self._on_file_dialog_ready)
 
     def _on_image_drop(self, _drop_target: Gtk.DropTarget, file: Gio.File, _x: int, _y: int) -> bool:
@@ -172,6 +173,7 @@ class ImageSelector(Adw.PreferencesGroup):
         return False
 
     def _on_file_dialog_ready(self, file_dialog: Gtk.FileDialog, result: Gio.AsyncResult) -> None:
+        self.get_root().release_focus_loss_close()
         try:
             file = file_dialog.open_finish(result)
             file_path = file.get_path()

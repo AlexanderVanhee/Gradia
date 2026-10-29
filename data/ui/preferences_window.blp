@@ -73,6 +73,39 @@ template $GradiaPreferencesWindow: Adw.PreferencesDialog {
         activatable: true;
       }
 
+      Adw.SwitchRow close_after_copy_switch {
+        title: _("_Close After Copying");
+        use-underline: true;
+        subtitle: _("Exit the app once the image is on the clipboard");
+        tooltip-text: _("Close the window after copying the image to the clipboard");
+        activatable: true;
+      }
+
+      Adw.SwitchRow close_on_focus_loss_switch {
+        title: _("Close on _Focus Loss");
+        use-underline: true;
+        subtitle: _("Exit when switching away from a window opened by the screenshot shortcut");
+        tooltip-text: _("Close the window when it loses focus, if it was opened with the screenshot shortcut");
+        activatable: true;
+      }
+
+      Adw.SpinRow close_on_focus_loss_delay_row {
+        title: _("Focus Loss _Delay");
+        use-underline: true;
+        subtitle: _("Seconds to wait before closing");
+        numeric: true;
+        digits: 1;
+        sensitive: bind close_on_focus_loss_switch.active;
+
+        adjustment: Gtk.Adjustment {
+          value: 5;
+          lower: 0.1;
+          upper: 3600;
+          step-increment: 0.1;
+          page-increment: 1;
+        };
+      }
+
       Adw.SwitchRow delete_screenshot_switch {
         title: _("_Trash Screenshots on Close");
         use-underline: true;

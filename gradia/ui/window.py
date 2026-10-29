@@ -89,6 +89,9 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.processed_pixbuf: Optional[Gdk.Pixbuf] = None
         self.image_ready = False
         self.show_close_confirmation = False
+        self._closing = False
+        self._focus_close_inhibitors = 0
+        self._focus_close_timeout_id: Optional[int] = None
 
         self.export_manager: ExportManager = ExportManager(self, temp_dir)
         self.import_manager: ImportManager = ImportManager(self, temp_dir, self.app)
@@ -103,6 +106,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self._setup()
 
         self.connect("close-request", self._on_close_request)
+        self.connect("notify::is-active", self._on_active_changed)
 
         self.welcome_content = None
 
@@ -223,6 +227,8 @@ class GradiaMainWindow(Adw.ApplicationWindow):
             return True
 
     def _finalize_close(self, copy: bool) -> None:
+        self._closing = True
+        self._cancel_focus_close_timeout()
         if self.settings.delete_screenshots_on_close:
             self.import_manager.delete_screenshots()
 
@@ -251,6 +257,51 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
     def _on_confirm_close_copy(self) -> None:
         self._finalize_close(copy=True)
+
+    def _on_active_changed(self, window, pspec) -> None:
+        if not self.start_screenshot:
+            return
+
+        self._cancel_focus_close_timeout()
+
+        if not self.is_active() and not self._closing:
+            delay_ms = int(self.settings.close_on_focus_loss_delay * 1000)
+            self._focus_close_timeout_id = GLib.timeout_add(delay_ms, self._close_if_focus_lost)
+
+    def _cancel_focus_close_timeout(self) -> None:
+        if self._focus_close_timeout_id is not None:
+            GLib.source_remove(self._focus_close_timeout_id)
+            self._focus_close_timeout_id = None
+
+    def _close_if_focus_lost(self) -> bool:
+        self._focus_close_timeout_id = None
+
+        if (
+            not self._closing
+            and self.settings.close_on_focus_loss
+            and not self.is_active()
+            and self.get_visible()
+            and self._focus_close_inhibitors == 0
+            and not self._has_active_auxiliary_window()
+        ):
+            if self.settings.exit_method == "copy":
+                self._on_confirm_close_copy()
+            else:
+                self._on_confirm_close_ok()
+        return False
+
+    def _has_active_auxiliary_window(self) -> bool:
+        return any(
+            window.is_active()
+            for window in Gtk.Window.list_toplevels()
+            if window is not self and not isinstance(window, GradiaMainWindow)
+        )
+
+    def inhibit_focus_loss_close(self) -> None:
+        self._focus_close_inhibitors += 1
+
+    def release_focus_loss_close(self) -> None:
+        self._focus_close_inhibitors = max(0, self._focus_close_inhibitors - 1)
 
     """
     Callbacks

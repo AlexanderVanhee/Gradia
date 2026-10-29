@@ -39,6 +39,9 @@ class PreferencesWindow(Adw.PreferencesDialog):
     save_format_group: Adw.PreferencesGroup = Gtk.Template.Child()
     delete_screenshot_switch: Adw.SwitchRow = Gtk.Template.Child()
     overwrite_screenshot_switch: Adw.SwitchRow = Gtk.Template.Child()
+    close_after_copy_switch: Adw.SwitchRow = Gtk.Template.Child()
+    close_on_focus_loss_switch: Adw.SwitchRow = Gtk.Template.Child()
+    close_on_focus_loss_delay_row: Adw.SpinRow = Gtk.Template.Child()
     confirm_upload_switch: Adw.SwitchRow = Gtk.Template.Child()
     save_format_combo: Adw.ComboRow = Gtk.Template.Child()
     provider_name: Gtk.Label = Gtk.Template.Child()
@@ -161,6 +164,13 @@ class PreferencesWindow(Adw.PreferencesDialog):
         self.settings.bind_switch(self.delete_screenshot_switch,"trash-screenshots-on-close")
         self.settings.bind_switch(self.confirm_upload_switch,"show-export-confirm-dialog")
         self.settings.bind_switch(self.overwrite_screenshot_switch,"overwrite-screenshot")
+        self.settings.bind_switch(self.close_after_copy_switch,"close-after-copy")
+        self.settings.bind_switch(self.close_on_focus_loss_switch,"close-on-focus-loss")
+        self.settings.bind_spin_row(
+            self.close_on_focus_loss_delay_row,
+            "close-on-focus-loss-delay",
+            Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.NO_SENSITIVITY
+        )
 
     @Gtk.Template.Callback()
     def on_choose_provider_clicked(self, button: Gtk.Button) -> None:
@@ -175,6 +185,7 @@ class PreferencesWindow(Adw.PreferencesDialog):
     def on_folder_row_clicked(self, row: Adw.ActionRow) -> None:
         file_dialog = Gtk.FileDialog()
         def on_folder_selected(dialog, result):
+            self.parent_window.release_focus_loss_close()
             try:
                 folder = dialog.select_folder_finish(result)
                 if folder:
@@ -191,6 +202,7 @@ class PreferencesWindow(Adw.PreferencesDialog):
             except GLib.Error:
                 pass
 
+        self.parent_window.inhibit_focus_loss_close()
         file_dialog.select_folder(
             parent=self.get_root(),
             cancellable=None,

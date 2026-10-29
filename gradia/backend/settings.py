@@ -105,6 +105,18 @@ class Settings:
         return self._settings.get_boolean("overwrite-screenshot")
 
     @property
+    def close_after_copy(self) -> bool:
+        return self._settings.get_boolean("close-after-copy")
+
+    @property
+    def close_on_focus_loss(self) -> bool:
+        return self._settings.get_boolean("close-on-focus-loss")
+
+    @property
+    def close_on_focus_loss_delay(self) -> float:
+        return self._settings.get_double("close-on-focus-loss-delay")
+
+    @property
     def custom_export_command(self) -> str:
         return self._settings.get_string("custom-export-command")
 
@@ -299,13 +311,13 @@ class Settings:
         else:
             print(f"Warning: GSettings key '{key}' not found in schema.")
 
-    def bind_spin_row(self, spin_row: object, key: str) -> None:
+    def bind_spin_row(self, spin_row: object, key: str, flags: Gio.SettingsBindFlags = Gio.SettingsBindFlags.DEFAULT) -> None:
         if key in self._settings.list_keys():
             self._settings.bind(
                 key,
                 spin_row,
                 "value",
-                Gio.SettingsBindFlags.DEFAULT
+                flags
             )
         else:
             print(f"Warning: GSettings key '{key}' not found in schema.")

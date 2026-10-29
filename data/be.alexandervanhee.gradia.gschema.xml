@@ -76,6 +76,19 @@
       <default>false</default>
       <summary>Overwrite currently opened screenshot on close</summary>
     </key>
+    <key name="close-after-copy" type="b">
+      <default>false</default>
+      <summary>Close the window automatically after copying the image to the clipboard</summary>
+    </key>
+    <key name="close-on-focus-loss" type="b">
+      <default>false</default>
+      <summary>Close windows opened with --screenshot when they lose focus</summary>
+    </key>
+    <key name="close-on-focus-loss-delay" type="d">
+      <range min="0.1" max="3600"/>
+      <default>5.0</default>
+      <summary>Seconds to wait after losing focus before closing</summary>
+    </key>
     <key name="custom-export-command" type="s">
       <default>''</default>
       <summary>Custom command to run when pressing its button</summary>
