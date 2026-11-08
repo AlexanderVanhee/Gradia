@@ -197,25 +197,46 @@ class ClipboardImageLoader(BaseImageLoader):
     def load_from_clipboard(self) -> None:
         display = Gdk.Display.get_default()
         clipboard = display.get_clipboard()
+        # Include GTypes that GTK can deserialize from the offered mime types
+        # (e.g. text/uri-list -> Gdk.FileList).
+        formats = clipboard.get_formats().union_deserialize_gtypes()
 
-        clipboard.read_value_async(
-            Gdk.FileList,
-            0,
-            None,
-            self._on_uris_get
-        )
+        # Copied files (e.g. from a file manager) take priority so the original file is used.
+        if formats.contain_gtype(Gdk.FileList):
+            clipboard.read_value_async(
+                Gdk.FileList,
+                GLib.PRIORITY_DEFAULT,
+                None,
+                self._on_uris_get
+            )
+        else:
+            # Raw image data (e.g. a copied screenshot or "Copy Image" in a browser).
+            clipboard.read_texture_async(None, self._on_texture_get)
 
     def _on_uris_get(self, clipboard, result, user_data=None) -> None:
         try:
             file_list = clipboard.read_value_finish(result)
-            if file_list:
-                files = file_list.get_files()
-                if files:
-                    file_obj = files[0]
-                    uri = file_obj.get_uri()
-                    self._handle_uri(uri, ImageOrigin.Clipboard)
+            files = file_list.get_files() if file_list else []
+            if not files:
+                self.window._show_notification(_("No image found in clipboard"))
+                return
+            self._handle_uri(files[0].get_uri(), ImageOrigin.Clipboard)
         except GLib.GError as e:
-            print(f"Error reading URIs: {e}")
+            logger.error(f"Error reading URIs from clipboard: {e}")
+            self.window._show_notification(_("Failed to load image from clipboard"))
+
+    def _on_texture_get(self, clipboard, result, user_data=None) -> None:
+        try:
+            texture = clipboard.read_texture_finish(result)
+            if texture is None:
+                self.window._show_notification(_("No image found in clipboard"))
+                return
+            image_path = save_texture_to_file(texture, self.temp_dir)
+            self._set_image_and_update_ui(image_path, ImageOrigin.Clipboard)
+        except GLib.GError as e:
+            # Clipboard is empty or holds something other than an image (e.g. text).
+            logger.info(f"No image read from clipboard: {e}")
+            self.window._show_notification(_("No image found in clipboard"))
 
 
 class ScreenshotImageLoader(BaseImageLoader):
