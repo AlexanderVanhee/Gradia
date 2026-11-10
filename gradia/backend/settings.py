@@ -80,6 +80,22 @@ class Settings:
         self._settings.set_string("export-format", value)
 
     @property
+    def save_filename_pattern(self) -> str:
+        return self._settings.get_string("save-filename-pattern")
+
+    @save_filename_pattern.setter
+    def save_filename_pattern(self, value: str) -> None:
+        self._settings.set_string("save-filename-pattern", value)
+
+    @property
+    def save_folder(self) -> str:
+        return self._settings.get_string("save-folder")
+
+    @save_folder.setter
+    def save_folder(self, value: str) -> None:
+        self._settings.set_string("save-folder", value)
+
+    @property
     def export_compress(self) -> bool:
         return self._settings.get_boolean("export-compress")
 

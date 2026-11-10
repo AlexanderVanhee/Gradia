@@ -56,6 +56,15 @@
       <default>'png'</default>
       <summary>The export format for the Save button</summary>
     </key>
+    <key name="save-filename-pattern" type="s">
+      <default>''</default>
+      <summary>Pattern for the suggested file name when saving</summary>
+      <description>Supports {date}, {time}, {n} (next free number among files in the target folder that match the rest of the pattern, e.g. {n:03}) and strftime codes. Empty uses the image name.</description>
+    </key>
+    <key name="save-folder" type="s">
+      <default>''</default>
+      <summary>Folder of the last saved image, used to open the save dialog</summary>
+    </key>
     <key name="export-compress" type="b">
       <default>true</default>
       <summary>Whether to compress the exported file (if supported)</summary>

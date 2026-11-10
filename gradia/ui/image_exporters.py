@@ -26,6 +26,7 @@ from gradia.clipboard import copy_text_to_clipboard, save_pixbuff_to_path, copy_
 from gradia.backend.logger import Logger
 from gradia.app_constants import SUPPORTED_EXPORT_FORMATS, DEFAULT_EXPORT_FORMAT
 from gradia.backend.settings import Settings
+from gradia.utils.timestamp_filename import format_filename_pattern
 
 ExportFormat = tuple[str, str, str]
 
@@ -155,14 +156,23 @@ class FileDialogExporter(BaseImageExporter):
             else self.settings.export_format if self.settings.export_format in SUPPORTED_EXPORT_FORMATS
             else DEFAULT_EXPORT_FORMAT
         )
-        base_name = os.path.splitext(self._get_dynamic_filename())[0]
+        suggested_name = None
+        if self.settings.save_filename_pattern:
+            # Open the dialog in the last save folder, so {n} can be counted from its files.
+            folder = self.settings.save_folder
+            if folder and os.path.isdir(folder):
+                dialog.set_current_folder(Gio.File.new_for_path(folder))
+            else:
+                folder = None
+            suggested_name = format_filename_pattern(self.settings.save_filename_pattern, folder)
+        base_name = suggested_name or os.path.splitext(self._get_dynamic_filename())[0]
         default_ext = SUPPORTED_EXPORT_FORMATS[target_format]['extensions'][0]
         dialog.set_current_name(base_name + default_ext)
 
-        dialog.connect("response", lambda d, r: self._on_dialog_response(d, r, target_format))
+        dialog.connect("response", lambda d, r: self._on_dialog_response(d, r, target_format, suggested_name))
         dialog.show()
 
-    def _on_dialog_response(self, dialog, response_id, suggested_format):
+    def _on_dialog_response(self, dialog, response_id, suggested_format, suggested_name=None):
         if response_id == Gtk.ResponseType.ACCEPT:
             file = dialog.get_file()
             if file:
@@ -176,9 +186,12 @@ class FileDialogExporter(BaseImageExporter):
                     return
 
                 save_path = self._ensure_correct_extension(save_path, format_type)
+                save_path = self._recount_suggested_name(save_path, suggested_name)
                 logger.debug(f"Saving to: {save_path} as {format_type}")
                 try:
                     self._save_image(save_path, format_type)
+                    if not self._is_portal_path(save_path):
+                        self.settings.save_folder = os.path.dirname(save_path)
                     self.window.show_close_confirmation = False
                     self.window._show_notification(_("Image Saved"))
                 except Exception as e:
@@ -186,6 +199,19 @@ class FileDialogExporter(BaseImageExporter):
                     logger.error(f"Failed to save image: {e}")
 
         dialog.destroy()
+
+    def _is_portal_path(self, path: str) -> bool:
+        # Outside its sandbox permissions a Flatpak gets a document portal path, whose folder only holds this file.
+        return path.startswith(os.path.join(GLib.get_user_runtime_dir(), "doc") + os.sep)
+
+    def _recount_suggested_name(self, save_path: str, suggested_name: str | None) -> str:
+        """Recount {n} for the chosen folder if the user kept the suggested name."""
+        stem, extension = os.path.splitext(os.path.basename(save_path))
+        if not suggested_name or stem != suggested_name or self._is_portal_path(save_path):
+            return save_path
+        folder = os.path.dirname(save_path)
+        name = format_filename_pattern(self.settings.save_filename_pattern, folder) or suggested_name
+        return os.path.join(folder, name + extension)
 
     def _get_format_from_extension(self, file_path: str) -> str:
         path_lower = file_path.lower()
