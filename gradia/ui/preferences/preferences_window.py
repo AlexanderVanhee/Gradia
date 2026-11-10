@@ -44,6 +44,7 @@ class PreferencesWindow(Adw.PreferencesDialog):
     provider_name: Gtk.Label = Gtk.Template.Child()
     exiting_combo: Adw.ComboRow = Gtk.Template.Child()
     folder_label: Gtk.Label = Gtk.Template.Child()
+    filename_pattern_row: Adw.EntryRow = Gtk.Template.Child()
 
     ocr_enabled = GObject.Property(type=bool, default=ocr_enabled.lower() == 'true')
 
@@ -161,6 +162,10 @@ class PreferencesWindow(Adw.PreferencesDialog):
         self.settings.bind_switch(self.delete_screenshot_switch,"trash-screenshots-on-close")
         self.settings.bind_switch(self.confirm_upload_switch,"show-export-confirm-dialog")
         self.settings.bind_switch(self.overwrite_screenshot_switch,"overwrite-screenshot")
+        self.filename_pattern_row.set_text(self.settings.save_filename_pattern)
+        self.filename_pattern_row.connect(
+            "changed", lambda row: setattr(self.settings, "save_filename_pattern", row.get_text())
+        )
 
     @Gtk.Template.Callback()
     def on_choose_provider_clicked(self, button: Gtk.Button) -> None:

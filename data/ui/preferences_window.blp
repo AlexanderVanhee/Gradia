@@ -58,6 +58,16 @@ template $GradiaPreferencesWindow: Adw.PreferencesDialog {
     }
 
     Adw.PreferencesGroup {
+      title: _("File Name");
+      description: _("Placeholders: {date} for the date (2026-11-09), {time} for the time (14-05-07), {n} for the next number in the target folder, {n:03} for the same with leading zeros (001), and date codes such as %d.%m.%Y. Example: {date}_{n:03}. Leave empty to use the image name.");
+
+      Adw.EntryRow filename_pattern_row {
+        title: _("File _Name Pattern");
+        use-underline: true;
+      }
+    }
+
+    Adw.PreferencesGroup {
       title: _("Closing");
 
       Adw.ComboRow exiting_combo {
