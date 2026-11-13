@@ -45,6 +45,7 @@ class Gradient:
         (1.0, "rgb(53,132,228)"),
     ])
     angle: float = 135.0
+    name: Optional[str] = None
 
     def to_json(self) -> str:
         return json.dumps({

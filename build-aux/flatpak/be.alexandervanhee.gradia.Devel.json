@@ -1,7 +1,7 @@
 {
   "id": "be.alexandervanhee.gradia.Devel",
   "runtime": "org.gnome.Platform",
-  "runtime-version": "49",
+  "runtime-version": "51",
   "sdk": "org.gnome.Sdk",
   "command": "gradia",
   "finish-args": [
@@ -28,20 +28,6 @@
   ],
   "modules": [
     "pypi-dependencies.json",
-    {
-      "name": "blueprint-compiler",
-      "buildsystem": "meson",
-      "cleanup": [
-        "*"
-      ],
-      "sources": [
-        {
-          "type": "git",
-          "url": "https://gitlab.gnome.org/GNOME/blueprint-compiler",
-          "tag": "v0.18.0"
-        }
-      ]
-    },
     {
       "name": "libportal",
       "buildsystem": "meson",

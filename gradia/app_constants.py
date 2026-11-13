@@ -22,45 +22,51 @@ PREDEFINED_GRADIENTS: list[Gradient] = [
     Gradient(
         mode="linear",
         steps=[(0.0, "#f66151"), (1.0, "#ed333b")],
-        angle=45
+        angle=45,
+        name=_("Red Flame")
     ),
     Gradient(
         mode="linear",
         steps=[(0.0, "#ff5f6d"), (1.0, "#ffc371")],
-        angle=45
+        angle=45,
+        name=_("Sunset Orange")
     ),
     Gradient(
         mode="linear",
         steps=[(0.0, "#ffd200"), (1.0, "#f7971e")],
-        angle=135
+        angle=135,
+        name=_("Golden Hour")
     ),
     Gradient(
         mode="linear",
         steps=[(0.0, "#DFFFCD"), (0.5, "#90F9C4"), (1.0, "#39F3BB")],
-        angle=135
+        angle=135,
+        name=_("Mint Fresh")
     ),
     Gradient(
         mode="linear",
         steps=[(0.0, "#57e389"), (1.0, "#3584e4")],
-        angle=135
+        angle=135,
+        name=_("Ocean Breeze")
     ),
     Gradient(
         mode="linear",
         steps=[(0.0, "#23d4fd"), (0.5, "#3a98f0"), (1.0, "#b721ff")],
-        angle=45
+        angle=45,
+        name=_("Purple Dream")
     ),
 ]
 
 PRESET_IMAGES = [
-    "/be/alexandervanhee/gradia/images/preset1.webp",
-    "/be/alexandervanhee/gradia/images/preset2.webp",
-    "/be/alexandervanhee/gradia/images/preset3.webp",
-    "/be/alexandervanhee/gradia/images/preset4.webp",
-    "/be/alexandervanhee/gradia/images/preset5.png",
-    "/be/alexandervanhee/gradia/images/preset6.webp",
-    "/be/alexandervanhee/gradia/images/preset7.webp",
-    "/be/alexandervanhee/gradia/images/preset8.webp",
-    "/be/alexandervanhee/gradia/images/preset9.webp",
+    "/be/alexandervanhee/gradia/images/adwaita.webp",
+    "/be/alexandervanhee/gradia/images/blobs.webp",
+    "/be/alexandervanhee/gradia/images/coral.webp",
+    "/be/alexandervanhee/gradia/images/drool.webp",
+    "/be/alexandervanhee/gradia/images/graph.png",
+    "/be/alexandervanhee/gradia/images/mesh.webp",
+    "/be/alexandervanhee/gradia/images/pink.webp",
+    "/be/alexandervanhee/gradia/images/sky.webp",
+    "/be/alexandervanhee/gradia/images/swirl.webp",
 ]
 
 SUPPORTED_EXPORT_FORMATS = {

@@ -11,7 +11,7 @@ template $OCRDialog: Adw.Dialog {
     Adw.HeaderBar {
       show-end-title-buttons: true;
 
-      title-widget: Adw.WindowTitle {
+      title-widget: Adw.WindowTitle window_title {
         title: _("Text Extraction");
         subtitle: _("Crop image to adjust OCR area");
       };
@@ -22,7 +22,10 @@ template $OCRDialog: Adw.Dialog {
         tooltip-text: _("Select Language");
         direction: down;
         primary: true;
-        styles ["flat"]
+
+        styles [
+          "flat",
+        ]
       }
     }
 
@@ -32,6 +35,7 @@ template $OCRDialog: Adw.Dialog {
 
         StackPage {
           name: "loading";
+
           child: Gtk.Box loading_page {
             orientation: vertical;
             spacing: 12;
@@ -47,6 +51,7 @@ template $OCRDialog: Adw.Dialog {
 
         StackPage {
           name: "no-text";
+
           child: Adw.StatusPage {
             icon-name: "scanner-symbolic";
             title: _("No Text Found");
@@ -56,20 +61,25 @@ template $OCRDialog: Adw.Dialog {
 
         StackPage {
           name: "text";
+
           child: Overlay text_overlay {
             child: ScrolledWindow text_page {
               hscrollbar-policy: never;
               vscrollbar-policy: automatic;
 
-              Gtk.TextView ocr_text_view {
-                editable: false;
-                cursor-visible: false;
-                wrap-mode: word;
-                margin-start: 24;
-                margin-end: 24;
-                top-margin: 12;
-                bottom-margin: 24;
-              }
+              child: Viewport {
+                Gtk.Label ocr_text_view {
+                  selectable: true;
+                  wrap: true;
+                  wrap-mode: word;
+                  xalign: 0;
+                  yalign: 0;
+                  margin-start: 24;
+                  margin-end: 24;
+                  margin-top: 12;
+                  margin-bottom: 24;
+                }
+              };
             };
 
             [overlay]
@@ -77,8 +87,9 @@ template $OCRDialog: Adw.Dialog {
               styles [
                 "suggested-action",
                 "circular",
-                "semi-transparent"
+                "semi-transparent",
               ]
+
               icon-name: "edit-copy-symbolic";
               tooltip-text: _("Copy");
               halign: end;
@@ -96,3 +107,4 @@ template $OCRDialog: Adw.Dialog {
     };
   }
 }
+

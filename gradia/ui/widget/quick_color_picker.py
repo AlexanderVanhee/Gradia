@@ -100,7 +100,7 @@ class ColorPickerMixin:
         more_colors_icon = Gtk.Image.new_from_icon_name('color-symbolic')
         more_colors_icon.set_icon_size(Gtk.IconSize.NORMAL)
         more_colors_button.set_child(more_colors_icon)
-        more_colors_button.set_tooltip_text(_('More Colors…'))
+        more_colors_button.set_tooltip_text(_('More Colors'))
         return more_colors_button
 
     def _show_color_dialog(self, callback):

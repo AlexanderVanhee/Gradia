@@ -31,15 +31,20 @@ class OCRDialog(Adw.Dialog):
     copy_ocr_button = Gtk.Template.Child()
     toast_overlay = Gtk.Template.Child()
     language_button = Gtk.Template.Child()
+    window_title = Gtk.Template.Child()
 
-    def __init__(self, image=None, **kwargs):
+    def __init__(self, image=None, auto_copy=False, **kwargs):
         super().__init__(**kwargs)
         self.image = image
         self.ocr = OCR()
         self.primary_lang = "eng"
+        self._auto_copy = auto_copy
+
+        if auto_copy:
+            self.window_title.set_subtitle("")
+
         self._setup_language_button()
         self._start_ocr()
-        self.ocr_text_view.remove_css_class("view")
 
     def _setup_language_button(self):
         available_models = self.ocr.get_downloadable_models()
@@ -96,11 +101,15 @@ class OCRDialog(Adw.Dialog):
         GLib.idle_add(self._display_text, text)
 
     def _display_text(self, text):
-        buffer = self.ocr_text_view.get_buffer()
-        buffer.set_text(text)
+        self.ocr_text_view.set_text(text)
 
         if text.strip():
             self.ocr_stack.set_visible_child_name("text")
+            if self._auto_copy:
+                copy_text_to_clipboard(text)
+                toast = Adw.Toast.new(_("Copied!"))
+                toast.set_timeout(1)
+                self.toast_overlay.add_toast(toast)
         else:
             self.ocr_stack.set_visible_child_name("no-text")
 
@@ -108,10 +117,7 @@ class OCRDialog(Adw.Dialog):
 
     @Gtk.Template.Callback()
     def _on_copy_ocr_clicked(self, button):
-        buffer = self.ocr_text_view.get_buffer()
-        start_iter = buffer.get_start_iter()
-        end_iter = buffer.get_end_iter()
-        text = buffer.get_text(start_iter, end_iter, False)
+        text = self.ocr_text_view.get_text()
 
         if text.strip():
             copy_text_to_clipboard(text)

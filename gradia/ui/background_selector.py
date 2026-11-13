@@ -25,6 +25,7 @@ from gradia.graphics.gradient_selector import GradientSelector
 from gradia.graphics.solid import SolidSelector, SolidBackground
 from gradia.graphics.image import ImageSelector, ImageBackground
 from gradia.graphics.background import Background
+from gradia.ui.widget.toggle_group import ToggleGroup
 from gradia.constants import rootdir  # pyright: ignore
 from gradia.backend.settings import Settings
 
@@ -35,7 +36,7 @@ MODES = ["none", "solid", "gradient", "image"]
 class BackgroundSelector(Adw.Bin):
     __gtype_name__ = "GradiaBackgroundSelector"
 
-    toggle_group: Adw.ToggleGroup = Gtk.Template.Child()
+    toggle_group: ToggleGroup = Gtk.Template.Child()
     stack: Gtk.Stack = Gtk.Template.Child()
     stack_revealer: Gtk.Revealer = Gtk.Template.Child()
 

@@ -62,5 +62,6 @@ gradia/ui/widget/font_dropdown.py
 gradia/ui/widget/gradient_editor.py
 gradia/ui/widget/gradient_step_dialog_button.py
 gradia/ui/widget/preset_button.py
+gradia/ui/widget/toggle_group.py
 gradia/ui/widget/quick_color_picker.py
 gradia/ui/window.py

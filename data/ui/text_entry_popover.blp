@@ -1,11 +1,14 @@
 using Gtk 4.0;
-template $GradiaTextEntryPopover : Gtk.Popover {
+
+template $GradiaTextEntryPopover: Gtk.Popover {
   position: bottom;
   width-request: 250;
   height-request: 100;
+
   child: Gtk.Box container {
     orientation: vertical;
     spacing: 0;
+
     Gtk.ScrolledWindow scrolled {
       hexpand: true;
       vexpand: true;
@@ -13,6 +16,7 @@ template $GradiaTextEntryPopover : Gtk.Popover {
       min-content-height: 50;
       hscrollbar-policy: automatic;
       vscrollbar-policy: automatic;
+
       Gtk.TextView text_view {
         wrap-mode: word_char;
         accepts-tab: false;
@@ -23,18 +27,21 @@ template $GradiaTextEntryPopover : Gtk.Popover {
         bottom-margin: 6;
       }
     }
-      Gtk.SpinButton spin {
-        digits: 0;
-        hexpand: true;
-        height-request: -1;
-        adjustment: Gtk.Adjustment size_adjustment {
-          lower: 8;
-          upper: 72;
-          step-increment: 4;
-          page-increment: 4;
-        };
-        value-changed => $on_font_size_changed();
-      }
 
+    Gtk.SpinButton spin {
+      digits: 0;
+      hexpand: true;
+      height-request: -1;
+
+      adjustment: Gtk.Adjustment size_adjustment {
+        lower: 8;
+        upper: 72;
+        step-increment: 4;
+        page-increment: 4;
+      };
+
+      value-changed => $on_font_size_changed();
+    }
   };
 }
+

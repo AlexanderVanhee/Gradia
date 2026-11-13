@@ -89,7 +89,6 @@ class ImageSidebar(Adw.Bin):
         self.shadow_strength_scale.set_value(self.settings.image_shadow_strength)
         self.auto_balance_toggle.set_active(self.settings.image_auto_balance)
         self.aspect_ratio_selector.set_ratio(self.settings.image_aspect_ratio)
-        self._current_rotation = self.settings.image_rotation
 
     def _on_background_changed(self, updated_background: Background) -> None:
         self._current_background = updated_background
@@ -138,13 +137,16 @@ class ImageSidebar(Adw.Bin):
         if not self._updating_widgets:
             self._current_rotation = (self._current_rotation - 90) % 360
             self._notify_image_options_changed()
-            self.settings.image_rotation = self._current_rotation
 
     def _on_rotate_right_clicked(self, button: Gtk.Button) -> None:
         if not self._updating_widgets:
             self._current_rotation = (self._current_rotation + 90) % 360
             self._notify_image_options_changed()
-            self.settings.image_rotation = self._current_rotation
+
+    def reset_rotation(self) -> None:
+        self._current_rotation = 0
+        self.settings.image_rotation = 0
+        self._notify_image_options_changed()
 
     def _get_current_options(self) -> ImageOptions:
         return ImageOptions(
@@ -175,7 +177,6 @@ class ImageSidebar(Adw.Bin):
             aspect_ratio=self.settings.image_aspect_ratio,
             shadow_strength=self.settings.image_shadow_strength,
             auto_balance=self.settings.image_auto_balance,
-            rotation=self.settings.image_rotation,
             background=None
         )
 
@@ -187,18 +188,18 @@ class ImageSidebar(Adw.Bin):
 
         self.on_image_options_changed(options)
 
-    def _set_selective_sensitivity(self, is_disabled: bool) -> None:
+    def _set_selective_visiblility(self, is_disabled: bool) -> None:
         self.padding_row.set_sensitive(not is_disabled)
-        self.corner_radius_row.set_sensitive(not is_disabled)
-        self.aspect_ratio_selector.set_sensitive(not is_disabled)
-        self.shadow_strength_row.set_sensitive(not is_disabled)
+        self.corner_radius_row.set_visible(not is_disabled)
+        self.aspect_ratio_selector.set_visible(not is_disabled)
+        self.shadow_strength_row.set_visible(not is_disabled)
 
     def _on_background_mode_changed(self, mode: str) -> None:
         self._background_mode = mode
         is_disabled = mode == "none"
         self._updating_widgets = True
 
-        self._set_selective_sensitivity(is_disabled)
+        self._set_selective_visiblility(is_disabled)
 
         if is_disabled:
             options = self._get_disabled_options()

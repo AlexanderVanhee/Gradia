@@ -267,12 +267,24 @@ class RecentPicker(Adw.Bin):
                     shadowed = ShadowedImageCard(str(file.path), radius=radius, padding=padding, compact=self.compact)
                     self.image_bins[i].set_child(shadowed)
                     self.image_bins[i].set_sensitive(True)
+
+                    label = file.path.name
+                    self.image_bins[i].set_tooltip_text(label)
+
+                    flowbox_child = self.image_bins[i].get_parent()
+                    if flowbox_child:
+                        flowbox_child.update_property(
+                            [Gtk.AccessibleProperty.LABEL],
+                            [label]
+                        )
                 except Exception as e:
                     icon = Gtk.Image.new_from_icon_name("image-missing-symbolic")
                     self.image_bins[i].set_child(icon)
                     self.image_bins[i].set_sensitive(False)
+                    self.image_bins[i].set_tooltip_text("")
                     print(f"Error loading image {file.path}: {e}")
             else:
                 icon = Gtk.Image.new_from_icon_name("image-missing-symbolic")
                 self.image_bins[i].set_child(icon)
                 self.image_bins[i].set_sensitive(False)
+                self.image_bins[i].set_tooltip_text("")

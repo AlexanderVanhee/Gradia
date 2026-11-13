@@ -96,7 +96,8 @@ class ShortcutsDialog:
     def create(self):
         sections_data = [
             (_("File Actions"), [
-                (_("Open File"), "<Ctrl>O"),
+                (_("Open Image"), "<Ctrl>O"),
+                (_("Take a Screenshot"), "<Ctrl>A"),
                 (_("Save to File"), "<Ctrl>S"),
                 (_("Copy Image to Clipboard"), "<Ctrl>C"),
                 (_("Paste From Clipboard"), "<Ctrl>V"),
@@ -125,11 +126,17 @@ class ShortcutsDialog:
                 (_("Zoom In"), "<Ctrl>plus"),
                 (_("Zoom Out"), "<Ctrl>minus"),
                 (_("Reset Zoom"), "<Ctrl>0"),
+                (_("Pan Left"), "<Ctrl>Left"),
+                (_("Pan Right"), "<Ctrl>Right"),
+                (_("Pan Up"), "<Ctrl>Up"),
+                (_("Pan Down"), "<Ctrl>Down"),
             ]),
             (_("General"), [
+                (_("Toggle Sidebar"), "F9"),
                 (_("Keyboard Shortcuts"), "<Ctrl>question"),
                 (_("Preferences"), "<Ctrl>comma"),
                 (_("Open Source Snippets"), "<Ctrl>P"),
+		        (_("Delete Taken Screenshots"), "<Ctrl><Shift>D"),
             ])
         ]
 

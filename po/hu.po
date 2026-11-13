@@ -1,0 +1,1203 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the gradia package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: gradia\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-28 15:35+0200\n"
+"PO-Revision-Date: 2026-02-28 00:47+0100\n"
+"Last-Translator: Kónya Márton <konyamarci52@proton.me>\n"
+"Language-Team: \n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.8\n"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:2
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:11
+msgid "Gradia"
+msgstr "Gradia"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:3
+msgid "Make your images ready for the world"
+msgstr "Készítsd fel képeidet a megosztásra"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:10
+msgid "Image;Gradient;Background;Screenshot;Edit;"
+msgstr "Kép;Színátmenet;Háttér;Képernyőkép;Szerkesztés;"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:15
+msgid "New Window"
+msgstr "Új ablak"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:20
+msgid "Take Screenshot"
+msgstr "Képernyőkép készítése"
+
+#: data/be.alexandervanhee.gradia.desktop.in.in:25
+msgid "Take Fullscreen Screenshot"
+msgstr "Teljes képernyős kép készítése"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:12
+msgid "Annotate your screenshots"
+msgstr "Adj kiemeléseket a képernyőképeidhez"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:15
+msgid ""
+"Gradia helps you get your screenshots ready for sharing, whether quickly "
+"with friends or colleagues, or professionally with the entire world."
+msgstr ""
+"A Gradia segít, hogy képernyőképeid megosztásra készen álljanak – legyen szó "
+"gyors megosztásról barátokkal vagy kollégákkal, vagy professzionális "
+"publikálásról a nagyvilág felé."
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:16
+msgid "Key features:"
+msgstr "Főbb jellemzők:"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:18
+msgid "Ten annotation modes, including text, arrow, and censor"
+msgstr "Tízféle kiemelési mód, mint például szöveg, nyíl és cenzúra"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:19
+msgid "Optional image and gradient backgrounds"
+msgstr "Opcionális kép- és színátmenetes háttér"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:20
+msgid "Image settings like shadow, padding, and auto-balance"
+msgstr "Kép beállítások, mint árnyék, kitöltés és automatikus egyensúly"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:21
+msgid "Quick upload flow to easily share images via services like Imgur"
+msgstr ""
+"Gyors feltöltési lehetőség a könnyű megosztásért olyan oldalakra, mint "
+"például az Imgur"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:22
+msgid "Convert code snippets into clean high-resolution images"
+msgstr "Forráskódrészletek letisztult, nagy felbontású képpé alakítása"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:26
+msgid "Alexander Vanhee"
+msgstr "Alexander Vanhee"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:266
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:270
+msgid "Edited screenshot"
+msgstr "Szerkesztett képernyőkép"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:274
+msgid "Startup view"
+msgstr "Indítási nézet"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:278
+msgid "UI element showcase"
+msgstr "Felhasználói felület elemei"
+
+#: data/be.alexandervanhee.gradia.metainfo.xml.in.in:282
+#: data/ui/image_generator_window.blp:5 data/ui/image_sidebar.blp:224
+#: data/ui/welcome_page.blp:79
+#: gradia/ui/image_creation/source_image_generator.py:397
+msgid "Source Snippets"
+msgstr "Forráskódrészletek"
+
+#: data/ui/background_selector.blp:15
+msgid "None"
+msgstr "Nincs"
+
+#: data/ui/background_selector.blp:20
+msgid "Solid"
+msgstr "Egyszínű"
+
+#: data/ui/background_selector.blp:25
+msgid "Gradient"
+msgstr "Színátmenet"
+
+#: data/ui/background_selector.blp:30
+msgid "Image"
+msgstr "Kép"
+
+#: data/ui/confirm_close_dialog.blp:5
+msgid "Close Gradia?"
+msgstr "Gradia bezárása?"
+
+#: data/ui/confirm_close_dialog.blp:6
+msgid "Are you sure you want to exit? All unsaved changes will be lost."
+msgstr "Biztosan ki akarsz lépni? Az el nem mentett változtatások elvesznek."
+
+#: data/ui/confirm_close_dialog.blp:11
+#: gradia/ui/dialog/delete_screenshots_dialog.py:54
+#: gradia/ui/image_exporters.py:149 gradia/ui/window.py:479
+msgid "Cancel"
+msgstr "Mégse"
+
+#: data/ui/confirm_close_dialog.blp:12 data/ui/ocr_dialog.blp:83
+msgid "Copy"
+msgstr "Másolás"
+
+#: data/ui/confirm_close_dialog.blp:13
+msgid "Close"
+msgstr "Bezárás"
+
+#: data/ui/confirm_close_dialog.blp:20
+msgid "Don't Ask Again"
+msgstr "Ne kérdezd újra"
+
+#: data/ui/drawing_tools_group.blp:7
+msgid "Annotation Tools"
+msgstr "Kiemelő eszközök"
+
+#: data/ui/drawing_tools_group.blp:60 data/ui/drawing_tools_group.blp:75
+msgid "Fill"
+msgstr "Kitöltés"
+
+#: data/ui/drawing_tools_group.blp:82
+msgid "Border"
+msgstr "Szegély"
+
+#: data/ui/drawing_tools_group.blp:98
+msgid "Fill Color Picker"
+msgstr "Kitöltési színválasztó"
+
+#: data/ui/drawing_tools_group.blp:105
+msgid "Outline Color Picker"
+msgstr "Körvonal színválasztó"
+
+#: data/ui/gradient_step_dialog.blp:7
+msgid "Edit Gradient Steps"
+msgstr "Színátmenet lépések szerkesztése"
+
+#: data/ui/gradient_step_dialog.blp:35
+msgid "Gradient Steps"
+msgstr "Színátmenet lépések"
+
+#: data/ui/gradient_step_dialog.blp:36
+msgid "You can add up to five steps"
+msgstr "Legfeljebb öt lépést adhatsz meg"
+
+#: data/ui/gradient_step_dialog.blp:39
+msgid "Add Step"
+msgstr "Lépés hozzáadása"
+
+#: data/ui/image_generator_window.blp:29
+msgid "Language"
+msgstr "Nyelv"
+
+#: data/ui/image_generator_window.blp:39
+msgid "Style"
+msgstr "Stílus"
+
+#: data/ui/image_generator_window.blp:54
+msgid "Default"
+msgstr "Alap"
+
+#: data/ui/image_generator_window.blp:69
+msgid "Window Frame"
+msgstr "Ablakkeret"
+
+#: data/ui/image_generator_window.blp:74
+msgid "Add a window frame around the code"
+msgstr "Ablakkeret hozzáadása a kód köré"
+
+#: data/ui/image_generator_window.blp:81
+msgid "Line Numbers"
+msgstr "Sorszámok"
+
+#: data/ui/image_generator_window.blp:86
+msgid "Add a number before each new line of code"
+msgstr "Szám hozzáadása minden új kódsor elé"
+
+#: data/ui/image_generator_window.blp:113
+msgid "Export"
+msgstr "Exportálás"
+
+#: data/ui/image_sidebar.blp:17 data/ui/welcome_page.blp:60
+msgid "Open Image…"
+msgstr "Kép megnyitása…"
+
+#: data/ui/image_sidebar.blp:24 data/ui/welcome_page.blp:49
+msgid "Take a Screenshot…"
+msgstr "Képernyőkép készítése…"
+
+#: data/ui/image_sidebar.blp:31 data/ui/welcome_page.blp:24
+msgid "Main Menu"
+msgstr "Főmenü"
+
+#: data/ui/image_sidebar.blp:52
+msgid "Image Options"
+msgstr "Kép beállítások"
+
+#: data/ui/image_sidebar.blp:55
+msgid "Padding"
+msgstr "Belső margó"
+
+#: data/ui/image_sidebar.blp:67
+msgid "Corner Radius"
+msgstr "Sarok sugara"
+
+#: data/ui/image_sidebar.blp:83
+msgid "Shadow"
+msgstr "Árnyék"
+
+#: data/ui/image_sidebar.blp:103
+msgid "Auto Balance"
+msgstr "Automatikus egyensúly"
+
+#: data/ui/image_sidebar.blp:108
+msgid "Rotation"
+msgstr "Forgatás"
+
+#: data/ui/image_sidebar.blp:117
+msgid "Rotate Anticlockwise"
+msgstr "Forgatás balra"
+
+#: data/ui/image_sidebar.blp:125
+msgid "Rotate Clockwise"
+msgstr "Forgatás jobbra"
+
+#: data/ui/image_sidebar.blp:136
+msgid "Current File"
+msgstr "Jelenlegi fájl"
+
+#: data/ui/image_sidebar.blp:139
+msgid "Name"
+msgstr "Név"
+
+#: data/ui/image_sidebar.blp:140 data/ui/image_sidebar.blp:146
+#: data/ui/image_sidebar.blp:165
+msgid "N/A"
+msgstr "N/A"
+
+#: data/ui/image_sidebar.blp:145
+msgid "Location"
+msgstr "Hely"
+
+#: data/ui/image_sidebar.blp:156
+msgid "Open Folder"
+msgstr "Mappa megnyitása"
+
+#: data/ui/image_sidebar.blp:164
+msgid "Modified image size"
+msgstr "Szerkesztett képméret"
+
+#: data/ui/image_sidebar.blp:183
+msgid "Save As…"
+msgstr "Mentés másként…"
+
+#: data/ui/image_sidebar.blp:194
+msgid "Copy to Clipboard"
+msgstr "Másolás vágólapra"
+
+#: data/ui/image_sidebar.blp:204 gradia/ui/ui_parts.py:103
+msgid "Share Image"
+msgstr "Kép megosztása"
+
+#: data/ui/image_sidebar.blp:228
+msgid "Delete Taken Screenshot(s)"
+msgstr "Elkészült képernyőkép(ek) törlése"
+
+#: data/ui/image_sidebar.blp:235 data/ui/preferences_window.blp:6
+#: data/ui/welcome_page.blp:85 gradia/ui/ui_parts.py:131
+msgid "Preferences"
+msgstr "Beállítások"
+
+#: data/ui/image_sidebar.blp:239 data/ui/welcome_page.blp:89
+#: gradia/ui/ui_parts.py:130
+msgid "Keyboard Shortcuts"
+msgstr "Gyorsbillentyűk"
+
+#: data/ui/image_sidebar.blp:243 data/ui/welcome_page.blp:93
+msgid "About Gradia"
+msgstr "Névjegy"
+
+#: data/ui/image_stack.blp:8 data/ui/welcome_page.blp:15
+msgid "Drop Image Here"
+msgstr "Húzd ide a képet"
+
+#: data/ui/image_stack.blp:79
+msgid "Open Sidebar"
+msgstr "Oldalsáv megnyitása"
+
+#: data/ui/image_stack.blp:92
+msgid "Crop…"
+msgstr "Kivágás…"
+
+#: data/ui/image_stack.blp:105 data/ui/ocr_dialog.blp:5
+#: data/ui/ocr_dialog.blp:15 data/ui/preferences_window.blp:91
+msgid "Text Extraction"
+msgstr "Szöveg kinyerés"
+
+#: data/ui/image_stack.blp:118 gradia/ui/ui_parts.py:108
+msgid "Erase Selected"
+msgstr "Kiválasztott törlése"
+
+#: data/ui/image_stack.blp:136
+msgid "Reset Crop Selection"
+msgstr "Kivágás visszaállítása"
+
+#: data/ui/image_stack.blp:165
+msgid "Confirm"
+msgstr "Megerősít"
+
+#: data/ui/image_stack.blp:166
+msgid "Confirm Crop Selection"
+msgstr "Kivágás megerősítése"
+
+#: data/ui/image_stack.blp:205 gradia/ui/ui_parts.py:127
+msgid "Reset Zoom"
+msgstr "Közelítés visszaállítása"
+
+#: data/ui/image_stack.blp:229 gradia/ui/ui_parts.py:126
+msgid "Zoom Out"
+msgstr "Kicsinyítés"
+
+#: data/ui/image_stack.blp:239 gradia/ui/ui_parts.py:125
+msgid "Zoom In"
+msgstr "Nagyítás"
+
+#: data/ui/image_stack.blp:255 gradia/ui/ui_parts.py:106
+msgid "Undo"
+msgstr "Visszavon"
+
+#: data/ui/image_stack.blp:265 gradia/ui/ui_parts.py:107
+msgid "Redo"
+msgstr "Újra"
+
+#: data/ui/image_stack.blp:275
+msgid "Clear All"
+msgstr "Minden törlése"
+
+#: data/ui/ocr_dialog.blp:16
+msgid "Crop image to adjust OCR area"
+msgstr "Vágd körbe a képet az OCR-terület beállításához"
+
+#: data/ui/ocr_dialog.blp:22
+msgid "Select Language"
+msgstr "Válassz nyelvet"
+
+#: data/ui/ocr_dialog.blp:52
+msgid "No Text Found"
+msgstr "Nem található szöveg"
+
+#: data/ui/ocr_dialog.blp:53
+msgid "Please make a new selection"
+msgstr "Kérlek készíts új kijelölést"
+
+#: data/ui/preferences/custom_provider_page.blp:6
+#: gradia/ui/preferences/provider_selection_window.py:132
+#: gradia/ui/provider_selection_window.py:133
+msgid "Custom Provider"
+msgstr "Egyéni szolgáltató"
+
+#: data/ui/preferences/custom_provider_page.blp:13
+#: gradia/ui/image_exporters.py:148
+msgid "Save"
+msgstr "Mentés"
+
+#: data/ui/preferences/custom_provider_page.blp:36
+#: data/ui/preferences/provider_detail_page.blp:105
+msgid "Upload Command"
+msgstr "Feltöltési parancs"
+
+#: data/ui/preferences/custom_provider_page.blp:37
+msgid ""
+"Enter a custom command to upload files. Use $1 as a placeholder for the file "
+"path."
+msgstr ""
+"Adj meg egy egyéni parancsot fájlok feltöltéséhez. A $1 a fájl útvonalát "
+"helyettesíti."
+
+#: data/ui/preferences/ocr_model_page.blp:5
+#: data/ui/preferences/ocr_model_page.blp:28 data/ui/preferences_window.blp:93
+msgid "Language Models"
+msgstr "Nyelvi modellek"
+
+#: data/ui/preferences/ocr_model_page.blp:29
+msgid "Using the correct language model can improve OCR accuracy."
+msgstr "A megfelelő nyelvi modell használata javíthatja az OCR pontosságát."
+
+#: data/ui/preferences/provider_detail_page.blp:56
+#: gradia/overlay/drawing_actions.py:54 gradia/ui/ui_parts.py:109
+msgid "Select"
+msgstr "Kiválasztás"
+
+#: data/ui/preferences/provider_detail_page.blp:63
+msgid "About"
+msgstr "Leírás"
+
+#: data/ui/preferences/provider_detail_page.blp:66
+msgid "Homepage"
+msgstr "Honlap"
+
+#: data/ui/preferences/provider_detail_page.blp:83
+msgid "Terms of Service"
+msgstr "Felhasználási feltételek"
+
+#: data/ui/preferences/provider_detail_page.blp:101
+msgid "Features"
+msgstr "Tulajdonságok"
+
+#: data/ui/preferences/provider_list_page.blp:5
+msgid "Choose a Provider"
+msgstr "Válassz szolgáltatót"
+
+#: data/ui/preferences/provider_list_page.blp:12
+msgid "Loading"
+msgstr "Betöltés"
+
+#: data/ui/preferences/provider_list_page.blp:26
+msgid "Error"
+msgstr "Hiba"
+
+#: data/ui/preferences/provider_list_page.blp:40
+msgid "An error occurred"
+msgstr "Hiba lépett fel"
+
+#: data/ui/preferences/provider_list_page.blp:41
+msgid "Please try again later"
+msgstr "Próbáld újra később"
+
+#: data/ui/preferences/provider_list_page.blp:50
+msgid "Providers"
+msgstr "Szolgáltatók"
+
+#: data/ui/preferences/provider_list_page.blp:57
+msgid ""
+"Select a third party image upload provider. These have their own terms and "
+"conditions."
+msgstr ""
+"Válassz egy harmadik féltől származó képfeltöltő szolgáltatót. A "
+"szolgáltatók saját felhasználási feltételekkel rendelkeznek."
+
+#: data/ui/preferences/screenshot_guide_page.blp:6
+msgid "Screenshot Shortcut Guide"
+msgstr "Képernyőkép gyorsbillentyű útmutató"
+
+#: data/ui/preferences/screenshot_guide_page.blp:32
+msgid "Shortcut Setup Instructions"
+msgstr "Gyorsbillentyű beállítási lépések"
+
+#: data/ui/preferences/screenshot_guide_page.blp:44
+msgid ""
+"If you'd like the app to <b>open automatically</b> after taking a "
+"screenshot, you can set up a custom keyboard shortcut:\n"
+"\n"
+"<b>Steps:</b>\n"
+"1. Go to <b>Settings</b> → <b>Keyboard</b> → <b>View and Customize "
+"Shortcuts</b> → <b>Custom Shortcuts</b>.\n"
+"2. Click the <b>+</b> button to create a new shortcut.\n"
+"3. Set the <b>Name</b> to something like <i>Open Gradia with Screenshot</"
+"i>.\n"
+"4. For the <b>Command</b>, copy one of the commands below:"
+msgstr ""
+"Ha szeretnéd, hogy az alkalmazás <b>automatikusan megnyíljon</b> egy "
+"képernyőkép készítése után, állíts be egy egyedi gyorsbillentyűt:\n"
+"\n"
+"<b>Lépések:</b>\n"
+"1. Nyisd meg a <b>Beállítások</b> → <b>Billentyűzet</b> → <b>Gyorsbillentyűk "
+"megtekintése és személyre szabása</b> → <b>Egyéni gyorsbillentyűk</b> "
+"menüpontot.\n"
+"2. Kattints a <b>+</b> gombra egy új parancs létrehozásához.\n"
+"3. A <b>Név</b> mezőbe írj valami hasonlót, például <i>Gradia megnyitása "
+"képernyőképpel</i>.\n"
+"4. A <b>Parancs</b> mezőbe másold be az alábbi parancsok egyikét:"
+
+#: data/ui/preferences/screenshot_guide_page.blp:59
+msgid "Interactive Screenshot"
+msgstr "Interaktív képernyőkép"
+
+#: data/ui/preferences/screenshot_guide_page.blp:65
+msgid "Allows you to select an area to screenshot"
+msgstr "Kiválaszthatod a területet amiről képernyőkép készüljön"
+
+#: data/ui/preferences/screenshot_guide_page.blp:75
+#: data/ui/preferences/screenshot_guide_page.blp:100
+#: data/ui/preferences/screenshot_guide_page.blp:137
+msgid "Copy to clipboard"
+msgstr "Másolás vágólapra"
+
+#: data/ui/preferences/screenshot_guide_page.blp:84
+msgid "Full Screen Screenshot"
+msgstr "Teljes képernyős képernyőkép"
+
+#: data/ui/preferences/screenshot_guide_page.blp:90
+msgid "Takes a screenshot of all screens instantly"
+msgstr "Képernyőképet készít az összes képernyőről azonnal"
+
+#: data/ui/preferences/screenshot_guide_page.blp:104
+msgid ""
+"5. Assign a keyboard shortcut of your choice (<tt>Ctrl + Print</tt> should "
+"be free by default)."
+msgstr ""
+"5. Válassz egy tetszőleges billentyűkombinációt (<tt>Ctrl + Print</tt> "
+"alapból valószínűleg szabad)."
+
+#: data/ui/preferences/screenshot_guide_page.blp:121
+msgid "Delayed Screenshot"
+msgstr "Késleltetett képernyőkép"
+
+#: data/ui/preferences/screenshot_guide_page.blp:127
+msgid "Delay the capture by a given duration (in milliseconds)."
+msgstr "Képernyőkép készítésének késleltetése adott ideig (ezredmásodpercben)"
+
+#: data/ui/preferences_window.blp:9 gradia/ui/ui_parts.py:129
+msgid "General"
+msgstr "Általános"
+
+#: data/ui/preferences_window.blp:11
+msgid "Screenshots"
+msgstr "Képernyőképek"
+
+#: data/ui/preferences_window.blp:14
+msgid "Recent Directory"
+msgstr "Előzmények mappa"
+
+#: data/ui/preferences_window.blp:15
+msgid "Used for home screen"
+msgstr "Az indító képernyőn használva"
+
+#: data/ui/preferences_window.blp:35
+msgid "Screenshot Shortcut"
+msgstr "Képernyőkép gyorsbillentyű"
+
+#: data/ui/preferences_window.blp:39
+msgid "Save Options"
+msgstr "Mentési beállítások"
+
+#: data/ui/preferences_window.blp:41
+msgid "Image Format"
+msgstr "Képformátum"
+
+#: data/ui/preferences_window.blp:42
+msgid "Default format for saved screenshots"
+msgstr "Alapértelmezett formátum az elmentett képernyőképekhez"
+
+#: data/ui/preferences_window.blp:46
+msgid "Closing"
+msgstr "Bezárás"
+
+#: data/ui/preferences_window.blp:48
+msgid "When Exiting"
+msgstr "Bezáráskor"
+
+#: data/ui/preferences_window.blp:51
+msgid "Overwrite last screenshot on close"
+msgstr "Legutóbbi képernyőkép felülírása bezáráskor"
+
+#: data/ui/preferences_window.blp:52
+msgid "Replace it with the annotated version"
+msgstr "Lecserélés a kiemelt változattal"
+
+#: data/ui/preferences_window.blp:53
+msgid "Replace last screenshot file with annotated version on close"
+msgstr ""
+"A legutóbb készült képernyőkép lecserélése a kiemelt változattal bezáráskor"
+
+#: data/ui/preferences_window.blp:57
+msgid "Trash Screenshots on Close"
+msgstr "Képernyőképek kukázása kilépéskor"
+
+#: data/ui/preferences_window.blp:58
+msgid "Automatically move screenshots taken from within the app to trash"
+msgstr "Az alkalmazásban készült képernyőképek kukába helyezése automatikusan"
+
+#: data/ui/preferences_window.blp:59
+msgid "Trash screenshots on app close"
+msgstr "Képernyőképek kukázása alkalmazás bezárásakor"
+
+#: data/ui/preferences_window.blp:64
+msgid "Image Upload Providers"
+msgstr "Képfeltöltő szolgáltatók"
+
+#: data/ui/preferences_window.blp:65
+msgid "Connect to your favorite upload providers, or create a link yourself"
+msgstr "Használd kedvenc feltöltőszolgáltatóidat, vagy hozz létre saját linket"
+
+#: data/ui/preferences_window.blp:67
+msgid "Provider"
+msgstr "Szolgáltató"
+
+#: data/ui/preferences_window.blp:75
+#: gradia/ui/preferences/preferences_window.py:78
+msgid "None Selected"
+msgstr "Nincs kiválasztva"
+
+#: data/ui/preferences_window.blp:84
+msgid "Confirm on Upload"
+msgstr "Feltöltés megerősítése"
+
+#: data/ui/preferences_window.blp:85 data/ui/preferences_window.blp:86
+msgid "Ask for confirmation before running the upload command"
+msgstr "Megerősítés kérése mielőtt megtörténik a feltöltés"
+
+#: data/ui/preferences_window.blp:94
+msgid "Download Models to improve per-language accuracy"
+msgstr "Tölts le modelleket, hogy jobb legyen a nyelvenkénti pontosság"
+
+#: data/ui/recent_picker.blp:24
+msgid "Screenshot Folder Not Found"
+msgstr "Képernyőkép mappa nem található"
+
+#: data/ui/recent_picker.blp:31
+msgid "Please set it in the Preferences menu"
+msgstr "Kérlek a beállítások menüben add meg"
+
+#: data/ui/selectors/gradient_selector.blp:6
+msgid "Gradient Background"
+msgstr "Színátmenetes háttér"
+
+#: data/ui/selectors/gradient_selector.blp:11
+msgid "Open Step Dialog"
+msgstr "Lépésablak megnyitása"
+
+#: data/ui/selectors/gradient_selector.blp:14
+msgid "Gradient Presets…"
+msgstr "Színátmenet minták…"
+
+#: data/ui/selectors/gradient_selector.blp:50
+msgid "Linear"
+msgstr "Lineáris"
+
+#: data/ui/selectors/gradient_selector.blp:55
+msgid "Radial"
+msgstr "Körkörös"
+
+#: data/ui/selectors/gradient_selector.blp:60
+msgid "Conic"
+msgstr "Kúpos"
+
+#: data/ui/selectors/gradient_selector.blp:103
+msgid "Remove Selected Color Step"
+msgstr "Kiválasztott színlépés törlése"
+
+#: data/ui/selectors/image_selector.blp:5
+msgid "Image Background"
+msgstr "Háttérkép"
+
+#: data/ui/selectors/image_selector.blp:9
+msgid "Image Presets…"
+msgstr "Kép minták…"
+
+#: data/ui/selectors/image_selector.blp:13
+msgid "Select Image"
+msgstr "Kép kiválasztása"
+
+#: data/ui/selectors/image_selector.blp:42
+msgid "Select an Image"
+msgstr "Válassz egy képet"
+
+#: data/ui/selectors/image_selector.blp:47
+msgid "Supported Image Formats"
+msgstr "Támogatott képformátumok"
+
+#: data/ui/selectors/solid_selector.blp:5
+msgid "Solid Color Background"
+msgstr "Egyszínű háttér"
+
+#: data/ui/welcome_page.blp:31
+msgid "Enhance an Image"
+msgstr "Kép feljavítása"
+
+#: data/ui/welcome_page.blp:32
+msgid "Drag and drop one here"
+msgstr "Húzz ide egyet"
+
+#: gradia/app_constants.py:68
+msgid "PNG Image (*.png)"
+msgstr "PNG kép (*.png)"
+
+#: gradia/app_constants.py:75
+msgid "JPEG Image (*.jpg)"
+msgstr "JPEG kép (*.jpg)"
+
+#: gradia/app_constants.py:82
+msgid "WebP Image (*.webp)"
+msgstr "WebP kép (*.webp)"
+
+#: gradia/backend/tool_config.py:214 gradia/backend/tool_config.py:223
+#: gradia/backend/tool_config.py:334 gradia/graphics/solid.py:190
+#: gradia/ui/widget/quick_color_picker.py:24
+msgid "Red"
+msgstr "Piros"
+
+#: gradia/backend/tool_config.py:215 gradia/backend/tool_config.py:224
+#: gradia/backend/tool_config.py:335 gradia/graphics/solid.py:193
+#: gradia/ui/widget/quick_color_picker.py:25
+msgid "Green"
+msgstr "Zöld"
+
+#: gradia/backend/tool_config.py:216 gradia/backend/tool_config.py:225
+#: gradia/backend/tool_config.py:336 gradia/graphics/solid.py:194
+#: gradia/ui/widget/quick_color_picker.py:26
+msgid "Blue"
+msgstr "Kék"
+
+#: gradia/backend/tool_config.py:217 gradia/backend/tool_config.py:226
+#: gradia/backend/tool_config.py:337 gradia/graphics/solid.py:192
+#: gradia/ui/widget/quick_color_picker.py:27
+msgid "Yellow"
+msgstr "Citromsárga"
+
+#: gradia/backend/tool_config.py:218 gradia/backend/tool_config.py:228
+#: gradia/graphics/solid.py:201 gradia/ui/widget/quick_color_picker.py:28
+msgid "Black"
+msgstr "Fekete"
+
+#: gradia/backend/tool_config.py:219 gradia/backend/tool_config.py:227
+#: gradia/backend/tool_config.py:339 gradia/graphics/solid.py:200
+#: gradia/ui/widget/quick_color_picker.py:29
+msgid "White"
+msgstr "Fehér"
+
+#: gradia/backend/tool_config.py:229 gradia/graphics/solid.py:203
+#: gradia/ui/widget/quick_color_picker.py:33
+msgid "Transparent"
+msgstr "Átlátszó"
+
+#: gradia/backend/tool_config.py:338 gradia/graphics/solid.py:195
+msgid "Purple"
+msgstr "Lila"
+
+#: gradia/backend/ocr.py:42
+msgid "English"
+msgstr "Angol"
+
+#: gradia/backend/ocr.py:43
+msgid "Chinese Simplified"
+msgstr "Kínai (egyszerűsített)"
+
+#: gradia/backend/ocr.py:44
+msgid "Chinese Traditional"
+msgstr "Kínai (hagyományos)"
+
+#: gradia/backend/ocr.py:45
+msgid "Spanish"
+msgstr "Spanyol"
+
+#: gradia/backend/ocr.py:46
+msgid "French"
+msgstr "Francia"
+
+#: gradia/backend/ocr.py:47
+msgid "German"
+msgstr "Német"
+
+#: gradia/backend/ocr.py:48
+msgid "Japanese"
+msgstr "Japán"
+
+#: gradia/backend/ocr.py:49
+msgid "Arabic"
+msgstr "Arab"
+
+#: gradia/backend/ocr.py:50
+msgid "Russian"
+msgstr "Orosz"
+
+#: gradia/backend/ocr.py:51
+msgid "Portuguese"
+msgstr "Portugál"
+
+#: gradia/backend/ocr.py:52
+msgid "Italian"
+msgstr "Olasz"
+
+#: gradia/backend/ocr.py:53
+msgid "Korean"
+msgstr "Koreai"
+
+#: gradia/backend/ocr.py:54
+msgid "Hindi"
+msgstr "Hindi"
+
+#: gradia/backend/ocr.py:55
+msgid "Dutch"
+msgstr "Holland"
+
+#: gradia/backend/ocr.py:56
+msgid "Turkish"
+msgstr "Török"
+
+#: gradia/backend/ocr.py:57
+msgid "Kazakh"
+msgstr "Kazak"
+
+#: gradia/backend/ocr.py:58
+msgid "Occitan"
+msgstr "Okcitán"
+
+#: gradia/backend/ocr.py:59
+msgid "Polish"
+msgstr "Lengyel"
+
+#: gradia/backend/ocr.py:60
+msgid "Ukrainian"
+msgstr "Ukrán"
+
+#: gradia/backend/ocr.py:61
+msgid "Telugu"
+msgstr "Telugu"
+
+#: gradia/graphics/solid.py:130
+msgid "More Colors..."
+msgstr "Több szín..."
+
+#: gradia/graphics/solid.py:191
+msgid "Orange"
+msgstr "Narancssárga"
+
+#: gradia/graphics/solid.py:196
+msgid "Pastel Pink"
+msgstr "Pasztell rózsaszín"
+
+#: gradia/graphics/solid.py:197
+msgid "Pastel Yellow"
+msgstr "Pasztell sárga"
+
+#: gradia/graphics/solid.py:198
+msgid "Pastel Green"
+msgstr "Pasztell zöld"
+
+#: gradia/graphics/solid.py:199
+msgid "Pastel Cyan"
+msgstr "Pasztell ciánkék"
+
+#: gradia/graphics/solid.py:202
+msgid "Gray"
+msgstr "Szürke"
+
+#: gradia/overlay/drawing_actions.py:48 gradia/ui/ui_parts.py:110
+msgid "Pen"
+msgstr "Toll"
+
+#: gradia/overlay/drawing_actions.py:49 gradia/ui/ui_parts.py:113
+msgid "Arrow"
+msgstr "Nyíl"
+
+#: gradia/overlay/drawing_actions.py:50 gradia/ui/ui_parts.py:112
+msgid "Line"
+msgstr "Vonal"
+
+#: gradia/overlay/drawing_actions.py:51 gradia/ui/ui_parts.py:114
+msgid "Rectangle"
+msgstr "Téglalap"
+
+#: gradia/overlay/drawing_actions.py:52 gradia/ui/ui_parts.py:115
+msgid "Oval"
+msgstr "Ovális"
+
+#: gradia/overlay/drawing_actions.py:53 gradia/ui/ui_parts.py:111
+msgid "Text"
+msgstr "Szöveg"
+
+#: gradia/overlay/drawing_actions.py:55 gradia/ui/ui_parts.py:116
+msgid "Highlighter"
+msgstr "Kiemelő"
+
+#: gradia/overlay/drawing_actions.py:56 gradia/ui/ui_parts.py:117
+msgid "Censor"
+msgstr "Cenzúra"
+
+#: gradia/overlay/drawing_actions.py:57 gradia/ui/ui_parts.py:118
+msgid "Number"
+msgstr "Szám"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:33
+msgid "No screenshots to delete"
+msgstr "Nem lettek képernyőképek törölve"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:55
+msgid "Trash"
+msgstr "Kuka"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:87
+msgid "Trash Screenshot?"
+msgstr "Képernyőkép kukázása?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:88
+msgid "Are you sure you want to trash the following file?"
+msgstr "Biztosan kukába szeretnéd helyezni az alábbi fájlt?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:90
+msgid "Trash Screenshots?"
+msgstr "Képernyőképek kukázása?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:91
+msgid "Are you sure you want to trash the following files?"
+msgstr "Biztosan kukába szeretnéd helyezni az alábbi fájlokat?"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:101
+msgid "Screenshot moved to trash"
+msgstr "Képernyőkép áthelyezve kukába"
+
+#: gradia/ui/dialog/delete_screenshots_dialog.py:103
+msgid "Screenshots moved to trash"
+msgstr "Képernyőképek áthelyezve kukába"
+
+#: gradia/ui/dialog/ocr_dialog.py:118
+#: gradia/ui/preferences/preferences_window.py:150
+#: gradia/ui/preferences/preferences_window.py:243
+msgid "Copied!"
+msgstr "Kimásolva!"
+
+#: gradia/ui/image_creation/source_image_generator.py:554
+msgid "Source Snippet From %Y-%m-%d %H-%M-%S"
+msgstr "Forráskódrészlet %Y-%m-%d %H-%M-%S"
+
+#: gradia/ui/image_exporters.py:103
+msgid "Edit"
+msgstr "Szerkesztés"
+
+#: gradia/ui/image_exporters.py:106
+msgid "Enhanced Screenshot"
+msgstr "Feljavított képernyőkép"
+
+#: gradia/ui/image_exporters.py:145
+msgid "Save Image As"
+msgstr "Kép mentése mint"
+
+#: gradia/ui/image_exporters.py:174
+msgid "Unsupported image file extension"
+msgstr "Nem támogatott képfájl-kiterjesztés"
+
+#: gradia/ui/image_exporters.py:183
+msgid "Image Saved"
+msgstr "Kép mentve"
+
+#: gradia/ui/image_exporters.py:185
+msgid "Export Failed"
+msgstr "Exportálás sikertelen"
+
+#: gradia/ui/image_exporters.py:252
+msgid "No processed image available"
+msgstr "Nincs feldolgozott kép"
+
+#: gradia/ui/image_exporters.py:278 gradia/ui/image_exporters.py:460
+msgid "Image Copied"
+msgstr "Kép kimásolva"
+
+#: gradia/ui/image_exporters.py:281 gradia/ui/image_exporters.py:288
+msgid "Failed to copy image to clipboard"
+msgstr "Nem sikerült a képet vágólapra másolni"
+
+#: gradia/ui/image_exporters.py:302
+msgid "Link generated successfully"
+msgstr "Link sikeresen létrehozva"
+
+#: gradia/ui/image_exporters.py:303
+msgid "Open Link"
+msgstr "Link megnyitása"
+
+#: gradia/ui/image_exporters.py:340
+msgid "Custom command failed: "
+msgstr "Egyéni parancs sikertelen: "
+
+#: gradia/ui/image_exporters.py:346
+msgid "Warning: "
+msgstr "Figyelmeztetés: "
+
+#: gradia/ui/image_exporters.py:357
+msgid "Result copied to clipboard"
+msgstr "Eredmény vágólapra másolva"
+
+#: gradia/ui/image_exporters.py:359
+msgid "No output from command"
+msgstr "A parancsnak nem volt kimenete"
+
+#: gradia/ui/image_exporters.py:362
+msgid "Failed to run custom export command"
+msgstr "Nem sikerült lefuttatni az egyéni export parancsot"
+
+#: gradia/ui/image_exporters.py:408 gradia/ui/image_exporters.py:435
+msgid "Close Operation Failed"
+msgstr "Bezárási művelet sikertelen"
+
+#: gradia/ui/image_exporters.py:408 gradia/ui/image_exporters.py:435
+msgid "Failed to export image"
+msgstr "Nem sikerült exportálni a képet"
+
+#: gradia/ui/image_exporters.py:461
+msgid "You can now paste it from the clipboard."
+msgstr "Most már beillesztheted a vágólapról."
+
+#: gradia/ui/image_loaders.py:87 gradia/ui/image_loaders.py:98
+#: gradia/ui/image_loaders.py:111
+msgid "Not a supported image format"
+msgstr "Nem támogatott képformátum"
+
+#: gradia/ui/image_loaders.py:122
+msgid "URL is not a supported image format"
+msgstr "Az URL nem támogatott képformátumot tartalmaz"
+
+#: gradia/ui/image_loaders.py:131
+msgid "Failed to load image from URL."
+msgstr "Nem sikerült a képet betölteni az URL-ről."
+
+#: gradia/ui/image_loaders.py:140
+msgid "Open Image"
+msgstr "Kép megnyitása"
+
+#: gradia/ui/image_loaders.py:143
+msgid "Image Files"
+msgstr "Kép fájlok"
+
+#: gradia/ui/image_loaders.py:248 gradia/ui/image_loaders.py:263
+msgid "Failed to take screenshot"
+msgstr "Nem sikerült képernyőképet készíteni"
+
+#: gradia/ui/image_loaders.py:278
+msgid "Screenshot cancelled"
+msgstr "Képernyőkép visszamondva"
+
+#: gradia/ui/image_loaders.py:293 gradia/ui/image_loaders.py:316
+msgid "Edited Screenshot From %Y-%m-%d %H-%M-%S"
+msgstr "Szerkesztett Képernyőkép %Y-%m-%d %H-%M-%S"
+
+#: gradia/ui/image_loaders.py:300 gradia/ui/image_loaders.py:323
+msgid "Screenshot captured!"
+msgstr "Képernyőkép elkészült!"
+
+#: gradia/ui/image_loaders.py:307
+msgid "Failed to process screenshot"
+msgstr "Nem sikerült feldolgozni a képernyőképet"
+
+#: gradia/ui/image_loaders.py:327
+msgid "Failed to load screenshot"
+msgstr "Nem sikerült betölteni a képernyőképet"
+
+#: gradia/ui/image_loaders.py:391
+msgid "Source snippet Generated!"
+msgstr "Forráskódrészlet létrehozva!"
+
+#: gradia/ui/preferences/preferences_window.py:112
+msgid "Ask For Confirmation"
+msgstr "Kérdezd meg"
+
+#: gradia/ui/preferences/preferences_window.py:113
+msgid "Copy and Close "
+msgstr "Másolás és kilépés "
+
+#: gradia/ui/preferences/preferences_window.py:114
+msgid "Close Instantly"
+msgstr "Kilépés azonnal"
+
+#: gradia/ui/preferences/provider_selection_window.py:133
+#: gradia/ui/provider_selection_window.py:134
+msgid "Create your own custom upload command"
+msgstr "Készítsd el a saját, egyéni feltöltési parancsodat"
+
+#: gradia/ui/preferences/provider_selection_window.py:301
+#: gradia/ui/provider_selection_window.py:302
+msgid "Custom"
+msgstr "Egyéni"
+
+#: gradia/ui/ui_parts.py:32
+msgid "Make your images ready for all"
+msgstr "Készítsd fel képeidet mindenki számára"
+
+#. Translators: This is a place to put your credits (formats: "Name https://example.com" or "Name <email@example.com>", no quotes) and is not meant to be translated literally.
+#: gradia/ui/ui_parts.py:45
+msgid "translator-credits"
+msgstr "Kónya Márton <konyamarci52@proton.me>"
+
+#: gradia/ui/ui_parts.py:51
+msgid "Code and Design Borrowed from"
+msgstr "Kód és dizájn kölcsönözve"
+
+#: gradia/ui/ui_parts.py:63
+msgid "Image Sources"
+msgstr "Kép források"
+
+#: gradia/ui/ui_parts.py:98
+msgid "File Actions"
+msgstr "Fájl műveletek"
+
+#: gradia/ui/ui_parts.py:99
+msgid "Open File"
+msgstr "Fájl megnyitása"
+
+#: gradia/ui/ui_parts.py:100
+msgid "Save to File"
+msgstr "Mentés fájlba"
+
+#: gradia/ui/ui_parts.py:101
+msgid "Copy Image to Clipboard"
+msgstr "Kép másolása vágólapra"
+
+#: gradia/ui/ui_parts.py:102
+msgid "Paste From Clipboard"
+msgstr "Beillesztés vágólapról"
+
+#: gradia/ui/ui_parts.py:105
+msgid "Annotations"
+msgstr "Kiemelések"
+
+#: gradia/ui/ui_parts.py:120
+msgid "Cropping"
+msgstr "Kivágás"
+
+#: gradia/ui/ui_parts.py:121
+msgid "Toggle Crop Mode"
+msgstr "Kivágási mód átkapcsolása"
+
+#: gradia/ui/ui_parts.py:122
+msgid "Reset Crop"
+msgstr "Kivágás visszaállítása"
+
+#: gradia/ui/ui_parts.py:124
+msgid "Zooming"
+msgstr "Közelítés"
+
+#: gradia/ui/ui_parts.py:132
+msgid "Open Source Snippets"
+msgstr "Forráskódrészletek megnyitása"
+
+#: gradia/ui/widget/aspect_ratio_button.py:26
+#: gradia/ui/widget/background_aspect_ratio_selector.py:52
+msgid "Aspect Ratio"
+msgstr "Képarány"
+
+#: gradia/ui/widget/aspect_ratio_button.py:38
+msgid "Free"
+msgstr "Szabad"
+
+#: gradia/ui/widget/aspect_ratio_button.py:39
+msgid "Square"
+msgstr "Négyzet"
+
+#: gradia/ui/widget/background_aspect_ratio_selector.py:113
+msgid "Custom Ratio"
+msgstr "Egyéni képarány"
+
+#: gradia/ui/widget/background_aspect_ratio_selector.py:121
+msgid "Width"
+msgstr "Szélesség"
+
+#: gradia/ui/widget/background_aspect_ratio_selector.py:137
+msgid "Height"
+msgstr "Magasság"
+
+#: gradia/ui/widget/background_aspect_ratio_selector.py:153
+msgid "Set"
+msgstr "Beállít"
+
+#: gradia/ui/widget/quick_color_picker.py:103
+msgid "More Colors…"
+msgstr "Több szín…"
+
+#: gradia/ui/widget/quick_color_picker.py:108
+msgid "Choose Color"
+msgstr "Szín választása"
+
+#: gradia/ui/window.py:476
+msgid "Confirm Upload"
+msgstr "Feltöltés megerősítése"
+
+#: gradia/ui/window.py:480
+msgid "Upload"
+msgstr "Feltöltés"

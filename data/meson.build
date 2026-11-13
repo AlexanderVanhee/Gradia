@@ -25,6 +25,18 @@ if desktop_utils.found()
   )
 endif
 
+# Install D-Bus service file (for D-Bus activation)
+configure_file(
+  input: 'be.alexandervanhee.gradia.service.in',
+  output: '@0@.service'.format(APPLICATION_ID),
+  configuration: configuration_data({
+    'APP_ID': APPLICATION_ID,
+    'bindir': join_paths(get_option('prefix'), get_option('bindir')),
+  }),
+  install: true,
+  install_dir: join_paths(get_option('datadir'), 'dbus-1', 'services')
+)
+
 # Compile resources
 gnome.compile_resources('gradia',
   'gradia.gresource.xml.in',
