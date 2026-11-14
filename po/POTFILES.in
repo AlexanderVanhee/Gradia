@@ -31,6 +31,7 @@ gradia/graphics/gradient.py
 gradia/graphics/gradient_selector.py
 gradia/graphics/image.py
 gradia/graphics/image_processor.py
+gradia/graphics/loaded_image.py
 gradia/graphics/solid.py
 gradia/overlay/crop_overlay.py
 gradia/overlay/drawing_actions.py
@@ -41,6 +42,7 @@ gradia/ui/background_selector.py
 gradia/ui/dialog/confirm_close_dialog.py
 gradia/ui/dialog/delete_screenshots_dialog.py
 gradia/ui/dialog/ocr_dialog.py
+gradia/ui/dialog/ocr_launcher.py
 gradia/ui/drawing_tools_group.py
 gradia/ui/image_creation/source_image_generator.py
 gradia/ui/image_exporters.py
@@ -65,3 +67,4 @@ gradia/ui/widget/preset_button.py
 gradia/ui/widget/toggle_group.py
 gradia/ui/widget/quick_color_picker.py
 gradia/ui/window.py
+gradia/utils/std_image_loader.py

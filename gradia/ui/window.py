@@ -498,7 +498,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
             dialog = Adw.AlertDialog.new(
                 heading=_("Confirm Upload"),
-                body=_(f"Are you sure you want to upload this image to {provider_name}?")
+                body=_("Are you sure you want to upload this image to {provider_name}?").format(provider_name=provider_name)
             )
             dialog.add_response("cancel", _("Cancel"))
             dialog.add_response("confirm", _("Upload"))

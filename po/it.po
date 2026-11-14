@@ -734,8 +734,8 @@ msgid "Open Image…"
 msgstr "Apri immagine…"
 
 #: data/ui/welcome_page.blp:104
-msgid "_D_onate to Gradia"
-msgstr "Fai una d_onazione a Gradia"
+msgid "_Donate to Gradia"
+msgstr "_Fai una donazione a Gradia"
 
 #: gradia/app_constants.py:26
 msgid "Red Flame"
