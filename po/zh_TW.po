@@ -883,6 +883,10 @@ msgstr "馬賽克"
 msgid "Number"
 msgstr "編號"
 
+#: gradia/overlay/drawing_actions.py:59 gradia/ui/ui_parts.py:120
+msgid "Eraser"
+msgstr "橡皮擦"
+
 #: gradia/ui/dialog/delete_screenshots_dialog.py:33
 msgid "No screenshots to delete"
 msgstr "沒有可刪除的截圖"

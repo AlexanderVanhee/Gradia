@@ -23,6 +23,7 @@ from enum import Enum
 import math
 from gradia.backend.logger import Logger
 from gradia.utils.colors import has_visible_color
+from gradia.utils.geometry import distance_to_polyline_sq
 import time
 import unicodedata
 
@@ -42,6 +43,7 @@ class DrawingMode(Enum):
     HIGHLIGHTER = "HIGHLIGHTER"
     CENSOR = "CENSOR"
     NUMBER = "NUMBER"
+    ERASER = "ERASER"
 
     def label(self):
         return {
@@ -55,6 +57,7 @@ class DrawingMode(Enum):
             "HIGHLIGHTER": _("Highlighter"),
             "CENSOR": _("Censor"),
             "NUMBER": _("Number"),
+            "ERASER": _("Eraser"),
         }[self.value]
 
     @property
@@ -72,6 +75,7 @@ DrawingMode._shortcuts = {
     DrawingMode.HIGHLIGHTER:  ["7", "KP_7", "h"],
     DrawingMode.CENSOR:       ["8", "KP_8", "c"],
     DrawingMode.NUMBER:       ["9", "KP_9", "n"],
+    DrawingMode.ERASER:       ["e"],
 }
 
 
@@ -133,6 +137,11 @@ class DrawingAction:
             return dist_sq < (5 + self.options.size * 1.75)**2
         return min_x <= x_img <= max_x and min_y <= y_img <= max_y
 
+    def hit_by_eraser(self, x_img: float, y_img: float, radius: float) -> bool:
+        min_x, min_y, max_x, max_y = self.get_bounds().get_bounding_rect()
+        return (min_x - radius <= x_img <= max_x + radius and
+                min_y - radius <= y_img <= max_y + radius)
+
     def _calculate_shadow_color(self, color):
         r = color.red
         g = color.green
@@ -182,6 +191,13 @@ class StrokeAction(DrawingAction):
             mid_y = (y1 + y2) * 0.5
             cr.curve_to(x1, y1, x1, y1, mid_x, mid_y)
         cr.line_to(*coords[-1])
+
+    def _half_line_width(self) -> float:
+        return self.options.size / 2
+
+    def hit_by_eraser(self, x_img: float, y_img: float, radius: float) -> bool:
+        reach = radius + self._half_line_width()
+        return distance_to_polyline_sq(x_img, y_img, self.stroke) <= reach * reach
 
     def get_bounds(self) -> QuadBounds:
         if self._bounds is None:
@@ -289,6 +305,10 @@ class ArrowAction(DrawingAction):
         p4 = (start_x - max_extent * perp_cos, start_y - max_extent * perp_sin)
 
         return QuadBounds(p1, p2, p3, p4)
+
+    def hit_by_eraser(self, x_img: float, y_img: float, radius: float) -> bool:
+        reach = radius + self.options.size / 2
+        return distance_to_polyline_sq(x_img, y_img, [self.start, self.end]) <= reach * reach
 
     def translate(self, dx: int, dy: int):
         self.start = (self.start[0] + dx, self.start[1] + dy)
@@ -631,6 +651,9 @@ class HighlighterAction(StrokeAction):
         cr.set_operator(cairo.Operator.OVER)
         cr.set_line_cap(cairo.LineCap.ROUND)
 
+    def _half_line_width(self) -> float:
+        return self.options.size
+
     def get_bounds(self) -> QuadBounds:
         if not self.stroke:
             return QuadBounds.from_rect(0, 0, 0, 0)
@@ -769,6 +792,10 @@ class NumberStampAction(DrawingAction):
         distance_sq = (px_img - x_img)**2 + (py_img - y_img)**2
         return distance_sq <= (radius + 5)**2
 
+    def hit_by_eraser(self, x_img: float, y_img: float, radius: float) -> bool:
+        reach = radius + self.options.size * 2
+        return (x_img - self.position[0]) ** 2 + (y_img - self.position[1]) ** 2 <= reach * reach
+
     def get_bounds(self) -> QuadBounds:
         x_img, y_img = self.position
         outline_padding = 2 if self.options.border_color and any(c > 0 for c in self.options.border_color) else 0
@@ -777,3 +804,24 @@ class NumberStampAction(DrawingAction):
 
     def translate(self, dx: int, dy: int):
         self.position = (self.position[0] + dx, self.position[1] + dy)
+
+
+class EraseAction(DrawingAction):
+    def __init__(self, removed: list[tuple[int, DrawingAction]], options):
+        self.removed = removed
+        self.options = options
+
+    def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
+        pass
+
+    def get_bounds(self) -> QuadBounds:
+        return QuadBounds.from_rect(0, 0, 0, 0)
+
+    def contains_point(self, x_img: int, y_img: int) -> bool:
+        return False
+
+    def hit_by_eraser(self, x_img: float, y_img: float, radius: float) -> bool:
+        return False
+
+    def translate(self, dx: int, dy: int):
+        pass

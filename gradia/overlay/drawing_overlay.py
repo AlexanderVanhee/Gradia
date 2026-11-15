@@ -15,6 +15,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import math
 import cairo
 from gi.repository import Adw, Gdk, Gio, Gtk, GObject
 from typing import Tuple
@@ -93,6 +94,11 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.is_text_editing = False
         self.live_text = None
         self.editing_text_action = None
+
+        self.is_erasing = False
+        self.erase_removed: list[Tuple[int, DrawingAction]] = []
+        self.last_erase_point = None
+        self.eraser_cursor_pos = None
 
         self._setup_gestures()
 
@@ -338,6 +344,8 @@ class DrawingOverlay(Gtk.DrawingArea):
 
         self.options.mode = mode
         self.is_drawing = False
+        self._finish_erase()
+        self.eraser_cursor_pos = None
         self.is_moving_selection = False
         self.is_resizing = False
         self.resize_handle = ResizeHandle.NONE
@@ -345,6 +353,65 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.start_point = None
         self.end_point = None
         self.queue_draw()
+
+    def _get_eraser_radius(self) -> float:
+        scale = self._get_scale_factor() or 1.0
+        return max(float(self.options.size), 4.0 / scale)
+
+    def _start_erase(self, img_x: int, img_y: int) -> None:
+        self.is_erasing = True
+        self.erase_removed = []
+        self.last_erase_point = (img_x, img_y)
+        self._erase_at(img_x, img_y)
+
+    def _erase_along(self, img_x: int, img_y: int) -> None:
+        last_x, last_y = self.last_erase_point
+        step = max(self._get_eraser_radius() / 2, 1.0)
+        steps = max(1, math.ceil(math.hypot(img_x - last_x, img_y - last_y) / step))
+        for i in range(1, steps + 1):
+            t = i / steps
+            self._erase_at(last_x + (img_x - last_x) * t, last_y + (img_y - last_y) * t)
+        self.last_erase_point = (img_x, img_y)
+
+    def _erase_at(self, x_img: float, y_img: float) -> None:
+        radius = self._get_eraser_radius()
+        removed_number = False
+        for index in range(len(self.actions) - 1, -1, -1):
+            action = self.actions[index]
+            if not action.hit_by_eraser(x_img, y_img, radius):
+                continue
+            del self.actions[index]
+            self.erase_removed.append((index, action))
+            removed_number = removed_number or isinstance(action, NumberStampAction)
+            if action is self.selected_action:
+                self.selected_action = None
+
+        if removed_number:
+            self._renumber_actions()
+
+    def _finish_erase(self) -> None:
+        if not self.is_erasing:
+            return
+        self.is_erasing = False
+        self.last_erase_point = None
+        if self.erase_removed:
+            self.actions.append(EraseAction(self.erase_removed, self.options.copy()))
+            self.redo_stack.clear()
+            self._update_undo_redo_action_states()
+        self.erase_removed = []
+        self.queue_draw()
+
+    def _draw_eraser_cursor(self, cr: cairo.Context, scale: float) -> None:
+        x_widget, y_widget = self.eraser_cursor_pos
+        radius_widget = self._get_eraser_radius() * scale
+        cr.new_path()
+        cr.arc(x_widget, y_widget, radius_widget, 0, 2 * math.pi)
+        cr.set_source_rgba(1.0, 1.0, 1.0, 0.9)
+        cr.set_line_width(3)
+        cr.stroke_preserve()
+        cr.set_source_rgba(0.0, 0.0, 0.0, 0.8)
+        cr.set_line_width(1.5)
+        cr.stroke()
 
     def _find_action_at_point(self, x_image: int, y_image: int) -> DrawingAction | None:
         for action in reversed(self.actions):
@@ -403,7 +470,13 @@ class DrawingOverlay(Gtk.DrawingArea):
 
         motion = Gtk.EventControllerMotion.new()
         motion.connect("motion", self._on_motion)
+        motion.connect("leave", self._on_leave)
         self.add_controller(motion)
+
+    def _on_leave(self, controller):
+        if self.eraser_cursor_pos is not None and not self.is_erasing:
+            self.eraser_cursor_pos = None
+            self.queue_draw()
 
     def update_shift_state(self, gesture):
         state = gesture.get_current_event_state()
@@ -610,6 +683,12 @@ class DrawingOverlay(Gtk.DrawingArea):
             self.queue_draw()
             return
 
+        if self.options.mode == DrawingMode.ERASER:
+            self.eraser_cursor_pos = (x_widget, y_widget)
+            self._start_erase(img_x, img_y)
+            self.queue_draw()
+            return
+
         self.is_drawing = True
         if self.options.mode == DrawingMode.PEN or self.options.mode == DrawingMode.HIGHLIGHTER:
             self.current_stroke = [(img_x, img_y)]
@@ -628,6 +707,13 @@ class DrawingOverlay(Gtk.DrawingArea):
         img_x, img_y = self._widget_to_image_coords(cur_x_widget, cur_y_widget)
 
         self.update_shift_state(gesture)
+
+        if self.options.mode == DrawingMode.ERASER:
+            if self.is_erasing:
+                self.eraser_cursor_pos = (cur_x_widget, cur_y_widget)
+                self._erase_along(img_x, img_y)
+                self.queue_draw()
+            return
 
         if self.options.mode == DrawingMode.SELECT and self.is_resizing and self.selected_action and self.resize_start_bounds:
             self._resize_action(self.selected_action, self.resize_handle, self.resize_start_bounds,
@@ -656,6 +742,10 @@ class DrawingOverlay(Gtk.DrawingArea):
     def _on_drag_end(self, gesture, dx_widget, dy_widget):
         dx_widget, dy_widget = self.delta_transform(dx_widget, dy_widget)
         if self.options.mode == DrawingMode.TEXT or self.options.mode == DrawingMode.NUMBER:
+            return
+
+        if self.options.mode == DrawingMode.ERASER:
+            self._finish_erase()
             return
 
         if self.options.mode == DrawingMode.SELECT:
@@ -719,6 +809,14 @@ class DrawingOverlay(Gtk.DrawingArea):
 
         elif self.options.mode == DrawingMode.SELECT:
             name = self._get_select_mode_cursor(x_widget, y_widget)
+
+        elif self.options.mode == DrawingMode.ERASER:
+            in_image = self._is_point_in_image(x_widget, y_widget)
+            name = "none" if in_image else "default"
+            new_pos = (x_widget, y_widget) if in_image else None
+            if new_pos != self.eraser_cursor_pos:
+                self.eraser_cursor_pos = new_pos
+                self.queue_draw()
 
         else:
             if self._is_point_in_image(x_widget, y_widget):
@@ -810,6 +908,9 @@ class DrawingOverlay(Gtk.DrawingArea):
         if self.selected_action:
             self._draw_selection_box(cr, scale)
 
+        if self.options and self.options.mode == DrawingMode.ERASER and self.eraser_cursor_pos:
+            self._draw_eraser_cursor(cr, scale)
+
     def export_to_pixbuf(self, requested_width, requested_height) -> GdkPixbuf.Pixbuf | None:
         if not self.picture_widget or not self.picture_widget.get_paintable():
             return None
@@ -838,7 +939,13 @@ class DrawingOverlay(Gtk.DrawingArea):
             self.redo_stack.append(undone_action)
             self.selected_action = None
 
-            if isinstance(undone_action, NumberStampAction):
+            renumber = isinstance(undone_action, NumberStampAction)
+            if isinstance(undone_action, EraseAction):
+                for index, action in reversed(undone_action.removed):
+                    self.actions.insert(min(index, len(self.actions)), action)
+                    renumber = renumber or isinstance(action, NumberStampAction)
+
+            if renumber:
                 self._renumber_actions()
 
             self._update_undo_redo_action_states()
@@ -847,10 +954,16 @@ class DrawingOverlay(Gtk.DrawingArea):
     def redo(self) -> None:
         if self.redo_stack:
             redone_action = self.redo_stack.pop()
+            renumber = isinstance(redone_action, NumberStampAction)
+            if isinstance(redone_action, EraseAction):
+                for _index, action in redone_action.removed:
+                    if action in self.actions:
+                        self.actions.remove(action)
+                    renumber = renumber or isinstance(action, NumberStampAction)
             self.actions.append(redone_action)
             self.selected_action = None
 
-            if isinstance(redone_action, NumberStampAction):
+            if renumber:
                 self._renumber_actions()
 
             self._update_undo_redo_action_states()

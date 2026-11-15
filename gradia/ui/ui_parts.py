@@ -117,6 +117,7 @@ class ShortcutsDialog:
                 (_("Highlighter"), "7 H"),
                 (_("Censor"), "8 C"),
                 (_("Number"), "9 N"),
+                (_("Eraser"), "E"),
             ]),
             (_("Cropping"), [
                 (_("Toggle Crop Mode"), "<Ctrl>R"),

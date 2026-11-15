@@ -359,4 +359,13 @@ class ToolConfig:
                 primary_color_list=ToolConfig.TEXT_COLORS,
                 secondary_color_list=ToolConfig.TEXT_BACKGROUND_COLORS
             ),
+            ToolConfig(
+                mode=DrawingMode.ERASER,
+                icon="eraser4-symbolic",
+                column=0,
+                row=2,
+                shown_stack="empty",
+                has_scale=True,
+                has_primary_color=False,
+            ),
         ]
