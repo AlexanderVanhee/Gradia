@@ -31,7 +31,6 @@
 	<url type="translate">https://github.com/AlexanderVanhee/Gradia/blob/master/TRANSLATING.md</url>
   <url type="donation">https://ko-fi.com/alexandervanhee</url>
 	<translation type="gettext">gradia</translation>
-	<launchable type="desktop-id">be.alexandervanhee.gradia.desktop</launchable>
 	<content_rating type="oars-1.1"/>
 	<branding>
 		<color type="primary" scheme_preference="light">#8ff0a4</color>
