@@ -366,6 +366,10 @@ msgstr "Цензура"
 #: gradia/overlay/drawing_actions.py:39
 msgid "Number"
 msgstr "Сан"
+
+#: gradia/overlay/drawing_actions.py:59 gradia/ui/ui_parts.py:120
+msgid "Eraser"
+msgstr "Өшіргіш"
 #: data/ui/controls_overlay.blp:24
 msgid "Erase selected"
 msgstr "Таңдалғанды өшіру"

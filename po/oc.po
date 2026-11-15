@@ -366,6 +366,10 @@ msgstr "Censor"
 msgid "Number"
 msgstr "Nombre"
 
+#: gradia/overlay/drawing_actions.py:59 gradia/ui/ui_parts.py:120
+msgid "Eraser"
+msgstr "Goma"
+
 #: data/ui/selectors/gradient_selector.blp:5
 msgid "Gradient Background"
 msgstr "Fons degradat"

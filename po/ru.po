@@ -442,6 +442,10 @@ msgstr "Цензура"
 msgid "Number"
 msgstr "Число"
 
+#: gradia/overlay/drawing_actions.py:59 gradia/ui/ui_parts.py:120
+msgid "Eraser"
+msgstr "Ластик"
+
 #: gradia/ui/preferences_window.py:39 gradia/ui/preferences_window.py:146
 msgid "Root"
 msgstr "Корень"

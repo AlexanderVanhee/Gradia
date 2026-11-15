@@ -896,6 +896,10 @@ msgstr "打码"
 msgid "Number"
 msgstr "数字"
 
+#: gradia/overlay/drawing_actions.py:59 gradia/ui/ui_parts.py:120
+msgid "Eraser"
+msgstr "橡皮擦"
+
 #: gradia/ui/dialog/delete_screenshots_dialog.py:33
 msgid "No screenshots to delete"
 msgstr "没有可删除的截图"

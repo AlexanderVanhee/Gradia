@@ -895,6 +895,10 @@ msgstr "Che"
 msgid "Number"
 msgstr "Số"
 
+#: gradia/overlay/drawing_actions.py:59 gradia/ui/ui_parts.py:120
+msgid "Eraser"
+msgstr "Tẩy"
+
 #: gradia/ui/dialog/delete_screenshots_dialog.py:33
 msgid "No screenshots to delete"
 msgstr "Không có ảnh chụp màn hình nào để xóa"
