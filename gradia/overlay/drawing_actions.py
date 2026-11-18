@@ -23,6 +23,7 @@ from enum import Enum
 import math
 from gradia.backend.logger import Logger
 from gradia.utils.colors import has_visible_color
+from gradia.utils.geometry import polyline_intersects_rect
 import time
 import unicodedata
 
@@ -133,6 +134,11 @@ class DrawingAction:
             return dist_sq < (5 + self.options.size * 1.75)**2
         return min_x <= x_img <= max_x and min_y <= y_img <= max_y
 
+    def intersects_rect(self, rect: tuple[float, float, float, float]) -> bool:
+        min_x, min_y, max_x, max_y = self.get_bounds().get_bounding_rect()
+        r_min_x, r_min_y, r_max_x, r_max_y = rect
+        return min_x <= r_max_x and r_min_x <= max_x and min_y <= r_max_y and r_min_y <= max_y
+
     def _calculate_shadow_color(self, color):
         r = color.red
         g = color.green
@@ -182,6 +188,12 @@ class StrokeAction(DrawingAction):
             mid_y = (y1 + y2) * 0.5
             cr.curve_to(x1, y1, x1, y1, mid_x, mid_y)
         cr.line_to(*coords[-1])
+
+    def _half_line_width(self) -> float:
+        return self.options.size / 2
+
+    def intersects_rect(self, rect: tuple[float, float, float, float]) -> bool:
+        return polyline_intersects_rect(self.stroke, rect, self._half_line_width())
 
     def get_bounds(self) -> QuadBounds:
         if self._bounds is None:
@@ -289,6 +301,9 @@ class ArrowAction(DrawingAction):
         p4 = (start_x - max_extent * perp_cos, start_y - max_extent * perp_sin)
 
         return QuadBounds(p1, p2, p3, p4)
+
+    def intersects_rect(self, rect: tuple[float, float, float, float]) -> bool:
+        return polyline_intersects_rect([self.start, self.end], rect, self.options.size / 2)
 
     def translate(self, dx: int, dy: int):
         self.start = (self.start[0] + dx, self.start[1] + dy)
@@ -631,6 +646,9 @@ class HighlighterAction(StrokeAction):
         cr.set_operator(cairo.Operator.OVER)
         cr.set_line_cap(cairo.LineCap.ROUND)
 
+    def _half_line_width(self) -> float:
+        return self.options.size
+
     def get_bounds(self) -> QuadBounds:
         if not self.stroke:
             return QuadBounds.from_rect(0, 0, 0, 0)
@@ -777,3 +795,24 @@ class NumberStampAction(DrawingAction):
 
     def translate(self, dx: int, dy: int):
         self.position = (self.position[0] + dx, self.position[1] + dy)
+
+
+class EraseAction(DrawingAction):
+    def __init__(self, removed: list[tuple[int, DrawingAction]], options):
+        self.removed = removed
+        self.options = options
+
+    def draw(self, cr: cairo.Context, image_to_widget_coords: Callable[[int, int], tuple[float, float]], scale: float):
+        pass
+
+    def get_bounds(self) -> QuadBounds:
+        return QuadBounds.from_rect(0, 0, 0, 0)
+
+    def contains_point(self, x_img: int, y_img: int) -> bool:
+        return False
+
+    def intersects_rect(self, rect: tuple[float, float, float, float]) -> bool:
+        return False
+
+    def translate(self, dx: int, dy: int):
+        pass
