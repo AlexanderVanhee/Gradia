@@ -78,6 +78,10 @@ class DrawingOverlay(Gtk.DrawingArea):
         self._next_number = 1
 
         self._selected_action: DrawingAction | None = None
+        self._multi_selection: list[DrawingAction] = []
+        self.is_marquee_selecting = False
+        self.marquee_start = None
+        self.marquee_end = None
         self.selection_start_pos = None
         self.is_moving_selection = False
         self.move_start_point = None
@@ -110,8 +114,19 @@ class DrawingOverlay(Gtk.DrawingArea):
     @selected_action.setter
     def selected_action(self, action: DrawingAction | None) -> None:
         self._selected_action = action
+        self._multi_selection = []
         self.erase_selected_revealer.set_reveal_child(action is not None)
         self.emit('selection-changed', action.options if action else None)
+
+    def _set_multi_selection(self, actions: list[DrawingAction]) -> None:
+        self.selected_action = None
+        self._multi_selection = list(actions)
+        self.erase_selected_revealer.set_reveal_child(bool(self._multi_selection))
+
+    def _get_selected_actions(self) -> list[DrawingAction]:
+        if self._multi_selection:
+            return list(self._multi_selection)
+        return [self._selected_action] if self._selected_action else []
 
     def _can_resize_action(self, action: DrawingAction) -> bool:
         return isinstance(action, (RectAction, CircleAction, CensorAction, ArrowAction, LineAction))
@@ -315,19 +330,26 @@ class DrawingOverlay(Gtk.DrawingArea):
         self._next_number = len(number_actions) + 1
 
     def remove_selected_action(self) -> bool:
-        if self.selected_action and self.selected_action in self.actions:
-            was_number_action = isinstance(self.selected_action, NumberStampAction)
-            self.actions.remove(self.selected_action)
-            self.selected_action = None
-            self.redo_stack.clear()
+        targets = [action for action in self._get_selected_actions() if action in self.actions]
+        if not targets:
+            return False
 
-            if was_number_action:
-                self._renumber_actions()
+        removed = []
+        for action in targets:
+            index = self.actions.index(action)
+            del self.actions[index]
+            removed.append((index, action))
+        self.actions.append(EraseAction(removed, self.options.copy()))
 
-            self._update_undo_redo_action_states()
-            self.queue_draw()
-            return True
-        return False
+        self.selected_action = None
+        self.redo_stack.clear()
+
+        if any(isinstance(action, NumberStampAction) for action in targets):
+            self._renumber_actions()
+
+        self._update_undo_redo_action_states()
+        self.queue_draw()
+        return True
 
     def set_drawing_mode(self, mode: DrawingMode) -> None:
         if self.text_entry_popup:
@@ -338,6 +360,9 @@ class DrawingOverlay(Gtk.DrawingArea):
 
         self.options.mode = mode
         self.is_drawing = False
+        self.is_marquee_selecting = False
+        self.marquee_start = None
+        self.marquee_end = None
         self.is_moving_selection = False
         self.is_resizing = False
         self.resize_handle = ResizeHandle.NONE
@@ -362,6 +387,74 @@ class DrawingOverlay(Gtk.DrawingArea):
 
         return min_x - padding_img <= x_image <= max_x + padding_img and \
                min_y - padding_img <= y_image <= max_y + padding_img
+
+    def _get_multi_selection_rect(self) -> Tuple[float, float, float, float] | None:
+        if not self._multi_selection:
+            return None
+        rects = [action.get_bounds().get_bounding_rect() for action in self._multi_selection]
+        return (min(r[0] for r in rects), min(r[1] for r in rects),
+                max(r[2] for r in rects), max(r[3] for r in rects))
+
+    def _is_point_in_multi_selection_bounds(self, x_image: int, y_image: int) -> bool:
+        rect = self._get_multi_selection_rect()
+        if rect is None:
+            return False
+        min_x, min_y, max_x, max_y = rect
+        padding_img = max(self.options.size, self.font_size / 2)
+        return min_x - padding_img <= x_image <= max_x + padding_img and \
+               min_y - padding_img <= y_image <= max_y + padding_img
+
+    def _get_marquee_rect(self) -> Tuple[float, float, float, float]:
+        (x1, y1), (x2, y2) = self.marquee_start, self.marquee_end
+        return min(x1, x2), min(y1, y2), max(x1, x2), max(y1, y2)
+
+    def _finish_marquee_selection(self) -> None:
+        rect = self._get_marquee_rect()
+        self.is_marquee_selecting = False
+        self.marquee_start = None
+        self.marquee_end = None
+
+        inside = [action for action in self.actions if action.intersects_rect(rect)]
+
+        if len(inside) == 1:
+            self.selected_action = inside[0]
+        elif inside:
+            self._set_multi_selection(inside)
+        self.queue_draw()
+
+    def _draw_marquee(self, cr: cairo.Context) -> None:
+        min_x, min_y, max_x, max_y = self._get_marquee_rect()
+        x1, y1 = self._image_to_widget_coords(min_x, min_y)
+        x2, y2 = self._image_to_widget_coords(max_x, max_y)
+        accent = Adw.StyleManager.get_default().get_accent_color_rgba()
+        cr.rectangle(x1, y1, x2 - x1, y2 - y1)
+        cr.set_source_rgba(accent.red, accent.green, accent.blue, 0.15)
+        cr.fill_preserve()
+        cr.set_source_rgba(*accent)
+        cr.set_line_width(1)
+        cr.stroke()
+
+    def _draw_multi_selection(self, cr: cairo.Context) -> None:
+        accent = Adw.StyleManager.get_default().get_accent_color_rgba()
+        cr.set_source_rgba(*accent)
+
+        cr.set_line_width(1)
+        for action in self._multi_selection:
+            points = [self._image_to_widget_coords(int(p[0]), int(p[1])) for p in action.get_bounds().get_points()]
+            cr.move_to(*points[0])
+            for point in points[1:]:
+                cr.line_to(*point)
+            cr.close_path()
+            cr.stroke()
+
+        min_x, min_y, max_x, max_y = self._get_multi_selection_rect()
+        x1, y1 = self._image_to_widget_coords(min_x, min_y)
+        x2, y2 = self._image_to_widget_coords(max_x, max_y)
+        cr.set_line_width(2)
+        cr.set_dash([6, 4])
+        cr.rectangle(x1, y1, x2 - x1, y2 - y1)
+        cr.stroke()
+        cr.set_dash([])
 
     def _draw_selection_box(self, cr: cairo.Context, scale: float):
         if not self.selected_action:
@@ -444,6 +537,12 @@ class DrawingOverlay(Gtk.DrawingArea):
                 return
 
             if n_press == 1:
+                if self._multi_selection:
+                    if self._is_point_in_multi_selection_bounds(img_x, img_y):
+                        return
+                    self.selected_action = None
+                    self.queue_draw()
+
                 handle = self._get_handle_at_point(x_widget, y_widget)
                 if handle != ResizeHandle.NONE and self.selected_action and self._can_resize_action(self.selected_action):
                     return
@@ -590,6 +689,13 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.update_shift_state(gesture)
 
         if self.options.mode == DrawingMode.SELECT:
+            if self._multi_selection:
+                if self._is_point_in_multi_selection_bounds(img_x, img_y):
+                    self.is_moving_selection = True
+                    self.move_start_point = (img_x, img_y)
+                    return
+                self.selected_action = None
+
             if self.selected_action:
                 handle = self._get_handle_at_point(x_widget, y_widget)
                 if handle != ResizeHandle.NONE and self._can_resize_action(self.selected_action):
@@ -607,6 +713,10 @@ class DrawingOverlay(Gtk.DrawingArea):
             if self.selected_action:
                 self.is_moving_selection = True
                 self.move_start_point = (img_x, img_y)
+            else:
+                self.is_marquee_selecting = True
+                self.marquee_start = (img_x, img_y)
+                self.marquee_end = (img_x, img_y)
             self.queue_draw()
             return
 
@@ -635,13 +745,21 @@ class DrawingOverlay(Gtk.DrawingArea):
             self.queue_draw()
             return
 
-        if self.options.mode == DrawingMode.SELECT and self.is_moving_selection and self.selected_action and self.move_start_point:
-            old_x_img, old_y_img = self.move_start_point
-            delta_x_img = img_x - old_x_img
-            delta_y_img = img_y - old_y_img
-            self.selected_action.translate(delta_x_img, delta_y_img)
-            self.move_start_point = (img_x, img_y)
+        if self.options.mode == DrawingMode.SELECT and self.is_marquee_selecting:
+            self.marquee_end = (img_x, img_y)
             self.queue_draw()
+            return
+
+        if self.options.mode == DrawingMode.SELECT and self.is_moving_selection and self.move_start_point:
+            selected = self._get_selected_actions()
+            if selected:
+                old_x_img, old_y_img = self.move_start_point
+                delta_x_img = img_x - old_x_img
+                delta_y_img = img_y - old_y_img
+                for action in selected:
+                    action.translate(delta_x_img, delta_y_img)
+                self.move_start_point = (img_x, img_y)
+                self.queue_draw()
             return
 
         if not self.is_drawing:
@@ -659,6 +777,9 @@ class DrawingOverlay(Gtk.DrawingArea):
             return
 
         if self.options.mode == DrawingMode.SELECT:
+            if self.is_marquee_selecting:
+                self._finish_marquee_selection()
+                return
             if self.is_resizing:
                 self.is_resizing = False
                 self.resize_handle = ResizeHandle.NONE
@@ -729,6 +850,15 @@ class DrawingOverlay(Gtk.DrawingArea):
         self.set_cursor(Gdk.Cursor.new_from_name(name, None))
 
     def _get_select_mode_cursor(self, x_widget, y_widget):
+        if self.is_marquee_selecting:
+            return "crosshair"
+
+        if self._multi_selection and not self.is_moving_selection:
+            img_x, img_y = self._widget_to_image_coords(x_widget, y_widget)
+            if self._is_point_in_multi_selection_bounds(img_x, img_y):
+                return "grab"
+            return "pointer" if self._find_action_at_point(img_x, img_y) else "default"
+
         if self.is_resizing or self.is_moving_selection:
             if self.is_resizing:
                 if isinstance(self.selected_action, (ArrowAction, LineAction)):
@@ -810,6 +940,13 @@ class DrawingOverlay(Gtk.DrawingArea):
         if self.selected_action:
             self._draw_selection_box(cr, scale)
 
+        if self._multi_selection:
+            self._draw_multi_selection(cr)
+
+        if self.is_marquee_selecting and self.marquee_start and self.marquee_end:
+            self._draw_marquee(cr)
+
+
     def export_to_pixbuf(self, requested_width, requested_height) -> GdkPixbuf.Pixbuf | None:
         if not self.picture_widget or not self.picture_widget.get_paintable():
             return None
@@ -838,7 +975,13 @@ class DrawingOverlay(Gtk.DrawingArea):
             self.redo_stack.append(undone_action)
             self.selected_action = None
 
-            if isinstance(undone_action, NumberStampAction):
+            renumber = isinstance(undone_action, NumberStampAction)
+            if isinstance(undone_action, EraseAction):
+                for index, action in reversed(undone_action.removed):
+                    self.actions.insert(min(index, len(self.actions)), action)
+                    renumber = renumber or isinstance(action, NumberStampAction)
+
+            if renumber:
                 self._renumber_actions()
 
             self._update_undo_redo_action_states()
@@ -847,10 +990,16 @@ class DrawingOverlay(Gtk.DrawingArea):
     def redo(self) -> None:
         if self.redo_stack:
             redone_action = self.redo_stack.pop()
+            renumber = isinstance(redone_action, NumberStampAction)
+            if isinstance(redone_action, EraseAction):
+                for _index, action in redone_action.removed:
+                    if action in self.actions:
+                        self.actions.remove(action)
+                    renumber = renumber or isinstance(action, NumberStampAction)
             self.actions.append(redone_action)
             self.selected_action = None
 
-            if isinstance(redone_action, NumberStampAction):
+            if renumber:
                 self._renumber_actions()
 
             self._update_undo_redo_action_states()
