@@ -55,7 +55,8 @@ class DrawingOverlay(Gtk.DrawingArea):
     __gtype_name__ = "GradiaDrawingOverlay"
 
     __gsignals__ = {
-        'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, (object,))
+        'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, (object,)),
+        'drawing-changed': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
     def __init__(self, **kwargs):
@@ -667,6 +668,8 @@ class DrawingOverlay(Gtk.DrawingArea):
                 self.redo_stack.clear()
                 self._update_undo_redo_action_states()
                 return
+            if self.is_moving_selection and (dx_widget or dy_widget):
+                self.emit('drawing-changed')
             self.is_moving_selection = False
             self.move_start_point = None
             return
@@ -857,6 +860,7 @@ class DrawingOverlay(Gtk.DrawingArea):
             self.queue_draw()
 
     def _update_undo_redo_action_states(self) -> None:
+        self.emit('drawing-changed')
         root = self.get_root()
         if root:
             undo_action = root.lookup_action("undo")

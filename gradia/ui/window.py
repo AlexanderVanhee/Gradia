@@ -142,9 +142,9 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.create_action("command", lambda *_: self._run_custom_command(), ["<Primary>m"])
 
         self.create_action("aspect-ratio-crop", lambda _, variant: self.image_bin.set_aspect_ratio(variant.get_double()), vt="d")
-        self.create_action("crop", lambda *_: self.image_bin.on_toggle_crop(), ["<Primary>r"])
+        self.create_action("crop", lambda *_: self._apply_crop_change(self.image_bin.on_toggle_crop), ["<Primary>r"])
         self.create_action("crop-back", lambda *_: self.image_bin.crop_back(), ["Escape"])
-        self.create_action("reset-crop", lambda *_: self.image_bin.reset_crop_selection(), ["<Primary><Shift>r"])
+        self.create_action("reset-crop", lambda *_: self._apply_crop_change(self.image_bin.reset_crop_selection), ["<Primary><Shift>r"])
         self.create_action("sidebar-shown", lambda action, param: self.split_view.set_show_sidebar(param.get_boolean()), vt="b")
         self.create_action("toggle-sidebar", lambda *_: self.split_view.set_show_sidebar(not self.split_view.get_show_sidebar()), ["F9"])
         self.create_action("ocr", lambda *_: self.on_ocr(), ["<Primary>o"], stateful=True)
@@ -187,6 +187,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.picture = self.image_bin.picture
         self.drawing_overlay = self.image_bin.drawing_overlay
         self.drawing_overlay._update_undo_redo_action_states()
+        self.drawing_overlay.connect("drawing-changed", self._on_image_edited)
         self.breakpoint.add_setter(self.image_bin, "compact", True)
 
     def _setup_sidebar(self) -> None:
@@ -276,7 +277,17 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.processor.auto_balance = options.auto_balance
         self.processor.rotation = options.rotation
 
+        self._on_image_edited()
         self._trigger_processing()
+
+    def _on_image_edited(self, *args) -> None:
+        if self.image:
+            self.show_close_confirmation = True
+
+    def _apply_crop_change(self, change: Callable[[], None]) -> None:
+        change()
+        if not self.image_bin.crop_enabled:
+            self._on_image_edited()
 
     def _on_about_activated(self, action: Gio.SimpleAction, param: GObject.ParamSpec) -> None:
         about = AboutDialog(version=self.version)
@@ -362,6 +373,7 @@ class GradiaMainWindow(Adw.ApplicationWindow):
         self.drawing_overlay.clear_drawing()
         self.image_bin.reset_crop_selection(silent=True)
         self.sidebar.reset_rotation()
+        self.show_close_confirmation = False
         self._update_sidebar_file_info(image)
 
         if self.welcome_content:
@@ -378,7 +390,6 @@ class GradiaMainWindow(Adw.ApplicationWindow):
 
     def show_loading_state(self) -> None:
         self.main_stack.set_visible_child_name("main")
-        self.show_close_confirmation = True
         self.image_stack.get_style_context().add_class("view")
         self.sidebar.set_visible(True)
         self.toolbar_view.set_top_bar_style(Adw.ToolbarStyle.RAISED)

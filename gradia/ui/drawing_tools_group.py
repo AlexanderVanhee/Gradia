@@ -70,6 +70,7 @@ class DrawingToolsGroup(Gtk.Box):
 
     def apply_changes(self):
         if self.is_temp_editing:
+            self.get_root().drawing_overlay.emit('drawing-changed')
             self.get_root().drawing_overlay.queue_draw()
         else:
             window = self.get_root()
