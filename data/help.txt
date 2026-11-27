@@ -4,6 +4,7 @@ Usage: gradia [OPTIONS] [FILES...]
 
 Options:
   -h, --help                    Show this help message and exit
+  --new-window                  Open a new application window
   --screenshot[=MODE]           Take a screenshot on startup
                                 MODE can be:
                                   INTERACTIVE (default) - Interactive screenshot

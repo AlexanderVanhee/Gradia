@@ -132,6 +132,7 @@ class ShortcutsDialog:
                 (_("Pan Down"), "<Ctrl>Down"),
             ]),
             (_("General"), [
+                (_("New Window"), "<Ctrl>N"),
                 (_("Toggle Sidebar"), "F9"),
                 (_("Keyboard Shortcuts"), "<Ctrl>question"),
                 (_("Preferences"), "<Ctrl>comma"),
