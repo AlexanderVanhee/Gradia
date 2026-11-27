@@ -59,6 +59,19 @@ class GradiaApp(Adw.Application):
     def _on_startup(self, application):
         logging.info("Application startup signal fired")
 
+        new_window_action = Gio.SimpleAction.new("new-window", None)
+        new_window_action.connect("activate", self._on_new_window)
+        self.add_action(new_window_action)
+        self.set_accels_for_action("app.new-window", ["<Primary>n"])
+
+        take_screenshot_action = Gio.SimpleAction.new("take-screenshot", None)
+        take_screenshot_action.connect("activate", self._on_take_screenshot)
+        self.add_action(take_screenshot_action)
+
+        take_fullscreen_screenshot_action = Gio.SimpleAction.new("take-fullscreen-screenshot", None)
+        take_fullscreen_screenshot_action.connect("activate", self._on_take_fullscreen_screenshot)
+        self.add_action(take_fullscreen_screenshot_action)
+
         pin_action = Gio.SimpleAction.new("pin", GLib.VariantType.new("s"))
         pin_action.connect("activate", self._on_pin_action)
         self.add_action(pin_action)
@@ -66,6 +79,17 @@ class GradiaApp(Adw.Application):
         open_action = Gio.SimpleAction.new("open", GLib.VariantType.new("s"))
         open_action.connect("activate", self._on_open_action)
         self.add_action(open_action)
+
+    def _on_new_window(self, action, parameter):
+        self._open_window()
+
+    def _on_take_screenshot(self, action, parameter):
+        window = self._open_window()
+        window.import_manager.take_screenshot(Xdp.ScreenshotFlags.INTERACTIVE)
+
+    def _on_take_fullscreen_screenshot(self, action, parameter):
+        window = self._open_window()
+        window.import_manager.take_screenshot(Xdp.ScreenshotFlags(0))
 
     def _on_pin_action(self, action: Gio.SimpleAction, parameter: Optional[GLib.Variant]) -> None:
         if parameter is None:
@@ -100,6 +124,7 @@ class GradiaApp(Adw.Application):
         files_to_open = []
         screenshot_file = None
         ocr_file = None
+        new_window = "--new-window" in args
         pin = "--pin" in args
 
         for arg in args:
@@ -135,6 +160,8 @@ class GradiaApp(Adw.Application):
                 self._open_window(file_path=path)
         elif screenshot_file:
             self._open_window(start_screenshot=screenshot_file)
+        elif new_window:
+            self._open_window()
         else:
             self.activate()
 
@@ -162,6 +189,11 @@ class GradiaApp(Adw.Application):
         if stdin_path:
             logging.debug(f"Opening window with stdin image path: {stdin_path}")
             self._open_window(stdin_path)
+            return
+
+        window = self.get_active_window()
+        if window:
+            window.present()
         else:
             self._open_window(None)
 
@@ -183,6 +215,7 @@ class GradiaApp(Adw.Application):
             start_screenshot=start_screenshot,
         )
         window.show()
+        return window
 
     def _open_pin_window(self, file_path: Optional[str] = None):
         logging.info(f"Opening pin window with file_path={file_path}")
